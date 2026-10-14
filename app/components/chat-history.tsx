@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Check, History, LoaderCircle, MessageSquareText, NotebookText, RefreshCw, X } from "lucide-react";
 
 type HistoryMessage = {
@@ -256,6 +257,7 @@ export function ChatHistory() {
 
           return (
             <article className="historyItem" key={session.id}>
+              <Link className="secondaryButton compactButton" href={`/chat?sessionId=${session.id}`}>Continuar conversación</Link>
               <div className="historyItemHeader">
                 <div>
                   <span>{formatDate(session.updated_at)}</span>

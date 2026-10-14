@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
@@ -45,6 +46,7 @@ const legalSearchFiltersSchema = z.object({
 });
 
 export const chatRequestSchema = z.object({
+  caseContext: caseContextSchema.optional(),
   filters: legalSearchFiltersSchema.optional(),
   mode: z.enum(["breve", "tecnica", "informe", "checklist"]).default("tecnica"),
   // Estilo elegible por el usuario: tono (voz) y longitud (extension).
@@ -779,7 +781,7 @@ function buildUniqueSourceLines(sources: LegalSource[]) {
     .join("\n");
 }
 
-function buildFallbackAnswer(question: string, sources: LegalSource[]) {
+function buildFallbackAnswer(question: string, sources: LegalSource[], caseContext?: CaseContext) {
   const sourceLines = buildUniqueSourceLines(sources);
   const excerpts = sources
     .slice(0, 2)
@@ -795,6 +797,7 @@ ${excerpts}
 
 Fuentes usadas:
 ${sourceLines}
+${caseInformationGaps(caseContext)}
 
 Nivel de confianza: baja`;
 }
@@ -1282,6 +1285,7 @@ async function persistChatExchange(input: {
   model: string;
   ownerId: string;
   question: string;
+  caseContext?: CaseContext;
   role?: string;
   sessionId?: string;
   sources: LegalSource[];
@@ -1292,6 +1296,7 @@ async function persistChatExchange(input: {
     const [session] = await supabaseUserRest<ChatSessionRecord[]>(input.accessToken, "chat_sessions", {
       body: JSON.stringify({
         metadata: {
+          caseContext: input.caseContext ?? null,
           filters: input.filters ?? null,
           mode: input.mode,
         },
@@ -1308,6 +1313,7 @@ async function persistChatExchange(input: {
       {
         content: input.question,
         metadata: {
+          caseContext: input.caseContext ?? null,
           filters: input.filters ?? null,
           mode: input.mode,
         },
@@ -1321,6 +1327,7 @@ async function persistChatExchange(input: {
         metadata: {
           assessment: input.assessment,
           confidence: input.assessment.confidence,
+          caseContext: input.caseContext ?? null,
           question: input.question,
         },
         model: input.model,
@@ -1483,8 +1490,9 @@ async function prepareLegalAnswer(
   input: z.infer<typeof chatRequestSchema>,
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
-  const likelyLegal = isLikelyLegalProcurementQuestion(input.question);
-  const inferredProcessType = inferProcessTypeFromQuestion(input.question);
+  const contextualQuery = caseSearchQuery(input.question, input.caseContext);
+  const likelyLegal = isLikelyLegalProcurementQuestion(contextualQuery);
+  const inferredProcessType = inferProcessTypeFromQuestion(contextualQuery);
   const normalizedChatFilters = normalizeChatAnswerFilters(input.filters);
   const chatFilters = {
     ...(normalizedChatFilters ?? {}),
@@ -1503,8 +1511,8 @@ async function prepareLegalAnswer(
       }
     : null;
   const anchoredQuery = requestedProcessType
-    ? buildProcessAnchoredQuery(input.question, requestedProcessType)
-    : input.question;
+    ? buildProcessAnchoredQuery(contextualQuery, requestedProcessType)
+    : contextualQuery;
   // Pasadas tipadas a la(s) fuente(s) critica(s) del procedimiento (reglamento /
   // directiva). En recuperacion abierta la Ley suele dominar y tapar al Reglamento
   // aunque sea la fuente que desarrolla las condiciones; forzar el documentType
@@ -1527,13 +1535,13 @@ async function prepareLegalAnswer(
       getRecentChatHistory(auth.accessToken, input.sessionId),
       searchLegalSources({
         filters: chatFilters,
-        query: input.question,
+        query: contextualQuery,
         topK: 10,
       }),
       broadNormativeFilters
         ? searchLegalSources({
             filters: broadNormativeFilters,
-            query: input.question,
+            query: contextualQuery,
             topK: 10,
           })
         : Promise.resolve(null),
@@ -1571,7 +1579,7 @@ async function prepareLegalAnswer(
       ...processRelevantAnchoredSources,
       ...processRelevantScopedSources,
     ].filter((source) => sourceSupportsProcess(source, requestedProcessType)),
-    normalizeQuestionForSearch(input.question),
+    normalizeQuestionForSearch(contextualQuery),
     24,
   );
   // Garantiza que las mejores fuentes criticas tipadas (reglamento/directiva del
@@ -1580,7 +1588,7 @@ async function prepareLegalAnswer(
   // inyectan, el Reglamento se queda fuera (p. ej. licitacion, contratacion directa).
   const scopedForSelection = rerankSources(
     processRelevantScopedSources,
-    normalizeQuestionForSearch(input.question),
+    normalizeQuestionForSearch(contextualQuery),
     4,
   );
   const sources = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
@@ -1613,7 +1621,7 @@ async function prepareLegalAnswer(
 
   const missingSpecificRegulation =
     requestedProcessType &&
-    isRequirementsQuestion(input.question) &&
+    isRequirementsQuestion(contextualQuery) &&
     !hasSpecificProcessRegulationSource(sources, requestedProcessType);
 
   if (missingSpecificRegulation) {
@@ -1652,7 +1660,7 @@ async function prepareLegalAnswer(
     return {
       status: "final",
       answer:
-        "No encontre informacion sobre esto en los documentos indexados (ley, reglamento, directivas y opiniones de contrataciones publicas). Si crees que deberia estar, sube o selecciona el documento aplicable; tambien puedes reformular la pregunta.",
+        "No encontré fuentes suficientes para responder esta consulta en los documentos indexados. Selecciona o incorpora el documento aplicable, o reformula la pregunta." + caseInformationGaps(input.caseContext),
       model: "out-of-scope",
       assessment,
       sources,
@@ -1666,9 +1674,9 @@ async function prepareLegalAnswer(
   const generationParams: GenerationParams = {
     input: [
       {
-        content:
+        content: caseEvidenceInstruction + "\n" +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
-      "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El marco vigente es la Ley 32069 y su Reglamento (D.S. 009-2025-EF): nunca atribuyas contenido a la Ley 30225, D.S. 344-2018-EF, D.S. 320-2019-EF ni a otro regimen anterior salvo que aparezca literal en una Fuente. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
+      "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
         role: "system",
       },
       {
@@ -1676,6 +1684,8 @@ async function prepareLegalAnswer(
 
 Historial reciente de la sesion:
 ${historyContext}
+
+${caseContextPrompt(input.caseContext)}
 
 Pregunta:
 ${input.question}
@@ -1702,7 +1712,7 @@ Como responder (util y claro):
 
 Reglas anti-invencion (CRITICAS, materia legal):
 - Usa EXCLUSIVAMENTE el texto literal de las Fuentes recuperadas listadas arriba. Prohibido usar conocimiento externo, tu memoria u otras normas no recuperadas.
-- El marco aplicable es la Ley 32069 y su Reglamento D.S. 009-2025-EF. NUNCA menciones ni cites la Ley 30225, el D.S. 344-2018-EF, el D.S. 320-2019-EF u otras normas del regimen anterior, salvo que ese texto aparezca literalmente en una Fuente recuperada.
+- No presupongas el régimen aplicable: contrasta el contexto declarado con las fuentes y reconoce cualquier incertidumbre temporal.
 - Datos especificos (montos, UIT, plazos, porcentajes, numeros de articulo, numeros/nombres de norma) SOLO pueden afirmarse si aparecen LITERALMENTE en una Fuente recuperada. Si no constan, escribe "no consta en las fuentes recuperadas" y NO los inventes ni completes desde tu conocimiento.
 - NO traslades una cifra (monto/UIT/plazo/porcentaje) de un fragmento que trata de OTRO tema (p. ej. sanciones, notarios, garantias, disputas) al procedimiento consultado. Un umbral solo aplica al procedimiento si el MISMO fragmento habla de ese procedimiento; si ninguna Fuente da el dato para el procedimiento preguntado, di "no consta en las fuentes recuperadas".
 - Un marcador [F#] solo es valido si ESE fragmento contiene literalmente el dato que afirmas. Si ninguna fuente lo contiene, no pongas [F#]: lleva esa afirmacion a Limitaciones indicando que no consta.
@@ -1769,7 +1779,7 @@ export async function answerLegalQuestion(
       answer = applySystemConfidence(response.output_text, prep.assessment.confidence);
       model = legalAnswerModel;
     } catch (error) {
-      answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources), prep.assessment.confidence);
+      answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
     }
   }
@@ -1785,6 +1795,7 @@ export async function answerLegalQuestion(
     mode: input.mode,
     model,
     question: input.question,
+    caseContext: input.caseContext,
     sessionId: input.sessionId,
     sources: prep.sources,
   });
@@ -1843,7 +1854,7 @@ export async function* streamLegalAnswer(
       answer = applySystemConfidence(acc, prep.assessment.confidence);
       model = legalAnswerModel;
     } catch (error) {
-      answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources), prep.assessment.confidence);
+      answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
       yield { type: "delta", text: answer };
     }
@@ -1860,6 +1871,7 @@ export async function* streamLegalAnswer(
     mode: input.mode,
     model,
     question: input.question,
+    caseContext: input.caseContext,
     sessionId: input.sessionId,
     sources: prep.sources,
   });

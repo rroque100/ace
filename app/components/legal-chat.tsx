@@ -3,7 +3,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
 import {
   AlertTriangle,
   Bot,
@@ -94,6 +95,7 @@ type StreamEvent =
   | { type: "error"; error: string };
 
 type ConversationMessage = {
+  caseContext?: CaseContext;
   id: string;
   role: "user" | "assistant";
   content: string;
@@ -787,6 +789,14 @@ function MessageEvidence({
 
 export function LegalChat() {
   const searchParams = useSearchParams();
+  // Una instancia por conversación evita arrastrar contexto y peticiones a otra sesión.
+  return <LegalChatSession key={searchParams.get("sessionId") ?? "new"} />;
+}
+
+function LegalChatSession() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedSessionId = searchParams.get("sessionId");
   const { processTypes: configuredProcessTypes } = useSettingsCatalog();
   const processTypes = withBlankProcessOption(configuredProcessTypes);
   const initialQuestion = searchParams.get("pregunta") ?? "";
@@ -805,6 +815,8 @@ export function LegalChat() {
 
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [question, setQuestion] = useState(initialQuestion);
+  const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
+  const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
   const [tone, setTone] = useState("formal");
   const [length, setLength] = useState("media");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -830,7 +842,54 @@ export function LegalChat() {
   const abortRef = useRef<AbortController | null>(null);
 
   const hasConversation = messages.length > 0;
-  const canSubmit = question.trim().length >= 5 && !isStreaming;
+  const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession;
+
+  useEffect(() => {
+    if (!requestedSessionId) return;
+    const controller = new AbortController();
+    void (async () => {
+      try {
+        const response = await fetch(`/api/chat/sessions/${encodeURIComponent(requestedSessionId)}`, {
+          cache: "no-store", signal: controller.signal,
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error ?? "No se pudo abrir la conversación");
+        if (controller.signal.aborted) return;
+        const restored = payload.messages as Array<{
+          id: string; role: ConversationMessage["role"]; content: string; sources: ChatSource[];
+          model: string; metadata: Record<string, unknown>;
+        }>;
+        const latestUser = [...restored].reverse().find((message) => message.role === "user");
+        setCaseContext(readCaseContext(latestUser?.metadata?.caseContext ?? payload.session.metadata?.caseContext));
+        const restoredFilters = (latestUser?.metadata?.filters ?? payload.session.metadata?.filters ?? {}) as Record<string, unknown>;
+        const textFilter = (key: string) => typeof restoredFilters[key] === "string" ? restoredFilters[key] as string : "";
+        setDocumentType(textFilter("documentType"));
+        setDocumentId(textFilter("documentId"));
+        setArticle(textFilter("article"));
+        setProcessType(textFilter("processType"));
+        setSourceEntity(textFilter("sourceEntity"));
+        setTopic(textFilter("topic"));
+        setVigencia(textFilter("vigencia"));
+        setYear(restoredFilters.year ? String(restoredFilters.year) : "");
+        setSessionId(payload.session.id);
+        setMessages(restored.filter((message) => message.role === "user" || message.role === "assistant").map((message) => ({
+          id: message.id, persistedId: message.id, role: message.role, content: message.content,
+          sources: message.sources ?? [], model: message.model,
+          caseContext: readCaseContext(message.metadata?.caseContext),
+          assessment: message.metadata?.assessment as ChatAssessment | undefined,
+          confidence: message.metadata?.confidence as Confidence | undefined,
+          questionText: message.metadata?.question as string | undefined,
+          feedback: message.metadata?.feedback as ConversationMessage["feedback"],
+          note: message.metadata?.note as string | undefined,
+        })));
+      } catch (cause) {
+        if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "No se pudo abrir la conversación");
+      } finally {
+        if (!controller.signal.aborted) setLoadingSession(false);
+      }
+    })();
+    return () => controller.abort();
+  }, [requestedSessionId]);
 
   const activeFilters: Array<{ key: string; label: string; clear: () => void }> = [
     documentType
@@ -896,7 +955,7 @@ export function LegalChat() {
     updateMessage(assistantId, (message) => ({ ...message, streaming: false, error: event.error }));
   }
 
-  async function submitQuestion(event?: React.FormEvent<HTMLFormElement>, override?: string) {
+  async function submitQuestion(event?: React.FormEvent<HTMLFormElement>, override?: string, retryContext?: CaseContext) {
     event?.preventDefault();
 
     const normalizedQuestion = (override ?? question).trim();
@@ -904,17 +963,19 @@ export function LegalChat() {
       setError("Escribe una pregunta más específica.");
       return;
     }
-    if (isStreaming) {
+    if (isStreaming || loadingSession) {
       return;
     }
 
     const userMessage: ConversationMessage = {
+      caseContext: { ...(retryContext ?? caseContext) },
       content: normalizedQuestion,
       id: buildMessageId(),
       role: "user",
     };
     const assistantId = buildMessageId();
     const assistantMessage: ConversationMessage = {
+      caseContext: userMessage.caseContext,
       content: "",
       id: assistantId,
       mode: `${tone}/${length}`,
@@ -937,6 +998,7 @@ export function LegalChat() {
     try {
       const response = await fetch("/api/chat", {
         body: JSON.stringify({
+          caseContext: userMessage.caseContext,
           filters: { article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
@@ -1026,13 +1088,16 @@ export function LegalChat() {
       // Quita el turno fallido (asistente) y su pregunta para reenviarlo limpio.
       return current.filter((_, position) => position !== index && position !== index - 1);
     });
-    void submitQuestion(undefined, message.questionText);
+    void submitQuestion(undefined, message.questionText, message.caseContext);
   }
 
   function resetChat() {
     abortRef.current?.abort();
     setMessages([]);
     setQuestion("");
+    setCaseContext({ ...emptyCaseContext });
+    setLoadingSession(false);
+    if (requestedSessionId) router.replace("/chat");
     setSessionId(null);
     setError("");
     setCopiedId("");
@@ -1152,7 +1217,7 @@ export function LegalChat() {
             <p>Respuestas redactadas solo cuando hay fuentes suficientes, con cita verificable.</p>
           </div>
         </div>
-        <button className="secondaryButton compactButton" onClick={resetChat} type="button">
+        <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
           <RotateCcw size={16} />
           Nueva consulta
         </button>
@@ -1483,7 +1548,17 @@ export function LegalChat() {
                   ) : null}
                 </>
               ) : (
-                <p>{message.content}</p>
+                <>
+                  <p>{message.content}</p>
+                  {message.caseContext && Object.values(message.caseContext).some(Boolean) ? (
+                    <details className="chatTurnContext">
+                      <summary>Contexto utilizado</summary>
+                      <p>Régimen: {message.caseContext.regime || "No indicado"}</p>
+                      <p>Fechas: {message.caseContext.dates || "No indicadas"}</p>
+                      <p>Hechos: {message.caseContext.facts || "No indicados"}</p>
+                    </details>
+                  ) : null}
+                </>
               )}
             </div>
           </div>
@@ -1493,6 +1568,28 @@ export function LegalChat() {
         <div ref={timelineEndRef} aria-hidden="true" />
       </div>
 
+      <section className="chatCaseContext" aria-label="Contexto del caso">
+        <details open={!hasConversation}>
+          <summary>Contexto del caso · opcional</summary>
+          <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
+          <fieldset disabled={isStreaming || loadingSession}>
+            <label>Régimen aplicable
+              <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
+                onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
+            </label>
+            <label>Fechas relevantes
+              <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
+                onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
+            </label>
+            <label>Hechos del caso
+              <textarea rows={3} maxLength={6000} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
+                onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
+            </label>
+          </fieldset>
+        </details>
+        <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
+        {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
+      </section>
       <form className="chatComposerBar" onSubmit={submitQuestion}>
         <textarea
           aria-label="Pregunta jurídica"

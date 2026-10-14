@@ -3278,6 +3278,19 @@ textarea:focus,
 }
 
 /* Composer tipo barra */
+.chatCaseContext { padding: 14px 18px; border-top: 1px solid var(--line); background: var(--surface); }
+.chatCaseContext summary, .chatTurnContext summary { cursor: pointer; font-weight: 600; }
+.chatCaseContext p { font-size: 13px; line-height: 1.5; color: var(--muted); }
+.chatCaseContext fieldset { border: 0; padding: 0; margin: 12px 0; display: grid; gap: 12px; grid-template-columns: 1fr 1fr; min-width: 0; }
+.chatCaseContext label { display: grid; gap: 6px; font-size: 14px; min-width: 0; }
+.chatCaseContext label:last-child { grid-column: 1 / -1; }
+.chatCaseContext input, .chatCaseContext textarea { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; font: inherit; background: #fff; }
+.chatCaseContext textarea { resize: vertical; }
+.chatCaseContext input:focus-visible, .chatCaseContext textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.chatCaseContext .chatEvidenceRule { margin-bottom: 0; }
+.chatTurnContext { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 640px) { .chatCaseContext fieldset { grid-template-columns: 1fr; } }
+
 .chatComposerBar {
   display: flex;
   align-items: flex-end;
