@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { chatSourceLocations } from "./chat-source-locations";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -1784,6 +1785,7 @@ export async function answerLegalQuestion(
     }
   }
 
+  answer += chatSourceLocations(answer, prep.sources);
   applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
 
   const persisted = await maybePersist(auth, {
@@ -1860,6 +1862,9 @@ export async function* streamLegalAnswer(
     }
   }
 
+  const sourceLocations = chatSourceLocations(answer, prep.sources);
+  answer += sourceLocations;
+  if (sourceLocations) yield { type: "delta", text: sourceLocations };
   const faithfulness = applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
 
   const persisted = await maybePersist(auth, {

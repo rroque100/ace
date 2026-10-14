@@ -8,6 +8,8 @@ Restricciones: no migración, no nuevos proveedores, no inferir régimen por fec
 - [x] Integrar esquema, consulta contextual y regla en `lib/legal-chat.ts`; guardar contexto en metadata de mensajes y sesiones. Mantener compatibles solicitudes anteriores y aplicar regla a ambos flujos.
 - [x] Añadir ruta autenticada `app/api/chat/sessions/[id]/route.ts` para recuperar exclusivamente una sesión propia y sus mensajes, validar UUID, devolver 404 si no visible por RLS.
 - [x] Añadir formulario opcional al chat, enviar contexto, mostrarlo en cada turno, restaurar al abrir sesión y limpiar al iniciar nueva conversación. Incorporar enlace para continuar desde historial.
-- [ ] Probar unidad, integración de generación/persistencia y ruta privada; ejecutar tipos y compilación; revisar interfaz, publicar cambios explícitos y comprobar despliegue.
+- [x] Probar unidad, integración de generación/persistencia y ruta privada; ejecutar tipos y compilación; revisar interfaz, publicar cambios explícitos y comprobar despliegue.
 
-Verificación previa a publicación: 30 pruebas aprobadas, comprobación de tipos y compilación de producción correctas; revisión de código sin errores ni advertencias.
+Verificación previa a publicación: 32 pruebas aprobadas, comprobación de tipos y compilación de producción correctas; revisión de código sin errores ni advertencias.
+
+La respuesta incorpora una lista determinista de documentos y páginas de las referencias utilizadas, tanto en directo como al guardar el intercambio. Despliegue inicial confirmado Ready; consulta real reconoce los datos faltantes.

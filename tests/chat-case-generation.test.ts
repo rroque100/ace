@@ -30,7 +30,8 @@ it("declara datos y fuentes faltantes sin generar una conclusión cuando no hay 
   expect(mocks.create).not.toHaveBeenCalled();
 });
 it("aplica contexto a búsqueda y reglas de evidencia al generador sin imponer régimen fijo", async () => {
-  await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?", caseContext: context }), auth);
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?", caseContext: context }), auth);
+  expect(result.answer).toContain("Acuerdo de Sala Plena · página 2");
   expect(mocks.search.mock.calls[0][0]).toContain("admisibilidad");
   const params = mocks.create.mock.calls[0][0];
   expect(params.input[0].content).toContain("Responde solo con las fuentes disponibles");
@@ -47,6 +48,7 @@ it("aplica la misma regla al streaming", async () => {
   expect(mocks.create.mock.calls[0][0].input[0].content).toContain("cita documento y página");
   expect(mocks.create.mock.calls[0][0].stream).toBe(true);
   expect(events.at(-1)?.type).toBe("done");
+  expect(events.some((event) => event.type === "delta" && event.text.includes("Acuerdo de Sala Plena · página 2"))).toBe(true);
 });
 
 it("guarda contexto con cada turno mediante el JWT del usuario", async () => {
