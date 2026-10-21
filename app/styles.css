@@ -10,20 +10,92 @@
   --soft: #eef6f4;
   --surface: #fbfcfc;
   --shadow: 0 10px 34px rgba(15, 23, 42, 0.06);
+
+  /* ── Escala de forma ───────────────────────────────────────────────────────
+     Sin una escala declarada, cada pantalla eligió su propio radio: hoy conviven
+     once valores distintos entre las clases de botón (999, 8, 10, 7, 12, 6, 9,
+     4, 13 px) y ocho entre las de tarjeta. La diferencia entre 7 y 8 px no la ve
+     nadie, pero la suma es lo que hace que la interfaz parezca ensamblada por
+     piezas de sitios distintos. Estos cuatro escalones son el vocabulario nuevo:
+     lo que se escriba a partir de ahora sale de aquí. */
+  --radio-sm: 8px;    /* controles pequeños, chips cuadrados, celdas */
+  --radio-md: 10px;   /* botones e inputs */
+  --radio-lg: 14px;   /* tarjetas y paneles */
+  --radio-pill: 999px;/* chips, insignias, contadores */
+
+  /* Elevación: tres niveles en vez de una sombra por componente. */
+  --elev-1: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --elev-2: 0 10px 34px rgba(15, 23, 42, 0.06);
+
+  /* Peso tipográfico: entre las clases de botón hay siete valores (500…900).
+     Con Inter, 600 y 700 cubren todo lo que la interfaz necesita distinguir. */
+  --peso-medio: 600;
+  --peso-fuerte: 700;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  /* Suavizado y kerning: la diferencia se nota en textos pequeños de formulario. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  /* Inter la inyecta next/font (app/layout.tsx). El resto de la pila cubre el
+     instante previo a que cargue y los sistemas donde no llegue. */
+  font-family: var(--fuente-ui), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  /* Cifras de ancho fijo en TODA la interfaz: importes, RUC, DNI y correlativos
+     se alinean en columna en vez de bailar según los dígitos que toquen. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Los títulos con Inter piden algo menos de tracking para no verse sueltos. */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.015em;
+}
+
+/* ── Acabado de la interfaz ───────────────────────────────────────────────────
+   Detalles que no se ven por separado pero que, juntos, son la diferencia entre
+   una pantalla que parece una web y una que parece una aplicación. */
+
+/* Barra de desplazamiento delgada: la del sistema roba ancho y corta la
+   composición de las listas largas (oficinas, usuarios, expedientes). */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 35%, transparent);
+}
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--muted) 55%, transparent); }
+/* Firefox no soporta ::-webkit-scrollbar. */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 35%, transparent) transparent; }
+
+/* Al tocar un botón en móvil, Android pinta un rectángulo azul propio que se
+   come el diseño del control. */
+button, a, label, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+/* Evita que al llegar al final de un panel el gesto arrastre la página de
+   detrás (el "rebote" encadenado en modales y listas con scroll propio). */
+body { overscroll-behavior-y: none; }
+
+/* Respeta a quien pide menos movimiento por accesibilidad: las transiciones se
+   reducen a un instante en vez de desaparecer, para no romper los estados. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 button,
@@ -36,6 +108,44 @@ textarea {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+}
+
+/* Enlace de salto al contenido. Con una barra lateral de navegacion, quien va
+   por teclado tiene que tabular por todo el menu en cada pagina antes de llegar
+   a lo que viene a hacer. Este enlace es el primer elemento enfocable del
+   documento y esta fuera de la pantalla hasta que recibe el foco: no cambia
+   nada para quien usa raton. */
+.skipLink {
+  /* `fixed` y no `absolute`: con absolute, `top` se mide desde el bloque
+     contenedor, asi que al revelarse con la pagina desplazada el enlace
+     quedaria fuera de la ventana. Fijo esta siempre donde se le espera. */
+  position: fixed;
+  left: 12px;
+  top: -64px;
+  z-index: 200;
+  padding: 10px 16px;
+  border: 1px solid var(--brand);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-pop, 0 8px 24px rgba(15, 23, 42, 0.12));
+  transition: top 0.15s ease;
+}
+.skipLink:focus {
+  top: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skipLink { transition: none; }
 }
 
 .shell {
@@ -118,34 +228,6 @@ a {
   font-weight: 800;
 }
 
-.navLocked {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 38px;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  color: rgba(219, 232, 237, 0.52);
-  cursor: not-allowed;
-  font-size: 13.5px;
-  font-weight: 750;
-  padding: 0 11px;
-}
-
-.navLocked svg {
-  color: rgba(147, 185, 189, 0.5);
-}
-
-.navLocked small {
-  margin-left: auto;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(219, 232, 237, 0.7);
-  font-size: 10px;
-  font-weight: 900;
-  padding: 3px 6px;
-}
-
 .nav a.active,
 .nav a:hover {
   background: var(--soft);
@@ -193,8 +275,7 @@ h2 {
   font-size: 21px;
 }
 
-.primaryButton,
-.promptBox button {
+.primaryButton{
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -225,8 +306,7 @@ h2 {
   background: var(--soft);
 }
 
-.primaryButton:hover,
-.promptBox button:hover {
+.primaryButton:hover{
   background: var(--brand-dark);
 }
 
@@ -314,7 +394,7 @@ h2 {
 
 .singleWorkspace {
   display: grid;
-  max-width: 1120px;
+  max-width: 100%;
 }
 
 .singleWorkspace .chatPanel,
@@ -348,8 +428,6 @@ h2 {
   gap: 22px;
   margin-bottom: 22px;
 }
-
-.chatPanel,
 .uploadPanel {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -365,8 +443,6 @@ h2 {
   background: var(--panel);
   box-shadow: var(--shadow);
 }
-
-.legalToolHeader,
 .toolPanelHeader {
   display: flex;
   align-items: center;
@@ -387,29 +463,8 @@ h2 {
   color: var(--brand);
 }
 
-.legalToolHeader h2 {
-  color: var(--ink);
-}
-
 .legalToolHeader p:not(.eyebrow) {
   color: var(--muted);
-}
-
-.legalToolHeader > button {
-  border-color: var(--line);
-  background: #ffffff;
-  color: var(--ink);
-}
-
-.legalToolHeader > button:hover {
-  background: var(--soft);
-}
-
-.legalToolTitle {
-  display: flex;
-  min-width: 0;
-  align-items: flex-start;
-  gap: 12px;
 }
 
 .legalToolIcon {
@@ -421,18 +476,6 @@ h2 {
   border-radius: 10px;
   background: var(--brand);
   color: #ffffff;
-}
-
-.legalToolTitle > div:last-child {
-  min-width: 0;
-}
-
-.legalToolTitle p:last-child {
-  max-width: 720px;
-  margin: 6px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.55;
 }
 
 .toolBody {
@@ -465,89 +508,16 @@ h2 {
   border-right: 0;
 }
 
-.sourceTabs button[aria-selected="true"] {
+.sourceTabs button[aria-pressed="true"] {
   background: var(--brand);
   color: #ffffff;
 }
 
-.toolForm {
-  display: grid;
-  gap: 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  padding: 16px;
-}
-
-.answerStage {
-  display: grid;
-  min-height: 280px;
-  align-content: start;
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #f7faf9;
-  padding: 16px;
-}
-
-.answerBubble {
-  justify-self: start;
-  max-width: 82%;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-  color: #334155;
-  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
-  font-size: 14px;
-  line-height: 1.55;
-  padding: 16px;
-}
-
-.answerMeta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.filterBar,
-.sourcePanelHeader {
+.filterBar{
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.filterBarTitle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-}
-
-.filterBarTitle svg {
-  color: var(--brand);
-}
-
-.filterBarTitle span {
-  display: grid;
-  min-width: 24px;
-  min-height: 24px;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--soft);
-  color: var(--brand);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.filterPanel {
-  display: grid;
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #f7faf9;
-  padding: 12px;
 }
 
 .compactButton {
@@ -575,11 +545,38 @@ h2 {
   gap: 8px;
 }
 
+/* Texto auxiliar: etiquetas de formulario, metadatos y pies de tarjeta.
+   Estaban repetidos en 27 bloques con CUATRO pesos distintos (700, 800,
+   850 y ninguno) para el mismo efecto. El peso alto compensaba Arial; con Inter,
+   600 da el mismo peso óptico, así que se unifica ahí. */
+.agentControls span,
+.bulkDeleteBox span,
+.decisionGrid span,
+.documentFilters span,
+.documentStats span,
+.evidenceCard small,
+.evidenceCard span,
+.evidenceMini small,
 .evidenceSummary small,
-.sourcePanelHeader span {
+.fichaLabel,
+.filtrosChipsTitulo,
+.historyItem span,
+.historyStats span,
+.listHeader small,
+.normCardMeta,
+.numeracionHint,
+.processAdvancedGrid span,
+.processCard small,
+.processCardGrid span,
+.ruleItem small,
+.ruleItem span,
+.sideMuted,
+.sourceExactBox small,
+.versionPanel > span,
+.versionPanel small {
   color: var(--muted);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: var(--peso-medio);
 }
 
 .warningList {
@@ -662,63 +659,6 @@ h2 {
   padding: 14px;
 }
 
-.chatWorkspace {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
-  gap: 14px;
-  padding: 18px;
-}
-
-.chatMain {
-  display: grid;
-  min-width: 0;
-  gap: 14px;
-}
-
-.chatTimeline {
-  display: grid;
-  min-height: 480px;
-  max-height: 68vh;
-  align-content: start;
-  gap: 12px;
-  overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  padding: 14px;
-}
-
-.chatEmpty {
-  display: grid;
-  max-width: 520px;
-  gap: 8px;
-  border: 1px dashed #abc7c1;
-  border-radius: 10px;
-  background: #ffffff;
-  color: var(--muted);
-  padding: 16px;
-}
-
-.chatEmpty svg {
-  color: var(--brand);
-}
-
-.chatEmpty strong {
-  color: var(--ink);
-}
-
-.chatMessage {
-  display: grid;
-  gap: 9px;
-  max-width: 84%;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #ffffff;
-  color: #334155;
-  box-shadow: 0 6px 22px rgba(15, 23, 42, 0.05);
-  padding: 13px;
-}
-
 .chatMessage.user {
   justify-self: end;
   border-color: var(--brand);
@@ -728,12 +668,6 @@ h2 {
 
 .chatMessage.assistant {
   justify-self: start;
-}
-
-.chatMessage p {
-  margin: 0;
-  white-space: pre-wrap;
-  line-height: 1.55;
 }
 
 .answerContent {
@@ -824,43 +758,9 @@ h2 {
   vertical-align: text-bottom;
 }
 
-.chatMessage small {
-  color: var(--muted);
-  font-weight: 700;
-}
-
 .chatMessage.user small,
 .chatMessage.user .chatMessageHeader {
   color: #d8f5ee;
-}
-
-.chatMessageHeader {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  color: var(--ink);
-}
-
-.messageAction {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 800;
-  padding: 7px 9px;
-}
-
-.messageAction:hover {
-  background: var(--soft);
-  color: var(--brand);
 }
 
 .responseActions {
@@ -873,8 +773,7 @@ h2 {
   padding-top: 10px;
 }
 
-.responseActionButton,
-.responseIconButton {
+.responseActionButton{
   display: inline-flex;
   min-height: 34px;
   align-items: center;
@@ -895,22 +794,14 @@ h2 {
   padding: 0 10px;
 }
 
-.responseIconButton {
-  width: 34px;
-  padding: 0;
-}
-
 .responseActionButton:hover,
-.responseIconButton:hover,
-.responseActionButton[aria-pressed="true"],
-.responseIconButton[aria-pressed="true"] {
+.responseActionButton[aria-pressed="true"]{
   border-color: #95b8b1;
   background: var(--soft);
   color: var(--brand);
 }
 
-.responseActionButton[aria-pressed="true"],
-.responseIconButton[aria-pressed="true"] {
+.responseActionButton[aria-pressed="true"]{
   box-shadow: inset 0 0 0 1px #95b8b1;
 }
 
@@ -921,37 +812,6 @@ h2 {
   font-weight: 800;
 }
 
-.chatComposer {
-  display: grid;
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 14px;
-}
-
-.composerQuestion {
-  display: grid;
-  gap: 8px;
-}
-
-.composerQuestion > span {
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.chatComposer textarea {
-  min-height: 104px;
-  resize: vertical;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #ffffff;
-  color: var(--ink);
-  line-height: 1.5;
-  padding: 12px;
-}
-
 .loadingInline {
   display: inline-flex;
   align-items: center;
@@ -960,13 +820,23 @@ h2 {
   font-weight: 800;
 }
 
-.loadingInline svg {
+.loadingInline svg,
+.spinIcon {
   animation: spin 0.9s linear infinite;
 }
 
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
   }
 }
 
@@ -1029,6 +899,24 @@ select:focus-visible,
 textarea:focus-visible {
   outline: none;
   box-shadow: var(--focus);
+}
+
+/* Área táctil cómoda SOLO donde se toca con el dedo.
+   Los controles compactos existen para densidad —listas de oficinas, filas de
+   usuarios— y con ratón 34 px está bien. En una tableta, en cambio, quedan por
+   debajo del mínimo cómodo (~44 px) y se falla el toque. `pointer: coarse`
+   distingue el dedo del ratón, así que se gana precisión sin perder densidad. */
+@media (pointer: coarse) {
+  .compactButton {
+    min-height: 40px;
+    padding: 0 13px;
+  }
+
+  input,
+  select,
+  textarea {
+    min-height: 40px;
+  }
 }
 
 .shell {
@@ -1134,12 +1022,6 @@ textarea:focus-visible {
   color: var(--nav-muted);
 }
 
-.userPermissions {
-  color: #9fd8d1;
-  font-size: 11px;
-  font-weight: 800;
-}
-
 .signoutButton {
   border-color: var(--nav-line);
   background: rgba(255, 255, 255, 0.06);
@@ -1185,8 +1067,7 @@ h3 {
   font-weight: 760;
 }
 
-.primaryButton,
-.promptBox button {
+.primaryButton{
   min-height: 40px;
   border-radius: 10px;
   background: var(--brand);
@@ -1194,8 +1075,7 @@ h3 {
   font-weight: 780;
 }
 
-.primaryButton:hover,
-.promptBox button:hover {
+.primaryButton:hover{
   background: var(--brand-dark);
 }
 
@@ -1236,8 +1116,6 @@ h3 {
 .sourceCard,
 .evalResult,
 .documentToolbar,
-.chatTimeline,
-.chatComposer,
 .msgBubble,
 .authCard {
   border: 1px solid rgba(219, 227, 231, 0.92);
@@ -1248,9 +1126,7 @@ h3 {
 
 .toolPanelHeader,
 .panelHeader,
-.legalToolHeader,
-.chatHeader,
-.sourcePanelHeader {
+.chatHeader{
   border-color: var(--line);
 }
 
@@ -1271,7 +1147,6 @@ h3 {
 .documentSectionTitle span,
 .chatHeaderTitle p,
 .chatEmptyIntro span,
-.modeLegend span,
 .processCard small,
 .docItemBody small,
 .timeline li small {
@@ -1283,7 +1158,6 @@ h3 {
 .processCard,
 .documentItem,
 .evalQuestion,
-.savedCard,
 .sourceItem {
   transition:
     transform 0.15s ease,
@@ -1296,7 +1170,6 @@ h3 {
 .processCard:hover,
 .documentItem:hover,
 .evalQuestion:hover,
-.savedCard:hover,
 .sourceItem:hover {
   border-color: rgba(15, 118, 110, 0.28);
   box-shadow: var(--shadow);
@@ -1310,8 +1183,6 @@ textarea,
 .validatorForm textarea,
 .validatorForm input,
 .validatorForm select,
-.promptBox input,
-.promptBox select,
 .promptInput textarea,
 .promptInput input,
 .promptInput select {
@@ -1382,7 +1253,7 @@ textarea:focus,
   font-weight: 760;
 }
 
-.modeSelector button[aria-selected="true"] {
+.modeSelector button[aria-pressed="true"] {
   background: var(--brand);
   color: #ffffff;
   box-shadow: 0 8px 16px rgba(15, 118, 110, 0.18);
@@ -1412,16 +1283,13 @@ textarea:focus,
   border-color: var(--line);
 }
 
-.responseActionButton,
-.responseIconButton {
+.responseActionButton{
   border-color: var(--line);
   background: #ffffff;
 }
 
 .responseActionButton:hover,
-.responseIconButton:hover,
-.responseActionButton[aria-pressed="true"],
-.responseIconButton[aria-pressed="true"] {
+.responseActionButton[aria-pressed="true"]{
   border-color: rgba(15, 118, 110, 0.34);
   background: var(--soft);
   color: var(--brand-dark);
@@ -1447,7 +1315,6 @@ textarea:focus,
 
 .processDetailHeader,
 .processCard,
-.savedWorkspace,
 .evalLayout,
 .validatorLayout {
   color: var(--ink);
@@ -1469,6 +1336,12 @@ textarea:focus,
   border-color: #f1b8b1;
   background: #fff1ef;
   color: var(--danger);
+}
+
+.successText {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: #e7f6f1;
+  color: #0f766e;
 }
 
 .authShell {
@@ -1512,13 +1385,6 @@ textarea:focus,
   }
 }
 
-.composerFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
 .modeSelector {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1545,36 +1411,16 @@ textarea:focus,
   border-right: 0;
 }
 
-.modeSelector button[aria-selected="true"] {
+.modeSelector button[aria-pressed="true"] {
   background: var(--brand);
   color: #ffffff;
 }
-
-.chatSidePanel {
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  min-width: 0;
-}
-
-.sideBox {
-  display: grid;
-  gap: 11px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 13px;
-}
-
-.sideBoxHeader,
 .filterToggle,
 .filterToggle span {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
-.sideBoxHeader svg,
 .filterToggle svg {
   color: var(--brand);
 }
@@ -1628,59 +1474,6 @@ textarea:focus,
   padding: 7px 9px;
 }
 
-.compactFilters {
-  background: #ffffff;
-}
-
-.compactFilters label {
-  display: grid;
-  gap: 6px;
-}
-
-.compactFilters span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.compactFilters input,
-.compactFilters select {
-  min-width: 0;
-  min-height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 0 10px;
-}
-
-.followUps {
-  display: grid;
-  gap: 8px;
-}
-
-.followUps button {
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-  color: var(--ink);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1.35;
-  padding: 10px;
-  text-align: left;
-}
-
-.followUps button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.followUps button:hover:not(:disabled) {
-  border-color: #9ab9b2;
-  background: #eef6f4;
-}
-
 .evidenceMini {
   display: grid;
   gap: 6px;
@@ -1727,26 +1520,12 @@ textarea:focus,
   font-weight: 700;
 }
 
-.evidenceMini small,
-.sideMuted {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .evidenceCard {
   display: grid;
   gap: 8px;
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 10px;
-}
-
-.evidenceCard span,
-.evidenceCard small {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .evidenceCard strong {
@@ -1803,41 +1582,12 @@ textarea:focus,
   line-height: 1.45;
 }
 
-.emptyModule {
-  max-width: 760px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-  box-shadow: var(--shadow);
-  padding: 22px;
-}
-
-.emptyModule strong {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 18px;
-}
-
-.emptyModule p {
-  margin-bottom: 0;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
 .panelHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   border-bottom: 1px solid var(--line);
-  padding: 18px;
-}
-
-.conversation {
-  display: grid;
-  gap: 12px;
-  min-height: 300px;
-  align-content: start;
   padding: 18px;
 }
 
@@ -1870,16 +1620,6 @@ textarea:focus,
   background: #f6fbfa;
   color: var(--muted);
 }
-
-.loadingLine {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: #173d38;
-  font-weight: 700;
-}
-
-.loadingLine svg,
 .primaryButton svg {
   animation: spin 1s linear infinite;
 }
@@ -1891,64 +1631,6 @@ textarea:focus,
 .errorText {
   color: #a9382f;
   font-weight: 700;
-}
-
-.confidenceChip {
-  display: block;
-  width: fit-content;
-  margin-top: 12px;
-  border-radius: 999px;
-  background: #edf7ed;
-  color: #2e6b36;
-  font-weight: 800;
-  padding: 6px 9px;
-}
-
-.confidenceChip[data-confidence="baja"] {
-  background: #fff0ef;
-  color: #a9382f;
-}
-
-.confidenceChip[data-confidence="media"] {
-  background: #f3eee7;
-  color: #7b4724;
-}
-
-.promptBox {
-  display: grid;
-  gap: 12px;
-  border-top: 1px solid var(--line);
-  padding: 14px;
-}
-
-.modeTabs {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
-}
-
-.modeTabs button {
-  min-height: 38px;
-  border: 0;
-  border-right: 1px solid var(--line);
-  border-radius: 0;
-  background: #ffffff;
-  color: var(--muted);
-  cursor: pointer;
-  font-weight: 800;
-  padding: 0 10px;
-}
-
-.modeTabs button:last-child {
-  border-right: 0;
-}
-
-.modeTabs button[aria-selected="true"] {
-  background: var(--brand);
-  color: #ffffff;
 }
 
 .exampleQuestions {
@@ -1990,20 +1672,12 @@ textarea:focus,
   resize: vertical;
 }
 
-.promptInput textarea,
-.promptBox input,
-.promptBox select {
+.promptInput textarea{
   min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #ffffff;
   padding: 12px 13px;
-}
-
-.promptActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
 }
 
 .documentForm {
@@ -2033,12 +1707,6 @@ textarea:focus,
 
 .documentStats svg {
   color: var(--brand);
-}
-
-.documentStats span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
 }
 
 .documentStats strong {
@@ -2194,6 +1862,27 @@ textarea:focus,
   line-height: 1.3;
 }
 
+/* Checkbox del formulario de subida ("Documento institucional"): fila
+   horizontal (casilla + etiqueta), con la ayuda debajo a todo el ancho —
+   distinto del resto de campos de .formGrid, que son select/input verticales. */
+.formGrid label.checkboxField {
+  grid-column: 1 / -1;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 8px;
+}
+
+.formGrid label.checkboxField input[type="checkbox"] {
+  min-height: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand);
+}
+
+.formGrid label.checkboxField .fieldHint {
+  grid-column: 1 / -1;
+}
+
 .amendmentBox {
   display: grid;
   gap: 10px;
@@ -2228,21 +1917,6 @@ textarea:focus,
   color: var(--muted);
   font-size: 13px;
   line-height: 1.4;
-}
-
-.amendmentToggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.amendmentToggle input {
-  width: 16px;
-  height: 16px;
 }
 
 .documentAmends {
@@ -2350,13 +2024,6 @@ textarea:focus,
   gap: 6px;
 }
 
-.documentFilters span,
-.bulkDeleteBox span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-
 .documentFilters select {
   min-height: 38px;
   min-width: 0;
@@ -2416,12 +2083,6 @@ textarea:focus,
 .listHeader div {
   display: grid;
   gap: 3px;
-}
-
-.listHeader small {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .listHeader span {
@@ -2566,23 +2227,6 @@ textarea:focus,
   color: #2e6b36;
 }
 
-.sourceList {
-  display: grid;
-  gap: 10px;
-  border-top: 1px solid var(--line);
-  padding: 16px 18px 18px;
-}
-
-.sourceListHeader {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sourceListHeader svg {
-  color: var(--brand);
-}
-
 .documentEvidenceStrip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2681,6 +2325,41 @@ textarea:focus,
   padding: 6px 8px;
 }
 
+.sourceTechDetail {
+  margin: 2px 0 4px;
+}
+
+.sourceTechDetail > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  list-style: none;
+  user-select: none;
+  width: fit-content;
+}
+
+.sourceTechDetail > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sourceTechDetail > summary::before {
+  content: "▸ ";
+  font-size: 10px;
+}
+
+.sourceTechDetail[open] > summary::before {
+  content: "▾ ";
+}
+
+.sourceTechDetail > summary:hover {
+  color: var(--text);
+}
+
+.sourceTechDetail .sourceMetaGrid {
+  margin-top: 6px;
+}
+
 .sourceActions {
   display: flex;
   flex-wrap: wrap;
@@ -2705,13 +2384,6 @@ textarea:focus,
   border-radius: 8px;
   background: var(--surface);
   padding: 12px;
-}
-
-.historyStats span,
-.historyItem span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
 }
 
 .historyStats strong {
@@ -2743,7 +2415,7 @@ textarea:focus,
   padding: 0 11px;
 }
 
-.historyTabs button[aria-selected="true"] {
+.historyTabs button[aria-pressed="true"] {
   border-color: #95b8b1;
   background: var(--soft);
   color: var(--brand);
@@ -2968,12 +2640,6 @@ textarea:focus,
   font-weight: 800;
 }
 
-.sourceExactBox small {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-}
-
 .sourceQuote {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -3097,8 +2763,26 @@ textarea:focus,
   background: var(--surface);
 }
 
+.styleSelectors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.styleSelectorLabel {
+  padding: 0 6px 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  align-self: center;
+}
+
 .chatContextBar .modeSelector {
   display: inline-flex;
+  align-items: center;
   gap: 2px;
   padding: 3px;
   border: 1px solid var(--line);
@@ -3117,7 +2801,7 @@ textarea:focus,
   cursor: pointer;
 }
 
-.chatContextBar .modeSelector button[aria-selected="true"] {
+.chatContextBar .modeSelector button[aria-pressed="true"] {
   background: var(--brand);
   color: #ffffff;
 }
@@ -3269,26 +2953,6 @@ textarea:focus,
 .exampleCards button:hover {
   border-color: var(--brand);
   transform: translateY(-1px);
-}
-
-.modeLegend {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 8px;
-}
-
-.modeLegend span {
-  display: grid;
-  gap: 2px;
-  border-left: 3px solid var(--soft);
-  padding: 2px 0 2px 10px;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.modeLegend strong {
-  color: var(--ink);
-  font-size: 12.5px;
 }
 
 /* Filas de mensaje con avatar */
@@ -3446,6 +3110,38 @@ textarea:focus,
   border-radius: 9px;
   padding: 9px 11px;
   font-size: 13px;
+}
+
+.msgCitationWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+  border-radius: 9px;
+  padding: 9px 11px;
+  font-size: 12.5px;
+  margin-top: 8px;
+}
+
+.msgCitationWarning > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.msgCitationWarning strong {
+  display: block;
+}
+
+.msgCitationWarning span {
+  display: block;
+  margin: 2px 0 4px;
+}
+
+.msgCitationWarning ul {
+  margin: 0;
+  padding-left: 16px;
 }
 
 .msgSourceChips {
@@ -3770,7 +3466,6 @@ textarea:focus,
   }
 
   .workspace,
-  .chatWorkspace,
   .moduleGrid,
   .validatorLayout,
   .corpusGrid,
@@ -3784,10 +3479,6 @@ textarea:focus,
   .documentFilters {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .chatTimeline {
-    max-height: none;
-  }
 }
 
 @media (max-width: 640px) {
@@ -3798,12 +3489,9 @@ textarea:focus,
   .topbar {
     display: grid;
   }
-
-  .legalToolHeader,
   .toolPanelHeader,
   .filterBar,
-  .sourceItemHeader,
-  .sourcePanelHeader {
+  .sourceItemHeader{
     align-items: stretch;
     display: grid;
   }
@@ -3814,22 +3502,6 @@ textarea:focus,
 
   .documentEvidenceStrip {
     grid-template-columns: 1fr;
-  }
-
-  .answerBubble {
-    max-width: 100%;
-  }
-
-  .chatWorkspace {
-    padding: 12px;
-  }
-
-  .chatMessage {
-    max-width: 100%;
-  }
-
-  .composerFooter {
-    display: grid;
   }
 
   .modeSelector {
@@ -3850,26 +3522,6 @@ textarea:focus,
 
   h1 {
     font-size: 27px;
-  }
-
-  .promptBox {
-    grid-template-columns: 1fr;
-  }
-
-  .modeTabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .modeTabs button:nth-child(2) {
-    border-right: 0;
-  }
-
-  .modeTabs button:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .promptActions {
-    display: grid;
   }
 
   .formGrid,
@@ -4076,6 +3728,99 @@ textarea:focus,
   text-transform: capitalize;
 }
 
+/* Identidad enriquecida: avatar, rol, oficina y alcance (sidebar oscuro) */
+.userIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userAvatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radio-md);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.userIdentityText {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.userIdentityText .userEmail {
+  color: #eaf1f4;
+}
+
+.userRoleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.userRoleDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.userContext {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: center;
+}
+
+.userContextRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  overflow: hidden;
+  color: #cddbe2;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.userContextRow svg {
+  flex-shrink: 0;
+  color: #9fc0c5;
+}
+
+.userJefeTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(217, 119, 6, 0.18);
+  color: #fcd9a3;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.userJefeTag svg {
+  color: #f6b866;
+}
+
+.userScopeHint {
+  flex-basis: 100%;
+  color: var(--nav-muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 .signoutButton {
   display: inline-flex;
   align-items: center;
@@ -4171,12 +3916,6 @@ textarea:focus,
   color: var(--ink);
   font-size: 14px;
   line-height: 1.35;
-}
-
-.normCardMeta {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .normCardTags {
@@ -4278,13 +4017,6 @@ textarea:focus,
 
 .versionPanel > strong {
   color: var(--ink);
-}
-
-.versionPanel > span,
-.versionPanel small {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .versionList {
@@ -4693,7 +4425,7 @@ textarea:focus,
   text-align: left;
 }
 
-.analysisModeGrid button[aria-selected="true"] {
+.analysisModeGrid button[aria-pressed="true"] {
   border-color: #0f766e;
   background: #f0faf7;
   box-shadow: inset 3px 0 0 #0f766e;
@@ -5229,12 +4961,6 @@ textarea:focus,
   line-height: 1.35;
 }
 
-.presetBar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .validatorSectionTitle {
   display: flex;
   align-items: center;
@@ -5451,12 +5177,6 @@ textarea:focus,
   font-size: 16px;
 }
 
-.decisionGrid span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-
 .validationBanner {
   display: grid;
   gap: 5px;
@@ -5553,13 +5273,6 @@ textarea:focus,
 
 .ruleItem strong {
   color: var(--ink);
-}
-
-.ruleItem span,
-.ruleItem small {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
 }
 
 .ruleItem p {
@@ -5930,119 +5643,6 @@ textarea:focus,
   line-height: 1.35;
 }
 
-/* ===== Expedientes (procedimientos) ===== */
-.processWorkspace {
-  display: grid;
-  gap: 16px;
-  padding: 18px;
-}
-
-.processHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.processHeader h2 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--ink);
-}
-
-.processHeader p {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.processForm {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
-  padding: 16px;
-}
-
-.processFormWide {
-  grid-column: 1 / -1;
-}
-
-.processForm label {
-  display: grid;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.processForm input,
-.processForm select {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 9px 11px;
-  font-size: 13.5px;
-  background: #ffffff;
-}
-
-.processFormActions {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.processGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
-}
-
-.processCard {
-  display: grid;
-  gap: 7px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #ffffff;
-  padding: 14px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.processCard:hover {
-  border-color: var(--brand);
-  transform: translateY(-1px);
-}
-
-.processCardTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--brand);
-}
-
-.processCard strong {
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.processCard small {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.processCardMeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 4px;
-  font-size: 12px;
-  color: var(--ink);
-}
-
 .processStatus {
   display: inline-flex;
   align-items: center;
@@ -6059,66 +5659,6 @@ textarea:focus,
 .processStatus.status-en_evaluacion { background: #fef9c3; color: #854d0e; }
 .processStatus.status-en_ejecucion { background: #dbeafe; color: #1e40af; }
 
-/* Detalle */
-.processDetail {
-  display: grid;
-  gap: 16px;
-  padding: 18px;
-}
-
-.processDetailHeader {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 14px;
-}
-
-.processDetailHeader h2 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--ink);
-}
-
-.processDetailMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.processDetailMeta span {
-  font-size: 12px;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 3px 9px;
-}
-
-.processStatusBox label {
-  display: grid;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.processStatusBox select {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 7px 10px;
-  font-size: 13px;
-  background: #ffffff;
-}
-
-.processDetailGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
-  gap: 16px;
-}
-
 .processPanel {
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -6132,82 +5672,23 @@ textarea:focus,
 .processPanelHead {
   display: flex;
   align-items: center;
+  /* La cabecera del resumen lleva título, enlace y el botón de carátula: sin
+     wrap el botón se salía del panel en pantallas estrechas. */
+  flex-wrap: wrap;
   gap: 8px;
   color: var(--ink);
+}
+
+.processPanelHead .secondaryButton {
+  flex: none;
 }
 
 .processPanelHead svg {
   color: var(--brand);
 }
 
-.docUploadForm {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  border: 1px dashed var(--line);
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.docUploadForm select,
-.docUploadForm input[type="text"],
-.docUploadForm input:not([type]) {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 7px 9px;
-  font-size: 13px;
-}
-
-.docList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.docItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: 10px 12px;
-}
-
-.docItem > svg {
-  color: var(--brand);
-  margin-top: 2px;
-}
-
-.docItemBody {
-  flex: 1;
-  display: grid;
-  gap: 2px;
-}
-
-.docItemBody strong {
-  font-size: 13.5px;
-  color: var(--ink);
-}
-
-.docItemBody small {
-  font-size: 11.5px;
-  color: var(--muted);
-}
-
-.docError {
-  color: #b45309 !important;
-}
-
-.docStatus {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
+.extractPanelHead .iconButton {
+  margin-left: auto;
 }
 
 .docStatus.ready { color: #166534; }
@@ -6254,160 +5735,139 @@ textarea:focus,
   background: var(--surface);
 }
 
-.soonChips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* ===== Instrucción del expediente (seguimiento por fases) ===== */
+.phaseTracker {
+  gap: 16px;
 }
 
-.soonChips span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11.5px;
-  color: var(--muted);
-  border: 1px dashed var(--line);
-  border-radius: 999px;
-  padding: 4px 10px;
-}
-
-.agentControls {
-  display: grid;
-  gap: 10px;
-}
-
-.agentControls label {
-  display: grid;
-  gap: 6px;
-}
-
-.agentControls span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.agentControls input,
-.agentControls select {
-  min-width: 0;
-  min-height: 38px;
+.actorMatrix {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #ffffff;
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.actorMatrix > summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  padding: 11px 13px;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--ink);
-  padding: 0 10px;
+  list-style: none;
 }
 
-.evaluationPreview {
-  display: grid;
-  gap: 8px;
+.actorMatrix > summary::-webkit-details-marker {
+  display: none;
 }
 
-.resultBadge {
-  width: fit-content;
-  border-radius: 999px;
-  background: #fff8ea;
-  color: #7b4724;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 6px 9px;
-}
-
-.resultBadge[data-result="cumple"] {
-  background: #f1faf4;
-  color: #166534;
-}
-
-.resultBadge[data-result="no_cumple"] {
-  background: #fff0ef;
-  color: #991b1b;
-}
-
-.resultBadge[data-result="subsanable"] {
-  background: #eef6f4;
+.actorMatrix > summary svg {
   color: var(--brand);
 }
 
-.matrixTableWrap {
+.actorMatrixWrap {
   overflow-x: auto;
+  padding: 0 13px 13px;
 }
 
-.matrixTable {
+.actorMatrixTable {
   width: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 11.5px;
 }
 
-.matrixTable th,
-.matrixTable td {
+.actorMatrixTable th,
+.actorMatrixTable td {
   border: 1px solid var(--line);
-  padding: 7px 8px;
+  padding: 7px 9px;
   text-align: left;
   vertical-align: top;
 }
 
-.matrixTable th {
-  background: var(--surface);
+.actorMatrixTable thead th {
+  background: var(--soft);
+  color: var(--brand);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.actorMatrixTable tbody th {
+  background: #ffffff;
   color: var(--ink);
+  font-weight: 700;
+  min-width: 150px;
 }
 
-.riskList {
-  display: grid;
-  gap: 8px;
-}
-
-.riskItem {
-  display: grid;
-  gap: 5px;
-  border: 1px solid #ead8bd;
-  border-radius: 9px;
-  background: #fffaf0;
-  padding: 10px;
-}
-
-.riskItem[data-level="alto"] {
-  border-color: #efb9b3;
-  background: #fff3f1;
-}
-
-.riskItem[data-level="bajo"] {
-  border-color: #b8d9c7;
-  background: #f3faf5;
-}
-
-.riskItem strong {
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.riskItem span {
-  width: fit-content;
-  border-radius: 999px;
+.actorMatrixTable td {
   background: #ffffff;
   color: var(--muted);
-  font-size: 11px;
-  font-weight: 900;
-  padding: 4px 7px;
-  text-transform: uppercase;
 }
 
-.riskItem p,
-.riskItem small {
+.actorMatrixTable td[data-empty="true"] {
+  background: var(--surface);
+  color: var(--line);
+  text-align: center;
+}
+
+.moduleCard {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 11px;
+  display: grid;
+  gap: 7px;
+  align-content: start;
+}
+
+.moduleCard[data-transversal="true"] {
+  background: var(--soft);
+}
+
+.moduleCard p {
   margin: 0;
-  color: var(--muted);
   font-size: 12px;
+  color: var(--muted);
   line-height: 1.45;
 }
 
-@media (max-width: 880px) {
-  .processForm,
-  .processDetailGrid {
-    grid-template-columns: 1fr;
-  }
+/* ===== Ficha de Necesidad (Módulo 1) ===== */
+.fichaGrid {
+  display: grid;
+  gap: 2px;
+}
 
-  .processHeader,
-  .processDetailHeader {
-    flex-direction: column;
+.fichaRow {
+  display: grid;
+  /* La etiqueta se llevaba hasta el 32% del ancho y el valor quedaba estrecho:
+     los campos largos (EETT/TDR, condiciones de contratación, requisitos) se
+     leían en una columna angosta con decenas de líneas. Se acota la etiqueta
+     para que el texto disponga del resto. */
+  grid-template-columns: minmax(140px, 22%) 1fr;
+  gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fichaRow:last-child {
+  border-bottom: none;
+}
+
+.fichaValue {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.45;
+  white-space: pre-wrap;
+  /* Sin esto, un valor sin espacios (una URL, una cadena funcional larga)
+     desborda la celda y ensancha toda la tabla. */
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 880px) {
+
+  .fichaRow {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }
 
@@ -6469,7 +5929,8 @@ textarea {
 }
 
 ::selection {
-  background: rgba(15, 118, 110, 0.2);
+  /* Del token de marca, no de un teal suelto parecido. */
+  background: color-mix(in srgb, var(--brand) 22%, transparent);
 }
 
 .shell {
@@ -6553,10 +6014,75 @@ textarea {
   border-radius: 13px;
 }
 
+/* ── Refinamiento del sidebar: jerarquía, estados y ritmo ──────────────────
+   Ajustes acumulativos sobre las capas de arriba (ganan por ir después). Solo
+   AÑADEN pulido —transiciones, tracking de rótulos, marca del ítem activo,
+   hover más definido—; no tocan posición ni flex, para no alterar el layout ni
+   el modo colapsado/móvil. La audacia se gasta en un solo sitio: la barra de
+   acento del ítem activo (mismo gesto de "estás aquí" que Configuración). */
+.nav a {
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+/* Rótulos de grupo: más tracking y algo más de aire arriba para que los seis
+   grupos se separen de un vistazo, sin subir la densidad. */
+.navSection {
+  gap: 8px;
+}
+
+.navSection + .navSection {
+  margin-top: 2px;
+}
+
+.navSectionLabel {
+  letter-spacing: 0.08em;
+}
+
+/* Ítem activo: barra de acento a la izquierda sobre el degradado ya existente,
+   con el texto y el icono realzados. Es la señal de página actual. */
+.nav a.active {
+  box-shadow: inset 3px 0 0 #65d6ca;
+  color: #ffffff;
+}
+
+.nav a.active svg {
+  color: #7fe3d8;
+}
+
+/* Hover (solo si NO está activo): un punto más claro que el reposo, sin
+   competir con el activo. La especificidad (:not) gana a la regla base. */
+.nav a:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.11);
+  color: #ffffff;
+}
+
+.nav a:hover:not(.active) svg {
+  color: #c4e6e8;
+}
+
+/* Bloque de usuario: separación clara del menú con una línea sutil arriba, para
+   que "quién soy / qué veo" se lea como un bloque aparte del listado. */
+.userBox {
+  border-top: 1px solid var(--nav-line);
+  padding-top: 14px;
+}
+
+/* La columna de contenido ocupa TODO el ancho disponible a la derecha de la
+   barra lateral. Antes iba topada a 1480px y centrada con `margin: 0 auto`, lo
+   que en pantallas anchas dejaba un pasillo vacio a cada lado y despegaba el
+   contenido de la barra. En una herramienta de gestion —tablas, fichas de
+   decenas de campos, dos columnas— ese ancho se aprovecha; no es texto corrido
+   al que convenga una medida de lectura.  OJO: es una regla GLOBAL, afecta a
+   todas las paginas de la aplicacion, no solo a Necesidades.
+   `min-width: 0` sigue viniendo de la definicion de mas arriba y hace falta:
+   sin el, la columna no puede encogerse por debajo de su contenido. */
 .content {
-  width: min(100%, 1480px);
+  width: 100%;
   min-height: 100vh;
-  margin: 0 auto;
+  margin: 0;
   padding: 28px clamp(18px, 2.4vw, 34px);
 }
 
@@ -6600,18 +6126,15 @@ span {
 .secondaryButton,
 .dangerButton,
 .compactButton,
-.messageAction,
 .responseActionButton,
 .filterToggleButton,
 .sourceActions a,
 .documentActions button,
 .documentActions a,
 .historyTabs button,
-.modeTabs button,
 .exampleQuestions button,
 .exampleCards button,
 .followChips button,
-.presetBar button,
 .facetChip,
 .articleChip {
   min-height: 38px;
@@ -6625,7 +6148,6 @@ span {
 }
 
 .primaryButton,
-.promptBox button,
 .sendButton {
   background: var(--brand);
   color: #ffffff;
@@ -6633,7 +6155,6 @@ span {
 }
 
 .primaryButton:hover,
-.promptBox button:hover,
 .sendButton:hover {
   background: var(--brand-dark);
 }
@@ -6642,8 +6163,6 @@ span {
 .compactButton,
 .filterToggleButton,
 .responseActionButton,
-.responseIconButton,
-.messageAction,
 .sourceActions a,
 .documentActions button,
 .documentActions a {
@@ -6656,8 +6175,6 @@ span {
 .compactButton:hover,
 .filterToggleButton:hover,
 .responseActionButton:hover,
-.responseIconButton:hover,
-.messageAction:hover,
 .sourceActions a:hover,
 .documentActions button:hover,
 .documentActions a:hover {
@@ -6676,8 +6193,7 @@ span {
   background: #8f1d15;
 }
 
-.iconButton,
-.responseIconButton {
+.iconButton{
   border-radius: 999px;
 }
 
@@ -6693,11 +6209,8 @@ span {
 .sourceCard,
 .evalResult,
 .documentToolbar,
-.chatTimeline,
-.chatComposer,
 .msgBubble,
 .authCard,
-.savedCard,
 .historyItem,
 .normCard,
 .normDetail,
@@ -6711,7 +6224,6 @@ span {
 .processDetailHeader,
 .docItem,
 .evidenceCard,
-.sideBox,
 .answerUseCard,
 .dialogContent,
 .sourceModal {
@@ -6734,12 +6246,9 @@ span {
 
 .toolPanelHeader,
 .panelHeader,
-.legalToolHeader,
 .chatHeader,
-.sourcePanelHeader,
 .processPanelHead,
 .documentSectionTitle,
-.sourceListHeader,
 .articleReaderHeader,
 .processHeader {
   border-color: var(--line);
@@ -6764,8 +6273,6 @@ textarea,
 .validatorForm textarea,
 .validatorForm input,
 .validatorForm select,
-.promptBox input,
-.promptBox select,
 .promptInput textarea,
 .promptInput input,
 .promptInput select,
@@ -6807,7 +6314,6 @@ textarea:focus,
 .coverageGrid,
 .sourceCoverage,
 .sourceMetaGrid,
-.processCardMeta,
 .processDetailMeta {
   gap: 10px;
 }
@@ -6824,7 +6330,6 @@ textarea:focus,
 .coverageGrid span,
 .sourceCoverage span,
 .processDetailMeta span,
-.processCardMeta span,
 .sourceMetaGrid span {
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -6832,7 +6337,6 @@ textarea:focus,
 }
 
 .confidencePill,
-.confidenceChip,
 .sourceBadge,
 .relevanceBadge,
 .sourceChip,
@@ -6851,7 +6355,6 @@ textarea:focus,
 }
 
 .confidencePill.high,
-.confidenceChip[data-confidence="alta"],
 .scoreGood,
 .sourceBadge.valid,
 .relevanceBadge.valid,
@@ -6868,7 +6371,6 @@ textarea:focus,
 }
 
 .confidencePill.medium,
-.confidenceChip[data-confidence="media"],
 .scoreMid,
 .sourceBadge.warning,
 .relevanceBadge.warning,
@@ -6883,7 +6385,6 @@ textarea:focus,
 }
 
 .confidencePill.low,
-.confidenceChip[data-confidence="baja"],
 .scoreBad,
 .resultBadge[data-result="no_cumple"],
 .ruleItem[data-tone="bad"],
@@ -6916,7 +6417,6 @@ textarea:focus,
 
 .modeSelector,
 .chatContextBar .modeSelector,
-.modeTabs,
 .historyTabs,
 .normCategoryTabs {
   border-color: var(--line);
@@ -6925,16 +6425,14 @@ textarea:focus,
 
 .modeSelector button,
 .chatContextBar .modeSelector button,
-.modeTabs button,
 .historyTabs button {
   color: #48586b;
   font-weight: 720;
 }
 
-.modeSelector button[aria-selected="true"],
-.chatContextBar .modeSelector button[aria-selected="true"],
-.modeTabs button[aria-selected="true"],
-.historyTabs button[aria-selected="true"],
+.modeSelector button[aria-pressed="true"],
+.chatContextBar .modeSelector button[aria-pressed="true"],
+.historyTabs button[aria-pressed="true"],
 .authTabs button.active {
   background: var(--brand);
   color: #ffffff;
@@ -7210,569 +6708,8 @@ textarea:focus,
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.settingsLayout {
-  display: grid;
-  gap: 18px;
-}
-
-.settingsHero {
-  align-items: center;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 16px;
-  padding: 18px;
-}
-
-.settingsHeroIcon {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  border-radius: 14px;
-  background: var(--soft);
-  color: var(--brand);
-}
-
-.settingsHero h2,
-.settingsHero p {
-  margin: 0;
-}
-
-.settingsHero p {
-  margin-top: 4px;
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-.settingsStatus {
-  display: grid;
-  gap: 8px;
-  justify-items: end;
-}
-
-.settingsStatus span {
-  border: 1px solid #f3d3a2;
-  border-radius: 999px;
-  background: #fff7ed;
-  color: #9a3412;
-  font-size: 12px;
-  font-weight: 900;
-  padding: 7px 10px;
-}
-
-.settingsStatus span[data-ready="true"] {
-  border-color: #a7f3d0;
-  background: #ecfdf5;
-  color: #047857;
-}
-
-.settingsStatus strong {
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.settingsGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-  gap: 18px;
-}
-
 .settingsGrid.single {
   grid-template-columns: 1fr;
-}
-
-.settingsTabs {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  width: fit-content;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 5px;
-}
-
-.settingsTabs button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 900;
-  padding: 9px 12px;
-}
-
-.settingsTabs button[aria-selected="true"] {
-  background: var(--brand);
-  color: #ffffff;
-  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.18);
-}
-
-.settingsForm {
-  display: grid;
-  gap: 14px;
-  padding: 0 18px 18px;
-}
-
-.settingsForm label,
-.processSettingsRow label {
-  display: grid;
-  gap: 6px;
-}
-
-.settingsForm span,
-.processSettingsRow span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.settingsForm input,
-.settingsForm select,
-.processSettingsRow input {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #ffffff;
-  color: var(--ink);
-  font: inherit;
-  outline: none;
-  padding: 11px 12px;
-}
-
-.settingsForm input:focus,
-.settingsForm select:focus,
-.processSettingsRow input:focus {
-  border-color: rgba(15, 118, 110, 0.45);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-}
-
-.settingsForm small {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.settingsFormTwo {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.settingsUsagePanel {
-  display: grid;
-  gap: 8px;
-  border: 1px solid rgba(15, 118, 110, 0.16);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(236, 253, 245, 0.78), rgba(255, 255, 255, 0.94));
-  padding: 14px;
-}
-
-.settingsUsagePanel strong {
-  color: var(--ink);
-  font-size: 14px;
-}
-
-.settingsUsagePanel span {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.42;
-}
-
-.governmentLevelList {
-  display: grid;
-  gap: 10px;
-  padding: 0 18px 18px;
-}
-
-.governmentLevelList article {
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: #ffffff;
-  padding: 13px;
-}
-
-.governmentLevelList article[data-active="true"] {
-  border-color: rgba(15, 118, 110, 0.38);
-  background: linear-gradient(180deg, rgba(236, 253, 245, 0.82), #ffffff);
-}
-
-.governmentLevelList strong {
-  display: block;
-  color: var(--ink);
-  font-size: 14px;
-}
-
-.governmentLevelList span {
-  display: block;
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.processSettingsIntro,
-.processSettingsList {
-  display: grid;
-  gap: 10px;
-  padding: 0 18px 18px;
-}
-
-.processSettingsIntro {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding-bottom: 12px;
-}
-
-.processSettingsIntro article {
-  border: 1px solid rgba(15, 118, 110, 0.14);
-  border-radius: 13px;
-  background: linear-gradient(180deg, rgba(236, 253, 245, 0.66), #ffffff);
-  padding: 13px;
-}
-
-.processSettingsIntro strong {
-  display: block;
-  color: var(--ink);
-  font-size: 14px;
-}
-
-.processSettingsIntro span {
-  display: block;
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.38;
-}
-
-.settingsUsersPanel {
-  overflow: hidden;
-}
-
-.usersHeader {
-  align-items: center;
-  background:
-    linear-gradient(90deg, rgba(15, 118, 110, 0.07), transparent 55%),
-    #ffffff;
-}
-
-.usersHeader span {
-  display: block;
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.usersHeaderStats {
-  display: grid;
-  min-width: 108px;
-  justify-items: end;
-  border-left: 1px solid var(--line);
-  padding-left: 18px;
-}
-
-.usersHeaderStats strong {
-  color: var(--brand-dark);
-  font-size: 26px;
-  line-height: 1;
-}
-
-.usersHeaderStats span {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.userAdminGrid {
-  display: grid;
-  grid-template-columns: minmax(300px, 0.9fr) minmax(360px, 1.1fr);
-  gap: 14px;
-  padding: 18px;
-}
-
-.userCreateCard,
-.roleSummaryCard {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 16px;
-}
-
-.userCreateCard {
-  border-color: rgba(15, 118, 110, 0.22);
-  background: linear-gradient(180deg, #f6fbfa, #ffffff 48%);
-}
-
-.userSectionTitle {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.userSectionTitle > span {
-  display: grid;
-  flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border-radius: 11px;
-  background: var(--soft);
-  color: var(--brand-dark);
-}
-
-.userSectionTitle strong {
-  display: block;
-  color: var(--ink);
-  font-size: 15px;
-}
-
-.userSectionTitle small {
-  display: block;
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.userCreateForm {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 11px;
-}
-
-.userCreateForm label {
-  display: grid;
-  gap: 6px;
-}
-
-.userCreateForm label:first-child {
-  grid-column: 1 / -1;
-}
-
-.userCreateForm span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.userCreateForm input,
-.userCreateForm select {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: #ffffff;
-  color: var(--ink);
-  font: inherit;
-  outline: none;
-  padding: 11px 12px;
-}
-
-.userCreateForm input:focus,
-.userCreateForm select:focus {
-  border-color: rgba(15, 118, 110, 0.45);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-}
-
-.userCreateActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.usersSettingsList {
-  display: grid;
-  gap: 10px;
-  padding: 0 18px 18px;
-}
-
-.usersListHeader {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 12px;
-  border-top: 1px solid var(--line);
-  padding: 18px 18px 12px;
-}
-
-.usersListHeader h2 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.usersListHeader > span {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 850;
-  padding: 7px 10px;
-}
-
-.roleProfileGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.roleProfileGrid article {
-  display: grid;
-  gap: 6px;
-  border: 1px solid rgba(15, 118, 110, 0.14);
-  border-radius: 13px;
-  background: linear-gradient(180deg, rgba(236, 253, 245, 0.6), #ffffff);
-  padding: 12px;
-}
-
-.roleProfileGrid article > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.roleProfileGrid strong {
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.roleProfileGrid em {
-  display: grid;
-  min-width: 25px;
-  height: 25px;
-  place-items: center;
-  border-radius: 999px;
-  background: #ffffff;
-  color: var(--brand-dark);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 950;
-}
-
-.roleProfileGrid code {
-  width: fit-content;
-  border-radius: 999px;
-  background: var(--soft);
-  color: var(--brand-dark);
-  font-size: 11px;
-  font-weight: 900;
-  padding: 4px 7px;
-}
-
-.roleProfileGrid span {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.credentialsPanel strong,
-.linkedUsersPanel strong {
-  color: var(--ink);
-  font-size: 14px;
-}
-
-.credentialsPanel span,
-.linkedUsersPanel span {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
-}
-
-.credentialsPanel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 8px 10px;
-  align-items: start;
-  border: 1px solid #bfdbfe;
-  border-radius: 14px;
-  background: #eff6ff;
-  margin: 0 18px 14px;
-  padding: 13px;
-}
-
-.linkedUsersPanel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 8px 10px;
-  align-items: start;
-  border: 1px solid #99f6e4;
-  border-radius: 14px;
-  background: #f0fdfa;
-  margin: 0 18px 14px;
-  padding: 13px;
-}
-
-.credentialsPanel code,
-.linkedUsersPanel code {
-  grid-column: 1 / -1;
-  overflow: auto;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #1d4ed8;
-  font-size: 12px;
-  padding: 8px 10px;
-}
-
-.linkedUsersPanel code {
-  color: #0f766e;
-}
-
-.credentialsPanel svg {
-  color: #1d4ed8;
-}
-
-.linkedUsersPanel svg {
-  color: #0f766e;
-}
-
-.permissionsMatrix {
-  display: grid;
-  gap: 10px;
-  border-top: 1px solid var(--line);
-  padding: 16px 18px 18px;
-}
-
-.compactHeader {
-  padding: 0;
-}
-
-.permissionsTable {
-  display: grid;
-  overflow: auto;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff;
-}
-
-.permissionsRow {
-  display: grid;
-  grid-template-columns: minmax(220px, 1.4fr) repeat(5, minmax(105px, 0.7fr));
-  gap: 0;
-  min-width: 850px;
-  border-bottom: 1px solid var(--line);
-}
-
-.permissionsRow:last-child {
-  border-bottom: 0;
-}
-
-.permissionsRow > * {
-  display: grid;
-  align-content: center;
-  min-height: 54px;
-  border-right: 1px solid var(--line);
-  padding: 10px 12px;
-}
-
-.permissionsRow > *:last-child {
-  border-right: 0;
 }
 
 .permissionsRow.header {
@@ -7781,18 +6718,6 @@ textarea:focus,
   font-size: 12px;
   font-weight: 950;
   text-transform: uppercase;
-}
-
-.permissionsRow strong {
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.permissionsRow small {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.35;
 }
 
 .permissionsRow .allowed,
@@ -7810,157 +6735,112 @@ textarea:focus,
   color: #991b1b;
 }
 
-.processSettingsRow {
-  display: grid;
-  grid-template-columns: 110px minmax(220px, 1.2fr) minmax(160px, 0.75fr) minmax(180px, 0.85fr);
-  gap: 10px;
-  align-items: end;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 12px;
-}
-
-.processDescription {
-  grid-column: span 2;
-}
-
 .processSettingsRow .iconButton {
   align-self: end;
 }
 
-.userSettingsRow {
-  display: grid;
-  grid-template-columns: minmax(220px, 1.3fr) minmax(150px, 0.6fr) minmax(180px, 0.9fr) auto auto;
-  gap: 10px;
-  align-items: end;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff;
-  padding: 12px;
+.scopeChip.oficina {
+  border-color: rgba(15, 118, 110, 0.16);
+  background: #f0fdfa;
+  color: #0f766e;
 }
 
-.userSettingsIdentity {
+.scopeChip.jefe {
+  border-color: #ecdcc8;
+  background: #f7eee3;
+  color: #9a5a2c;
+}
+
+.iconButton.danger:hover {
+  border-color: rgba(176, 71, 60, 0.45);
+  background: #fbf1ef;
+  color: #b0473c;
+}
+
+.entityChecklist {
   display: grid;
-  gap: 4px;
-  align-self: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.entityChecklist ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entityChecklist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.entityChecklist li svg {
+  color: #cbd5e1;
+  flex-shrink: 0;
+}
+
+.entityChecklist li[data-done="true"] {
+  color: var(--ink);
+}
+
+.entityChecklist li[data-done="true"] svg {
+  color: var(--brand);
+}
+
+.userAvatar {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 11px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.userAvatar[data-role="consulta"] {
+  background: #7c8a99;
+}
+
+.userAvatar[data-role="area_usuaria"] {
+  background: #4f6f93;
+}
+
+.userAvatar[data-role="dec"] {
+  background: var(--brand);
+}
+
+.userAvatar[data-role="legal"] {
+  background: #835a76;
+}
+
+.userAvatar[data-role="admin"] {
+  background: var(--accent);
+}
+
+.userIdentityText {
+  display: grid;
+  gap: 5px;
   min-width: 0;
 }
 
-.userSettingsIdentity strong {
+.userIdentityText strong {
   overflow: hidden;
   color: var(--ink);
   font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.userSettingsIdentity span {
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.userPermissionChips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 3px;
-}
-
-.userPermissionChips small {
-  border: 1px solid rgba(15, 118, 110, 0.16);
-  border-radius: 999px;
-  background: #f0fdfa;
-  color: #0f766e;
-  font-size: 10px;
-  font-weight: 850;
-  line-height: 1;
-  padding: 5px 7px;
-}
-
-.userSettingsRow label {
-  display: grid;
-  gap: 6px;
-}
-
-.userSettingsRow label span {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.processSettingsRow select,
-.userSettingsRow input,
-.userSettingsRow select {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #ffffff;
-  color: var(--ink);
-  font: inherit;
-  outline: none;
-  padding: 11px 12px;
-}
-
-.processSettingsRow select:focus,
-.userSettingsRow input:focus,
-.userSettingsRow select:focus {
-  border-color: rgba(15, 118, 110, 0.45);
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
-}
-
-.toggleLine {
-  align-content: center;
-  min-height: 62px;
-}
-
-.toggleLine input {
-  width: auto;
-}
-
-.sortField input {
-  text-align: center;
-}
-
-.settingsFooter {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.94);
-  padding: 14px 16px;
-  box-shadow: 0 -16px 42px rgba(23, 32, 51, 0.08);
-  backdrop-filter: blur(10px);
-}
-
-.settingsFooter div,
-.successBanner {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.settingsFooter span {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.successBanner {
-  border: 1px solid #a7f3d0;
-  border-radius: 13px;
-  background: #ecfdf5;
-  color: #047857;
-  font-size: 13px;
-  font-weight: 850;
-  padding: 11px 13px;
 }
 
 @media (max-width: 980px) {
@@ -8007,30 +6887,6 @@ textarea:focus,
   .historyFilters {
     grid-template-columns: 1fr;
   }
-
-  .settingsHero,
-  .settingsGrid,
-  .processSettingsIntro,
-  .userAdminGrid,
-  .roleProfileGrid,
-  .userCreateForm,
-  .processSettingsRow,
-  .userSettingsRow {
-    grid-template-columns: 1fr;
-  }
-
-  .processDescription {
-    grid-column: auto;
-  }
-
-  .settingsStatus {
-    justify-items: start;
-  }
-
-  .settingsFooter {
-    align-items: stretch;
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 640px) {
@@ -8065,8 +6921,4089 @@ textarea:focus,
   .formActions {
     gap: 7px;
   }
+}
 
-  .settingsFormTwo {
+/* ============================================================
+   CHAT — pulido UX/UI profesional (capa final, gana por cascada)
+   ============================================================ */
+
+/* Cabecera mas sobria y con jerarquia clara */
+.chatRedesign .chatHeader {
+  border-bottom: 1px solid var(--line);
+}
+.chatRedesign .chatHeaderTitle p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* Barra de contexto: selectores y filtros bien aireados, centrados con la columna */
+.chatRedesign .chatContextBar {
+  gap: 14px;
+  row-gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.chatRedesign .chatContextBar .modeSelector {
+  padding: 4px;
+  gap: 3px;
+  border-radius: 999px;
+}
+.chatRedesign .chatContextBar .modeSelector button {
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 720;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+.chatRedesign .chatContextBar .modeSelector button:hover[aria-pressed="false"] {
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--brand-dark);
+}
+
+/* Columna conversacional centrada y legible */
+.chatRedesign .chatConversation {
+  padding: 24px clamp(16px, 4vw, 30px) 28px;
+}
+.chatRedesign .chatConversation > * {
+  width: 100%;
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+/* Filas y avatares con respiro */
+.chatRedesign .msgRow {
+  gap: 12px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+}
+.chatRedesign .msgAvatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+/* Burbuja del asistente = tarjeta limpia; usuario = marca */
+.chatRedesign .msgBubble {
+  padding: 15px 17px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 26px rgba(15, 23, 42, 0.045);
+}
+.chatRedesign .msgRow.user .msgBubble {
+  border: none;
+  background: linear-gradient(145deg, var(--brand), var(--brand-dark));
+  box-shadow: 0 8px 22px rgba(15, 118, 110, 0.2);
+}
+.chatRedesign .msgRow.user .msgBubble,
+.chatRedesign .msgRow.user .msgBubble p {
+  color: #ffffff;
+}
+
+/* Encabezado de la burbuja del asistente */
+.chatRedesign .msgBubbleTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.chatRedesign .msgBubbleTop strong {
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+/* Cuerpo de la respuesta: tipografia comoda */
+.chatRedesign .answerContent {
+  font-size: 14.5px;
+  line-height: 1.62;
+  color: #1f2d40;
+}
+
+/* Pills de confianza color-codeadas (intuitivo de un vistazo) */
+.confidencePill {
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 11px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.confidencePill.high {
+  background: #e7f6ee;
+  color: #0f7a43;
+  border-color: #bfe6cf;
+}
+.confidencePill.medium {
+  background: #fff5e3;
+  color: #9a6411;
+  border-color: #f3dcae;
+}
+.confidencePill.low {
+  background: #f1f3f5;
+  color: #5b6573;
+  border-color: #e0e4e8;
+}
+
+/* Chips de fuentes y de seguimiento: limpios y clicables */
+.chatRedesign .sourceChip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 12px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.chatRedesign .sourceChip:hover {
+  border-color: rgba(15, 118, 110, 0.4);
+  background: var(--soft);
+}
+.chatRedesign .followChips button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 7px 13px;
+  font-size: 12.5px;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.chatRedesign .followChips button:hover:not(:disabled) {
+  border-color: rgba(15, 118, 110, 0.4);
+  background: var(--soft);
+}
+
+/* Composer como tarjeta flotante, centrada con la columna */
+.chatRedesign .chatComposerBar {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  gap: 10px;
+  align-items: flex-end;
+  padding: 9px 9px 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05), 0 14px 32px rgba(15, 23, 42, 0.07);
+}
+.chatRedesign .chatComposerBar:focus-within {
+  border-color: rgba(15, 118, 110, 0.45);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12), 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+.chatRedesign .chatComposerBar textarea {
+  border: none;
+  background: transparent;
+  resize: none;
+  padding: 9px 4px;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+.chatRedesign .chatComposerBar textarea:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.chatRedesign .sendButton,
+.chatRedesign .stopButton {
+  border-radius: 12px;
+  padding: 10px 17px;
+  font-weight: 760;
+  flex-shrink: 0;
+}
+.chatRedesign .sendButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- Intuitividad: onboarding del estado vacio + etiquetas claras --- */
+.chatRedesign .styleSelectorsTitle {
+  align-self: center;
+  margin-right: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.chatRedesign .chatEmptyRedesign {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 8px 0 4px;
+  display: grid;
+  gap: 22px;
+}
+.chatRedesign .chatEmptyIntro {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 8px;
+}
+.chatRedesign .chatEmptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: linear-gradient(145deg, var(--brand), var(--brand-dark));
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.25);
+}
+.chatRedesign .chatEmptyIntro strong {
+  font-size: 19px;
+  color: var(--ink);
+}
+.chatRedesign .chatEmptyIntro span {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+/* Cómo funciona, en 3 pasos */
+.chatRedesign .chatHowItWorks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.chatRedesign .chatHowItWorks > div {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #ffffff;
+}
+.chatRedesign .howStepNum {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--brand-dark);
+  background: var(--soft);
+}
+.chatRedesign .chatHowItWorks strong {
+  display: block;
+  font-size: 13px;
+  color: var(--ink);
+}
+.chatRedesign .chatHowItWorks small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Ejemplos clicables */
+.chatRedesign .chatEmptyExamples > p {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.chatRedesign .chatEmptyExamples .exampleCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chatRedesign .chatEmptyExamples .exampleCards button {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+.chatRedesign .chatEmptyExamples .exampleCards button:hover {
+  border-color: rgba(15, 118, 110, 0.4);
+  background: var(--soft);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .chatRedesign .chatHowItWorks {
     grid-template-columns: 1fr;
   }
 }
+
+/* LifecycleMap: paso desierto (rojo) y pasos no-aplica (atenuados) */
+
+/* Tarjeta de resultado desierto */
+
+/* Botón "Declarar desierto" (acción destructiva) */
+.desiertoButton {
+  color: #b91c1c;
+  border-color: #efb9b3;
+}
+.desiertoButton:hover:not(:disabled) {
+  background: #fff1ef;
+  border-color: #e0978f;
+}
+
+.subirTab.active {
+  color: var(--brand);
+  border-bottom-color: var(--brand);
+}
+
+.subirWizardStepper button.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  box-shadow: 0 4px 12px rgba(18, 105, 93, 0.18);
+}
+
+.subirWizardStepper button.done {
+  background: var(--soft);
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+@keyframes subirFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subirSlideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes subirPopIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.subirChatMsg.user .subirChatMsgAvatar {
+  background: var(--brand);
+  color: #fff;
+}
+
+.subirChatMsg.user .subirChatMsgBody {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.cmdPaletteItem.active {
+  background: var(--soft);
+  border-left-color: var(--brand);
+}
+
+.subirTabla tr.selected {
+  background: var(--soft);
+}
+
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+
+.subirViewToggle button.active {
+  background: var(--brand);
+  color: #fff;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  border-left: 3px solid var(--brand);
+}
+
+.statCard:nth-child(2) {
+  border-left-color: #16a34a;
+}
+
+.statCard:nth-child(3) {
+  border-left-color: #d97706;
+}
+
+.statCard:nth-child(4) {
+  border-left-color: #dc2626;
+}
+
+.statCard:nth-child(5) {
+  border-left-color: #6366f1;
+}
+
+.statLabel {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.4px;
+}
+
+.statCard strong {
+  font-size: 22px;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* --- File picker con drag & drop --- */
+.filePicker.dragging {
+  border-color: var(--brand) !important;
+  background: var(--soft) !important;
+  box-shadow: 0 0 0 3px rgba(18, 105, 93, 0.12);
+}
+
+.filePicker {
+  transition: all 120ms ease;
+}
+
+/* --- Status badges en lista (documentItem) --- */
+.documentItem small[data-status] {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.documentItem small[data-status="indexed"] {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.documentItem small[data-status="uploaded"] {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.documentItem small[data-status="processing"] {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.documentItem small[data-status="error"] {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* --- Pill group (filtros status) --- */
+.pillGroup {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 120ms ease;
+  text-transform: capitalize;
+}
+
+.pill:hover {
+  color: var(--ink);
+  border-color: var(--brand);
+}
+
+.pill.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.pill svg {
+  flex-shrink: 0;
+}
+
+/* --- Textarea dentro de formGrid --- */
+.formGrid textarea {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  width: 100%;
+}
+
+.formGrid textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(18, 105, 93, 0.1);
+}
+
+/* --- Empty state con icono --- */
+/* Medida de lectura del texto del estado vacio. El contenedor es flex centrado,
+   asi que el tope va en el parrafo y no en la caja: poniendolo en la caja se
+   perderia el centrado. Sin esto, con la columna de contenido a ancho completo,
+   estas frases llegaban a 322 caracteres por linea en un monitor de 2560. La
+   medida comoda son 65-75; `ch` la expresa en la propia tipografia. */
+.emptyState > p {
+  max-width: 62ch;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+}
+
+.emptyState svg {
+  color: var(--brand);
+  opacity: 0.6;
+}
+
+.emptyState p {
+  margin: 0;
+  max-width: 360px;
+}
+
+/* --- Form message (errores/info) --- */
+.formMessage {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  background: var(--soft);
+  border-left: 3px solid var(--brand);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--brand);
+  font-weight: 500;
+}
+
+/* --- Document item hover state --- */
+.documentItem {
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.documentItem:hover {
+  background: var(--surface);
+  border-color: var(--brand);
+}
+
+/* --- Archivo answer section --- */
+.archivoAnswer {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.archivoAnswerText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+  margin: 12px 0;
+}
+
+.archivoSources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.archivoResults {
+  margin: 16px 0;
+}
+
+/* --- Panel header (refinamiento) --- */
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.panelHeader svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SETTINGS UI REDESIGN — unificado, intuitivo, responsivo
+   ============================================================ */
+
+/* Configuración unificada: navegación lateral + panel de contenido. */
+/* ============================================================================
+   CAPA DE COMPONENTES · superficie, aviso y distintivo
+   ----------------------------------------------------------------------------
+   Tres formas cubren casi toda la configuración, y cada pantalla las había
+   redibujado por su cuenta: seis superficies con radios de 10, 11 y 14 px; cuatro
+   bandas de aviso idénticas salvo el radio; y seis distintivos con cinco tamaños
+   de letra y cuatro pesos. Aquí se declaran una vez y las clases concretas solo
+   añaden lo que de verdad las diferencia (su tono o su sitio).
+   ========================================================================== */
+
+/* Superficie: lo que contiene un bloque de contenido. */
+.card,
+.areaCard,
+.configResumen,
+.usuarioModal {
+  border: 1px solid var(--line);
+  border-radius: var(--radio-lg);
+  background: var(--panel);
+}
+
+/* Variante tenue: paneles secundarios dentro de una sección. */
+.admisPanel,
+.cohNec {
+  border: 1px solid var(--line);
+  border-radius: var(--radio-md);
+  background: var(--surface);
+}
+
+/* Aviso: banda con borde teñido que interrumpe para decir algo. */
+.aviso,
+.feriadosErrorCarga,
+.configSinGuardar{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radio-sm);
+  border: 1px solid;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* Tonos del aviso: aquí el color ES el mensaje, no un adorno. */
+.aviso--error {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  border-color: color-mix(in srgb, var(--danger) 30%, transparent);
+  color: color-mix(in srgb, var(--danger) 85%, var(--ink));
+}
+
+/* Distintivo: dato o estado corto, siempre en píldora. */
+.badge,
+.configNavBadge,
+.configSinGuardarChip,
+.cohNecPill,
+.admisCount,
+.areaStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radio-pill);
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: var(--peso-medio);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Los tres estados salen de los tokens semánticos, no de verdes y ámbares
+   sueltos: así la barra lateral habla el mismo idioma que el resto de la app. */
+.configNavBadge.ok {
+  background: color-mix(in srgb, var(--success, #16a34a) 15%, transparent);
+  color: color-mix(in srgb, var(--success, #16a34a) 80%, var(--ink));
+}
+
+.configNavBadge.warn {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: color-mix(in srgb, var(--accent) 85%, var(--ink));
+}
+
+.configNavBadge.mute {
+  background: var(--soft);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Piezas compartidas por las pestañas de Oficinas ───────────────────────
+   Áreas, Numeración y Membrete listan las MISMAS oficinas, así que la ficha de
+   cada una (nombre + entidad/sigla) se nombra una vez en vez de repetirse con
+   estilos en línea en cada pestaña. */
+.oficinaNombre { font-size: 14px; font-weight: 650; }
+
+/* ── Visor de documento (Radix Dialog) ─────────────────────────────────────
+   Modal alto que incrusta un PDF generado. Lo usan las vistas previa de los dos
+   contratos (CP y SIE), que lo tenían escrito en estilos en línea, cada una por
+   su cuenta y con blancos y grises fijos. */
+.visorModalFondo {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+.visorModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1101;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 32px);
+  max-width: 900px;
+  height: 90vh;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radio-lg);
+  background: var(--panel);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.visorModalHead,
+.visorModalPie {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+}
+.visorModalHead { justify-content: space-between; border-bottom: 1px solid var(--line); }
+.visorModalPie { justify-content: flex-end; border-top: 1px solid var(--line); }
+
+.visorModalTitulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: var(--peso-fuerte);
+}
+.visorModalTitulo svg { color: var(--brand); }
+
+.visorModalCerrar {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.visorModalCerrar:hover { background: var(--surface); border-color: var(--line); color: var(--ink); }
+
+.visorModalCuerpo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--surface);
+}
+.visorModalCuerpo embed,
+.visorModalCuerpo iframe { width: 100%; height: 100%; border: 0; }
+
+/* Comparador de versiones de la respuesta. El alto va fijado a propósito: son
+   dos columnas que deben quedar a la misma altura para poder cotejarse, cada
+   una con su propio scroll. */
+.diffVersiones {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1101;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(1100px, calc(100% - 32px));
+  height: min(86vh, 900px);
+  padding: 16px;
+  border-radius: var(--radio-lg);
+  background: var(--panel);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.diffVersionesHead { display: flex; align-items: center; justify-content: space-between; }
+.diffVersionesTitulo { margin: 0; font-size: 14px; font-weight: var(--peso-fuerte); }
+.diffVersionesPista { font-size: 12px; color: var(--muted); }
+.diffVersionesCols { display: flex; flex: 1; gap: 12px; min-height: 0; }
+.diffVersionesPie { display: flex; justify-content: flex-end; gap: 8px; }
+
+.visorModalEstado { text-align: center; color: var(--muted); padding: 24px; }
+.visorModalEstado p { margin: 0 0 12px; font-size: 14px; }
+.visorModalEstado .spinIcon { margin-bottom: 8px; }
+.visorModalError { color: var(--danger, #dc2626); }
+
+/* ── Confirmación (Radix AlertDialog) ──────────────────────────────────────
+   Antes vivía en estilos en línea con cinco colores fuera del sistema
+   (#fee2e2, #991b1b, #dc2626, #fef3c7, #dbeafe…). Los tonos salen ahora de los
+   tokens; `info` usa el teal de marca en vez del azul que no existe en ACE. */
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.confirmDialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1101;
+  width: calc(100% - 32px);
+  max-width: 440px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radio-lg);
+  background: var(--panel);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.confirmDialogHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.confirmDialogHead > svg { flex: none; margin-top: 2px; }
+
+/* El tono tiñe la cabecera y el botón de confirmar: el color es el aviso. */
+.confirmDialog[data-tono="danger"] .confirmDialogHead {
+  background: color-mix(in srgb, var(--danger, #dc2626) 12%, transparent);
+  color: color-mix(in srgb, var(--danger, #dc2626) 85%, var(--ink));
+}
+.confirmDialog[data-tono="warning"] .confirmDialogHead {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: color-mix(in srgb, var(--accent) 88%, var(--ink));
+}
+.confirmDialog[data-tono="info"] .confirmDialogHead {
+  background: var(--soft);
+  color: var(--brand-dark);
+}
+
+.confirmDialogTitulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: var(--peso-fuerte);
+}
+
+.confirmDialogMensaje {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.confirmDialogPie {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.confirmDialogAccion {
+  border: 0;
+  border-radius: var(--radio-sm);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: var(--peso-medio);
+  color: #ffffff;
+  cursor: pointer;
+  min-height: 40px;
+}
+.confirmDialog[data-tono="danger"] .confirmDialogAccion { background: var(--danger, #dc2626); }
+.confirmDialog[data-tono="warning"] .confirmDialogAccion { background: var(--accent); }
+.confirmDialog[data-tono="info"] .confirmDialogAccion { background: var(--brand); }
+
+/* La forma (píldora, tamaño, peso) la da la capa de distintivos; aquí solo
+   quedarían sus tonos, que se declaran justo debajo. */
+
+.areaStatusBadge.active {
+  background: color-mix(in srgb, var(--success, #16a34a) 15%, transparent);
+  color: color-mix(in srgb, var(--success, #16a34a) 80%, var(--ink));
+}
+
+.oficinaRow.draft {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand) 20%, transparent) inset;
+}
+
+.oficinaRow.draft .oficinaRowSummary {
+  cursor: default;
+}
+
+.oficinaChip.on {
+  border-color: rgba(15, 118, 110, 0.16);
+  background: #f0fdfa;
+  color: #0f766e;
+}
+
+.oficinaChip.off {
+  border-color: #dfe5ea;
+  background: #f1f4f7;
+  color: #56636f;
+}
+
+.oficinaChip.dec {
+  border-color: #ecdcc8;
+  background: #f7eee3;
+  color: #9a5a2c;
+}
+
+.oficinaChip.draft {
+  border-color: #fde68a;
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.areaDeleteConfirm .secondaryButton {
+  font-weight: 600;
+  color: #991b1b;
+}
+
+.procesosModalActions .secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.membreteStatus.loaded {
+  color: #1f9d55;
+  background: rgba(31, 157, 85, 0.08);
+}
+
+.membreteStatus.empty {
+  color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.numeracionDocCard.enabled {
+  border: 1.5px solid var(--brand);
+  background: rgba(15, 118, 110, 0.04);
+  box-shadow: 0 1px 4px rgba(15, 118, 110, 0.06);
+}
+
+.numeracionDocCard.disabled {
+  border: 1px dashed var(--line);
+  background: transparent;
+}
+
+.numeracionDocCard.disabled:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.numeracionDocToggle.disabled {
+  color: var(--muted);
+}
+
+.numeracionDocIcon.enabled {
+  color: var(--brand);
+}
+
+.numeracionDocIcon.disabled {
+  color: var(--muted);
+}
+
+/* ===== Fase 1 · Actuaciones Preparatorias ===== */
+.faseUnoPanel {
+  border-color: color-mix(in srgb, var(--brand) 22%, var(--line));
+}
+
+.faseUnoBadge {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--brand-dark);
+  background: var(--soft);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+
+.faseSyncBtn {
+  white-space: nowrap;
+}
+
+/* Agrupacion de la Fase 1 en las 7 acciones oficiales (+ precondicion). */
+.accionGroups {
+  display: grid;
+  gap: 14px;
+}
+
+.accionGroup {
+  border-left: 2px solid var(--line);
+  padding-left: 12px;
+}
+
+.accionGroup[data-precondicion="true"] {
+  border-left-style: dashed;
+}
+
+.accionGroup[data-opcional="true"] {
+  opacity: 0.9;
+}
+
+.accionGroupHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Los numerales de la Guía (0, I, II, III–IV…) son jerga para un usuario no
+   técnico. No se quitan —quien conoce la Guía los referencia—, pero dejan de
+   dominar: pasan de pill de marca a una etiqueta discreta y contorneada en color
+   de apoyo, para que lo que lidere sea el nombre llano de la acción. */
+.accionNumeral {
+  flex: none;
+  min-width: 26px;
+  padding: 1px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.accionGroup[data-precondicion="true"] .accionNumeral {
+  background: var(--bg);
+  color: var(--muted);
+}
+
+.accionLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.accionOpcional {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 7px;
+}
+
+.accionMiniProgress {
+  margin-left: auto;
+  flex: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Texto solo para lectores de pantalla: una cabecera de tabla que no se dibuja
+   pero sí se anuncia (la columna de "quitar" no lleva rótulo visible). */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Cuadro de ítems del requerimiento (sección 3.2) ───────────────────────
+   Es una tabla de captura, no de lectura: los importes van tabulares para que
+   las cifras se comparen en vertical, y el ancho lo manda la descripción, que
+   es lo único que de verdad necesita sitio. */
+.necItems {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.necItemsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.necItemsHint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* La tabla desborda antes que la página: sin esto, con siete columnas, el
+   formulario entero se desplazaba en horizontal. */
+.necItemsTablaScroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radio-sm);
+}
+
+.necItemsTabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.necItemsTabla th {
+  text-align: left;
+  font-weight: var(--peso-medio);
+  color: var(--muted);
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.necItemsTabla td {
+  padding: 4px 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  vertical-align: top;
+}
+
+.necItemsTabla tr:last-child td {
+  border-bottom: 0;
+}
+
+.necItemsTabla input,
+.necItemsTabla select {
+  width: 100%;
+  min-width: 88px;
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  background: transparent;
+  padding: 5px 6px;
+  font: inherit;
+  color: var(--ink);
+}
+
+/* La descripción es la que carga el texto: se le da el ancho y a las cifras el
+   mínimo que necesitan. */
+.necItemsDesc input {
+  min-width: 220px;
+}
+
+/* El código del catálogo es una cifra larga y sin espacios (410100070019): se
+   tabula para que se compare de un vistazo entre ítems. */
+.necItemsCodigo input {
+  min-width: 132px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Celda combinada del paquete: abarca las filas de sus ítems y los presenta
+   como el único objeto contractual que son (Art. 52.1.a). El borde izquierdo
+   marcado y el fondo hacen visible dónde empieza y acaba el grupo. */
+.necItemsPaqueteCelda {
+  min-width: 190px;
+  vertical-align: top;
+  background: color-mix(in srgb, var(--brand) 5%, transparent);
+  border-left: 3px solid var(--brand);
+}
+
+.necItemsPaqueteCelda strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--brand);
+  padding: 2px 6px 0;
+}
+
+.necItemsPaqueteCelda textarea {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  background: transparent;
+  padding: 4px 6px;
+  font: inherit;
+  line-height: 1.4;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.necItemsPaqueteCelda textarea:hover:not(:disabled) {
+  border-color: var(--line);
+}
+
+.necItemsPaqueteCelda textarea:focus {
+  border-color: var(--brand);
+  background: var(--panel);
+  outline: none;
+}
+
+.necItemsPaqueteCelda small {
+  display: block;
+  padding: 0 6px 4px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* Los sueltos dejan la columna vacía para que el resto no se desplace. */
+.necItemsSinPaqueteCelda {
+  border-left: 3px solid transparent;
+}
+
+.necItemsTabla input:hover:not(:disabled),
+.necItemsTabla select:hover:not(:disabled) {
+  border-color: var(--line);
+}
+
+.necItemsTabla input:focus,
+.necItemsTabla select:focus {
+  border-color: var(--brand);
+  background: var(--panel);
+  outline: none;
+}
+
+.necItemsNro {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 10px;
+}
+
+/* Por clase y NO por `nth-child`: las filas 2..n de un paquete tienen una celda
+   menos —la combinada solo la dibuja la primera—, así que la posición de cada
+   columna cambia según la fila. */
+.necItemsCifra input {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.necItemsCalculado {
+  display: block;
+  padding: 0 6px;
+  font-size: 10px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.necItemsResumen {
+  display: grid;
+  gap: 8px;
+}
+
+.necItemsSuma {
+  margin: 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.necItemsSuma span {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.necItemsPaquetes ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 3px;
+  font-size: 12.5px;
+}
+
+.necItemsSueltos {
+  color: var(--muted);
+}
+
+/* Nota, no aviso: informa de un trabajo pendiente, no de un incumplimiento, así
+   que no lleva el color ni el icono de los avisos. */
+.necItemsNota {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* ── Campo EETT/TDR: adjunto con vista previa (sección 3.4) ───────────────── */
+.eettCampo {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.eettCampoBarra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* El <input type=file> va oculto DENTRO del label: así el label ya actúa de
+   disparador y no hace falta una referencia ni un click programático. */
+.eettCampoSubir {
+  cursor: pointer;
+}
+
+.eettCampoSubir input {
+  display: none;
+}
+
+.eettCampoFormatos,
+.eettCampoVacio,
+.eettCampoCargando {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.eettCampoVacio {
+  margin: 0;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radio-sm);
+  text-align: center;
+}
+
+.eettCampoLista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.eettCampoLista li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.eettCampoDoc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radio-sm);
+  background: var(--surface);
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* El documento que se está viendo, marcado: con varios adjuntos, sin esto no se
+   sabe a cuál corresponde la vista previa de abajo. */
+.eettCampoDoc[aria-current="true"] {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+  color: var(--brand);
+  font-weight: var(--peso-medio);
+}
+
+.eettCampoRevisar {
+  border: 0;
+  background: transparent;
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.eettCampoPreview {
+  border: 1px solid var(--line);
+  border-radius: var(--radio-sm);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.eettCampoPreview iframe {
+  display: block;
+  width: 100%;
+  height: 62vh;
+  border: 0;
+}
+
+/* El .docx se pinta como párrafos, así que necesita su propio alto y scroll: no
+   hay visor que lo gestione por nosotros. */
+.eettCampoPreviewDocx {
+  max-height: 62vh;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--panel);
+}
+
+/* Editor de requisitos de calificación (obligatorios / facultativos). */
+.reqCal {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Etiqueta con su botón de propuesta a la derecha, en la misma línea. */
+.reqCalSpanConBoton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Condiciones de participación en consorcio: casillas D.1/D.2/D.3 con su número. */
+.reqCalConsorcio {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reqCalConsorcioMsg {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.reqCalConsorcioFila {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.reqCalConsorcioCheck {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.reqCalConsorcioCheck input {
+  margin-top: 2px;
+  accent-color: var(--brand);
+}
+
+.reqCalConsorcioNum {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reqCalConsorcioNum input[type="number"] {
+  width: 80px;
+  font-size: 12.5px;
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.reqCalSpin {
+  animation: reqCalGiro 0.8s linear infinite;
+}
+
+@keyframes reqCalGiro {
+  to { transform: rotate(360deg); }
+}
+
+/* Toast flotante de la Fase 1 (descargas por fetch). */
+.faseToast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 360px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  animation: faseToastIn 0.16s ease-out;
+}
+
+.faseToast svg {
+  flex: none;
+  color: var(--muted);
+}
+
+.faseToast-success {
+  border-color: color-mix(in srgb, var(--success) 45%, var(--line));
+}
+
+.faseToast-success svg {
+  color: var(--success);
+}
+
+.faseToast-error {
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+}
+
+.faseToast-error svg {
+  color: var(--danger);
+}
+
+@keyframes faseToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Aviso de gating segmentación → interacción (A2 determina el mínimo de A5). */
+.pasoGating {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--soft);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pasoGating svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--brand);
+}
+
+/* Cabecera plegable del contexto de A4 (régimen, modificación del PAC). Ese
+   contexto es permanente —no un aviso que pida acción— y apilado como cajas
+   sueltas sepultaba los avisos decisivos, así que se pliega bajo una sola
+   cabecera. Reutiliza el look de `.pasoGating` (mismo fondo, borde y tipografía)
+   para no romper la gramática visual del paso; es un `button`, de ahí el reset
+   de `text-align`/`cursor`. */
+.pasoContextoToggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--soft);
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pasoContextoToggle svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--brand);
+}
+
+.pasoContextoToggle:hover {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+}
+
+/* Cuando la modificación del PAC está sin determinar, la cabecera se tiñe como
+   un aviso para que ese punto siga señalando aunque el contexto esté plegado. */
+.pasoContextoToggle.pasoContextoAviso {
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--warning) 45%, var(--line));
+}
+
+.pasoContextoToggle.pasoContextoAviso svg {
+  color: var(--warning);
+}
+
+/* "No corresponde" no es una advertencia más: es la respuesta a si hay que
+   trabajar este paso. Se le da el peso visual que tenía el aviso genérico, y a
+   la nota de método el de un consejo, que es lo que es. */
+.pasoGatingNoAplica {
+  background: color-mix(in srgb, var(--ink) 6%, var(--surface));
+  border-color: color-mix(in srgb, var(--ink) 22%, var(--line));
+}
+
+.pasoGatingNoAplica svg {
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+/* La nota no advierte de nada: explica cómo se ejecuta el paso en ESTE
+   procedimiento. Un fondo teñido la volvía indistinguible de los avisos (7% de
+   brand sobre surface cae a menos de dos puntos de var(--soft)), así que va sin
+   relleno y con una barra lateral, que es la gramática habitual de un consejo. */
+.pasoGatingComo {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid color-mix(in srgb, var(--brand) 65%, var(--line));
+}
+
+/* Ruta crítica: el «qué cerrar YA» que desatasca la cuantía. Se tiñe con el
+   color de marca —no es un error ni una advertencia, es la guía del siguiente
+   paso decisivo— y va algo más marcada que el perfil para que se lea primero. */
+.faseRutaCritica {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 2px 0 12px;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--brand) 34%, var(--line));
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.faseRutaCritica > svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--brand);
+}
+
+.faseRutaCriticaIr {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 4px 1px 6px;
+  margin-left: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--line));
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+.faseRutaCriticaIr:hover {
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+}
+
+/* Chat del copiloto del expediente (iteración 4). Se abre desde este botón y se
+   presenta en el panel lateral `.copiloto` (mismo patrón que el copiloto del
+   requerimiento en Necesidades); las clases de abajo dan estilo al formulario y
+   la respuesta DENTRO de ese panel. */
+.faseCopilotoBtn { margin: 2px 0 12px; }
+
+/* Cabecera de sección de A4 (variables del Art. 46.1, agrupadas a–t).
+   Antes era un fino subrayado en mayúsculas, indistinguible de una etiqueta más en
+   un muro de ~46 campos. Ahora cada bloque es una barra con acento de marca y un
+   INDICADOR DE PROGRESO (barra + "llenos/total", o un check "completo"): en un
+   formato de cumplimiento tan largo, saber "qué falta por sección" es la tarea, no
+   un adorno. El progreso cuenta solo los campos que la norma pide —obligatorios y
+   "de corresponder"— porque son los que alimentan el documento firmado. */
+.pasoGrupo {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 6px 10px 6px 11px;
+  border-radius: var(--radio-sm, 8px);
+  background: color-mix(in srgb, var(--brand, #12695d) 5%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--brand, #12695d) 14%, transparent);
+  border-left: 3px solid var(--brand, #12695d);
+}
+.pasoGrupo:first-child {
+  margin-top: 0;
+}
+
+.pasoGrupoProgreso {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pasoGrupoBarra {
+  width: 46px;
+  height: 4px;
+  border-radius: var(--radio-pill, 999px);
+  background: color-mix(in srgb, var(--muted) 22%, transparent);
+  overflow: hidden;
+}
+.pasoGrupoBarra > i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand, #12695d);
+  transition: width 0.2s ease;
+}
+
+.pasoGrupoCuenta {
+  min-width: 24px;
+  text-align: right;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pasoGrupoCheck {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  color: var(--ok, #16a34a);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Sección con todos sus campos exigibles llenos: el acento pasa a verde y el
+   contador se sustituye por el check "completo". */
+.pasoGrupo[data-completo="si"] {
+  background: color-mix(in srgb, var(--ok, #16a34a) 7%, var(--panel));
+  border-color: color-mix(in srgb, var(--ok, #16a34a) 22%, transparent);
+  border-left-color: var(--ok, #16a34a);
+}
+.pasoGrupo[data-completo="si"] .pasoGrupoCheck {
+  display: inline-flex;
+}
+.pasoGrupo[data-completo="si"] .pasoGrupoBarra,
+.pasoGrupo[data-completo="si"] .pasoGrupoCuenta {
+  display: none;
+}
+
+.pasoFieldHelp {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Relación entre lo que el área usuaria propuso en el requerimiento (A3) y lo
+   que la DEC decide en la estrategia (A4). Tres estados: sugerida (aún sin
+   decidir), coincide (adoptada) y difiere (requiere no objeción, Art. 44.7). */
+.pasoPropuesta {
+  display: block;
+  font-size: 11px;
+  line-height: 1.45;
+  margin-top: 4px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--warning, #d97706) 30%, transparent);
+  background: color-mix(in srgb, var(--warning, #d97706) 8%, transparent);
+  color: var(--ink);
+}
+
+.pasoExport {
+  align-self: flex-start;
+  margin-top: 4px;
+  text-decoration: none;
+  color: var(--brand-dark);
+  border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
+}
+
+.pasoExport:hover {
+  background: var(--soft);
+}
+
+/* A7 · fecha de la solicitud de certificación (editable antes de exportar). */
+/* Stepper del flujo del requerimiento (C). */
+.flujoStepper { margin: 6px 0 14px; }
+.flujoPasos {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.flujoPaso {
+  flex: 1;
+  min-width: 92px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 0 2px;
+}
+.flujoLinea {
+  position: absolute;
+  top: 11px;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background: var(--line);
+  z-index: 0;
+}
+.flujoLinea[data-previo="done"] { background: var(--success, #16a34a); }
+.flujoLinea[data-previo="current"] {
+  background: linear-gradient(90deg, var(--success, #16a34a), var(--accent, #7c3aed));
+}
+.flujoNodo {
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 2px solid var(--line);
+  color: var(--muted);
+}
+.flujoPaso[data-estado="done"] .flujoNodo {
+  background: var(--success, #16a34a);
+  border-color: var(--success, #16a34a);
+  color: #fff;
+}
+.flujoPaso[data-estado="current"] .flujoNodo {
+  border-color: var(--accent, #7c3aed);
+  color: var(--accent, #7c3aed);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #7c3aed) 20%, transparent);
+}
+.flujoPasoTexto { display: flex; flex-direction: column; gap: 1px; }
+.flujoPasoLabel { font-size: 11.5px; line-height: 1.25; color: var(--muted); }
+.flujoPaso[data-estado="done"] .flujoPasoLabel,
+.flujoPaso[data-estado="current"] .flujoPasoLabel { color: var(--ink); font-weight: 600; }
+.flujoPasoFecha { font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.flujoRama {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--warning, #d97706) 12%, transparent);
+  color: var(--ink);
+}
+.flujoRama svg { flex: none; color: var(--warning, #d97706); }
+.flujoRama-anulada { background: color-mix(in srgb, var(--danger, #dc2626) 12%, transparent); }
+.flujoRama-anulada svg { color: var(--danger, #dc2626); }
+@media (max-width: 640px) {
+  .flujoPasos { flex-wrap: wrap; gap: 10px 0; }
+  .flujoLinea { display: none; }
+  .flujoPaso { flex-basis: 33%; }
+}
+
+/* Checklist de admisibilidad de la DEC (P3). */
+.admisPanel {
+  margin-top: 14px;
+  padding: 12px 14px;
+}
+.admisPanel[data-completo="true"] {
+  border-color: color-mix(in srgb, var(--success, #16a34a) 45%, transparent);
+  background: color-mix(in srgb, var(--success, #16a34a) 6%, transparent);
+}
+.admisHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.admisHead svg { color: var(--accent, #7c3aed); flex: none; }
+.admisCount {
+  font-variant-numeric: tabular-nums;
+  background: var(--soft);
+  font-size: 12px;
+}
+.admisGuardando,
+.admisSoloLectura {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: auto;
+}
+.admisVacio {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.admisLista {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admisItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--line) 70%, transparent);
+}
+.admisItem:last-child { border-bottom: none; padding-bottom: 0; }
+.admisItemMarca {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+  min-width: 240px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.admisItemMarca input { margin-top: 2px; flex: none; }
+.admisItem[data-ok="true"] .admisItemTexto { color: var(--ink); }
+.admisItemTexto { display: flex; flex-direction: column; gap: 1px; }
+.admisItemBase { font-size: 11px; color: var(--muted); }
+.admisItemNota {
+  flex: 1;
+  min-width: 180px;
+  font-size: 12px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--background, #fff);
+  color: var(--ink);
+}
+.admisItemNotaRO {
+  flex: 1;
+  min-width: 180px;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+}
+.admisPie {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Torre de coherencia de la necesidad (B): contradicciones cruzadas. */
+.cohNec {
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+.cohNecHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.cohNecHead svg { color: var(--accent, #7c3aed); flex: none; }
+.cohNecPill {
+  margin-left: auto;
+  background: color-mix(in srgb, var(--warning, #d97706) 15%, transparent);
+  color: color-mix(in srgb, var(--warning, #d97706) 80%, var(--ink));
+}
+.cohNecPill[data-stop="true"] {
+  background: color-mix(in srgb, var(--danger, #dc2626) 15%, transparent);
+  color: color-mix(in srgb, var(--danger, #dc2626) 85%, var(--ink));
+}
+.cohNecPillOk {
+  background: color-mix(in srgb, var(--success, #16a34a) 14%, transparent);
+  color: color-mix(in srgb, var(--success, #16a34a) 80%, var(--ink));
+}
+.cohNecGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.cohNecCard {
+  border: 1px solid color-mix(in srgb, var(--warning, #d97706) 35%, transparent);
+  background: color-mix(in srgb, var(--warning, #d97706) 7%, transparent);
+  border-radius: 8px;
+  padding: 10px 11px;
+}
+.cohNecCard-stop {
+  border-color: color-mix(in srgb, var(--danger, #dc2626) 40%, transparent);
+  background: color-mix(in srgb, var(--danger, #dc2626) 7%, transparent);
+}
+.cohNecLabel {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.cohNecLabel svg { flex: none; color: var(--warning, #d97706); }
+.cohNecCard-stop .cohNecLabel svg { color: var(--danger, #dc2626); }
+.cohNecValor {
+  margin: 4px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.cohNecNota {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.cohNecIr {
+  margin-top: 8px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+  background: var(--background, #fff);
+  color: var(--ink);
+  border-radius: 7px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.cohNecIr:hover { background: var(--soft); }
+
+/* ===== Observaciones por campo (D2) ===== */
+.obsPanel {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.obsPanelHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.obsPendientesBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+  color: var(--tono-atencion-ink);
+  background: var(--tono-atencion-bg);
+}
+.obsPendientesBadge[data-ok="1"] {
+  color: var(--tono-exito-ink);
+  background: var(--tono-exito-bg);
+}
+
+.obsAgregarBtn {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+  background: color-mix(in srgb, var(--brand) 8%, transparent);
+  color: var(--brand);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.obsAgregarBtn:hover { background: color-mix(in srgb, var(--brand) 16%, transparent); }
+
+.obsComposer {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.obsComposer select,
+.obsComposer textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 12.5px;
+  font-family: inherit;
+  background: var(--panel);
+  color: var(--ink);
+  resize: vertical;
+}
+.obsComposerActions { display: flex; gap: 6px; }
+
+.obsLista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obsItem {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--tono-atencion-ink);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.obsItem[data-resuelto="1"] {
+  border-left-color: var(--tono-exito-ink);
+  opacity: 0.72;
+}
+
+.obsItemCuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.obsCampo {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--brand);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.obsCampo:hover { text-decoration: underline; }
+
+.obsComentario {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--ink);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.obsMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.obsResolver {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--tono-exito-ink);
+  cursor: pointer;
+}
+.obsResolver:hover { border-color: var(--tono-exito-ink); }
+
+.obsResueltas summary {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 0;
+}
+.obsResueltas .obsLista { margin-top: 6px; }
+
+/* ===== Diff del ciclo de no objeción (D3) ===== */
+.diffNoObj {
+  border: 1px solid color-mix(in srgb, var(--tono-atencion-ink) 30%, var(--line));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tono-atencion-ink) 5%, var(--surface));
+  padding: 10px 12px;
+}
+
+.diffNoObjVacio {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.diffNoObjHead {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.diffNoObjNum {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tono-atencion-ink);
+}
+
+.diffNoObjLista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diffNoObjItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.diffNoObjCampo {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.diffNoObjPar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 6px;
+}
+
+.diffFlecha {
+  margin-top: 4px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.diffAntes,
+.diffDespues {
+  font-size: 12px;
+  line-height: 1.35;
+  padding: 4px 7px;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+.diffAntes {
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  color: color-mix(in srgb, var(--danger) 85%, var(--ink));
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--danger) 45%, transparent);
+}
+.diffDespues {
+  background: color-mix(in srgb, var(--success) 10%, transparent);
+  color: color-mix(in srgb, var(--success) 88%, var(--ink));
+}
+
+@media (max-width: 560px) {
+  .diffNoObjPar { grid-template-columns: 1fr; }
+  .diffFlecha { transform: rotate(90deg); }
+}
+
+/* ===== Historial (timeline) del requerimiento ===== */
+.histNec {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.histNecToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.histNecToggle:hover { color: var(--brand); }
+
+.histNecUltimo {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.histNecLista {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0 0 0 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Cada hito: punto de color a la izquierda con la línea que los une. */
+.histNecItem {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  padding-left: 6px;
+}
+.histNecItem::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 14px;
+  bottom: -14px;
+  width: 1px;
+  background: var(--line);
+}
+.histNecItem:last-child::before { display: none; }
+
+.histNecPunto {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border-radius: 50%;
+  background: var(--tono-neutral-ink);
+  box-shadow: 0 0 0 2px var(--surface);
+  z-index: 1;
+}
+.histNecItem[data-tono="progreso"] .histNecPunto { background: var(--tono-progreso-ink); }
+.histNecItem[data-tono="atencion"] .histNecPunto { background: var(--tono-atencion-ink); }
+.histNecItem[data-tono="exito"] .histNecPunto { background: var(--tono-exito-ink); }
+.histNecItem[data-tono="terminal"] .histNecPunto { background: var(--tono-terminal-ink); }
+
+.histNecCuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.histNecEtiqueta {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.histNecMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.histNecSustento {
+  margin: 3px 0 0;
+  font-size: 11.5px;
+  color: var(--ink);
+  background: var(--soft);
+  border-radius: 6px;
+  padding: 5px 8px;
+  line-height: 1.4;
+}
+
+/* ===== Combobox estricto de oficinas (Área usuaria) ===== */
+.ofcbx {
+  position: relative;
+}
+
+.ofcbxField {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 8px;
+  background: var(--panel);
+}
+
+.ofcbxField:focus-within {
+  border-color: var(--brand);
+  box-shadow: var(--focus, 0 0 0 3px rgba(15, 118, 110, 0.15));
+}
+
+.ofcbxIcon,
+.ofcbxChevron {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.ofcbxField input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 0;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--ink);
+  min-width: 0;
+}
+
+.ofcbxList {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow, 0 14px 38px rgba(23, 32, 51, 0.12));
+}
+
+.ofcbxOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.ofcbxOption.activo,
+.ofcbxOption:hover {
+  background: var(--soft);
+}
+
+.ofcbxOption[aria-selected="true"] {
+  color: var(--brand-dark);
+  font-weight: 600;
+}
+
+.ofcbxOption svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+.ofcbxEmpty {
+  padding: 8px 9px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+/* Subtítulo del literal legal (a), c)…): una sola vez, a todo el ancho, sobre los
+   campos que comparten ese inciso del Art. 44.2. */
+.fichaSubgrupo {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fichaGuiaItem.advertencia {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.fichaGuiaItem.advertencia strong {
+  color: #b91c1c;
+}
+
+.fichaGuiaItem.nota {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.fichaGuiaItem.nota strong {
+  color: #1d4ed8;
+}
+
+/* Copiloto IA del requerimiento: drawer lateral derecho. */
+.copiloto {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(400px, 92vw);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 14px 12px;
+  background: var(--surface, #fff);
+  border-left: 1px solid var(--line, #e5e7eb);
+  box-shadow: -12px 0 32px rgba(15, 23, 42, 0.18);
+  z-index: 60;
+}
+
+.copilotoHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.copilotoTitulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.copilotoSub {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.copilotoAcciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.copilotoRedactar {
+  display: flex;
+  gap: 6px;
+}
+
+.copilotoRedactar select {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  padding: 5px 7px;
+  border: 1px solid var(--line, #e5e7eb);
+  border-radius: 7px;
+  background: var(--surface, #fff);
+  color: var(--ink);
+}
+
+.copilotoLog {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 2px;
+  border-top: 1px solid var(--line, #e5e7eb);
+  border-bottom: 1px solid var(--line, #e5e7eb);
+}
+
+.copilotoVacio {
+  margin: auto 6px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.copilotoMsg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.copilotoMsg.user {
+  align-items: flex-end;
+}
+
+.copilotoMsgTexto {
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding: 8px 11px;
+  border-radius: 10px;
+}
+
+.copilotoMsg.user .copilotoMsgTexto {
+  background: color-mix(in srgb, var(--accent, #4f46e5) 12%, transparent);
+  color: var(--ink);
+  max-width: 90%;
+}
+
+.copilotoMsg.assistant .copilotoMsgTexto {
+  background: var(--surface-2, #f8fafc);
+  border: 1px solid var(--line, #e5e7eb);
+  color: var(--ink);
+}
+
+.copilotoPensando {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+}
+
+.copilotoMsgAcc {
+  display: flex;
+  gap: 10px;
+  padding-left: 4px;
+}
+
+/* Fuentes normativas (Ley 32069 / Reglamento) que fundamentan la respuesta. */
+/* Aviso de busqueda degradada en el copiloto. Tono de advertencia, no de error:
+   la respuesta se genero, pero sus referencias no se pudieron verificar contra
+   el indice vectorial. */
+.copilotoDegradada {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 6px 0 0;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
+  border-radius: 8px;
+  background: var(--warning-soft, color-mix(in srgb, var(--warning) 12%, transparent));
+  color: var(--ink);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.copilotoDegradada svg { flex-shrink: 0; margin-top: 2px; color: var(--warning); }
+
+.copilotoFuentes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  padding-left: 4px;
+}
+
+.copilotoFuentesLabel {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.copilotoFuente {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--brand, #0f766e) 12%, transparent);
+  color: var(--brand-ink, #063f3b);
+  cursor: default;
+}
+
+.copilotoFuente em {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.copilotoMsgAcc .copilotoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 11.5px;
+  color: var(--accent, #4f46e5);
+  cursor: pointer;
+}
+
+.copilotoMsgAcc .copilotoLink:hover {
+  text-decoration: underline;
+}
+
+.copilotoError {
+  margin: 0;
+  font-size: 12px;
+  color: #b91c1c;
+}
+
+.copilotoInput {
+  display: flex;
+  gap: 6px;
+}
+
+.copilotoInput input {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  padding: 8px 11px;
+  border: 1px solid var(--line, #e5e7eb);
+  border-radius: 8px;
+  background: var(--surface, #fff);
+  color: var(--ink);
+}
+
+.spin {
+  animation: copilotoSpin 1s linear infinite;
+}
+
+@keyframes copilotoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .copiloto {
+    background: var(--surface, #0f172a);
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.5);
+  }
+  .copilotoMsg.assistant .copilotoMsgTexto {
+    background: color-mix(in srgb, #ffffff 5%, transparent);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .fichaGuiaItem.advertencia {
+    background: color-mix(in srgb, #b91c1c 14%, transparent);
+    border-color: color-mix(in srgb, #b91c1c 40%, transparent);
+  }
+  .fichaGuiaItem.nota {
+    background: color-mix(in srgb, #1d4ed8 14%, transparent);
+    border-color: color-mix(in srgb, #1d4ed8 40%, transparent);
+  }
+}
+
+.wizardStep {
+  width: 28px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background 0.2s;
+}
+
+.wizardStep.wizardStep-active {
+  background: var(--brand);
+}
+
+.wizardStep.wizardStep-done {
+  background: color-mix(in srgb, var(--brand) 50%, var(--line));
+}
+
+/* Barra de progreso del flujo del Requerimiento (stepper). */
+.flujoStepper {
+  display: flex;
+  list-style: none;
+  margin: 4px 0 8px;
+  padding: 0;
+}
+
+.segResult {
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
+  border-radius: 10px;
+  background: var(--soft);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.segResult[data-nivel="consulta_mercado_avanzada"],
+.segResult[data-nivel="indagacion_avanzada"] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.segCronoRemove {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  padding: 3px;
+}
+
+/* ===== Mejoras NecesidadDetail ===== */
+@keyframes fichaShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@media (max-width: 880px) {
+  .fichaSectionBlockBody .fichaRow {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* ===== Vista previa del Anexo N° 1 (A5) ===== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modalCard {
+  background: var(--panel);
+  /* `--border` no existe en el sistema de tokens: el borde se estaba pintando
+     con `currentColor` (el color del texto) en vez de con la línea. */
+  border: 1px solid var(--line);
+  border-radius: var(--radio-md);
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.24);
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
+  width: min(860px, 94vw);
+}
+
+/* Modal servido por ModalShell (Radix): el overlay y la tarjeta son HERMANOS
+   dentro de un portal, no madre e hija, así que la tarjeta no puede apoyarse en
+   el centrado flex del overlay y se posiciona ella misma. Es un modificador
+   aparte para no tocar los modales que aún se pintan anidados. */
+.modalCard.modalCardPortal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+}
+
+.anexo1PreviewCargando {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding: 32px;
+}
+
+.anexo1PreviewVacio {
+  background: #fef3c7;
+  border-radius: 6px;
+  color: #92400e;
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.anexo1PreviewMarcas {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.anexo1PreviewMarcas li {
+  align-items: center;
+  background: var(--panel-2, #f8fafc);
+  border-radius: 6px;
+  display: flex;
+  font-size: 13px;
+  gap: 6px;
+  padding: 6px 9px;
+}
+
+.anexo1PreviewMarcas code {
+  color: var(--muted);
+  font-size: 11px;
+  margin-left: auto;
+}
+
+/* El sustento se muestra tal cual irá a la celda: mismos saltos de línea. */
+.anexo1PreviewTexto {
+  background: var(--panel-2, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.55;
+  margin: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.anexo1PreviewPie {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ===== Tabla de proveedores consultados (A5) ===== */
+.provTabla {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.provTabla table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.provTabla th {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 6px 6px;
+  text-align: left;
+}
+
+.provTabla td {
+  padding: 2px 3px;
+}
+
+.provTabla input {
+  width: 100%;
+}
+
+.provTabla select,
+.provTabla textarea {
+  width: 100%;
+}
+
+/* Campo "Otro (especificar)" de los factores: va justo bajo su desplegable. */
+.provTabla td select + input,
+.provTabla td select + textarea {
+  margin-top: 3px;
+}
+
+.provTabla textarea {
+  resize: vertical;
+}
+
+/* ===== ¿Está lista la Necesidad? =====
+   Va junto a la decisión de remitir, agrupada por artículo. El color es
+   SEMÁNTICO (lo que impide remitir frente a lo que solo conviene mirar), así que
+   no toca la marca. */
+.verif {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.verifHead {
+  align-items: center;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 11px 13px;
+}
+
+.verifHead h3 {
+  font-size: 13.5px;
+  margin: 0;
+  margin-right: auto;
+}
+
+.verifPill {
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+
+.verifPillOk {
+  background: color-mix(in srgb, var(--success) 12%, var(--surface));
+  color: var(--success);
+}
+
+.verifPillStop {
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  color: var(--danger);
+}
+
+.verifCuenta {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.verifGrupo {
+  border-bottom: 1px solid var(--line);
+  padding: 9px 13px;
+}
+
+.verifGrupo:last-child {
+  border-bottom: 0;
+}
+
+/* El artículo primero: se aprende de dónde sale la exigencia mientras se trabaja. */
+.verifArticulo {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.verifItem {
+  align-items: baseline;
+  display: grid;
+  gap: 4px 8px;
+  grid-template-columns: 14px 1fr auto;
+  padding: 3px 0;
+}
+
+.verifIcono {
+  align-self: center;
+}
+
+.verifItem-ok .verifIcono {
+  color: var(--success);
+}
+
+.verifItem-warn .verifIcono {
+  color: var(--warning);
+}
+
+.verifItem-stop .verifIcono {
+  color: var(--danger);
+}
+
+.verifEtiqueta {
+  font-size: 12.5px;
+}
+
+.verifItem-stop .verifEtiqueta {
+  font-weight: 600;
+}
+
+.verifPorque {
+  color: var(--muted);
+  font-size: 11.5px;
+  grid-column: 2 / -1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.verifIr {
+  background: none;
+  border: 0;
+  color: var(--brand);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.verifIr:focus-visible {
+  border-radius: 3px;
+  box-shadow: var(--focus);
+  outline: none;
+}
+
+/* ===== Torre de control del expediente =====
+   Va antes de las diez fases porque ninguna de las contradicciones que enseña
+   vive dentro de un paso. Usa la paleta del sistema (--warning, --danger,
+   --success): el color aquí es SEMÁNTICO —lo que bloquea frente a lo que solo
+   conviene revisar— y por eso no toca la marca. */
+.torre {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 14px;
+  margin-bottom: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+/* ===== Borrador de sustento con IA (A4) =====
+   Se distingue a propósito de lo que la app afirma: el borde punteado y el tono
+   dicen "esto es una propuesta de un modelo, no un dato del expediente". */
+.sustentoIA {
+  margin-top: 6px;
+}
+
+.sustentoIABorrador {
+  border: 1px dashed color-mix(in srgb, var(--accent, #6366f1) 45%, transparent);
+  background: color-mix(in srgb, var(--accent, #6366f1) 5%, transparent);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sustentoIAHead {
+  align-items: center;
+  color: var(--accent, #6366f1);
+  display: flex;
+  font-size: 11px;
+  font-weight: 600;
+  gap: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.sustentoIATexto {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.sustentoIAAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sustentoIAError {
+  color: var(--danger, #b91c1c);
+  display: block;
+}
+
+/* ===== Vista previa: casi a pantalla completa =====
+   Los formatos son grandes —el de Estrategia son 259 filas— y revisarlos por
+   una ventanita obliga a hacer scroll en dos ejes. Pero a sangre completa el
+   texto se estira demasiado y se pierde el hilo al leer: se deja aire a los
+   lados y un tope de ancho. La cabecera y los botones se quedan fijos; solo
+   desplaza el cuerpo. */
+.modalOverlay:has(.anexo1Preview),
+.modalOverlay:has(.certificacionPreview) {
+  padding: 16px 40px;
+}
+
+/* El ModalShell (migrado a Tailwind) fija a TODOS los modales w-[min(860px,94vw)]
+   y max-h-[88vh]. Las vistas previa de HOJA —Formato de Estrategia, Anexo N° 1 y
+   Solicitud de Certificación— son tablas anchas de ~10 columnas que a 860px se
+   cortan: se ensanchan casi a pantalla completa. Antes esto colgaba de
+   `.modalCard`, clase que el ModalShell dejó de poner al migrar a Tailwind, y el
+   ancho se quedó clavado en 860. Se apunta a la clase que SÍ lleva la tarjeta, con
+   `!important` porque compite con una utilidad de Tailwind de la misma
+   especificidad y no debe depender del orden de carga de las hojas. */
+.anexo1Preview,
+.certificacionPreview {
+  /* 10% menos que el ancho anterior (1400px / 96vw): la hoja seguía muy ancha. */
+  width: min(1260px, 86vw) !important;
+  /* Casi toda la altura de la ventana: la hoja es larga y el modal centrado deja
+     un margen mínimo arriba/abajo. El cuerpo desplaza dentro; la cabecera y los
+     botones se quedan fijos. */
+  height: 96vh !important;
+  max-height: 96vh !important;
+}
+
+/* La carga masiva muestra una tabla de previsualización: necesita ancho. */
+.modalCard.importOficinasModal {
+  width: min(880px, 100%);
+}
+
+.modalCard.bibliotecaNormativaModal {
+  width: min(720px, 100%);
+}
+
+.certificacionPreview .modalBody {
+  flex: 1;
+  /* `min-height: 0` deja que el cuerpo se encoja por debajo de su contenido y
+     desplace dentro; sin él, un flex-child no baja de su alto natural y los
+     botones no llegan al borde inferior. */
+  min-height: 0;
+}
+
+.certificacionPreview .hojaPreview {
+  max-height: none;
+  overflow: visible;
+}
+
+@media (max-width: 720px) {
+  .modalOverlay:has(.certificacionPreview) {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 720px) {
+  .modalOverlay:has(.anexo1Preview) {
+    padding: 8px;
+  }
+}
+
+.anexo1Preview .modalBody {
+  flex: 1;
+  min-height: 0;
+}
+
+/* A pantalla completa la hoja ya no necesita su propio tope de alto: manda el
+   scroll del modal, y así no hay dos barras anidadas. */
+.anexo1Preview .hojaPreview {
+  max-height: none;
+  overflow: visible;
+}
+
+/* Avance de la Fase 1 del expediente, visto desde la necesidad. */
+.fase1Avance {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.fase1Avance small {
+  color: var(--muted);
+}
+
+/* Calculadora de plazos (Configuración · Feriados y reutilizable). */
+.calcPlazos {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--soft);
+}
+
+.calcPlazosHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.calcPlazosGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.calcPlazosGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.calcPlazosGrid input,
+.calcPlazosGrid select {
+  padding: 6px 8px;
+}
+
+.calcPlazosTipo {
+  min-width: 240px;
+}
+
+.calcPlazosResultado {
+  margin: 12px 0 0;
+  font-size: 13px;
+}
+
+.calcPlazosLarga {
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.necesidadDetail .processStatus {
+  font-size: 13px;
+  font-weight: 650;
+  padding: 6px 14px;
+  border-radius: 999px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* La acción destructiva no debe competir con el estado: botón fantasma. */
+.necesidadDetail .processStatusBox .dangerButton {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #b91c1c;
+  padding: 4px 8px;
+  font-size: 12px;
+  opacity: 0.82;
+}
+
+.necesidadDetail .processStatusBox .dangerButton:hover:not(:disabled) {
+  background: color-mix(in srgb, #dc2626 10%, transparent);
+  opacity: 1;
+}
+
+/* --- Paneles: cabecera con jerarquía + icono en “chip” --- */
+.necesidadDetail .processPanel {
+  padding: 16px 18px;
+}
+
+.necesidadDetail .processPanelHead {
+  padding-bottom: 11px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.necesidadDetail .processPanelHead strong {
+  font-size: 14.5px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.necesidadDetail .processPanelHead > svg:first-child {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 9px;
+  background: var(--soft);
+  color: var(--brand);
+}
+
+/* Badges/acciones de la cabecera alineados a la derecha. */
+.necesidadDetail .processPanelHead > .sideMuted,
+.necesidadDetail .processPanelHead > .reqActorTag,
+.necesidadDetail .processPanelHead > .fichaHeadBtn,
+.necesidadDetail .processPanelHead > button {
+  margin-left: auto;
+}
+
+.processDetailGrid.fichaFullWidth .processSide {
+  display: none;
+}
+
+/* --- Columna secundaria fija: acciones siempre a la vista --- */
+.necesidadDetail .processSide {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 16px;
+  align-self: start;
+}
+
+@media (max-width: 880px) {
+  .necesidadDetail .processSide {
+    position: static;
+  }
+}
+
+.modelosReqStatus.st-indexed {
+  background: color-mix(in srgb, #16a34a 15%, transparent);
+  color: #15803d;
+}
+
+.modelosReqStatus.st-error {
+  background: color-mix(in srgb, #dc2626 14%, transparent);
+  color: #b91c1c;
+}
+
+.modelosReqStatus.st-processing,
+.modelosReqStatus.st-uploaded {
+  background: color-mix(in srgb, var(--brand, #0f766e) 13%, transparent);
+  color: var(--brand-ink, #063f3b);
+}
+
+/* Necesidad ANULADA: no es un avance del flujo, es salirse de él. La barra
+   queda apagada en vez de marcar hitos cumplidos, para que no se lea como si
+   el requerimiento hubiera progresado. El estado real se lee debajo. */
+.flujoStepper[data-anulada] {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.authHint {
+  display: block;
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* ─── Filtros de listado (necesidades y expedientes) ─────────────────────────────────────────────── */
+
+.filtrosBarra {
+  display: block;
+}
+
+/* Rejilla de los desplegables con un número FIJO de columnas por ancho (3 → 2 →
+   1). Con `auto-fit` el navegador podía repartir seis filtros en cinco columnas
+   y dejar el último solo en una fila, ocupando un quinto del ancho y con hueco
+   al lado. Seis divide bien entre 3, 2 y 1, así que fijándolas no hay huérfanos
+   en ningún ancho. */
+.filtrosSelects {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .filtrosSelects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .filtrosSelects {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filtrosBuscador {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filtrosBuscador svg {
+  position: absolute;
+  left: 10px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.filtrosBuscador input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px 7px 32px;
+  font-size: 13px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.filtroSelect {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.filtrosBuscador input:focus-visible,
+.filtroSelect:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--brand) 60%, transparent);
+  outline-offset: 1px;
+}
+
+/* Filtros activos: se ven todos a la vez y se quitan de uno en uno. */
+.filtrosChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.filtroChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: color-mix(in srgb, var(--brand) 9%, var(--surface));
+  color: var(--ink);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filtroChip:hover {
+  border-color: var(--brand);
+}
+
+.filtroChipEtiqueta {
+  color: var(--muted);
+}
+
+.filtroChipLimpiar {
+  border: 0;
+  background: none;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.filtrosResultados {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Tarjeta de necesidad. */
+/* ── Rampa de tonos de estado ─────────────────────────────────────────────────
+   Deriva de los tokens del sistema (no colores sueltos) y agrupa por lo que el
+   estado SIGNIFICA en el flujo, para triar la cola de un vistazo. Es semántica,
+   separada del acento de marca. Cada tono trae un color pleno (`-ink`) para
+   texto/franja y uno tenue (`-bg`) para el fondo del chip. */
+:root {
+  --tono-neutral-ink: var(--muted);
+  --tono-neutral-bg: color-mix(in srgb, var(--muted) 12%, var(--surface));
+  --tono-progreso-ink: var(--brand);
+  --tono-progreso-bg: color-mix(in srgb, var(--brand) 12%, var(--surface));
+  --tono-atencion-ink: var(--warning);
+  --tono-atencion-bg: color-mix(in srgb, var(--warning) 14%, var(--surface));
+  --tono-exito-ink: var(--success);
+  --tono-exito-bg: color-mix(in srgb, var(--success) 13%, var(--surface));
+  --tono-terminal-ink: color-mix(in srgb, var(--muted) 70%, var(--ink));
+  --tono-terminal-bg: color-mix(in srgb, var(--muted) 10%, var(--surface));
+}
+
+/* Envoltorio de la barra compartida: barra, chips y recuento como un bloque. */
+.filtrosZona {
+  display: grid;
+  gap: 8px;
+}
+
+/* Un desplegable con filtro puesto se distingue de los seis que no lo tienen:
+   si no, hay que abrirlos uno a uno para saber cuál está acotando. */
+.filtroSelect[data-activo="true"] {
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--line));
+  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
+  font-weight: 600;
+}
+
+.filtrosBuscadorLimpiar {
+  position: absolute;
+  right: 6px;
+  display: inline-flex;
+  padding: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.filtrosBuscadorLimpiar:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+
+/* ─── Tarjeta de expediente ──────────────────────────────────────────────── */
+
+.expCard {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* ─── Ficha de resumen del expediente ────────────────────────────────────── */
+
+/* De qué paso sale cada dato. Sin esto, en una ficha de solo lectura un campo
+   vacío parece un fallo y no se sabe dónde ir a rellenarlo. */
+.fichaOrigen {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--brand) 9%, var(--surface));
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--brand);
+  vertical-align: 1px;
+}
+
+/* Una fila sin dato se atenúa: lo que está lleno tiene que resaltar sobre lo
+   que falta, no competir con ello. */
+.fichaRow[data-vacio="true"] .fichaValue {
+  color: var(--muted);
+}
+
+/* Aclaración en la cabecera del panel, en tono secundario. */
+.panelOrigen {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+a.panelOrigen:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+/* ─── Instrucción del expediente (fusionada con el mapa del ciclo) ────────── */
+
+/* ─── Línea de tiempo: color del icono por familia de evento ──────────────── */
+/*
+   Cuatro fuentes conviven ahora en la lista (creación, pasos completados,
+   documentos y análisis). Con todos los iconos del mismo color hay que leer
+   cada línea para saber de qué tipo es; el color deja distinguirlos de un
+   vistazo sin añadir texto.
+*/
+.timeline li[data-tipo="paso"] > svg {
+  color: var(--success, #15803d);
+}
+
+.timeline li[data-tipo="documento"] > svg {
+  color: var(--brand);
+}
+
+.timeline li[data-tipo="analisis"] > svg {
+  color: #7c3aed;
+}
+
+.timeline li[data-tipo="creacion"] > svg,
+.timeline li[data-tipo="estado"] > svg {
+  color: var(--muted);
+}
+
+/* Igual que arriba: `.faseDetalle` no declara `display` propio, pero se deja
+   explícito para que un `display` futuro no vuelva a romper el plegado en
+   silencio —el atributo se pondría, el aria cambiaría y el bloque seguiría
+   viéndose—. */
+.faseDetalle[hidden] {
+  display: none;
+}
+
+/* El detalle desplegado hereda la separación entre bloques que antes daba el
+   propio panel. */
+.faseDetalle {
+  display: grid;
+  gap: 10px;
+}
+
+/* Botón de plegar/desplegar en la cabecera de un panel. Discreto: es una acción
+   de vista, no una acción sobre el expediente, y no debe competir con las que sí
+   cambian datos. */
+.panelToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  margin-left: auto;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.panelToggle:hover {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
+  color: var(--brand);
+}
+
+.panelToggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--brand) 60%, transparent);
+  outline-offset: 1px;
+}
+
+/* Con el botón presente, el rótulo de origen deja de empujar a la derecha: si
+   los dos llevan `margin-left:auto` se separan y queda un hueco entre ellos. */
+.processPanelHead .panelToggle ~ .panelOrigen,
+.processPanelHead .panelOrigen + .panelToggle {
+  margin-left: 0;
+}
+
+.processPanelHead .panelOrigen:has(+ .panelToggle) {
+  margin-left: auto;
+}
+
+/* Los títulos de panel eran <strong>: la página tenía UN solo encabezado (el
+   <h2> de la cabecera) y ocho paneles sin jerarquía, así que un lector de
+   pantalla no podía saltar de sección en sección y había que recorrerla entera.
+   Ahora son <h3>; esta regla les devuelve el aspecto que tenían para que el
+   cambio sea solo semántico. */
+.panelTitulo {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: inherit;
+}
+
+/* ─── Vista previa del informe de aprobación (A8) ─────────────────────────── */
+/*
+   La hoja imita el .docx: Arial, 10.5pt, justificado e interlineado 1.15. No es
+   decoración —es el punto de la vista previa: si aquí se ve distinto, deja de
+   servir para comprobar qué se va a firmar.
+*/
+.modalCard.informeAprobPreview {
+  width: min(940px, 96vw);
+}
+
+.hojaInforme {
+  margin: 0 auto;
+  padding: 30px 34px;
+  max-width: 760px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(15, 23, 42, 0.08);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 1.15;
+  color: #111;
+}
+
+/* El número del informe encabeza a la IZQUIERDA, en negrita y subrayado, igual
+   que en el .docx (membrete de la entidad). Antes salía centrado sin subrayar,
+   así que la previa no coincidía con el documento exportado. */
+.hojaTitulo {
+  margin: 0 0 18px;
+  text-align: left;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.hojaSubtitulo {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+/* Cabecera: etiqueta a la izquierda con ancho fijo, para que los dos puntos de
+   AL, ATENCIÓN y DE queden alineados igual que con el tabulador del .docx. */
+.hojaCabecera {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 4px;
+  margin: 0 0 7px;
+}
+
+.hojaCabeceraEtiqueta {
+  font-weight: 700;
+}
+
+.hojaCabeceraEtiqueta::after {
+  content: ":";
+}
+
+.hojaParrafo {
+  margin: 0 0 9px;
+  text-align: justify;
+}
+
+/* Un párrafo sin texto es un espacio de la maqueta del documento (línea de
+   firma, separación): se conserva con una altura fija para no comerse el
+   blanco que el .docx sí tiene. */
+.hojaParrafoVacio {
+  min-height: 0.9em;
+  margin: 0 0 6px;
+}
+
+/* Pie de página del .docx ("Elaborado por"): separado del cuerpo con un
+   borde superior —en Word queda al pie de cada hoja; aquí, al final de la
+   previa— y a menor tamaño, como en el documento real (8pt). */
+.hojaPie {
+  margin: 16px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.hojaVinetas {
+  margin: 0 0 9px;
+  padding-left: 22px;
+}
+
+.hojaVinetas li {
+  margin-bottom: 3px;
+  text-align: justify;
+}
+
+.hojaEspacio {
+  height: 9px;
+}
+
+/* Regla de la cabecera (bajo la Fecha): de borde a borde del área de escritura,
+   igual que el borde inferior del párrafo en el .docx. */
+.hojaLinea {
+  border: 0;
+  border-top: 1px solid #000;
+  margin: 4px 0 8px;
+}
+
+.hojaTabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4px 0 9px;
+}
+
+.hojaTabla th,
+.hojaTabla td {
+  border: 1px solid #999;
+  padding: 5px 7px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.hojaTabla th {
+  width: 38%;
+  font-weight: 700;
+}
+
+/* El guion marca lo que falta por registrar. Se atenúa para que se distinga de
+   un valor real de un vistazo. */
+.hojaTabla td[data-vacio="true"] {
+  color: #999;
+}
+
+/* Tabla de N columnas (matriz de segmentación, cronograma): a diferencia de
+   `.hojaTabla` (etiqueta/valor a 2 columnas con el `th` fijo al 38%), aquí la
+   cabecera va en la primera fila, sombreada, y las columnas se reparten según
+   su contenido —igual que en el .docx que se exporta. */
+.hojaTablaGrid {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4px 0 9px;
+  font-size: 11.5px;
+}
+
+.hojaTablaGrid th,
+.hojaTablaGrid td {
+  border: 1px solid #999;
+  padding: 4px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.hojaTablaGrid th {
+  background: #e7e9ec;
+  font-weight: 700;
+}
+
+/* Aviso de cuántos datos faltan, sobre la hoja. */
+.previaAviso {
+  margin: 0 0 12px;
+  padding: 8px 11px;
+  border: 1px solid color-mix(in srgb, var(--warning) 45%, var(--line));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Sidebar unificado (colapso + drawer móvil)
+   ────────────────────────────────────────────────────────────────────────────
+   Llega aquí al final de la hoja para GANAR por cascada sobre los bloques
+   previos del shell (hay varias copias del sidebar en este archivo; la última
+   definición es la que manda). Complementa el `<Sidebar>` cliente: colapso
+   persistido en localStorage, atajos de teclado y drawer para móvil.
+   El colapso es SOLO escritorio (>= 981px): en pantallas angostas el sidebar
+   se convierte en drawer y el ancho colapsado no aplica.                        */
+.sidebarTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.sidebarTop .brand {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.sidebarCollapseBtn,
+.sidebarMobileClose {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--nav-line);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #9fc0c5;
+  cursor: pointer;
+}
+
+.sidebarCollapseBtn:hover,
+.sidebarMobileClose:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.sidebarMobileClose {
+  display: none;
+}
+
+.sidebarMobileToggle {
+  display: none;
+}
+
+.sidebarMobileScrim {
+  display: none;
+}
+
+@media (min-width: 981px) {
+  .shell:has(.sidebar.collapsed) {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .sidebar {
+    transition: width 0.18s ease;
+  }
+
+  .sidebar.collapsed {
+    padding: 20px 10px;
+  }
+
+  .sidebar.collapsed .sidebarTop {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sidebar.collapsed .brand {
+    justify-content: center;
+    padding: 8px;
+  }
+
+  .sidebar.collapsed .brandText {
+    display: none;
+  }
+
+  .sidebar.collapsed .navSectionLabel {
+    display: none;
+  }
+
+  .sidebar.collapsed .nav a {
+    justify-content: center;
+    position: relative;
+    padding: 0;
+  }
+
+  .sidebar.collapsed .nav a .navLabel {
+    display: none;
+  }
+
+  .sidebar.collapsed .navBadge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    margin-left: 0;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    line-height: 17px;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .sidebar.collapsed .userBox {
+    align-items: center;
+  }
+
+  .sidebar.collapsed .userIdentity {
+    justify-content: center;
+  }
+
+  .sidebar.collapsed .userIdentityText,
+  .sidebar.collapsed .userContext,
+  .sidebar.collapsed .userBox form {
+    display: none;
+  }
+}
+
+/* ── Drawer móvil ─────────────────────────────────────────────────────────── */
+@media (max-width: 980px) {
+  .shell,
+  .shell:has(.sidebar.collapsed) {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 1110;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+  }
+
+  .sidebar.mobileOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarMobileToggle {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1120;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(18, 33, 44, 0.9);
+    color: #e6f0f3;
+    box-shadow: 0 8px 20px rgba(8, 15, 22, 0.3);
+    cursor: pointer;
+  }
+
+  .sidebarMobileToggle.isHidden {
+    display: none;
+  }
+
+  .sidebarMobileScrim {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: block;
+    background: rgba(8, 15, 22, 0.55);
+  }
+
+  .sidebarCollapseBtn {
+    display: none;
+  }
+
+  .sidebarMobileClose {
+    display: grid;
+  }
+
+  /* La media query de abajo (max-width: 980px) convertía los items del nav en
+     una rejilla de varias columnas pensada para un sidebar estático arriba; en
+     un drawer vertical de 280px eso se ve mal. Se vuelve a una columna. */
+  .sidebar .navSectionItems {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    padding-left: 54px;
+  }
+}
+

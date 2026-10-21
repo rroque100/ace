@@ -83,10 +83,10 @@ function sourceRoleLabel(documentType: string) {
 }
 
 const exampleQueries = [
-  "impedimentos para contratar",
-  "contrataciones por emergencia",
+  "impedimentos para contratar con el Estado",
   "garantia de fiel cumplimiento",
-  "impedimntos para contrtatar",
+  "contrataciones por emergencia",
+  "recurso de apelacion ante el Tribunal",
 ];
 
 const filterLabels: Record<string, string> = {
@@ -121,12 +121,18 @@ function confidenceClass(confidence: Confidence) {
   return "confidencePill low";
 }
 
+// Cortes alineados con assessSources tras migrar a embeddings OpenAI + rerank
+// Cohere: la evidencia solida ronda 0.62 (corte "alta") y el piso de suficiencia
+// es 0.45. Los cortes previos (0.72/0.55) eran de la era del indice anterior.
+const RELEVANCE_HIGH = 0.6;
+const RELEVANCE_OK = 0.45;
+
 function relevanceLabel(score: number) {
-  if (score >= 0.72) {
+  if (score >= RELEVANCE_HIGH) {
     return "Muy relevante";
   }
 
-  if (score >= 0.55) {
+  if (score >= RELEVANCE_OK) {
     return "Relevante";
   }
 
@@ -478,17 +484,20 @@ export function SemanticSearch() {
       </div>
 
       <form className="toolBody" onSubmit={submitSearch}>
-        <div className="sourceTabs" role="tablist" aria-label="Tipo de evidencia">
-          <button aria-selected={sourceTab === "normativa"} disabled={loading} onClick={() => changeTab("normativa")} role="tab" type="button">
+        {/* Acota el ámbito de la búsqueda; los resultados salen abajo, en la
+            misma lista de siempre. Una lista de pestañas dentro de un
+            formulario, además, no es una construcción válida. */}
+        <div className="sourceTabs" role="group" aria-label="Tipo de evidencia">
+          <button aria-pressed={sourceTab === "normativa"} disabled={loading} onClick={() => changeTab("normativa")} type="button">
             Normativa
           </button>
-          <button aria-selected={sourceTab === "directivas"} disabled={loading} onClick={() => changeTab("directivas")} role="tab" type="button">
+          <button aria-pressed={sourceTab === "directivas"} disabled={loading} onClick={() => changeTab("directivas")} type="button">
             Directivas
           </button>
-          <button aria-selected={sourceTab === "opiniones"} disabled={loading} onClick={() => changeTab("opiniones")} role="tab" type="button">
+          <button aria-pressed={sourceTab === "opiniones"} disabled={loading} onClick={() => changeTab("opiniones")} type="button">
             Opiniones
           </button>
-          <button aria-selected={sourceTab === "bases"} disabled={loading} onClick={() => changeTab("bases")} role="tab" type="button">
+          <button aria-pressed={sourceTab === "bases"} disabled={loading} onClick={() => changeTab("bases")} type="button">
             Bases / esquemas
           </button>
         </div>
@@ -576,7 +585,7 @@ export function SemanticSearch() {
                 <input
                   inputMode="numeric"
                   onChange={(event) => setArticle(event.target.value.trim())}
-                  placeholder="144"
+                  placeholder="Ej. 61"
                   value={article}
                 />
               </label>
@@ -700,28 +709,35 @@ export function SemanticSearch() {
                   </span>
                   <strong>{source.documentTitle}</strong>
                 </div>
-                <span className={`relevanceBadge ${source.evidenceQuality >= 0.55 ? "valid" : "warning"}`}>
+                <span className={`relevanceBadge ${source.evidenceQuality >= RELEVANCE_OK ? "valid" : "warning"}`}>
                   {relevanceLabel(source.evidenceQuality)}
                 </span>
               </div>
+              {/* Metadatos legibles primero; el detalle numerico se colapsa para
+                  no saturar a usuarios no tecnicos (mismo criterio UX del chat). */}
               <div className="sourceMetaGrid">
                 <span>{source.citation || sourceLocation(source)}</span>
                 {source.sectionTitle ? <span>Seccion {source.sectionTitle}</span> : null}
-                <span>Fragmento {source.chunkIndex + 1}</span>
-                <span>{source.matchType}</span>
                 <span>{sourceRoleLabel(source.documentType)}</span>
-                <span>Calidad {source.evidenceQuality.toFixed(2)}</span>
-                <span>Semantico {source.semanticScore.toFixed(3)}</span>
-                <span>Literal {(source.lexicalScore * 100).toFixed(0)}%</span>
-                {source.topic ? <span>Tema {source.topic}</span> : null}
                 {processTypeLabel(source.processType) ? (
                   <span>Proceso {processTypeLabel(source.processType)}</span>
                 ) : null}
+                {source.topic ? <span>Tema {source.topic}</span> : null}
                 {source.status ? <span>Estado {source.status}</span> : null}
                 {source.vigencia ? <span>Vigencia {source.vigencia}</span> : null}
                 {source.year ? <span>{source.year}</span> : null}
               </div>
               <p>{source.excerpt}</p>
+              <details className="sourceTechDetail">
+                <summary>Detalle tecnico</summary>
+                <div className="sourceMetaGrid">
+                  <span>Fragmento {source.chunkIndex + 1}</span>
+                  <span>Coincidencia {source.matchType}</span>
+                  <span>Calidad {source.evidenceQuality.toFixed(2)}</span>
+                  <span>Semantico {source.semanticScore.toFixed(3)}</span>
+                  <span>Literal {(source.lexicalScore * 100).toFixed(0)}%</span>
+                </div>
+              </details>
               <div className="sourceActions">
                 <PdfCiteButton
                   documentId={source.documentId}

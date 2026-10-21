@@ -1,6 +1,7 @@
 import { after, NextResponse } from "next/server";
-import { requireEditor, requireUser } from "@/lib/auth";
+import { requireDec, requireUser } from "@/lib/auth";
 import { deleteRecords } from "@/lib/pinecone";
+import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 import {
   buildStoragePath,
   normalizeDocumentType,
@@ -44,9 +45,18 @@ export async function GET() {
 
     getSupabaseServerConfig();
 
-    const documents = await supabaseRest<DocumentRecord[]>(
-      "documents?select=id,title,file_name,file_size,mime_type,storage_bucket,storage_path,document_type,process_type,source_entity,status,error_message,metadata,created_at,updated_at&order=created_at.desc&limit=30",
-    );
+    let query =
+      "documents?select=id,title,file_name,file_size,mime_type,storage_bucket,storage_path,document_type,process_type,source_entity,status,error_message,metadata,created_at,updated_at,oficina_id,es_institucional&order=created_at.desc&limit=30";
+    // La biblioteca es de la oficina que sube: cada quien ve la suya y lo
+    // marcado como institucional (la Ley, el Reglamento, plantillas comunes).
+    // Admin ve todo, igual que el resto del scope por oficina (lib/auth.ts).
+    if (!auth.user.isAdmin) {
+      query += auth.user.oficinaId
+        ? `&or=(es_institucional.eq.true,oficina_id.eq.${auth.user.oficinaId})`
+        : "&es_institucional=eq.true";
+    }
+
+    const documents = await supabaseRest<DocumentRecord[]>(query);
 
     return NextResponse.json({ documents });
   } catch (error) {
@@ -63,9 +73,21 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const auth = await requireEditor();
+    const auth = await requireDec();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    // Sin techo, un editor podia disparar subidas en rafaga y sangrar la cuota
+    // de Storage + OCR (OpenAI Vision) + embeddings sin control. La ventana de
+    // 1 min y el tope de 5 dejan margen para reintentos manuales sin abrir
+    // puerta a abuso.
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "documents-upload"),
+      RATE_LIMITS.upload,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     const formData = await request.formData();
@@ -98,6 +120,9 @@ export async function POST(request: Request) {
         : null;
     const documentType = normalizeDocumentType(formData.get("documentType"));
     const requestedProcessType = normalizeProcessType(formData.get("processType"));
+    // Institucional = visible para cualquier oficina; si no, solo la que sube
+    // lo ve (y admin, que ve todo). Default false: la excepción se marca.
+    const esInstitucional = formData.get("esInstitucional") === "true";
 
     const scopedProcessType = resolveDocumentProcessType(documentType, requestedProcessType);
     if ("error" in scopedProcessType) {
@@ -137,6 +162,7 @@ export async function POST(request: Request) {
     const inserted = await supabaseRest<DocumentRecord[]>("documents", {
       body: JSON.stringify({
         document_type: documentType,
+        es_institucional: esInstitucional,
         file_name: file.name,
         file_size: file.size,
         metadata: {
@@ -149,6 +175,7 @@ export async function POST(request: Request) {
           uploadSource: "web",
         },
         mime_type: file.type,
+        oficina_id: auth.user.oficinaId ?? null,
         process_type: processType,
         source_entity: sourceEntity,
         status: "uploaded",
@@ -215,9 +242,20 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const auth = await requireEditor();
+    const auth = await requireDec();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    // Borrado masivo toca Storage + Pinecone + Postgres por cada documento del
+    // set filtrado: el costo escala con el tamaño del corpus. Mismo techo que
+    // upload/reindex para acotar el daño si alguien script-ea el endpoint.
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "documents-bulk-delete"),
+      RATE_LIMITS.bulk,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     getSupabaseServerConfig();

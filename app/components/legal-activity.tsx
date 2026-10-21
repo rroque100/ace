@@ -82,9 +82,10 @@ export function LegalActivity() {
         <Activity size={22} />
       </div>
 
-      <div className="historyTabs" role="tablist">
+      {/* Filtros sobre una única lista, no pestañas: ver [chat-history]. */}
+      <div className="historyTabs" role="group" aria-label="Filtrar por origen">
         {(["all", "chat", "analiza", "validar", "expediente", "guardado"] as const).map((item) => (
-          <button aria-selected={filter === item} key={item} onClick={() => setFilter(item)} role="tab" type="button">
+          <button aria-pressed={filter === item} key={item} onClick={() => setFilter(item)} type="button">
             {item === "all" ? "Todo" : originLabels[item]}{" "}
             <span>{item === "all" ? items.length : items.filter((entry) => entry.origin === item).length}</span>
           </button>

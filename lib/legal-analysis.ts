@@ -131,13 +131,6 @@ function findPositiveEvidence(normalizedText: string, patterns: string[]) {
   return null;
 }
 
-function hasSource(
-  sources: LegalSource[],
-  predicate: (source: LegalSource) => boolean,
-) {
-  return sources.some(predicate);
-}
-
 function buildCriticalSources(processType?: string | null, sources: LegalSource[] = []): CriticalSourceCheck[] {
   const coverage = assessProcedureSourceCoverage(processType, sources);
   return coverage.results

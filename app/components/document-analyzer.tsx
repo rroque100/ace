@@ -312,12 +312,14 @@ export function DocumentAnalyzer() {
         </div>
 
         <div className="toolBody analyzerForm">
-          <div className="analysisModeGrid" role="tablist" aria-label="Origen del documento">
-            <button aria-selected={mode === "indexed"} onClick={() => setMode("indexed")} role="tab" type="button">
+          {/* Elige de dónde sale el documento dentro del MISMO formulario: no
+              hay dos paneles entre los que alternar. */}
+          <div className="analysisModeGrid" role="group" aria-label="Origen del documento">
+            <button aria-pressed={mode === "indexed"} onClick={() => setMode("indexed")} type="button">
               <strong>Documento indexado</strong>
               <span>Usa biblioteca, páginas, chunks y Pinecone.</span>
             </button>
-            <button aria-selected={mode === "upload"} onClick={() => setMode("upload")} role="tab" type="button">
+            <button aria-pressed={mode === "upload"} onClick={() => setMode("upload")} type="button">
               <strong>PDF temporal</strong>
               <span>Revisión rápida; puede enviarse a biblioteca.</span>
             </button>

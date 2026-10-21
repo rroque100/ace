@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { PROCESS_TYPES, type TaxonomyOption } from "@/lib/legal-taxonomy";
+import { cargarCatalogo } from "@/lib/settings-catalog-cache";
 
 export type ClientCatalogEntity = {
   address: string;
@@ -9,6 +10,14 @@ export type ClientCatalogEntity = {
   governmentLevel: string;
   name: string;
   ruc: string;
+  /** PAC de bienes y servicios (base de la línea de corte, Art. 125). null si no
+   *  está registrado en Configuración → Municipalidad. */
+  pacBienesServicios: number | null;
+  /** Ubicación de la entidad (Configuración → Municipalidad); alimenta los
+   *  desplegables de departamento/provincia/distrito del requerimiento. */
+  department: string;
+  province: string;
+  city: string;
 };
 
 export type ClientCatalogProcess = TaxonomyOption & {
@@ -61,9 +70,10 @@ export function useSettingsCatalog() {
 
     async function load() {
       try {
-        const response = await fetch("/api/settings/catalog", { cache: "no-store" });
-        const payload = (await response.json()) as ClientSettingsCatalog;
-        if (!cancelled && response.ok) {
+        // Compartido entre instancias: son trece los componentes que piden este
+        // catálogo, y en la ficha de necesidad coinciden dos en pantalla.
+        const payload = await cargarCatalogo<ClientSettingsCatalog>();
+        if (!cancelled) {
           setCatalog(payload);
         }
       } catch {

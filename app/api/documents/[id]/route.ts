@@ -1,7 +1,8 @@
 import { after, NextResponse } from "next/server";
-import { requireEditor, requireUser } from "@/lib/auth";
+import { requireDec, requireUser } from "@/lib/auth";
 import { deleteRecords } from "@/lib/pinecone";
 import { processPdfForSearch } from "@/lib/pdf-processing";
+import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 import {
   type DocumentRecord,
   deleteStorageObjects,
@@ -48,12 +49,27 @@ export async function GET(
     }
 
     const documents = await supabaseRest<DocumentRecord[]>(
-      `documents?id=eq.${id}&select=id,title,file_name,file_size,mime_type,storage_bucket,storage_path,document_type,process_type,source_entity,status,error_message,metadata,created_at,updated_at`,
+      `documents?id=eq.${id}&select=id,title,file_name,file_size,mime_type,storage_bucket,storage_path,document_type,process_type,source_entity,status,error_message,metadata,created_at,updated_at,oficina_id,es_institucional`,
     );
     const document = documents[0];
 
     if (!document) {
       return NextResponse.json({ error: "Documento no encontrado" }, { status: 404 });
+    }
+
+    // Mismo scope que el listado (GET /api/documents): sin esto, el filtro de
+    // la biblioteca era solo cosmético — cualquiera con el id podía seguir
+    // abriendo el PDF de otra oficina escribiendo la URL a mano.
+    //
+    // `auth.user.oficinaId != null` es necesario aparte: sin ella, dos
+    // documentos sin oficina asignada (`null`) le darían acceso a un usuario
+    // sin oficina asignada por la mera igualdad `null === null`.
+    const puedeVerlo =
+      auth.user.isAdmin ||
+      document.es_institucional ||
+      (auth.user.oficinaId != null && document.oficina_id === auth.user.oficinaId);
+    if (!puedeVerlo) {
+      return NextResponse.json({ error: "No tienes acceso a este documento" }, { status: 403 });
     }
 
     const blob = await downloadStorageObject(document.storage_bucket, document.storage_path);
@@ -84,14 +100,24 @@ export async function GET(
 }
 
 export async function POST(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   try {
     // Reindexar modifica el corpus compartido: editor o admin.
-    const auth = await requireEditor();
+    const auth = await requireDec();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    // Reindexar vuelve a pasar el PDF por OCR + IA + embeddings: mismo costo
+    // que subirlo. Techo propio para no mezclar con subidas ni con bulk reindex.
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "documents-reindex"),
+      RATE_LIMITS.reindex,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     getSupabaseServerConfig();
@@ -165,7 +191,7 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const auth = await requireEditor();
+    const auth = await requireDec();
     if ("error" in auth) {
       return auth.error;
     }

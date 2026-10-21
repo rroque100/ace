@@ -894,16 +894,54 @@ create table if not exists public.procurement_processes (
   id uuid primary key default gen_random_uuid(),
   nomenclature text not null,
   object_type text not null default 'servicios'
-    check (object_type in ('bienes','servicios','obras','consultoria')),
+    check (object_type in ('bienes','servicios','obras','consultoria_obra')),
   procedure_type text,
   amount numeric,
   entity text,
-  status text not null default 'en_preparacion'
-    check (status in ('en_preparacion','en_evaluacion','otorgado','desierto','en_ejecucion','cerrado')),
+  status text not null default 'necesidad'
+    check (status in (
+      'necesidad','actuaciones_preparatorias','expediente','aprobacion_aga',
+      'seleccion','buena_pro','desierto','contrato','ejecucion','conformidad','liquidacion','archivo'
+    )),
   summary text,
+  
+  -- Campos Ley 32069 (Actuaciones Preparatorias / Mercado)
+  valor_estimado numeric,
+  moneda text default 'PEN',
+  tipo_cambio numeric,
+  certificacion_presupuestal text,
+  sistema_contratacion text 
+    check (sistema_contratacion in ('suma_alzada', 'precios_unitarios', 'esquema_mixto', 'tarifas', 'porcentajes', 'honorario_fijo')),
+  modalidad_ejecucion text 
+    check (modalidad_ejecucion in ('llave_en_mano', 'concurso_oferta')),
+  formula_reajuste text,
+  pluralidad_marcas boolean default true,
+  resumen_ejecutivo text,
+  
+  -- Aprobacion
+  autoridad_aprobacion text check (autoridad_aprobacion in ('titular', 'aga')),
+  delegacion_facultades boolean default false,
+  doc_aprobacion_expediente text,
+
   owner_id uuid not null references auth.users(id) on delete cascade,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
+);
+
+-- Tablas de soporte para el Expediente (Cotizaciones del Estudio de Mercado)
+create table if not exists public.process_cotizaciones (
+  id uuid primary key default gen_random_uuid(),
+  process_id uuid not null references public.procurement_processes(id) on delete cascade,
+  proveedor_nombre text not null,
+  proveedor_ruc text,
+  fecha_cotizacion date,
+  monto numeric not null,
+  moneda text default 'PEN',
+  cumple_condiciones boolean default true,
+  observaciones text,
+  documento_id uuid references public.process_documents(id) on delete set null,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now()
 );
 
 create table if not exists public.process_documents (
@@ -971,5 +1009,374 @@ begin
     execute format('alter table public.%I enable row level security', t);
     execute format('drop policy if exists %I_owner on public.%I', t, t);
     execute format('create policy %I_owner on public.%I for all to authenticated using (owner_id = auth.uid() or public.is_admin()) with check (owner_id = auth.uid())', t, t);
+  end loop;
+end $$;
+
+-- ============================================================
+-- Fase C: actores de la Ley 32069 (D.S. 009-2025-EF) como roles asignables
+-- + RLS colaborativa del expediente (varios actores trabajan un mismo expediente).
+-- Aplicar este bloque completo a la BD live. Es idempotente.
+-- ============================================================
+
+-- Amplia los roles permitidos a los 8 actores internos + consulta/legal/admin.
+do $$
+begin
+  if exists (select 1 from pg_constraint where conname = 'profiles_role_check' and conrelid = 'public.profiles'::regclass) then
+    alter table public.profiles drop constraint profiles_role_check;
+  end if;
+  alter table public.profiles add constraint profiles_role_check
+    check (role in (
+      'consulta','area_usuaria','ate','dec','oficial_compra',
+      'comite','jurado','legal','titular','aga','admin'
+    ));
+end $$;
+
+-- Colaborador del expediente: cualquier actor interno (todos salvo 'consulta').
+create or replace function public.is_expediente_colaborador()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid()
+      and role in ('area_usuaria','ate','dec','oficial_compra','comite','jurado','legal','titular','aga','admin')
+  );
+$$;
+
+-- No ejecutable por anon; solo usuarios autenticados (el RLS lo invoca en ese contexto).
+revoke execute on function public.is_expediente_colaborador() from anon;
+grant execute on function public.is_expediente_colaborador() to authenticated;
+
+-- RLS del expediente: lectura para todo usuario interno autenticado; escritura
+-- para el dueno o un actor interno colaborador. El control fino por accion
+-- (cargar, evaluar, generar, etc.) se aplica en la capa de aplicacion segun rol.
+do $$
+declare t text;
+begin
+  foreach t in array array['procurement_processes','process_documents','process_evaluations','process_risks']
+  loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists %I_owner on public.%I', t, t);
+    execute format('drop policy if exists %I_read on public.%I', t, t);
+    execute format('drop policy if exists %I_write on public.%I', t, t);
+    execute format('create policy %I_read on public.%I for select to authenticated using (true)', t, t);
+    execute format('create policy %I_write on public.%I for all to authenticated using (owner_id = auth.uid() or public.is_expediente_colaborador()) with check (owner_id = auth.uid() or public.is_expediente_colaborador())', t, t);
+  end loop;
+end $$;
+
+-- ============================================================
+-- Fase D: Modulo 1 (Necesidades) + maquina de estados de 11 etapas del ciclo
+-- de vida de la contratacion. Aplicar este bloque completo a la BD live.
+-- ============================================================
+
+-- 1) Estados del ciclo de vida (Necesidad..Archivo + desierto). Quitar el CHECK
+--    viejo ANTES de migrar datos, para que las filas pasen por valores nuevos.
+alter table public.procurement_processes drop constraint if exists procurement_processes_status_check;
+update public.procurement_processes set status = 'actuaciones_preparatorias' where status = 'en_preparacion';
+update public.procurement_processes set status = 'seleccion' where status = 'en_evaluacion';
+update public.procurement_processes set status = 'buena_pro' where status = 'otorgado';
+update public.procurement_processes set status = 'ejecucion' where status = 'en_ejecucion';
+update public.procurement_processes set status = 'archivo' where status = 'cerrado';
+alter table public.procurement_processes add constraint procurement_processes_status_check
+  check (status in (
+    'necesidad','actuaciones_preparatorias','expediente','aprobacion_aga',
+    'seleccion','buena_pro','desierto','contrato','ejecucion','conformidad','liquidacion','archivo'
+  ));
+alter table public.procurement_processes alter column status set default 'necesidad';
+
+-- 2. Eliminar la tabla antigua para crear la nueva
+drop table if exists public.necesidad_documentos cascade;
+drop table if exists public.riesgo_necesidad cascade;
+drop table if exists public.necesidades cascade;
+
+-- 3. Crear la nueva tabla de necesidades ampliada
+create table if not exists public.necesidades (
+  id uuid primary key default gen_random_uuid(),
+  codigo text unique,
+  anio_fiscal integer,
+  periodo_programacion text,
+  version_cmn text,
+  entidad text,
+  unidad_ejecutora text,
+  area_usuaria text,
+  centro_costo text,
+  responsable text,
+  nombre text not null,
+  finalidad_publica text,
+  problema_identificado text,
+  objetivo_contratacion text,
+  beneficio_esperado text,
+  poblacion_beneficiaria text,
+  pei_objetivo text,
+  pei_accion text,
+  poi_actividad text,
+  meta_presupuestal text,
+  proyecto_inversion text,
+  ioarr text,
+  tipo_objeto text not null default 'bienes'
+    check (tipo_objeto in ('bienes','servicios','obras','consultoria_obra')),
+  especialidad text,
+  subespecialidad text,
+  codigo_catalogo text,
+  descripcion_catalogo text,
+  descripcion_detallada text,
+  cantidad numeric,
+  unidad_medida text,
+  frecuencia text,
+  fecha_requerida date,
+  trimestre integer,
+  mes_programado integer,
+  fuente_financiamiento text,
+  rubro text,
+  cadena_funcional text,
+  clasificador_gasto text,
+  monto_estimado numeric,
+  costo_unitario numeric,
+  anio_referencia integer,
+  departamento text,
+  provincia text,
+  distrito text,
+  lugar_entrega text,
+  alcance text,
+  condiciones_ejecucion text,
+  modalidad_pago text,
+  sistema_entrega text,
+  plazo_ejecucion integer,
+  experiencia_requerida text,
+  personal_clave text,
+  equipamiento_minimo text,
+  habilitaciones text,
+  status text not null default 'borrador'
+    check (status in ('borrador','pendiente_revision','observado','subsanado','aprobado_area_usuaria','enviado_dec','incorporado_cmn')),
+  summary text,
+  process_id uuid references public.procurement_processes(id) on delete set null,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.procurement_processes add column if not exists necesidad_id uuid references public.necesidades(id) on delete set null;
+
+create table if not exists public.riesgo_necesidad (
+  id uuid primary key default gen_random_uuid(),
+  necesidad_id uuid not null references public.necesidades(id) on delete cascade,
+  riesgo text not null,
+  probabilidad text check (probabilidad in ('baja','media','alta')),
+  impacto text check (impacto in ('bajo','medio','alto')),
+  mitigacion text,
+  responsable text,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.necesidad_documentos (
+  id uuid primary key default gen_random_uuid(),
+  necesidad_id uuid not null references public.necesidades(id) on delete cascade,
+  kind text not null default 'otros'
+    check (kind in ('requerimiento','tdr','ee_tt','expediente_tecnico','memoria_descriptiva','informe_necesidad','cotizacion','otros')),
+  title text not null,
+  file_name text,
+  storage_bucket text,
+  storage_path text,
+  mime_type text,
+  status text not null default 'uploaded' check (status in ('uploaded','processing','ready','error')),
+  error_message text,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_necesidades_owner on public.necesidades(owner_id);
+create index if not exists idx_necesidades_process on public.necesidades(process_id);
+create index if not exists idx_necesidad_documentos_necesidad on public.necesidad_documentos(necesidad_id);
+create index if not exists idx_procurement_processes_necesidad on public.procurement_processes(necesidad_id);
+
+drop trigger if exists set_necesidades_updated_at on public.necesidades;
+create trigger set_necesidades_updated_at before update on public.necesidades
+for each row execute function public.set_updated_at();
+
+-- Codigo unico por necesidad: REQ-YYYY-NNNN (secuencia + trigger).
+create sequence if not exists public.necesidad_codigo_seq;
+create or replace function public.set_necesidad_codigo()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if new.codigo is null then
+    new.codigo := 'REQ-' || to_char(now(),'YYYY') || '-' || lpad(nextval('public.necesidad_codigo_seq')::text, 4, '0');
+  end if;
+  return new;
+end;
+$$;
+revoke execute on function public.set_necesidad_codigo() from public, anon, authenticated;
+drop trigger if exists set_necesidades_codigo on public.necesidades;
+create trigger set_necesidades_codigo before insert on public.necesidades
+for each row execute function public.set_necesidad_codigo();
+
+-- RLS colaborativo (mismo criterio que expedientes).
+do $$
+declare t text;
+begin
+  foreach t in array array['necesidades','necesidad_documentos']
+  loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists %I_read on public.%I', t, t);
+    execute format('drop policy if exists %I_write on public.%I', t, t);
+    execute format('create policy %I_read on public.%I for select to authenticated using (true)', t, t);
+    execute format('create policy %I_write on public.%I for all to authenticated using (owner_id = auth.uid() or public.is_expediente_colaborador()) with check (owner_id = auth.uid() or public.is_expediente_colaborador())', t, t);
+  end loop;
+end $$;
+
+-- ============================================================
+-- Modulo Archivo: archivo administrativo de la entidad (resoluciones,
+-- acuerdos, ordenanzas, oficios, informes). Corpus SEPARADO del normativo:
+-- vive en su propio namespace de Pinecone (PINECONE_ARCHIVO_NAMESPACE).
+-- ============================================================
+
+create table if not exists public.archivo_documentos (
+  id uuid primary key default gen_random_uuid(),
+  document_number text,
+  fecha date,
+  asunto text,
+  title text not null,
+  doc_kind text not null default 'otros'
+    check (doc_kind in ('resolucion_alcaldia','resolucion_gerencia','acuerdo_concejo','ordenanza','decreto_alcaldia','oficio','informe','otros')),
+  file_name text not null,
+  file_size bigint not null check (file_size > 0),
+  mime_type text not null default 'application/pdf',
+  storage_bucket text not null,
+  storage_path text not null unique,
+  status text not null default 'uploaded'
+    check (status in ('uploaded','processing','indexed','error')),
+  error_message text,
+  body_text text,
+  metadata jsonb not null default '{}'::jsonb,
+  uploaded_by uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.archivo_chunks (
+  id uuid primary key default gen_random_uuid(),
+  documento_id uuid not null references public.archivo_documentos(id) on delete cascade,
+  chunk_index integer not null,
+  page_start integer,
+  page_end integer,
+  content text not null,
+  pinecone_vector_id text unique,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  unique (documento_id, chunk_index)
+);
+
+create index if not exists idx_archivo_documentos_status on public.archivo_documentos(status);
+create index if not exists idx_archivo_documentos_kind on public.archivo_documentos(doc_kind);
+create index if not exists idx_archivo_documentos_fecha on public.archivo_documentos(fecha desc);
+create index if not exists idx_archivo_documentos_created_at on public.archivo_documentos(created_at desc);
+create index if not exists idx_archivo_chunks_documento_id on public.archivo_chunks(documento_id);
+create index if not exists idx_archivo_chunks_content_trgm on public.archivo_chunks using gin (content gin_trgm_ops);
+
+drop trigger if exists set_archivo_documentos_updated_at on public.archivo_documentos;
+create trigger set_archivo_documentos_updated_at
+before update on public.archivo_documentos
+for each row execute function public.set_updated_at();
+
+-- RLS: lectura para autenticados; escritura para editor o admin (igual que el corpus).
+do $$
+declare t text;
+begin
+  foreach t in array array['archivo_documentos','archivo_chunks']
+  loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists %I_select on public.%I', t, t);
+    execute format('create policy %I_select on public.%I for select to authenticated using (true)', t, t);
+    execute format('drop policy if exists %I_admin_insert on public.%I', t, t);
+    execute format('create policy %I_admin_insert on public.%I for insert to authenticated with check (public.is_editor())', t, t);
+    execute format('drop policy if exists %I_admin_update on public.%I', t, t);
+    execute format('create policy %I_admin_update on public.%I for update to authenticated using (public.is_editor()) with check (public.is_editor())', t, t);
+    execute format('drop policy if exists %I_admin_delete on public.%I', t, t);
+    execute format('create policy %I_admin_delete on public.%I for delete to authenticated using (public.is_editor())', t, t);
+  end loop;
+end $$;
+
+-- ============================================================
+-- Sub-modulo: Biblioteca de Expedientes Archivados. Expedientes/documentos
+-- terminados, escaneados (OCR) e indexados en Pinecone (namespace propio
+-- PINECONE_EXPEDIENTES_NAMESPACE, aislado del corpus normativo y del archivo
+-- administrativo). Registra ademas la UBICACION FISICA exacta (catalogo fijo).
+-- INDEPENDIENTE del expediente de contratacion. Tambien en docs/supabase/expedientes-archivo.sql
+-- ============================================================
+
+create table if not exists public.expedientes_archivo (
+  id uuid primary key default gen_random_uuid(),
+  numero_expediente text,
+  numero_documento text,
+  fecha date,
+  anio integer,
+  asunto text,
+  materia text,
+  resumen text,
+  remitente text,
+  destinatario text,
+  title text not null,
+  tipo_contenedor text not null default 'otros'
+    check (tipo_contenedor in ('folder','archivador','caja','tomo','paquete','estante','otros')),
+  nro_archivador text,
+  nro_caja text,
+  color text,
+  ubicacion text,
+  codigo_ubicacion text,
+  nro_folios integer,
+  observaciones text,
+  file_name text not null,
+  file_size bigint not null check (file_size > 0),
+  mime_type text not null default 'application/pdf',
+  storage_bucket text not null,
+  storage_path text not null unique,
+  status text not null default 'uploaded'
+    check (status in ('uploaded','processing','indexed','error')),
+  error_message text,
+  body_text text,
+  metadata jsonb not null default '{}'::jsonb,
+  uploaded_by uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.expedientes_archivo_chunks (
+  id uuid primary key default gen_random_uuid(),
+  expediente_id uuid not null references public.expedientes_archivo(id) on delete cascade,
+  chunk_index integer not null,
+  page_start integer,
+  page_end integer,
+  content text not null,
+  pinecone_vector_id text unique,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  unique (expediente_id, chunk_index)
+);
+
+create index if not exists idx_expedientes_archivo_status on public.expedientes_archivo(status);
+create index if not exists idx_expedientes_archivo_fecha on public.expedientes_archivo(fecha desc);
+create index if not exists idx_expedientes_archivo_anio on public.expedientes_archivo(anio desc);
+create index if not exists idx_expedientes_archivo_numero on public.expedientes_archivo(numero_documento);
+create index if not exists idx_expedientes_archivo_created_at on public.expedientes_archivo(created_at desc);
+create index if not exists idx_expedientes_archivo_chunks_exp on public.expedientes_archivo_chunks(expediente_id);
+create index if not exists idx_expedientes_archivo_chunks_trgm
+  on public.expedientes_archivo_chunks using gin (content gin_trgm_ops);
+
+drop trigger if exists set_expedientes_archivo_updated_at on public.expedientes_archivo;
+create trigger set_expedientes_archivo_updated_at
+before update on public.expedientes_archivo
+for each row execute function public.set_updated_at();
+
+do $$
+declare t text;
+begin
+  foreach t in array array['expedientes_archivo','expedientes_archivo_chunks']
+  loop
+    execute format('alter table public.%I enable row level security', t);
+    execute format('drop policy if exists %I_select on public.%I', t, t);
+    execute format('create policy %I_select on public.%I for select to authenticated using (true)', t, t);
+    execute format('drop policy if exists %I_editor_insert on public.%I', t, t);
+    execute format('create policy %I_editor_insert on public.%I for insert to authenticated with check (public.is_editor())', t, t);
+    execute format('drop policy if exists %I_editor_update on public.%I', t, t);
+    execute format('create policy %I_editor_update on public.%I for update to authenticated using (public.is_editor()) with check (public.is_editor())', t, t);
+    execute format('drop policy if exists %I_editor_delete on public.%I', t, t);
+    execute format('create policy %I_editor_delete on public.%I for delete to authenticated using (public.is_editor())', t, t);
   end loop;
 end $$;

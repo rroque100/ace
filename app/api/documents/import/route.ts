@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { requireEditor } from "@/lib/auth";
+import { requireDec } from "@/lib/auth";
 import { writeAuditLog } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +12,7 @@ const importSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const auth = await requireEditor();
+  const auth = await requireDec();
   if ("error" in auth) {
     return auth.error;
   }

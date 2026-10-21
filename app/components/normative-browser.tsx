@@ -491,19 +491,18 @@ export function NormativeBrowser() {
         <Library size={22} />
       </div>
 
-      <div className="sourceTabs normCategoryTabs" role="tablist" aria-label="Categoria">
+      {/* Filtro de categoría sobre el mismo listado, no pestañas. */}
+      <div className="sourceTabs normCategoryTabs" role="group" aria-label="Categoria">
         <button
-          aria-selected={category === "normas"}
+          aria-pressed={category === "normas"}
           onClick={() => changeCategory("normas")}
-          role="tab"
           type="button"
         >
           Normas
         </button>
         <button
-          aria-selected={category === "jurisprudencia"}
+          aria-pressed={category === "jurisprudencia"}
           onClick={() => changeCategory("jurisprudencia")}
-          role="tab"
           type="button"
         >
           Jurisprudencia y opiniones

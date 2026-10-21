@@ -1,0 +1,14 @@
+[
+  { "fecha": "2026-01-01", "nombre": "Año Nuevo" },
+  { "fecha": "2026-04-09", "nombre": "Jueves Santo" },
+  { "fecha": "2026-04-10", "nombre": "Viernes Santo" },
+  { "fecha": "2026-05-01", "nombre": "Día del Trabajo" },
+  { "fecha": "2026-06-29", "nombre": "San Pedro y San Pablo" },
+  { "fecha": "2026-07-28", "nombre": "Fiestas Patrias" },
+  { "fecha": "2026-07-29", "nombre": "Fiestas Patrias" },
+  { "fecha": "2026-08-30", "nombre": "Santa Rosa de Lima" },
+  { "fecha": "2026-10-08", "nombre": "Combate de Angamos" },
+  { "fecha": "2026-11-01", "nombre": "Todos los Santos" },
+  { "fecha": "2026-12-08", "nombre": "Inmaculada Concepción" },
+  { "fecha": "2026-12-25", "nombre": "Navidad" }
+]

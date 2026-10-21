@@ -4,6 +4,7 @@ import { analyzeLegalDocument } from "@/lib/legal-analysis";
 import { extractPdfPlainText } from "@/lib/pdf-processing";
 import { institutionalAuditDetails, supabaseRest, supabaseUserRest, writeAuditLog } from "@/lib/supabase-server";
 import { maxPdfSizeBytes, maxPdfSizeLabel } from "@/lib/upload-limits";
+import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -32,6 +33,14 @@ export async function POST(request: Request) {
     const auth = await requireUser();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "analyze"),
+      RATE_LIMITS.chat,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     const contentType = request.headers.get("content-type") ?? "";

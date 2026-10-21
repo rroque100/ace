@@ -1,0 +1,14 @@
+[
+  { "fecha": "2027-01-01", "nombre": "Año Nuevo" },
+  { "fecha": "2027-03-25", "nombre": "Jueves Santo" },
+  { "fecha": "2027-03-26", "nombre": "Viernes Santo" },
+  { "fecha": "2027-05-01", "nombre": "Día del Trabajo" },
+  { "fecha": "2027-06-29", "nombre": "San Pedro y San Pablo" },
+  { "fecha": "2027-07-28", "nombre": "Fiestas Patrias" },
+  { "fecha": "2027-07-29", "nombre": "Fiestas Patrias" },
+  { "fecha": "2027-08-30", "nombre": "Santa Rosa de Lima" },
+  { "fecha": "2027-10-08", "nombre": "Combate de Angamos" },
+  { "fecha": "2027-11-01", "nombre": "Todos los Santos" },
+  { "fecha": "2027-12-08", "nombre": "Inmaculada Concepción" },
+  { "fecha": "2027-12-25", "nombre": "Navidad" }
+]

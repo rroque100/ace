@@ -191,17 +191,20 @@ export function ChatHistory() {
         </button>
       </div>
 
-      <div className="historyTabs" role="tablist">
-        <button aria-selected={filter === "all"} onClick={() => setFilter("all")} role="tab" type="button">
+      {/* Filtros, no pestañas: estrechan una lista que sigue siendo la misma.
+          `aria-pressed` dice lo que de verdad hacen; `role="tab"` prometía un
+          panel asociado que nunca existió. */}
+      <div className="historyTabs" role="group" aria-label="Filtrar conversaciones">
+        <button aria-pressed={filter === "all"} onClick={() => setFilter("all")} type="button">
           Todas <span>{sessions.length}</span>
         </button>
-        <button aria-selected={filter === "correct"} onClick={() => setFilter("correct")} role="tab" type="button">
+        <button aria-pressed={filter === "correct"} onClick={() => setFilter("correct")} type="button">
           <Check size={14} /> Correctas <span>{correctCount}</span>
         </button>
-        <button aria-selected={filter === "incorrect"} onClick={() => setFilter("incorrect")} role="tab" type="button">
+        <button aria-pressed={filter === "incorrect"} onClick={() => setFilter("incorrect")} type="button">
           <X size={14} /> Incorrectas <span>{incorrectCount}</span>
         </button>
-        <button aria-selected={filter === "notes"} onClick={() => setFilter("notes")} role="tab" type="button">
+        <button aria-pressed={filter === "notes"} onClick={() => setFilter("notes")} type="button">
           <NotebookText size={14} /> Notas <span>{notesCount}</span>
         </button>
       </div>

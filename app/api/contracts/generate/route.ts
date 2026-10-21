@@ -54,6 +54,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Configura o ingresa la entidad contratante." }, { status: 400 });
     }
 
+    // Si la entidad del contrato es la configurada en Municipalidad, adjuntamos
+    // su RUC y domicilio para identificar correctamente a LA ENTIDAD.
+    const usesConfiguredEntity =
+      Boolean(catalog?.entity.name) &&
+      effectiveEntity.trim().toLowerCase() === catalog!.entity.name.trim().toLowerCase();
+    const entityRuc = usesConfiguredEntity ? catalog!.entity.ruc || null : null;
+    const entityAddress = usesConfiguredEntity ? catalog!.entity.address || null : null;
+
+    // El formulario envia el codigo del proceso; resolvemos su nombre legible
+    // desde el catalogo para que el contrato no muestre el codigo crudo.
+    const processTypeLabel = data.processType
+      ? catalog?.processTypes.find((item) => item.value === data.processType)?.label ?? null
+      : null;
+
     // Referencias del corpus (art. 60/61) para fundamentar, si estan indexadas.
     const articles = await supabaseRest<ArticleRow[]>(
       "norma_articulos?article_number=in.(60,61)&select=article_number,article_label,content&limit=4",
@@ -71,9 +85,12 @@ export async function POST(request: Request) {
         contractorRuc: data.contractorRuc || null,
         durationDays: typeof data.durationDays === "number" ? data.durationDays : null,
         entity: effectiveEntity,
+        entityAddress,
+        entityRuc,
         object: data.object,
         place: data.place || null,
         processType: data.processType || null,
+        processTypeLabel,
       },
       references,
     );

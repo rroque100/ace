@@ -74,7 +74,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       supabaseRest<ArticleRow[]>(
         `norma_articulos?document_id=eq.${id}` +
           `&select=id,article_number,article_label,section_title,ordinal,content,page_start,page_end,status,vigencia` +
-          `&order=ordinal.asc`,
+          `&order=ordinal.asc&limit=5000`,
       ),
       supabaseRest<SummaryRow[]>(
         `document_summaries?document_id=eq.${id}&select=content,metadata&order=created_at.desc&limit=1`,

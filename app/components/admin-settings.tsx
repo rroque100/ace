@@ -1,913 +1,494 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useState } from "react";
+import { MunicipalidadTab } from "./configuracion/municipalidad-tab";
+import type { Oficina } from "./oficinas/use-oficinas";
+import { ConfirmDialog } from "./confirm-dialog";
+import { SaveStatus, type SaveStatusType } from "./configuracion/save-status";
 import {
-  Building2,
-  CheckCircle2,
-  KeyRound,
-  ListChecks,
-  Plus,
-  Save,
-  ShieldCheck,
-  Trash2,
-  UserPlus,
-  Users,
-  Workflow,
-} from "lucide-react";
+  type CreatedCredential,
+  type EntitySettings,
+  type GovernmentLevel,
+  type LinkedUser,
+  type OficinaOption,
+  type RoleOption,
+  type RolePermission,
+  type SettingsPayload,
+  type UserSetting,
+  emptyEntity,
+  isEntityComplete,
+} from "@/lib/configuracion-types";
+import { esUsuarioValido, USUARIO_LONGITUD } from "@/lib/usuario-credencial";
+import { useYear } from "@/lib/year-context";
+import { useToastHelpers } from "@/lib/toast";
 
-type EntitySettings = {
-  address: string;
-  executingUnit: string;
-  governmentLevel: string;
-  name: string;
-  ruc: string;
-  updatedAt: string | null;
-};
+// Municipalidad NO se difiere: es la pestaña de inicio y es lo que se ve al
+// entrar. Las otras dos solo aparecen si se pulsan.
+const UsuariosTab = dynamic(() => import("./configuracion/usuarios-tab").then((m) => m.UsuariosTab), {
+  loading: () => (
+    <div className="grid gap-3" aria-busy="true">
+      <div className="h-9 w-64 animate-pulse rounded-lg bg-line/70" />
+      <div className="h-52 animate-pulse rounded-lg bg-line/70" />
+    </div>
+  ),
+  ssr: false,
+});
+const FeriadosTab = dynamic(() => import("./configuracion/feriados-tab").then((m) => m.FeriadosTab), {
+  loading: () => (
+    <div className="grid gap-3" aria-busy="true">
+      <div className="h-9 w-64 animate-pulse rounded-lg bg-line/70" />
+      <div className="h-52 animate-pulse rounded-lg bg-line/70" />
+    </div>
+  ),
+  ssr: false,
+});
 
-type GovernmentLevel = {
-  examples: string;
-  label: string;
-  value: string;
-};
+type Tab = "municipalidad" | "procesos" | "usuarios" | "feriados";
 
-type ProcessTypeSetting = {
-  active: boolean;
-  category: "competitivo" | "no_competitivo" | "contrato_menor";
-  code: string;
-  description: string;
-  frequentMunicipality: boolean;
-  label: string;
-  legalBasis: string;
-  object: string;
-  sortOrder: number;
-  updatedAt?: string | null;
-};
-
-type RoleOption = {
-  description?: string;
-  label: string;
-  value: string;
-};
-
-type UserSetting = {
-  createdAt: string | null;
-  email: string | null;
-  entity: string;
-  id: string;
-  permissions?: Array<{ area: string; scope: string }>;
-  role: string;
-};
-
-type CreatedCredential = {
-  email: string;
-  password: string;
-  role: string;
-};
-
-type LinkedUser = {
-  email: string;
-  role: string;
-  userId: string;
-};
-
-type RolePermission = {
-  area: string;
-  permissions: Record<string, boolean>;
-  scope: string;
-};
-
-type SettingsPayload = {
-  entity: EntitySettings;
-  governmentLevels: GovernmentLevel[];
-  processTypes: ProcessTypeSetting[];
-  rolePermissions: RolePermission[];
-  roles: RoleOption[];
-  users: UserSetting[];
-};
-
-const emptyEntity: EntitySettings = {
-  address: "",
-  executingUnit: "",
-  governmentLevel: "",
-  name: "",
-  ruc: "",
-  updatedAt: null,
-};
-
-function onlyDigits(value: string, length: number) {
-  return value.replace(/\D/g, "").slice(0, length);
-}
-
-function codeFromLabel(label: string) {
-  return label
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "_")
-    .replace(/^_+|_+$/g, "")
-    .slice(0, 70);
-}
-
-export function AdminSettings() {
-  const [activeTab, setActiveTab] = useState<"municipalidad" | "procesos" | "usuarios">("municipalidad");
+/**
+ * Contenido de las secciones de Municipalidad, Usuarios y Feriados.
+ *
+ * La navegación y el encabezado los gobierna ConfiguracionWorkspace: aquí solo
+ * se pinta la sección indicada. Antes traía también su propio hero y su barra de
+ * pestañas para poder funcionar suelto, pero nunca se usó así —el workspace
+ * siempre lo montaba en modo `chromeless`—, así que era JSX que no llegaba a la
+ * pantalla.
+ */
+export function AdminSettings({
+  currentUserId: currentUserIdProp,
+  section,
+  oficinas,
+  oficinasContrataciones,
+  onReloadOficinas,
+  onSummary,
+}: {
+  currentUserId?: string;
+  /** Sección a pintar. Si no es una de las suyas, no pinta nada. */
+  section: Tab | null;
+  /**
+   * Oficinas para el desplegable "Oficina asignada". Las provee el workspace, que
+   * ya las tiene cargadas: pedirlas aquí otra vez duplicaba la petición y traía
+   * el payload completo (todas las oficinas con sus contadores) para usar solo
+   * el id y el nombre.
+   */
+  oficinas: OficinaOption[];
+  /**
+   * Oficinas COMPLETAS encargadas de las contrataciones (bandera
+   * `gestiona_contrataciones`). Las consume la sección «Procesos de contratación»
+   * de la pestaña Procesos de selección para abrir su modal de gestión por oficina.
+   */
+  oficinasContrataciones?: Oficina[];
+  /** Relee las oficinas (al abrir el alta, por si se crearon en Áreas). */
+  onReloadOficinas: () => Promise<void>;
+  /** Reporta al workspace el estado para los indicadores de la barra lateral. */
+  onSummary?: (s: { entityComplete: boolean; usersCount: number }) => void;
+}) {
+  const { yearParam } = useYear();
   const [entity, setEntity] = useState<EntitySettings>(emptyEntity);
   const [governmentLevels, setGovernmentLevels] = useState<GovernmentLevel[]>([]);
-  const [processTypes, setProcessTypes] = useState<ProcessTypeSetting[]>([]);
   const [roles, setRoles] = useState<RoleOption[]>([]);
   const [rolePermissions, setRolePermissions] = useState<RolePermission[]>([]);
   const [users, setUsers] = useState<UserSetting[]>([]);
-  const [newUserEmail, setNewUserEmail] = useState("");
-  const [newUserPassword, setNewUserPassword] = useState("");
-  const [newUserRole, setNewUserRole] = useState("consulta");
-  const [newUserEntity, setNewUserEntity] = useState("");
   const [createdCredentials, setCreatedCredentials] = useState<CreatedCredential[]>([]);
   const [linkedUsers, setLinkedUsers] = useState<LinkedUser[]>([]);
   const [creatingUser, setCreatingUser] = useState(false);
   const [savingUserId, setSavingUserId] = useState<string | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatusType>('idle');
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [saved, setSaved] = useState(false);
+  const [confirmSeed, setConfirmSeed] = useState(false);
 
-  const entityComplete = useMemo(
-    () =>
-      entity.name.trim().length >= 3 &&
-      /^\d{11}$/.test(entity.ruc) &&
-      /^\d{6}$/.test(entity.executingUnit) &&
-      entity.address.trim().length >= 5 &&
-      Boolean(entity.governmentLevel),
-    [entity],
-  );
-  const activeProcesses = processTypes.filter((item) => item.active).length;
-  const userRoleCounts = useMemo(
-    () =>
-      roles.map((role) => ({
-        ...role,
-        count: users.filter((user) => user.role === role.value).length,
-      })),
-    [roles, users],
-  );
-
-  function roleLabel(roleValue: string) {
-    return roles.find((role) => role.value === roleValue)?.label ?? roleValue;
-  }
-
-  async function load() {
-    setLoading(true);
-    setError(null);
-    const response = await fetch("/api/configuracion");
-    const payload = (await response.json()) as Partial<SettingsPayload> & { error?: string };
-
-    if (!response.ok) {
-      setError(payload.error ?? "No se pudo cargar configuracion");
-      setLoading(false);
-      return;
-    }
-
-    setEntity(payload.entity ?? emptyEntity);
-    setGovernmentLevels(payload.governmentLevels ?? []);
-    setProcessTypes(payload.processTypes ?? []);
-    setRoles(payload.roles ?? []);
-    setRolePermissions(payload.rolePermissions ?? []);
-    setUsers(payload.users ?? []);
-    setLoading(false);
-  }
+  const { success: toastSuccess, error: toastError } = useToastHelpers();
 
   useEffect(() => {
-    // Initial sync with the settings API when the admin screen mounts.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load();
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setConfirmSeed(false);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  function updateProcess(index: number, patch: Partial<ProcessTypeSetting>) {
-    setProcessTypes((current) =>
-      current.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)),
-    );
-  }
-
-  function addProcess() {
-    setProcessTypes((current) => [
-      ...current,
-      {
-        active: true,
-        category: "competitivo",
-        code: "",
-        description: "",
-        frequentMunicipality: false,
-        label: "",
-        legalBasis: "",
-        object: "",
-        sortOrder: current.length + 1,
-      },
-    ]);
-  }
-
-  function removeProcess(index: number) {
-    setProcessTypes((current) => current.filter((_, itemIndex) => itemIndex !== index));
-  }
-
-  function updateUser(index: number, patch: Partial<UserSetting>) {
-    setUsers((current) =>
-      current.map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)),
-    );
-  }
-
-  async function save() {
-    setSaving(true);
-    setSaved(false);
+  const load = useCallback(async () => {
+    setLoading(true);
     setError(null);
+    try {
+      const [settingsResp, usersResp] = await Promise.all([
+        fetch(`/api/configuracion/settings?${yearParam}`, { cache: "no-store" }),
+        fetch("/api/configuracion/users?limit=500", { cache: "no-store" }),
+      ]);
+      const settingsPayload = (await settingsResp.json().catch(() => ({}))) as
+        Partial<SettingsPayload> & { error?: string };
+      if (!settingsResp.ok) {
+        setError(settingsPayload.error ?? "No se pudo cargar la configuración");
+        return;
+      }
+      const usersPayload = (await usersResp.json().catch(() => ({}))) as
+        Partial<SettingsPayload> & { error?: string };
 
-    const response = await fetch("/api/configuracion", {
-      body: JSON.stringify({ entity, processTypes }),
-      headers: { "Content-Type": "application/json" },
-      method: "PUT",
-    });
-    const payload = (await response.json()) as Partial<SettingsPayload> & { error?: string };
+      const nextEntity = { ...emptyEntity, ...(settingsPayload.entity ?? {}) };
+      setEntity(nextEntity);
+      setGovernmentLevels(settingsPayload.governmentLevels ?? []);
+      setRoles(settingsPayload.roles ?? []);
+      setRolePermissions(settingsPayload.rolePermissions ?? []);
+      // Si usersResp falló (status no-ok o red), usersPayload será {} y la lista
+      // quedará vacía. El resto de la pestaña sigue usable: mejor mostrar la
+      // configuración sin usuarios que colgar la pantalla entera.
+      setUsers(usersPayload.users ?? []);
+    } catch {
+      // Antes este Promise.all no tenía try/catch: si fetch lanzaba (red caída),
+      // setLoading(false) no se ejecutaba y la pantalla quedaba colgada en
+      // "Cargando configuración…" para siempre.
+      setError("No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  }, [yearParam]);
 
-    if (!response.ok) {
-      setError(payload.error ?? "No se pudo guardar configuracion");
-      setSaving(false);
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  // Reporta el resumen a la barra lateral en vivo: mismo criterio de "entidad
+  // completa" que la pestaña (isEntityComplete), y se recalcula al editar la
+  // entidad o la lista de usuarios, no solo en la carga.
+  useEffect(() => {
+    onSummary?.({ entityComplete: isEntityComplete(entity), usersCount: users.length });
+  }, [entity, users, onSummary]);
+
+
+  async function createUser(input: {
+    usuario: string;
+    entity: string;
+    esJefe: boolean;
+    oficinaId: string;
+    password: string;
+    role: string;
+    nombreCompleto: string;
+    dni: string;
+    cargo: string;
+    gradoAcademico: string;
+  }) {
+    if (!esUsuarioValido(input.usuario)) {
+      toastError("Usuario inválido", `El usuario es el DNI: ${USUARIO_LONGITUD} dígitos.`);
       return;
     }
-
-    setEntity(payload.entity ?? entity);
-    setProcessTypes(payload.processTypes ?? processTypes);
-    setUsers(payload.users ?? users);
-    setSaved(true);
-    setSaving(false);
-  }
-
-  async function createUser() {
-    if (!newUserEmail.trim()) {
-      setError("Ingresa el correo del usuario.");
-      return;
-    }
-
+    setSaveStatus('saving');
     setCreatingUser(true);
-    setSaved(false);
     setError(null);
 
-    const response = await fetch("/api/configuracion", {
+    const response = await fetch("/api/configuracion/users", {
       body: JSON.stringify({
-        action: "create_user",
-        email: newUserEmail.trim(),
-        entity: newUserEntity.trim() || entity.name,
-        password: newUserPassword,
-        role: newUserRole,
+        usuario: input.usuario.trim(),
+        entity: input.entity.trim() || entity.name,
+        esJefe: input.esJefe,
+        oficinaId: input.oficinaId || "",
+        password: input.password,
+        role: input.role,
+        nombreCompleto: input.nombreCompleto.trim(),
+        dni: input.dni.trim(),
+        cargo: input.cargo.trim(),
+        gradoAcademico: input.gradoAcademico.trim(),
       }),
       headers: { "Content-Type": "application/json" },
       method: "POST",
     });
-    const payload = (await response.json()) as Partial<SettingsPayload> & {
-      createdCredentials?: CreatedCredential[];
+    const payload = (await response.json().catch(() => ({}))) as {
+      status?: "created" | "linked";
+      usuario?: string;
+      role?: string;
+      password?: string;
       error?: string;
-      linkedUsers?: LinkedUser[];
     };
 
     if (!response.ok) {
-      setError(payload.error ?? "No se pudo crear usuario");
+      toastError("Error al crear usuario", payload.error ?? "No se pudo crear usuario");
+      setSaveStatus('error'); setTimeout(() => setSaveStatus('idle'), 5000);
       setCreatingUser(false);
       return;
     }
 
-    setUsers(payload.users ?? users);
-    setCreatedCredentials(payload.createdCredentials ?? []);
-    setLinkedUsers(payload.linkedUsers ?? []);
-    setNewUserEmail("");
-    setNewUserPassword("");
-    setNewUserEntity("");
-    setNewUserRole("consulta");
-    setSaved(true);
+    if (payload.status === "created" && payload.usuario && payload.password && payload.role) {
+      // Se ACUMULAN, no se reemplazan: al crear dos usuarios seguidos, la
+      // contraseña del primero desaparecía de pantalla para siempre —y el panel
+      // avisa de que solo se muestran una vez—.
+      setCreatedCredentials((prev) => [
+        ...prev.filter((c) => c.usuario !== payload.usuario),
+        { usuario: payload.usuario!, password: payload.password!, role: payload.role! },
+      ]);
+      setLinkedUsers([]);
+    } else {
+      setLinkedUsers(
+        payload.status === "linked" && payload.usuario && payload.role
+          ? [{ usuario: payload.usuario, role: payload.role, userId: "" }]
+          : [],
+      );
+      setCreatedCredentials([]);
+    }
+    void load();
+    toastSuccess("Usuario creado", `${payload.usuario} agregado correctamente`);
+    setSaveStatus('saved'); setTimeout(() => setSaveStatus('idle'), 3000);
     setCreatingUser(false);
   }
 
   async function seedRoleUsers() {
+    setConfirmSeed(false);
     setCreatingUser(true);
-    setSaved(false);
     setError(null);
 
-    const response = await fetch("/api/configuracion", {
-      body: JSON.stringify({
-        action: "seed_role_users",
-        entity: entity.name,
-      }),
+    const response = await fetch("/api/configuracion/users/seed", {
+      body: JSON.stringify({ entity: entity.name }),
       headers: { "Content-Type": "application/json" },
       method: "POST",
     });
-    const payload = (await response.json()) as Partial<SettingsPayload> & {
-      createdCredentials?: CreatedCredential[];
+    const payload = (await response.json().catch(() => ({}))) as {
+      created?: Array<{ email: string; password: string; role: string }>;
+      linked?: Array<{ email: string; role: string; userId: string }>;
       error?: string;
-      linkedUsers?: LinkedUser[];
     };
 
     if (!response.ok) {
-      setError(payload.error ?? "No se pudieron crear usuarios base");
+      toastError("Error", payload.error ?? "No se pudieron crear usuarios base");
       setCreatingUser(false);
       return;
     }
 
-    setUsers(payload.users ?? users);
-    setCreatedCredentials(payload.createdCredentials ?? []);
-    setLinkedUsers(payload.linkedUsers ?? []);
-    setSaved(true);
+    // Las cuentas del seed son por ROL (dec@ace.local), no por DNI: se muestran
+    // con su correo como identificador, que es con lo que realmente entran.
+    setCreatedCredentials(
+      (payload.created ?? []).map((c) => ({ usuario: c.email, password: c.password, role: c.role })),
+    );
+    setLinkedUsers(
+      (payload.linked ?? []).map((l) => ({ usuario: l.email, role: l.role, userId: l.userId })),
+    );
+    void load();
+    toastSuccess("Usuarios base creados", `${(payload.created?.length ?? 0) + (payload.linked?.length ?? 0)} usuarios procesados`);
     setCreatingUser(false);
   }
 
   async function saveUser(user: UserSetting) {
     setSavingUserId(user.id);
-    setSaved(false);
     setError(null);
 
-    const response = await fetch("/api/configuracion", {
+    const response = await fetch(`/api/configuracion/users/${encodeURIComponent(user.id)}`, {
       body: JSON.stringify({
-        action: "update_user",
         entity: user.entity,
+        esJefe: Boolean(user.esJefe),
+        oficinaId: user.oficinaId || "",
         role: user.role,
-        userId: user.id,
+        nombreCompleto: user.nombreCompleto ?? "",
+        dni: user.dni ?? "",
+        cargo: user.cargo ?? "",
+        gradoAcademico: user.gradoAcademico ?? "",
       }),
       headers: { "Content-Type": "application/json" },
       method: "PATCH",
     });
-    const payload = (await response.json()) as Partial<SettingsPayload> & { error?: string };
+    const payload = (await response.json().catch(() => ({}))) as { error?: string };
 
     if (!response.ok) {
-      setError(payload.error ?? "No se pudo actualizar usuario");
+      toastError("Error al actualizar", payload.error ?? "No se pudo actualizar usuario");
+      setSaveStatus('error'); setTimeout(() => setSaveStatus('idle'), 5000);
       setSavingUserId(null);
       return;
     }
 
-    setUsers(payload.users ?? users);
-    setSaved(true);
+    void load();
+    toastSuccess("Usuario actualizado", `${user.email} guardado correctamente`);
+    setSaveStatus('saved'); setTimeout(() => setSaveStatus('idle'), 3000);
+    setSavingUserId(null);
+  }
+
+  /**
+   * Restablece la contraseña de un usuario y muestra la nueva en el panel de
+   * credenciales. Es la única vía de recuperación: las cuentas usan correos
+   * @ace.local, que no reciben el email de recuperación de Supabase.
+   *
+   * Sin `password`, el servidor genera una temporal (botón "Restablecer
+   * contraseña"). Con `password`, se fija ese valor exacto (botón "Asignar
+   * contraseña") — para cuando la temporal aleatoria no sirve, p. ej. hay que
+   * dictarla por teléfono.
+   */
+  async function resetPassword(user: UserSetting, password?: string) {
+    setSavingUserId(user.id);
+    setError(null);
+
+    const response = await fetch(
+      `/api/configuracion/users/${encodeURIComponent(user.id)}/password`,
+      {
+        body: JSON.stringify(password ? { password } : {}),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      },
+    );
+    const payload = (await response.json().catch(() => ({}))) as {
+      usuario?: string;
+      password?: string;
+      error?: string;
+    };
+
+    if (!response.ok || !payload.password) {
+      toastError("No se pudo restablecer", payload.error ?? "Inténtalo de nuevo.");
+      setSavingUserId(null);
+      return;
+    }
+
+    const usuario = payload.usuario || user.email || user.id;
+    setCreatedCredentials((prev) => [
+      ...prev.filter((c) => c.usuario !== usuario),
+      { usuario, password: payload.password!, role: user.role },
+    ]);
+    setLinkedUsers([]);
+    toastSuccess("Contraseña restablecida", `Entrega la nueva clave a ${usuario}`);
+    setSavingUserId(null);
+  }
+
+  /**
+   * Inactiva o reactiva la cuenta: a diferencia de eliminar, la ficha se
+   * conserva (historial, auditoría, documentos firmados a su nombre). El
+   * bloqueo del inicio de sesión lo hace Supabase Auth en el endpoint, no
+   * esta llamada por sí sola.
+   */
+  async function toggleActivo(user: UserSetting) {
+    setSavingUserId(user.id);
+    setError(null);
+
+    const activo = !(user.activo ?? true);
+    const response = await fetch(`/api/configuracion/users/${encodeURIComponent(user.id)}/estado`, {
+      body: JSON.stringify({ activo }),
+      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+    });
+    const payload = (await response.json().catch(() => ({}))) as { error?: string };
+
+    if (!response.ok) {
+      toastError(activo ? "No se pudo activar" : "No se pudo inactivar", payload.error ?? "Inténtalo de nuevo.");
+      setSavingUserId(null);
+      return;
+    }
+
+    setUsers(users.map((item) => (item.id === user.id ? { ...item, activo } : item)));
+    toastSuccess(
+      activo ? "Usuario activado" : "Usuario inactivado",
+      activo ? `${user.email} ya puede iniciar sesión` : `${user.email} ya no puede iniciar sesión`,
+    );
     setSavingUserId(null);
   }
 
   async function deleteUser(user: UserSetting) {
-    const confirmed = window.confirm(`Eliminar usuario ${user.email ?? user.id}? Esta accion quita el acceso.`);
-    if (!confirmed) {
-      return;
-    }
-
     setSavingUserId(user.id);
-    setSaved(false);
     setError(null);
 
-    const response = await fetch(`/api/configuracion?userId=${encodeURIComponent(user.id)}`, {
-      method: "DELETE",
-    });
-    const payload = (await response.json()) as Partial<SettingsPayload> & { error?: string };
+    const response = await fetch(
+      `/api/configuracion/users?userId=${encodeURIComponent(user.id)}`,
+      { method: "DELETE" },
+    );
+    const payload = (await response.json().catch(() => ({}))) as { error?: string; aviso?: string };
 
     if (!response.ok) {
-      setError(payload.error ?? "No se pudo eliminar usuario");
+      toastError("Error al eliminar", payload.error ?? "No se pudo eliminar usuario");
       setSavingUserId(null);
       return;
     }
 
-    setUsers(payload.users ?? users.filter((item) => item.id !== user.id));
-    setSaved(true);
+    if (payload.aviso) {
+      // El acceso se revocó, pero la ficha sigue ahí: se recarga para que la
+      // lista muestre la realidad en vez de dar por hecho que desapareció.
+      toastError("Eliminado a medias", payload.aviso);
+      void load();
+      setSavingUserId(null);
+      return;
+    }
+
+    setUsers(users.filter((item) => item.id !== user.id));
+    toastSuccess("Usuario eliminado", `${user.email} ha sido removido`);
     setSavingUserId(null);
   }
 
-  if (loading) {
+  // Solo pinta cuando la sección activa es una de las suyas.
+  if (!section) return null;
+
+  if (loading && !entity.name) {
     return (
-      <div className="emptyState">
-        <span>Cargando configuracion...</span>
+      <div className="rounded-lg border border-line p-3 text-muted" role="status" aria-live="polite">
+        <span>Cargando configuración…</span>
       </div>
     );
   }
 
+  const shownTab: Tab = section;
+
   return (
-    <div className="settingsLayout">
-      <section className="toolPanel settingsHero">
-        <div className="settingsHeroIcon">
-          <Building2 size={24} />
-        </div>
-        <div>
-          <p className="eyebrow">Configuracion institucional</p>
-          <h2>Datos que usara ACE</h2>
-          <p>
-            Registra la entidad, el ambito de gobierno y los procesos habilitados. Esta
-            informacion se usara en expedientes, auditoria, documentos generados,
-            validaciones y contexto juridico del sistema.
-          </p>
-        </div>
-        <div className="settingsStatus">
-          <span data-ready={entityComplete}>
-            {entityComplete ? "Configuracion completa" : "Requiere completar datos"}
-          </span>
-          <strong>{activeProcesses} proceso(s) activos</strong>
-        </div>
-      </section>
+    <div className="grid gap-[18px]">
+      {error ? <p className="rounded-lg border border-[#f1b8b1] bg-[#fff1ef] px-3 py-2 text-sm text-danger">{error}</p> : null}
 
-      {error ? <p className="evalError">{error}</p> : null}
-      {saved ? (
-        <div className="successBanner">
-          <CheckCircle2 size={17} />
-          Configuracion guardada correctamente.
-        </div>
+      {/* Municipalidad ("entidad") y Procesos de selección editan la MISMA fila de
+          entity_settings, cada uno su grupo de secciones. Se monta el mismo
+          componente con `variant`: comparten `entity`/`setEntity`, así que guardar
+          en uno no pisa los campos del otro (persiste el formulario completo). */}
+      {shownTab === "municipalidad" || shownTab === "procesos" ? (
+        <MunicipalidadTab
+          entity={entity}
+          setEntity={setEntity}
+          governmentLevels={governmentLevels}
+          variant={shownTab === "procesos" ? "procesos" : "entidad"}
+          oficinasContrataciones={oficinasContrataciones}
+        />
       ) : null}
 
-      <div className="settingsTabs" role="tablist" aria-label="Configuracion">
-        <button
-          aria-selected={activeTab === "municipalidad"}
-          onClick={() => setActiveTab("municipalidad")}
-          role="tab"
-          type="button"
-        >
-          <Building2 size={16} />
-          Municipalidad
-        </button>
-        <button
-          aria-selected={activeTab === "procesos"}
-          onClick={() => setActiveTab("procesos")}
-          role="tab"
-          type="button"
-        >
-          <Workflow size={16} />
-          Procesos
-        </button>
-        <button
-          aria-selected={activeTab === "usuarios"}
-          onClick={() => setActiveTab("usuarios")}
-          role="tab"
-          type="button"
-        >
-          <Users size={16} />
-          Usuarios
-        </button>
+      {shownTab === "usuarios" ? (
+        <UsuariosTab
+          entity={entity}
+          users={users}
+          setUsers={setUsers}
+          oficinas={oficinas}
+          roles={roles}
+          rolePermissions={rolePermissions}
+          createdCredentials={createdCredentials}
+          linkedUsers={linkedUsers}
+          creatingUser={creatingUser}
+          savingUserId={savingUserId}
+          currentUserId={currentUserIdProp ?? ""}
+          onCreateUser={createUser}
+          onReloadOficinas={onReloadOficinas}
+          onSeedRoleUsers={() => setConfirmSeed(true)}
+          onSaveUser={saveUser}
+          onResetPassword={resetPassword}
+          onToggleActivo={toggleActivo}
+          onDeleteUser={deleteUser}
+        />
+      ) : null}
+
+      {shownTab === "feriados" ? <FeriadosTab /> : null}
+
+      <div className="sticky bottom-0 z-[2] flex items-center justify-between gap-3.5 rounded-xl border border-line bg-white/94 px-4 py-3.5 shadow-[0_-16px_42px_rgba(23,32,51,0.08)] backdrop-blur-[10px]">
+        <div>
+          {shownTab === "municipalidad" ? (
+            <span className="text-base text-muted">Los datos se guardan automáticamente mientras escribes. RUC: 11 dígitos. Unidad ejecutora: 6 dígitos.</span>
+          ) : shownTab === "procesos" ? (
+            <span className="text-base text-muted">Parámetros que deciden el procedimiento de selección (AGA, PIA/PAC, topes y cronograma). Se guardan automáticamente mientras escribes.</span>
+          ) : shownTab === "usuarios" ? (
+            <span className="text-base text-muted">El rol define los permisos; la oficina y la jefatura definen qué expedientes ve cada usuario.</span>
+          ) : (
+            <span className="text-base text-muted">Calendario de feriados y días no laborables, usado para calcular plazos.</span>
+          )}
+        </div>
+        {saveStatus !== 'idle' && <SaveStatus status={saveStatus} />}
       </div>
 
-      {activeTab === "municipalidad" ? (
-        <div className="settingsGrid single">
-          <section className="toolPanel">
-          <div className="toolPanelHeader">
-            <div>
-              <p className="eyebrow">Entidad</p>
-              <h2>Informacion institucional</h2>
-            </div>
-          </div>
-            <div className="settingsForm">
-            <label>
-              <span>Nombre de la entidad</span>
-              <input
-                onChange={(event) => setEntity((current) => ({ ...current, name: event.target.value }))}
-                placeholder="Ej. Municipalidad Distrital de..."
-                value={entity.name}
-              />
-            </label>
-            <div className="settingsFormTwo">
-              <label>
-                <span>RUC</span>
-                <input
-                  inputMode="numeric"
-                  onChange={(event) =>
-                    setEntity((current) => ({ ...current, ruc: onlyDigits(event.target.value, 11) }))
-                  }
-                  placeholder="11 digitos"
-                  value={entity.ruc}
-                />
-                <small>{entity.ruc.length}/11 digitos</small>
-              </label>
-              <label>
-                <span>Unidad ejecutora</span>
-                <input
-                  inputMode="numeric"
-                  onChange={(event) =>
-                    setEntity((current) => ({
-                      ...current,
-                      executingUnit: onlyDigits(event.target.value, 6),
-                    }))
-                  }
-                  placeholder="6 digitos"
-                  value={entity.executingUnit}
-                />
-                <small>{entity.executingUnit.length}/6 digitos</small>
-              </label>
-            </div>
-            <label>
-              <span>Direccion de la entidad</span>
-              <input
-                onChange={(event) => setEntity((current) => ({ ...current, address: event.target.value }))}
-                placeholder="Direccion fiscal o sede principal"
-                value={entity.address}
-              />
-            </label>
-            <label>
-              <span>Tipo de gobierno</span>
-              <select
-                onChange={(event) =>
-                  setEntity((current) => ({ ...current, governmentLevel: event.target.value }))
-                }
-                value={entity.governmentLevel}
-              >
-                <option value="">Seleccionar nivel</option>
-                {governmentLevels.map((level) => (
-                  <option key={level.value} value={level.value}>
-                    {level.label}
-                  </option>
-                ))}
-              </select>
-              <small>
-                Se usa para identificar el ambito institucional en reportes, expedientes y auditoria.
-              </small>
-            </label>
-            <div className="settingsUsagePanel">
-              <strong>Uso dentro de ACE</strong>
-              <span>Expedientes y documentos generados tomaran esta entidad como contexto predeterminado.</span>
-              <span>Auditoria registrara entidad, rol y usuario para trazabilidad institucional.</span>
-              <span>Validar y Analiza podran incorporar estos datos en informes y exportaciones.</span>
-            </div>
-          </div>
-          </section>
-        </div>
-      ) : null}
-
-      {activeTab === "procesos" ? (
-        <section className="toolPanel">
-        <div className="toolPanelHeader">
-          <div>
-            <p className="eyebrow">Catalogo</p>
-            <h2>Procedimientos de contratacion</h2>
-          </div>
-          <button className="secondaryButton" onClick={addProcess} type="button">
-            <Plus size={16} />
-            Agregar proceso
-          </button>
-        </div>
-        <div className="processSettingsIntro">
-          <article>
-            <strong>Competitivos</strong>
-            <span>Licitaciones, concursos, SIE, comparacion de precios y concursos de proyectos.</span>
-          </article>
-          <article>
-            <strong>No competitivos</strong>
-            <span>Supuestos del articulo 55 de la Ley 32069 y desarrollo reglamentario.</span>
-          </article>
-          <article>
-            <strong>Contratos menores</strong>
-            <span>No son procedimiento competitivo; aplican reglas especiales hasta 8 UIT.</span>
-          </article>
-        </div>
-        <div className="processSettingsList">
-          {processTypes.map((item, index) => (
-            <article className="processSettingsRow" key={`${item.code}-${index}`}>
-              <label className="toggleLine">
-                <input
-                  checked={item.active}
-                  onChange={(event) => updateProcess(index, { active: event.target.checked })}
-                  type="checkbox"
-                />
-                <span>{item.active ? "Activo" : "Inactivo"}</span>
-              </label>
-              <label>
-                <span>Nombre</span>
-                <input
-                  onBlur={() => {
-                    if (!item.code && item.label) {
-                      updateProcess(index, { code: codeFromLabel(item.label) });
-                    }
-                  }}
-                  onChange={(event) => updateProcess(index, { label: event.target.value })}
-                  placeholder="Ej. Licitacion publica"
-                  value={item.label}
-                />
-              </label>
-              <label>
-                <span>Categoria</span>
-                <select
-                  onChange={(event) =>
-                    updateProcess(index, {
-                      category: event.target.value as ProcessTypeSetting["category"],
-                    })
-                  }
-                  value={item.category}
-                >
-                  <option value="competitivo">Competitivo</option>
-                  <option value="no_competitivo">No competitivo</option>
-                  <option value="contrato_menor">Contrato menor</option>
-                </select>
-              </label>
-              <label>
-                <span>Objeto</span>
-                <input
-                  onChange={(event) => updateProcess(index, { object: event.target.value })}
-                  placeholder="Bienes, obras, servicios..."
-                  value={item.object}
-                />
-              </label>
-              <label>
-                <span>Codigo</span>
-                <input
-                  onChange={(event) =>
-                    updateProcess(index, { code: codeFromLabel(event.target.value) })
-                  }
-                  placeholder="licitacion_publica"
-                  value={item.code}
-                />
-              </label>
-              <label>
-                <span>Sustento / referencia</span>
-                <input
-                  onChange={(event) => updateProcess(index, { legalBasis: event.target.value })}
-                  placeholder="Ley 32069, Reglamento, Bases Estandar DGA..."
-                  value={item.legalBasis}
-                />
-              </label>
-              <label className="processDescription">
-                <span>Descripcion operativa</span>
-                <input
-                  onChange={(event) => updateProcess(index, { description: event.target.value })}
-                  placeholder="Uso interno, directiva aplicable o nota breve"
-                  value={item.description}
-                />
-              </label>
-              <label className="toggleLine">
-                <input
-                  checked={item.frequentMunicipality}
-                  onChange={(event) =>
-                    updateProcess(index, { frequentMunicipality: event.target.checked })
-                  }
-                  type="checkbox"
-                />
-                <span>Frecuente municipal</span>
-              </label>
-              <label className="sortField">
-                <span>Orden</span>
-                <input
-                  inputMode="numeric"
-                  onChange={(event) =>
-                    updateProcess(index, { sortOrder: Number.parseInt(event.target.value || "0", 10) })
-                  }
-                  value={item.sortOrder}
-                />
-              </label>
-              <button
-                aria-label="Eliminar proceso"
-                className="iconButton"
-                onClick={() => removeProcess(index)}
-                type="button"
-              >
-                <Trash2 size={15} />
-              </button>
-            </article>
-          ))}
-        </div>
-        </section>
-      ) : null}
-
-      {activeTab === "usuarios" ? (
-        <section className="toolPanel settingsUsersPanel">
-          <div className="toolPanelHeader usersHeader">
-            <div>
-              <p className="eyebrow">Accesos</p>
-              <h2>Usuarios y roles</h2>
-              <span>Administra cuentas, perfil institucional y permisos efectivos por rol.</span>
-            </div>
-            <div className="usersHeaderStats" aria-label="Resumen de usuarios">
-              <strong>{users.length}</strong>
-              <span>usuario(s)</span>
-            </div>
-          </div>
-
-          <div className="userAdminGrid">
-            <section className="userCreateCard">
-              <div className="userSectionTitle">
-                <span>
-                  <UserPlus size={17} />
-                </span>
-                <div>
-                  <strong>Crear o vincular usuario</strong>
-                  <small>Si el correo ya existe, ACE actualiza su perfil y permisos.</small>
-                </div>
-              </div>
-              <div className="userCreateForm">
-                <label>
-                  <span>Correo institucional</span>
-                  <input
-                    onChange={(event) => setNewUserEmail(event.target.value)}
-                    placeholder="correo@entidad.gob.pe"
-                    value={newUserEmail}
-                  />
-                </label>
-                <label>
-                  <span>Perfil</span>
-                  <select onChange={(event) => setNewUserRole(event.target.value)} value={newUserRole}>
-                    {roles.map((role) => (
-                      <option key={role.value} value={role.value}>
-                        {role.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>Entidad o unidad</span>
-                  <input
-                    onChange={(event) => setNewUserEntity(event.target.value)}
-                    placeholder={entity.name || "Entidad asociada"}
-                    value={newUserEntity}
-                  />
-                </label>
-                <label>
-                  <span>Contrasena temporal</span>
-                  <input
-                    onChange={(event) => setNewUserPassword(event.target.value)}
-                    placeholder="Opcional, ACE puede generar una"
-                    type="password"
-                    value={newUserPassword}
-                  />
-                </label>
-              </div>
-              <div className="userCreateActions">
-                <button className="primaryButton" disabled={creatingUser} onClick={createUser} type="button">
-                  <Plus size={16} />
-                  {creatingUser ? "Procesando..." : "Crear / vincular"}
-                </button>
-                <button className="secondaryButton" disabled={creatingUser} onClick={seedRoleUsers} type="button">
-                  <Users size={16} />
-                  Crear 1 por perfil
-                </button>
-              </div>
-            </section>
-
-            <section className="roleSummaryCard">
-              <div className="userSectionTitle">
-                <span>
-                  <ShieldCheck size={17} />
-                </span>
-                <div>
-                  <strong>Perfiles configurados</strong>
-                  <small>Cada perfil activa permisos concretos dentro de ACE.</small>
-                </div>
-              </div>
-              <div className="roleProfileGrid">
-                {userRoleCounts.map((role) => (
-                  <article key={role.value}>
-                    <div>
-                      <strong>{role.label}</strong>
-                      <em>{role.count}</em>
-                    </div>
-                    <code>{role.value}</code>
-                    <span>{role.description}</span>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          {createdCredentials.length > 0 ? (
-            <div className="credentialsPanel">
-              <KeyRound size={17} />
-              <div>
-                <strong>Credenciales temporales creadas</strong>
-                <span>Guarda estas credenciales ahora; por seguridad solo se muestran en esta respuesta.</span>
-              </div>
-              {createdCredentials.map((credential) => (
-                <code key={`${credential.email}-${credential.role}`}>
-                  {roleLabel(credential.role)}: {credential.email} / {credential.password}
-                </code>
-              ))}
-            </div>
-          ) : null}
-          {linkedUsers.length > 0 ? (
-            <div className="linkedUsersPanel">
-              <CheckCircle2 size={17} />
-              <div>
-                <strong>Usuarios existentes vinculados</strong>
-                <span>Estos correos ya existian en Supabase Auth; se actualizo su perfil ACE, rol y permisos.</span>
-              </div>
-              {linkedUsers.map((linked) => (
-                <code key={`${linked.email}-${linked.userId}`}>
-                  {roleLabel(linked.role)}: {linked.email}
-                </code>
-              ))}
-            </div>
-          ) : null}
-
-          <div className="usersListHeader">
-            <div>
-              <p className="eyebrow">Cuentas activas</p>
-              <h2>Usuarios registrados</h2>
-            </div>
-            <span>{users.length} total</span>
-          </div>
-          <div className="usersSettingsList">
-            {users.length === 0 ? (
-              <div className="emptyState">
-                <Users size={20} />
-                <span>No hay perfiles registrados todavia.</span>
-              </div>
-            ) : (
-              users.map((user, index) => (
-                <article className="userSettingsRow" key={user.id}>
-                  <div className="userSettingsIdentity">
-                    <strong>{user.email ?? "Usuario sin correo"}</strong>
-                    <span>{roleLabel(user.role)} · {user.id}</span>
-                    <div className="userPermissionChips" aria-label="Permisos activos">
-                      {(user.permissions ?? [])
-                        .slice(0, 4)
-                        .map((permission) => (
-                          <small key={permission.area}>{permission.area}</small>
-                        ))}
-                      {(user.permissions?.length ?? 0) > 4 ? (
-                        <small>+{(user.permissions?.length ?? 0) - 4}</small>
-                      ) : null}
-                    </div>
-                  </div>
-                  <label>
-                    <span>Rol</span>
-                    <select
-                      onChange={(event) => updateUser(index, { role: event.target.value })}
-                      value={user.role}
-                    >
-                      {roles.map((role) => (
-                        <option key={role.value} value={role.value}>
-                          {role.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Entidad asociada</span>
-                    <input
-                      onChange={(event) => updateUser(index, { entity: event.target.value })}
-                      placeholder={entity.name || "Entidad o unidad"}
-                      value={user.entity}
-                    />
-                  </label>
-                  <button
-                    className="secondaryButton compactButton"
-                    disabled={savingUserId === user.id}
-                    onClick={() => saveUser(user)}
-                    type="button"
-                  >
-                    <Save size={15} />
-                    {savingUserId === user.id ? "Guardando..." : "Guardar"}
-                  </button>
-                  <button
-                    aria-label="Eliminar usuario"
-                    className="iconButton"
-                    disabled={savingUserId === user.id}
-                    onClick={() => deleteUser(user)}
-                    type="button"
-                  >
-                    <Trash2 size={15} />
-                  </button>
-                </article>
-              ))
-            )}
-          </div>
-          <div className="permissionsMatrix">
-            <div className="toolPanelHeader compactHeader">
-              <div>
-                <p className="eyebrow">Permisos</p>
-                <h2>Matriz por perfil</h2>
-              </div>
-            </div>
-            <div className="permissionsTable" role="table" aria-label="Matriz de permisos">
-              <div className="permissionsRow header" role="row">
-                <span>Modulo</span>
-                {roles.map((role) => (
-                  <span key={role.value}>{role.label}</span>
-                ))}
-              </div>
-              {rolePermissions.map((item) => (
-                <div className="permissionsRow" key={item.area} role="row">
-                  <div>
-                    <strong>{item.area}</strong>
-                    <small>{item.scope}</small>
-                  </div>
-                  {roles.map((role) => (
-                    <span
-                      className={item.permissions[role.value] ? "allowed" : "denied"}
-                      key={role.value}
-                    >
-                      {item.permissions[role.value] ? "Permite" : "No"}
-                    </span>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      <div className="settingsFooter">
-        <div>
-          <ListChecks size={18} />
-          <span>
-            {activeTab === "municipalidad"
-              ? "RUC: 11 digitos. Unidad ejecutora: 6 digitos."
-              : activeTab === "procesos"
-                ? "Los procesos activos se usaran como catalogo administrativo del sistema."
-                : "Los roles determinan permisos reales de consulta, DEC, legal y administracion."}
-          </span>
-        </div>
-        {activeTab !== "usuarios" ? (
-          <button className="primaryButton" disabled={saving} onClick={save} type="button">
-            <Save size={16} />
-            {saving ? "Guardando..." : "Guardar configuracion"}
-          </button>
-        ) : null}
-      </div>
+      <ConfirmDialog
+        open={confirmSeed}
+        title="Crear usuarios por perfil"
+        message={
+          "Esto creara (o vinculará) un usuario por cada perfil del sistema. Los correos se generan con el dominio @ace.local (no reciben correos de recuperación). Las contraseñas temporales se mostrarán después. ¿Continuar?"
+        }
+        tone="warning"
+        confirmLabel="Crear usuarios"
+        onConfirm={seedRoleUsers}
+        onCancel={() => setConfirmSeed(false)}
+      />
     </div>
   );
 }

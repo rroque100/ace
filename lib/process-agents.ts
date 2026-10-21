@@ -1,6 +1,7 @@
 import {
   AlignmentType,
   Document,
+  Footer,
   HeadingLevel,
   Packer,
   Paragraph,
@@ -15,6 +16,9 @@ import { searchLegalSources } from "./legal-chat";
 import { objectTypeLabel, processDocKindLabel, processTypeLabel } from "./legal-taxonomy";
 import { evaluateProcurementRules } from "./procurement-rules";
 import type { ProcurementProcess } from "./processes";
+import { draftKinds, type DraftKind } from "./draft-kinds";
+
+export { draftKinds, type DraftKind };
 
 export type ProcessDocumentWithText = {
   id: string;
@@ -52,27 +56,6 @@ export type ProcessRiskResult = {
   items: ProcessRiskItem[];
   model: string;
 };
-
-type DraftKind =
-  | "informe_tecnico"
-  | "informe_legal"
-  | "acta_admision"
-  | "acta_calificacion"
-  | "acta_buena_pro"
-  | "acta_desierto"
-  | "memorando"
-  | "informe_evaluacion";
-
-export const draftKinds: Array<{ label: string; value: DraftKind }> = [
-  { label: "Informe técnico", value: "informe_tecnico" },
-  { label: "Informe legal", value: "informe_legal" },
-  { label: "Acta de admisión", value: "acta_admision" },
-  { label: "Acta de calificación", value: "acta_calificacion" },
-  { label: "Acta de otorgamiento de buena pro", value: "acta_buena_pro" },
-  { label: "Acta de declaratoria de desierto", value: "acta_desierto" },
-  { label: "Memorando", value: "memorando" },
-  { label: "Informe de evaluación de ofertas", value: "informe_evaluacion" },
-];
 
 function normalize(text: string) {
   return text
@@ -302,7 +285,7 @@ function fallbackRisks(input: {
   const hasOffer = docs.some((document) => document.kind === "oferta");
   const rules = evaluateProcurementRules({
     amount: input.process.amount ?? "",
-    objectType: input.process.object_type,
+    objectType: input.process.object_type as "bienes" | "servicios" | "obras" | "consultoria",
     procedureType: input.process.procedure_type ?? "",
   });
   const items: ProcessRiskItem[] = [];
@@ -445,6 +428,28 @@ function paragraph(text: string) {
   return new Paragraph({ children: [new TextRun(text)], spacing: { after: 120 } });
 }
 
+// Márgenes normales: 2.5 cm superior/inferior, 3 cm izquierda/derecha.
+const MARGENES = { top: 1418, bottom: 1418, left: 1701, right: 1701 };
+
+/**
+ * Pie de página con la trazabilidad de quién generó el documento —no una
+ * firma, así que no va en el cuerpo que se imprime—: alineado a la izquierda,
+ * a 8 pt.
+ */
+function footerElaboradoPor(elaboradoPor: string | null | undefined) {
+  if (!elaboradoPor) return undefined;
+  return {
+    default: new Footer({
+      children: [
+        new Paragraph({
+          alignment: AlignmentType.LEFT,
+          children: [new TextRun({ size: 16, text: `Elaborado por: ${elaboradoPor}` })],
+        }),
+      ],
+    }),
+  };
+}
+
 function heading(text: string) {
   return new Paragraph({ heading: HeadingLevel.HEADING_2, spacing: { before: 220, after: 80 }, text });
 }
@@ -460,17 +465,97 @@ function labelOfDraft(kind: DraftKind) {
   return draftKinds.find((item) => item.value === kind)?.label ?? "Documento administrativo";
 }
 
+function indexCell(text: string, bold = false, size = 25) {
+  return new TableCell({
+    children: [new Paragraph({ children: [new TextRun({ bold, text })] })],
+    width: { size, type: WidthType.PERCENTAGE },
+  });
+}
+
+async function buildExpedienteUnicoDocx(
+  process: ProcurementProcess,
+  documents: DraftDocumentRow[],
+  processType: string,
+  today: string,
+  elaboradoPor?: string | null,
+): Promise<Buffer> {
+  const fecha = (value?: string | null) =>
+    value ? new Date(value).toLocaleDateString("es-PE", { day: "2-digit", month: "2-digit", year: "numeric" }) : "—";
+
+  const children: Array<Paragraph | Table> = [
+    new Paragraph({ alignment: AlignmentType.CENTER, heading: HeadingLevel.HEADING_1, text: "EXPEDIENTE ELECTRÓNICO ÚNICO" }),
+    paragraph(`Expediente: ${process.nomenclature}`),
+    paragraph(`Entidad: ${process.entity ?? "[Entidad]"}`),
+    paragraph(`Objeto: ${objectTypeLabel(process.object_type)} - ${processType}`),
+    paragraph(`Fecha de cierre/archivo: ${today}`),
+    heading("Índice de actuaciones"),
+  ];
+
+  if (documents.length === 0) {
+    children.push(paragraph("El expediente no registra documentos cargados."));
+  } else {
+    children.push(
+      new Table({
+        rows: [
+          new TableRow({
+            children: [indexCell("N.°", true, 8), indexCell("Actuación", true, 27), indexCell("Documento", true, 45), indexCell("Fecha", true, 20)],
+          }),
+          ...documents.map(
+            (document, index) =>
+              new TableRow({
+                children: [
+                  indexCell(String(index + 1), false, 8),
+                  indexCell(processDocKindLabel(document.kind), false, 27),
+                  indexCell(`${document.title}${document.bidder_name ? ` (${document.bidder_name})` : ""}`, false, 45),
+                  indexCell(fecha(document.created_at), false, 20),
+                ],
+              }),
+          ),
+        ],
+        width: { size: 100, type: WidthType.PERCENTAGE },
+      }),
+    );
+  }
+
+  children.push(
+    paragraph(`Total de actuaciones: ${documents.length}.`),
+    paragraph("Se deja constancia del cierre y archivo del expediente electrónico único conforme a la Ley N.° 32069 y su Reglamento."),
+    paragraph("Firma / responsable del archivo: ______________________________"),
+  );
+
+  const document = new Document({
+    sections: [{ children, footers: footerElaboradoPor(elaboradoPor), properties: { page: { margin: MARGENES } } }],
+  });
+  return Buffer.from(await Packer.toBuffer(document));
+}
+
+export type DraftDocumentRow = {
+  kind: string;
+  title: string;
+  bidder_name?: string | null;
+  created_at?: string | null;
+};
+
 export async function buildAdministrativeDraftDocx(input: {
   draftKind: DraftKind;
   evaluation?: ProcessEvaluationResult | null;
   process: ProcurementProcess;
   risks?: ProcessRiskResult | null;
+  documents?: DraftDocumentRow[];
+  /** Nombre completo del usuario en sesión que generó el borrador. */
+  elaboradoPor?: string | null;
 }): Promise<Buffer> {
   const processType = input.process.procedure_type
     ? processTypeLabel(input.process.procedure_type) ?? input.process.procedure_type
     : "procedimiento no especificado";
   const title = labelOfDraft(input.draftKind).toUpperCase();
   const today = new Date().toLocaleDateString("es-PE", { year: "numeric", month: "long", day: "numeric" });
+
+  // Módulo 9: el "expediente electrónico único" es un índice/carátula que lista
+  // todas las actuaciones cargadas, no el documento administrativo de plantilla.
+  if (input.draftKind === "expediente_unico") {
+    return buildExpedienteUnicoDocx(input.process, input.documents ?? [], processType, today, input.elaboradoPor);
+  }
   const sources = await searchLegalSources({
     filters: { processType: input.process.procedure_type ?? "" },
     query: `${input.process.nomenclature} ${processType} ${labelOfDraft(input.draftKind)} contrataciones publicas`,
@@ -547,6 +632,10 @@ export async function buildAdministrativeDraftDocx(input: {
     paragraph("Firma / área emisora: ______________________________"),
   );
 
-  const document = new Document({ sections: [{ children }] });
+  const document = new Document({
+    sections: [
+      { children, footers: footerElaboradoPor(input.elaboradoPor), properties: { page: { margin: MARGENES } } },
+    ],
+  });
   return Buffer.from(await Packer.toBuffer(document));
 }

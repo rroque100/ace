@@ -366,7 +366,7 @@ function evaluateCompetitiveProcedure(
   pushObjectFinding(findings, input.objectType, [...allowed], code, label);
   pushAmountFinding(findings, amount, code);
   findings.push({
-    action: "Verificar bases, requerimiento, valor estimado/referencial, indagacion de mercado y reglas de admision/calificacion.",
+    action: "Verificar bases, requerimiento, cuantía de la contratación, indagacion de mercado y reglas de admision/calificacion.",
     basis: "Procedimiento competitivo requiere expediente completo y criterios objetivos.",
     code: `${code}-EXP-001`,
     level: "medio",

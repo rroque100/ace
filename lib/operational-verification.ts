@@ -209,6 +209,8 @@ async function buildEndToEndVerification(currentUser: SessionUser) {
     {
       filters: { processType: "comparacion_precios" },
       mode: "breve",
+      tone: "formal",
+      length: "concisa",
       question: "¿Cuáles son los requisitos para una compra por comparación de precios?",
     },
     {

@@ -1,4 +1,5 @@
 import { answerLegalQuestion } from "@/lib/legal-chat";
+import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
 import { procedureEntries, procedureSourceRequirements } from "@/lib/procedure-catalog";
 import { supabaseUserRest } from "@/lib/supabase-server";
 
@@ -160,6 +161,77 @@ export const baselineEvalQuestions: Array<{
     expectedSources: [{ documentType: "ley" }],
     question: "Que ley regula las contrataciones publicas y cual es su reglamento vigente?",
   },
+
+  // --- Cobertura ampliada de temas del corpus ---
+  {
+    expectedKeywords: ["garantia"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que tipos de garantias contractuales existen en las contrataciones publicas?",
+  },
+  {
+    expectedKeywords: ["garantia", "fiel cumplimiento"],
+    expectedSources: [{ documentType: "ley" }],
+    question: "Para que sirve la garantia de fiel cumplimiento?",
+  },
+  {
+    expectedKeywords: ["expediente"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que es el expediente de contratacion y que debe contener?",
+  },
+  {
+    expectedKeywords: ["oece"],
+    expectedSources: [{ documentType: "ley" }],
+    question: "Cuales son las funciones del OECE?",
+  },
+  {
+    expectedKeywords: ["tribunal"],
+    expectedSources: [{ documentType: "ley" }],
+    question: "Que funciones tiene el Tribunal de Contrataciones Publicas?",
+  },
+  {
+    expectedKeywords: ["impedimento"],
+    expectedSources: [{ documentType: "ley" }],
+    question: "Quienes estan impedidos de ser participantes o contratistas del Estado?",
+  },
+  {
+    expectedKeywords: ["apelacion"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Como funciona el recurso de apelacion contra el otorgamiento de la buena pro?",
+  },
+  {
+    expectedKeywords: ["sancion"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que sanciones existen para un postor que presenta documentos falsos?",
+  },
+  {
+    expectedKeywords: ["consorcio"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que reglas aplican cuando los proveedores se presentan en consorcio?",
+  },
+  {
+    expectedKeywords: ["adelanto"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Estan permitidos los adelantos al contratista y como se garantizan?",
+  },
+  {
+    expectedKeywords: ["penalidad"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que penalidades se pueden aplicar al contratista por incumplimiento?",
+  },
+  // Variantes coloquiales (lenguaje normal, sin jerga): deben responderse igual.
+  {
+    expectedKeywords: ["apelacion"],
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Que hago si no estoy de acuerdo con quien gano una licitacion?",
+  },
+  {
+    expectedKeywords: ["licitacion publica"],
+    // El detalle operativo (cuando corresponde, umbrales, reglas) se recupera del
+    // reglamento en este corpus; la tipologia general esta en la ley pero el
+    // contenido indexado que responde la consulta es reglamentario.
+    expectedSources: [{ documentType: "reglamento" }],
+    question: "Cuando se debe usar una licitacion publica?",
+  },
 ];
 
 export const matrixEvalQuestions = procedureEntries
@@ -319,6 +391,8 @@ export async function runEvaluation(accessToken: string) {
             processType: pregunta.process_type ?? "",
           },
           mode: "tecnica",
+          tone: "formal",
+          length: "detallada",
           question: pregunta.question,
         },
         { accessToken, ownerId: "eval", persist: false },
@@ -352,6 +426,11 @@ export async function runEvaluation(accessToken: string) {
         result.sources.length,
         pregunta.expected_must_not_contain ?? [],
       );
+      // Fidelidad de cita: datos especificos citados deben constar en el fragmento.
+      const faithfulness = checkCitationFaithfulness(result.answer, result.sources);
+      if (!faithfulness.ok) {
+        groundingViolations.push(...faithfulness.issues.map((issue) => `Cita infiel: ${issue.reason}`));
+      }
       if (groundingViolations.length > 0) {
         feedbackParts.unshift(`FALLA DE GROUNDING: ${groundingViolations.join(" ")}`);
       }

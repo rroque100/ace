@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ScanSearch } from "lucide-react";
 import { AppShell } from "../components/app-shell";
-import { ContractForm } from "../components/contract-form";
+import { ContratosWorkspace } from "../components/contratos-workspace";
 
 export default function ContratosPage() {
   return (
@@ -17,7 +17,7 @@ export default function ContratosPage() {
       title="Generación de contratos"
     >
       <section className="singleWorkspace">
-        <ContractForm />
+        <ContratosWorkspace />
       </section>
     </AppShell>
   );

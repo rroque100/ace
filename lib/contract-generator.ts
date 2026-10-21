@@ -10,8 +10,12 @@ import { processTypeLabel } from "./legal-taxonomy";
 
 export type ContractInput = {
   entity: string;
+  entityRuc?: string | null;
+  entityAddress?: string | null;
   object: string;
   processType?: string | null;
+  /** Nombre legible del proceso (resuelto desde el catalogo de Configuracion). */
+  processTypeLabel?: string | null;
   amount?: string | null;
   contractorName?: string | null;
   contractorRuc?: string | null;
@@ -60,7 +64,12 @@ export async function buildContractDocx(
   references: ClauseReference[] = [],
 ): Promise<Buffer> {
   const today = new Date().toLocaleDateString("es-PE", { year: "numeric", month: "long", day: "numeric" });
-  const process = input.processType ? processTypeLabel(input.processType) ?? input.processType : "contratación pública";
+  // Preferimos el label resuelto desde el catalogo; si no llega, intentamos la
+  // taxonomia fija y, como ultimo recurso, el codigo crudo.
+  const process =
+    input.processTypeLabel?.trim() ||
+    (input.processType ? processTypeLabel(input.processType) ?? input.processType : null) ||
+    "contratación pública";
 
   const children: Paragraph[] = [
     new Paragraph({
@@ -74,7 +83,7 @@ export async function buildContractDocx(
       spacing: { after: 240 },
     }),
     body(
-      `Conste por el presente documento el contrato que celebran, de una parte, ${input.entity} (en adelante, LA ENTIDAD), y de la otra, ${input.contractorName ?? "[CONTRATISTA]"}${input.contractorRuc ? `, RUC ${input.contractorRuc}` : ""} (en adelante, EL CONTRATISTA), en los términos y condiciones siguientes, al amparo de la Ley 32069, Ley General de Contrataciones Públicas, y su reglamento.`,
+      `Conste por el presente documento el contrato que celebran, de una parte, ${input.entity}${input.entityRuc ? `, con RUC ${input.entityRuc}` : ""}${input.entityAddress ? `, con domicilio en ${input.entityAddress}` : ""} (en adelante, LA ENTIDAD), y de la otra, ${input.contractorName ?? "[CONTRATISTA]"}${input.contractorRuc ? `, RUC ${input.contractorRuc}` : ""} (en adelante, EL CONTRATISTA), en los términos y condiciones siguientes, al amparo de la Ley 32069, Ley General de Contrataciones Públicas, y su reglamento.`,
     ),
   ];
 

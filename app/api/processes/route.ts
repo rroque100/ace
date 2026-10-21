@@ -1,24 +1,50 @@
 import { NextResponse } from "next/server";
-import { requireDec, requireUser } from "@/lib/auth";
-import { type ProcurementProcess, processCreateSchema } from "@/lib/processes";
+import { requireCapability, requireUser } from "@/lib/auth";
+import { objectTypeDeNecesidad, type ProcurementProcess, processCreateSchema } from "@/lib/processes";
+import { construirQueryProcesos } from "@/lib/procesos-query";
+import { FASES, type HitosMap, progresoDeFase } from "@/lib/procurement-fases";
 import { supabaseUserRest, writeAuditLog } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET() {
+export async function GET(request: Request) {
   const auth = await requireUser();
   if ("error" in auth) {
     return auth.error;
   }
 
+  const { searchParams } = new URL(request.url);
+  const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") ?? "24", 10) || 24));
+
+  const query = construirQueryProcesos({
+    fase: searchParams.get("fase")?.trim() || "",
+    limit,
+    meta: searchParams.get("meta")?.trim() || "",
+    objectType: searchParams.get("object_type")?.trim() || "",
+    offset: (page - 1) * limit,
+    oficina: searchParams.get("oficina")?.trim() || "",
+    procedureType: searchParams.get("procedure_type")?.trim() || "",
+    search: searchParams.get("search")?.trim() || "",
+    status: searchParams.get("status")?.trim() || "",
+  });
+
   try {
     // RLS limita a los expedientes del usuario (o todos si es admin).
-    const processes = await supabaseUserRest<ProcurementProcess[]>(
+    const processes = await supabaseUserRest<Array<ProcurementProcess & { status: string; hitos?: HitosMap | null }>>(
       auth.user.accessToken,
-      "procurement_processes?select=id,nomenclature,object_type,procedure_type,amount,entity,status,summary,created_at,updated_at&order=updated_at.desc&limit=100",
+      `procurement_processes?${query}`,
     );
-    return NextResponse.json({ processes });
+    // El `hitos` jsonb (~10 KB/fila) NO se manda al cliente: la tarjeta de la
+    // lista solo pinta "completados/total" de la fase actual. Se calcula ese
+    // avance aquí y se devuelve en su lugar; el jsonb entero era la mayor parte
+    // del peso de la lista (~150 KB por página, de los que se usaban 2 enteros).
+    const conAvance = processes.map(({ hitos, ...resto }) => {
+      const fase = FASES.find((f) => f.statuses.includes(resto.status));
+      return { ...resto, avance: fase ? progresoDeFase(fase.id, hitos ?? {}) : null };
+    });
+    return NextResponse.json({ processes: conAvance, page, limit });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "No se pudieron listar los expedientes", processes: [] },
@@ -28,7 +54,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const auth = await requireDec();
+  const auth = await requireCapability("expediente.manage");
   if ("error" in auth) {
     return auth.error;
   }
@@ -52,7 +78,8 @@ export async function POST(request: Request) {
           amount: typeof data.amount === "number" ? data.amount : null,
           entity: data.entity || auth.user.entity || null,
           nomenclature: data.nomenclature,
-          object_type: data.objectType,
+          // El copiloto (Mi Yo) puede interpretar "consultoria_obra".
+          object_type: objectTypeDeNecesidad(data.objectType),
           owner_id: auth.user.id,
           procedure_type: data.procedureType || null,
           summary: data.summary || null,

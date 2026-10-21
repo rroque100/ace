@@ -84,7 +84,13 @@ type Confidence = "alta" | "media" | "baja";
 type StreamEvent =
   | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence }
   | { type: "delta"; text: string }
-  | { type: "done"; sessionId: string | null; messageId: string | null; model: string }
+  | {
+      type: "done";
+      sessionId: string | null;
+      messageId: string | null;
+      model: string;
+      citationWarnings?: string[];
+    }
   | { type: "error"; error: string };
 
 type ConversationMessage = {
@@ -93,6 +99,7 @@ type ConversationMessage = {
   content: string;
   assessment?: ChatAssessment;
   confidence?: Confidence;
+  citationWarnings?: string[];
   mode?: string;
   note?: string;
   persistedId?: string | null;
@@ -103,11 +110,16 @@ type ConversationMessage = {
   error?: string;
 };
 
-const responseModes = [
-  { hint: "Tono legal técnico, preciso y sustentado.", label: "Técnica", value: "tecnica" },
-  { hint: "Respuesta directa y corta.", label: "Breve", value: "breve" },
-  { hint: "Borrador de informe legal formal, con secciones.", label: "Informe", value: "informe" },
-  { hint: "Pasos verificables tipo checklist operativo.", label: "Checklist", value: "checklist" },
+const toneOptions = [
+  { hint: "Cercano y didáctico: claro, con ejemplos y orientación práctica.", label: "Cercano", value: "didactico" },
+  { hint: "Asesoría legal formal: preciso, sobrio y con terminología jurídica.", label: "Formal", value: "formal" },
+  { hint: "Técnico-preciso: denso en reglas y datos, para especialistas.", label: "Técnico", value: "tecnico" },
+] as const;
+
+const lengthOptions = [
+  { hint: "Muy breve: solo lo esencial, 1-2 párrafos.", label: "Concisa", value: "concisa" },
+  { hint: "Equilibrada: directa + explicación útil.", label: "Media", value: "media" },
+  { hint: "Desarrollo a fondo: contexto, condiciones y práctica.", label: "Detallada", value: "detallada" },
 ] as const;
 
 const exampleQuestions = [
@@ -704,7 +716,7 @@ function MessageEvidence({
     <details className="msgEvidence">
       <summary>
         <FileText size={14} />
-        Evidencia y trazabilidad
+        Ver fuentes y detalle
         <span className="msgEvidenceCount">{sources.length}</span>
       </summary>
 
@@ -793,7 +805,8 @@ export function LegalChat() {
 
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [question, setQuestion] = useState(initialQuestion);
-  const [mode, setMode] = useState("tecnica");
+  const [tone, setTone] = useState("formal");
+  const [length, setLength] = useState("media");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState("");
@@ -874,6 +887,7 @@ export function LegalChat() {
         streaming: false,
         persistedId: event.messageId,
         model: event.model,
+        citationWarnings: event.citationWarnings ?? [],
       }));
       setSessionId((current) => event.sessionId ?? current);
       return;
@@ -903,7 +917,7 @@ export function LegalChat() {
     const assistantMessage: ConversationMessage = {
       content: "",
       id: assistantId,
-      mode,
+      mode: `${tone}/${length}`,
       questionText: normalizedQuestion,
       role: "assistant",
       streaming: true,
@@ -924,7 +938,8 @@ export function LegalChat() {
       const response = await fetch("/api/chat", {
         body: JSON.stringify({
           filters: { article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
-          mode,
+          tone,
+          length,
           question: normalizedQuestion,
           sessionId: sessionId ?? undefined,
         }),
@@ -1144,19 +1159,40 @@ export function LegalChat() {
       </header>
 
       <div className="chatContextBar">
-        <div className="modeSelector" role="tablist" aria-label="Modo de respuesta">
-          {responseModes.map((item) => (
-            <button
-              aria-selected={mode === item.value}
-              key={item.value}
-              onClick={() => setMode(item.value)}
-              role="tab"
-              title={item.hint}
-              type="button"
-            >
-              {item.label}
-            </button>
-          ))}
+        <div className="styleSelectors">
+          <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
+            Estilo de respuesta
+          </span>
+          {/* Ajustes de la respuesta, no pestañas: no cambian de panel, cambian
+              cómo responde el modelo. */}
+          <div className="modeSelector" role="group" aria-label="Tono de respuesta">
+            <span className="styleSelectorLabel">Tono</span>
+            {toneOptions.map((item) => (
+              <button
+                aria-pressed={tone === item.value}
+                key={item.value}
+                onClick={() => setTone(item.value)}
+                title={item.hint}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+          <div className="modeSelector" role="group" aria-label="Longitud de respuesta">
+            <span className="styleSelectorLabel">Longitud</span>
+            {lengthOptions.map((item) => (
+              <button
+                aria-pressed={length === item.value}
+                key={item.value}
+                onClick={() => setLength(item.value)}
+                title={item.hint}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="filterArea">
@@ -1234,27 +1270,49 @@ export function LegalChat() {
         {!hasConversation ? (
           <div className="chatEmptyRedesign">
             <div className="chatEmptyIntro">
-              <Search size={26} />
-              <strong>Empieza con una pregunta jurídica</strong>
+              <div className="chatEmptyIcon">
+                <Bot size={28} />
+              </div>
+              <strong>¿Qué necesitas consultar?</strong>
               <span>
-                El chat recupera fuentes del corpus, evalúa si son suficientes y redacta la respuesta
-                citando cada afirmación.
+                Pregunta con tus propias palabras sobre contrataciones públicas. Te respondo con base en
+                las leyes, reglamentos, directivas y opiniones cargadas, y te muestro de dónde sale cada dato.
               </span>
             </div>
-            <div className="exampleCards">
-              {exampleQuestions.map((item) => (
-                <button key={item} onClick={() => setQuestion(item)} type="button">
-                  {item}
-                </button>
-              ))}
+
+            <div className="chatHowItWorks">
+              <div>
+                <span className="howStepNum">1</span>
+                <div>
+                  <strong>Escribe tu pregunta</strong>
+                  <small>En lenguaje normal, no hace falta saber de leyes.</small>
+                </div>
+              </div>
+              <div>
+                <span className="howStepNum">2</span>
+                <div>
+                  <strong>Busco en los documentos</strong>
+                  <small>Reviso las normas y opiniones cargadas.</small>
+                </div>
+              </div>
+              <div>
+                <span className="howStepNum">3</span>
+                <div>
+                  <strong>Te respondo con fuentes</strong>
+                  <small>Cada dato lleva su cita; tócala para verla.</small>
+                </div>
+              </div>
             </div>
-            <div className="modeLegend">
-              {responseModes.map((item) => (
-                <span key={item.value}>
-                  <strong>{item.label}</strong>
-                  {item.hint}
-                </span>
-              ))}
+
+            <div className="chatEmptyExamples">
+              <p>Prueba con una de estas:</p>
+              <div className="exampleCards">
+                {exampleQuestions.map((item) => (
+                  <button key={item} onClick={() => setQuestion(item)} type="button">
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ) : null}
@@ -1298,6 +1356,24 @@ export function LegalChat() {
                       {message.streaming ? <span className="streamCursor" aria-hidden="true" /> : null}
                     </div>
                   )}
+
+                  {!message.streaming && message.citationWarnings?.length ? (
+                    <div className="msgCitationWarning">
+                      <AlertTriangle size={15} />
+                      <div>
+                        <strong>Verificación de citas</strong>
+                        <span>
+                          Algunos datos citados no se encontraron en el fragmento citado; confírmalos
+                          en el texto original antes de usarlos:
+                        </span>
+                        <ul>
+                          {message.citationWarnings.map((warning, index) => (
+                            <li key={index}>{warning}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : null}
 
                   {message.error ? (
                     <div className="msgError">

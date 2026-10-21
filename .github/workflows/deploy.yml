@@ -1,0 +1,59 @@
+name: Deploy to Netlify
+
+# DESHABILITADO el auto-deploy en push: este workflow hace `publish-dir: .next`
+# (deploy de .next crudo), que NO es válido para Next.js — el sitio necesita el
+# build nativo de Netlify con @netlify/plugin-nextjs (ver netlify.toml). Ejecutarlo
+# sobrescribía el deploy nativo y rompía producción (404 en todas las rutas).
+# Queda solo en manual (workflow_dispatch) hasta rehacerlo con `netlify build`.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: netlify-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci --legacy-peer-deps
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_STORAGE_BUCKET: documents
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_LEGAL_MODEL: gpt-4.1-mini
+          OPENAI_PDF_OCR_MODEL: gpt-4o
+          OPENAI_PDF_OCR_ENABLED: 'true'
+          OPENAI_OCR_MAX_PAGES: '25'
+          OPENAI_EMBEDDING_MODEL: text-embedding-3-small
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PINECONE_INDEX_NAME: ace-openai
+          PINECONE_NAMESPACE: legal-documents
+          PINECONE_ARCHIVO_NAMESPACE: archivo-municipal
+          PINECONE_EXPEDIENTES_NAMESPACE: expedientes-archivo
+          RERANK_ENABLED: 'true'
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          COHERE_RERANK_MODEL: rerank-v3.5
+          NEXT_PUBLIC_APP_URL: https://ace-360.netlify.app
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      - uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: '.next'
+          production-branch: main
+          deploy-message: 'Deploy from GitHub Actions'
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          overwrites-pull-request-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: 'true'

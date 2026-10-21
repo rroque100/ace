@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
+import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
@@ -32,6 +33,8 @@ export type ChatAuthContext = {
 const legalSearchFiltersSchema = z.object({
   article: z.string().trim().optional().or(z.literal("")),
   documentId: z.string().trim().optional().or(z.literal("")),
+  /** Varios documentos a la vez: un procedimiento puede tener varios modelos. */
+  documentIds: z.array(z.string().trim().min(1)).max(20).optional(),
   documentType: z.string().trim().optional().or(z.literal("")),
   sourceEntity: z.string().trim().optional().or(z.literal("")),
   status: z.string().trim().optional().or(z.literal("")),
@@ -44,6 +47,9 @@ const legalSearchFiltersSchema = z.object({
 export const chatRequestSchema = z.object({
   filters: legalSearchFiltersSchema.optional(),
   mode: z.enum(["breve", "tecnica", "informe", "checklist"]).default("tecnica"),
+  // Estilo elegible por el usuario: tono (voz) y longitud (extension).
+  tone: z.enum(["didactico", "formal", "tecnico"]).default("formal"),
+  length: z.enum(["concisa", "media", "detallada"]).default("media"),
   question: z.string().min(5),
   sessionId: z.string().uuid().optional(),
 });
@@ -79,6 +85,7 @@ export type LegalSource = {
   chunkId: string;
   documentId: string;
   documentTitle: string;
+  documentNumber: string | null;
   documentType: string;
   fileName: string;
   sourceEntity: string | null;
@@ -159,6 +166,7 @@ function normalizeFilters(filters?: z.infer<typeof legalSearchFiltersSchema>): S
   return {
     article: filters?.article?.trim() || undefined,
     documentId: filters?.documentId?.trim() || undefined,
+    documentIds: filters?.documentIds?.length ? filters.documentIds : undefined,
     documentType: filters?.documentType?.trim() || undefined,
     sourceEntity: filters?.sourceEntity?.trim() || undefined,
     status: filters?.status?.trim() || undefined,
@@ -494,7 +502,9 @@ function sourceMatchesFilters(source: LegalSource, filters: SearchFilters) {
     return false;
   }
 
-  if (filters.documentId && source.documentId !== filters.documentId) {
+  if (filters.documentIds && filters.documentIds.length > 0) {
+    if (!filters.documentIds.includes(source.documentId)) return false;
+  } else if (filters.documentId && source.documentId !== filters.documentId) {
     return false;
   }
 
@@ -600,6 +610,8 @@ function isLikelyLegalProcurementQuestion(question: string) {
     "buena pro",
     "valor referencial",
     "valor estimado",
+    "cuantia de la contratacion",
+    "cuantia",
     "uit",
     "desierto",
     "nulidad",
@@ -619,6 +631,56 @@ function isLikelyLegalProcurementQuestion(question: string) {
     "conformidad",
     "supervisor",
     "valorizacion",
+    // Infracciones, sanciones y temas administrativos frecuentes (evitan rechazar
+    // consultas legales validas cuya redaccion no usa una palabra del listado).
+    "multa",
+    "multas",
+    "infraccion",
+    "infracciones",
+    "inhabilitacion",
+    "sancionado",
+    "documento",
+    "documentos",
+    "documentacion",
+    "falso",
+    "falsa",
+    "falsos",
+    "falsas",
+    "falsedad",
+    "denuncia",
+    "queja",
+    "reclamo",
+    "responsabilidad",
+    "obligacion",
+    "obligaciones",
+    "derecho",
+    "derechos",
+    "prohibicion",
+    "prohibido",
+    "incumplimiento",
+    "resolucion del contrato",
+    "ejecucion contractual",
+    "ampliacion de plazo",
+    "prestaciones adicionales",
+    "subcontratacion",
+    "consorcio",
+    "postor",
+    "postores",
+    "ganador",
+    "buena pro",
+    "ficha tecnica",
+    "registro nacional de proveedores",
+    "rnp",
+    "homologacion",
+    "estandarizacion",
+    "presupuesto",
+    "cuantia",
+    "convocatoria",
+    "absolucion de consultas",
+    "integracion de bases",
+    "comite de seleccion",
+    "organo encargado",
+    "actuaciones preparatorias",
   ];
 
   // Tambien reconoce los alias de todos los procedimientos configurados en el
@@ -634,22 +696,35 @@ function isLikelyLegalProcurementQuestion(question: string) {
   );
 }
 
-function buildModeInstruction(mode: z.infer<typeof chatRequestSchema>["mode"]) {
-  const instructions = {
-    breve: "Responde en forma breve, directa y con sustento.",
-    checklist: "Responde como checklist operativo, con pasos verificables.",
-    informe: "Responde como borrador de informe legal formal, con secciones claras.",
-    tecnica: "Responde con tono legal tecnico, preciso y sustentado.",
+function buildStyleInstruction(
+  tone: z.infer<typeof chatRequestSchema>["tone"],
+  length: z.infer<typeof chatRequestSchema>["length"],
+) {
+  const tones = {
+    didactico:
+      "Tono cercano y didactico: explica como a alguien que recien aprende, con lenguaje claro y, cuando ayude, un ejemplo sencillo. Si usas un termino tecnico, explicalo en pocas palabras.",
+    formal:
+      "Tono de asesoria legal formal: preciso y sobrio, con terminologia juridica correcta y sin coloquialismos.",
+    tecnico:
+      "Tono tecnico y directo para especialistas: denso en reglas y datos, minimo relleno, foco en condiciones, requisitos, plazos y fuentes.",
+  };
+  const lengths = {
+    concisa:
+      "Extension MUY BREVE: responde en 1 a 2 parrafos cortos o como maximo 3-4 viñetas. Solo lo esencial, sin encabezados de seccion ni desarrollo. Ve directo al punto; si el usuario quiere mas, lo pedira.",
+    media:
+      "Extension MEDIA (equilibrada y compacta): respuesta directa + una explicacion breve y, si aplica, una orientacion practica corta. Maximo ~3 parrafos cortos o 2 secciones breves; no abundes en detalles.",
+    detallada:
+      "Extension DETALLADA: desarrolla a fondo (que es, como funciona, condiciones, en la practica) con todas las secciones utiles.",
   };
 
-  return instructions[mode];
+  return `${tones[tone]} ${lengths[length]}`;
 }
 
 function buildContext(sources: LegalSource[]) {
   return sources
     .map(
       (source, index) => `[F${index + 1}]
-Documento: ${source.documentTitle}
+Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.documentNumber})` : ""}
 Tipo: ${source.documentType}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
@@ -719,46 +794,6 @@ ${excerpts}
 
 Fuentes usadas:
 ${sourceLines}
-
-Nivel de confianza: baja`;
-}
-
-function buildProcessRegulationMissingAnswer(input: {
-  processType: string;
-  sources: LegalSource[];
-}) {
-  const lawSources = input.sources.filter((source) => source.documentType === "ley").slice(0, 3);
-  const lawLines = lawSources.length
-    ? lawSources
-        .map(
-          (source, index) =>
-            `- ${source.citation}: la fuente recuperada menciona o remite la regulacion del proceso, pero no contiene los requisitos concretos. [F${index + 1}]`,
-        )
-        .join("\n")
-    : "- No se recupero una fuente legal trazable suficiente sobre este proceso.";
-  const procedureCoverage = assessProcedureSourceCoverage(input.processType, input.sources);
-  const missing = procedureCoverage.missingCritical.length
-    ? procedureCoverage.missingCritical
-    : procedureCoverage.missing;
-
-  return `**Respuesta breve**
-1. No puedo detallar requisitos concretos de ${processTypeLabel(
-    input.processType,
-  )} con sustento suficiente porque no se recupero la fuente critica que regula sus condiciones de uso. ${lawSources.length ? "[F1]" : ""}
-
-**Mapa normativo**
-${lawLines}
-- Fuentes criticas faltantes: ${missing.length ? missing.join(", ") : "fuente normativa especifica del procedimiento"}.
-- Bases: pueden servir como esquema operativo en Consultas, pero no sustituyen el fundamento normativo.
-
-**Como verificarlo**
-- Revisa o sube el Reglamento vigente que regule ${processTypeLabel(
-    input.processType,
-  )}; para Comparacion de precios, la Ley (art. 4) remite las condiciones al Reglamento, que es la fuente critica a recuperar si esta vigente.
-- Si el Reglamento fue modificado, valida la version vigente antes de usar la respuesta.
-
-**Limitaciones**
-- La Ley recuperada no basta para listar requisitos especificos cuando remite al Reglamento.
 
 Nivel de confianza: baja`;
 }
@@ -1105,6 +1140,10 @@ function chunkToSource(
     citation: "",
     documentId: chunk.document_id,
     documentTitle: chunk.documents?.title ?? hit?.title ?? "Documento sin titulo",
+    documentNumber:
+      getStringMetadata(documentMetadata, "documentNumber") ??
+      getStringMetadata(documentMetadata, "number") ??
+      (typeof hit?.document_number === "string" ? hit.document_number : null),
     documentType: chunk.documents?.document_type ?? hit?.document_type ?? "otros",
     evidenceQuality: 0,
     excerpt: chunk.content.slice(0, 1400),
@@ -1142,7 +1181,7 @@ function chunkToSource(
 
 export async function searchLegalSources(
   input: z.infer<typeof semanticSearchRequestSchema>,
-): Promise<{ assessment: SourceAssessment; sources: LegalSource[] }> {
+): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean }> {
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
     ...filters,
@@ -1151,8 +1190,18 @@ export async function searchLegalSources(
   const queryUsed = normalizeQuestionForSearch(input.query);
   const expandedQuery = expandQueryForRecall(queryUsed);
   const semanticTopK = Math.min(30, Math.max(input.topK * 2, 10));
+  // Si el embedding/semántico falla (p. ej. sin cuota para embeddings), la
+  // búsqueda NO se cae: degrada al modo léxico (SQL). Pero el fallo se REPORTA en
+  // `semanticaCaida` en vez de tragarse: el respaldo léxico es un `ilike` con OR
+  // entre palabras y sin orden por relevancia, así que devuelve fragmentos casi
+  // arbitrarios. Presentarlos como fundamento normativo, sin decir que la
+  // búsqueda real está caída, es peor que no citar nada.
+  let semanticaCaida = false;
   const [hits, lexicalChunks] = await Promise.all([
-    searchTextRecords(expandedQuery, semanticTopK, pineconeFilters),
+    searchTextRecords(expandedQuery, semanticTopK, pineconeFilters).catch(() => {
+      semanticaCaida = true;
+      return [];
+    }),
     searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2)).catch(() => []),
   ]);
   const vectorIds = uniqueValues(hits.map((hit) => hit._id));
@@ -1164,6 +1213,7 @@ export async function searchLegalSources(
         queryUsed,
         scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
       }),
+      semanticaCaida,
       sources: [],
     };
   }
@@ -1209,6 +1259,7 @@ export async function searchLegalSources(
   const sources = rerankSources(combined, queryUsed, input.topK);
 
   return {
+    semanticaCaida,
     assessment: assessSources(sources, {
       processType: filters.processType,
       queryUsed,
@@ -1261,7 +1312,7 @@ async function persistChatExchange(input: {
         model: null,
         role: "user",
         session_id: sessionId,
-        sources: [],
+      sources: [],
       },
       {
         content: input.answer,
@@ -1402,7 +1453,13 @@ type PreparedAnswer =
 export type ChatStreamEvent =
   | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"] }
   | { type: "delta"; text: string }
-  | { type: "done"; sessionId: string | null; messageId: string | null; model: string }
+  | {
+      type: "done";
+      sessionId: string | null;
+      messageId: string | null;
+      model: string;
+      citationWarnings?: string[];
+    }
   | { type: "error"; error: string };
 
 // Persiste el intercambio salvo que el llamador lo desactive (evaluador continuo).
@@ -1433,23 +1490,9 @@ async function prepareLegalAnswer(
   };
   const requestedProcessType = chatFilters.processType || null;
 
-  if (!likelyLegal && !input.sessionId) {
-    const assessment = assessSources([], {
-      processType: requestedProcessType,
-      queryUsed: normalizeQuestionForSearch(input.question),
-      scope: "off_topic",
-    });
-    return {
-      status: "final",
-      answer:
-        "Esta consulta parece estar fuera del alcance de ACE IA Juridica. Puedo ayudarte con contrataciones publicas, Ley 32069, reglamento, opiniones, directivas, resoluciones OECE y documentos juridicos indexados.",
-      model: "scope-guard",
-      assessment,
-      sources: [],
-      chatFilters,
-    };
-  }
-
+  // El alcance se decide DESPUES de buscar, segun la relevancia real de lo
+  // recuperado (no por una lista de palabras). Asi no se rechazan consultas
+  // legales validas cuya redaccion no use un termino del listado.
   const shouldRunBroadNormativeSearch = Boolean(chatFilters?.processType && !chatFilters.documentType);
   const broadNormativeFilters = shouldRunBroadNormativeSearch
     ? {
@@ -1527,9 +1570,18 @@ async function prepareLegalAnswer(
       ...processRelevantScopedSources,
     ].filter((source) => sourceSupportsProcess(source, requestedProcessType)),
     normalizeQuestionForSearch(input.question),
-    20,
+    24,
   );
-  const sources = selectHierarchicalAnswerSources(candidateSources, 8);
+  // Garantiza que las mejores fuentes criticas tipadas (reglamento/directiva del
+  // procedimiento) lleguen a la seleccion jerarquica aunque su ranking global no
+  // entre al top: en consultas de requisitos la Ley suele dominar y, si no se
+  // inyectan, el Reglamento se queda fuera (p. ej. licitacion, contratacion directa).
+  const scopedForSelection = rerankSources(
+    processRelevantScopedSources,
+    normalizeQuestionForSearch(input.question),
+    4,
+  );
+  const sources = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
   const assessment = assessSources(sources, {
     processType: requestedProcessType,
     queryUsed: searchResult.assessment.queryUsed,
@@ -1563,42 +1615,43 @@ async function prepareLegalAnswer(
     !hasSpecificProcessRegulationSource(sources, requestedProcessType);
 
   if (missingSpecificRegulation) {
+    // No se rehusa: se responde con lo disponible y se AVISA que los requisitos
+    // concretos podrian estar en el Reglamento/directiva no recuperado del todo.
+    // La confianza ya refleja la cobertura parcial via assessSources.
     const requirementMessage = procedureCatalog[requestedProcessType]?.requirementRule?.message;
-    assessment.sufficient = false;
-    assessment.confidence = "baja";
-    assessment.reason =
-      requirementMessage ??
-      `No hay fuente reglamentaria, directiva u opinion especifica suficiente para responder requisitos de ${processTypeLabel(
-        requestedProcessType,
-      )}.`;
     assessment.evidenceWarnings = [
       ...assessment.evidenceWarnings,
       requirementMessage ??
-        `Para requisitos de ${processTypeLabel(
+        `Para requisitos especificos de ${processTypeLabel(
           requestedProcessType,
-        )}, la evidencia debe incluir Reglamento aplicable, directiva u opinion especifica; la Ley sola no basta si remite al Reglamento.`,
+        )} puede faltar el Reglamento/directiva exacto; lo que sigue se basa en las fuentes recuperadas. Verifica el Reglamento aplicable antes de decidir.`,
     ];
-    return {
-      status: "final",
-      answer: buildProcessRegulationMissingAnswer({ processType: requestedProcessType, sources }),
-      model: "process-regulation-sufficiency-gate",
-      assessment,
-      sources,
-      chatFilters,
-    };
   }
 
-  if (!assessment.sufficient) {
-    const processScopeText = requestedProcessType
-      ? ` para ${processTypeLabel(requestedProcessType)}`
-      : "";
-    const answer = assessment.coverage.bases
-      ? `No encontre norma suficiente${processScopeText} para responder con sustento. Hay bases integradas relacionadas, pero son esquema de implementacion, no fundamento normativo. No voy a reemplazar ese proceso por contratos menores u otro tipo de proceso. Revisa esas bases en Consultas y sube o selecciona la ley, reglamento, directiva u opinion aplicable.`
-      : `No encontre fuentes normativas suficientes${processScopeText} para responder con sustento. El chat solo fundamenta respuestas en ley, reglamento, directivas y opiniones, y no debe sustituir el proceso consultado por contratos menores u otro regimen. Las bases integradas pueden revisarse en Consultas como esquema de implementacion, pero no se usan como fundamento juridico principal.`;
+  // Alcance por RELEVANCIA de lo recuperado (no por lista de palabras). La
+  // consulta esta dentro del corpus si: coincide vocabulario legal (señal
+  // positiva), es un seguimiento de la sesion, el reranker la marca relevante, o
+  // hay una señal semantica/lexica fuerte en las fuentes. Si nada de eso aplica
+  // (o no hay fuentes), es fuera de tema / sin informacion.
+  const topSemantic = sources.reduce((max, source) => Math.max(max, source.semanticScore), 0);
+  const topRerank = sources.reduce((max, source) => Math.max(max, source.rerankScore), 0);
+  const relevantToCorpus =
+    sources.length > 0 &&
+    (likelyLegal ||
+      Boolean(input.sessionId) ||
+      topRerank >= 0.3 ||
+      topSemantic >= 0.42 ||
+      (topSemantic >= 0.33 && assessment.lexicalScore >= 0.6));
+
+  // Se rehusa cuando no hay fuentes O lo recuperado es claramente irrelevante.
+  // Si hay fuentes relevantes (aunque la cobertura no sea perfecta) se responde
+  // de forma util con lo que exista, con sus advertencias.
+  if (!relevantToCorpus) {
     return {
       status: "final",
-      answer,
-      model: "source-sufficiency-gate",
+      answer:
+        "No encontre informacion sobre esto en los documentos indexados (ley, reglamento, directivas y opiniones de contrataciones publicas). Si crees que deberia estar, sube o selecciona el documento aplicable; tambien puedes reformular la pregunta.",
+      model: "out-of-scope",
       assessment,
       sources,
       chatFilters,
@@ -1612,11 +1665,11 @@ async function prepareLegalAnswer(
     input: [
       {
         content:
-      "Eres un asistente juridico especializado en contrataciones publicas peruanas. Respondes UNICAMENTE con el texto literal de las Fuentes recuperadas que se te entregan; tienes prohibido usar conocimiento externo, tu memoria u otras normas que no aparezcan en esas fuentes. El marco vigente es la Ley 32069 y su Reglamento (Decreto Supremo 009-2025-EF): NUNCA cites ni atribuyas contenido a la Ley 30225, al D.S. 344-2018-EF, al D.S. 320-2019-EF ni a ningun otro regimen anterior, salvo que ese texto aparezca literalmente en una Fuente recuperada. Datos especificos (montos, UIT, plazos, porcentajes, numeros de articulo, nombres y numeros de norma) solo pueden afirmarse si constan LITERALMENTE en una Fuente; si no constan, di explicitamente 'no consta en las fuentes recuperadas' y NO los inventes ni los completes. Las fuentes validas para fundamentar son ley, reglamento, directivas y opiniones; las bases integradas son esquema operativo, no fundamento. Tolera errores de ortografia del usuario, pero no inventes normas, articulos, montos ni documentos. Mas vale decir 'no consta' que dar un dato sin sustento: en materia legal un dato inventado es una falla grave.",
+      "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El marco vigente es la Ley 32069 y su Reglamento (D.S. 009-2025-EF): nunca atribuyas contenido a la Ley 30225, D.S. 344-2018-EF, D.S. 320-2019-EF ni a otro regimen anterior salvo que aparezca literal en una Fuente. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
         role: "system",
       },
       {
-        content: `${buildModeInstruction(input.mode)}
+        content: `${buildStyleInstruction(input.tone, input.length)}
 
 Historial reciente de la sesion:
 ${historyContext}
@@ -1633,55 +1686,65 @@ ${context}
 Cobertura normativa encontrada:
 ${buildCoverageText(assessment)}
 
-Formato obligatorio:
-- Usa Markdown simple.
-- Organiza la respuesta con numerales, viñetas, **negritas** y <u>subrayado</u> solo cuando ayuden a entender.
-- Regla critica de trazabilidad: cada parrafo, numeral o viñeta que contenga una afirmacion, criterio, requisito, obligacion, paso o conclusion debe terminar con uno o mas marcadores de fuente como [F1], [F2].
-- No escribas parrafos, numerales ni viñetas sustantivas sin marcador [F#]. Si no puedes asociar una fuente exacta, omite esa afirmacion o ponla en Limitaciones.
-- Los marcadores [F#] deben corresponder exactamente a las fuentes recuperadas listadas arriba.
-- No cites una fuente si el fragmento no sustenta esa afirmacion.
-- Los encabezados pueden no llevar fuente; todo el contenido debajo de un encabezado si debe llevarla.
-- Si la pregunta pide un tipo de proceso especifico, no lo reemplaces por contratos menores ni por otro procedimiento. Si las fuentes no regulan ese proceso, dilo en Limitaciones y no inventes requisitos.
+Como responder (util y claro):
+- Da una respuesta UTIL y bien explicada segun el tono y la longitud indicados arriba: define conceptos, da contexto, conecta las fuentes y orienta de forma practica. No te limites a copiar el texto de la norma.
+- Formato Markdown:
+  - Usa **encabezados** (## o **negrita**) para separar las partes de la respuesta.
+  - Usa **tablas** cuando compares elementos (requisitos, plazos, opciones, umbrales por tipo); no fuerces tablas si no aplican.
+  - **Viñetas breves**: una idea por viñeta, frases cortas.
+  - Resalta en **negrita** los terminos o cifras clave.
+- Citas: coloca el marcador [F#] AL FINAL de la afirmacion sustantiva que sustenta (no a mitad de frase). Cita cada afirmacion juridica sustantiva (requisito, regla, definicion, obligacion, plazo, conclusion). El texto explicativo/orientacion que se desprende de esas fuentes NO necesita [F#] en cada linea, pero no debe contradecirlas ni introducir datos nuevos. Los [F#] deben corresponder a las fuentes recuperadas y el fragmento debe sustentar la afirmacion.
+- Si la pregunta pide un tipo de proceso especifico, no lo reemplaces por otro procedimiento; si las fuentes no lo regulan del todo, explica lo que SI consta y señala que falta.
+- Si las fuentes no contienen NADA relevante para la pregunta, dilo: "No encontre informacion sobre esto en los documentos indexados".
 
 Reglas anti-invencion (CRITICAS, materia legal):
 - Usa EXCLUSIVAMENTE el texto literal de las Fuentes recuperadas listadas arriba. Prohibido usar conocimiento externo, tu memoria u otras normas no recuperadas.
 - El marco aplicable es la Ley 32069 y su Reglamento D.S. 009-2025-EF. NUNCA menciones ni cites la Ley 30225, el D.S. 344-2018-EF, el D.S. 320-2019-EF u otras normas del regimen anterior, salvo que ese texto aparezca literalmente en una Fuente recuperada.
 - Datos especificos (montos, UIT, plazos, porcentajes, numeros de articulo, numeros/nombres de norma) SOLO pueden afirmarse si aparecen LITERALMENTE en una Fuente recuperada. Si no constan, escribe "no consta en las fuentes recuperadas" y NO los inventes ni completes desde tu conocimiento.
+- NO traslades una cifra (monto/UIT/plazo/porcentaje) de un fragmento que trata de OTRO tema (p. ej. sanciones, notarios, garantias, disputas) al procedimiento consultado. Un umbral solo aplica al procedimiento si el MISMO fragmento habla de ese procedimiento; si ninguna Fuente da el dato para el procedimiento preguntado, di "no consta en las fuentes recuperadas".
 - Un marcador [F#] solo es valido si ESE fragmento contiene literalmente el dato que afirmas. Si ninguna fuente lo contiene, no pongas [F#]: lleva esa afirmacion a Limitaciones indicando que no consta.
 - No uses frases como "es conocido que", "segun la normativa vigente" o similares para introducir datos que no esten en las Fuentes.
+- PROHIBIDO completar una cifra "estandar" o "tipica" de memoria aunque la recuerdes con certeza (p. ej. el tope de adelantos, el % de la garantia de fiel cumplimiento, el tope de penalidades por mora u otras penalidades, o el umbral en UIT para apelar ante el Tribunal). Si el numero exacto (UIT, %, plazo, S/) NO esta literalmente en una Fuente, describe la regla en forma CUALITATIVA sin inventar el valor: di que "existe un tope maximo", que "se exige una garantia" o que "la competencia depende del valor", y agrega en Limitaciones que el monto/porcentaje/plazo exacto no consta en las fuentes recuperadas. Mejor omitir la cifra que arriesgar una incorrecta.
+- AUTO-CHEQUEO OBLIGATORIO antes de escribir cualquier porcentaje (%), monto (S/), valor en UIT o plazo: localiza ese token EXACTO dentro del texto de la Fuente [F#] que vas a citar. Si no puedes copiarlo literalmente de ese fragmento, NO lo escribas: omite la cifra y describe la regla en palabras. Esto aplica especialmente a penalidades, garantias, adelantos y umbrales de competencia, donde la tentacion de poner el valor "de memoria" es alta.
 
-Estructura:
-**Respuesta breve**
-1. Si hay Ley o Reglamento pertinente, empieza por esa base normativa. [F1]
-2. Luego incorpora Directiva aplicable y Opinion si existe. [F2]
-
-**Mapa normativo**
-- Si la pregunta pide requisitos de un tipo de proceso, separa en viñetas o tabla: Ley, Reglamento, Directiva/Opinion si existe, y Bases solo como referencia operativa si fueron mencionadas en las fuentes recuperadas. [F#]
-- Explica cuando la Ley solo define o remite al Reglamento y no contiene los requisitos concretos. [F#]
-- Para Comparacion de precios, la Ley (art. 4) define y remite al Reglamento; señala las condiciones del Reglamento recuperado como punto principal de verificacion. [F#]
-
-**Como verificarlo**
-- Paso verificable... [F1]
-- Paso verificable... [F3]
-
-**Fundamento legal**
-- Documento, articulo/pagina y regla aplicable... [F2]
-- Si citas una Opinion, indica que no es norma obligatoria sino criterio interpretativo. [F#]
-- Si una fuente aparece como derogada, modificada o antigua, adviertelo en Limitaciones. [F#]
-
-**Limitaciones**
-- Indica exactamente que parte de la pregunta no queda cubierta por las fuentes. [F# si aplica]
+Estructura sugerida (adaptala a la pregunta; no es rigida):
+- **Respuesta directa**: contesta lo preguntado de forma clara y util, con su sustento [F#].
+- **Explicacion / desarrollo**: amplia con contexto, como funciona, condiciones, relacion entre Ley y Reglamento, etc., citando lo sustantivo. Si la Ley solo define o remite al Reglamento, explicalo.
+- **En la practica / como aplicarlo**: orientacion accionable derivada de las fuentes (que revisar, pasos, advertencias).
+- **Fuentes y vigencia**: documento(s), articulo/pagina; si citas una Opinion, aclara que es criterio interpretativo (no norma obligatoria); si una fuente aparece derogada/modificada, adviertelo.
+- Si algo relevante no consta en las fuentes, dilo explicitamente al final (no lo inventes).
 
 No escribas el nivel de confianza; el sistema lo agregara despues con una evaluacion independiente.`,
         role: "user",
       },
     ],
-    max_output_tokens: input.mode === "breve" ? 700 : 1300,
+    max_output_tokens: input.length === "concisa" ? 450 : input.length === "media" ? 750 : 1800,
     model: legalAnswerModel,
     temperature: 0.2,
   };
 
   return { status: "generate", generationParams, assessment, sources, chatFilters };
+}
+
+// Verifica fidelidad de citas sobre la respuesta generada y, si algun dato
+// especifico citado no consta en su fragmento, añade una advertencia visible en
+// la evidencia (el cliente la muestra). Es una red de seguridad anti-misatribucion.
+function applyCitationFaithfulnessWarning(
+  answer: string,
+  sources: LegalSource[],
+  assessment: SourceAssessment,
+) {
+  const faithfulness = checkCitationFaithfulness(answer, sources);
+  if (!faithfulness.ok) {
+    assessment.evidenceWarnings = [
+      ...assessment.evidenceWarnings,
+      `Verificacion de citas: ${faithfulness.issues.length} dato(s) citado(s) (${faithfulness.issues
+        .map((issue) => issue.datum)
+        .slice(0, 3)
+        .join(", ")}) no se hallaron en el fragmento citado; confirme en el texto original.`,
+    ];
+  }
+  return faithfulness;
 }
 
 export async function answerLegalQuestion(
@@ -1707,6 +1770,8 @@ export async function answerLegalQuestion(
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
     }
   }
+
+  applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
 
   const persisted = await maybePersist(auth, {
     accessToken: auth.accessToken,
@@ -1781,6 +1846,8 @@ export async function* streamLegalAnswer(
     }
   }
 
+  const faithfulness = applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
+
   const persisted = await maybePersist(auth, {
     accessToken: auth.accessToken,
     ownerId: auth.ownerId,
@@ -1799,5 +1866,6 @@ export async function* streamLegalAnswer(
     sessionId: persisted.sessionId,
     messageId: persisted.assistantMessageId,
     model,
+    citationWarnings: faithfulness.ok ? [] : faithfulness.issues.map((issue) => issue.reason),
   };
 }

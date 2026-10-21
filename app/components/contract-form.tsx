@@ -22,16 +22,27 @@ export function ContractForm() {
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
 
+  // El campo puede mostrar la entidad configurada en Municipalidad aunque el
+  // usuario no la haya escrito; usamos ese valor efectivo para validar y enviar.
+  const effectiveEntity = form.entity.trim() || configuredEntity?.name?.trim() || "";
+  const canGenerate = effectiveEntity.length >= 2 && form.object.trim().length >= 3;
+
   function update(key: keyof typeof initialForm, value: string) {
     setForm((current) => ({ ...current, [key]: value }));
     setDone(false);
+  }
+
+  function filenameFromResponse(response: Response) {
+    const disposition = response.headers.get("Content-Disposition") ?? "";
+    const match = /filename\*?=(?:UTF-8'')?"?([^";]+)"?/i.exec(disposition);
+    return match?.[1] ? decodeURIComponent(match[1]) : "contrato.docx";
   }
 
   async function generate() {
     setError("");
     setDone(false);
 
-    if (form.entity.trim().length < 2 || form.object.trim().length < 3) {
+    if (!canGenerate) {
       setError("Completa al menos la entidad y el objeto del contrato.");
       return;
     }
@@ -40,7 +51,7 @@ export function ContractForm() {
 
     try {
       const response = await fetch("/api/contracts/generate", {
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, entity: effectiveEntity }),
         headers: { "Content-Type": "application/json" },
         method: "POST",
       });
@@ -55,7 +66,7 @@ export function ContractForm() {
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "contrato.docx";
+      anchor.download = filenameFromResponse(response);
       anchor.click();
       URL.revokeObjectURL(url);
       setDone(true);
@@ -128,8 +139,13 @@ export function ContractForm() {
         </div>
 
         <div className="formActions">
-          <button className="primaryButton" disabled={loading} onClick={generate} type="button">
-            {loading ? <LoaderCircle size={18} /> : <FileText size={18} />}
+          <button
+            className="primaryButton"
+            disabled={loading || !canGenerate}
+            onClick={generate}
+            type="button"
+          >
+            {loading ? <LoaderCircle className="spinIcon" size={18} /> : <FileText size={18} />}
             {loading ? "Generando..." : "Generar DOCX"}
           </button>
         </div>

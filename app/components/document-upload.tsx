@@ -65,6 +65,8 @@ type DocumentItem = {
   source_entity: string | null;
   status: "uploaded" | "processing" | "indexed" | "error";
   created_at: string;
+  oficina_id?: string | null;
+  es_institucional?: boolean;
 };
 
 type DocumentsResponse = {
@@ -221,6 +223,9 @@ export function DocumentUpload() {
   const [processType, setProcessType] = useState("");
   const [reindexingId, setReindexingId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
+  // Institucional = visible para cualquier oficina; si no, solo la que sube lo
+  // ve (y admin). Default false: la excepción se marca a propósito.
+  const [esInstitucional, setEsInstitucional] = useState(false);
   const [changeCategory, setChangeCategory] = useState("original");
   const [amendsDocumentId, setAmendsDocumentId] = useState("");
   const [amendsNote, setAmendsNote] = useState("");
@@ -419,6 +424,7 @@ export function DocumentUpload() {
     formData.append("amends", amendsToSend);
     formData.append("amendsDocumentId", amendsDocumentIdToSend);
     formData.append("changeNote", changeNoteToSend);
+    formData.append("esInstitucional", String(esInstitucional));
 
     setLoading(true);
     setMessage("Subiendo PDF...");
@@ -441,6 +447,7 @@ export function DocumentUpload() {
       setChangeCategory("original");
       setAmendsDocumentId("");
       setAmendsNote("");
+      setEsInstitucional(false);
       setMessage("PDF subido. Procesando e indexando en segundo plano...");
       await loadDocuments();
       await loadQuality();
@@ -743,6 +750,18 @@ export function DocumentUpload() {
               value={title}
             />
           </label>
+          <label className="checkboxField">
+            <input
+              checked={esInstitucional}
+              onChange={(event) => setEsInstitucional(event.target.checked)}
+              type="checkbox"
+            />
+            <span>5 · Documento institucional</span>
+            <small className="fieldHint">
+              Visible para todas las oficinas (p. ej. la Ley, el Reglamento, una plantilla común). Sin
+              marcar, solo lo ve tu oficina.
+            </small>
+          </label>
         </div>
 
         {documentType === "opinion" ? (
@@ -1016,6 +1035,10 @@ export function DocumentUpload() {
                   {labelProcessType(getDocumentProcessType(document))
                     ? ` · ${labelProcessType(getDocumentProcessType(document))}`
                     : ""}
+                  {/* Sin oficina asignada al usuario que la ve, todo lo que llega aquí es
+                      institucional (GET ya filtra así), así que marcarla solo aporta cuando
+                      además hay documentos propios de oficina para distinguir. */}
+                  {document.es_institucional ? " · Institucional" : ""}
                 </span>
                 {document.metadata?.extractionMethod ? (
                   <span>

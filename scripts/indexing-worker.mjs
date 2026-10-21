@@ -5,25 +5,44 @@ const cronSecret = process.env.CRON_SECRET || "";
 const intervalMs = Number.parseInt(process.env.INDEXING_WORKER_INTERVAL_MS || "30000", 10);
 const once = process.argv.includes("--once");
 
-async function drainOnce() {
-  const response = await fetch(`${baseUrl}/api/documents/drain`, {
+// Colas a drenar: corpus normativo y biblioteca de expedientes archivados.
+const drainTargets = [
+  { label: "documents", path: "/api/documents/drain" },
+  { label: "expedientes", path: "/api/expedientes-archivo/drain" },
+];
+
+async function drainTarget(target) {
+  const response = await fetch(`${baseUrl}${target.path}`, {
     headers: cronSecret ? { Authorization: `Bearer ${cronSecret}` } : undefined,
     method: "POST",
   });
   const text = await response.text();
 
   if (!response.ok) {
-    throw new Error(`Drain failed ${response.status}: ${text}`);
+    throw new Error(`Drain ${target.label} failed ${response.status}: ${text}`);
   }
 
   const payload = JSON.parse(text);
   const stamp = new Date().toISOString();
   console.log(
-    `[${stamp}] scanned=${payload.scanned} processed=${payload.processed} failed=${payload.failed}`,
+    `[${stamp}] ${target.label}: scanned=${payload.scanned} processed=${payload.processed} failed=${payload.failed}`,
   );
 
   for (const item of payload.items ?? []) {
     console.log(`  - ${item.ok ? "ok" : "error"} ${item.title}${item.error ? `: ${item.error}` : ""}`);
+  }
+}
+
+// Drena todas las colas en cada ciclo; un fallo en una no impide drenar la otra.
+async function drainOnce() {
+  for (const target of drainTargets) {
+    try {
+      await drainTarget(target);
+    } catch (error) {
+      console.error(
+        `[${new Date().toISOString()}] ${error instanceof Error ? error.message : error}`,
+      );
+    }
   }
 }
 

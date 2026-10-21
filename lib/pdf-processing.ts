@@ -1,5 +1,5 @@
+import { loadServerPdfJs } from "./pdf-server";
 import pdfParse from "pdf-parse/lib/pdf-parse";
-import { toFile } from "openai";
 import { createHash } from "crypto";
 import { getOpenAIClient, legalAnswerModel, pdfOcrModel } from "./openai-server";
 import { type DocumentRecord, supabaseRest } from "./supabase-server";
@@ -44,15 +44,26 @@ const unusableOcrPatterns = [
   "i cannot process",
 ];
 
-type ExtractedPdfText = {
+// Tokens consumidos por el OCR de OpenAI (solo presente cuando hubo OCR de
+// imagen). `fromCache` = se reutilizó un OCR previo (0 tokens nuevos gastados,
+// pero se reporta el coste original para la contabilidad por expediente).
+export type OcrUsage = {
+  inputTokens: number;
+  outputTokens: number;
+  model: string;
+  fromCache?: boolean;
+};
+
+export type ExtractedPdfText = {
   extractionMethod: "pdf-text" | "openai-ocr";
   ocrPartial: boolean;
   pageCount: number;
   pages: Array<{ pageNumber: number; text: string }>;
   text: string;
+  usage?: OcrUsage;
 };
 
-type TextChunk = {
+export type TextChunk = {
   article: string | null;
   content: string;
   end: number;
@@ -134,13 +145,44 @@ function detectSectionTitle(text: string) {
   return heading?.slice(0, 180) ?? null;
 }
 
-function detectDocumentNumber(title: string, text: string) {
-  const source = `${title}\n${text.slice(0, 5000)}`;
+// Token de numero de norma: soporta "32069", "009-2025-EF" y el formato de
+// opiniones/directivas/resoluciones con prefijo de letra y anio ("D026-2025/DTN",
+// "000027-2025-DTN", "0001-2026-EF/54.01").
+const normNumberToken = "[A-Za-z]?[0-9]{1,6}(?:-[0-9]{4})?(?:[-/][A-Za-z0-9.][A-Za-z0-9/.-]*)?";
+
+const documentTypeKeyword: Record<string, string> = {
+  ley: "ley",
+  reglamento: "decreto\\s+supremo|reglamento",
+  directiva: "directiva",
+  opinion: "opini[oó]n",
+  resolucion: "resoluci[oó]n",
+};
+
+function detectDocumentNumber(title: string, text: string, documentType?: string) {
+  const source = `${title}\n${text.slice(0, 6000)}`;
+
+  // 1) Patron del PROPIO tipo del documento primero, para no capturar una norma
+  //    de otro tipo referenciada en el cuerpo (p. ej. una Ley citada dentro de
+  //    una Opinion). El titulo va al inicio del source, asi que su numero gana.
+  const keyword = documentType ? documentTypeKeyword[documentType] : undefined;
+  if (keyword) {
+    const specific = source.match(
+      new RegExp(`\\b(?:${keyword})\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`, "i"),
+    );
+    if (specific?.[1]) {
+      return specific[1].replace(/[.,;:]+$/, "");
+    }
+  }
+
+  // 2) Fallback generico (cualquier tipo de norma).
   const match = source.match(
-    /\b(?:ley|decreto\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\s*(?:n(?:\.|°|º|ro)?\s*)?([0-9]{1,5}(?:-[0-9]{4})?(?:-[A-Z/.-]+)?)/i,
+    new RegExp(
+      `\\b(?:ley|decreto\\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`,
+      "i",
+    ),
   );
 
-  return match?.[1] ?? null;
+  return match?.[1] ? match[1].replace(/[.,;:]+$/, "") : null;
 }
 
 function uniqueLimited(values: string[], limit: number) {
@@ -383,7 +425,7 @@ function getMaxChunksPerDocument() {
   return Number.isFinite(value) && value > 0 ? value : null;
 }
 
-function chunkPages(pages: Array<{ pageNumber: number; text: string }>) {
+export function chunkPages(pages: Array<{ pageNumber: number; text: string }>) {
   const chunks: TextChunk[] = [];
   const maxChunksPerDocument = getMaxChunksPerDocument();
   let buffer = "";
@@ -584,6 +626,65 @@ function segmentArticlesFromPages(pages: Array<{ pageNumber: number; text: strin
   return articles;
 }
 
+// Chunking POR ARTICULO: usa los segmentos de articulo como unidad de fragmento
+// (en vez de cortes por tamaño). Cada articulo coherente -> un embedding, con su
+// numero/pagina exactos => mejor precision de recuperacion y citas limpias. Los
+// articulos muy largos se sub-dividen en partes <= chunkSize conservando el
+// numero de articulo y la seccion. Solo para normas con estructura de articulos;
+// el resto (bases, resoluciones, contratos) sigue usando chunkPages.
+function chunkByArticles(segments: ArticleSegment[]): TextChunk[] {
+  const chunks: TextChunk[] = [];
+  const maxChunksPerDocument = getMaxChunksPerDocument();
+
+  function push(content: string, segment: ArticleSegment) {
+    const rawChunk = content.trim();
+    if (rawChunk.length <= 80) {
+      return;
+    }
+    if (maxChunksPerDocument && chunks.length >= maxChunksPerDocument) {
+      throw new Error(
+        `El PDF requiere mas de ${maxChunksPerDocument} fragmentos para indexarse completo. Aumenta PDF_MAX_CHUNKS_PER_DOCUMENT o quita ese limite.`,
+      );
+    }
+    chunks.push({
+      article: segment.articleNumber,
+      content: rawChunk,
+      end: 0,
+      index: chunks.length,
+      pageEnd: segment.pageEnd,
+      pageStart: segment.pageStart,
+      sectionTitle: segment.sectionTitle,
+      start: 0,
+    });
+  }
+
+  for (const segment of segments) {
+    const content = segment.content.trim();
+
+    // Articulo corto/medio: un solo fragmento.
+    if (content.length <= Math.floor(chunkSize * 1.3)) {
+      push(content, segment);
+      continue;
+    }
+
+    // Articulo largo: sub-dividir por frontera de oracion, conservando el articulo.
+    let offset = 0;
+    while (offset < content.length) {
+      const window = content.slice(offset, offset + chunkSize);
+      let cut = window.length;
+      if (offset + chunkSize < content.length) {
+        const sentence = window.lastIndexOf(". ");
+        const newline = window.lastIndexOf("\n");
+        cut = Math.max(sentence, newline, Math.floor(chunkSize * 0.6));
+      }
+      push(content.slice(offset, offset + cut), segment);
+      offset += Math.max(cut, Math.floor(chunkSize * 0.6));
+    }
+  }
+
+  return chunks;
+}
+
 function buildEmbeddingText(input: {
   article: string | null;
   content: string;
@@ -640,28 +741,6 @@ function isUsableExtractedText(text: string) {
   );
 }
 
-function splitOcrPages(text: string, fallbackPageCount: number) {
-  const matches = Array.from(text.matchAll(/===\s*PAGINA\s+(\d+)\s*===/gi));
-
-  if (matches.length === 0) {
-    return [
-      {
-        pageNumber: 1,
-        text,
-      },
-    ];
-  }
-
-  return matches.map((match, index) => {
-    const start = (match.index ?? 0) + match[0].length;
-    const end = matches[index + 1]?.index ?? text.length;
-    return {
-      pageNumber: Number.parseInt(match[1], 10) || index + 1,
-      text: normalizeText(text.slice(start, end)),
-    };
-  }).filter((page) => page.text || page.pageNumber <= fallbackPageCount);
-}
-
 // Devuelve los bytes del File en un Buffer con memoria PROPIA (copiada). Es
 // imprescindible: `Buffer.from(arrayBuffer)` comparte memoria con el ArrayBuffer
 // del File, y el pdf.js v1.10.100 que trae pdf-parse muta/transfiere ese buffer
@@ -672,60 +751,216 @@ async function readFileBytes(file: File) {
   return Buffer.from(new Uint8Array(await file.arrayBuffer()));
 }
 
-async function extractPdfTextWithOpenAI(file: File, pageCount: number): Promise<ExtractedPdfText> {
-  const openai = getOpenAIClient();
-  const maxPages = getOcrMaxPages();
-  const pagesToExtract = Math.min(pageCount || maxPages, maxPages);
-  const buffer = await readFileBytes(file);
-  const uploaded = await openai.files.create({
-    file: await toFile(buffer, file.name, { type: "application/pdf" }),
-    purpose: "user_data",
+// Assets de pdfjs-dist (wasm/, standard_fonts/, cmaps/). pdf.js v5+ decodifica
+// JBIG2 y JPX —las compresiones tipicas de PDFs ESCANEADOS— con modulos WASM;
+// sin `wasmUrl` esas imagenes fallan ("JBig2Error: JBig2 failed to initialize")
+// y las paginas se rasterizan EN BLANCO, con lo que el OCR no ve texto alguno.
+// pdf.js exige que las rutas terminen en "/"; en Node las lee via fs.
+async function getPdfjsAssetOptions(): Promise<Record<string, unknown>> {
+  try {
+    const { createRequire } = await import("node:module");
+    const path = await import("node:path");
+    const nodeRequire = createRequire(import.meta.url);
+    const distRoot = path.dirname(nodeRequire.resolve("pdfjs-dist/package.json"));
+    const dir = (name: string) => `${path.join(distRoot, name)}/`;
+    return {
+      cMapPacked: true,
+      cMapUrl: dir("cmaps"),
+      iccUrl: dir("iccs"),
+      standardFontDataUrl: dir("standard_fonts"),
+      wasmUrl: dir("wasm"),
+    };
+  } catch (err) {
+    console.warn(
+      `[pdf] No se pudo resolver pdfjs-dist para wasmUrl (JBIG2/JPX pueden fallar): ${err instanceof Error ? err.message : err}`,
+    );
+    return {};
+  }
+}
+
+// Rasteriza las primeras `maxPages` paginas del PDF a PNG (base64). Se usa para
+// el OCR de escaneados: pasar el PDF como `input_file` hace que el modelo lo trate
+// como "documento" y RECHACE transcribir escaneados ("no puedo extraer texto de
+// documentos escaneados"); en cambio una imagen fuerza el OCR de vision real.
+// pdfjs-dist (build legacy, sin worker) + @napi-rs/canvas corren en el runtime
+// nodejs (ver serverExternalPackages en next.config.ts).
+async function rasterizePdfPages(
+  buffer: Buffer,
+  maxPages: number,
+  startPage = 1,
+): Promise<{ pageNumber: number; base64: string }[]> {
+  const pdfjs = await loadServerPdfJs();
+  const { createCanvas } = await import("@napi-rs/canvas");
+  const loadingTask = pdfjs.getDocument({
+    data: new Uint8Array(buffer),
+    ...(await getPdfjsAssetOptions()),
   });
+  const doc = await loadingTask.promise;
 
   try {
+    const count = Math.min(doc.numPages, startPage + maxPages - 1);
+    const images: { pageNumber: number; base64: string }[] = [];
+    for (let pageNumber = startPage; pageNumber <= count; pageNumber += 1) {
+      const page = await doc.getPage(pageNumber);
+      // scale 3.0 ≈ 300dpi. Antes 2.0 (~200dpi): verificado con un escaneo
+      // real de baja calidad que a 200dpi el OCR de visión leía bien una
+      // corrida y solo fragmentos sueltos ("V°B°", "p", "FIRMA") en la
+      // siguiente — misma imagen, mismo modelo, resultado inconsistente. A
+      // 300dpi, dos corridas seguidas del mismo archivo salieron limpias
+      // (23771 y 23154 caracteres). Imagen más grande = más tokens/costo por
+      // página, pero un OCR que falla a medias es peor: deja campos vacíos
+      // sin aviso y obliga a reintentar a ciegas.
+      const viewport = page.getViewport({ scale: 3.0 });
+      const canvas = createCanvas(viewport.width, viewport.height);
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, viewport.width, viewport.height);
+      await page.render({
+        canvas: canvas as unknown as HTMLCanvasElement,
+        canvasContext: ctx as unknown as CanvasRenderingContext2D,
+        viewport,
+      }).promise;
+      images.push({ base64: canvas.toBuffer("image/png").toString("base64"), pageNumber });
+      page.cleanup();
+    }
+    return images;
+  } finally {
+    await loadingTask.destroy().catch(() => undefined);
+  }
+}
+
+// Instruccion de SISTEMA que fija el rol de "motor OCR". Es lo que evita que el
+// modelo RECHACE transcribir documentos escaneados (sin esto, gpt-4o se niega de
+// forma intermitente: "Lo siento, no puedo ayudar con eso"). Verificado: con esta
+// instruccion el OCR de imagenes es estable (4/4 corridas, sin rechazos).
+const ocrSystemInstruction =
+  "Eres un motor de OCR (reconocimiento óptico de caracteres). Tu ÚNICA función es transcribir, carácter por carácter, el texto visible en la imagen que recibes. Son documentos administrativos de acceso público (resoluciones, oficios, ordenanzas, informes). SIEMPRE transcribes el texto tal como aparece, conservando títulos, números de documento (incluido 'N°'), artículos, numerales, fechas y nombres; nunca te niegas, nunca resumes y nunca agregas comentarios. Devuelves solo el texto transcrito.";
+
+// Un rechazo del modelo es un texto corto que empieza con una disculpa/negativa.
+const ocrRefusalPatterns = ["lo siento", "no puedo", "i'm sorry", "i can't", "i cannot"];
+function looksLikeOcrRefusal(text: string) {
+  const normalized = text.toLowerCase();
+  return text.length < 100 && ocrRefusalPatterns.some((pattern) => normalized.includes(pattern));
+}
+
+// Umbral de "esta página salió mal" para reintentar, aparte del rechazo
+// explícito. Verificado en vivo: una lectura de un INFORME de 3 páginas densas
+// (varios párrafos, base legal, tabla) dio 7000+ caracteres en corridas buenas
+// y solo 418 en una mala — sin que el modelo se disculpara ni rechazara nada,
+// solo transcribió mucho menos de lo que había. Una página realmente casi en
+// blanco (solo firma) también puede caer bajo este umbral y reintentar de
+// más: es aceptable, el costo de un reintento de más es mínimo comparado con
+// perder la mayoría del contenido en silencio.
+const ocrSuspiciouslyShortLength = 150;
+function looksLikeOcrFailure(text: string) {
+  return looksLikeOcrRefusal(text) || text.length < ocrSuspiciouslyShortLength;
+}
+
+// OCR de una pagina ya rasterizada (imagen). Devuelve el texto transcrito.
+// Reintenta si el modelo devuelve un rechazo O si transcribe sospechosamente
+// poco (looksLikeOcrFailure) — la visión no es 100% determinista y una misma
+// imagen puede leerse bien una vez y a medias otra; tras agotar reintentos
+// devuelve lo último que haya salido, salvo que sea un rechazo puro, que se
+// descarta para no envenenar el texto con la disculpa del modelo.
+async function ocrPageImage(
+  base64: string,
+): Promise<{ text: string; inputTokens: number; outputTokens: number }> {
+  const openai = getOpenAIClient();
+  const maxAttempts = 3;
+  let lastText = "";
+  // Los tokens se acumulan en TODOS los intentos (todos se facturan).
+  let inputTokens = 0;
+  let outputTokens = 0;
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const response = await openai.responses.create({
+      instructions: ocrSystemInstruction,
       input: [
         {
           content: [
             {
-              file_id: uploaded.id,
-              type: "input_file",
+              detail: "high",
+              image_url: `data:image/png;base64,${base64}`,
+              type: "input_image",
             },
             {
-              text: `Extrae texto OCR legible de este PDF escaneado para indexacion juridica.
-
-Alcance:
-- Procesa desde la pagina 1 hasta la pagina ${pagesToExtract}.
-- Conserva titulos, articulos, numerales, disposiciones, fechas y nombres de entidades.
-- No resumas. Devuelve texto plano.
-- Si una pagina no tiene texto legible, escribe "[pagina no legible]".
-- Separa paginas con "=== PAGINA N ===".`,
+              text: "Transcribe todo el texto visible en esta imagen tal como aparece.",
               type: "input_text",
             },
           ],
           role: "user",
         },
       ],
-      max_output_tokens: 12000,
+      max_output_tokens: 4000,
       model: pdfOcrModel,
       temperature: 0,
-    });
-
-    const text = normalizeText(response.output_text);
-
-    return {
-      extractionMethod: "openai-ocr",
-      ocrPartial: Boolean(pageCount && pageCount > pagesToExtract),
-      pageCount,
-      pages: splitOcrPages(text, pageCount),
-      text,
-    };
-  } finally {
-    await openai.files.delete(uploaded.id).catch(() => undefined);
+    }, { timeout: 45_000, maxRetries: 0 });
+    inputTokens += response.usage?.input_tokens ?? 0;
+    outputTokens += response.usage?.output_tokens ?? 0;
+    const attemptText = normalizeText(response.output_text ?? "");
+    // Se conserva el intento MÁS LARGO visto hasta ahora (no siempre el
+    // último): un reintento que sale igual de corto no debe pisar uno previo
+    // que sí trajo algo de contenido.
+    if (attemptText.length > lastText.length) lastText = attemptText;
+    if (!looksLikeOcrFailure(attemptText)) {
+      return { text: attemptText, inputTokens, outputTokens };
+    }
   }
+  return { text: looksLikeOcrRefusal(lastText) ? "" : lastText, inputTokens, outputTokens };
 }
 
-async function extractPdfText(file: File): Promise<ExtractedPdfText> {
+async function extractPdfTextWithOpenAI(file: File, pageCount: number, pageLimit?: number): Promise<ExtractedPdfText> {
+  const maxPages = Math.min(getOcrMaxPages(), pageLimit ?? Infinity);
+  const buffer = await readFileBytes(file);
+  const images = await rasterizePdfPages(buffer, maxPages);
+
+  if (images.length === 0) {
+    return { extractionMethod: "openai-ocr", ocrPartial: false, pageCount, pages: [], text: "" };
+  }
+
+  // OCR por pagina con concurrencia acotada (mas fiable que una sola llamada con N
+  // imagenes, que truncaria la salida en documentos largos).
+  const concurrency = 3;
+  const pages: Array<{ pageNumber: number; text: string }> = new Array(images.length);
+  let inputTokens = 0;
+  let outputTokens = 0;
+  for (let start = 0; start < images.length; start += concurrency) {
+    const batch = images.slice(start, start + concurrency);
+    const results = await Promise.all(
+      batch.map(async (image, offset) => ({
+        index: start + offset,
+        ocr: await ocrPageImage(image.base64),
+        pageNumber: image.pageNumber,
+      })),
+    );
+    for (const result of results) {
+      pages[result.index] = { pageNumber: result.pageNumber, text: result.ocr.text };
+      inputTokens += result.ocr.inputTokens;
+      outputTokens += result.ocr.outputTokens;
+    }
+  }
+
+  const text = normalizeText(
+    pages.map((page) => `=== PAGINA ${page.pageNumber} ===\n${page.text}`).join("\n\n"),
+  );
+
+  return {
+    extractionMethod: "openai-ocr",
+    ocrPartial: Boolean(pageCount && pageCount > images.length),
+    pageCount,
+    pages,
+    text,
+    usage: { inputTokens, model: pdfOcrModel, outputTokens },
+  };
+}
+
+// `forceOcr`: si el PDF no tiene texto seleccionable, recurre al OCR de OpenAI
+// aunque OPENAI_PDF_OCR_ENABLED no esté activo. Pensado para la biblioteca de
+// EXPEDIENTES ARCHIVADOS, donde lo habitual es subir documentos escaneados (sin
+// capa de texto) y el OCR es el camino normal, no una excepción experimental.
+export async function extractPdfText(
+  file: File,
+  options: { forceOcr?: boolean; ocrMaxPages?: number } = {},
+): Promise<ExtractedPdfText> {
   const buffer = await readFileBytes(file);
   const pageTexts: Array<{ pageNumber: number; text: string }> = [];
   let pageNumber = 0;
@@ -768,20 +1003,38 @@ async function extractPdfText(file: File): Promise<ExtractedPdfText> {
     };
   }
 
-  if (!isOpenAiPdfOcrEnabled()) {
+  if (!options.forceOcr && !isOpenAiPdfOcrEnabled()) {
     throw new Error(
       "El PDF no tiene texto seleccionable. Convierte el archivo con OCR o sube una version con texto antes de indexarlo.",
     );
   }
 
-  return extractPdfTextWithOpenAI(file, pdf.numpages);
+  return extractPdfTextWithOpenAI(file, pdf.numpages, options.ocrMaxPages);
 }
 
 // Extrae solo el texto plano de un PDF (para analisis sin indexar). Reusa el
 // extractor con el fix de buffer y el OCR opcional.
-export async function extractPdfPlainText(file: File): Promise<{ pageCount: number; text: string }> {
-  const extracted = await extractPdfText(file);
+export async function extractPdfPlainText(
+  file: File,
+  options: { forceOcr?: boolean; ocrMaxPages?: number } = {},
+): Promise<{ pageCount: number; text: string }> {
+  const extracted = await extractPdfText(file, options);
   return { pageCount: extracted.pageCount, text: extracted.text };
+}
+
+// Igual que extractPdfPlainText pero con MARCADORES DE PÁGINA ("=== PÁGINA N ===")
+// intercalados, para que la revisión de EETT/TDR pueda citar en qué PÁGINA está
+// cada apartado. Funciona tanto con texto seleccionable como con OCR.
+export async function extractPdfPagedText(
+  file: File,
+  options: { forceOcr?: boolean; ocrMaxPages?: number } = {},
+): Promise<{ pageCount: number; text: string }> {
+  const extracted = await extractPdfText(file, options);
+  const text =
+    extracted.pages.length > 0
+      ? extracted.pages.map((p) => `=== PÁGINA ${p.pageNumber} ===\n${p.text}`).join("\n\n")
+      : extracted.text;
+  return { pageCount: extracted.pageCount, text };
 }
 
 async function createProcessingJob(documentId: string) {
@@ -1035,8 +1288,15 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
       );
     }
 
-    const chunks = chunkPages(extracted.pages);
     const articleSegments = segmentArticlesFromPages(extracted.pages);
+    // Chunking por articulo SOLO si la estructura de articulos cubre la mayor
+    // parte del texto (leyes, reglamentos, directivas). Si los "articulos" son
+    // pocos y cubren poco (p. ej. Bases con 3 numerales en 59 paginas), se usa el
+    // corte por tamaño para no perder contenido.
+    const articleCoverage = articleSegments.reduce((sum, segment) => sum + segment.content.length, 0);
+    const useArticleChunks =
+      articleSegments.length >= 3 && text.length > 0 && articleCoverage >= text.length * 0.5;
+    const chunks = useArticleChunks ? chunkByArticles(articleSegments) : chunkPages(extracted.pages);
     const structured = extractStructuredLegalMetadata(text);
     const insights = await analyzeDocumentWithAi(text);
     const userDocumentType = document.document_type;
@@ -1047,10 +1307,18 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
     const sourceEntity = document.source_entity ?? insights.sourceEntity ?? structured.issuer ?? null;
     const contentHash = hashText(text);
     const pineconeConfig = getPineconeConfig();
+    const detectedNumber = detectDocumentNumber(document.title, text, documentType);
+    // En opiniones la IA suele capturar una norma referenciada (p. ej. "Ley
+    // 27269") en vez del numero de la propia opinion; por eso aqui la deteccion
+    // deterministica (que lee el numero del titulo/encabezado) tiene prioridad.
     const documentNumber =
-      getInsightString(insights, "number") ??
-      getMetadataString(document.metadata, "number") ??
-      detectDocumentNumber(document.title, text);
+      documentType === "opinion"
+        ? detectedNumber ??
+          getInsightString(insights, "number") ??
+          getMetadataString(document.metadata, "number")
+        : getInsightString(insights, "number") ??
+          getMetadataString(document.metadata, "number") ??
+          detectedNumber;
     // scopeProcessType garantiza que Ley/Reglamento queden en "todos" y las
     // Opiniones en general, sin que la inferencia de IA pueda sobrescribirlo.
     const processType = scopeProcessType(
@@ -1085,7 +1353,11 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
       extractionMethod: extracted.extractionMethod,
       embeddingTextStrategy: "legal-context-header-plus-page-chunk",
       hierarchyRank: hierarchyRank(documentType),
-      indexedTextComplete: true,
+      // OCR parcial (PDF escaneado con mas paginas que el tope OPENAI_OCR_MAX_PAGES)
+      // dejaba indexedTextComplete=true: el documento entraba al corpus RAG como si
+      // estuviera completo cuando solo se habian indexado las primeras paginas. El
+      // flag debe reflejar si el texto indexado cubre todo el documento.
+      indexedTextComplete: !extracted.ocrPartial,
       indexingPipelineVersion,
       maxChunksPerDocument: getMaxChunksPerDocument() ?? "unlimited",
       number: documentNumber,
@@ -1318,7 +1590,7 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
         chunkInsertBatchSize,
         contentHash,
         extractionMethod: extracted.extractionMethod,
-        indexedTextComplete: true,
+        indexedTextComplete: !extracted.ocrPartial,
         indexingPipelineVersion,
         pageCount: extracted.pageCount,
         pinecone: {
@@ -1369,4 +1641,16 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
 
     throw error;
   }
+}
+
+/** One resumable OCR block; page numbers refer to the original PDF. */
+export async function extractPdfOcrBlock(file: File, startPage: number): Promise<ExtractedPdfText> {
+  const buffer = await readFileBytes(file);
+  const info = await pdfParse(Buffer.from(buffer));
+  const images = await rasterizePdfPages(buffer, 3, startPage);
+  const outputs = await Promise.all(images.map(async (image) => ({ ...await ocrPageImage(image.base64), pageNumber: image.pageNumber })));
+  const pages = outputs.map(({ pageNumber, text }) => ({ pageNumber, text }));
+  return { extractionMethod: "openai-ocr", pageCount: info.numpages, ocrPartial: startPage + pages.length - 1 < info.numpages, pages,
+    text: pages.map(p => `=== PAGINA ${p.pageNumber} ===\n${p.text}`).join("\n\n"),
+    usage: { model: pdfOcrModel, inputTokens: outputs.reduce((sum, p) => sum + p.inputTokens, 0), outputTokens: outputs.reduce((sum, p) => sum + p.outputTokens, 0) } };
 }

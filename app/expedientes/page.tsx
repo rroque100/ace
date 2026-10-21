@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 
 export default async function ExpedientesPage() {
   const user = await getSessionUser();
+  const canManage = (user?.capabilities ?? []).includes("expediente.manage");
 
   return (
     <AppShell
@@ -12,7 +13,7 @@ export default async function ExpedientesPage() {
       title="Expedientes de contratación"
     >
       <section className="singleWorkspace">
-        <ProcessList canManage={Boolean(user?.isDec)} />
+        <ProcessList canManage={canManage} />
       </section>
     </AppShell>
   );

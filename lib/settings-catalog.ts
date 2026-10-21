@@ -1,5 +1,6 @@
 import type { AppRole, SessionUser } from "./auth";
 import { PROCESS_TYPES, type TaxonomyOption } from "./legal-taxonomy";
+import { areasForRole } from "./permisos-contratacion";
 import { supabaseRest } from "./supabase-server";
 
 export type CatalogEntity = {
@@ -8,6 +9,15 @@ export type CatalogEntity = {
   governmentLevel: string;
   name: string;
   ruc: string;
+  /** PAC de bienes y servicios (base de la línea de corte, Art. 125). null si no
+   *  está registrado en Configuración → Municipalidad. */
+  pacBienesServicios: number | null;
+  /** Ubicación de la entidad (Configuración → Municipalidad). Alimenta los
+   *  desplegables de departamento/provincia/distrito del requerimiento, para
+   *  que no se escriban a mano y no diverjan (APURIMAC/Apurímac/Apurimac). */
+  department: string;
+  province: string;
+  city: string;
 };
 
 export type CatalogProcessType = TaxonomyOption & {
@@ -45,6 +55,10 @@ type EntitySettingsRow = {
   government_level: string | null;
   name: string | null;
   ruc: string | null;
+  pac_monto_bienes_servicios?: number | string | null;
+  department?: string | null;
+  province?: string | null;
+  city?: string | null;
 };
 
 type ProcessTypeRow = {
@@ -58,44 +72,16 @@ type ProcessTypeRow = {
   sort_order: number | null;
 };
 
-const rolePermissionMatrix: Record<AppRole, CatalogPermission[]> = {
-  admin: [
-    { area: "Consulta documental", scope: "Chat, busqueda, normas, historial y guardados." },
-    { area: "Expedientes", scope: "Crear, actualizar y gestionar expedientes institucionales." },
-    { area: "Biblioteca documental", scope: "Subir, reindexar y eliminar documentos del corpus." },
-    { area: "Analisis juridico", scope: "Revision legal, riesgos, informes y fundamento juridico." },
-    { area: "Validacion de procedimientos", scope: "Validar procedencia y fuentes; verificacion de corpus." },
-    { area: "Evaluacion IA", scope: "Banco de preguntas, corridas y feedback institucional." },
-    { area: "Monitoreo y auditoria", scope: "Metricas, auditoria, integraciones y verificacion operativa." },
-    { area: "Configuracion", scope: "Entidad, procesos, usuarios, roles y permisos." },
-  ],
-  area_usuaria: [
-    { area: "Consulta documental", scope: "Chat, busqueda, normas, historial y guardados." },
-    { area: "Validacion de procedimientos", scope: "Validar procedencia y fuentes." },
-  ],
-  consulta: [
-    { area: "Consulta documental", scope: "Chat, busqueda, normas, historial y guardados." },
-    { area: "Validacion de procedimientos", scope: "Validar procedencia y fuentes." },
-  ],
-  dec: [
-    { area: "Consulta documental", scope: "Chat, busqueda, normas, historial y guardados." },
-    { area: "Expedientes", scope: "Crear, actualizar y gestionar expedientes institucionales." },
-    { area: "Biblioteca documental", scope: "Subir, reindexar y eliminar documentos del corpus." },
-    { area: "Validacion de procedimientos", scope: "Validar procedencia y fuentes." },
-  ],
-  legal: [
-    { area: "Consulta documental", scope: "Chat, busqueda, normas, historial y guardados." },
-    { area: "Analisis juridico", scope: "Revision legal, riesgos, informes y fundamento juridico." },
-    { area: "Validacion de procedimientos", scope: "Validar procedencia y fuentes." },
-  ],
-};
-
 const emptyEntity: CatalogEntity = {
   address: "",
   executingUnit: "",
   governmentLevel: "",
   name: "",
   ruc: "",
+  pacBienesServicios: null,
+  department: "",
+  province: "",
+  city: "",
 };
 
 function normalizeCategory(value?: string | null): CatalogProcessType["category"] {
@@ -139,21 +125,29 @@ function processRowsToOptions(rows: ProcessTypeRow[]): CatalogProcessType[] {
 }
 
 function permissionsForUser(user: SessionUser): CatalogPermission[] {
-  return user.permissions.length > 0 ? user.permissions : rolePermissionMatrix[user.role];
+  return user.permissions.length > 0 ? user.permissions : areasForRole(user.role);
 }
 
 export function permissionsForRole(role: AppRole): CatalogPermission[] {
-  return rolePermissionMatrix[role];
+  return areasForRole(role);
 }
 
 export async function getSettingsCatalog(user: SessionUser): Promise<SettingsCatalog> {
   const [entityRows, processRows] = await Promise.all([
+    // Sin relectura con menos columnas: las de PAC y geografía existen. Ese
+    // reintento solo servía para devolver una entidad a medias cuando lo que
+    // fallaba era otra cosa.
     supabaseRest<EntitySettingsRow[]>(
-      "entity_settings?id=eq.default&select=name,ruc,executing_unit,address,government_level&limit=1",
-    ).catch(() => []),
+      "entity_settings?id=eq.default&select=name,ruc,executing_unit,address,government_level,department,province,city,pac_monto_bienes_servicios&limit=1",
+    ),
+    // El catálogo de procesos sí puede faltar sin romper nada: quien lo consume
+    // cae a los tipos por defecto. Se registra para que no sea invisible.
     supabaseRest<ProcessTypeRow[]>(
       "process_type_settings?select=code,label,active,category,object,legal_basis,frequent_municipality,sort_order&active=eq.true&order=sort_order.asc,label.asc",
-    ).catch(() => []),
+    ).catch((err) => {
+      console.error("[settings-catalog] no se pudo leer el catálogo de procesos:", err);
+      return [] as ProcessTypeRow[];
+    }),
   ]);
 
   const entity = entityRows[0];
@@ -166,6 +160,13 @@ export async function getSettingsCatalog(user: SessionUser): Promise<SettingsCat
           governmentLevel: entity.government_level ?? "",
           name: entity.name ?? "",
           ruc: entity.ruc ?? "",
+          pacBienesServicios:
+            entity.pac_monto_bienes_servicios != null && entity.pac_monto_bienes_servicios !== "" && Number.isFinite(Number(entity.pac_monto_bienes_servicios))
+              ? Number(entity.pac_monto_bienes_servicios)
+              : null,
+          department: entity.department ?? "",
+          province: entity.province ?? "",
+          city: entity.city ?? "",
         }
       : emptyEntity,
     processTypes: processRowsToOptions(processRows),

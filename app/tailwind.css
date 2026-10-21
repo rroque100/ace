@@ -1,0 +1,232 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   Tailwind v4 — activación ACOTADA (migración progresiva a Radix UI + Tailwind)
+   ────────────────────────────────────────────────────────────────────────────
+   La app tiene ~21 000 líneas de CSS propio en app/styles.css del que dependen
+   más de veinte páginas. Encender Tailwind con `@import "tailwindcss"` inyectaría
+   Preflight (un reset global) que las rompería todas. Por eso aquí:
+
+     1. Se cargan SOLO las capas `theme` (tokens) y `utilities` (clases). NADA de
+        Preflight global.
+     2. El pequeño reset que las utilidades necesitan (box-sizing, bordes) vive en
+        la capa `tw-base`, acotado al contenedor `.tw`. Solo afecta a lo que se
+        haya migrado; el resto de la app no cambia ni un píxel.
+     3. Las utilidades quedan en su capa `utilities`, declarada DESPUÉS de
+        `tw-base`, para que `.border`, `.rounded-*`, etc. puedan sobreescribir el
+        reset acotado.
+
+   Cuando toda la app esté migrada, esto se puede sustituir por el import estándar.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@layer theme, tw-base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Rastreo de clases: como no usamos el import principal, declaramos las fuentes.
+   Basta con escanear los componentes ya migrados (por ahora, Necesidades) + los
+   primitivos de UI. */
+@source "./components/necesidad-list.tsx";
+@source "./components/necesidad-detail.tsx";
+@source "./components/necesidad-copiloto.tsx";
+@source "./components/necesidad-items-editor.tsx";
+@source "./components/necesidad-verificacion-panel.tsx";
+@source "./components/necesidad-traslado-panel.tsx";
+@source "./components/necesidad-eett-tdr-modal.tsx";
+@source "./components/necesidad-eett-campo.tsx";
+@source "./components/necesidad-eett-analiza-modal.tsx";
+@source "./components/ui";
+@source "./components/necesidad";
+@source "./components/necesidades";
+@source "./necesidades";
+/* Expedientes — migración a Tailwind por fases. Fase 1: la lista. Fase 2: el
+   shell del detalle (cabecera, estado, grid); el resto del detalle sigue en
+   styles.css hasta las fases siguientes. */
+@source "./components/process-list.tsx";
+@source "./components/process-detail.tsx";
+/* Fase 3: subcomponentes del detalle. */
+@source "./components/global-progress.tsx";
+@source "./components/fase-preparatoria/notification-banner.tsx";
+@source "./components/phase-tracker.tsx";
+/* Fase 4: fase-panel (el grande) — migración por clústeres. */
+@source "./components/fase-panel.tsx";
+/* Fase 5: sub-editores del detalle. `tabla-editor-estilos.ts` lleva las cadenas
+   de clases compartidas (PROV_TABLA…), así que también debe escanearse. */
+@source "./components/tabla-editor-estilos.ts";
+@source "./components/proveedores-consultados-editor.tsx";
+@source "./components/postores-editor.tsx";
+@source "./components/puntajes-editor.tsx";
+@source "./components/evaluadores-editor.tsx";
+@source "./components/cronograma-roles-editor.tsx";
+@source "./components/requisitos-calificacion-editor.tsx";
+@source "./components/modal-shell.tsx";
+@source "./components/hoja-preview.tsx";
+@source "./components/fase-preparatoria/torre-control.tsx";
+@source "./components/fase-preparatoria/segmentacion-form.tsx";
+@source "./configuracion/page.tsx";
+@source "./components/configuracion-workspace.tsx";
+@source "./components/configuracion/municipalidad-tab.tsx";
+@source "./components/configuracion/save-status.tsx";
+@source "./components/configuracion/empty-state.tsx";
+@source "./components/admin-settings.tsx";
+@source "./components/configuracion/feriados-tab.tsx";
+@source "./components/configuracion/usuarios-tab.tsx";
+@source "./components/oficinas/areas-tab.tsx";
+@source "./components/oficinas/numeracion-tab.tsx";
+@source "./components/oficinas/membrete-tab.tsx";
+@source "./components/oficinas/modelos-requerimiento.tsx";
+@source "./components/oficinas/procesos-modal.tsx";
+/* Expedientes-archivo — migración a Tailwind por fases (módulo grande, con
+   un vocabulario de clases compartido entre archivos: expBtn/expStatus/
+   expCard/... viven en 5-9 componentes distintos, no aislados por archivo).
+   Fase 1: piezas sin acoplamiento entre archivos (skeleton, tarjetas,
+   paginación, undo). El resto —incluida la carpeta completa, para no volver
+   a tocar este archivo en cada fase siguiente— ya queda registrado aquí. */
+@source "./components/expedientes-archivo-workspace.tsx";
+@source "./components/expedientes-archivo";
+
+/* "Mi Yo" — el asistente único, flota en <AppShell> sobre cualquier módulo. */
+@source "./components/asistente";
+
+/* ── Tokens de marca ────────────────────────────────────────────────────────
+   REFERENCIAN las variables CSS efectivas del sistema (el :root ganador de
+   styles.css), no valores hardcodeados: así la identidad es IDÉNTICA a la del
+   resto de la app y sigue cualquier ajuste futuro de esos tokens. Tailwind
+   genera de aquí `bg-brand`, `text-muted`, `border-line`, `shadow-pop`, etc.,
+   incluidos los modificadores de opacidad (`bg-brand/40`) vía color-mix. */
+@theme {
+  /* Superficies y texto */
+  --color-canvas: var(--bg);       /* fondo de página */
+  --color-ink: var(--ink);         /* texto principal */
+  --color-muted: var(--muted);     /* texto secundario */
+  --color-line: var(--line);       /* bordes y separadores */
+  --color-panel: var(--panel);     /* tarjetas/paneles */
+  --color-surface: var(--surface); /* superficie sutil */
+
+  /* Marca */
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--soft);
+  --color-accent: var(--accent);
+
+  /* Semánticos de estado. Los tonos (progreso/atención/éxito) siguen la misma
+     lógica que las tarjetas del sistema; los *-soft son mezclas sobre surface. */
+  --color-danger: var(--danger);
+  --color-danger-soft: color-mix(in srgb, var(--danger) 11%, var(--surface));
+  --color-warning: var(--warning);
+  --color-warning-soft: color-mix(in srgb, var(--warning) 14%, var(--surface));
+  --color-success: var(--success);
+  --color-success-soft: color-mix(in srgb, var(--success) 13%, var(--surface));
+
+  /* Forma: se conserva la escala del sistema. */
+  --radius-card: 14px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 999px;
+
+  /* Tipografía: escala definida para el módulo Configuración. Reemplaza
+     progresivamente los `text-[12.5px]` y similares. */
+  --text-xs: 11px;
+  --text-sm: 12.5px;
+  --text-base: 13.5px;
+  --text-md: 14.5px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+
+  /* Elevación (reusa las sombras del sistema). */
+  --shadow-card: 0 1px 2px rgba(23, 32, 51, 0.05);
+  --shadow-pop: var(--shadow-soft, 0 9px 24px rgba(23, 32, 51, 0.06));
+  --shadow-focus: var(--focus, 0 0 0 3px color-mix(in srgb, var(--brand) 22%, transparent));
+
+  /* Animaciones (diálogos, popovers). Generan utilidades `animate-*`. */
+  --animate-overlay-in: overlay-in 0.18s ease-out;
+  --animate-content-in: content-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-in: fade-in 0.15s ease-out;
+}
+
+/* Expedientes-archivo tiene su PROPIO sistema de tokens (--exp-*, definido en
+   expedientes-archivo.css), con valores deliberadamente distintos de los
+   globales de arriba (--exp-warning #d97706 vs --warning #a16207, por
+   ejemplo) y su propia variante oscura. Se mapean aparte, sin reusar
+   --color-brand/--color-danger/etc., para que la migración a Tailwind sea
+   fiel al aspecto actual del módulo en vez de adoptar la paleta global. */
+@theme {
+  --color-exp-bg: var(--exp-bg);
+  --color-exp-ink: var(--exp-ink);
+  --color-exp-ink-soft: var(--exp-ink-soft);
+  --color-exp-muted: var(--exp-muted);
+  --color-exp-line: var(--exp-line);
+  --color-exp-line-soft: var(--exp-line-soft);
+  --color-exp-panel: var(--exp-panel);
+  --color-exp-brand: var(--exp-brand);
+  --color-exp-brand-dark: var(--exp-brand-dark);
+  --color-exp-brand-soft: var(--exp-brand-soft);
+  --color-exp-success: var(--exp-success);
+  --color-exp-success-soft: var(--exp-success-soft);
+  --color-exp-warning: var(--exp-warning);
+  --color-exp-warning-soft: var(--exp-warning-soft);
+  --color-exp-danger: var(--exp-danger);
+  --color-exp-danger-soft: var(--exp-danger-soft);
+  --color-exp-info: var(--exp-info);
+  --color-exp-info-soft: var(--exp-info-soft);
+
+  --radius-exp: var(--exp-radius);
+  --radius-exp-lg: var(--exp-radius-lg);
+
+  --shadow-exp-sm: var(--exp-shadow-sm);
+  --shadow-exp: var(--exp-shadow);
+  --shadow-exp-lg: var(--exp-shadow-lg);
+
+  /* Reusan los @keyframes ya definidos en expedientes-archivo.css: no se
+     duplican aquí, solo se registran como utilidades `animate-exp-*`. */
+  --animate-exp-fade-in: expFadeIn 160ms ease;
+  --animate-exp-slide-in-right: expSlideInRight 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-exp-pop-in: expPopIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-exp-slide-in-up: expSlideInUp 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-exp-shimmer: expShimmer 1.5s ease-in-out infinite;
+  --animate-exp-pulse: expPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes content-in {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(0.97); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Reset acotado ──────────────────────────────────────────────────────────
+   Equivale a la parte de Preflight que las utilidades dan por hecha, pero SOLO
+   dentro de `.tw` (las páginas migradas y el contenido de sus diálogos). Va en
+   `tw-base`, antes de `utilities`, para que las clases utilitarias lo ganen. */
+@layer tw-base {
+  .tw,
+  .tw *,
+  .tw *::before,
+  .tw *::after {
+    box-sizing: border-box;
+    border: 0 solid var(--color-line);
+  }
+
+  /* Los controles heredan la tipografía (Preflight lo hace global; aquí acotado). */
+  .tw button,
+  .tw input,
+  .tw select,
+  .tw textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  .tw button {
+    cursor: pointer;
+    background: none;
+  }
+}

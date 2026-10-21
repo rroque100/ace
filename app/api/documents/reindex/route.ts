@@ -1,8 +1,9 @@
 import { after, NextResponse } from "next/server";
-import { requireEditor } from "@/lib/auth";
+import { requireDec } from "@/lib/auth";
 import { normalizeDocumentType, normalizeProcessType } from "@/lib/documents";
 import { deleteRecords } from "@/lib/pinecone";
 import { processPdfForSearch } from "@/lib/pdf-processing";
+import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 import {
   type DocumentRecord,
   downloadStorageObject,
@@ -75,9 +76,20 @@ async function fetchDocuments(payload: ReindexPayload) {
 
 export async function POST(request: Request) {
   try {
-    const auth = await requireEditor();
+    const auth = await requireDec();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    // Bulk reindex puede tocar hasta 100 PDFs en un solo after(): es el endpoint
+    // mas caro del corpus. Mismo techo que el borrado masivo para que un editor
+    // no pueda script-ear una reindexada completa del corpus en pocos minutos.
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "documents-bulk-reindex"),
+      RATE_LIMITS.bulk,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     getSupabaseServerConfig();

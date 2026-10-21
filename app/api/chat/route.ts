@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { chatRequestSchema, streamLegalAnswer } from "@/lib/legal-chat";
+import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -13,6 +14,14 @@ export async function POST(request: Request) {
     const auth = await requireUser();
     if ("error" in auth) {
       return auth.error;
+    }
+
+    const rl = checkRateLimit(
+      getRateLimitKey(request, auth.user.id, "chat"),
+      RATE_LIMITS.chat,
+    );
+    if (!rl.allowed) {
+      return rateLimitResponse(rl);
     }
 
     const payload = chatRequestSchema.safeParse(await request.json());

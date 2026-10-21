@@ -71,7 +71,7 @@ async function main() {
           verification.payload.corpus?.corpusReady === true,
           verification.payload.corpus?.corpusReady
             ? "corpus listo"
-            : "revisar Reglamento art.144, D.S.001-2026, Directiva SIE, páginas o Pinecone",
+            : "revisar cobertura de Ley 32069 / Reglamento D.S. 009-2025-EF, opiniones OECE, páginas o indexado en Pinecone",
         ),
       );
     }

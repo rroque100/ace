@@ -269,10 +269,14 @@ export const procedureCatalog: Record<string, ProcedureCatalogEntry> = {
     label: "Procedimiento especial",
     requiredSources: [
       {
-        critical: true,
+        // En procedimientos especiales el regimen lo fija una norma especial o
+        // habilitante (no siempre la Ley general y puede no estar en el corpus);
+        // la fuente obligatoria es el reglamento. Por eso la norma habilitante es
+        // opcional: no debe penalizarse como critica si no consta indexada.
         documentType: "ley",
         label: "Norma habilitante o especial",
-        message: "Debe recuperarse la norma especial o habilitante aplicable.",
+        message: "Si aplica, recuperar la norma especial o habilitante.",
+        optional: true,
       },
       generalRegulationRequirement,
       optionalOpinionRequirement,
