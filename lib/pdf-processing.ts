@@ -1,4 +1,5 @@
 import { loadServerPdfJs } from "./pdf-server";
+import { corpusSourceKind } from "./official-corpus";
 import pdfParse from "pdf-parse/lib/pdf-parse";
 import { createHash } from "crypto";
 import { getOpenAIClient, legalAnswerModel, pdfOcrModel } from "./openai-server";
@@ -276,7 +277,8 @@ function processAnchors(processType?: string | null) {
 }
 
 function sourceRole(documentType: string) {
-  return documentType === "bases_integradas" ? "operativo" : "normativo";
+  const kind = corpusSourceKind(documentType);
+  return kind === "norma" ? "normativo" : kind === "criterio" ? "interpretativo" : "operativo";
 }
 
 function hierarchyRank(documentType: string) {
@@ -301,6 +303,11 @@ export function resolveDocumentValidity(metadata: Record<string, unknown>, infer
   // Una importación pendiente de revisión no acredita vigencia mediante IA.
   if (metadata.legalReviewStatus === "pendiente") return "desconocida";
   return inferred ?? getMetadataString(metadata, "vigencia");
+}
+
+export function resolvePublishedDocumentNumber(metadata: Record<string, unknown>, inferred?: string | null) {
+  if (getMetadataString(metadata, "officialPublicationUrl")) return getMetadataString(metadata, "number") ?? null;
+  return inferred ?? null;
 }
 
 function getMetadataNumber(metadata: Record<string, unknown>, key: string) {
@@ -1317,18 +1324,19 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
     // En opiniones la IA suele capturar una norma referenciada (p. ej. "Ley
     // 27269") en vez del numero de la propia opinion; por eso aqui la deteccion
     // deterministica (que lee el numero del titulo/encabezado) tiene prioridad.
-    const documentNumber =
+    const documentNumber = resolvePublishedDocumentNumber(document.metadata,
       documentType === "opinion"
         ? detectedNumber ??
           getInsightString(insights, "number") ??
           getMetadataString(document.metadata, "number")
         : getInsightString(insights, "number") ??
           getMetadataString(document.metadata, "number") ??
-          detectedNumber;
+          detectedNumber);
     // scopeProcessType garantiza que Ley/Reglamento queden en "todos" y las
     // Opiniones en general, sin que la inferencia de IA pueda sobrescribirlo.
     const processType = scopeProcessType(
       documentType,
+      getMetadataString(document.metadata, "officialPublicationUrl") ? document.process_type ?? null :
       document.process_type ??
         getMetadataString(document.metadata, "processType") ??
         getMetadataString(document.metadata, "process_type") ??
@@ -1377,12 +1385,12 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
       relatedArticles: insights.relatedArticles ?? [],
       structuredExtractionVersion: "legal-structure-v1",
       sourceRole: sourceRole(documentType),
-      status: insights.status ?? getMetadataString(document.metadata, "status"),
+      status: document.metadata.legalReviewStatus === "pendiente" ? "revision_pendiente" : insights.status ?? getMetadataString(document.metadata, "status"),
       summary: insights.summary ?? getMetadataString(document.metadata, "summary"),
       textLength: text.length,
       topic: insights.topic ?? getMetadataString(document.metadata, "topic"),
       vigencia: resolveDocumentValidity(document.metadata, insights.vigencia),
-      year: insights.year ?? getMetadataNumber(document.metadata, "year"),
+      year: getMetadataNumber(document.metadata, "year") ?? insights.year,
     };
 
     if (chunks.length === 0) {

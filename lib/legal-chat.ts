@@ -1,11 +1,11 @@
 import { z } from "zod";
+import { CORPUS_ANSWER_TYPES, corpusSourceKind } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
   inferProcedureType,
-  normativeDocumentTypes,
   normalizeProcedureText,
   procedureAliases,
   procedureAnchors,
@@ -81,6 +81,7 @@ type DocumentChunk = {
 };
 
 export type LegalSource = {
+  regime?: string | null;
   citation: string;
   chunkId: string;
   documentId: string;
@@ -144,8 +145,7 @@ type ChatMessageInsertRecord = {
   role: "user" | "assistant" | "system";
 };
 
-const answerDocumentTypes = new Set(["ley", "reglamento", "directiva", "opinion"]);
-const normativeDocumentTypeSet = new Set<string>(normativeDocumentTypes);
+const answerDocumentTypes = new Set(CORPUS_ANSWER_TYPES);
 const normativePriority: Record<string, number> = {
   ley: 4,
   reglamento: 3,
@@ -268,7 +268,7 @@ function sourceSupportsProcess(source: LegalSource, processType?: string | null)
 }
 
 function filterAnswerSources(sources: LegalSource[]) {
-  return sources.filter((source) => normativeDocumentTypeSet.has(source.documentType) && answerDocumentTypes.has(source.documentType));
+  return sources.filter((source) => answerDocumentTypes.has(source.documentType));
 }
 
 function selectHierarchicalAnswerSources(candidates: LegalSource[], topK: number) {
@@ -725,7 +725,8 @@ function buildContext(sources: LegalSource[]) {
     .map(
       (source, index) => `[F${index + 1}]
 Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.documentNumber})` : ""}
-Tipo: ${source.documentType}
+Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
+Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
 Ubicacion: ${source.citation}
@@ -1145,6 +1146,7 @@ function chunkToSource(
       getStringMetadata(documentMetadata, "number") ??
       (typeof hit?.document_number === "string" ? hit.document_number : null),
     documentType: chunk.documents?.document_type ?? hit?.document_type ?? "otros",
+    regime: getStringMetadata(documentMetadata, "regime") ?? null,
     evidenceQuality: 0,
     excerpt: chunk.content.slice(0, 1400),
     fileName: chunk.documents?.file_name ?? "archivo.pdf",
@@ -1665,6 +1667,7 @@ async function prepareLegalAnswer(
     input: [
       {
         content:
+      "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El marco vigente es la Ley 32069 y su Reglamento (D.S. 009-2025-EF): nunca atribuyas contenido a la Ley 30225, D.S. 344-2018-EF, D.S. 320-2019-EF ni a otro regimen anterior salvo que aparezca literal en una Fuente. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
         role: "system",
       },

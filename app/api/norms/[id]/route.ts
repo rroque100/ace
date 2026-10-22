@@ -137,6 +137,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
         sourceEntity: document.source_entity,
         processType: document.process_type,
         status: document.status,
+        regime: typeof metadata.regime === "string" ? metadata.regime : null,
         documentNumber:
           typeof metadata.documentNumber === "string"
             ? metadata.documentNumber
@@ -153,7 +154,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
         pagesDetected,
         pineconeVerified,
         qualityStatus:
-          articles.length > 0 && pagesDetected > 0 && (pineconeVerified || vectorCount > 0)
+          chunks.length > 0 && pagesDetected > 0 && (pineconeVerified || vectorCount > 0)
             ? "lista"
             : "revisar",
         summary: summaries[0]?.content ?? null,

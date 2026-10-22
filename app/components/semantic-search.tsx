@@ -1,4 +1,5 @@
 "use client";
+import { CORPUS_ANSWER_TYPES, corpusSourceKind } from "@/lib/official-corpus";
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,6 +23,7 @@ import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
 
 type SearchSource = {
+  regime?: string | null;
   article: string | null;
   sectionTitle?: string | null;
   chunkId: string;
@@ -77,9 +79,8 @@ type Facets = {
 };
 
 function sourceRoleLabel(documentType: string) {
-  return documentType === "bases_integradas"
-    ? "Esquema de implementacion"
-    : "Fuente normativa";
+  const kind = corpusSourceKind(documentType);
+  return kind === "norma" ? "Fuente normativa" : kind === "criterio" ? "Criterio y decisión" : "Orientación y modelo";
 }
 
 const exampleQueries = [
@@ -163,7 +164,7 @@ function documentTypeForTab(tab: SourceTab) {
 
 function isDocumentTypeCompatibleWithTab(type: string, tab: SourceTab) {
   if (!type) return true;
-  if (tab === "normativa") return ["ley", "reglamento", "directiva", "opinion"].includes(type);
+  if (tab === "normativa") return CORPUS_ANSWER_TYPES.includes(type);
   return type === documentTypeForTab(tab);
 }
 
@@ -278,7 +279,7 @@ export function SemanticSearch() {
           return source.documentType === "opinion";
         }
 
-        return ["ley", "reglamento", "directiva", "opinion"].includes(source.documentType);
+        return CORPUS_ANSWER_TYPES.includes(source.documentType);
       }),
     [results, sourceTab],
   );
@@ -489,7 +490,7 @@ export function SemanticSearch() {
             formulario, además, no es una construcción válida. */}
         <div className="sourceTabs" role="group" aria-label="Tipo de evidencia">
           <button aria-pressed={sourceTab === "normativa"} disabled={loading} onClick={() => changeTab("normativa")} type="button">
-            Normativa
+            Todos los documentos
           </button>
           <button aria-pressed={sourceTab === "directivas"} disabled={loading} onClick={() => changeTab("directivas")} type="button">
             Directivas
@@ -498,7 +499,7 @@ export function SemanticSearch() {
             Opiniones
           </button>
           <button aria-pressed={sourceTab === "bases"} disabled={loading} onClick={() => changeTab("bases")} type="button">
-            Bases / esquemas
+            Bases integradas
           </button>
         </div>
 
@@ -725,6 +726,7 @@ export function SemanticSearch() {
                 {source.topic ? <span>Tema {source.topic}</span> : null}
                 {source.status ? <span>Estado {source.status}</span> : null}
                 {source.vigencia ? <span>Vigencia {source.vigencia}</span> : null}
+                {source.regime ? <span>{source.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${source.regime}`}</span> : null}
                 {source.year ? <span>{source.year}</span> : null}
               </div>
               <p>{source.excerpt}</p>

@@ -20,13 +20,15 @@ import {
   Sparkles,
 } from "lucide-react";
 import { DOCUMENT_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
+import { corpusGroupForType, corpusTypesForGroup } from "@/lib/official-corpus";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
 
-type Category = "normas" | "jurisprudencia";
+type Category = "normas" | "jurisprudencia" | "orientacion";
 
 type NormSummary = {
+  regime?: string | null;
   id: string;
   title: string;
   documentType: string;
@@ -176,7 +178,7 @@ export function NormativeBrowser() {
   const labelProcessType = (value?: string | null) => processLabelFromOptions(processTypes, value) ?? processTypeLabel(value);
   const targetDocumentId = searchParams.get("documentId");
   const targetArticle = searchParams.get("article");
-  const [category, setCategory] = useState<Category>("normas");
+  const [category, setCategory] = useState<Category>(() => corpusGroupForType(searchParams.get("documentType") ?? "ley"));
   const [norms, setNorms] = useState<NormSummary[]>([]);
   const [loadingList, setLoadingList] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(targetDocumentId);
@@ -507,6 +509,9 @@ export function NormativeBrowser() {
         >
           Jurisprudencia y opiniones
         </button>
+        <button aria-pressed={category === "orientacion"} onClick={() => changeCategory("orientacion")} type="button">
+          Bases y orientación
+        </button>
       </div>
 
       <div className="normFilters">
@@ -515,9 +520,7 @@ export function NormativeBrowser() {
           <select onChange={(event) => setDocumentTypeFilter(event.target.value)} value={documentTypeFilter}>
             <option value="">Todos</option>
             {DOCUMENT_TYPES.filter((item) =>
-              category === "normas"
-                ? ["ley", "reglamento", "directiva"].includes(item.value)
-                : ["resolucion", "opinion"].includes(item.value),
+              corpusTypesForGroup(category).includes(item.value),
             ).map((item) => (
               <option key={item.value} value={item.value}>
                 {item.label}
@@ -598,6 +601,7 @@ export function NormativeBrowser() {
                     Resumen {norm.hasSummary ? "si" : "no"}
                   </span>
                   <span className="normTag">{norm.concordanceCount} ref.</span>
+                  {norm.regime ? <span className="normTag">{norm.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${norm.regime}`}</span> : null}
                   {norm.vigencia ? (
                     <span className={`normTag ${isNotCurrent(norm.vigencia) ? "warn" : "ok"}`}>
                       {norm.vigencia}

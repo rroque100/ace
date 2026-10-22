@@ -1,10 +1,7 @@
+import { OFFICIAL_CORPUS_TYPES } from "./official-corpus";
 const allowedDocumentTypes = [
-  "ley",
-  "reglamento",
-  "opinion",
-  "directiva",
+  ...OFFICIAL_CORPUS_TYPES.map(x => x.value),
   "bases_integradas",
-  "resolucion",
   "contrato",
   "expediente",
   "otros",
@@ -77,10 +74,10 @@ export function resolveDocumentProcessType(
   processType: ProcessType | null,
 ): { processType: ProcessType | null } | { error: string } {
   if (
-    (documentType === "directiva" || documentType === "bases_integradas") &&
-    (!processType || processType === "todos")
+    (documentType === "directiva" && !processType) ||
+    (["bases_integradas", "bases_estandar"].includes(documentType) && (!processType || processType === "todos"))
   ) {
-    return { error: "Las directivas y bases requieren un tipo de proceso especifico." };
+    return { error: "Indica el alcance de la directiva o un proceso específico para las bases." };
   }
 
   return { processType: scopeProcessType(documentType, processType) };

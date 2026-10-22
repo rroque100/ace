@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { supabaseRest } from "@/lib/supabase-server";
 import { countReferencedPages } from "@/lib/document-pages";
+import { corpusTypesForGroup } from "@/lib/official-corpus";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -33,18 +34,10 @@ type ConcordanciaRow = {
   source_document_id: string;
 };
 
-const normTypes = ["ley", "reglamento", "directiva"];
-const jurisprudenceTypes = ["resolucion", "opinion"];
-
 function typeFilter(category: string | null) {
-  if (category === "normas") {
-    return `&document_type=in.(${normTypes.join(",")})`;
+  if (category && ["normas", "jurisprudencia", "orientacion"].includes(category)) {
+    return `&document_type=in.(${corpusTypesForGroup(category).join(",")})`;
   }
-
-  if (category === "jurisprudencia") {
-    return `&document_type=in.(${jurisprudenceTypes.join(",")})`;
-  }
-
   return "";
 }
 
@@ -121,6 +114,7 @@ export async function GET(request: Request) {
         sourceEntity: row.source_entity,
         processType: row.process_type,
         status: row.status,
+        regime: typeof metadata.regime === "string" ? metadata.regime : null,
         articleCount: row.norma_articulos?.[0]?.count ?? 0,
         documentNumber:
           typeof metadata.documentNumber === "string"
@@ -138,7 +132,7 @@ export async function GET(request: Request) {
         pagesDetected,
         pineconeVerified,
         qualityStatus:
-          row.norma_articulos?.[0]?.count > 0 && pagesDetected > 0 && (pineconeVerified || vectorsDetected > 0)
+          documentChunks.length > 0 && pagesDetected > 0 && (pineconeVerified || vectorsDetected > 0)
             ? "lista"
             : "revisar",
         vectorCount: vectorsDetected,
