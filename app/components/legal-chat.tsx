@@ -1403,7 +1403,7 @@ function LegalChatSession() {
                     <strong>Respuesta</strong>
                     {message.confidence ? (
                       <span className={confidenceClasses(message.confidence)} title={confidenceMeaning(message.confidence)}>
-                        Confianza {message.confidence}
+                        Confianza documental {message.confidence}
                       </span>
                     ) : null}
                   </div>

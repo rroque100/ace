@@ -19,6 +19,7 @@ export function LegalCenterNav({ active, filters }: { active: LegalCenterView; f
         })}
       </nav>
       <p>{legalCenterViews.find((view) => view.id === active)?.description}</p>
+      <small>La relevancia documental no confirma por sí sola la vigencia ni la aplicabilidad al caso.</small>
     </section>
   );
 }

@@ -653,10 +653,10 @@ export function SemanticSearch() {
           <div className="evidenceSummary">
             <div className="evidenceSummaryHeader">
               <span className={confidenceClass(assessment.confidence)}>
-                Confianza {assessment.confidence}
+                Relevancia {assessment.confidence}
               </span>
               <span className={assessment.sufficient ? "sourceBadge valid" : "sourceBadge warning"}>
-                {assessment.sufficient ? "Fuente suficiente" : "Fuente insuficiente"}
+                {assessment.sufficient ? "Coincidencias suficientes" : "Cobertura limitada"}
               </span>
             </div>
             <strong>{assessment.reason}</strong>
