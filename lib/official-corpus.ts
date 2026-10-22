@@ -22,3 +22,7 @@ export function corpusTypesForGroup(group: string): string[] {
 export function corpusSourceKind(type: string): "norma" | "criterio" | "orientacion" {
   return OFFICIAL_CORPUS_TYPES.find(x => x.value === type)?.kind ?? "orientacion";
 }
+/** En criterios y guías, un artículo mencionado pertenece a la norma citada. */
+export function corpusOwnArticle(type: string, article: string | null): string | null {
+  return corpusSourceKind(type) === "norma" ? article : null;
+}

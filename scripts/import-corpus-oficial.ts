@@ -53,15 +53,18 @@ async function main(){
       if(selectedType&&item.type!==selectedType)continue;
       if(["indexed","reused"].includes(item.status))continue;
       processed++;
+      let stage="descarga";
       try{
         const key=createHash("sha256").update(item.pdfUrl).digest("hex");const cacheFile=path.join(cache,key+".pdf");
         const bytes=fs.existsSync(cacheFile)?fs.readFileSync(cacheFile):await downloadOfficialPdf(item.pdfUrl);
         fs.writeFileSync(cacheFile,bytes);
         item.sha256=createHash("sha256").update(bytes).digest("hex");
+        stage="validación de texto";
         const pdfFile=new File([Uint8Array.from(bytes)],key+".pdf",{type:"application/pdf"});
         const {text}=await extractPdfPlainText(pdfFile);
         if(text.length<120)throw Error("PDF sin texto suficiente; requiere revisión OCR");
         if(!apply){console.log("VALIDADO",item.type,item.title,bytes.length);continue;}
+        stage="identidad del corpus";
         const c=client!;
         const {data:all,error:lookupError}=await c.from("documents").select("*").eq("es_institucional",true);if(lookupError)throw lookupError;
         let document=findKnownOfficialDocument(all,item);
@@ -85,8 +88,10 @@ async function main(){
         const metadata={...(document?.metadata??{}),sourceUrl:item.pdfUrl,officialPublicationUrl:item.publicationUrl,sha256:item.sha256,importBatch:manifest.batch,importedAt:new Date().toISOString(),uploadSource:"official-import",legalReviewStatus:"pendiente",vigencia:"desconocida",regime:item.regime,officialVersion:item.versionLabel??null,selectionNote:item.selectionNote??null,number:item.number??null,...(item.year?{year:item.year}:{})};
         const reused=Boolean(document);
         if(!document){
+          stage="almacenamiento del PDF";
           const bucket=process.env.SUPABASE_STORAGE_BUCKET||"documents";const storagePath=`official/${manifest.batch}/${randomUUID()}.pdf`;
           const {error}=await c.storage.from(bucket).upload(storagePath,bytes,{contentType:"application/pdf",upsert:false});if(error)throw error;
+          stage="registro documental";
           const {data,error:insertError}=await c.from("documents").insert({title:item.title,document_type:item.type,process_type:item.processType??null,source_entity:item.sourceEntity,file_name:(item.number??key).replace(/[^a-zA-Z0-9.-]/g,"-")+".pdf",file_size:bytes.length,mime_type:"application/pdf",storage_bucket:bucket,storage_path:storagePath,status:"uploaded",es_institucional:true,metadata}).select("*").single();
           if(insertError){await c.storage.from(bucket).remove([storagePath]);throw insertError;}document=data;
         }
@@ -99,9 +104,11 @@ async function main(){
             const {error}=await c.from("document_chunks").delete().eq("document_id",document.id);if(error)throw error;
           }
           const {data:updated,error}=await c.from("documents").update({document_type:item.type,process_type:item.processType??null,metadata}).eq("id",document.id).select("*").single();if(error)throw error;
+          stage="indexación";
           await processPdfForSearch(updated,new File([Uint8Array.from(bytes)],document.file_name,{type:"application/pdf"}));
           item.status=reused?"reused":"indexed";
         }
+        stage="verificación";
         const {data:current,error:readError}=await c.from("documents").select("*").eq("id",document.id).single();if(readError)throw readError;
         if(current.status!=="indexed"||current.metadata.indexedTextComplete!==true)throw Error("Indexación no completa");
         const {data:stored,error:storageError}=await c.storage.from(current.storage_bucket).download(current.storage_path);if(storageError)throw storageError;
@@ -111,7 +118,7 @@ async function main(){
         delete item.error;save();
         await writeAuditLog({action:"document.import.official",entityType:"document",entityId:document.id,details:{batch:manifest.batch,sourceUrl:item.pdfUrl,sha256:item.sha256,type:item.type,reused}});
         console.log(item.status.toUpperCase(),item.type,item.title,JSON.stringify(item.verification));
-      }catch(error){item.status="error";item.error=error instanceof Error?error.message:String(error);if(apply)save();console.error("ERROR",item.title,item.error);}
+      }catch(error){item.status="error";item.error=stage+": "+(error instanceof Error?error.message:String(error));if(apply)save();console.error("ERROR",item.title,item.error);}
     }
     console.log("RESUMEN",JSON.stringify(OFFICIAL_CORPUS_TYPES.map(type=>({type:type.value,target:10,selected:manifest.entries.filter(x=>x.type===type.value).length,completed:manifest.entries.filter(x=>x.type===type.value&&["indexed","reused"].includes(x.status)).length,errors:manifest.entries.filter(x=>x.type===type.value&&x.status==="error").length}))));
   }finally{fs.closeSync(fd);fs.unlinkSync(lock);}

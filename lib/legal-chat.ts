@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CORPUS_ANSWER_TYPES, corpusSourceKind } from "./official-corpus";
+import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
@@ -1125,10 +1125,10 @@ function chunkToSource(
   const lexicalScore =
     options.lexicalScore ??
     lexicalCoverage(options.query, `${chunk.documents?.title ?? ""} ${chunk.content}`);
-  const article =
+  const article = corpusOwnArticle(chunk.documents?.document_type ?? hit?.document_type ?? "otros",
     getStringMetadata(chunkMetadata, "article") ??
     (typeof hit?.article === "string" ? hit.article : null) ??
-    detectArticle(chunk.content);
+    detectArticle(chunk.content));
   const pageStart = chunk.page_start ?? hit?.page_start ?? getNumberMetadata(chunkMetadata, "pageStart");
   const pageEnd = chunk.page_end ?? hit?.page_end ?? getNumberMetadata(chunkMetadata, "pageEnd");
   const source: LegalSource = {
