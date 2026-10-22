@@ -4,6 +4,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { z } from "zod";
 import { OFFICIAL_CORPUS_TYPES } from "../lib/official-corpus";
 import { downloadOfficialPdf, validateOfficialUrl } from "../lib/official-import/download";
+import { findKnownOfficialDocument } from "../lib/official-import/identity";
 
 const entrySchema = z.object({
   title:z.string().min(4), type:z.enum(OFFICIAL_CORPUS_TYPES.map(x=>x.value) as [string,...string[]]),
@@ -62,8 +63,8 @@ async function main(){
         if(text.length<120)throw Error("PDF sin texto suficiente; requiere revisión OCR");
         if(!apply){console.log("VALIDADO",item.type,item.title,bytes.length);continue;}
         const c=client!;
-        const {data:all,error:lookupError}=await c.from("documents").select("*");if(lookupError)throw lookupError;
-        let document=all.find(x=>x.id===item.documentId||x.metadata?.sha256===item.sha256||x.metadata?.officialPublicationUrl===item.publicationUrl&&x.metadata?.sourceUrl===item.pdfUrl);
+        const {data:all,error:lookupError}=await c.from("documents").select("*").eq("es_institucional",true);if(lookupError)throw lookupError;
+        let document=findKnownOfficialDocument(all,item);
         if(document&&document.metadata?.sha256!==item.sha256){
           const {data:prior,error}=await c.storage.from(document.storage_bucket).download(document.storage_path);if(error)throw error;
           const priorHash=createHash("sha256").update(Buffer.from(await prior.arrayBuffer())).digest("hex");
@@ -72,11 +73,11 @@ async function main(){
             document=undefined;
           }
         }
-        if(!document){
-          for(const existing of all.filter(x=>x.file_size===bytes.length)){
-            const {data:blob,error}=await c.storage.from(existing.storage_bucket).download(existing.storage_path);if(error)throw error;
-            if(createHash("sha256").update(Buffer.from(await blob.arrayBuffer())).digest("hex")===item.sha256){document=existing;break;}
-          }
+        // No inspeccionar PDFs ajenos por una mera coincidencia de tamaño.
+        // Sin huella conocida, una identidad sin versión requiere revisión.
+        const normalizedNumber=(value:unknown)=>typeof value==="string"?value.toUpperCase().replace(/[^A-Z0-9]/g,""):"";
+        if(!document&&item.number&&!item.versionLabel&&all.some(x=>x.document_type===item.type&&normalizedNumber(x.metadata?.documentNumber??x.metadata?.number)===normalizedNumber(item.number))){
+          throw Error("Posible identidad existente sin huella o versión verificada; requiere revisión de metadatos");
         }
         if(document?.metadata?.number&&item.number&&document.metadata.number!==item.number&&document.metadata?.officialPublicationUrl!==item.publicationUrl){
           item.status="excluded";item.error="PDF idéntico con identidad documental diferente; requiere revisión";save();continue;
