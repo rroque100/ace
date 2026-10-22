@@ -5,6 +5,8 @@ import { z } from "zod";
 import { OFFICIAL_CORPUS_TYPES } from "../lib/official-corpus";
 import { downloadOfficialPdf, validateOfficialUrl } from "../lib/official-import/download";
 import { findKnownOfficialDocument } from "../lib/official-import/identity";
+import { uploadLargeOfficialPdf } from "../lib/official-import/upload";
+import { assertCompleteOfficialExtraction } from "../lib/official-import/extraction";
 
 const entrySchema = z.object({
   title:z.string().min(4), type:z.enum(OFFICIAL_CORPUS_TYPES.map(x=>x.value) as [string,...string[]]),
@@ -23,6 +25,7 @@ async function main(){
   if(!file)throw Error("Uso: tsx scripts/import-corpus-oficial.ts manifiesto.json [--apply] [--limit=10]");
   const manifest=manifestSchema.parse(JSON.parse(fs.readFileSync(file,"utf8")));
   const apply=process.argv.includes("--apply");
+  const retryErrors=process.argv.includes("--retry-errors");
   const selectedType=process.argv.find(x=>x.startsWith("--type="))?.split("=")[1];
   if(selectedType&&!OFFICIAL_CORPUS_TYPES.some(x=>x.value===selectedType))throw Error("Categoría inválida");
   const limit=Number(process.argv.find(x=>x.startsWith("--limit="))?.split("=")[1]??100);
@@ -43,13 +46,14 @@ async function main(){
   const fd=fs.openSync(lock,"wx");fs.writeFileSync(fd,String(process.pid));
   const save=()=>fs.writeFileSync(file,JSON.stringify(manifest,null,2)+"\n");
   try{
-    const {getSupabaseAdminClient,writeAuditLog}=await import("../lib/supabase-server");
-    const {processPdfForSearch,extractPdfPlainText}=await import("../lib/pdf-processing");
+    const {getSupabaseAdminClient,getSupabaseServerConfig,writeAuditLog}=await import("../lib/supabase-server");
+    const {processPdfForSearch,extractPdfText}=await import("../lib/pdf-processing");
     const {deleteDocuments,searchTextRecords}=await import("../lib/pinecone");
     const client=apply?await getSupabaseAdminClient():null;
     let processed=0;
     for(const item of manifest.entries){
       if(item.status==="excluded"||processed>=limit)continue;
+      if(item.status==="error"&&!retryErrors)continue;
       if(selectedType&&item.type!==selectedType)continue;
       if(["indexed","reused"].includes(item.status))continue;
       processed++;
@@ -61,8 +65,8 @@ async function main(){
         item.sha256=createHash("sha256").update(bytes).digest("hex");
         stage="validación de texto";
         const pdfFile=new File([Uint8Array.from(bytes)],key+".pdf",{type:"application/pdf"});
-        const {text}=await extractPdfPlainText(pdfFile);
-        if(text.length<120)throw Error("PDF sin texto suficiente; requiere revisión OCR");
+        const extracted=await extractPdfText(pdfFile);
+        assertCompleteOfficialExtraction(extracted);
         if(!apply){console.log("VALIDADO",item.type,item.title,bytes.length);continue;}
         stage="identidad del corpus";
         const c=client!;
@@ -90,7 +94,12 @@ async function main(){
         if(!document){
           stage="almacenamiento del PDF";
           const bucket=process.env.SUPABASE_STORAGE_BUCKET||"documents";const storagePath=`official/${manifest.batch}/${randomUUID()}.pdf`;
-          const {error}=await c.storage.from(bucket).upload(storagePath,bytes,{contentType:"application/pdf",upsert:false});if(error)throw error;
+          if(bytes.length>6*1024*1024){
+            const config=getSupabaseServerConfig();
+            await uploadLargeOfficialPdf({supabaseUrl:config.supabaseUrl,serviceRoleKey:config.serviceRoleKey,bucket,objectPath:storagePath,bytes});
+          }else{
+            const {error}=await c.storage.from(bucket).upload(storagePath,bytes,{contentType:"application/pdf",upsert:false});if(error)throw error;
+          }
           stage="registro documental";
           const {data,error:insertError}=await c.from("documents").insert({title:item.title,document_type:item.type,process_type:item.processType??null,source_entity:item.sourceEntity,file_name:(item.number??key).replace(/[^a-zA-Z0-9.-]/g,"-")+".pdf",file_size:bytes.length,mime_type:"application/pdf",storage_bucket:bucket,storage_path:storagePath,status:"uploaded",es_institucional:true,metadata}).select("*").single();
           if(insertError){await c.storage.from(bucket).remove([storagePath]);throw insertError;}document=data;
@@ -110,7 +119,12 @@ async function main(){
         }
         stage="verificación";
         const {data:current,error:readError}=await c.from("documents").select("*").eq("id",document.id).single();if(readError)throw readError;
-        if(current.status!=="indexed"||current.metadata.indexedTextComplete!==true)throw Error("Indexación no completa");
+        if(current.status!=="indexed"||current.metadata.indexedTextComplete!==true){
+          await deleteDocuments([document.id]);
+          const {error:clearError}=await c.from("document_chunks").delete().eq("document_id",document.id);if(clearError)throw clearError;
+          const {error:stateError}=await c.from("documents").update({status:"error",error_message:"Indexación incompleta; requiere revisión del PDF"}).eq("id",document.id);if(stateError)throw stateError;
+          throw Error("Indexación no completa; excluida del RAG");
+        }
         const {data:stored,error:storageError}=await c.storage.from(current.storage_bucket).download(current.storage_path);if(storageError)throw storageError;
         if(createHash("sha256").update(Buffer.from(await stored.arrayBuffer())).digest("hex")!==item.sha256)throw Error("Integridad de Storage incorrecta");
         const hits=await searchTextRecords(item.title,3,{documentId:document.id});if(!hits.length)throw Error("Sin recuperación en Pinecone");

@@ -4,6 +4,8 @@
 
 **Goal:** Adaptar ACE a diez categorías y comenzar un lote oficial de hasta diez documentos distintos por categoría, reutilizando las diez opiniones comprobadas.
 
+**Cierre de ejecución:** adaptación publicada; 65 documentos únicos comprobados. Diez documentos completos en cada uno de seis grupos, cuatro leyes y un reglamento. Los cupos restantes y los dos PDF excluidos constan en `docs/importaciones/corpus-oficial-2026-10-22.md`. Los originales en Word y los IVN sin fuente primaria permanecen pendientes; no se consideran completados.
+
 **Architecture:** Un catálogo compartido alimenta validación, filtros y selección de fuentes. Un importador administrativo valida un manifiesto, descarga archivos oficiales y reutiliza el procesador PDF existente; los resultados y reintentos permanecen en un manifiesto local e informe público sin secretos.
 
 **Tech Stack:** TypeScript, Next.js, Supabase, Storage privado, Google embeddings y Pinecone existentes.

@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-22T19:53:57.129Z",
+  "uniqueIndexedDocuments": 65,
+  "allInstitutional": true,
+  "allComplete": true,
+  "allHashesMatched": true,
+  "allDocumentNumbersMatched": true,
+  "excludedFromRag": 2,
+  "pending": 0,
+  "categories": {
+    "opinion": 10,
+    "acuerdo_sala_plena": 10,
+    "resolucion": 10,
+    "directiva": 10,
+    "pronunciamiento": 10,
+    "guia_instructivo": 10,
+    "ley": 4,
+    "reglamento": 1
+  }
+}

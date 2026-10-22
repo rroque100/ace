@@ -14,6 +14,7 @@ it("distingue orientación y criterios del fundamento normativo", () => {
   expect(corpusSourceKind("bases_estandar")).toBe("orientacion");
   expect(corpusTypesForGroup("jurisprudencia")).toContain("pronunciamiento");
   expect(CORPUS_ANSWER_TYPES).toContain("guia_instructivo");
+  expect(CORPUS_ANSWER_TYPES).not.toContain("bases_integradas");
   expect(corpusGroupForType("guia_instructivo")).toBe("orientacion");
   expect(corpusGroupForType("acuerdo_sala_plena")).toBe("jurisprudencia");
 });
