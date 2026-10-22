@@ -158,7 +158,7 @@ const documentTypeKeyword: Record<string, string> = {
   resolucion: "resoluci[oó]n",
 };
 
-function detectDocumentNumber(title: string, text: string, documentType?: string) {
+export function detectDocumentNumber(title: string, text: string, documentType?: string) {
   const source = `${title}\n${text.slice(0, 6000)}`;
 
   // 1) Patron del PROPIO tipo del documento primero, para no capturar una norma
@@ -167,7 +167,7 @@ function detectDocumentNumber(title: string, text: string, documentType?: string
   const keyword = documentType ? documentTypeKeyword[documentType] : undefined;
   if (keyword) {
     const specific = source.match(
-      new RegExp(`\\b(?:${keyword})\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`, "i"),
+      new RegExp(`\\b(?:${keyword})\\s*[-]?\\s*(?:n(?:ro|[.°º])?[°º]?\\s*)?(${normNumberToken})`, "i"),
     );
     if (specific?.[1]) {
       return specific[1].replace(/[.,;:]+$/, "");
@@ -177,7 +177,7 @@ function detectDocumentNumber(title: string, text: string, documentType?: string
   // 2) Fallback generico (cualquier tipo de norma).
   const match = source.match(
     new RegExp(
-      `\\b(?:ley|decreto\\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`,
+      `\\b(?:ley|decreto\\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\\s*[-]?\\s*(?:n(?:ro|[.°º])?[°º]?\\s*)?(${normNumberToken})`,
       "i",
     ),
   );
@@ -295,6 +295,12 @@ function hierarchyRank(documentType: string) {
 function getMetadataString(metadata: Record<string, unknown>, key: string) {
   const value = metadata[key];
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+export function resolveDocumentValidity(metadata: Record<string, unknown>, inferred?: string | null) {
+  // Una importación pendiente de revisión no acredita vigencia mediante IA.
+  if (metadata.legalReviewStatus === "pendiente") return "desconocida";
+  return inferred ?? getMetadataString(metadata, "vigencia");
 }
 
 function getMetadataNumber(metadata: Record<string, unknown>, key: string) {
@@ -1375,7 +1381,7 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
       summary: insights.summary ?? getMetadataString(document.metadata, "summary"),
       textLength: text.length,
       topic: insights.topic ?? getMetadataString(document.metadata, "topic"),
-      vigencia: insights.vigencia ?? getMetadataString(document.metadata, "vigencia"),
+      vigencia: resolveDocumentValidity(document.metadata, insights.vigencia),
       year: insights.year ?? getMetadataNumber(document.metadata, "year"),
     };
 

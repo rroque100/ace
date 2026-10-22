@@ -1,0 +1,212 @@
+[
+  {
+    "number": "D000112-2026-OECE-DTN",
+    "title": "Opinión N.° D000112-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8709968-opinion-n-d000112-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10778571/8709968-opinion-d112-2026-oece-dtn.pdf?v=1791842393",
+    "fileName": "d000112-2026-oece-dtn.pdf",
+    "bytes": 574331,
+    "sha256": "dc7c4584f6ea879b05091697601bbd9dfd043b6a5ba3735208aabb1f371e7b6b",
+    "pages": 7,
+    "documentId": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+    "verification": {
+      "status": "indexed",
+      "chunks": 12,
+      "pineconeHits": 3,
+      "pages": 7,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:12:54.626Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000111-2026-OECE-DTN",
+    "title": "Opinión N.° D000111-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698026-opinion-n-d000111-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10761573/8698026-opinion-d111-2026-oece-dtn.pdf?v=1791554120",
+    "fileName": "d000111-2026-oece-dtn.pdf",
+    "bytes": 478316,
+    "sha256": "5f97c61f964af9ef2c9fcd94604f374431c9650f18dfdbfda446cbfec0775f82",
+    "pages": 4,
+    "documentId": "52d26a46-0867-4d8f-b441-8b46ec8d39a7",
+    "verification": {
+      "status": "indexed",
+      "chunks": 7,
+      "pineconeHits": 3,
+      "pages": 4,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:13:06.257Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000110-2026-OECE-DTN",
+    "title": "Opinión N.° D000110-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698010-opinion-n-d000110-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10761550/8698010-opinion-d110-2026-oece-dtn.pdf?v=1791554008",
+    "fileName": "d000110-2026-oece-dtn.pdf",
+    "bytes": 517636,
+    "sha256": "5e78049089090c80a0aca3acf926350342f3d6c9dd99f301ba83e3cd0463d1c8",
+    "pages": 6,
+    "documentId": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+    "verification": {
+      "status": "indexed",
+      "chunks": 11,
+      "pineconeHits": 3,
+      "pages": 6,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:13:20.939Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000109-2026-OECE-DTN",
+    "title": "Opinión N.° D000109-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697995-opinion-n-d000109-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10761523/8697995-opinion-d109-2026-oece-dtn.pdf?v=1791553846",
+    "fileName": "d000109-2026-oece-dtn.pdf",
+    "bytes": 490613,
+    "sha256": "c40ecda62bb16130ec8f4cb639f587d211bc884daab6eba03e072bb4d7969572",
+    "pages": 4,
+    "documentId": "2a0376dc-371f-4f5a-9abf-9c4a171afcc3",
+    "verification": {
+      "status": "indexed",
+      "chunks": 8,
+      "pineconeHits": 3,
+      "pages": 4,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:13:33.245Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000108-2026-OECE-DTN",
+    "title": "Opinión N.° D000108-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697965-opinion-n-d000108-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10761490/8697965-opinion-d108-2026-oece-dtn.pdf?v=1791553673",
+    "fileName": "d000108-2026-oece-dtn.pdf",
+    "bytes": 495655,
+    "sha256": "cd256eeeab5a2d8c5153697bcd85a9cde2460d84560ec8f775a9a823deb6ebce",
+    "pages": 5,
+    "documentId": "66bd590f-3a5f-433d-9824-30639121e4a7",
+    "verification": {
+      "status": "indexed",
+      "chunks": 9,
+      "pineconeHits": 3,
+      "pages": 5,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:13:45.484Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000107-2026-OECE-DTN",
+    "title": "Opinión N.° D000107-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674932-opinion-n-d000107-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10732131/8674932-opinion-d107-2026-oece-dtn.pdf?v=1790973231",
+    "fileName": "d000107-2026-oece-dtn.pdf",
+    "bytes": 553908,
+    "sha256": "f1c0c319891dd4c8516ef955af70e26e56d7ef61bb6d8e28317aafb08d7f14fb",
+    "pages": 10,
+    "documentId": "81d2fcd7-1c5b-4baa-9231-197082e9cd49",
+    "verification": {
+      "status": "indexed",
+      "chunks": 18,
+      "pineconeHits": 3,
+      "pages": 10,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:13:58.581Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000106-2026-OECE-DTN",
+    "title": "Opinión N.° D000106-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674912-opinion-n-d000106-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10732107/8674912-opinion-d106-2026-oece-dtn.pdf?v=1790973096",
+    "fileName": "d000106-2026-oece-dtn.pdf",
+    "bytes": 482297,
+    "sha256": "47dae9c2b9b0c7573a86fc26f27de8c93656b59e271440d5e21f874cb3c61024",
+    "pages": 4,
+    "documentId": "d5f22ac3-d37e-48a1-a5e6-398dbcebe87d",
+    "verification": {
+      "status": "indexed",
+      "chunks": 7,
+      "pineconeHits": 3,
+      "pages": 4,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:14:11.196Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000105-2026-OECE-DTN",
+    "title": "Opinión N.° D000105-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8663005-opinion-n-d000105-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10715940/8663005-opinion-d105-2026-oece-dtn.pdf?v=1790801613",
+    "fileName": "d000105-2026-oece-dtn.pdf",
+    "bytes": 519466,
+    "sha256": "011e15d4e2b79e08ee66e667fcc95f306ecd3a4bf9f2fea39b679548debada28",
+    "pages": 6,
+    "documentId": "1495031f-63ca-49ab-996d-fa3d4dd36d17",
+    "verification": {
+      "status": "indexed",
+      "chunks": 10,
+      "pineconeHits": 3,
+      "pages": 6,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:14:26.051Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000104-2026-OECE-DTN",
+    "title": "Opinión N.° D000104-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8662982-opinion-n-d000104-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10715915/8662982-opinion-d104-2026-oece-dtn.pdf?v=1790801507",
+    "fileName": "d000104-2026-oece-dtn.pdf",
+    "bytes": 553794,
+    "sha256": "b7cb66d61a39831c569bb6f3dd6a609b3cb4b74a1b5ba6752e2244a55883eb61",
+    "pages": 9,
+    "documentId": "31263c9a-d039-46b6-8a00-0c88350ac2d5",
+    "verification": {
+      "status": "indexed",
+      "chunks": 18,
+      "pineconeHits": 3,
+      "pages": 9,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:14:41.190Z",
+      "searchVerified": true
+    }
+  },
+  {
+    "number": "D000103-2026-OECE-DTN",
+    "title": "Opinión N.° D000103-2026-OECE-DTN",
+    "pageUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646774-opinion-n-d000103-2026-oece-dtn",
+    "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10690041/8646774-opinion-d103-2026-oece-dtn.pdf?v=1790295838",
+    "fileName": "d000103-2026-oece-dtn.pdf",
+    "bytes": 509486,
+    "sha256": "dc12893cb5e9e409a1d06195a61b60b8022697d5835eafac70cbeae00a759607",
+    "pages": 6,
+    "documentId": "0958fb77-1ee7-4064-9768-b96f55a1d50a",
+    "verification": {
+      "status": "indexed",
+      "chunks": 10,
+      "pineconeHits": 3,
+      "pages": 6,
+      "complete": true,
+      "sha256Verified": true,
+      "verifiedAt": "2026-10-22T16:14:55.689Z",
+      "searchVerified": true
+    }
+  }
+]
