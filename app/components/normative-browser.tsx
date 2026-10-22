@@ -512,7 +512,7 @@ export function NormativeBrowser() {
           onClick={() => changeCategory("jurisprudencia")}
           type="button"
         >
-          Jurisprudencia y opiniones
+          Criterios y decisiones
         </button>
         <button aria-pressed={category === "orientacion"} onClick={() => changeCategory("orientacion")} type="button">
           Bases y orientación
@@ -578,7 +578,7 @@ export function NormativeBrowser() {
           ) : norms.length === 0 ? (
             <div className="emptyState">
               <ScrollText size={18} />
-              <span>No hay documentos en esta categoria.</span>
+              <span>{error ? "No se pudo cargar el listado. Revisa el mensaje e intenta de nuevo." : "No hay coincidencias con esta categoría y filtros. Prueba limpiar los filtros."}</span>
             </div>
           ) : (
             norms.map((norm) => (
@@ -595,7 +595,7 @@ export function NormativeBrowser() {
                   {norm.year ? ` · ${norm.year}` : ""}
                 </span>
                 <span className="normCardTags">
-                  <span className="normTag">{norm.articleCount} articulo(s)</span>
+                  {norm.articleCount > 0 ? <span className="normTag">{norm.articleCount} artículo(s)</span> : null}
                   <span className={`normTag ${norm.pagesDetected > 0 ? "ok" : "warn"}`}>
                     {norm.pagesDetected} pag.
                   </span>
@@ -659,10 +659,10 @@ export function NormativeBrowser() {
               ) : null}
 
               <div className="normQualityStrip">
-                <span data-ready={detail.norm.articleCount > 0}>
+                {detail.norm.articleCount > 0 ? <span data-ready={true}>
                   <BookOpenCheck size={15} />
                   {detail.norm.articleCount} articulos
-                </span>
+                </span> : null}
                 <span data-ready={detail.norm.pagesDetected > 0}>
                   <FileText size={15} />
                   {detail.norm.pagesDetected} paginas con cita
@@ -673,7 +673,7 @@ export function NormativeBrowser() {
                 </span>
                 <span data-ready={detail.norm.pineconeVerified}>
                   <ShieldCheck size={15} />
-                  Pinecone {detail.norm.pineconeVerified ? "verificado" : "pendiente"}
+                  Consulta IA {detail.norm.pineconeVerified ? "disponible" : "pendiente"}
                 </span>
                 <span data-ready={detail.norm.hasSummary}>
                   <CheckCircle2 size={15} />

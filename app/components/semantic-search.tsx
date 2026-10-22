@@ -2,6 +2,7 @@
 
 import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
+import { legalSearchEmptyState } from "@/lib/legal-center";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind } from "@/lib/official-corpus";
 
 import { useEffect, useMemo, useState } from "react";
@@ -298,6 +299,7 @@ export function SemanticSearch() {
       ? assessment.queryUsed
       : "";
   const searched = Boolean(assessment || results.length > 0 || error);
+  const emptySearch = legalSearchEmptyState(loading, error, searched);
 
   async function performSearch(
     targetTab: SourceTab,
@@ -705,12 +707,8 @@ export function SemanticSearch() {
         {visibleResults.length === 0 ? (
           <div className="emptyState searchEmpty">
             <ShieldCheck size={20} />
-            <strong>{searched ? "No se encontro evidencia suficiente." : "Listo para buscar evidencia."}</strong>
-            <span>
-              {searched
-                ? "Prueba quitar filtros o usar terminos juridicos mas amplios."
-                : "Escribe una consulta legal y, si hace falta, acotala por tipo, entidad, año o vigencia."}
-            </span>
+            <strong>{emptySearch.title}</strong>
+            <span>{emptySearch.detail}</span>
           </div>
         ) : (
           visibleResults.map((source, index) => (

@@ -36,3 +36,10 @@ export function legalValidity(vigencia?: string | null, status?: string | null):
   if (value === "vigente") return { state: "current", label: "Vigente según registro", tone: "ok" };
   return { state: "unknown", label: "Vigencia sin confirmar", tone: "neutral" };
 }
+
+export function legalSearchEmptyState(loading: boolean, error: string, completed: boolean) {
+  if (loading) return { title: "Buscando fuentes…", detail: "Estamos consultando los documentos disponibles." };
+  if (error) return { title: "La búsqueda no se completó", detail: "Revisa el mensaje de error e intenta de nuevo. Esto no significa que no existan documentos." };
+  if (completed) return { title: "Sin coincidencias con esta consulta", detail: "Prueba quitar filtros o utilizar otros términos. No se ha evaluado toda la biblioteca." };
+  return { title: "Listo para buscar", detail: "Escribe una consulta y, si lo necesitas, filtra por tipo, entidad, año o vigencia." };
+}

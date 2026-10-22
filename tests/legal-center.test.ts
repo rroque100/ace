@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { legalCenterHref, legalValidity } from "@/lib/legal-center";
+import { legalCenterHref, legalValidity, legalSearchEmptyState } from "@/lib/legal-center";
 import { NAVEGACION } from "@/lib/navegacion";
 
 describe("navegación del Centro Jurídico", () => {
@@ -34,4 +34,11 @@ describe("vigencia registrada", () => {
     expect(legalValidity("modificada").state).toBe("unknown");
     expect(legalValidity(null, "indexed").state).toBe("unknown");
   });
+});
+
+it("no presenta fallos ni búsquedas pendientes como ausencia de evidencia", () => {
+  expect(legalSearchEmptyState(true, "", false).title).toBe("Buscando fuentes…");
+  expect(legalSearchEmptyState(false, "Error", true).title).toBe("La búsqueda no se completó");
+  expect(legalSearchEmptyState(false, "", true).title).toBe("Sin coincidencias con esta consulta");
+  expect(legalSearchEmptyState(false, "", false).title).toBe("Listo para buscar");
 });

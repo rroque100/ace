@@ -9,4 +9,6 @@ Diseño aprobado por el usuario: Centro Jurídico, Chat jurídico, Búsqueda doc
 
 No se cambian modelo, claves, datos normativos, tablas, permisos ni el módulo Contratos.
 
-Comprobación previa a publicación: 33 pruebas correctas, tipos y compilación de producción correctos, revisión de código sin errores.
+Comprobación previa a publicación: 34 pruebas correctas, tipos y compilación de producción correctos, revisión de código sin errores.
+
+Revisión en producción del primer despliegue: navegación común visible, vigencia desconocida neutral y documento conservado al pasar de Normativa a Búsqueda. Ajustes finales de categorías, espacio de filtros y mensajes de error aplicados.
