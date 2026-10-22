@@ -39,6 +39,7 @@ type AppShellProps = {
   eyebrow: string;
   title: string;
   action?: React.ReactNode;
+  showFiscalYear?: boolean;
 };
 
 async function countRecentNews() {
@@ -53,7 +54,7 @@ async function countRecentNews() {
   }
 }
 
-export async function AppShell({ active, action, children, eyebrow, title }: AppShellProps) {
+export async function AppShell({ active, action, children, eyebrow, title, showFiscalYear = true }: AppShellProps) {
   const [user, newsCount] = await Promise.all([getSessionUser(), countRecentNews()]);
   const officeName = user ? await getOfficeName(user.oficinaId) : null;
   // Bandeja de necesidades pendientes de la acción de este usuario: badge en el
@@ -103,7 +104,7 @@ export async function AppShell({ active, action, children, eyebrow, title }: App
             <p className="eyebrow">{eyebrow}</p>
             <h1 style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               {title}
-              <YearSelector />
+              {showFiscalYear ? <YearSelector /> : null}
             </h1>
           </div>
           {action}

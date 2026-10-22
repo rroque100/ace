@@ -1,5 +1,8 @@
 "use client";
 
+import { LegalCenterNav } from "./legal-center-nav";
+import { LegalValidityBadge } from "./legal-validity-badge";
+import { legalCenterHref } from "@/lib/legal-center";
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -180,7 +183,7 @@ function confidenceClasses(confidence?: Confidence) {
 
 function confidenceMeaning(confidence?: Confidence) {
   if (confidence === "alta") {
-    return "Alta: hay evidencia normativa suficiente, buena coincidencia con la pregunta y referencias trazables por página o artículo.";
+    return "Alta relevancia documental: hay coincidencias y referencias trazables. No confirma por sí sola la vigencia, la aplicabilidad ni la exactitud jurídica.";
   }
 
   if (confidence === "media") {
@@ -489,6 +492,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         </small>
       </div>
       <strong>{reference.source.citation}</strong>
+      <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} />
 
       {hits > 0 ? (
         <div className="sourceQuote">
@@ -517,6 +521,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         </details>
       ) : null}
 
+      <div className="sourceActions">
       <a
         className="secondaryButton compactButton"
         href={documentPdfUrl(reference.source)}
@@ -528,6 +533,9 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
           ? `Abrir PDF en página ${reference.source.pageStart}`
           : "Abrir PDF"}
       </a>
+      <Link className="secondaryButton compactButton" href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article })}>Ver en Normativa</Link>
+      <Link className="secondaryButton compactButton" href={legalCenterHref("busqueda", { documentId: reference.source.documentId, documentType: reference.source.documentType })}>Buscar en este documento</Link>
+      </div>
     </article>
   );
 }
@@ -1104,6 +1112,8 @@ function LegalChatSession() {
   }
 
   function clearFilters() {
+    setDocumentId("");
+    setArticle("");
     setDocumentType("");
     setProcessType("");
     setSourceEntity("");
@@ -1206,6 +1216,7 @@ function LegalChatSession() {
 
   return (
     <div className="legalTool chatRedesign">
+      <LegalCenterNav active="chat" filters={currentFilterValues} />
       <header className="chatHeader">
         <div className="chatHeaderTitle">
           <div className="legalToolIcon">

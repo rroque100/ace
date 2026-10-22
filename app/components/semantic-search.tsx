@@ -1,4 +1,7 @@
 "use client";
+
+import { LegalCenterNav } from "./legal-center-nav";
+import { LegalValidityBadge } from "./legal-validity-badge";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind } from "@/lib/official-corpus";
 
 import { useEffect, useMemo, useState } from "react";
@@ -49,6 +52,7 @@ type SearchSource = {
 };
 
 type SearchResponse = {
+  semanticaCaida?: boolean;
   assessment?: {
     averageScore: number;
     confidence: "alta" | "media" | "baja";
@@ -91,6 +95,7 @@ const exampleQueries = [
 ];
 
 const filterLabels: Record<string, string> = {
+  documentId: "Ámbito",
   article: "Articulo",
   documentType: "Tipo",
   processType: "Proceso",
@@ -104,10 +109,10 @@ const filterLabels: Record<string, string> = {
 function sourceLocation(source: SearchSource) {
   const parts = [
     source.pageStart ? `pagina ${source.pageStart}` : "pagina no identificada",
-    source.article ? `articulo ${source.article}` : "articulo no identificado",
+    source.article ? `articulo ${source.article}` : "",
   ];
 
-  return parts.join(" · ");
+  return parts.filter(Boolean).join(" · ");
 }
 
 function confidenceClass(confidence: Confidence) {
@@ -222,6 +227,8 @@ export function SemanticSearch() {
   const [vigencia, setVigencia] = useState(searchParams.get("vigencia") ?? "");
   const [year, setYear] = useState(searchParams.get("year") ?? "");
   const [article, setArticle] = useState(searchParams.get("article") ?? "");
+  const [documentId, setDocumentId] = useState(searchParams.get("documentId") ?? "");
+  const [semanticUnavailable, setSemanticUnavailable] = useState(false);
   const [facets, setFacets] = useState<Facets | null>(null);
   const [assessment, setAssessment] = useState<SearchResponse["assessment"] | null>(null);
 
@@ -245,6 +252,7 @@ export function SemanticSearch() {
   }, []);
   const canSearch = query.trim().length >= 5 && !loading;
   const activeFilterCount = [
+    documentId,
     documentType,
     processType,
     sourceEntity,
@@ -255,6 +263,7 @@ export function SemanticSearch() {
     article,
   ].filter(Boolean).length;
   const activeFilters = [
+    { key: "documentId", value: documentId ? "Documento seleccionado" : "" },
     { key: "documentType", value: documentType ? documentTypeLabel(documentType) : "" },
     { key: "processType", value: processType ? processTypeLabel(processType) ?? processType : "" },
     { key: "sourceEntity", value: sourceEntity },
@@ -305,6 +314,7 @@ export function SemanticSearch() {
     }
 
     setAssessment(null);
+    setSemanticUnavailable(false);
     setError("");
     setLoading(true);
     setResults([]);
@@ -318,6 +328,7 @@ export function SemanticSearch() {
       const response = await fetch("/api/search", {
         body: JSON.stringify({
           filters: {
+            documentId,
             article,
             documentType: effectiveDocumentType,
             processType,
@@ -343,6 +354,7 @@ export function SemanticSearch() {
       }
 
       setAssessment(payload.assessment ?? null);
+      setSemanticUnavailable(Boolean(payload.semanticaCaida));
       setResults(payload.sources ?? []);
     } catch {
       setError("No se pudo conectar con el servidor.");
@@ -371,6 +383,7 @@ export function SemanticSearch() {
   }
 
   function clearFilters() {
+    setDocumentId("");
     setDocumentType("");
     setProcessType("");
     setSourceEntity("");
@@ -383,6 +396,7 @@ export function SemanticSearch() {
 
   function resetSearch() {
     clearFilters();
+    setSemanticUnavailable(false);
     setAssessment(null);
     setCopiedId("");
     setError("");
@@ -476,10 +490,12 @@ export function SemanticSearch() {
 
   return (
     <div className="toolPanel">
+      <LegalCenterNav active="busqueda" filters={{ documentType, documentId, article, processType, sourceEntity, year, topic, vigencia }} />
+      {semanticUnavailable ? <p className="legalCenterNotice" role="status">La búsqueda semántica no está disponible. Se muestran coincidencias de texto, que pueden ser menos precisas. Puedes volver a intentar la consulta.</p> : null}
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Motor semantico</p>
-          <h2>Buscar en la biblioteca</h2>
+          <p className="eyebrow">Consulta de fuentes</p>
+          <h2>Busca documentos y fragmentos</h2>
         </div>
         <FileSearch size={22} />
       </div>
@@ -725,7 +741,7 @@ export function SemanticSearch() {
                 ) : null}
                 {source.topic ? <span>Tema {source.topic}</span> : null}
                 {source.status ? <span>Estado {source.status}</span> : null}
-                {source.vigencia ? <span>Vigencia {source.vigencia}</span> : null}
+                <LegalValidityBadge value={source.vigencia} status={source.status} />
                 {source.regime ? <span>{source.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${source.regime}`}</span> : null}
                 {source.year ? <span>{source.year}</span> : null}
               </div>
@@ -748,7 +764,7 @@ export function SemanticSearch() {
                 />
                 <a
                   className="secondaryButton compactButton"
-                  href={`/api/documents/${source.documentId}`}
+                  href={`/api/documents/${source.documentId}${source.pageStart ? `#page=${source.pageStart}` : ""}`}
                   rel="noreferrer"
                   target="_blank"
                 >

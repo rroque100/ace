@@ -47,12 +47,15 @@ export const NAVEGACION = [
   },
   {
     items: [
-      { href: "/chat", icon: "Bot", id: "chat", label: "Chat con fuentes", adminOnly: false },
+      { href: "/chat", icon: "Bot", id: "chat", label: "Chat jurídico", adminOnly: false },
       { href: "/busqueda", icon: "FileSearch", id: "busqueda", label: "Búsqueda documental", adminOnly: false },
-      { href: "/normas", icon: "Library", id: "normas", label: "Normas por artículo", adminOnly: false },
-      { href: "/archivo", icon: "Archive", id: "archivo", label: "Archivo documental", adminOnly: false },
+      { href: "/normas", icon: "Library", id: "normas", label: "Normativa y criterios", adminOnly: false },
     ],
-    label: "Consultar",
+    label: "Centro Jurídico",
+  },
+  {
+    items: [{ href: "/archivo", icon: "Archive", id: "archivo", label: "Archivo documental", adminOnly: false }],
+    label: "Documentación",
   },
   {
     items: [

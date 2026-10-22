@@ -1,5 +1,9 @@
 "use client";
 
+import { LegalCenterNav } from "./legal-center-nav";
+import { LegalValidityBadge } from "./legal-validity-badge";
+import { legalValidity } from "@/lib/legal-center";
+
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -191,10 +195,10 @@ export function NormativeBrowser() {
   const [error, setError] = useState("");
   const [documentTypeFilter, setDocumentTypeFilter] = useState(searchParams.get("documentType") ?? "");
   const [processTypeFilter, setProcessTypeFilter] = useState(searchParams.get("processType") ?? "");
-  const [sourceEntityFilter, setSourceEntityFilter] = useState("");
-  const [yearFilter, setYearFilter] = useState("");
-  const [vigenciaFilter, setVigenciaFilter] = useState("");
-  const [topicFilter, setTopicFilter] = useState("");
+  const [sourceEntityFilter, setSourceEntityFilter] = useState(searchParams.get("sourceEntity") ?? "");
+  const [yearFilter, setYearFilter] = useState(searchParams.get("year") ?? "");
+  const [vigenciaFilter, setVigenciaFilter] = useState(searchParams.get("vigencia") ?? "");
+  const [topicFilter, setTopicFilter] = useState(searchParams.get("topic") ?? "");
   const [semanticQuery, setSemanticQuery] = useState("");
   const [semanticLoading, setSemanticLoading] = useState(false);
   const [semanticSources, setSemanticSources] = useState<SemanticSource[]>([]);
@@ -338,7 +342,7 @@ export function NormativeBrowser() {
     const needle = articleFilter.trim().toLowerCase();
 
     return detail.articles.filter((article) => {
-      if (onlyVigente && isNotCurrent(article.vigencia, article.status)) {
+      if (onlyVigente && legalValidity(article.vigencia, article.status).state !== "current") {
         return false;
       }
 
@@ -485,10 +489,11 @@ export function NormativeBrowser() {
 
   return (
     <div className="toolPanel normBrowser">
+      <LegalCenterNav active="normas" filters={{ documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
       <div className="toolPanelHeader">
         <div>
           <p className="eyebrow">Base documental</p>
-          <h2>Navegador normativo</h2>
+          <h2>Explora documentos y criterios</h2>
         </div>
         <Library size={22} />
       </div>
@@ -595,18 +600,14 @@ export function NormativeBrowser() {
                     {norm.pagesDetected} pag.
                   </span>
                   <span className={`normTag ${norm.pineconeVerified ? "ok" : "warn"}`}>
-                    Pinecone {norm.pineconeVerified ? "ok" : "rev."}
+                    Consulta IA {norm.pineconeVerified ? "lista" : "por preparar"}
                   </span>
                   <span className={`normTag ${norm.hasSummary ? "ok" : "warn"}`}>
-                    Resumen {norm.hasSummary ? "si" : "no"}
+                    Resumen {norm.hasSummary ? "disponible" : "pendiente"}
                   </span>
                   <span className="normTag">{norm.concordanceCount} ref.</span>
                   {norm.regime ? <span className="normTag">{norm.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${norm.regime}`}</span> : null}
-                  {norm.vigencia ? (
-                    <span className={`normTag ${isNotCurrent(norm.vigencia) ? "warn" : "ok"}`}>
-                      {norm.vigencia}
-                    </span>
-                  ) : null}
+                  <LegalValidityBadge value={norm.vigencia} status={norm.status} />
                 </span>
               </button>
             ))
@@ -622,8 +623,8 @@ export function NormativeBrowser() {
           ) : !detail ? (
             <div className="emptyState">
               <Library size={20} />
-              <strong>Selecciona una norma</strong>
-              <span>Elige un documento de la izquierda para leerlo por articulo.</span>
+              <strong>Selecciona un documento</strong>
+              <span>Elige una norma, criterio o guía para revisar su contenido y abrir el PDF.</span>
             </div>
           ) : (
             <>
@@ -637,6 +638,7 @@ export function NormativeBrowser() {
                       : ""}
                   </p>
                   <h3>{detail.norm.title}</h3>
+                  <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} />
                 </div>
                 <a
                   className="secondaryButton compactButton"
@@ -696,7 +698,7 @@ export function NormativeBrowser() {
                         onClick={() => selectNorm(document.id)}
                         type="button"
                       >
-                        {document.year ?? "s/a"} · {document.vigencia ?? document.status ?? "vigencia s/d"}
+                        {document.year ?? "s/a"} · {legalValidity(document.vigencia, document.status).label}
                       </button>
                     ))}
                   </div>
@@ -822,13 +824,7 @@ export function NormativeBrowser() {
                                   : ""}
                               </span>
                             ) : null}
-                            <span
-                              className={`normTag ${
-                                isNotCurrent(selectedArticle.vigencia, selectedArticle.status) ? "warn" : "ok"
-                              }`}
-                            >
-                              {selectedArticle.vigencia ?? selectedArticle.status ?? "vigencia s/d"}
-                            </span>
+                            <LegalValidityBadge value={selectedArticle.vigencia} status={selectedArticle.status} />
                           </div>
                         </div>
 
