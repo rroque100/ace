@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { countReferencedPages } from "@/lib/document-pages";
 import { requireUser } from "@/lib/auth";
 import { supabaseRest } from "@/lib/supabase-server";
 
@@ -95,7 +96,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     }
 
     const metadata = document.metadata ?? {};
-    const pagesDetected = chunks.filter((chunk) => chunk.page_start || chunk.page_end).length;
+    const pagesDetected = countReferencedPages(chunks);
     const vectorCount = chunks.filter((chunk) => chunk.pinecone_vector_id).length;
     const pinecone = metadata.pinecone;
     const pineconeVerified = Boolean(

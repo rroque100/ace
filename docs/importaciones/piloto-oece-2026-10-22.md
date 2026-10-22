@@ -21,7 +21,7 @@ Diez opiniones obtenidas del portal oficial de OECE, sin extraer material editor
 
 Se comprobó para cada PDF: huella SHA-256 tras descargarlo del almacenamiento, extracción completa, estado indexed, resultados reales de Pinecone y recuperación mediante la función que utiliza Buscar/Consultas con IA.
 
-El catálogo Normativa incluye estos tipos en «Jurisprudencia y opiniones». La comprobación visual con sesión autenticada queda pendiente si el usuario no ha iniciado sesión.
+El catálogo Normativa incluye estos tipos en «Jurisprudencia y opiniones». Se verificó con sesión de administrador que aparecen las diez opiniones y que el detalle presenta el resumen, número correcto, vigencia desconocida, Pinecone verificado y enlace al PDF. Se corrigió el contador del listado y del detalle: antes contaba fragmentos como páginas; ahora cuenta páginas citadas distintas, incluyendo rangos superpuestos.
 
 ## Metadatos y límites
 
