@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
+import { materialWarnings } from "@/lib/chat-signals";
 import {
   AlertTriangle,
   Bot,
@@ -673,6 +674,9 @@ function AnswerUseCard({
   }
 
   const status = answerUseLabel(confidence, assessment?.sufficient);
+  // Lo que cambia cómo usar la respuesta (fuentes críticas ausentes, vigencia sin
+  // confirmar) va a la vista; el resto del detalle técnico sigue plegado.
+  const signalWarnings = status.tone === "ok" ? [] : materialWarnings(assessment?.evidenceWarnings);
   const interpretedQuery =
     assessment?.queryUsed &&
     message.questionText &&
@@ -686,6 +690,13 @@ function AnswerUseCard({
         <strong>{status.label}</strong>
         <span>{status.detail}</span>
       </div>
+      {signalWarnings.length > 0 ? (
+        <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">
+          {signalWarnings.map((warning) => (
+            <li key={warning}>{warning}</li>
+          ))}
+        </ul>
+      ) : null}
       <p className="chatPlainEvidence">Las normas consultadas ayudan a revisar la respuesta. Confirma su vigencia y que correspondan a tu caso.</p>
       {assessment ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
         <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
