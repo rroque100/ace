@@ -1,5 +1,9 @@
 "use client";
 
+import { CaseAttachments } from "./case-attachments";
+import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
+import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
+import type { LegalResponseTelemetry } from "@/lib/legal-telemetry";
 import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
@@ -89,7 +93,7 @@ type Confidence = "alta" | "media" | "baja";
 
 // Eventos NDJSON que emite POST /api/chat.
 type StreamEvent =
-  | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence }
+  | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence; caseDocuments?: CaseDocumentReference[] }
   | { type: "delta"; text: string }
   | {
       type: "done";
@@ -97,10 +101,14 @@ type StreamEvent =
       messageId: string | null;
       model: string;
       citationWarnings?: string[];
+      telemetry?: LegalResponseTelemetry;
     }
   | { type: "error"; error: string };
 
+type CaseDocumentReference = { id:string; name:string; sessionId:string; partial:boolean };
 type ConversationMessage = {
+  caseDocuments?: CaseDocumentReference[];
+  telemetry?: LegalResponseTelemetry;
   caseContext?: CaseContext;
   id: string;
   role: "user" | "assistant";
@@ -226,11 +234,7 @@ function documentPdfUrl(source: Pick<ChatSource, "documentId" | "pageStart">) {
 
 function buildSearchUrl(message: ConversationMessage, filters: Record<string, string>) {
   const params = new URLSearchParams();
-  const query = message.questionText ?? message.content;
-
-  if (query) {
-    params.set("q", query);
-  }
+  if (message.persistedId) return `/busqueda?messageId=${encodeURIComponent(message.persistedId)}`;
 
   for (const [key, value] of Object.entries(filters)) {
     if (value) {
@@ -828,6 +832,9 @@ function LegalChatSession() {
 
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [question, setQuestion] = useState(initialQuestion);
+  const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
+  const [attachmentsBusy, setAttachmentsBusy] = useState(false);
+  const [attachmentIds, setAttachmentIds] = useState<string[]>([]);
   const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
   const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
   const [tone, setTone] = useState("formal");
@@ -855,7 +862,7 @@ function LegalChatSession() {
   const abortRef = useRef<AbortController | null>(null);
 
   const hasConversation = messages.length > 0;
-  const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession;
+  const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession && !attachmentsBusy;
 
   useEffect(() => {
     if (!requestedSessionId) return;
@@ -873,8 +880,11 @@ function LegalChatSession() {
           model: string; metadata: Record<string, unknown>;
         }>;
         const latestUser = [...restored].reverse().find((message) => message.role === "user");
+        setAttachmentIds(Array.isArray(latestUser?.metadata?.attachmentIds) ? latestUser.metadata.attachmentIds as string[] : []);
+        if (!restored.length && typeof payload.session.metadata?.prefill === "string") setQuestion(payload.session.metadata.prefill);
         setCaseContext(readCaseContext(latestUser?.metadata?.caseContext ?? payload.session.metadata?.caseContext));
         const restoredFilters = (latestUser?.metadata?.filters ?? payload.session.metadata?.filters ?? {}) as Record<string, unknown>;
+        setExtendedFilters(extendedLegalFiltersSchema.parse(restoredFilters));
         const textFilter = (key: string) => typeof restoredFilters[key] === "string" ? restoredFilters[key] as string : "";
         setDocumentType(textFilter("documentType"));
         setDocumentId(textFilter("documentId"));
@@ -888,12 +898,14 @@ function LegalChatSession() {
         setMessages(restored.filter((message) => message.role === "user" || message.role === "assistant").map((message) => ({
           id: message.id, persistedId: message.id, role: message.role, content: message.content,
           sources: message.sources ?? [], model: message.model,
+          caseDocuments: message.metadata?.caseDocuments as CaseDocumentReference[] | undefined,
           caseContext: readCaseContext(message.metadata?.caseContext),
           assessment: message.metadata?.assessment as ChatAssessment | undefined,
           confidence: message.metadata?.confidence as Confidence | undefined,
           questionText: message.metadata?.question as string | undefined,
           feedback: message.metadata?.feedback as ConversationMessage["feedback"],
           note: message.metadata?.note as string | undefined,
+          telemetry: message.metadata?.telemetry as LegalResponseTelemetry | undefined,
         })));
       } catch (cause) {
         if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "No se pudo abrir la conversación");
@@ -942,6 +954,7 @@ function LegalChatSession() {
       updateMessage(assistantId, (message) => ({
         ...message,
         sources: event.sources,
+        caseDocuments: event.caseDocuments,
         assessment: event.assessment,
         confidence: event.confidence,
       }));
@@ -959,6 +972,7 @@ function LegalChatSession() {
         streaming: false,
         persistedId: event.messageId,
         model: event.model,
+        telemetry: event.telemetry,
         citationWarnings: event.citationWarnings ?? [],
       }));
       setSessionId((current) => event.sessionId ?? current);
@@ -976,7 +990,7 @@ function LegalChatSession() {
       setError("Escribe una pregunta más específica.");
       return;
     }
-    if (isStreaming || loadingSession) {
+    if (isStreaming || loadingSession || attachmentsBusy) {
       return;
     }
 
@@ -1012,7 +1026,8 @@ function LegalChatSession() {
       const response = await fetch("/api/chat", {
         body: JSON.stringify({
           caseContext: userMessage.caseContext,
-          filters: { article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          attachmentIds,
+          filters: { ...extendedFilters, article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
           question: normalizedQuestion,
@@ -1108,7 +1123,7 @@ function LegalChatSession() {
     abortRef.current?.abort();
     setMessages([]);
     setQuestion("");
-    setCaseContext({ ...emptyCaseContext });
+    setCaseContext({ ...emptyCaseContext }); setAttachmentIds([]); setExtendedFilters({});
     setLoadingSession(false);
     if (requestedSessionId) router.replace("/chat");
     setSessionId(null);
@@ -1117,6 +1132,7 @@ function LegalChatSession() {
   }
 
   function clearFilters() {
+    setExtendedFilters({});
     setDocumentId("");
     setArticle("");
     setDocumentType("");
@@ -1221,7 +1237,10 @@ function LegalChatSession() {
 
   return (
     <div className="legalTool chatRedesign">
-      <LegalCenterNav active="chat" filters={currentFilterValues} />
+      <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
+      <LegalChatRecent />
+      <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
+      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
       <header className="chatHeader">
         <div className="chatHeaderTitle">
           <div className="legalToolIcon">
@@ -1481,10 +1500,12 @@ function LegalChatSession() {
                     </div>
                   ) : null}
 
+                  {message.caseDocuments?.length ? <section className="legalWorkspacePanel" aria-label="Originales de los documentos del caso"><strong>Documentos del caso · fuentes C#</strong><ul className="legalWorkspaceHistory">{message.caseDocuments.map((document,index)=><li key={document.id}><a href={`/api/chat/attachments/${document.id}?sessionId=${document.sessionId}`} target="_blank" rel="noreferrer">[C{index+1}] {document.name}</a><small>{document.partial?"Lectura parcial · revisar":"Texto extraído · revisar"}</small></li>)}</ul></section> : null}
                   {!message.streaming && !message.error ? (
                     <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
                   ) : null}
 
+                  {!message.streaming && message.telemetry ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
                   {!message.streaming && !message.error && message.content ? (
                     <div className="responseActions">
                       <small className="responseActionsHint">Acciones sobre esta respuesta</small>

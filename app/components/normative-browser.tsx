@@ -1,5 +1,7 @@
 "use client";
 
+import { ExtendedLegalFilterControls } from "./legal-workspace-tools";
+import { extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
 import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalValidity } from "@/lib/legal-center";
@@ -183,6 +185,7 @@ export function NormativeBrowser() {
   const targetDocumentId = searchParams.get("documentId");
   const targetArticle = searchParams.get("article");
   const [category, setCategory] = useState<Category>(() => corpusGroupForType(searchParams.get("documentType") ?? "ley"));
+  const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [norms, setNorms] = useState<NormSummary[]>([]);
   const [loadingList, setLoadingList] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(targetDocumentId);
@@ -213,6 +216,10 @@ export function NormativeBrowser() {
 
       try {
         const params = new URLSearchParams({ category });
+        if (extendedFilters.documentTypes?.length) params.set("documentTypes", extendedFilters.documentTypes.join(","));
+        if (extendedFilters.years?.length) params.set("years", extendedFilters.years.join(","));
+        if (extendedFilters.regime) params.set("regime", extendedFilters.regime);
+        if (extendedFilters.includeUnknownRegime) params.set("includeUnknownRegime", "true");
         if (documentTypeFilter) params.set("documentType", documentTypeFilter);
         if (processTypeFilter) params.set("processType", processTypeFilter);
         if (sourceEntityFilter) params.set("sourceEntity", sourceEntityFilter);
@@ -254,7 +261,7 @@ export function NormativeBrowser() {
       cancelled = true;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
+  }, [extendedFilters, category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
 
   useEffect(() => {
     let cancelled = false;
@@ -489,7 +496,8 @@ export function NormativeBrowser() {
 
   return (
     <div className="toolPanel normBrowser">
-      <LegalCenterNav active="normas" filters={{ documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
+      <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
+      <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentTypeFilter(""); if(value.years?.length) setYearFilter(""); }} />
       <div className="toolPanelHeader">
         <div>
           <p className="eyebrow">Base documental</p>

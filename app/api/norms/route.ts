@@ -1,3 +1,4 @@
+import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "@/lib/legal-workspace-filters";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { supabaseRest } from "@/lib/supabase-server";
@@ -58,15 +59,18 @@ export async function GET(request: Request) {
 
     const params = new URL(request.url).searchParams;
     const category = params.get("category");
+    const extra = extendedLegalFiltersSchema.safeParse({ documentTypes: params.get("documentTypes")?.split(",").filter(Boolean), years: params.get("years")?.split(",").filter(Boolean).map(Number), regime: params.get("regime") ?? "", includeUnknownRegime: params.get("includeUnknownRegime") === "true" });
+    if (!extra.success) return NextResponse.json({ error: "Filtros inválidos", norms: [] }, { status: 400 });
     const rows = await supabaseRest<NormRow[]>(
       `documents?select=id,title,document_type,source_entity,process_type,status,metadata,created_at,norma_articulos(count)` +
-        `&status=eq.indexed${typeFilter(category)}` +
-        exactFilter("document_type", params.get("documentType")) +
+        `&es_institucional=eq.true&status=eq.indexed${extra.data.documentTypes?.length ? "" : typeFilter(category)}` +
+        exactFilter("document_type", extra.data.documentTypes?.length ? null : params.get("documentType")) +
         exactFilter("process_type", params.get("processType")) +
         textFilter("source_entity", params.get("sourceEntity")) +
         `&order=document_type.asc,created_at.desc&limit=300`,
     );
-    const documentIds = rows.map((row) => row.id);
+    const filteredRows = rows.filter(row => matchesExtendedFilters({ documentType: row.document_type, year: typeof row.metadata?.year === "number" ? row.metadata.year : null, regime: reviewedRegime(row.metadata ?? {}), regimeReviewed: reviewedRegime(row.metadata ?? {}) !== "no_determinado" }, extra.data));
+    const documentIds = filteredRows.map((row) => row.id);
     const idFilter = documentIds.length ? `in.(${documentIds.map((id) => `"${id}"`).join(",")})` : "in.(\"\")";
     const [chunks, summaries, concordancias] = await Promise.all([
       supabaseRest<ChunkRow[]>(
@@ -94,7 +98,7 @@ export async function GET(request: Request) {
       );
     }
 
-    const norms = rows
+    const norms = filteredRows
       .map((row) => {
       const metadata = row.metadata ?? {};
       const documentChunks = chunksByDocument.get(row.id) ?? [];
@@ -143,7 +147,7 @@ export async function GET(request: Request) {
         const vigencia = params.get("vigencia")?.toLowerCase();
         const topic = params.get("topic")?.toLowerCase();
 
-        if (year && String(row.year ?? "") !== year) return false;
+        if (!extra.data.years?.length && year && String(row.year ?? "") !== year) return false;
         if (vigencia && !(row.vigencia ?? "").toLowerCase().includes(vigencia)) return false;
         if (topic && !(row.topic ?? "").toLowerCase().includes(topic)) return false;
         return true;

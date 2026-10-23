@@ -11037,3 +11037,21 @@ a.panelOrigen:hover {
   }
 }
 
+
+/* Centro Jurídico: continuidad privada y lectura del caso. */
+.legalWorkspacePanel { margin: 12px 0; padding: 14px 18px; border: 1px solid #d7e4e5; border-radius: 12px; background: #fff; }
+.legalWorkspacePanel > summary { cursor: pointer; color: #0f766e; font-weight: 700; min-height: 24px; }
+.legalWorkspacePanel p,.legalWorkspacePanel small { color: #52656c; font-size: 13px; line-height: 1.6; }
+.legalWorkspacePanel small { display: block; }
+.legalWorkspaceGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin: 16px 0; }
+.legalWorkspaceGrid label { display: grid; gap: 7px; font-size: 13px; font-weight: 600; }
+.legalWorkspaceGrid select,.legalWorkspaceGrid input:not([type=checkbox]) { width: 100%; min-height: 40px; padding: 8px; border: 1px solid #cbdadb; border-radius: 7px; background: #fff; color: #17343b; }
+.legalWorkspaceGrid select[multiple] { min-height: 120px; }
+.legalWorkspaceCheck { display: flex !important; align-items: flex-start; gap: 10px; font-size: 13px; }
+.legalWorkspaceCheck input { width: 18px; height: 18px; flex-shrink: 0; accent-color: #0f766e; }
+.legalWorkspaceHistory { list-style: none; padding: 0; max-height: 300px; overflow-y: auto; }
+.legalWorkspaceHistory li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #e2ebec; overflow-wrap: anywhere; }
+.legalWorkspacePanel .buttonSecondary { background: #f1f7f7; border: 1px solid #cbdadb; color: #0f625c; border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+.legalAttachmentUpload { display: grid; gap: 8px; padding: 14px; border: 1px dashed #6ba9a3; border-radius: 8px; margin: 12px 0; color: #0f625c; }
+.legalWorkspacePanel :focus-visible { outline: 3px solid #0d9488; outline-offset: 3px; }
+@media (max-width: 640px) { .legalWorkspaceGrid { grid-template-columns: 1fr; } .legalWorkspaceHistory li { flex-direction: column; align-items: flex-start; } }

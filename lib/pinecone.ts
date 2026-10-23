@@ -85,6 +85,10 @@ const upsertRetryDelayMs = 65000;
 const maxUpsertRetries = 3;
 
 export type SearchFilters = {
+  documentTypes?: string[];
+  years?: number[];
+  regime?: "" | "32069" | "30225" | "especial" | "no_determinado";
+  includeUnknownRegime?: boolean;
   indexGeneration?: string;
   article?: string;
   documentId?: string;
@@ -104,7 +108,10 @@ export function compactFilter(filters?: SearchFilters) {
     return undefined;
   }
 
-  const clauses: Record<string, { $eq: string | number } | { $in: string[] }> = {};
+  const clauses: Record<string, { $eq: string | number } | { $in: Array<string | number> }> = {};
+
+  if (filters.documentTypes?.length) clauses.document_type = { $in: filters.documentTypes };
+  if (filters.years?.length) clauses.year = { $in: filters.years };
 
   if (filters.indexGeneration) clauses.index_generation = { $eq: filters.indexGeneration };
 
@@ -120,7 +127,7 @@ export function compactFilter(filters?: SearchFilters) {
     clauses.document_id = { $eq: filters.documentId };
   }
 
-  if (filters.documentType) {
+  if (filters.documentType && !filters.documentTypes?.length) {
     clauses.document_type = { $eq: filters.documentType };
   }
 
@@ -144,7 +151,7 @@ export function compactFilter(filters?: SearchFilters) {
     clauses.vigencia = { $eq: filters.vigencia };
   }
 
-  if (filters.year) {
+  if (filters.year && !filters.years?.length) {
     clauses.year = { $eq: filters.year };
   }
 

@@ -19,7 +19,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     if (!session) return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 });
     const messages = await supabaseUserRest<unknown[]>(auth.user.accessToken,
       `chat_messages?session_id=eq.${session.id}&select=id,role,content,sources,model,metadata&order=created_at.asc`);
-    return NextResponse.json({ session, messages });
+    return NextResponse.json({ session, messages: messages.filter(message => (message as { metadata?: { kind?: string } }).metadata?.kind !== "case_attachment") }, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return NextResponse.json({ error: "No se pudo recuperar la conversación" }, { status: 500 });
   }

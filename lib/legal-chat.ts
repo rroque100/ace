@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
+import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
 import { chatSourceLocations, checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
@@ -33,7 +35,7 @@ export type ChatAuthContext = {
   role?: string;
 };
 
-const legalSearchFiltersSchema = z.object({
+const legalSearchFiltersSchema = extendedLegalFiltersSchema.extend({
   article: z.string().trim().optional().or(z.literal("")),
   documentId: z.string().trim().optional().or(z.literal("")),
   /** Varios documentos a la vez: un procedimiento puede tener varios modelos. */
@@ -48,19 +50,20 @@ const legalSearchFiltersSchema = z.object({
 });
 
 export const chatRequestSchema = z.object({
+  attachmentIds: z.array(z.string().uuid()).max(4).optional(),
   caseContext: caseContextSchema.optional(),
   filters: legalSearchFiltersSchema.optional(),
   mode: z.enum(["breve", "tecnica", "informe", "checklist"]).default("tecnica"),
   // Estilo elegible por el usuario: tono (voz) y longitud (extension).
   tone: z.enum(["didactico", "formal", "tecnico"]).default("formal"),
   length: z.enum(["concisa", "media", "detallada"]).default("media"),
-  question: z.string().min(5),
+  question: z.string().min(5).max(8000),
   sessionId: z.string().uuid().optional(),
 });
 
 export const semanticSearchRequestSchema = z.object({
   filters: legalSearchFiltersSchema.optional(),
-  query: z.string().min(5),
+  query: z.string().min(5).max(8000),
   topK: z.coerce.number().int().min(1).max(20).default(8),
 });
 
@@ -88,6 +91,7 @@ export type LegalSource = {
   pageCount?: number | null;
   requestedOriginal?: boolean;
   referenceRelation?: "original" | "cites_requested" | "related";
+  regimeReviewed?: boolean;
   regime?: string | null;
   citation: string;
   chunkId: string;
@@ -172,16 +176,17 @@ function escapePostgrestIn(values: string[]) {
 
 function normalizeFilters(filters?: z.infer<typeof legalSearchFiltersSchema>): SearchFilters {
   return {
+    ...extendedLegalFiltersSchema.parse(filters ?? {}),
     article: filters?.article?.trim() || undefined,
     documentId: filters?.documentId?.trim() || undefined,
     documentIds: filters?.documentIds?.length ? filters.documentIds : undefined,
-    documentType: filters?.documentType?.trim() || undefined,
+    documentType: filters?.documentTypes?.length ? undefined : filters?.documentType?.trim() || undefined,
     sourceEntity: filters?.sourceEntity?.trim() || undefined,
     status: filters?.status?.trim() || undefined,
     topic: filters?.topic?.trim() || undefined,
     processType: filters?.processType?.trim() || undefined,
     vigencia: filters?.vigencia?.trim() || undefined,
-    year: typeof filters?.year === "number" ? filters.year : undefined,
+    year: filters?.years?.length ? undefined : typeof filters?.year === "number" ? filters.year : undefined,
   };
 }
 
@@ -506,6 +511,7 @@ function normalizeComparable(value: string | null | undefined) {
 }
 
 function sourceMatchesFilters(source: LegalSource, filters: SearchFilters) {
+  if (!matchesExtendedFilters(source, filters)) return false;
   if (filters.article && source.article !== filters.article) {
     return false;
   }
@@ -818,15 +824,16 @@ function applySystemConfidence(answer: string, confidence: SourceAssessment["con
   return `${withoutModelConfidence}\n\nNivel de confianza: ${confidence}`;
 }
 
-async function getRecentChatHistory(accessToken: string, sessionId?: string) {
+async function getRecentChatHistory(accessToken: string, ownerId: string, sessionId?: string) {
   if (!sessionId) {
     return [];
   }
 
+  await ownedCaseSession(accessToken, ownerId, sessionId);
   // Lectura con el JWT del usuario: el RLS garantiza que solo vea su sesion.
   const messages = await supabaseUserRest<ChatMessageRecord[]>(
     accessToken,
-    `chat_messages?session_id=eq.${sessionId}&select=role,content&order=created_at.desc&limit=6`,
+    `chat_messages?session_id=eq.${sessionId}&or=(metadata->>kind.is.null,metadata->>kind.neq.case_attachment)&select=role,content&order=created_at.desc&limit=6`,
   );
 
   return messages.reverse();
@@ -1158,7 +1165,8 @@ function chunkToSource(
       getStringMetadata(documentMetadata, "number") ??
       (typeof hit?.document_number === "string" ? hit.document_number : null),
     documentType: chunk.documents?.document_type ?? hit?.document_type ?? "otros",
-    regime: getStringMetadata(documentMetadata, "regime") ?? null,
+    regime: reviewedRegime(documentMetadata),
+    regimeReviewed: reviewedRegime(documentMetadata) !== "no_determinado",
     evidenceQuality: 0,
     excerpt: chunk.content.slice(0, 1400),
     fileName: chunk.documents?.file_name ?? "archivo.pdf",
@@ -1199,10 +1207,12 @@ export async function searchLegalSources(
   const pineconeFilters = {
     ...filters,
     processType: undefined,
+    regime: undefined,
+    includeUnknownRegime: undefined,
   };
   const queryUsed = normalizeQuestionForSearch(input.query);
   const expandedQuery = expandQueryForRecall(queryUsed);
-  const semanticTopK = Math.min(30, Math.max(input.topK * 2, 10));
+  const semanticTopK = Math.min(60, Math.max(input.topK * (filters.regime ? 4 : 2), 10));
   const references = documentReferences(input.query);
   let catalogueUnavailable = false;
   const originalIds = new Set<string>();
@@ -1308,6 +1318,7 @@ export async function searchLegalSources(
     scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
   });
   if (semanticaCaida || lexicalUnavailable) assessment.evidenceWarnings.push("Recuperación parcial: una de las vías de búsqueda no estuvo disponible. Los resultados pueden ser incompletos.");
+  if (filters.regime) assessment.evidenceWarnings.push("El filtro de régimen usa solo metadatos revisados; la cobertura puede ser parcial si faltan revisiones en el catálogo.");
   if (references.length) {
     const allOriginalsFound = references.every((reference) => sources.some((source) => source.requestedOriginal && matchesDocumentReference(reference, { documentType: source.documentType, title: source.documentTitle, number: source.documentNumber })));
     assessment.exactDocument = { status: allOriginalsFound ? "found" : catalogueUnavailable ? "unavailable" : "not_retrieved", requested: references.map((reference) => reference.label) };
@@ -1336,6 +1347,8 @@ async function persistChatExchange(input: {
   ownerId: string;
   question: string;
   caseContext?: CaseContext;
+  attachmentIds?: string[];
+  caseDocuments?: Array<{ id:string; name:string; sessionId:string; partial:boolean }>;
   role?: string;
   sessionId?: string;
   sources: LegalSource[];
@@ -1347,6 +1360,8 @@ async function persistChatExchange(input: {
       body: JSON.stringify({
         metadata: {
           caseContext: input.caseContext ?? null,
+          attachmentIds: input.attachmentIds ?? [],
+          caseDocuments: input.caseDocuments ?? [],
           filters: input.filters ?? null,
           mode: input.mode,
         },
@@ -1364,6 +1379,8 @@ async function persistChatExchange(input: {
         content: input.question,
         metadata: {
           caseContext: input.caseContext ?? null,
+          attachmentIds: input.attachmentIds ?? [],
+          caseDocuments: input.caseDocuments ?? [],
           filters: input.filters ?? null,
           mode: input.mode,
         },
@@ -1376,8 +1393,11 @@ async function persistChatExchange(input: {
         content: input.answer,
         metadata: {
           assessment: input.assessment,
+          filters: input.filters ?? null,
           confidence: input.assessment.confidence,
           caseContext: input.caseContext ?? null,
+          attachmentIds: input.attachmentIds ?? [],
+          caseDocuments: input.caseDocuments ?? [],
           question: input.question,
         },
         model: input.model,
@@ -1388,6 +1408,7 @@ async function persistChatExchange(input: {
     ]),
     method: "POST",
   });
+  await supabaseUserRest(input.accessToken, `chat_sessions?id=eq.${sessionId}&owner_id=eq.${input.ownerId}`, { method: "PATCH", body: JSON.stringify({ updated_at: new Date().toISOString() }) });
   const assistantMessage = insertedMessages.find((message) => message.role === "assistant");
 
   if (assistantMessage && input.sources.length > 0) {
@@ -1447,7 +1468,7 @@ async function persistChatExchange(input: {
         conclusion: input.assessment.sufficient ? "respuesta_con_fuentes_suficientes" : "respuesta_requiere_revision",
         entity: input.entity ?? null,
         processType: input.filters?.processType ?? null,
-        query: input.question,
+        query: "[consulta privada]",
         role: input.role ?? null,
         sources: input.sources,
         userId: input.ownerId,
@@ -1461,7 +1482,7 @@ async function persistChatExchange(input: {
       evidenceQuality: input.assessment.evidenceQuality,
       evidenceWarnings: input.assessment.evidenceWarnings,
       mode: input.mode,
-      queryUsed: input.assessment.queryUsed ?? input.question,
+
       sourceCount: input.sources.length,
       sufficient: input.assessment.sufficient,
     },
@@ -1500,6 +1521,7 @@ type PreparedAnswer =
       assessment: SourceAssessment;
       sources: LegalSource[];
       chatFilters: ChatFilters;
+      caseDocuments: CaseAttachment[];
     }
   | {
       status: "generate";
@@ -1507,10 +1529,11 @@ type PreparedAnswer =
       assessment: SourceAssessment;
       sources: LegalSource[];
       chatFilters: ChatFilters;
+      caseDocuments: CaseAttachment[];
     };
 
 export type ChatStreamEvent =
-  | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"] }
+  | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"]; caseDocuments?: Array<{ id:string; name:string; sessionId:string; partial:boolean }> }
   | { type: "delta"; text: string }
   | {
       type: "done";
@@ -1540,7 +1563,7 @@ async function prepareLegalAnswer(
   input: z.infer<typeof chatRequestSchema>,
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
-  const history = await getRecentChatHistory(auth.accessToken, input.sessionId);
+  const [history, caseDocuments] = await Promise.all([getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds)]);
   const contextualQuery = caseSearchQuery(followupSearchQuestion(input.question, history), input.caseContext);
   const likelyLegal = isLikelyLegalProcurementQuestion(contextualQuery);
   const inferredProcessType = inferProcessTypeFromQuestion(contextualQuery);
@@ -1711,7 +1734,7 @@ async function prepareLegalAnswer(
   // Se rehusa cuando no hay fuentes O lo recuperado es claramente irrelevante.
   // Si hay fuentes relevantes (aunque la cobertura no sea perfecta) se responde
   // de forma util con lo que exista, con sus advertencias.
-  if (!relevantToCorpus) {
+  if (!relevantToCorpus && !caseDocuments.length) {
     return {
       status: "final",
       answer:
@@ -1720,6 +1743,7 @@ async function prepareLegalAnswer(
       assessment,
       sources,
       chatFilters,
+      caseDocuments,
     };
   }
 
@@ -1742,6 +1766,9 @@ Historial reciente de la sesion:
 ${historyContext}
 
 ${caseContextPrompt(input.caseContext)}
+
+${caseAttachmentsPrompt(caseDocuments)}
+Si solo hay documentos del caso C#, limita la respuesta a describir su contenido y señalar las fuentes oficiales faltantes. No emitas conclusiones jurídicas sin fuentes F#.
 
 Pregunta:
 ${input.question}
@@ -1792,7 +1819,7 @@ No escribas el nivel de confianza; el sistema lo agregara despues con una evalua
     temperature: 0.2,
   };
 
-  return { status: "generate", generationParams, assessment, sources, chatFilters };
+  return { status: "generate", generationParams, assessment, sources, chatFilters, caseDocuments };
 }
 
 // Verifica fidelidad de citas sobre la respuesta generada y, si algun dato
@@ -1843,6 +1870,7 @@ export async function answerLegalQuestion(
     }
   }
 
+  answer += caseAttachmentsFooter(prep.caseDocuments);
   answer += chatSourceLocations(answer, prep.sources);
   applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
 
@@ -1856,6 +1884,8 @@ export async function answerLegalQuestion(
     model,
     question: input.question,
     caseContext: input.caseContext,
+    attachmentIds: input.attachmentIds,
+    caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sessionId: input.sessionId,
     sources: prep.sources,
   });
@@ -1888,6 +1918,7 @@ export async function* streamLegalAnswer(
 
   yield {
     type: "meta",
+    caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sources: prep.sources,
     assessment: prep.assessment,
     confidence: prep.assessment.confidence,
@@ -1920,6 +1951,9 @@ export async function* streamLegalAnswer(
     }
   }
 
+  const caseFooter = caseAttachmentsFooter(prep.caseDocuments);
+  answer += caseFooter;
+  if (caseFooter) yield { type: "delta", text: caseFooter };
   const sourceLocations = chatSourceLocations(answer, prep.sources);
   answer += sourceLocations;
   if (sourceLocations) yield { type: "delta", text: sourceLocations };
@@ -1935,6 +1969,8 @@ export async function* streamLegalAnswer(
     model,
     question: input.question,
     caseContext: input.caseContext,
+    attachmentIds: input.attachmentIds,
+    caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sessionId: input.sessionId,
     sources: prep.sources,
   });

@@ -1,5 +1,7 @@
 "use client";
 
+import { ExtendedLegalFilterControls, LegalSearchHistory } from "./legal-workspace-tools";
+import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
 import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalSearchEmptyState } from "@/lib/legal-center";
@@ -55,6 +57,7 @@ type SearchSource = {
 };
 
 type SearchResponse = {
+  historyWarning?: string;
   semanticaCaida?: boolean;
   assessment?: {
     averageScore: number;
@@ -214,6 +217,9 @@ export function SemanticSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") ?? searchParams.get("pregunta") ?? "";
+  const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
+  const [historyRevision, setHistoryRevision] = useState(0);
+  const [historyWarning, setHistoryWarning] = useState("");
   const [copiedId, setCopiedId] = useState("");
   const [documentType, setDocumentType] = useState(searchParams.get("documentType") ?? "");
   const [error, setError] = useState("");
@@ -253,6 +259,12 @@ export function SemanticSearch() {
       cancelled = true;
     };
   }, []);
+  useEffect(() => {
+    const messageId = searchParams.get("messageId"); if (!messageId) return;
+    const controller = new AbortController();
+    fetch(`/api/search/context?messageId=${encodeURIComponent(messageId)}`, { signal: controller.signal }).then(async response => { const data = await response.json(); if (!response.ok) throw new Error(data.error); restoreSearch(data); }).catch(error => { if (error.name !== "AbortError") setError("No se pudo recuperar la consulta privada."); });
+    return () => controller.abort();
+  }, [searchParams]);
   const canSearch = query.trim().length >= 5 && !loading;
   const activeFilterCount = [
     documentId,
@@ -332,6 +344,7 @@ export function SemanticSearch() {
       const response = await fetch("/api/search", {
         body: JSON.stringify({
           filters: {
+            ...extendedFilters,
             documentId,
             article,
             documentType: effectiveDocumentType,
@@ -360,11 +373,18 @@ export function SemanticSearch() {
       setAssessment(payload.assessment ?? null);
       setSemanticUnavailable(Boolean(payload.semanticaCaida));
       setResults(payload.sources ?? []);
+      setHistoryWarning(payload.historyWarning ?? "");
+      setHistoryRevision(value => value + 1);
     } catch {
       setError("No se pudo conectar con el servidor.");
     } finally {
       setLoading(false);
     }
+  }
+
+  function restoreSearch(entry: { query: string; filters: Record<string, unknown>; topK?: number }) {
+    const f = entry.filters ?? {}; const text = (key: string) => typeof f[key] === "string" ? f[key] as string : "";
+    setQuery(entry.query); setDocumentId(text("documentId")); setArticle(text("article")); setDocumentType(text("documentType")); setProcessType(text("processType")); setSourceEntity(text("sourceEntity")); setStatus(text("status")); setTopic(text("topic")); setVigencia(text("vigencia")); setYear(f.year ? String(f.year) : ""); setExtendedFilters(extendedLegalFiltersSchema.parse(f)); setTopK(entry.topK ?? 10); setSourceTab("normativa"); setResults([]); setAssessment(null); setError("");
   }
 
   function submitSearch(event: React.FormEvent<HTMLFormElement>) {
@@ -387,6 +407,7 @@ export function SemanticSearch() {
   }
 
   function clearFilters() {
+    setExtendedFilters({});
     setDocumentId("");
     setDocumentType("");
     setProcessType("");
@@ -423,46 +444,13 @@ export function SemanticSearch() {
     window.setTimeout(() => setCopiedId(""), 1800);
   }
 
-  function sendToChat(source: SearchSource) {
-    const prompt = [
-      query.trim(),
-      `Usa como punto de partida esta fuente: ${source.citation || sourceLocation(source)} de ${source.documentTitle}.`,
-    ]
-      .filter(Boolean)
-      .join(" ");
-    const params = new URLSearchParams({
-      pregunta: prompt,
-    });
-
-    if (documentType || source.documentType) {
-      params.set("documentType", documentType || source.documentType);
-    }
-
-    if (processType || source.processType) {
-      params.set("processType", processType || source.processType || "");
-    }
-
-    if (sourceEntity) {
-      params.set("sourceEntity", sourceEntity);
-    }
-
-    if (topic) {
-      params.set("topic", topic);
-    }
-
-    if (status) {
-      params.set("status", status);
-    }
-
-    if (vigencia) {
-      params.set("vigencia", vigencia);
-    }
-
-    if (year) {
-      params.set("year", year);
-    }
-
-    router.push(`/chat?${params.toString()}`);
+  async function sendToChat(source: SearchSource) {
+    const question = `${query.trim()} Usa como punto de partida esta fuente: ${source.documentTitle}.`;
+    try {
+      const response = await fetch("/api/search/handoff", { method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question,filters:{...extendedFilters,documentId:source.documentId,documentType:source.documentType,processType,sourceEntity,topic,status,vigencia,year}}) });
+      const data = await response.json(); if (!response.ok) throw new Error(data.error);
+      router.push(`/chat?sessionId=${data.sessionId}`);
+    } catch { setError("No se pudo trasladar la consulta al chat. Reintenta; los resultados siguen disponibles."); }
   }
 
   function openInNorms(source: SearchSource) {
@@ -494,7 +482,10 @@ export function SemanticSearch() {
 
   return (
     <div className="toolPanel">
-      <LegalCenterNav active="busqueda" filters={{ documentType, documentId, article, processType, sourceEntity, year, topic, vigencia }} />
+      <LegalCenterNav active="busqueda" filters={{ ...extendedFilters, documentType, documentId, article, processType, sourceEntity, year, topic, vigencia }} />
+      <LegalSearchHistory revision={historyRevision} onRestore={restoreSearch} />
+      {historyWarning ? <p role="status">{historyWarning}</p> : null}
+      <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
       {semanticUnavailable ? <p className="legalCenterNotice" role="status">La búsqueda semántica no está disponible. Se muestran coincidencias de texto, que pueden ser menos precisas. Puedes volver a intentar la consulta.</p> : null}
       <div className="toolPanelHeader">
         <div>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { searchLegalSources, semanticSearchRequestSchema } from "@/lib/legal-chat";
-import { institutionalAuditDetails, writeAuditLog } from "@/lib/supabase-server";
+import { institutionalAuditDetails, writeAuditLog, supabaseUserRest } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitKey, RATE_LIMITS, rateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +33,9 @@ export async function POST(request: Request) {
 
     const result = await searchLegalSources(payload.data);
 
+    let historyWarning: string | undefined;
+    await supabaseUserRest(auth.user.accessToken, "chat_sessions", { method: "POST", body: JSON.stringify({ owner_id: auth.user.id, title: payload.data.query.slice(0, 90), metadata: { kind: "legal_search", query: payload.data.query, filters: payload.data.filters ?? {}, topK: payload.data.topK } }) }).catch(() => { historyWarning = "La búsqueda terminó, pero no se pudo guardar en tu historial."; });
+
     await writeAuditLog({
       action: "search.hybrid",
       actorReference: auth.user.email ?? auth.user.id,
@@ -41,7 +44,7 @@ export async function POST(request: Request) {
           conclusion: result.assessment.sufficient ? "fuente_suficiente" : "fuente_insuficiente",
           entity: auth.user.entity,
           processType: payload.data.filters?.processType,
-          query: payload.data.query,
+          query: "[consulta privada]",
           role: auth.user.role,
           sources: result.sources,
           userEmail: auth.user.email,
@@ -57,8 +60,8 @@ export async function POST(request: Request) {
         evidenceQuality: result.assessment.evidenceQuality,
         evidenceWarnings: result.assessment.evidenceWarnings,
         filters: payload.data.filters ?? null,
-        query: payload.data.query,
-        queryUsed: result.assessment.queryUsed,
+        query: "[consulta privada]",
+
         sourceCount: result.sources.length,
         sufficient: result.assessment.sufficient,
         topScore: result.assessment.topScore,
@@ -76,6 +79,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       query: payload.data.query,
+      historyWarning,
       ...result,
     });
   } catch (error) {

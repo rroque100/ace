@@ -35,7 +35,7 @@ export async function GET() {
     // RLS filtra automaticamente a las sesiones del usuario autenticado.
     const sessions = await supabaseUserRest<ChatSessionRow[]>(
       accessToken,
-      "chat_sessions?select=id,title,metadata,created_at,updated_at&order=updated_at.desc&limit=25",
+      "chat_sessions?or=(metadata->>kind.is.null,metadata->>kind.neq.legal_search)&select=id,title,metadata,created_at,updated_at&order=updated_at.desc&limit=25",
     );
 
     if (sessions.length === 0) {
@@ -47,7 +47,7 @@ export async function GET() {
     const sessionIds = sessions.map((session) => session.id);
     const messages = await supabaseUserRest<ChatMessageRow[]>(
       accessToken,
-      `chat_messages?session_id=in.(${sessionIds.join(",")})&select=id,session_id,role,content,sources,model,metadata,created_at&order=created_at.asc`,
+      `chat_messages?session_id=in.(${sessionIds.join(",")})&or=(metadata->>kind.is.null,metadata->>kind.neq.case_attachment)&select=id,session_id,role,content,sources,model,metadata,created_at&order=created_at.asc`,
     );
 
     const messagesBySession = new Map<string, ChatMessageRow[]>();

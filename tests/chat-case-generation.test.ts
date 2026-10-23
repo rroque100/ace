@@ -69,3 +69,17 @@ it("guarda contexto con cada turno mediante el JWT del usuario", async () => {
   expect(rows[0].metadata.caseContext).toEqual(context);
   expect(rows[1].metadata.caseContext).toEqual(context);
 });
+
+it("usa documentos C# de la sesión autorizada sin convertirlos en normas F#", async () => {
+ const session="00000000-0000-4000-8000-000000000001",id="00000000-0000-4000-8000-000000000002";
+ mocks.search.mockResolvedValue([]);mocks.rest.mockResolvedValue([]);
+ mocks.userRest.mockImplementation(async (_token:string,path:string)=>path.startsWith("chat_sessions?")?[{id:session}]:path.includes("kind=eq.case_attachment")?[{id,metadata:{name:"Caso de prueba.pdf",mime:"application/pdf",storagePath:`case-attachments/alice/${session}/${id}.pdf`,text:"Hecho sintético declarado en el caso.",partial:true}}]:[]);
+ const result=await answerLegalQuestion(chatRequestSchema.parse({question:"Resume mi documento del caso, sin conclusión jurídica",sessionId:session,attachmentIds:[id]}),auth);
+ expect(mocks.create).toHaveBeenCalled();expect(mocks.create.mock.calls[0][0].input[1].content).toContain("Hecho sintético declarado");expect(mocks.create.mock.calls[0][0].input[1].content).toContain("NO verificados");expect(result.answer).toContain("[C1]");expect(result.sources).toEqual([]);
+});
+
+it("rechaza una conversación no autorizada antes de consultar o generar", async () => {
+ mocks.userRest.mockResolvedValue([]);
+ await expect(answerLegalQuestion(chatRequestSchema.parse({question:"Consulta general sobre un caso",sessionId:"00000000-0000-4000-8000-000000000009"}),auth)).rejects.toThrow("sin permiso");
+ expect(mocks.search).not.toHaveBeenCalled();expect(mocks.create).not.toHaveBeenCalled();
+});

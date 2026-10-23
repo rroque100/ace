@@ -1,3 +1,6 @@
+import { getProvider } from "@/lib/openai-server";
+import { legalResponseTelemetry } from "@/lib/legal-telemetry";
+import { supabaseUserRest } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { chatRequestSchema, streamLegalAnswer } from "@/lib/legal-chat";
@@ -35,6 +38,8 @@ export async function POST(request: Request) {
 
     // Respuesta en streaming: una linea JSON (NDJSON) por evento
     // (meta -> delta... -> done). El cliente la lee incrementalmente.
+    const startedAt = Date.now();
+    let retrievedAt = startedAt; let sourceCount = 0; let warningCount = 0;
     const encoder = new TextEncoder();
     const events = streamLegalAnswer(payload.data, {
       accessToken: auth.user.accessToken,
@@ -48,7 +53,15 @@ export async function POST(request: Request) {
       async start(controller) {
         try {
           for await (const event of events) {
-            controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+            if (event.type === "meta") { retrievedAt = Date.now(); sourceCount = event.sources.length; warningCount = event.assessment.evidenceWarnings.length; }
+            if (event.type === "done") {
+              const telemetry = legalResponseTelemetry({ startedAt,retrievedAt,finishedAt:Date.now(),provider:getProvider(),model:event.model,officialSources:sourceCount,caseDocuments:payload.data.attachmentIds?.length ?? 0,warnings:warningCount+(event.citationWarnings?.length ?? 0) });
+              if (event.messageId) {
+                // JWT + RLS: los detalles operativos se guardan junto al turno privado, no en un log general.
+                await (async () => { const [row] = await supabaseUserRest<Array<{metadata:Record<string,unknown>}>>(auth.user.accessToken,`chat_messages?id=eq.${event.messageId}&select=metadata`); if(row) await supabaseUserRest(auth.user.accessToken,`chat_messages?id=eq.${event.messageId}`,{method:"PATCH",body:JSON.stringify({metadata:{...row.metadata,telemetry}})}); })().catch(() => undefined);
+              }
+              controller.enqueue(encoder.encode(`${JSON.stringify({...event,telemetry})}\n`));
+            } else controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
           }
         } catch (error) {
           controller.enqueue(

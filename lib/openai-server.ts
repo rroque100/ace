@@ -18,7 +18,7 @@ function geminiKey(): string | undefined {
   return process.env.GOOGLE_API_KEY ?? process.env.GEMINI_API_KEY;
 }
 
-function getProvider(): Provider {
+export function getProvider(): Provider {
   if (geminiKey()) return "gemini";
   if (process.env.ZAI_API_KEY) return "zai";
   return "openai";

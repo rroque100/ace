@@ -1,5 +1,7 @@
+import { CORPUS_ANSWER_TYPES } from "./official-corpus";
+
 export type LegalCenterView = "chat" | "busqueda" | "normas";
-export type LegalCenterFilters = Record<string, string | number | null | undefined>;
+export type LegalCenterFilters = Record<string, string | number | boolean | string[] | number[] | null | undefined>;
 
 export const legalCenterViews = [
   { id: "chat", label: "Chat jurídico", description: "Pregunta sobre tu caso y comprueba las fuentes de la respuesta." },
@@ -8,11 +10,15 @@ export const legalCenterViews = [
 ] as const;
 
 // Solo metadatos documentales: nunca trasladar hechos, preguntas o sesiones por URL.
-const sharedFilterKeys = ["documentType", "documentId", "article", "processType", "sourceEntity", "year", "topic", "vigencia"] as const;
+const sharedFilterKeys = ["documentType", "documentId", "article", "processType", "sourceEntity", "year", "topic", "vigencia", "regime", "includeUnknownRegime", "documentTypes", "years"] as const;
 export function legalCenterHref(view: LegalCenterView, filters: LegalCenterFilters = {}) {
   const params = new URLSearchParams();
   for (const key of sharedFilterKeys) {
     const value = filters[key];
+    if (key === "regime" && !["32069", "30225", "especial", "no_determinado"].includes(String(value))) continue;
+    if (key === "includeUnknownRegime" && value !== true && value !== "true") continue;
+    if (key === "documentTypes" && (!Array.isArray(value) || !value.every(type => CORPUS_ANSWER_TYPES.includes(String(type))))) continue;
+    if (key === "years" && (!Array.isArray(value) || !value.every(year => Number.isInteger(Number(year)) && Number(year) >= 1900 && Number(year) <= 2200))) continue;
     if (value !== undefined && value !== null && String(value).trim()) params.set(key, String(value).trim());
   }
   return `/${view}${params.size ? `?${params.toString()}` : ""}`;
