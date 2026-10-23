@@ -1,4 +1,21 @@
-type LocatedSource = { documentTitle: string; pageStart: number | null; pageEnd: number | null; pageCount?: number | null };
+type LocatedSource = { article?: string | null; numeral?: string | null; version?: string | null; documentNumber?: string | null; documentTitle: string; pageStart: number | null; pageEnd: number | null; pageCount?: number | null };
+
+/** A recorded version label is not a declaration of legal effectiveness. */
+export function recordedVersion(title: string, explicit?: string | null) {
+  if (explicit?.trim()) return explicit.trim();
+  const label = title.match(/\btexto\s+actualizado\s+al\s+\d{2}[./-]\d{2}[./-]\d{4}\b/i)?.[0];
+  return label ? `${label} (según título del documento)` : null;
+}
+
+/** Keep article annotations visible, while emitting the clickable [F#] syntax used by the UI. */
+export function canonicalSourceMarkers(answer: string) {
+  return answer.replace(/(?:[ \t]*,?[ \t]*\[F[^\]\n]*\])+/g, group => {
+    const numbers = [...new Set([...group.matchAll(/\bF(\d+)/g)].map(match => match[1]))];
+    const annotations = [...group.matchAll(/\[F([^\]\n]*)\]/g)].map(match =>
+      (`F${match[1]}`).replace(/\bF\d+\b/g, "").replace(/^[,\s]+|[,\s]+$/g, "")).filter(Boolean);
+    return ` ${annotations.length ? `(${[...new Set(annotations)].join("; ")}) ` : ""}${numbers.map(number => `[F${number}]`).join(" ")}`;
+  });
+}
 
 export function citedSourceNumbers(answer: string) {
   return [...new Set([...answer.matchAll(/\[F[^\]\n]*\]/g)].flatMap((group) => [...group[0].matchAll(/\bF(\d+)/g)].map((match) => Number(match[1]))))];
@@ -26,7 +43,8 @@ export function chatSourceLocations(answer: string, sources: LocatedSource[]) {
       ? end && end > start ? `páginas ${start}–${end}` : `página ${start}`
       : "página no disponible en la fuente registrada";
     const verification = start ? (source.pageCount ? "rango comprobado contra el número de páginas registrado del PDF" : "ubicación registrada; total de páginas no disponible") : "";
-    return `- [F${index + 1}] ${source.documentTitle} · ${location}${verification ? ` (${verification}; no verifica la aplicabilidad jurídica)` : ""}`;
+    const provision = source.article ? `artículo ${source.article}${source.numeral ? `, numeral ${source.numeral}` : ", numeral no registrado"}` : "artículo/numeral propio no registrado";
+    return `- [F${index + 1}] ${source.documentTitle} · ${location} · ${provision} · versión: ${source.version ?? "no registrada"}${verification ? ` (${verification}; no verifica la aplicabilidad jurídica)` : ""}`;
   });
   return `\n\n**Documentos y páginas citados**\n${lines.join("\n")}`;
 }

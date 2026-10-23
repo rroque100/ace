@@ -31,7 +31,7 @@ it("declara datos y fuentes faltantes sin generar una conclusión cuando no hay 
   mocks.rest.mockResolvedValue([]);
   const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth);
   expect(result.answer).toContain("Información faltante y límites");
-  expect(result.answer).toContain("régimen aplicable, fechas relevantes, hechos del caso");
+  expect(result.answer).toContain("régimen aplicable, fechas relevantes, objeto contractual, hechos del caso");
   expect(mocks.create).not.toHaveBeenCalled();
 });
 it("aplica contexto a búsqueda y reglas de evidencia al generador sin imponer régimen fijo", async () => {
@@ -82,4 +82,48 @@ it("rechaza una conversación no autorizada antes de consultar o generar", async
  mocks.userRest.mockResolvedValue([]);
  await expect(answerLegalQuestion(chatRequestSchema.parse({question:"Consulta general sobre un caso",sessionId:"00000000-0000-4000-8000-000000000009"}),auth)).rejects.toThrow("sin permiso");
  expect(mocks.search).not.toHaveBeenCalled();expect(mocks.create).not.toHaveBeenCalled();
+});
+
+
+it("publica y guarda estados finales solo después de revisar todo el borrador", async () => {
+  const draft = "Las fuentes del recurso deben revisarse. [F1]";
+  mocks.create.mockResolvedValueOnce({ output_text: draft }).mockResolvedValueOnce({ output_text: JSON.stringify({ claims: [{ id: 1, status: "supported", reason: "Pasaje coincidente", evidence: [{ source: 1, quote: "Las fuentes del recurso deben revisarse." }] }] }) });
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth);
+  expect(result.answer).toContain(draft);
+  expect(result.assessment.evidenceReview?.documentary).toBe("checked");
+  expect(result.assessment.evidenceReview?.applicability).toBe("pending");
+  expect(result.confidence).not.toBe("alta");
+  expect(result.answer).not.toContain("Nivel de confianza");
+});
+
+it("no transmite ninguna parte de una conclusión contradicha antes de sustituirla", async () => {
+  const draft = "BORRADOR INSEGURO sobre el recurso [F1]";
+  mocks.create.mockResolvedValueOnce((async function* () { yield { type: "response.output_text.delta", delta: draft }; })());
+  mocks.create.mockResolvedValueOnce({ output_text: JSON.stringify({ claims: [{ id: 1, status: "contradicted", reason: "El fragmento dice otra cosa", evidence: [] }] }) });
+  const events = [];
+  for await (const event of streamLegalAnswer(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth)) events.push(event);
+  const deltas = events.filter(event => event.type === "delta");
+  expect(deltas).toHaveLength(1);
+  expect(JSON.stringify(deltas)).not.toContain("BORRADOR INSEGURO");
+  expect(deltas[0].text).toContain("No puedo confirmar");
+  const done = events.at(-1);
+  expect(done?.type === "done" && done.assessment?.evidenceReview?.documentary).toBe("unchecked");
+  expect(events.findIndex(event => event.type === "progress" && event.stage === "checking")).toBeLessThan(events.findIndex(event => event.type === "delta"));
+});
+
+it("persiste el texto revisado y su evidencia con el JWT, nunca el borrador rechazado", async () => {
+  mocks.create.mockResolvedValueOnce({ output_text: "BORRADOR RECHAZADO [F1]" }).mockResolvedValueOnce({ output_text: JSON.stringify({ claims: [{ id: 1, status: "insufficient", reason: "No consta", evidence: [] }] }) });
+  mocks.userRest.mockImplementation(async (_token: string, path: string, options?: { method?: string }) => {
+    if (path === "chat_sessions" && options?.method === "POST") return [{ id: "session" }];
+    if (path === "chat_messages" && options?.method === "POST") return [{ id: "assistant", role: "assistant" }];
+    return [];
+  });
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), { ...auth, persist: true });
+  const call = mocks.userRest.mock.calls.find(call => call[1] === "chat_messages" && call[2]?.method === "POST");
+  const rows = JSON.parse(call?.[2].body);
+  expect(call?.[0]).toBe("jwt");
+  expect(rows[1].content).toBe(result.answer);
+  expect(rows[1].content).not.toContain("BORRADOR RECHAZADO");
+  expect(rows[1].metadata.assessment.evidenceReview.documentary).toBe("unchecked");
+  expect(rows[1].metadata.assessment.confidence).toBe("baja");
 });

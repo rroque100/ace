@@ -1,16 +1,17 @@
+import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
+import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
+import { hasMissingCritical, reconcileAssessment } from "./chat-signals";
+import { auditEvidence, selectCoherentEvidence, sourceNormIdentity, evidenceStatusText, initialEvidenceReview, limitedEvidenceAnswer, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
 import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
-import { chatSourceLocations, checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
+import { chatSourceLocations, checkedSourcePages, citedSourceNumbers, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
-import { hasMissingCritical, reconcileAssessment } from "./chat-signals";
-import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
-import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
@@ -92,6 +93,8 @@ type DocumentChunk = {
 };
 
 export type LegalSource = {
+  version?: string | null;
+  numeral?: string | null;
   pageCount?: number | null;
   requestedOriginal?: boolean;
   referenceRelation?: "original" | "cites_requested" | "related";
@@ -125,6 +128,7 @@ export type LegalSource = {
 };
 
 export type SourceAssessment = {
+  evidenceReview?: EvidenceReview;
   exactDocument?: { status: "found" | "not_retrieved" | "unavailable"; requested: string[] };
   confidence: "alta" | "media" | "baja";
   sufficient: boolean;
@@ -746,6 +750,7 @@ Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: 
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
 Ubicacion: ${source.citation}
+Artículo propio: ${source.article ?? "no registrado"}; numeral: ${source.numeral ?? "no registrado"}; versión: ${source.version ?? "no registrada"}
 Total de páginas registrado del PDF: ${source.pageCount ?? "no disponible; no lo infieras"}
 Seccion: ${source.sectionTitle ?? "No identificada"}
 Calidad de evidencia: ${source.evidenceQuality.toFixed(2)}
@@ -817,12 +822,44 @@ ${caseInformationGaps(caseContext)}
 Nivel de confianza: baja`;
 }
 
-function applySystemConfidence(answer: string, confidence: SourceAssessment["confidence"]) {
-  const withoutModelConfidence = answer
-    .replace(/(?:^|\n)\s*Nivel de confianza\s*:\s*(alta|media|baja)\s*\.?\s*$/gim, "")
-    .trim();
+function applySystemConfidence(answer: string, _confidence: SourceAssessment["confidence"]) {
+  return canonicalSourceMarkers(answer.replace(/(?:^|\n)\s*(?:\*\*)?Nivel de confianza(?:\*\*)?\s*:\s*(alta|media|baja)\s*\.?\s*$/gim, "").trim());
+}
 
-  return `${withoutModelConfidence}\n\nNivel de confianza: ${confidence}`;
+/** Same publication gate for normal responses and streamed responses. */
+async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input: z.infer<typeof chatRequestSchema>) {
+  answer = applySystemConfidence(answer, "baja");
+  const numeric = applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
+  const review = prep.status === "generate" ? await auditEvidence(answer, prep.sources, input.caseContext, async (system, payload) => {
+    const response = await getOpenAIClient().responses.create({
+      model: legalAnswerModel, temperature: 0, max_output_tokens: 4500,
+      input: [{ role: "system", content: system }, { role: "user", content: payload }],
+    }, { timeout: 25000, maxRetries: 0, signal: AbortSignal.timeout(25000) });
+    return response.output_text;
+  }, input.question) : initialEvidenceReview(input.caseContext);
+  if (!numeric.ok) {
+    review.documentary = "unchecked";
+    review.warnings.push(...numeric.issues.map(issue => issue.reason));
+  }
+  prep.assessment.evidenceReview = review;
+  // Retained only for old API consumers; never high while applicability is pending.
+  prep.assessment.confidence = review.documentary === "checked" ? "media" : "baja";
+  prep.assessment.evidenceWarnings = [...new Set([...prep.assessment.evidenceWarnings, ...review.warnings])];
+  prep.assessment.reason = review.documentary === "checked"
+    ? "Comprobación automática de afirmaciones completada; aplicación al caso pendiente."
+    : "La respuesta no tiene una comprobación completa de sus afirmaciones.";
+  if (prep.status === "generate" && review.documentary !== "checked") answer = limitedEvidenceAnswer(prep.sources, review);
+  const namedNorms = [...new Set(citedSourceNumbers(answer).map(n => prep.sources[n - 1]).filter(Boolean).map(sourceNormIdentity).filter(Boolean))];
+  if (prep.status === "generate" && review.documentary === "checked") {
+    answer = `**Alcance documental**\n${namedNorms.length ? `Respuesta basada en documentos que identifican la Ley ${namedNorms.join(" y ")}. ` : "Respuesta basada en los documentos citados. "}No se ha confirmado su aplicación temporal a tu caso.\n\n${answer}`;
+  }
+  if (prep.status === "generate" && review.documentary !== "checked" && prep.caseDocuments.length) {
+    answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
+  }
+  answer += evidenceStatusText(review);
+  answer += caseAttachmentsFooter(prep.caseDocuments);
+  answer += chatSourceLocations(answer, prep.sources);
+  return { answer, review };
 }
 
 async function getRecentChatHistory(accessToken: string, ownerId: string, sessionId?: string) {
@@ -1182,6 +1219,8 @@ function chunkToSource(
   const pageStart = chunk.page_start ?? hit?.page_start ?? getNumberMetadata(chunkMetadata, "pageStart");
   const pageEnd = chunk.page_end ?? hit?.page_end ?? getNumberMetadata(chunkMetadata, "pageEnd");
   const source: LegalSource = {
+    version: recordedVersion(chunk.documents?.title ?? "", getStringMetadata(documentMetadata, "version") ?? getStringMetadata(documentMetadata, "versionDate")),
+    numeral: article ? getStringMetadata(chunkMetadata, "numeral") : null,
     pageCount: getNumberMetadata(documentMetadata, "pageCount"),
     article,
     sectionTitle:
@@ -1569,12 +1608,15 @@ type PreparedAnswer =
 export type ChatStreamEvent =
   | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"]; caseDocuments?: Array<{ id:string; name:string; sessionId:string; partial:boolean }> }
   | { type: "delta"; text: string }
+  | { type: "progress"; stage: "drafting" | "checking" }
   | {
       type: "done";
       sessionId: string | null;
       messageId: string | null;
       model: string;
       citationWarnings?: string[];
+      assessment?: SourceAssessment;
+      confidence?: SourceAssessment["confidence"];
     }
   | { type: "error"; error: string };
 
@@ -1707,12 +1749,14 @@ async function prepareLegalAnswer(
   );
   const selected = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
-  const sources = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, 8);
+  const beforeCoherence = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, 8);
+  const sources = originals.length ? beforeCoherence : selectCoherentEvidence(beforeCoherence, input.question, input.caseContext);
   const assessment = assessSources(sources, {
     processType: requestedProcessType,
     queryUsed: searchResult.assessment.queryUsed,
     scope: searchResult.assessment.scope,
   });
+  if (sources.length < beforeCoherence.length) assessment.evidenceWarnings.push("Se separaron fuentes de familias normativas distintas para evitar una conclusión combinada. La selección documental no confirma el régimen aplicable al caso.");
   const candidateCoverage = buildCoverage(candidateSources);
   assessment.exactDocument = searchResult.assessment.exactDocument;
   // «Faltan fuentes críticas» de la primera pasada NO se hereda: ya se recalculó
@@ -1860,12 +1904,12 @@ Reglas anti-invencion (CRITICAS, materia legal):
 - PROHIBIDO completar una cifra "estandar" o "tipica" de memoria aunque la recuerdes con certeza (p. ej. el tope de adelantos, el % de la garantia de fiel cumplimiento, el tope de penalidades por mora u otras penalidades, o el umbral en UIT para apelar ante el Tribunal). Si el numero exacto (UIT, %, plazo, S/) NO esta literalmente en una Fuente, describe la regla en forma CUALITATIVA sin inventar el valor: di que "existe un tope maximo", que "se exige una garantia" o que "la competencia depende del valor", y agrega en Limitaciones que el monto/porcentaje/plazo exacto no consta en las fuentes recuperadas. Mejor omitir la cifra que arriesgar una incorrecta.
 - AUTO-CHEQUEO OBLIGATORIO antes de escribir cualquier porcentaje (%), monto (S/), valor en UIT o plazo: localiza ese token EXACTO dentro del texto de la Fuente [F#] que vas a citar. Si no puedes copiarlo literalmente de ese fragmento, NO lo escribas: omite la cifra y describe la regla en palabras. Esto aplica especialmente a penalidades, garantias, adelantos y umbrales de competencia, donde la tentacion de poner el valor "de memoria" es alta.
 
-Estructura sugerida (adaptala a la pregunta; no es rigida):
-- **Respuesta directa**: contesta lo preguntado de forma clara y util, con su sustento [F#].
-- **Explicacion / desarrollo**: amplia con contexto, como funciona, condiciones, relacion entre Ley y Reglamento, etc., citando lo sustantivo. Si la Ley solo define o remite al Reglamento, explicalo.
-- **En la practica / como aplicarlo**: orientacion accionable derivada de las fuentes (que revisar, pasos, advertencias).
-- **Fuentes y vigencia**: documento(s), articulo/pagina; si citas una Opinion, aclara que es criterio interpretativo (no norma obligatoria); si una fuente aparece derogada/modificada, adviertelo.
-- Si algo relevante no consta en las fuentes, dilo explicitamente al final (no lo inventes).
+Estructura requerida, breve y por capas:
+- **Respuesta directa**: contesta lo preguntado con sustento [F#]. Si falta régimen o aplicabilidad, formula la regla como contenido del documento identificado, no como conclusión incondicional del caso.
+- **Fundamento**: nombre del documento, artículo/numeral literal cuando conste y una cita textual breve relevante [F#]. Versión desconocida: no inventarla.
+- **Condiciones y excepciones**: solo las pertinentes que consten en los fragmentos [F#]. No enumeres modalidades, excepciones ni recomendaciones ajenas a lo preguntado.
+- Cita cada línea sustantiva. Si comparas regímenes, nombra el documento de cada regla por separado. No presentes la fecha como prueba de vigencia.
+- El sistema añadirá las ubicaciones verificables, el estado de respaldo y los datos faltantes. No generes apartados adicionales ni indicadores de confianza. No omitas una condición del fragmento que limite la regla afirmada.
 
 No escribas el nivel de confianza; el sistema lo agregara despues con una evaluacion independiente.`,
         role: "user",
@@ -1918,7 +1962,7 @@ export async function answerLegalQuestion(
   } else {
     try {
       const openai = getOpenAIClient();
-      const response = await openai.responses.create(prep.generationParams);
+      const response = await openai.responses.create(prep.generationParams, { timeout: 25000, maxRetries: 0 });
       answer = applySystemConfidence(response.output_text, prep.assessment.confidence);
       model = legalAnswerModel;
     } catch (error) {
@@ -1927,9 +1971,7 @@ export async function answerLegalQuestion(
     }
   }
 
-  answer += caseAttachmentsFooter(prep.caseDocuments);
-  answer += chatSourceLocations(answer, prep.sources);
-  applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
+  ({ answer } = await finalizeLegalEvidence(answer, prep, input));
 
   const persisted = await maybePersist(auth, {
     accessToken: auth.accessToken,
@@ -1977,8 +2019,8 @@ export async function* streamLegalAnswer(
     type: "meta",
     caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sources: prep.sources,
-    assessment: prep.assessment,
-    confidence: prep.assessment.confidence,
+    assessment: { ...prep.assessment, confidence: "baja", evidenceReview: initialEvidenceReview(input.caseContext) },
+    confidence: "baja",
   };
 
   let answer: string;
@@ -1987,16 +2029,17 @@ export async function* streamLegalAnswer(
   if (prep.status === "final") {
     answer = prep.answer;
     model = prep.model;
-    yield { type: "delta", text: answer };
+
   } else {
+    yield { type: "progress", stage: "drafting" };
     let acc = "";
     try {
       const openai = getOpenAIClient();
-      const stream = await openai.responses.create({ ...prep.generationParams, stream: true });
+      const stream = await openai.responses.create({ ...prep.generationParams, stream: true }, { timeout: 25000, maxRetries: 0 });
       for await (const event of stream) {
         if (event.type === "response.output_text.delta") {
           acc += event.delta;
-          yield { type: "delta", text: event.delta };
+          // Buffer the draft until evidence checks complete.
         }
       }
       answer = applySystemConfidence(acc, prep.assessment.confidence);
@@ -2004,17 +2047,13 @@ export async function* streamLegalAnswer(
     } catch (error) {
       answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
-      yield { type: "delta", text: answer };
+
     }
   }
 
-  const caseFooter = caseAttachmentsFooter(prep.caseDocuments);
-  answer += caseFooter;
-  if (caseFooter) yield { type: "delta", text: caseFooter };
-  const sourceLocations = chatSourceLocations(answer, prep.sources);
-  answer += sourceLocations;
-  if (sourceLocations) yield { type: "delta", text: sourceLocations };
-  const faithfulness = applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
+  yield { type: "progress", stage: "checking" };
+  ({ answer } = await finalizeLegalEvidence(answer, prep, input));
+  yield { type: "delta", text: answer };
 
   const persisted = await maybePersist(auth, {
     accessToken: auth.accessToken,
@@ -2037,6 +2076,8 @@ export async function* streamLegalAnswer(
     sessionId: persisted.sessionId,
     messageId: persisted.assistantMessageId,
     model,
-    citationWarnings: faithfulness.ok ? [] : faithfulness.issues.map((issue) => issue.reason),
+    citationWarnings: prep.assessment.evidenceReview?.warnings ?? [],
+    assessment: prep.assessment,
+    confidence: prep.assessment.confidence,
   };
 }

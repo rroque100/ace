@@ -1,4 +1,4 @@
-export const LEGAL_PROMPT_VERSION = "centro-juridico-casos-v2-2026-10-22";
+export const LEGAL_PROMPT_VERSION = "centro-juridico-evidencia-v3-2026-10-23";
 export type LegalResponseTelemetry = {
   provider: string;
   model: string;

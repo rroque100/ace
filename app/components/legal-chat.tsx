@@ -1,5 +1,7 @@
 "use client";
 
+import { materialWarnings } from "@/lib/chat-signals";
+import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
 import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
@@ -12,7 +14,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
-import { materialWarnings } from "@/lib/chat-signals";
 import {
   AlertTriangle,
   Bot,
@@ -53,6 +54,8 @@ function readChatWideViewport() { return window.matchMedia(chatWideQuery).matche
 function readChatServerViewport() { return false; }
 
 type ChatSource = {
+  version?: string | null;
+  numeral?: string | null;
   requestedOriginal?: boolean;
   referenceRelation?: "original" | "cites_requested" | "related";
   pageCount?: number | null;
@@ -81,6 +84,7 @@ type ChatSource = {
 };
 
 type ChatAssessment = {
+  evidenceReview?: EvidenceReview;
   coverage?: {
     bases: boolean;
     directiva: boolean;
@@ -105,18 +109,22 @@ type Confidence = "alta" | "media" | "baja";
 type StreamEvent =
   | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence; caseDocuments?: CaseDocumentReference[] }
   | { type: "delta"; text: string }
+  | { type: "progress"; stage: "drafting" | "checking" }
   | {
       type: "done";
       sessionId: string | null;
       messageId: string | null;
       model: string;
       citationWarnings?: string[];
+      assessment?: ChatAssessment;
+      confidence?: Confidence;
       telemetry?: LegalResponseTelemetry;
     }
   | { type: "error"; error: string };
 
 type CaseDocumentReference = { id:string; name:string; sessionId:string; partial:boolean };
 type ConversationMessage = {
+  progress?: "drafting" | "checking";
   caseDocuments?: CaseDocumentReference[];
   telemetry?: LegalResponseTelemetry;
   caseContext?: CaseContext;
@@ -202,29 +210,6 @@ function confidenceMeaning(confidence?: Confidence) {
   return "Baja: no usar como conclusión jurídica; faltan fuentes suficientes, trazabilidad precisa o coincidencia fuerte con la pregunta.";
 }
 
-function answerUseLabel(confidence?: Confidence, sufficient?: boolean) {
-  if (confidence === "alta" && sufficient !== false) {
-    return {
-      detail: "Apta como borrador sustentado; revisa las citas antes de usarla formalmente.",
-      label: "Usable con revisión",
-      tone: "ok",
-    };
-  }
-
-  if (confidence === "media" && sufficient !== false) {
-    return {
-      detail: "Úsala como orientación; confirma artículo, página y vigencia.",
-      label: "Requiere verificación",
-      tone: "warn",
-    };
-  }
-
-  return {
-    detail: "No la uses como conclusión jurídica hasta completar fuentes normativas.",
-    label: "No concluyente",
-    tone: "bad",
-  };
-}
 
 function documentPdfUrl(source: Pick<ChatSource, "documentId" | "pageStart">) {
   return `/api/documents/${source.documentId}${source.pageStart ? `#page=${source.pageStart}` : ""}`;
@@ -499,6 +484,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         </small></details>
       </div>
       <strong>{reference.source.citation}</strong>
+      <p>Numeral: {reference.source.numeral ?? "no registrado"} · Versión: {reference.source.version ?? "no registrada"}</p>
       <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} />
 
       {hits > 0 ? (
@@ -673,10 +659,13 @@ function AnswerUseCard({
     return null;
   }
 
-  const status = answerUseLabel(confidence, assessment?.sufficient);
-  // Lo que cambia cómo usar la respuesta (fuentes críticas ausentes, vigencia sin
-  // confirmar) va a la vista; el resto del detalle técnico sigue plegado.
-  const signalWarnings = status.tone === "ok" ? [] : materialWarnings(assessment?.evidenceWarnings);
+  const review = assessment?.evidenceReview;
+  const status = review ? {
+    tone: review.documentary === "checked" ? "warn" : "bad",
+    label: review.documentary === "checked" ? "Respaldo documental comprobado automáticamente" : review.documentary === "partial" ? "Respaldo documental parcial" : "Respaldo documental no comprobado",
+    detail: "Aplicación al caso pendiente de confirmar. La revisión automática no es una validación jurídica humana.",
+  } : { tone: "warn", label: "Respuesta anterior sin reevaluar", detail: "Esta respuesta no pasó por la nueva comprobación de afirmaciones. Puedes volver a consultar para revisarla." };
+  const signalWarnings = materialWarnings(assessment?.evidenceWarnings);
   const interpretedQuery =
     assessment?.queryUsed &&
     message.questionText &&
@@ -690,14 +679,21 @@ function AnswerUseCard({
         <strong>{status.label}</strong>
         <span>{status.detail}</span>
       </div>
-      {signalWarnings.length > 0 ? (
-        <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">
-          {signalWarnings.map((warning) => (
-            <li key={warning}>{warning}</li>
-          ))}
-        </ul>
-      ) : null}
-      <p className="chatPlainEvidence">Las normas consultadas ayudan a revisar la respuesta. Confirma su vigencia y que correspondan a tu caso.</p>
+      {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
+      <p className="chatPlainEvidence">{review?.missing.length ? `Falta precisar: ${review.missing.join(", ")}.` : "Comprueba la versión de las normas y su aplicación temporal al caso."}</p>
+      {review?.claims.length ? <details className="chatTechnicalDetails">
+        <summary>Qué comprobó ACE</summary>
+        <p>Revisión automática de afirmaciones; no sustituye la revisión de un especialista.</p>
+        <ol>{review.claims.map(claim => <li key={claim.id}>
+          <strong>{claim.status === "supported" ? "Respaldada" : claim.status === "contradicted" ? "Contradicha" : "Respaldo insuficiente"}</strong>: {claim.reason}
+          {claim.evidence?.map((item, index) => {
+            const source = message.sources?.[item.source - 1];
+            return source ? <blockquote key={index}>{item.quote}<br />
+              <a href={`/api/documents/${encodeURIComponent(source.documentId)}${source.pageStart ? `#page=${source.pageStart}` : ""}`} target="_blank" rel="noreferrer">Abrir documento citado</a>
+            </blockquote> : null;
+          })}
+        </li>)}</ol>
+      </details> : null}
       {assessment ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
         <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
         {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
@@ -965,6 +961,10 @@ function LegalChatSession() {
       return;
     }
 
+    if (event.type === "progress") {
+      updateMessage(assistantId, message => ({ ...message, progress: event.stage }));
+      return;
+    }
     if (event.type === "delta") {
       updateMessage(assistantId, (message) => ({ ...message, content: message.content + event.text }));
       return;
@@ -976,6 +976,8 @@ function LegalChatSession() {
         streaming: false,
         persistedId: event.messageId,
         model: event.model,
+        assessment: event.assessment ?? message.assessment,
+        confidence: event.confidence ?? message.confidence,
         telemetry: event.telemetry,
         citationWarnings: event.citationWarnings ?? [],
       }));
@@ -1279,9 +1281,9 @@ function LegalChatSession() {
                   </div>
 
                   {message.streaming && !message.content ? (
-                    <span className="loadingInline">
+                    <span className="loadingInline" role="status" aria-live="polite">
                       <LoaderCircle size={16} />
-                      Buscando fuentes y redactando…
+                      {message.progress === "checking" ? "Comprobando afirmaciones y citas…" : message.progress === "drafting" ? "Preparando una respuesta con las fuentes…" : "Buscando fuentes…"}
                     </span>
                   ) : (
                     <div className="msgBubbleBody">
@@ -1439,6 +1441,7 @@ function LegalChatSession() {
                     <details className="chatTurnContext">
                       <summary>Contexto utilizado</summary>
                       <p>Régimen: {message.caseContext.regime || "No indicado"}</p>
+                      <p>Objeto: {message.caseContext.object || "No indicado"}</p>
                       <p>Fechas: {message.caseContext.dates || "No indicadas"}</p>
                       <p>Hechos: {message.caseContext.facts || "No indicados"}</p>
                     </details>
@@ -1598,6 +1601,10 @@ function LegalChatSession() {
             <label>Régimen aplicable
               <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
                 onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
+            </label>
+            <label>Objeto contractual
+              <input maxLength={400} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
+                onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
             </label>
             <label>Fechas relevantes
               <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}

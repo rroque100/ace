@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 // Recuperacion hibrida + rerank + redaccion con OpenAI pueden tardar; evita que
 // Vercel corte la respuesta con su timeout por defecto.
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 export async function POST(request: Request) {
   try {
