@@ -112,22 +112,13 @@ export async function POST(request: Request) {
     let method = "imagen-ia";
     if (file.type === "application/pdf") {
       stage = "pdf_import";
-      const { extractPdfText } = await import("@/lib/pdf-processing");
+      const { readCasePdf } = await import("@/lib/case-pdf-reading");
       stage = "pdf_read";
-      const extracted = await extractPdfText(file, {
-        forceOcr: true,
-        ocrMaxPages: 10,
-      });
-      text = extracted.pages
-        .map((page) => `Página ${page.pageNumber}: ${page.text}`)
-        .join("\n");
-      partial =
-        extracted.ocrPartial ||
-        text.length > 20000 ||
-        extracted.pages.length < extracted.pageCount ||
-        extracted.pages.some((page) => page.text.trim().length < 20);
+      const extracted = await readCasePdf(bytes);
+      text = extracted.text;
+      partial = extracted.partial;
       pageCount = extracted.pageCount;
-      method = extracted.extractionMethod;
+      method = extracted.method;
     } else {
       stage = "image_read";
       const { getOpenAIClient, legalAnswerModel } = await import(
