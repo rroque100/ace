@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { initialEvidenceReview, type EvidenceReview } from "@/lib/chat-evidence-audit";
-import { reviewSummary, reviewApplicability, reviewTechnicalNotes, reviewFooter } from "@/lib/chat-review-presentation";
+import { reviewSummary, reviewApplicability, reviewTechnicalNotes, reviewFooter, consultedFragments } from "@/lib/chat-review-presentation";
 const partial = (): EvidenceReview => ({ ...initialEvidenceReview(), documentary: "partial", presentation: "partial", reviewStatus: "complete", omittedCount: 1, claims: [{ id: 1, status: "supported", reason: "Coincide" }, { id: 2, status: "insufficient", reason: "No consta" }] });
 // Synthetic presentation examples only; no legal rules are asserted here.
 it("explica que el porcentaje publicado está respaldado y qué quedó pendiente", () => {
@@ -38,3 +38,11 @@ it("un contexto completo tampoco confirma aplicación jurídica automáticamente
   const review = partial(); review.missing = [];
   expect(reviewApplicability(review)).toBe("Aplicación al caso pendiente de confirmar.");
 });
+
+it("una pregunta general muestra solo la condición para aplicarla a un contrato", () => {
+  const review = { ...partial(), queryScope: "general" as const };
+  expect(reviewApplicability(review)).toBe("Para aplicarlo a un contrato concreto, confirma el régimen y la fecha de convocatoria.");
+  expect(reviewFooter(review)).not.toContain("Falta precisar: régimen, fechas, objeto, hechos");
+});
+
+it('etiqueta los contadores sin números aislados', () => { expect(consultedFragments(1)).toBe('1 fragmento consultado'); expect(consultedFragments(6)).toBe('6 fragmentos consultados'); });

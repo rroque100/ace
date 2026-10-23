@@ -26,9 +26,13 @@ export function reviewSummary(review: EvidenceReview, answer = "") {
   return reviewTitle(review) + ".";
 }
 export function reviewApplicability(review: EvidenceReview) {
+  if (review.queryScope === "general") return "Para aplicarlo a un contrato concreto, confirma el régimen y la fecha de convocatoria.";
   const names: Record<string, string> = { "régimen aplicable": "régimen", "fechas relevantes": "fechas", "objeto contractual": "objeto", "hechos del caso": "hechos" };
   const missing = review.missing.map(value => names[value] ?? value);
   return `Aplicación al caso pendiente de confirmar.${missing.length ? ` Falta precisar: ${missing.join(", ")}.` : ""}`;
+}
+export function consultedFragments(count: number) {
+  return `${count} ${count === 1 ? "fragmento consultado" : "fragmentos consultados"}`;
 }
 export function reviewTechnicalNotes(review: EvidenceReview, extra: string[] = []) {
   return reviewNotices(review, extra).filter(value => !/^(?:Aplicación al caso|Para aplicarla al caso|El contexto aportado)/.test(value));

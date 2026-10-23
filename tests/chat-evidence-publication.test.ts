@@ -81,3 +81,27 @@ it("la lectura literal no arrastra el siguiente numeral ni inventa una cifra", (
   expect(literal?.text).toContain(text);
   expect(literal?.text).not.toContain("cláusula accesoria");
 });
+
+it("identifica la fuente de la conclusión antes del dato y no inventa el régimen", async () => {
+  const review = await auditEvidence(`${text} [F1]`, sources, undefined, async () => raw([supported]));
+  const published = publishEvidence(`${text} [F1]`, sources, review, question);
+  expect(published.indexOf("Según «Documento de prueba»:")).toBeLessThan(published.indexOf(text));
+  expect(published).not.toContain("Ley 32069");
+  expect(review.queryScope).toBe("general");
+});
+it.each([
+  ["¿Qué pasa con mi contrato?", undefined],
+  ["Se convocó en 2025, ¿qué corresponde?", undefined],
+  ["¿Qué corresponde?", { regime: "Régimen de prueba", dates: "", facts: "" }],
+  ["¿Qué corresponde?", { regime: "", dates: "", facts: "Hechos de prueba" }],
+])("conserva el aviso de caso si hay contexto: %s", (query, context) => {
+  const review = initialEvidenceReview(context);
+  publishEvidence("", sources, review, query, context);
+  expect(review.queryScope).toBe("case");
+});
+it("una comparación menciona todas las fuentes de la conclusión", async () => {
+  const pair = [{ ...sources[0], documentTitle: "Fuente A" }, { ...sources[0], documentTitle: "Fuente B" }];
+  const draft = `${text} [F1][F2]`;
+  const review = await auditEvidence(draft, pair, undefined, async () => raw([{ ...supported, evidence: [{ source: 1, quote: text }, { source: 2, quote: text }] }]));
+  expect(publishEvidence(draft, pair, review, question)).toContain("Según «Fuente A» y «Fuente B»:");
+});

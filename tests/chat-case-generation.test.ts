@@ -31,7 +31,7 @@ it("declara datos y fuentes faltantes sin generar una conclusión cuando no hay 
   mocks.rest.mockResolvedValue([]);
   const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth);
   expect(result.answer).toContain("Verificación y límites");
-  expect(result.answer).toContain("régimen, fechas, objeto, hechos");
+  expect(result.answer).toContain("confirma el régimen y la fecha de convocatoria");
   expect(mocks.create).not.toHaveBeenCalled();
 });
 it("aplica contexto a búsqueda y reglas de evidencia al generador sin imponer régimen fijo", async () => {

@@ -839,6 +839,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   }, input.question) : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
   answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
+  if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
   prep.assessment.confidence = review.documentary === "checked" ? "media" : "baja";

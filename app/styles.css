@@ -11291,3 +11291,9 @@ a.panelOrigen:hover {
   flex: 0 0 auto;
 }
 .chatAccessible .reviewSummaryCard .chatTechnicalDetails[open] summary::before { transform: rotate(90deg); }
+
+/* Keep source counts readable on narrow screens. */
+.chatAccessible button.sourceChip { flex-wrap: wrap; }
+.chatAccessible button.sourceChip em { white-space: normal; }
+.chatAccessible .msgEvidence > summary { flex-wrap: wrap; }
+.chatAccessible .msgEvidenceCount { height: auto; min-height: 20px; padding: 2px 7px; }

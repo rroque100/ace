@@ -1,7 +1,7 @@
 "use client";
 
 import { materialWarnings } from "@/lib/chat-signals";
-import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes } from "@/lib/chat-review-presentation";
+import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
@@ -759,7 +759,7 @@ function MessageEvidence({
       <summary>
         <FileText size={14} />
         Normas consultadas
-        <span className="msgEvidenceCount">{sources.length}</span>
+        <span className="msgEvidenceCount">{consultedFragments(sources.length)}</span>
       </summary>
 
       {assessment ? (
@@ -788,7 +788,7 @@ function MessageEvidence({
           <strong>{document.documentTitle}</strong>
           <small>
             {document.documentType} · {document.sourceEntity ?? "Sin entidad"} ·{" "}
-            {documentSources.length} fragmento(s)
+            {consultedFragments(documentSources.length)}
           </small>
           {documentSources.map((source) => {
             const reference: SourceReference = {
@@ -1365,7 +1365,7 @@ function LegalChatSession() {
                         <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
                           <FileText size={13} />
                           {document.documentTitle}
-                          <em>{docSources.length}</em>
+                          <em>{consultedFragments(docSources.length)}</em>
                         </button>
                       ))}
                     </div>
@@ -1683,7 +1683,7 @@ function LegalChatSession() {
       <aside className="chatNormsRail" aria-label="Normas de la última respuesta">
         <details open={wideChat || undefined}><summary><FileText size={18} /> Normas de la respuesta</summary>
           <p>Abre una norma para comprobar el fragmento y acceder al PDF.</p>
-          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className="chatNormCard" key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{related.length} fragmento(s) · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
+          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className="chatNormCard" key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{consultedFragments(related.length)} · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
           <p className="chatRailNote">Los archivos que adjuntas son documentos del caso; no acreditan una regla jurídica.</p>
         </details>
       </aside></div>

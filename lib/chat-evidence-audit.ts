@@ -40,6 +40,7 @@ export type EvidenceReview = {
   failureReason?: "no_sources" | "review_limit" | "no_claims" | "provider_error" | "invalid_response";
   presentation?: "verified" | "partial" | "literal" | "empty";
   omittedCount?: number;
+  queryScope?: "general" | "case";
   missing: string[];
   warnings: string[];
   claims: Array<{ id: number; status: "supported" | "contradicted" | "insufficient"; reason: string;
