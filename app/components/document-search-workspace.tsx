@@ -887,6 +887,7 @@ export function DocumentSearchWorkspace() {
       {result ? (
         <section
           ref={resultsRef}
+          style={{ scrollMarginTop: 64 }}
           className="documentSearchResults"
           aria-label="Resultados de búsqueda"
           aria-busy={loading}
