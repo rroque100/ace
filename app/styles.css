@@ -11170,3 +11170,4 @@ a.panelOrigen:hover {
  .chatAccessible .legalCenterItem { white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .chatAccessible *, .chatSourceSheet * { scroll-behavior: auto; transition: none; animation: none; } }
+@media (max-width: 1100px) { .chatNormsRail:has(.chatNormsEmpty) { display: none; } }

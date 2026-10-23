@@ -1229,139 +1229,8 @@ function LegalChatSession() {
   const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
 
-  return (
-    <div className="legalTool chatRedesign chatAccessible">
-      <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
-      <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
-      <div className="chatReadingLayout"><div className="chatMainColumn">
-      <header className="chatHeader">
-        <div className="chatHeaderTitle">
-          <div className="legalToolIcon">
-            <ShieldCheck size={22} />
-          </div>
-          <div>
-            <p className="eyebrow">Consulta legal</p>
-            <h2>Conversemos sobre tu consulta</h2>
-            <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
-          </div>
-        </div>
-        <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
-          <RotateCcw size={16} />
-          Nueva consulta
-        </button>
-      </header>
-
-      <div className="chatContextBar">
-        <details className="chatStyleDisclosure"><summary>Personalizar respuesta</summary><div className="styleSelectors">
-          <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
-            Estilo de respuesta
-          </span>
-          {/* Ajustes de la respuesta, no pestañas: no cambian de panel, cambian
-              cómo responde el modelo. */}
-          <div className="modeSelector" role="group" aria-label="Tono de respuesta">
-            <span className="styleSelectorLabel">Tono</span>
-            {toneOptions.map((item) => (
-              <button
-                aria-pressed={tone === item.value}
-                key={item.value}
-                onClick={() => setTone(item.value)}
-                title={item.hint}
-                type="button"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          <div className="modeSelector" role="group" aria-label="Longitud de respuesta">
-            <span className="styleSelectorLabel">Longitud</span>
-            {lengthOptions.map((item) => (
-              <button
-                aria-pressed={length === item.value}
-                key={item.value}
-                onClick={() => setLength(item.value)}
-                title={item.hint}
-                type="button"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        </details><div className="filterArea">
-          {activeFilters.map((filter) => (
-            <button className="filterChip" key={filter.key} onClick={filter.clear} type="button">
-              {filter.label}
-              <X size={13} />
-            </button>
-          ))}
-          <button
-            aria-expanded={showFilters}
-            className="filterToggleButton"
-            onClick={() => setShowFilters((current) => !current)}
-            type="button"
-          >
-            <SlidersHorizontal size={15} />
-            Afinar búsqueda{activeFilters.length ? ` · ${activeFilters.length}` : ""}
-          </button>
-
-          {showFilters ? (
-            <div className="filterPopover">
-              <p>Opcional. Limita los documentos que se consultarán; puedes preguntar sin completar estos campos.</p>
-              <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
-              <div className="filterPopoverGrid">
-                <label>
-                  <span>Tipo</span>
-                  <select onChange={(event) => setDocumentType(event.target.value)} value={documentType}>
-                    {documentTypes.map((item) => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>Tipo de proceso</span>
-                  <select onChange={(event) => setProcessType(event.target.value)} value={processType}>
-                    {processTypes.map((item) => (
-                      <option key={item.value} value={item.value}>
-                        {item.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label>
-                  <span>Entidad</span>
-                  <input onChange={(event) => setSourceEntity(event.target.value)} placeholder="OECE" value={sourceEntity} />
-                </label>
-                <label>
-                  <span>Tema</span>
-                  <input onChange={(event) => setTopic(event.target.value)} placeholder="impedimentos" value={topic} />
-                </label>
-                <label>
-                  <span>Vigencia</span>
-                  <input onChange={(event) => setVigencia(event.target.value)} placeholder="vigente" value={vigencia} />
-                </label>
-                <label>
-                  <span>Año</span>
-                  <input inputMode="numeric" onChange={(event) => setYear(event.target.value)} placeholder="2024" value={year} />
-                </label>
-              </div>
-              <div className="filterPopoverActions">
-                <button className="secondaryButton compactButton" onClick={clearFilters} type="button">
-                  <RotateCcw size={14} />
-                  Limpiar
-                </button>
-                <button className="primaryButton compactButton" onClick={() => setShowFilters(false)} type="button">
-                  Aplicar
-                </button>
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </div>
-
-      <div className="chatConversation">
+  const conversation = (
+<div className="chatConversation">
         {!hasConversation ? (
           <div className="chatEmptyRedesign">
             <div className="chatEmptyIntro">
@@ -1572,6 +1441,141 @@ function LegalChatSession() {
         {error ? <p className="formMessage errorText">{error}</p> : null}
         <div ref={timelineEndRef} aria-hidden="true" />
       </div>
+  );
+
+  return (
+    <div className="legalTool chatRedesign chatAccessible">
+      <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
+      <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
+      <div className="chatReadingLayout"><div className="chatMainColumn">
+      <header className="chatHeader">
+        <div className="chatHeaderTitle">
+          <div className="legalToolIcon">
+            <ShieldCheck size={22} />
+          </div>
+          <div>
+            <p className="eyebrow">Consulta legal</p>
+            <h2>Conversemos sobre tu consulta</h2>
+            <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
+          </div>
+        </div>
+        <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
+          <RotateCcw size={16} />
+          Nueva consulta
+        </button>
+      </header>
+
+      <div className="chatContextBar">
+        <details className="chatStyleDisclosure"><summary>Personalizar respuesta</summary><div className="styleSelectors">
+          <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
+            Estilo de respuesta
+          </span>
+          {/* Ajustes de la respuesta, no pestañas: no cambian de panel, cambian
+              cómo responde el modelo. */}
+          <div className="modeSelector" role="group" aria-label="Tono de respuesta">
+            <span className="styleSelectorLabel">Tono</span>
+            {toneOptions.map((item) => (
+              <button
+                aria-pressed={tone === item.value}
+                key={item.value}
+                onClick={() => setTone(item.value)}
+                title={item.hint}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+          <div className="modeSelector" role="group" aria-label="Longitud de respuesta">
+            <span className="styleSelectorLabel">Longitud</span>
+            {lengthOptions.map((item) => (
+              <button
+                aria-pressed={length === item.value}
+                key={item.value}
+                onClick={() => setLength(item.value)}
+                title={item.hint}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        </details><div className="filterArea">
+          {activeFilters.map((filter) => (
+            <button className="filterChip" key={filter.key} onClick={filter.clear} type="button">
+              {filter.label}
+              <X size={13} />
+            </button>
+          ))}
+          <button
+            aria-expanded={showFilters}
+            className="filterToggleButton"
+            onClick={() => setShowFilters((current) => !current)}
+            type="button"
+          >
+            <SlidersHorizontal size={15} />
+            Afinar búsqueda{activeFilters.length ? ` · ${activeFilters.length}` : ""}
+          </button>
+
+          {showFilters ? (
+            <div className="filterPopover">
+              <p>Opcional. Limita los documentos que se consultarán; puedes preguntar sin completar estos campos.</p>
+              <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
+              <div className="filterPopoverGrid">
+                <label>
+                  <span>Tipo</span>
+                  <select onChange={(event) => setDocumentType(event.target.value)} value={documentType}>
+                    {documentTypes.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Tipo de proceso</span>
+                  <select onChange={(event) => setProcessType(event.target.value)} value={processType}>
+                    {processTypes.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Entidad</span>
+                  <input onChange={(event) => setSourceEntity(event.target.value)} placeholder="OECE" value={sourceEntity} />
+                </label>
+                <label>
+                  <span>Tema</span>
+                  <input onChange={(event) => setTopic(event.target.value)} placeholder="impedimentos" value={topic} />
+                </label>
+                <label>
+                  <span>Vigencia</span>
+                  <input onChange={(event) => setVigencia(event.target.value)} placeholder="vigente" value={vigencia} />
+                </label>
+                <label>
+                  <span>Año</span>
+                  <input inputMode="numeric" onChange={(event) => setYear(event.target.value)} placeholder="2024" value={year} />
+                </label>
+              </div>
+              <div className="filterPopoverActions">
+                <button className="secondaryButton compactButton" onClick={clearFilters} type="button">
+                  <RotateCcw size={14} />
+                  Limpiar
+                </button>
+                <button className="primaryButton compactButton" onClick={() => setShowFilters(false)} type="button">
+                  Aplicar
+                </button>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {hasConversation ? conversation : null}
 
       <div className="chatComposeTools">
       <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
@@ -1633,6 +1637,7 @@ function LegalChatSession() {
         )}
         <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
+      {!hasConversation ? conversation : null}
       </div>
       <aside className="chatNormsRail" aria-label="Normas de la última respuesta">
         <details open={wideChat || undefined}><summary><FileText size={18} /> Normas de la respuesta</summary>
