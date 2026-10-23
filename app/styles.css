@@ -11254,3 +11254,40 @@ a.panelOrigen:hover {
 .documentSecondaryActions summary { min-height:44px; padding:10px 0; cursor:pointer; }
 .documentSecondaryActions > div { display:flex; align-items:center; gap:10px 18px; flex-wrap:wrap; }
 .documentSecondaryActions a,.documentSecondaryActions button { color:var(--ds-accent); font:inherit; background:none; border:0; min-height:44px; padding:10px 0; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+
+/* Chat: resumen de respaldo discreto, con incertidumbre visible. */
+.chatAccessible .answerUseCard.reviewSummaryCard {
+  background: var(--chat-soft);
+  border: 1px solid var(--chat-border);
+  border-radius: 10px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  gap: 0;
+}
+.chatAccessible .reviewSummaryCard > div:first-child > strong {
+  color: var(--chat-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+.chatAccessible .reviewSummaryCard .reviewApplicability {
+  margin: 6px 0 4px;
+  color: var(--chat-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.chatAccessible .reviewSummaryCard .chatTechnicalDetails { margin: 2px 0; }
+.chatAccessible .reviewSummaryCard .chatTechnicalDetails summary { text-decoration: none; }
+.chatAccessible .reviewSummaryCard .answerUseActions { margin-top: 6px; }
+
+.chatAccessible .reviewSummaryCard .chatTechnicalDetails summary { gap: 8px; }
+.chatAccessible .reviewSummaryCard .chatTechnicalDetails summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: 5px solid currentColor;
+  flex: 0 0 auto;
+}
+.chatAccessible .reviewSummaryCard .chatTechnicalDetails[open] summary::before { transform: rotate(90deg); }

@@ -10,18 +10,43 @@ export function reviewTitle(review: EvidenceReview) {
   if (review.presentation === "verified") return "Respaldo documental comprobado automáticamente";
   return "No se obtuvo una conclusión respaldada";
 }
+/** Describes only published evidence, never a discarded draft or an unchecked excerpt. */
+export function reviewSummary(review: EvidenceReview, answer = "") {
+  if (review.presentation === "verified") return "La respuesta mostrada está respaldada por las fuentes citadas.";
+  if (review.presentation === "partial") {
+    const main = chatAnswerSections(answer, review).main.split("**Disposición y fuente**")[0];
+    const base = /\d+(?:[.,]\d+)?\s*%/.test(main) ? "El porcentaje indicado está respaldado" : "La información mostrada está respaldada";
+    const omittedContradiction = review.claims.some(claim => claim.status === "contradicted");
+    if (omittedContradiction) return `${base}; se omitió contenido adicional que contradecía las fuentes.`;
+    return `${base}; ${review.omittedCount === 1 ? "una explicación adicional no pudo comprobarse" : "parte de la explicación adicional no pudo comprobarse"}.`;
+  }
+  if (review.presentation === "literal") return review.reviewStatus === "failed"
+    ? "Se muestra un pasaje literal de la fuente; la revisión automática no pudo completarse."
+    : "Se muestra el texto de la fuente; no se confirmó una conclusión jurídica.";
+  return reviewTitle(review) + ".";
+}
+export function reviewApplicability(review: EvidenceReview) {
+  const names: Record<string, string> = { "régimen aplicable": "régimen", "fechas relevantes": "fechas", "objeto contractual": "objeto", "hechos del caso": "hechos" };
+  const missing = review.missing.map(value => names[value] ?? value);
+  return `Aplicación al caso pendiente de confirmar.${missing.length ? ` Falta precisar: ${missing.join(", ")}.` : ""}`;
+}
+export function reviewTechnicalNotes(review: EvidenceReview, extra: string[] = []) {
+  return reviewNotices(review, extra).filter(value => !/^(?:Aplicación al caso|Para aplicarla al caso|El contexto aportado)/.test(value));
+}
 export function reviewNotices(review: EvidenceReview, extra: string[] = []) {
   const notices = [
     "Aplicación al caso pendiente: la revisión documental no confirma vigencia ni aplicabilidad.",
     review.missing.length ? `Para aplicarla al caso, falta precisar: ${review.missing.join(", ")}.` : "El contexto aportado es declarado, no acreditado.",
-    review.omittedCount ? `Se retiraron ${review.omittedCount} afirmación(es) sin comprobación suficiente.` : "",
+    review.omittedCount ? `Se ${review.omittedCount === 1 ? "omitió una afirmación" : `omitieron ${review.omittedCount} afirmaciones`} sin comprobación suficiente.` : "",
     ...review.warnings, ...extra,
   ];
   return [...new Set(notices.filter(Boolean))].filter(value =>
     !(review.reviewStatus === "failed" && /no se pudo completar.*comprobación automática/i.test(value)));
 }
-export function reviewFooter(review: EvidenceReview) {
-  return REVIEW_FOOTER + reviewTitle(review) + ".\n" + reviewNotices(review).join("\n");
+export function reviewFooter(review: EvidenceReview, answer = "") {
+  const details = reviewTechnicalNotes(review);
+  return REVIEW_FOOTER + reviewSummary(review, answer) + "\n" + reviewApplicability(review)
+    + (details.length ? "\nDetalles de revisión: " + details.join(" ") : "");
 }
 export function chatAnswerBody(answer: string, review?: EvidenceReview) {
   if (!review?.presentation) return answer;

@@ -1,7 +1,7 @@
 "use client";
 
 import { materialWarnings } from "@/lib/chat-signals";
-import { chatAnswerSections, reviewTitle, reviewNotices } from "@/lib/chat-review-presentation";
+import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
@@ -675,10 +675,11 @@ function AnswerUseCard({
 
   const review = assessment?.evidenceReview;
   const status = review ? {
-    tone: "warn", label: review.presentation ? reviewTitle(review) : "Respuesta anterior sin reevaluar",
+    tone: review.presentation ? "neutral" : "warn", label: review.presentation ? reviewSummary(review, message.content) : "Respuesta anterior sin reevaluar",
     detail: "La aplicación al caso sigue pendiente de confirmar.",
   } : { tone: "warn", label: "Respuesta anterior sin reevaluar", detail: "Puedes volver a consultar para revisarla." };
-  const signalWarnings = review?.presentation ? reviewNotices(review) : materialWarnings(assessment?.evidenceWarnings);
+  const signalWarnings = review?.presentation ? [] : materialWarnings(assessment?.evidenceWarnings);
+  const technicalNotes = review?.presentation ? reviewTechnicalNotes(review, materialWarnings(assessment?.evidenceWarnings)) : [];
   const interpretedQuery =
     assessment?.queryUsed &&
     message.questionText &&
@@ -687,16 +688,18 @@ function AnswerUseCard({
       : "";
 
   return (
-    <div className="answerUseCard" data-tone={status.tone}>
+    <div className={`answerUseCard${review?.presentation ? " reviewSummaryCard" : ""}`} data-tone={status.tone}>
       <div>
         <strong>{status.label}</strong>
         {!review?.presentation ? <span>{status.detail}</span> : null}
       </div>
+      {review?.presentation ? <p className="reviewApplicability">{reviewApplicability(review)}</p> : null}
       {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
       {!review?.presentation ? <p className="chatPlainEvidence">Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
-      {review?.claims.length ? <details className="chatTechnicalDetails">
+      {review && (review.claims.length > 0 || technicalNotes.length > 0 || Boolean(assessment)) ? <details className="chatTechnicalDetails">
         <summary>Qué comprobó ACE</summary>
         <p>Revisión automática de afirmaciones; no sustituye la revisión de un especialista.</p>
+        {technicalNotes.length ? <ul>{technicalNotes.map(note => <li key={note}>{note}</li>)}</ul> : null}
         <ol>{review.claims.map(claim => <li key={claim.id}>
           <strong>{claim.status === "supported" ? "Respaldada" : claim.status === "contradicted" ? "Contradicha" : "Respaldo insuficiente"}</strong>: {claim.reason}
           {claim.evidence?.map((item, index) => {
@@ -706,8 +709,14 @@ function AnswerUseCard({
             </blockquote> : null;
           })}
         </li>)}</ol>
+        {assessment && review.presentation ? <div>
+          <p><strong>Sobre la búsqueda</strong></p>
+          <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
+          {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
+          <small>Estas medidas no indican exactitud jurídica.</small>
+        </div> : null}
       </details> : null}
-      {assessment ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
+      {assessment && !review?.presentation ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
         <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
         {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
         {assessment.reason ? <p>{assessment.reason}</p> : null}

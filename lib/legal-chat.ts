@@ -851,7 +851,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
   }
   answer += caseAttachmentsFooter(prep.caseDocuments);
-  answer += reviewFooter(review);
+  answer += reviewFooter(review, answer);
   answer += chatSourceLocations(answer, prep.sources, { compact: true });
   return { answer, review };
 }
