@@ -10,6 +10,7 @@ import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { hasMissingCritical, reconcileAssessment } from "./chat-signals";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
+import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
@@ -323,7 +324,8 @@ function selectHierarchicalAnswerSources(candidates: LegalSource[], topK: number
         return priorityDelta;
       }
 
-      return b.evidenceQuality - a.evidenceQuality;
+      // Dentro del mismo rango: a igual tramo de calidad, la fuente más reciente primero.
+      return compareByQualityThenRecency(a, b) || b.evidenceQuality - a.evidenceQuality;
     })
     .slice(0, topK);
 }
@@ -740,7 +742,7 @@ function buildContext(sources: LegalSource[]) {
 Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.documentNumber})` : ""}
 Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
 Relación con el identificador solicitado: ${source.referenceRelation === "original" ? "documento original identificado en el catálogo" : source.referenceRelation === "cites_requested" ? "el fragmento menciona el documento solicitado; evidencia indirecta" : "material relacionado; no acredita ser el original solicitado"}
-Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}
+Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}; año según su número: ${yearFromDocumentNumber(source.documentNumber) ?? "no disponible"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
 Ubicacion: ${source.citation}
@@ -949,6 +951,12 @@ function rerankSources(sources: LegalSource[], query: string, topK: number) {
       const priorityDelta = (normativePriority[b.documentType] ?? 0) - (normativePriority[a.documentType] ?? 0);
       if (priorityDelta !== 0) {
         return priorityDelta;
+      }
+
+      // A igual rango y tramo de calidad (diferencias < ~0,1), gana lo más reciente.
+      const recencyDelta = compareByQualityThenRecency(a, b);
+      if (recencyDelta !== 0) {
+        return recencyDelta;
       }
 
       if (b.evidenceQuality !== a.evidenceQuality) {
@@ -1804,6 +1812,7 @@ async function prepareLegalAnswer(
         content: caseEvidenceInstruction + "\n" +
       (assessment.exactDocument && assessment.exactDocument.status !== "found" ? "El original solicitado NO se recuperó o su catálogo no pudo comprobarse. Comienza indicándolo explícitamente. Distingue referencias indirectas de contenido del original; no atribuyas al original una regla leída en otro documento. " : "") +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
+      "Prioridad cronológica: las fuentes llegan ordenadas dentro de cada rango normativo de la más reciente a la más antigua (por el año de su número o, en las leyes, por su numeración). Si dos fuentes del MISMO rango dicen cosas distintas, da preferencia a la más reciente y menciona la anterior solo como antecedente; la jerarquía normativa (ley, reglamento, directiva) prevalece sobre la fecha y una fecha posterior NO prueba por sí sola que una norma derogue a otra. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
         role: "system",
       },
