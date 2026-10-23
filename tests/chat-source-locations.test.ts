@@ -15,3 +15,10 @@ it("declara la ausencia de página y no confunde el artículo con una página", 
   expect(chatSourceLocations("Texto [F2, Art. 999]", sources)).toContain("página no disponible");
   expect(chatSourceLocations("Texto sin citas", sources)).toBe("");
 });
+
+it("incluye todas las fuentes de una cita agrupada y descarta índices inexistentes", () => {
+  const result = chatSourceLocations("Texto [F1, F2, F99].", sources);
+  expect(result).toContain("Documento A");
+  expect(result).toContain("Documento B");
+  expect(result).not.toContain("F99");
+});

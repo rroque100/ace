@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { chatSourceLocations, checkedSourcePages } from "./chat-source-locations";
+import { chatSourceLocations, checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
@@ -1804,7 +1804,7 @@ function applyCitationFaithfulnessWarning(
   assessment: SourceAssessment,
 ) {
   const faithfulness = checkCitationFaithfulness(answer, sources);
-  const invalidMarkers = [...new Set([...answer.matchAll(/\[F(\d+)(?:[^\]\n]*)\]/g)].map((match) => Number(match[1])).filter((number) => number < 1 || number > sources.length))];
+  const invalidMarkers = citedSourceNumbers(answer).filter((number) => number < 1 || number > sources.length);
   for (const marker of invalidMarkers) faithfulness.issues.push({ datum: `[F${marker}]`, markers: [marker], reason: `La cita [F${marker}] no corresponde a ninguna fuente recuperada; no puede comprobarse.` });
   faithfulness.ok = faithfulness.issues.length === 0;
   if (!faithfulness.ok) {

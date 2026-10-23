@@ -18,7 +18,7 @@ export function documentReferences(query: string): DocumentReference[] {
     const expression = new RegExp(`\\b(?:${kind})\\s*(?:n(?:ro|umero)?[.°º\\s]*|numero\\s*)?(\\d{1,6})(?:\\s*[-/]\\s*(20\\d{2}|19\\d{2}))?(?:\\s*\\/\\s*([a-z][a-z0-9.-]*(?:[-/][a-z0-9.-]+)*))?\\b`, "g");
     for (const match of text.matchAll(expression)) {
       const reference = { documentType, number: String(Number(match[1])), year: match[2] ?? null, issuer: match[3] ?? null, label: match[0] };
-      if (!result.some((item) => item.documentType === documentType && item.number === reference.number && item.year === reference.year)) result.push(reference);
+      if (!result.some((item) => item.documentType === documentType && item.number === reference.number && item.year === reference.year && item.issuer === reference.issuer)) result.push(reference);
     }
   }
   return result;

@@ -1,5 +1,9 @@
 type LocatedSource = { documentTitle: string; pageStart: number | null; pageEnd: number | null; pageCount?: number | null };
 
+export function citedSourceNumbers(answer: string) {
+  return [...new Set([...answer.matchAll(/\[F[^\]\n]*\]/g)].flatMap((group) => [...group[0].matchAll(/\bF(\d+)/g)].map((match) => Number(match[1]))))];
+}
+
 export function checkedSourcePages(start: number | null, end: number | null, total?: number | null) {
   const valid = (page: number | null): page is number => typeof page === "number" && Number.isSafeInteger(page) && page > 0;
   if (!valid(start) || (end !== null && (!valid(end) || end < start))) return { pageStart: null, pageEnd: null };
@@ -10,8 +14,8 @@ export function checkedSourcePages(start: number | null, end: number | null, tot
 /** Solo publica ubicaciones registradas, nunca páginas inventadas por el modelo. */
 export function chatSourceLocations(answer: string, sources: LocatedSource[]) {
   const cited = new Set<number>();
-  for (const match of answer.matchAll(/\[F(\d+)(?:[^\]\n]*)\]/g)) {
-    const index = Number(match[1]) - 1;
+  for (const number of citedSourceNumbers(answer)) {
+    const index = number - 1;
     if (index >= 0 && index < sources.length) cited.add(index);
   }
   if (!cited.size) return "";

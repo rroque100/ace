@@ -12,7 +12,7 @@
 - [x] Integrar consulta institucional de catálogo y fragmentos en `lib/legal-chat.ts`. Priorizar originales y distinguir menciones indirectas. Si falla el catálogo, informar indisponibilidad sin afirmar ausencia.
 - [x] Recuperar historial autorizado antes de resolver preguntas de continuación. Mantenerlo fuera de URLs y de sesiones ajenas.
 - [x] Validar rangos contra `metadata.pageCount`; distinguir ubicación registrada de rango comprobado. Probar páginas negativas, invertidas y fuera del PDF.
-- [ ] Ejecutar pruebas de recuperación y generación, tipos y revisión del cambio antes de publicar esta etapa.
+- [x] Ejecutar pruebas de recuperación y generación, tipos y revisión del cambio antes de publicar esta etapa.
 
 ## Etapa 2: filtros y continuidad
 
@@ -31,6 +31,8 @@ Cada etapa se cierra con un cambio independiente y un informe de lo efectivament
 
 ### Verificación de etapa 1
 
-44 pruebas en ocho archivos, tipos y lint aprobados. Compilación local de producción aprobada; advertencia preexistente de empaquetado de `pdfjs-dist`. Commit inicial: `2c4e87025013acb9a0b575023e0985faf14de1b9`.
+45 pruebas en ocho archivos, tipos y lint aprobados. Compilación local de producción aprobada; advertencia preexistente de empaquetado de `pdfjs-dist`. Commit inicial: `2c4e87025013acb9a0b575023e0985faf14de1b9`.
 
 Límites: la identidad automática reconoce leyes, opiniones, acuerdos de Sala Plena, resoluciones, directivas y pronunciamientos con numeración explícita. El catálogo limita cada tipo a 201 registros y declara comprobación incompleta si excede 200; no afirma ausencia global. Un rango válido solo comprueba localización contra el total registrado, no fidelidad semántica ni aplicabilidad jurídica. La evaluación jurídica con casos de referencia continúa pendiente.
+
+Prueba real en producción: el original 003-2025/TCP se mostró primero y el chat añadió páginas registradas y límites, sin declarar vigencia confirmada. La prueba detectó citas agrupadas; se añadió lectura de todos sus identificadores y una regresión específica.
