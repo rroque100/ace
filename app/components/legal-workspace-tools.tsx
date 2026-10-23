@@ -218,7 +218,7 @@ export function LegalChatRecent() {
   }, []);
   return (
     <details className="legalWorkspacePanel">
-      <summary>Mis conversaciones recientes</summary>
+      <summary>Mis consultas</summary>
       {error ? (
         <p>
           No se pudo cargar el historial. Puedes reabrir la página para

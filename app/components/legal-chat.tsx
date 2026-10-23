@@ -9,7 +9,7 @@ import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
 import {
@@ -41,6 +41,15 @@ import {
 } from "@/lib/legal-taxonomy";
 import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
+
+const chatWideQuery = "(min-width: 1101px)";
+function subscribeChatViewport(callback: () => void) {
+  const query = window.matchMedia(chatWideQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+function readChatWideViewport() { return window.matchMedia(chatWideQuery).matches; }
+function readChatServerViewport() { return false; }
 
 type ChatSource = {
   requestedOriginal?: boolean;
@@ -178,18 +187,6 @@ function groupSourcesByDocument(sources: ChatSource[]) {
   }
 
   return Array.from(grouped.values());
-}
-
-function confidenceClasses(confidence?: Confidence) {
-  if (confidence === "alta") {
-    return "confidencePill high";
-  }
-
-  if (confidence === "media") {
-    return "confidencePill medium";
-  }
-
-  return "confidencePill low";
 }
 
 function confidenceMeaning(confidence?: Confidence) {
@@ -487,18 +484,18 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
           <span>{processTypeLabel(reference.source.processType)}</span>
         ) : null}
         {reference.source.sectionTitle ? <span>{reference.source.sectionTitle}</span> : null}
-        <span>Calidad {reference.source.evidenceQuality.toFixed(2)}</span>
+
       </div>
       <div className="sourceExactBox">
         <strong>{reference.source.pageCount ? "Ubicación con rango comprobado" : "Ubicación registrada"}</strong>
         {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : reference.source.referenceRelation === "cites_requested" ? "Menciona al documento solicitado; evidencia indirecta" : "Material relacionado; no sustituye al original solicitado"}</span> : null}
         <span>{sourcePrecisionLabel(reference.source)}</span>
         <small>La ubicación del fragmento no acredita por sí sola vigencia ni aplicabilidad jurídica.</small>
-        <small>
+        <details className="chatTechnicalDetails"><summary>Detalles de coincidencia</summary><small>
           Fragmento {reference.source.chunkIndex + 1} · {reference.source.matchType} · semántico{" "}
           {reference.source.semanticScore.toFixed(3)} · literal{" "}
           {(reference.source.lexicalScore * 100).toFixed(0)}%
-        </small>
+        </small></details>
       </div>
       <strong>{reference.source.citation}</strong>
       <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} />
@@ -689,25 +686,22 @@ function AnswerUseCard({
         <strong>{status.label}</strong>
         <span>{status.detail}</span>
       </div>
-      {assessment ? (
-        <div className="answerUseMetrics">
-          <span>{assessment.uniqueDocuments} doc.</span>
-          <span>score {assessment.topScore.toFixed(3)}</span>
-          <span>calidad {assessment.evidenceQuality.toFixed(2)}</span>
-          <span>literal {(assessment.lexicalScore * 100).toFixed(0)}%</span>
-        </div>
-      ) : null}
-      {interpretedQuery ? <small>Pregunta interpretada: {interpretedQuery}</small> : null}
-      {assessment?.reason ? <small>{assessment.reason}</small> : null}
+      <p className="chatPlainEvidence">Las normas consultadas ayudan a revisar la respuesta. Confirma su vigencia y que correspondan a tu caso.</p>
+      {assessment ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
+        <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
+        {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
+        {assessment.reason ? <p>{assessment.reason}</p> : null}
+        <small>Estas medidas no indican exactitud jurídica.</small>
+      </details> : null}
       <div className="answerUseActions">
         <Link className="secondaryButton compactButton" href={buildSearchUrl(message, filters)}>
           <Search size={14} />
-          Revisar evidencia
+          Buscar más información
         </Link>
         {status.tone === "bad" ? (
           <Link className="secondaryButton compactButton" href="/validar">
             <ShieldCheck size={14} />
-            Verificar corpus
+            Revisar documentos disponibles
           </Link>
         ) : null}
       </div>
@@ -735,12 +729,12 @@ function MessageEvidence({
     <details className="msgEvidence">
       <summary>
         <FileText size={14} />
-        Ver fuentes y detalle
+        Normas consultadas
         <span className="msgEvidenceCount">{sources.length}</span>
       </summary>
 
       {assessment ? (
-        <div className="msgEvidenceMeta">
+        <details className="msgEvidenceMeta"><summary>Cómo se seleccionaron estas normas</summary>
           {message.confidence ? (
             <p className="confidenceMeaning">{confidenceMeaning(message.confidence)}</p>
           ) : null}
@@ -756,7 +750,7 @@ function MessageEvidence({
               <span>{assessment.evidenceWarnings.join(" ")}</span>
             </div>
           ) : null}
-        </div>
+        </details>
       ) : null}
 
       {groupSourcesByDocument(sources).map(({ document, sources: documentSources }, index) => (
@@ -776,8 +770,7 @@ function MessageEvidence({
             return (
               <details key={source.chunkId}>
                 <summary>
-                  {source.citation || `Fragmento ${source.chunkIndex + 1}`} · calidad{" "}
-                  {source.evidenceQuality.toFixed(2)}
+                  {source.citation || `Fragmento ${source.chunkIndex + 1}`}
                 </summary>
                 <strong className="precisionLine">{sourcePrecisionLabel(source)}</strong>
                 <p>{source.excerpt}</p>
@@ -942,8 +935,8 @@ function LegalChatSession() {
 
   // Mantiene a la vista el último mensaje mientras llega el streaming.
   useEffect(() => {
-    timelineEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages]);
+    if (isStreaming) timelineEndRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "end" });
+  }, [messages, isStreaming]);
 
   function updateMessage(id: string, patch: (message: ConversationMessage) => ConversationMessage) {
     setMessages((current) => current.map((message) => (message.id === id ? patch(message) : message)));
@@ -1233,14 +1226,14 @@ function LegalChatSession() {
     target.style.height = `${Math.min(target.scrollHeight, 168)}px`;
   }
 
+  const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
 
   return (
-    <div className="legalTool chatRedesign">
+    <div className="legalTool chatRedesign chatAccessible">
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
-      <LegalChatRecent />
-      <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
-      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
+      <div className="chatReadingLayout"><div className="chatMainColumn">
       <header className="chatHeader">
         <div className="chatHeaderTitle">
           <div className="legalToolIcon">
@@ -1248,8 +1241,8 @@ function LegalChatSession() {
           </div>
           <div>
             <p className="eyebrow">Consulta legal</p>
-            <h2>Chat jurídico</h2>
-            <p>Respuestas redactadas solo cuando hay fuentes suficientes, con cita verificable.</p>
+            <h2>Conversemos sobre tu consulta</h2>
+            <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
           </div>
         </div>
         <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
@@ -1259,7 +1252,7 @@ function LegalChatSession() {
       </header>
 
       <div className="chatContextBar">
-        <div className="styleSelectors">
+        <details className="chatStyleDisclosure"><summary>Personalizar respuesta</summary><div className="styleSelectors">
           <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
             Estilo de respuesta
           </span>
@@ -1295,7 +1288,7 @@ function LegalChatSession() {
           </div>
         </div>
 
-        <div className="filterArea">
+        </details><div className="filterArea">
           {activeFilters.map((filter) => (
             <button className="filterChip" key={filter.key} onClick={filter.clear} type="button">
               {filter.label}
@@ -1309,11 +1302,13 @@ function LegalChatSession() {
             type="button"
           >
             <SlidersHorizontal size={15} />
-            Filtros
+            Afinar búsqueda{activeFilters.length ? ` · ${activeFilters.length}` : ""}
           </button>
 
           {showFilters ? (
             <div className="filterPopover">
+              <p>Opcional. Limita los documentos que se consultarán; puedes preguntar sin completar estos campos.</p>
+              <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
               <div className="filterPopoverGrid">
                 <label>
                   <span>Tipo</span>
@@ -1373,42 +1368,17 @@ function LegalChatSession() {
               <div className="chatEmptyIcon">
                 <Bot size={28} />
               </div>
-              <strong>¿Qué necesitas consultar?</strong>
+              <strong>¿Qué necesitas resolver?</strong>
               <span>
-                Pregunta con tus propias palabras sobre contrataciones públicas. Te respondo con base en
-                las leyes, reglamentos, directivas y opiniones cargadas, y te muestro de dónde sale cada dato.
+                Cuéntame tu duda sobre contrataciones públicas. Puedes empezar con una pregunta o adjuntar un documento de tu caso.
               </span>
             </div>
 
-            <div className="chatHowItWorks">
-              <div>
-                <span className="howStepNum">1</span>
-                <div>
-                  <strong>Escribe tu pregunta</strong>
-                  <small>En lenguaje normal, no hace falta saber de leyes.</small>
-                </div>
-              </div>
-              <div>
-                <span className="howStepNum">2</span>
-                <div>
-                  <strong>Busco en los documentos</strong>
-                  <small>Reviso las normas y opiniones cargadas.</small>
-                </div>
-              </div>
-              <div>
-                <span className="howStepNum">3</span>
-                <div>
-                  <strong>Te respondo con fuentes</strong>
-                  <small>Cada dato lleva su cita; tócala para verla.</small>
-                </div>
-              </div>
-            </div>
-
             <div className="chatEmptyExamples">
-              <p>Prueba con una de estas:</p>
+              <p>¿No sabes cómo empezar?</p>
               <div className="exampleCards">
                 {exampleQuestions.map((item) => (
-                  <button key={item} onClick={() => setQuestion(item)} type="button">
+                  <button key={item} onClick={() => { setQuestion(item); composerRef.current?.focus(); }} type="button">
                     {item}
                   </button>
                 ))}
@@ -1425,21 +1395,8 @@ function LegalChatSession() {
                 <>
                   <div className="msgBubbleTop">
                     <strong>Respuesta</strong>
-                    {message.confidence ? (
-                      <span className={confidenceClasses(message.confidence)} title={confidenceMeaning(message.confidence)}>
-                        Confianza documental {message.confidence}
-                      </span>
-                    ) : null}
+                    <span className="chatAiLabel">Asistente de ACE</span>
                   </div>
-
-                  {!message.error ? (
-                    <AnswerUseCard
-                      assessment={message.assessment}
-                      confidence={message.confidence}
-                      filters={currentFilterValues}
-                      message={message}
-                    />
-                  ) : null}
 
                   {message.streaming && !message.content ? (
                     <span className="loadingInline">
@@ -1456,6 +1413,15 @@ function LegalChatSession() {
                       {message.streaming ? <span className="streamCursor" aria-hidden="true" /> : null}
                     </div>
                   )}
+
+                  {!message.error && !message.streaming ? (
+                    <AnswerUseCard
+                      assessment={message.assessment}
+                      confidence={message.confidence}
+                      filters={currentFilterValues}
+                      message={message}
+                    />
+                  ) : null}
 
                   {!message.streaming && message.citationWarnings?.length ? (
                     <div className="msgCitationWarning">
@@ -1491,16 +1457,16 @@ function LegalChatSession() {
                   {!message.streaming && !message.error && message.sources?.length ? (
                     <div className="msgSourceChips">
                       {groupSourcesByDocument(message.sources).map(({ document, sources: docSources }) => (
-                        <span className="sourceChip" key={document.documentId} title={document.documentTitle}>
+                        <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
                           <FileText size={13} />
                           {document.documentTitle}
                           <em>{docSources.length}</em>
-                        </span>
+                        </button>
                       ))}
                     </div>
                   ) : null}
 
-                  {message.caseDocuments?.length ? <section className="legalWorkspacePanel" aria-label="Originales de los documentos del caso"><strong>Documentos del caso · fuentes C#</strong><ul className="legalWorkspaceHistory">{message.caseDocuments.map((document,index)=><li key={document.id}><a href={`/api/chat/attachments/${document.id}?sessionId=${document.sessionId}`} target="_blank" rel="noreferrer">[C{index+1}] {document.name}</a><small>{document.partial?"Lectura parcial · revisar":"Texto extraído · revisar"}</small></li>)}</ul></section> : null}
+                  {message.caseDocuments?.length ? <section className="legalWorkspacePanel" aria-label="Originales de los documentos del caso"><strong>Documentos de tu caso</strong><ul className="legalWorkspaceHistory">{message.caseDocuments.map((document,index)=><li key={document.id}><a href={`/api/chat/attachments/${document.id}?sessionId=${document.sessionId}`} target="_blank" rel="noreferrer">[C{index+1}] {document.name}</a><small>{document.partial?"Lectura parcial · revisar":"Texto extraído · revisar"}</small></li>)}</ul></section> : null}
                   {!message.streaming && !message.error ? (
                     <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
                   ) : null}
@@ -1510,15 +1476,6 @@ function LegalChatSession() {
                     <div className="responseActions">
                       <small className="responseActionsHint">Acciones sobre esta respuesta</small>
                       <button
-                        className="responseActionButton"
-                        onClick={() => void updateAssistantMessage(message, "save_note", buildAutomaticNote(message))}
-                        title="Guarda pregunta, respuesta y fuentes como nota automatica"
-                        type="button"
-                      >
-                        <Pin size={15} />
-                        {message.note ? "Nota guardada" : "Nota rápida"}
-                      </button>
-                      <button
                         className="responseActionButton compactAction"
                         onClick={() => void copyMessage(message)}
                         title="Copia solo el texto de la respuesta"
@@ -1526,6 +1483,16 @@ function LegalChatSession() {
                       >
                         {copiedId === message.id ? <Check size={16} /> : <Clipboard size={16} />}
                         {copiedId === message.id ? "Copiado" : "Copiar"}
+                      </button>
+                      <details className="chatMoreActions"><summary>Más acciones</summary><div className="chatMoreActionsBody">
+                      <button
+                        className="responseActionButton"
+                        onClick={() => void updateAssistantMessage(message, "save_note", buildAutomaticNote(message))}
+                        title="Guarda pregunta, respuesta y fuentes como nota automatica"
+                        type="button"
+                      >
+                        <Pin size={15} />
+                        {message.note ? "Nota guardada" : "Nota rápida"}
                       </button>
                       <button
                         className="responseActionButton compactAction"
@@ -1565,11 +1532,12 @@ function LegalChatSession() {
                         <Download size={16} />
                         Exportar Word
                       </button>
+                      </div></details>
                       <SaveButton
                         itemType="mensaje"
                         messageId={message.persistedId ?? undefined}
                         title={message.content.slice(0, 120)}
-                        label="Guardar en carpeta"
+                        label="Guardar"
                       />
                     </div>
                   ) : null}
@@ -1605,9 +1573,11 @@ function LegalChatSession() {
         <div ref={timelineEndRef} aria-hidden="true" />
       </div>
 
+      <div className="chatComposeTools">
+      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
       <section className="chatCaseContext" aria-label="Contexto del caso">
-        <details open={!hasConversation}>
-          <summary>Contexto del caso · opcional</summary>
+        <details>
+          <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
           <fieldset disabled={isStreaming || loadingSession}>
             <label>Régimen aplicable
@@ -1627,22 +1597,25 @@ function LegalChatSession() {
         <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
         {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
       </section>
+      </div>
       <form className="chatComposerBar" onSubmit={submitQuestion}>
+        <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
-          aria-label="Pregunta jurídica"
+          id="legal-chat-question"
+          aria-describedby="chat-question-help"
           onChange={(event) => {
             setQuestion(event.target.value);
             autoGrow(event.target);
           }}
           onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
+            if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
               event.preventDefault();
               if (canSubmit) {
                 void submitQuestion();
               }
             }
           }}
-          placeholder="Escribe tu consulta… (Enter envía · Shift+Enter salto de línea)"
+          placeholder="Por ejemplo: ¿qué documentos necesito revisar para este caso?"
           ref={composerRef}
           rows={1}
           value={question}
@@ -1655,21 +1628,31 @@ function LegalChatSession() {
         ) : (
           <button className="primaryButton sendButton" disabled={!canSubmit} type="submit">
             <Send size={18} />
-            Consultar
+            Enviar consulta
           </button>
         )}
+        <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
+      </div>
+      <aside className="chatNormsRail" aria-label="Normas de la última respuesta">
+        <details open={wideChat || undefined}><summary><FileText size={18} /> Normas de la respuesta</summary>
+          <p>Abre una norma para comprobar el fragmento y acceder al PDF.</p>
+          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className="chatNormCard" key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{related.length} fragmento(s) · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
+          <p className="chatRailNote">Los archivos que adjuntas son documentos del caso; no acreditan una regla jurídica.</p>
+        </details>
+      </aside></div>
 
       <Dialog.Root open={Boolean(selectedReferences)} onOpenChange={(open) => !open && setSelectedReferences(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="sourceModal">
+          <Dialog.Content className="sourceModal chatSourceSheet">
             <Dialog.Title>
               {selectedReferences && selectedReferences.length > 1
                 ? `Fuentes ${selectedReferences.map((reference) => reference.number).join(", ")}`
                 : `Fuente ${selectedReferences?.[0]?.number ?? ""}`}
             </Dialog.Title>
-            <Dialog.Description>Verificación documental de la afirmación seleccionada.</Dialog.Description>
+            <Dialog.Description>Revisa el texto original, su ubicación y el PDF antes de usar esta información.</Dialog.Description>
+            <Dialog.Close className="chatSourceClose" aria-label="Cerrar normas y volver al chat"><X size={20} /></Dialog.Close>
             {selectedReferences ? (
               <div className="sourceModalBody">
                 {selectedReferences.map((reference) => (

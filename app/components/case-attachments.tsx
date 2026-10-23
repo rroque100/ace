@@ -85,7 +85,7 @@ export function CaseAttachments({
   return (
     <details className="legalWorkspacePanel">
       <summary>
-        Documentos privados del caso{" "}
+        Adjuntar o elegir documentos{" "}
         {visibleItems.length ? `· ${visibleItems.length}` : ""}
       </summary>
       <p>
@@ -153,7 +153,7 @@ export function CaseAttachments({
         ))}
       </ul>
       <p>
-        {selected.length} seleccionado(s). Las citas C# corresponden al caso;
+        {selected.length} seleccionado(s). Los documentos seleccionados se usarán en tu pregunta. Las citas C# corresponden al caso;
         las F# a fuentes oficiales.
       </p>
     </details>
