@@ -27,6 +27,7 @@ import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
 
 type SearchSource = {
+  requestedOriginal?: boolean;
   regime?: string | null;
   article: string | null;
   sectionTitle?: string | null;
@@ -731,6 +732,7 @@ export function SemanticSearch() {
               {/* Metadatos legibles primero; el detalle numerico se colapsa para
                   no saturar a usuarios no tecnicos (mismo criterio UX del chat). */}
               <div className="sourceMetaGrid">
+                {source.requestedOriginal !== undefined ? <span>{source.requestedOriginal ? "Original solicitado identificado" : "Documento relacionado · no es el original solicitado"}</span> : null}
                 <span>{source.citation || sourceLocation(source)}</span>
                 {source.sectionTitle ? <span>Seccion {source.sectionTitle}</span> : null}
                 <span>{sourceRoleLabel(source.documentType)}</span>

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { chatSourceLocations } from "./chat-source-locations";
+import { chatSourceLocations, checkedSourcePages } from "./chat-source-locations";
+import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -84,6 +85,8 @@ type DocumentChunk = {
 };
 
 export type LegalSource = {
+  pageCount?: number | null;
+  requestedOriginal?: boolean;
   regime?: string | null;
   citation: string;
   chunkId: string;
@@ -113,6 +116,7 @@ export type LegalSource = {
 };
 
 export type SourceAssessment = {
+  exactDocument?: { status: "found" | "not_retrieved" | "unavailable"; requested: string[] };
   confidence: "alta" | "media" | "baja";
   sufficient: boolean;
   reason: string;
@@ -729,10 +733,12 @@ function buildContext(sources: LegalSource[]) {
       (source, index) => `[F${index + 1}]
 Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.documentNumber})` : ""}
 Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
+Relación con el identificador solicitado: ${source.requestedOriginal ? "documento original identificado en el catálogo" : "fuente recuperada; no acredita por sí sola ser el original solicitado"}
 Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
 Ubicacion: ${source.citation}
+Total de páginas registrado del PDF: ${source.pageCount ?? "no disponible; no lo infieras"}
 Seccion: ${source.sectionTitle ?? "No identificada"}
 Calidad de evidencia: ${source.evidenceQuality.toFixed(2)}
 Fragmento: ${source.excerpt}`,
@@ -1091,7 +1097,7 @@ async function fetchChunksByVectorIds(vectorIds: string[]) {
   return supabaseRest<DocumentChunk[]>(
     `document_chunks?pinecone_vector_id=in.(${escapePostgrestIn(
       vectorIds,
-    )})&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents(id,title,document_type,source_entity,file_name,status,metadata)`,
+    )})&documents.es_institucional=eq.true&documents.status=eq.indexed&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)`,
   );
 }
 
@@ -1109,7 +1115,7 @@ async function searchLexicalChunks(query: string, limit: number) {
   return supabaseRest<DocumentChunk[]>(
     `document_chunks?or=(${encodeURIComponent(
       clauses,
-    )})&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents(id,title,document_type,source_entity,file_name,status,metadata)&limit=${limit}`,
+    )})&documents.es_institucional=eq.true&documents.status=eq.indexed&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)&limit=${limit}`,
   );
 }
 
@@ -1136,6 +1142,7 @@ function chunkToSource(
   const pageStart = chunk.page_start ?? hit?.page_start ?? getNumberMetadata(chunkMetadata, "pageStart");
   const pageEnd = chunk.page_end ?? hit?.page_end ?? getNumberMetadata(chunkMetadata, "pageEnd");
   const source: LegalSource = {
+    pageCount: getNumberMetadata(documentMetadata, "pageCount"),
     article,
     sectionTitle:
       getStringMetadata(chunkMetadata, "sectionTitle") ??
@@ -1157,8 +1164,7 @@ function chunkToSource(
     lexicalScore,
     rerankScore: 0,
     matchType: options.matchType,
-    pageEnd,
-    pageStart,
+    ...checkedSourcePages(pageStart, pageEnd, getNumberMetadata(documentMetadata, "pageCount")),
     score: Math.max(semanticScore, lexicalScore),
     semanticScore,
     sourceEntity: chunk.documents?.source_entity ?? hit?.source_entity ?? null,
@@ -1196,6 +1202,28 @@ export async function searchLegalSources(
   const queryUsed = normalizeQuestionForSearch(input.query);
   const expandedQuery = expandQueryForRecall(queryUsed);
   const semanticTopK = Math.min(30, Math.max(input.topK * 2, 10));
+  const references = documentReferences(input.query);
+  let catalogueUnavailable = false;
+  const originalIds = new Set<string>();
+  const exactChunks: DocumentChunk[] = [];
+  // El catálogo institucional precede a la expansión semántica. Nunca se busca
+  // en documentos privados con credenciales de servicio para resolver una cita.
+  for (const reference of references.slice(0, 4)) {
+    try {
+      const documents = await supabaseRest<Array<{ id: string; title: string; document_type: string; metadata: Record<string, unknown> }>>(
+        `documents?es_institucional=eq.true&status=eq.indexed&document_type=eq.${reference.documentType}&select=id,title,document_type,metadata&order=id&limit=201`,
+      );
+      if (documents.length > 200) catalogueUnavailable = true;
+      const ids = documents.filter((document) => matchesDocumentReference(reference, {
+        documentType: document.document_type, title: document.title,
+        number: getStringMetadata(document.metadata ?? {}, "number") ?? getStringMetadata(document.metadata ?? {}, "documentNumber"),
+      })).map((document) => document.id);
+      for (const id of ids) originalIds.add(id);
+      if (ids.length) exactChunks.push(...await supabaseRest<DocumentChunk[]>(
+        `document_chunks?document_id=in.(${escapePostgrestIn(ids)})&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)&documents.es_institucional=eq.true&order=chunk_index&limit=40`,
+      ));
+    } catch { catalogueUnavailable = true; }
+  }
   // Si el embedding/semántico falla (p. ej. sin cuota para embeddings), la
   // búsqueda NO se cae: degrada al modo léxico (SQL). Pero el fallo se REPORTA en
   // `semanticaCaida` en vez de tragarse: el respaldo léxico es un `ilike` con OR
@@ -1203,22 +1231,28 @@ export async function searchLegalSources(
   // arbitrarios. Presentarlos como fundamento normativo, sin decir que la
   // búsqueda real está caída, es peor que no citar nada.
   let semanticaCaida = false;
+  let lexicalUnavailable = false;
   const [hits, lexicalChunks] = await Promise.all([
     searchTextRecords(expandedQuery, semanticTopK, pineconeFilters).catch(() => {
       semanticaCaida = true;
       return [];
     }),
-    searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2)).catch(() => []),
+    searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2)).catch(() => { lexicalUnavailable = true; return []; }),
   ]);
   const vectorIds = uniqueValues(hits.map((hit) => hit._id));
 
-  if (vectorIds.length === 0 && lexicalChunks.length === 0) {
+  if (vectorIds.length === 0 && lexicalChunks.length === 0 && exactChunks.length === 0) {
+    if (semanticaCaida && lexicalUnavailable) throw new Error("La recuperación documental no está disponible. Reintenta la consulta; no se comprobó ausencia de documentos.");
+    const assessment = assessSources([], {
+      processType: filters.processType, queryUsed,
+      scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
+    });
+    if (references.length) {
+      assessment.exactDocument = { status: catalogueUnavailable ? "unavailable" : "not_retrieved", requested: references.map((reference) => reference.label) };
+      assessment.evidenceWarnings.push(catalogueUnavailable ? "No se pudo completar la comprobación del catálogo." : "No se recuperó el original solicitado; esto no demuestra que no exista.");
+    }
     return {
-      assessment: assessSources([], {
-        processType: filters.processType,
-        queryUsed,
-        scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
-      }),
+      assessment,
       semanticaCaida,
       sources: [],
     };
@@ -1240,7 +1274,8 @@ export async function searchLegalSources(
       query: queryUsed,
     }),
   );
-  const combined = [...semanticSources, ...lexicalSources].filter((source) =>
+  const exactSources = exactChunks.map((chunk) => ({ ...chunkToSource(chunk, { matchType: "lexical", query: queryUsed }), requestedOriginal: true }));
+  const combined = [...exactSources, ...semanticSources, ...lexicalSources].map((source) => ({ ...source, requestedOriginal: references.length ? originalIds.has(source.documentId) : undefined })).filter((source) =>
     sourceMatchesFilters(source, filters),
   );
 
@@ -1262,15 +1297,25 @@ export async function searchLegalSources(
     }
   }
 
-  const sources = rerankSources(combined, queryUsed, input.topK);
+  const originals = rerankSources(combined.filter((source) => source.requestedOriginal), queryUsed, Math.min(4, input.topK));
+  const sources = [...originals, ...rerankSources(combined, queryUsed, input.topK).filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, input.topK);
+  const assessment = assessSources(sources, {
+    processType: filters.processType, queryUsed,
+    scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
+  });
+  if (semanticaCaida || lexicalUnavailable) assessment.evidenceWarnings.push("Recuperación parcial: una de las vías de búsqueda no estuvo disponible. Los resultados pueden ser incompletos.");
+  if (references.length) {
+    const allOriginalsFound = references.every((reference) => sources.some((source) => source.requestedOriginal && matchesDocumentReference(reference, { documentType: source.documentType, title: source.documentTitle, number: source.documentNumber })));
+    assessment.exactDocument = { status: allOriginalsFound ? "found" : catalogueUnavailable ? "unavailable" : "not_retrieved", requested: references.map((reference) => reference.label) };
+    if (assessment.exactDocument.status !== "found") {
+      assessment.evidenceWarnings.push(catalogueUnavailable ? "No se pudo completar la comprobación del catálogo del documento solicitado." : "No se recuperó el original solicitado. Las menciones en otros documentos son referencias indirectas y no sustituyen al original.");
+      assessment.confidence = "baja";
+    }
+  }
 
   return {
     semanticaCaida,
-    assessment: assessSources(sources, {
-      processType: filters.processType,
-      queryUsed,
-      scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
-    }),
+    assessment,
     sources,
   };
 }
@@ -1491,7 +1536,8 @@ async function prepareLegalAnswer(
   input: z.infer<typeof chatRequestSchema>,
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
-  const contextualQuery = caseSearchQuery(input.question, input.caseContext);
+  const history = await getRecentChatHistory(auth.accessToken, input.sessionId);
+  const contextualQuery = caseSearchQuery(followupSearchQuestion(input.question, history), input.caseContext);
   const likelyLegal = isLikelyLegalProcurementQuestion(contextualQuery);
   const inferredProcessType = inferProcessTypeFromQuestion(contextualQuery);
   const normalizedChatFilters = normalizeChatAnswerFilters(input.filters);
@@ -1531,9 +1577,8 @@ async function prepareLegalAnswer(
         ),
       )
     : [];
-  const [history, searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
+  const [searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
     await Promise.all([
-      getRecentChatHistory(auth.accessToken, input.sessionId),
       searchLegalSources({
         filters: chatFilters,
         query: contextualQuery,
@@ -1592,13 +1637,18 @@ async function prepareLegalAnswer(
     normalizeQuestionForSearch(contextualQuery),
     4,
   );
-  const sources = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
+  const selected = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
+  const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
+  const sources = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, 8);
   const assessment = assessSources(sources, {
     processType: requestedProcessType,
     queryUsed: searchResult.assessment.queryUsed,
     scope: searchResult.assessment.scope,
   });
   const candidateCoverage = buildCoverage(candidateSources);
+  assessment.exactDocument = searchResult.assessment.exactDocument;
+  assessment.evidenceWarnings.push(...searchResult.assessment.evidenceWarnings.filter((warning) => !assessment.evidenceWarnings.includes(warning)));
+  if (assessment.exactDocument && assessment.exactDocument.status !== "found") assessment.confidence = "baja";
   assessment.coverage = {
     ...assessment.coverage,
     bases: candidateCoverage.bases,
@@ -1676,6 +1726,7 @@ async function prepareLegalAnswer(
     input: [
       {
         content: caseEvidenceInstruction + "\n" +
+      (assessment.exactDocument && assessment.exactDocument.status !== "found" ? "El original solicitado NO se recuperó o su catálogo no pudo comprobarse. Comienza indicándolo explícitamente. Distingue referencias indirectas de contenido del original; no atribuyas al original una regla leída en otro documento. " : "") +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
         role: "system",
@@ -1749,6 +1800,9 @@ function applyCitationFaithfulnessWarning(
   assessment: SourceAssessment,
 ) {
   const faithfulness = checkCitationFaithfulness(answer, sources);
+  const invalidMarkers = [...new Set([...answer.matchAll(/\[F(\d+)(?:[^\]\n]*)\]/g)].map((match) => Number(match[1])).filter((number) => number < 1 || number > sources.length))];
+  for (const marker of invalidMarkers) faithfulness.issues.push({ datum: `[F${marker}]`, markers: [marker], reason: `La cita [F${marker}] no corresponde a ninguna fuente recuperada; no puede comprobarse.` });
+  faithfulness.ok = faithfulness.issues.length === 0;
   if (!faithfulness.ok) {
     assessment.evidenceWarnings = [
       ...assessment.evidenceWarnings,

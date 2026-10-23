@@ -39,6 +39,8 @@ import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
 
 type ChatSource = {
+  requestedOriginal?: boolean;
+  pageCount?: number | null;
   article: string | null;
   sectionTitle?: string | null;
   chunkId: string;
@@ -483,8 +485,10 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         <span>Calidad {reference.source.evidenceQuality.toFixed(2)}</span>
       </div>
       <div className="sourceExactBox">
-        <strong>Ubicación verificada</strong>
+        <strong>{reference.source.pageCount ? "Ubicación con rango comprobado" : "Ubicación registrada"}</strong>
+        {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : "Documento relacionado; no sustituye al original solicitado"}</span> : null}
         <span>{sourcePrecisionLabel(reference.source)}</span>
+        <small>La ubicación del fragmento no acredita por sí sola vigencia ni aplicabilidad jurídica.</small>
         <small>
           Fragmento {reference.source.chunkIndex + 1} · {reference.source.matchType} · semántico{" "}
           {reference.source.semanticScore.toFixed(3)} · literal{" "}

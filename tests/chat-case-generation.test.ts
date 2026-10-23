@@ -21,6 +21,11 @@ it("mantiene compatibles las solicitudes anteriores", () => {
   expect(chatRequestSchema.safeParse({ question: "Consulta general" }).success).toBe(true);
   expect(chatRequestSchema.safeParse({ question: "Consulta", caseContext: { facts: "a".repeat(6001) } }).success).toBe(false);
 });
+it("advierte marcadores inexistentes aunque la afirmación no contenga cifras jurídicas", async () => {
+  mocks.create.mockResolvedValue({ output_text: "Una conclusión sin respaldo [F99]." });
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth);
+  expect(result.assessment.evidenceWarnings.join(" ")).toContain("[F99]");
+});
 it("declara datos y fuentes faltantes sin generar una conclusión cuando no hay evidencia", async () => {
   mocks.search.mockResolvedValue([]);
   mocks.rest.mockResolvedValue([]);
