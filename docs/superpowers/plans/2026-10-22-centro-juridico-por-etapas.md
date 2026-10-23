@@ -16,16 +16,16 @@
 
 ## Etapa 2: filtros y continuidad
 
-- [ ] Incorporar filtros independientes de régimen, entidad, tipo y año, con valores desconocidos explícitos. No filtrar vectores por metadatos inexistentes.
-- [ ] Añadir historial recuperable de búsquedas con autenticación y aislamiento por usuario, conservando consulta y filtros.
-- [ ] Comprobar restauración, navegación entre respuesta/fuente/PDF y compatibilidad con conversaciones anteriores.
+- [x] Incorporar filtros independientes de régimen, entidad, tipo y año, con valores desconocidos explícitos. No filtrar vectores por metadatos inexistentes.
+- [x] Añadir historial recuperable de búsquedas con autenticación y aislamiento por usuario, conservando consulta y filtros.
+- [x] Comprobar restauración, navegación entre respuesta/fuente/PDF y compatibilidad con conversaciones anteriores.
 
 ## Etapa 3: documentos privados y observabilidad
 
-- [ ] Diseñar almacenamiento de adjuntos por propietario y conversación con RLS y rutas autenticadas; comprobar accesos cruzados antes de habilitar carga.
-- [ ] Procesar PDF e imágenes con estados completos/parciales explícitos, sin introducirlos en el corpus institucional.
-- [ ] Registrar proveedor/modelo efectivo, versión de instrucciones, recuperación y tiempos, sin contenido privado en registros generales.
-- [ ] Validar límites, fallos de extracción y respuesta con fuentes oficiales frente a documentos del caso; publicar solo después de pruebas.
+- [x] Diseñar almacenamiento de adjuntos por propietario y conversación con RLS y rutas autenticadas; comprobar accesos cruzados antes de habilitar carga.
+- [x] Procesar PDF e imágenes con estados completos/parciales explícitos, sin introducirlos en el corpus institucional.
+- [x] Registrar proveedor/modelo efectivo, versión de instrucciones, recuperación y tiempos, sin contenido privado en registros generales.
+- [x] Validar límites, fallos de extracción y respuesta con fuentes oficiales frente a documentos del caso; publicar solo después de pruebas.
 
 Cada etapa se cierra con un cambio independiente y un informe de lo efectivamente comprobado. Las etapas pendientes no se presentan como disponibles en producción.
 
@@ -36,3 +36,8 @@ Cada etapa se cierra con un cambio independiente y un informe de lo efectivament
 Límites: la identidad automática reconoce leyes, opiniones, acuerdos de Sala Plena, resoluciones, directivas y pronunciamientos con numeración explícita. El catálogo limita cada tipo a 201 registros y declara comprobación incompleta si excede 200; no afirma ausencia global. Un rango válido solo comprueba localización contra el total registrado, no fidelidad semántica ni aplicabilidad jurídica. La evaluación jurídica con casos de referencia continúa pendiente.
 
 Prueba real en producción: el original 003-2025/TCP se mostró primero y el chat añadió páginas registradas y límites, sin declarar vigencia confirmada. La prueba detectó citas agrupadas; se añadió lectura de todos sus identificadores y una regresión específica.
+
+
+### Verificación de etapas 2 y 3
+
+Implementación y comprobaciones registradas en [el plan de ejecución](2026-10-22-centro-juridico-etapas-2-3.md). Los filtros de entidad existentes se conservan; se añaden régimen revisado, varios tipos y años. No se ha medido precisión jurídica.
