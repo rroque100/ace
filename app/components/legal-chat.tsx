@@ -1,6 +1,7 @@
 "use client";
 
 import { materialWarnings } from "@/lib/chat-signals";
+import { chatAnswerSections, reviewTitle, reviewNotices } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
@@ -622,6 +623,19 @@ function AnswerContent({
   return <div className="answerContent">{nodes}</div>;
 }
 
+function ReviewedAnswerContent({ content, review, sources, onOpenSources }: {
+  content: string; review?: EvidenceReview; sources: ChatSource[];
+  onOpenSources: (references: SourceReference[]) => void;
+}) {
+  const sections = chatAnswerSections(content, review);
+  return <>
+    <AnswerContent content={sections.main} sources={sources} onOpenSources={onOpenSources} />
+    {sections.detail ? <details className="chatTechnicalDetails"><summary>Ver fundamento y fuentes</summary>
+      <AnswerContent content={sections.detail} sources={sources} onOpenSources={onOpenSources} />
+    </details> : null}
+  </>;
+}
+
 function CoverageGrid({ coverage }: { coverage?: ChatAssessment["coverage"] }) {
   const items = [
     { label: "Ley", value: coverage?.ley, detail: "normativa" },
@@ -661,11 +675,10 @@ function AnswerUseCard({
 
   const review = assessment?.evidenceReview;
   const status = review ? {
-    tone: review.documentary === "checked" ? "warn" : "bad",
-    label: review.documentary === "checked" ? "Respaldo documental comprobado automáticamente" : review.documentary === "partial" ? "Respaldo documental parcial" : "Respaldo documental no comprobado",
-    detail: "Aplicación al caso pendiente de confirmar. La revisión automática no es una validación jurídica humana.",
-  } : { tone: "warn", label: "Respuesta anterior sin reevaluar", detail: "Esta respuesta no pasó por la nueva comprobación de afirmaciones. Puedes volver a consultar para revisarla." };
-  const signalWarnings = materialWarnings(assessment?.evidenceWarnings);
+    tone: "warn", label: review.presentation ? reviewTitle(review) : "Respuesta anterior sin reevaluar",
+    detail: "La aplicación al caso sigue pendiente de confirmar.",
+  } : { tone: "warn", label: "Respuesta anterior sin reevaluar", detail: "Puedes volver a consultar para revisarla." };
+  const signalWarnings = review?.presentation ? reviewNotices(review) : materialWarnings(assessment?.evidenceWarnings);
   const interpretedQuery =
     assessment?.queryUsed &&
     message.questionText &&
@@ -677,10 +690,10 @@ function AnswerUseCard({
     <div className="answerUseCard" data-tone={status.tone}>
       <div>
         <strong>{status.label}</strong>
-        <span>{status.detail}</span>
+        {!review?.presentation ? <span>{status.detail}</span> : null}
       </div>
       {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
-      <p className="chatPlainEvidence">{review?.missing.length ? `Falta precisar: ${review.missing.join(", ")}.` : "Comprueba la versión de las normas y su aplicación temporal al caso."}</p>
+      {!review?.presentation ? <p className="chatPlainEvidence">Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
       {review?.claims.length ? <details className="chatTechnicalDetails">
         <summary>Qué comprobó ACE</summary>
         <p>Revisión automática de afirmaciones; no sustituye la revisión de un especialista.</p>
@@ -751,7 +764,7 @@ function MessageEvidence({
             {(assessment.lexicalScore * 100).toFixed(0)}%
           </small>
           <CoverageGrid coverage={assessment.coverage} />
-          {assessment.evidenceWarnings?.length ? (
+          {!assessment.evidenceReview?.presentation && assessment.evidenceWarnings?.length ? (
             <div className="warningList">
               <AlertTriangle size={15} />
               <span>{assessment.evidenceWarnings.join(" ")}</span>
@@ -1287,8 +1300,9 @@ function LegalChatSession() {
                     </span>
                   ) : (
                     <div className="msgBubbleBody">
-                      <AnswerContent
+                      <ReviewedAnswerContent
                         content={message.content}
+                        review={message.assessment?.evidenceReview}
                         onOpenSources={(references) => setSelectedReferences(references)}
                         sources={message.sources ?? []}
                       />
@@ -1305,7 +1319,7 @@ function LegalChatSession() {
                     />
                   ) : null}
 
-                  {!message.streaming && message.citationWarnings?.length ? (
+                  {!message.streaming && !message.assessment?.evidenceReview?.presentation && message.citationWarnings?.length ? (
                     <div className="msgCitationWarning">
                       <AlertTriangle size={15} />
                       <div>

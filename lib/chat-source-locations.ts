@@ -29,7 +29,7 @@ export function checkedSourcePages(start: number | null, end: number | null, tot
 }
 
 /** Solo publica ubicaciones registradas, nunca páginas inventadas por el modelo. */
-export function chatSourceLocations(answer: string, sources: LocatedSource[]) {
+export function chatSourceLocations(answer: string, sources: LocatedSource[], options?: { compact?: boolean }) {
   const cited = new Set<number>();
   for (const number of citedSourceNumbers(answer)) {
     const index = number - 1;
@@ -44,6 +44,7 @@ export function chatSourceLocations(answer: string, sources: LocatedSource[]) {
       : "página no disponible en la fuente registrada";
     const verification = start ? (source.pageCount ? "rango comprobado contra el número de páginas registrado del PDF" : "ubicación registrada; total de páginas no disponible") : "";
     const provision = source.article ? `artículo ${source.article}${source.numeral ? `, numeral ${source.numeral}` : ", numeral no registrado"}` : "artículo/numeral propio no registrado";
+    if (options?.compact) return `- [F${index + 1}] ${source.documentTitle} · ${location}${source.article ? ` · artículo ${source.article}` : ""}${source.numeral ? `, numeral ${source.numeral}` : ""}${source.version ? ` · ${source.version}` : ""}`;
     return `- [F${index + 1}] ${source.documentTitle} · ${location} · ${provision} · versión: ${source.version ?? "no registrada"}${verification ? ` (${verification}; no verifica la aplicabilidad jurídica)` : ""}`;
   });
   return `\n\n**Documentos y páginas citados**\n${lines.join("\n")}`;

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { auditEvidence, evidenceClaims, initialEvidenceReview, limitedEvidenceAnswer, selectCoherentEvidence, validateEvidenceVerdict, isRegimeComparison } from "@/lib/chat-evidence-audit";
+import { auditEvidence, evidenceClaims, initialEvidenceReview, selectCoherentEvidence, validateEvidenceVerdict, isRegimeComparison } from "@/lib/chat-evidence-audit";
+import { publishEvidence } from "@/lib/chat-evidence-publication";
 import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
 
 // Synthetic rules only: these are NOT statements of Peruvian law.
@@ -10,12 +11,12 @@ const verdict = (status: string = "supported", quote = sources[0].excerpt) => JS
 describe("publicación con respaldo documental", () => {
   it("comprueba todas las líneas, incluidas las que no tienen cita", () => {
     expect(evidenceClaims(`**Respuesta directa**\n${claim}\nUna segunda conclusión sin cita.`)).toHaveLength(2);
-    expect(() => validateEvidenceVerdict(verdict(), evidenceClaims(`${claim}\nUna segunda conclusión sin cita.`), sources)).toThrow();
+    expect(validateEvidenceVerdict(verdict(), evidenceClaims(`${claim}\nUna segunda conclusión sin cita.`), sources)[1].status).toBe("insufficient");
   });
   it("rechaza pasajes inventados, marcadores ajenos y revisiones duplicadas", () => {
     expect(validateEvidenceVerdict(verdict("supported", "Este pasaje no figura en el documento"), evidenceClaims(claim), sources)[0].status).toBe("insufficient");
     expect(validateEvidenceVerdict(verdict(), evidenceClaims("Otra regla [F99]"), sources)[0].status).toBe("insufficient");
-    expect(() => validateEvidenceVerdict(JSON.stringify({ claims: Array(2).fill(JSON.parse(verdict()).claims[0]) }), evidenceClaims(claim), sources)).toThrow();
+    expect(validateEvidenceVerdict(JSON.stringify({ claims: Array(2).fill(JSON.parse(verdict()).claims[0]) }), evidenceClaims(claim), sources)[0].status).toBe("insufficient");
   });
   it("distingue respaldo automático de aplicación incluso con contexto completo", async () => {
     const review = await auditEvidence(claim, sources, { regime: "declarado", dates: "fecha declarada", facts: "hechos declarados", object: "objeto declarado" }, async () => verdict());
@@ -28,7 +29,7 @@ describe("publicación con respaldo documental", () => {
     expect(checkCitationFaithfulness(wrong, sources).ok).toBe(true); // numeric presence alone is insufficient
     const review = await auditEvidence(wrong, sources, undefined, async () => verdict("contradicted"));
     expect(review.documentary).toBe("unchecked");
-    expect(limitedEvidenceAnswer(sources, review)).not.toContain(wrong);
+    expect(publishEvidence(wrong, sources, review, "¿Qué garantía corresponde?")).not.toContain(wrong);
   });
   it("cierra ante error o JSON inválido y conserva límites explícitos", async () => {
     for (const complete of [async () => "{}", async () => { throw new Error("provider unavailable"); }]) {

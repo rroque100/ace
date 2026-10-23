@@ -1,17 +1,18 @@
+import { publishEvidence } from "./chat-evidence-publication";
+import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
-import { hasMissingCritical, reconcileAssessment } from "./chat-signals";
-import { auditEvidence, selectCoherentEvidence, sourceNormIdentity, evidenceStatusText, initialEvidenceReview, limitedEvidenceAnswer, type EvidenceReview } from "./chat-evidence-audit";
+import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
+import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
 import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
-import { chatSourceLocations, checkedSourcePages, citedSourceNumbers, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
+import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
-import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
@@ -829,36 +830,29 @@ function applySystemConfidence(answer: string, _confidence: SourceAssessment["co
 /** Same publication gate for normal responses and streamed responses. */
 async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input: z.infer<typeof chatRequestSchema>) {
   answer = applySystemConfidence(answer, "baja");
-  const numeric = applyCitationFaithfulnessWarning(answer, prep.sources, prep.assessment);
   const review = prep.status === "generate" ? await auditEvidence(answer, prep.sources, input.caseContext, async (system, payload) => {
     const response = await getOpenAIClient().responses.create({
       model: legalAnswerModel, temperature: 0, max_output_tokens: 4500,
       input: [{ role: "system", content: system }, { role: "user", content: payload }],
     }, { timeout: 25000, maxRetries: 0, signal: AbortSignal.timeout(25000) });
     return response.output_text;
-  }, input.question) : initialEvidenceReview(input.caseContext);
-  if (!numeric.ok) {
-    review.documentary = "unchecked";
-    review.warnings.push(...numeric.issues.map(issue => issue.reason));
-  }
+  }, input.question) : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
+    failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
+  answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
+  review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
-  // Retained only for old API consumers; never high while applicability is pending.
   prep.assessment.confidence = review.documentary === "checked" ? "media" : "baja";
   prep.assessment.evidenceWarnings = [...new Set([...prep.assessment.evidenceWarnings, ...review.warnings])];
-  prep.assessment.reason = review.documentary === "checked"
-    ? "Comprobación automática de afirmaciones completada; aplicación al caso pendiente."
-    : "La respuesta no tiene una comprobación completa de sus afirmaciones.";
-  if (prep.status === "generate" && review.documentary !== "checked") answer = limitedEvidenceAnswer(prep.sources, review);
-  const namedNorms = [...new Set(citedSourceNumbers(answer).map(n => prep.sources[n - 1]).filter(Boolean).map(sourceNormIdentity).filter(Boolean))];
-  if (prep.status === "generate" && review.documentary === "checked") {
-    answer = `**Alcance documental**\n${namedNorms.length ? `Respuesta basada en documentos que identifican la Ley ${namedNorms.join(" y ")}. ` : "Respuesta basada en los documentos citados. "}No se ha confirmado su aplicación temporal a tu caso.\n\n${answer}`;
-  }
-  if (prep.status === "generate" && review.documentary !== "checked" && prep.caseDocuments.length) {
+  prep.assessment.reason = review.presentation === "verified" ? "Respaldo documental comprobado; aplicación al caso pendiente."
+    : review.presentation === "partial" ? "Se conservan únicamente las afirmaciones respaldadas."
+    : review.presentation === "literal" ? "Se muestra un pasaje literal pertinente, sin confirmar una conclusión generada."
+    : "No se obtuvo evidencia suficiente para responder.";
+  if (review.presentation !== "verified" && prep.caseDocuments.length) {
     answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
   }
-  answer += evidenceStatusText(review);
   answer += caseAttachmentsFooter(prep.caseDocuments);
-  answer += chatSourceLocations(answer, prep.sources);
+  answer += reviewFooter(review);
+  answer += chatSourceLocations(answer, prep.sources, { compact: true });
   return { answer, review };
 }
 
@@ -1921,30 +1915,6 @@ No escribas el nivel de confianza; el sistema lo agregara despues con una evalua
   };
 
   return { status: "generate", generationParams, assessment, sources, chatFilters, caseDocuments };
-}
-
-// Verifica fidelidad de citas sobre la respuesta generada y, si algun dato
-// especifico citado no consta en su fragmento, añade una advertencia visible en
-// la evidencia (el cliente la muestra). Es una red de seguridad anti-misatribucion.
-function applyCitationFaithfulnessWarning(
-  answer: string,
-  sources: LegalSource[],
-  assessment: SourceAssessment,
-) {
-  const faithfulness = checkCitationFaithfulness(answer, sources);
-  const invalidMarkers = citedSourceNumbers(answer).filter((number) => number < 1 || number > sources.length);
-  for (const marker of invalidMarkers) faithfulness.issues.push({ datum: `[F${marker}]`, markers: [marker], reason: `La cita [F${marker}] no corresponde a ninguna fuente recuperada; no puede comprobarse.` });
-  faithfulness.ok = faithfulness.issues.length === 0;
-  if (!faithfulness.ok) {
-    assessment.evidenceWarnings = [
-      ...assessment.evidenceWarnings,
-      `Verificacion de citas: ${faithfulness.issues.length} dato(s) citado(s) (${faithfulness.issues
-        .map((issue) => issue.datum)
-        .slice(0, 3)
-        .join(", ")}) no se hallaron en el fragmento citado; confirme en el texto original.`,
-    ];
-  }
-  return faithfulness;
 }
 
 export async function answerLegalQuestion(

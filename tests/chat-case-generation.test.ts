@@ -30,7 +30,7 @@ it("declara datos y fuentes faltantes sin generar una conclusión cuando no hay 
   mocks.search.mockResolvedValue([]);
   mocks.rest.mockResolvedValue([]);
   const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cómo revisar un recurso de apelación?" }), auth);
-  expect(result.answer).toContain("Información faltante y límites");
+  expect(result.answer).toContain("Verificación y límites");
   expect(result.answer).toContain("régimen aplicable, fechas relevantes, objeto contractual, hechos del caso");
   expect(mocks.create).not.toHaveBeenCalled();
 });
@@ -40,7 +40,7 @@ it("aplica contexto a búsqueda y reglas de evidencia al generador sin imponer r
   expect(mocks.search.mock.calls[0][0]).toContain("admisibilidad");
   const params = mocks.create.mock.calls[0][0];
   expect(params.input[0].content).toContain("Responde solo con las fuentes disponibles");
-  expect(params.input[0].content).toContain("Información faltante y límites");
+  expect(params.input[0].content).toContain("Verificación y límites");
   expect(params.input[0].content).not.toContain("El marco vigente es");
   expect(params.input[1].content).toContain(JSON.stringify(context));
   expect(params.input[1].content).toContain("Acuerdo de Sala Plena, pagina 2");
@@ -105,7 +105,7 @@ it("no transmite ninguna parte de una conclusión contradicha antes de sustituir
   const deltas = events.filter(event => event.type === "delta");
   expect(deltas).toHaveLength(1);
   expect(JSON.stringify(deltas)).not.toContain("BORRADOR INSEGURO");
-  expect(deltas[0].text).toContain("No puedo confirmar");
+  expect(deltas[0].text).toContain("Lectura del documento");
   const done = events.at(-1);
   expect(done?.type === "done" && done.assessment?.evidenceReview?.documentary).toBe("unchecked");
   expect(events.findIndex(event => event.type === "progress" && event.stage === "checking")).toBeLessThan(events.findIndex(event => event.type === "delta"));
