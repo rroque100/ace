@@ -21,7 +21,7 @@ import {
 } from "./legal-workspace-tools";
 import { SaveButton } from "./save-button";
 import { PdfCiteButton } from "./pdf-cite-viewer";
-import { documentTypeLabel } from "@/lib/legal-taxonomy";
+import { documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
 import { extendedFiltersFromParams } from "@/lib/legal-workspace-filters";
 import {
@@ -351,6 +351,7 @@ export function DocumentSearchWorkspace() {
   const activeRequest = useRef<AbortController | null>(null);
   const requestSequence = useRef(0);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const controller = new AbortController();
     fetch("/api/search/catalogue", { signal: controller.signal })
@@ -419,6 +420,11 @@ export function DocumentSearchWorkspace() {
       JSON.stringify({ ...lastInput, page: 1 }) !==
         JSON.stringify(currentInput),
   );
+  useEffect(() => {
+    if (result && !dirty && document.activeElement !== inputRef.current) {
+      resultsRef.current?.scrollIntoView({ block: "start", behavior: "auto" });
+    }
+  }, [result, dirty]);
   async function run(page = 1, override?: DocumentSearchInput) {
     activeRequest.current?.abort();
     const controller = new AbortController();
@@ -804,7 +810,7 @@ export function DocumentSearchWorkspace() {
                 ]
                   .sort()
                   .map((value) => (
-                    <option key={value}>{value}</option>
+                    <option key={value} value={value}>{value === "todos" ? "Aplicación general" : processTypeLabel(value) || value}</option>
                   ))}
                 {filters.processType &&
                 !catalogue.some(
@@ -875,12 +881,12 @@ export function DocumentSearchWorkspace() {
       ) : null}
       {loading ? (
         <p className="documentSearchStatus" role="status">
-          Buscando documentos. Puedes seguir revisando los resultados
-          anteriores.
+          {result ? "Buscando documentos. Puedes seguir revisando los resultados anteriores." : "Buscando coincidencias en los documentos disponibles…"}
         </p>
       ) : null}
       {result ? (
         <section
+          ref={resultsRef}
           className="documentSearchResults"
           aria-label="Resultados de búsqueda"
           aria-busy={loading}
@@ -936,7 +942,7 @@ export function DocumentSearchWorkspace() {
               </label>
             </div>
           </div>
-          {dirty ? (
+          {dirty && !loading ? (
             <p className="documentSearchPending" role="status">
               Has cambiado la consulta o los filtros. Pulsa «Buscar documentos»
               para aplicarlos.
