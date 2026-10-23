@@ -73,6 +73,7 @@ export async function POST(request: Request) {
       { error: "El archivo supera 4 MiB." },
       { status: 413 },
     );
+  let stage = "form";
   try {
     const form = await request.formData();
     const file = form.get("file");
@@ -89,6 +90,7 @@ export async function POST(request: Request) {
     const bytes = new Uint8Array(await file.arrayBuffer());
     validateCaseFile(bytes, file.type);
     let sessionId = String(form.get("sessionId") ?? "");
+    stage = "session_access";
     const existing = sessionId
       ? await listCaseAttachments(
           auth.user.accessToken,
@@ -109,7 +111,9 @@ export async function POST(request: Request) {
     let pageCount: number | null = null;
     let method = "imagen-ia";
     if (file.type === "application/pdf") {
+      stage = "pdf_import";
       const { extractPdfText } = await import("@/lib/pdf-processing");
+      stage = "pdf_read";
       const extracted = await extractPdfText(file, {
         forceOcr: true,
         ocrMaxPages: 10,
@@ -125,6 +129,7 @@ export async function POST(request: Request) {
       pageCount = extracted.pageCount;
       method = extracted.extractionMethod;
     } else {
+      stage = "image_read";
       const { getOpenAIClient, legalAnswerModel } = await import(
         "@/lib/openai-server"
       );
@@ -160,6 +165,7 @@ export async function POST(request: Request) {
         },
         { status: 422 },
       );
+    stage = "session_create";
     if (!sessionId) {
       const [session] = await supabaseUserRest<Array<{ id: string }>>(
         auth.user.accessToken,
@@ -183,10 +189,12 @@ export async function POST(request: Request) {
           ? "png"
           : "jpg";
     const storagePath = `case-attachments/${auth.user.id}/${sessionId}/${id}.${extension}`;
+    stage = "private_storage";
     await storeCaseFile(storagePath, bytes, file.type);
     const name =
       file.name.replace(/[\r\n\[\]<>]/g, " ").slice(0, 160) ||
       `Documento.${extension}`;
+    stage = "attachment_record";
     await supabaseUserRest(auth.user.accessToken, "chat_messages", {
       method: "POST",
       body: JSON.stringify({
@@ -211,13 +219,20 @@ export async function POST(request: Request) {
       sessionId,
       document: { id, name, partial, pageCount, method },
     });
-  } catch {
-    return NextResponse.json(
-      {
-        error:
-          "No se pudo leer o guardar el adjunto. Comprueba el formato y que la conversación sea tuya; reintenta con un archivo más pequeño.",
-      },
-      { status: 422 },
-    );
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    const reason = /Cannot find|Cannot resolve|MODULE_NOT_FOUND/i.test(message) ? "dependency_missing" : /Invalid PDF|bad XRef|PDF structure/i.test(message) ? "pdf_structure" : "operation_failed";
+    console.warn(JSON.stringify({ event: "case_attachment_failed", stage, reason }));
+    const messages: Record<string, string> = {
+      form: "No se pudo validar el archivo. Selecciona un PDF, PNG o JPEG de hasta 4 MiB.",
+      session_access: "No se pudo comprobar el acceso a esta conversación. Reabre el chat e inténtalo de nuevo.",
+      pdf_import: "El lector de PDF no está disponible en el servidor. Puedes adjuntar una imagen mientras se restablece.",
+      pdf_read: "El lector no pudo procesar este PDF. Prueba exportarlo nuevamente o adjunta una imagen.",
+      image_read: "No se pudo transcribir la imagen. Reintenta con una imagen más clara.",
+      session_create: "No se pudo preparar la conversación privada. Reabre ACE y reintenta.",
+      private_storage: "No se pudo guardar el original en el almacenamiento privado. Reintenta la carga.",
+      attachment_record: "No se pudo registrar el adjunto en esta conversación. Reintenta la carga.",
+    };
+    return NextResponse.json({ error: messages[stage] ?? "No se pudo cargar el adjunto.", code: `CASE_${stage.toUpperCase()}_${reason.toUpperCase()}` }, { status: 422 });
   }
 }
