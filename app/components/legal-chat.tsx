@@ -40,6 +40,7 @@ import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } f
 
 type ChatSource = {
   requestedOriginal?: boolean;
+  referenceRelation?: "original" | "cites_requested" | "related";
   pageCount?: number | null;
   article: string | null;
   sectionTitle?: string | null;
@@ -486,7 +487,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
       </div>
       <div className="sourceExactBox">
         <strong>{reference.source.pageCount ? "Ubicación con rango comprobado" : "Ubicación registrada"}</strong>
-        {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : "Documento relacionado; no sustituye al original solicitado"}</span> : null}
+        {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : reference.source.referenceRelation === "cites_requested" ? "Menciona al documento solicitado; evidencia indirecta" : "Material relacionado; no sustituye al original solicitado"}</span> : null}
         <span>{sourcePrecisionLabel(reference.source)}</span>
         <small>La ubicación del fragmento no acredita por sí sola vigencia ni aplicabilidad jurídica.</small>
         <small>

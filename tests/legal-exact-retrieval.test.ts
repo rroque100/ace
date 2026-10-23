@@ -12,6 +12,7 @@ it("antepone el original aunque otra resolución mencione su identificador", asy
   const result = await searchLegalSources({ query, topK: 5 });
   expect(result.sources[0]).toMatchObject({ documentId: "original", requestedOriginal: true, pageCount: 4 });
   expect(result.sources.find((source) => source.documentId === "other")?.requestedOriginal).toBe(false);
+  expect(result.sources.find((source) => source.documentId === "other")?.referenceRelation).toBe("cites_requested");
   expect(result.assessment.exactDocument?.status).toBe("found");
   expect(mocks.rest.mock.calls[0][0]).toContain("es_institucional=eq.true");
 });

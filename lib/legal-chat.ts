@@ -87,6 +87,7 @@ type DocumentChunk = {
 export type LegalSource = {
   pageCount?: number | null;
   requestedOriginal?: boolean;
+  referenceRelation?: "original" | "cites_requested" | "related";
   regime?: string | null;
   citation: string;
   chunkId: string;
@@ -733,7 +734,7 @@ function buildContext(sources: LegalSource[]) {
       (source, index) => `[F${index + 1}]
 Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.documentNumber})` : ""}
 Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
-Relación con el identificador solicitado: ${source.requestedOriginal ? "documento original identificado en el catálogo" : "fuente recuperada; no acredita por sí sola ser el original solicitado"}
+Relación con el identificador solicitado: ${source.referenceRelation === "original" ? "documento original identificado en el catálogo" : source.referenceRelation === "cites_requested" ? "el fragmento menciona el documento solicitado; evidencia indirecta" : "material relacionado; no acredita ser el original solicitado"}
 Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
@@ -1275,7 +1276,10 @@ export async function searchLegalSources(
     }),
   );
   const exactSources = exactChunks.map((chunk) => ({ ...chunkToSource(chunk, { matchType: "lexical", query: queryUsed }), requestedOriginal: true }));
-  const combined = [...exactSources, ...semanticSources, ...lexicalSources].map((source) => ({ ...source, requestedOriginal: references.length ? originalIds.has(source.documentId) : undefined })).filter((source) =>
+  const combined = [...exactSources, ...semanticSources, ...lexicalSources].map((source): LegalSource => ({
+    ...source, requestedOriginal: references.length ? originalIds.has(source.documentId) : undefined,
+    referenceRelation: !references.length ? undefined : originalIds.has(source.documentId) ? "original" : references.some((reference) => matchesDocumentReference(reference, { documentType: reference.documentType, title: source.excerpt })) ? "cites_requested" : "related",
+  })).filter((source) =>
     sourceMatchesFilters(source, filters),
   );
 
