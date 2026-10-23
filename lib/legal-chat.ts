@@ -8,6 +8,8 @@ import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInst
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
+import { hasMissingCritical, reconcileAssessment } from "./chat-signals";
+import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
 import {
   assessProcedureSourceCoverage,
@@ -285,15 +287,22 @@ function filterAnswerSources(sources: LegalSource[]) {
   return sources.filter((source) => answerDocumentTypes.has(source.documentType));
 }
 
+// Plazas reservadas por tipo en la selección jerárquica. El Reglamento tiene 4:
+// es donde la Ley remite para el dato concreto (porcentajes, montos, plazos) y
+// con 2 el artículo que respondía «plazo mínimo de ofertas en comparación de
+// precios» (art. 68) quedaba fuera frente a los arts. 97 y 98, que describen el
+// procedimiento pero no traen el plazo.
+const HIERARCHICAL_SLOTS: Record<string, number> = { ley: 2, reglamento: 4, directiva: 2, opinion: 1 };
+
 function selectHierarchicalAnswerSources(candidates: LegalSource[], topK: number) {
-  const allowed = filterAnswerSources(candidates);
+  const allowed = dedupeArticleCopies(filterAnswerSources(candidates));
   const selected: LegalSource[] = [];
   const selectedIds = new Set<string>();
 
   for (const documentType of ["ley", "reglamento", "directiva", "opinion"]) {
     const bestForType = allowed
       .filter((source) => source.documentType === documentType)
-      .slice(0, documentType === "opinion" ? 1 : 2);
+      .slice(0, HIERARCHICAL_SLOTS[documentType] ?? 2);
 
     for (const source of bestForType) {
       if (!selectedIds.has(source.chunkId)) {
@@ -303,18 +312,11 @@ function selectHierarchicalAnswerSources(candidates: LegalSource[], topK: number
     }
   }
 
-  for (const source of allowed) {
-    if (selected.length >= topK) {
-      break;
-    }
+  // Completa con un tope por documento: una norma extensa (la Ley 27444) llenaba
+  // 6-7 de las 8 plazas y desplazaba al Reglamento que sí respondía.
+  const filled = fillWithDocumentCap(selected, allowed, topK);
 
-    if (!selectedIds.has(source.chunkId)) {
-      selected.push(source);
-      selectedIds.add(source.chunkId);
-    }
-  }
-
-  return selected
+  return filled
     .sort((a, b) => {
       const priorityDelta = (normativePriority[b.documentType] ?? 0) - (normativePriority[a.documentType] ?? 0);
       if (priorityDelta !== 0) {
@@ -501,10 +503,6 @@ function expandQueryForRecall(query: string) {
   const articleBoost = requestedArticle ? [`articulo ${requestedArticle}`, `art. ${requestedArticle}`] : [];
 
   return uniqueTokens([...tokens, ...expansions, ...articleBoost]).join(" ");
-}
-
-function escapeIlikeValue(value: string) {
-  return value.replaceAll("\\", "\\\\").replaceAll("*", "").replaceAll(",", " ");
 }
 
 function normalizeComparable(value: string | null | undefined) {
@@ -913,6 +911,11 @@ function evidenceQualityScore(source: LegalSource, query: string) {
   );
 }
 
+// Relevancia sin bonos ni tope: señales de coincidencia con la consulta.
+function relevanceOf(source: LegalSource) {
+  return Math.max(source.semanticScore, source.rerankScore) * 0.54 + source.lexicalScore * 0.27;
+}
+
 function rerankSources(sources: LegalSource[], query: string, topK: number) {
   const queryArticle = detectRequestedArticle(query);
   const byChunk = new Map<string, LegalSource>();
@@ -952,7 +955,17 @@ function rerankSources(sources: LegalSource[], query: string, topK: number) {
         return b.evidenceQuality - a.evidenceQuality;
       }
 
-      return b.score - a.score;
+      if (b.score !== a.score) {
+        return b.score - a.score;
+      }
+
+      // La calidad y el score se saturan en 1,0 (suman bonos por tener página,
+      // artículo, tema y vigencia), de modo que casi todos los fragmentos del
+      // Reglamento empataban y quedaba el primero en llegar, no el más relevante:
+      // para «plazo mínimo de ofertas en comparación de precios» ganaba el art. 97
+      // (coincidencia literal 0,50) sobre el art. 68, que contiene la respuesta
+      // (0,63-0,90). Desempata por relevancia real.
+      return relevanceOf(b) - relevanceOf(a);
     })
     .slice(0, topK);
 }
@@ -1111,21 +1124,31 @@ async function fetchChunksByVectorIds(vectorIds: string[]) {
 }
 
 async function searchLexicalChunks(query: string, limit: number) {
-  const tokens = uniqueTokens(tokenizeEvidenceText(query)).slice(0, 8);
+  const tokens = uniqueTokens(tokenizeEvidenceText(query));
 
   if (tokens.length === 0) {
     return [];
   }
 
-  const clauses = tokens
-    .map((token) => `content.ilike.*${escapeIlikeValue(token)}*`)
-    .join(",");
+  const select =
+    "documents.es_institucional=eq.true&documents.status=eq.indexed&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)";
+  const search = (filter: string) => supabaseRest<DocumentChunk[]>(`document_chunks?${filter}&${select}&limit=${limit}`);
 
-  return supabaseRest<DocumentChunk[]>(
-    `document_chunks?or=(${encodeURIComponent(
-      clauses,
-    )})&documents.es_institucional=eq.true&documents.status=eq.indexed&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)&limit=${limit}`,
-  );
+  // De lo más exigente (AND de las palabras específicas) a lo más amplio (OR).
+  // El OR sobre 8 palabras sin orden devolvía las primeras filas físicas de la
+  // tabla (la Ley 27444) y dejaba fuera al Reglamento. Ver lib/chat-lexical.ts.
+  const found: DocumentChunk[] = [];
+  const seen = new Set<string>();
+  for (const step of lexicalPlan(tokens)) {
+    for (const chunk of await search(lexicalFilter(step.tokens, step.mode))) {
+      if (!seen.has(chunk.id)) {
+        seen.add(chunk.id);
+        found.push(chunk);
+      }
+    }
+    if (found.length >= Math.min(limit, 12)) break;
+  }
+  return found.slice(0, limit);
 }
 
 function chunkToSource(
@@ -1607,6 +1630,13 @@ async function prepareLegalAnswer(
         ),
       )
     : [];
+  // La Ley casi siempre remite al Reglamento para el dato concreto (porcentajes,
+  // montos, plazos). En recuperación abierta la Ley domina —y la LPAG, por
+  // volumen—, y el Reglamento no entraba aunque la pregunta lo nombrara
+  // (medido: «artículo 113 del Reglamento» no recuperaba ningún fragmento suyo).
+  // Por eso toda consulta jurídica lleva siempre una pasada tipada al Reglamento.
+  const alwaysScopedTypes = likelyLegal || /reglamento/i.test(contextualQuery) ? ["reglamento"] : [];
+  const scopedTypes = Array.from(new Set([...criticalScopedTypes, ...alwaysScopedTypes]));
   const [searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
     await Promise.all([
       searchLegalSources({
@@ -1631,7 +1661,7 @@ async function prepareLegalAnswer(
             topK: 14,
           })
         : Promise.resolve(null),
-      ...criticalScopedTypes.map((documentType) =>
+      ...scopedTypes.map((documentType) =>
         searchLegalSources({
           filters: { ...chatFilters, documentType, processType: "" },
           query: anchoredQuery,
@@ -1677,7 +1707,14 @@ async function prepareLegalAnswer(
   });
   const candidateCoverage = buildCoverage(candidateSources);
   assessment.exactDocument = searchResult.assessment.exactDocument;
-  assessment.evidenceWarnings.push(...searchResult.assessment.evidenceWarnings.filter((warning) => !assessment.evidenceWarnings.includes(warning)));
+  // «Faltan fuentes críticas» de la primera pasada NO se hereda: ya se recalculó
+  // sobre las fuentes FINALES (que incluyen la pasada tipada al Reglamento), y
+  // arrastrar la antigua marcaba como incompleta una respuesta que sí lo traía.
+  assessment.evidenceWarnings.push(
+    ...searchResult.assessment.evidenceWarnings.filter(
+      (warning) => !hasMissingCritical([warning]) && !assessment.evidenceWarnings.includes(warning),
+    ),
+  );
   if (assessment.exactDocument && assessment.exactDocument.status !== "found") assessment.confidence = "baja";
   assessment.coverage = {
     ...assessment.coverage,
@@ -1718,6 +1755,14 @@ async function prepareLegalAnswer(
         )} puede faltar el Reglamento/directiva exacto; lo que sigue se basa en las fuentes recuperadas. Verifica el Reglamento aplicable antes de decidir.`,
     ];
   }
+
+  // La confianza y el motivo que ve el usuario deben reflejar lo que el propio
+  // sistema detectó (fuentes críticas ausentes, vigencia sin confirmar): antes
+  // quedaban en «media/suficientes» con la advertencia escondida en un panel.
+  Object.assign(
+    assessment,
+    reconcileAssessment(assessment, { question: input.question, sources }),
+  );
 
   // Alcance por RELEVANCIA de lo recuperado (no por lista de palabras). La
   // consulta esta dentro del corpus si: coincide vocabulario legal (señal

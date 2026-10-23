@@ -3054,6 +3054,18 @@ textarea:focus,
   gap: 2px;
 }
 
+/* Advertencias que cambian cómo usar la respuesta (fuentes críticas ausentes,
+   vigencia sin confirmar): visibles en la propia tarjeta, no en un panel plegado. */
+.answerUseWarnings {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0 0 0 16px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .answerUseCard strong {
   color: var(--ink);
   font-size: 13px;
