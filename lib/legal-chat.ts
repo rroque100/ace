@@ -1,3 +1,4 @@
+import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
 import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
@@ -1202,6 +1203,7 @@ function chunkToSource(
 
 export async function searchLegalSources(
   input: z.infer<typeof semanticSearchRequestSchema>,
+  options?: { diversifyDocuments?: boolean; allowedDocumentIds?: string[] },
 ): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean }> {
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
@@ -1212,7 +1214,7 @@ export async function searchLegalSources(
   };
   const queryUsed = normalizeQuestionForSearch(input.query);
   const expandedQuery = expandQueryForRecall(queryUsed);
-  const semanticTopK = Math.min(60, Math.max(input.topK * (filters.regime ? 4 : 2), 10));
+  const semanticTopK = options?.diversifyDocuments ? 60 : Math.min(60, Math.max(input.topK * (filters.regime ? 4 : 2), 10));
   const references = documentReferences(input.query);
   let catalogueUnavailable = false;
   const originalIds = new Set<string>();
@@ -1290,7 +1292,7 @@ export async function searchLegalSources(
     ...source, requestedOriginal: references.length ? originalIds.has(source.documentId) : undefined,
     referenceRelation: !references.length ? undefined : originalIds.has(source.documentId) ? "original" : references.some((reference) => matchesDocumentReference(reference, { documentType: reference.documentType, title: source.excerpt })) ? "cites_requested" : "related",
   })).filter((source) =>
-    sourceMatchesFilters(source, filters),
+    sourceMatchesFilters(source, filters) && (!options?.allowedDocumentIds || options.allowedDocumentIds.includes(source.documentId)),
   );
 
   // Reranking dedicado (modelo): reordena por relevancia real del fragmento
@@ -1312,7 +1314,8 @@ export async function searchLegalSources(
   }
 
   const originals = rerankSources(combined.filter((source) => source.requestedOriginal), queryUsed, Math.min(4, input.topK));
-  const sources = [...originals, ...rerankSources(combined, queryUsed, input.topK).filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, input.topK);
+  const ranked = [...originals, ...rerankSources(combined, queryUsed, options?.diversifyDocuments ? 100 : input.topK).filter((source) => !originals.some((original) => original.chunkId === source.chunkId))];
+  const sources = options?.diversifyDocuments ? diversifyDocumentCandidates(ranked,input.topK) : ranked.slice(0,input.topK);
   const assessment = assessSources(sources, {
     processType: filters.processType, queryUsed,
     scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",

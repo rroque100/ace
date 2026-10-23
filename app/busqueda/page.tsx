@@ -1,5 +1,5 @@
 import { AppShell } from "../components/app-shell";
-import { SemanticSearch } from "../components/semantic-search";
+import { DocumentSearchWorkspace } from "../components/document-search-workspace";
 
 export default function BusquedaPage() {
   return (
@@ -10,7 +10,7 @@ export default function BusquedaPage() {
       title="Búsqueda documental"
     >
       <section className="singleWorkspace">
-        <SemanticSearch />
+        <DocumentSearchWorkspace />
       </section>
     </AppShell>
   );

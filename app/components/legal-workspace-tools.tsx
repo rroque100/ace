@@ -126,7 +126,7 @@ type SearchEntry = {
   id: string;
   title: string;
   created_at: string;
-  metadata: { query: string; filters: Record<string, unknown>; topK?: number };
+  metadata: { query: string; filters: Record<string, unknown>; topK?: number; searchMode?: "literal"|"semantic"; sort?: "relevance"|"newest"|"oldest"; pageSize?: 5|10|20 };
 };
 export function LegalSearchHistory({
   revision,
