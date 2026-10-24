@@ -20,5 +20,11 @@ No inferir régimen ni vigencia. No incluir consultas privadas en URLs. No alter
 
 ### Task 3: Fecha y publicación
 - [x] Filtrar por fecha original conocida con validación de intervalo y prueba de exclusión de fechas de carga.
-- [x] Ejecutar tipos, lint, 158 pruebas de regresión y compilación.
-- [ ] Revisar diff selectivo, publicar y comprobar despliegue y pantalla real.
+- [x] Ejecutar tipos, lint, 160 pruebas de regresión y compilación.
+- [x] Revisar diff selectivo, publicar y comprobar despliegue y pantalla real.
+
+## Verificación final
+
+Producción verificada con el commit `22b83435e3afcbab89f721b2706b9d5edb8da038`: IA propone consulta, modo, Opinión y 2026; confirmación ejecuta siete documentos. Navegación global propone Guardados, lo abre solo después de confirmar y permite regresar a Búsqueda con criterios conservados. La URL permanece `/busqueda`, sin texto de la consulta. Sugerencia real D000101 comprobada. Compilación, tipos, lint y 160 pruebas correctos.
+
+Se corrigieron dos diferencias reales del proveedor: filtros enviados como lista y navegación sin objeto de búsqueda. Ambas tienen pruebas de regresión. Las vistas previas eliminan ruido de validación identificado, sin alterar originales ni extracción usada por el chat. La revisión en un teléfono real permanece pendiente; no se declara una auditoría móvil completa.
