@@ -1,0 +1,40 @@
+import { z } from "zod";
+import { documentSearchRequestSchema } from "./document-search";
+import { OFFICIAL_CORPUS_TYPES } from "./official-corpus";
+
+export const assistantRequestSchema = z.object({ text: z.string().trim().min(3).max(500), scope: z.enum(["search", "global"]).default("search") });
+export const assistantProposalSchema = z.object({
+  destination: z.enum(["/busqueda", "/chat", "/normas", "/guardado", "/historial", "/archivo"]),
+  explanation: z.string().max(400), clarification: z.string().max(200).optional(),
+  search: documentSearchRequestSchema,
+});
+export type AssistantProposal = z.infer<typeof assistantProposalSchema>;
+export function parseAssistantProposal(text: string, scope: "search" | "global", original: string): AssistantProposal {
+  const parsed = assistantProposalSchema.parse(JSON.parse(text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "")));
+  if (scope === "search") parsed.destination = "/busqueda";
+  if (parsed.search.filters.documentType && !OFFICIAL_CORPUS_TYPES.some(type => type.value === parsed.search.filters.documentType)) throw new Error("Tipo desconocido");
+  // The assistant cannot introduce identity, hidden classification or applicability constraints.
+  const allowed = ["documentType", "year", "article"];
+  parsed.search.filters = Object.fromEntries(Object.entries(parsed.search.filters).filter(([key]) => allowed.includes(key)));
+  if (parsed.search.filters.year && !original.includes(String(parsed.search.filters.year))) delete parsed.search.filters.year;
+  if (parsed.search.filters.article && !original.includes(parsed.search.filters.article)) delete parsed.search.filters.article;
+  const exact = original.match(/["“]([^"”]+)["”]/)?.[1];
+  if (exact) { parsed.search.query = exact; parsed.search.mode = "literal"; }
+  parsed.search.page = 1;
+  return parsed;
+}
+export function fallbackProposal(text: string): AssistantProposal {
+  const exact=text.match(/["“]([^"”]+)["”]/)?.[1];
+  return { destination: "/busqueda", explanation: "La ayuda de IA no está disponible. Revisa y edita estos criterios para continuar.", search: documentSearchRequestSchema.parse({ query: exact || text, mode: exact || text.length < 5 ? "literal" : "semantic" }) };
+}
+export function catalogueSuggestions<T extends {title: string; documentId: string; documentNumber?: string | null}>(rows: T[], query: string): T[] {
+  const fold = (value:string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const terms = fold(query).trim().split(/\s+/);
+  if (query.trim().length < 2) return [];
+  return rows.filter(row => terms.every(term => fold(`${row.title} ${row.documentNumber ?? ""}`).includes(term))).slice(0, 6);
+}
+/** Preview only; original source and PDF remain untouched. */
+export function readableSearchPreview(text:string) {
+  const cleaned = text.split(/\n/).filter(line => !/^\s*(?:https?:\/\/\S+|firmado digitalmente por\b|firma digital\b|c[oó]digo de verificaci[oó]n\b)/i.test(line)).join("\n").trim();
+  return cleaned || text;
+}

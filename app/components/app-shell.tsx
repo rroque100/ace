@@ -1,3 +1,4 @@
+import { SearchAssistant } from "./search-assistant";
 import { getArchivoScopeLevel, getSessionUser, puedeUsarProcesos, type SessionUser } from "@/lib/auth";
 import { contarNecesidadesPendientes } from "@/lib/necesidades-bandeja";
 import { NAVEGACION, type ActiveId } from "@/lib/navegacion";
@@ -107,7 +108,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
               {showFiscalYear ? <YearSelector /> : null}
             </h1>
           </div>
-          {action}
+          <div className="topbarSearchActions">{user ? <SearchAssistant ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
         </header>
 
         {children}

@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { SearchAssistant } from "./search-assistant";
+import { catalogueSuggestions, readableSearchPreview } from "@/lib/search-assistant";
+import { documentSearchRequestSchema } from "@/lib/document-search";
 import { readSearchSession, searchSessionKey, sameSearchInput } from "@/lib/document-search-session";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -39,6 +42,7 @@ import {
 } from "@/lib/document-search";
 
 type CatalogueEntry = {
+  title: string; documentNumber?: string | null;
   documentId: string;
   dates?: { published: string | null; updated: string | null; imported: string | null; version: string | null };
   documentType: string;
@@ -69,6 +73,8 @@ const initialFilters = (params: { get: (key: string) => string | null }) =>
     ...extendedFiltersFromParams(params),
     ...Object.fromEntries(
       [
+        "publishedFrom",
+        "publishedTo",
         "documentId",
         "documentType",
         "article",
@@ -90,6 +96,7 @@ function Excerpt({
   query: string;
   literal: boolean; words?: boolean;
 }) {
+  text = readableSearchPreview(text);
   const parts = literal
     ? literalMatchParts(text, query)
     : words ? allWordsMatchParts(text, query) : [{ text, match: false }];
@@ -340,6 +347,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   const params = useSearchParams();
   const router = useRouter();
   const storageKey = searchSessionKey(ownerId, params.toString());
+  const [showSuggestions,setShowSuggestions]=useState(false);
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [mode, setMode] = useState<DocumentSearchInput["mode"]>("literal");
   const [filters, setFilters] = useState<DocumentSearchFilters>(() => {
@@ -442,6 +450,12 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       resultsRef.current?.scrollIntoView({ block: "start", behavior: "auto" });
     }
   }, [result, dirty]);
+  useEffect(()=>{
+    const receive=(event:Event)=>{const parsed=documentSearchRequestSchema.safeParse((event as CustomEvent).detail);if(parsed.success){setQuery(parsed.data.query);setMode(parsed.data.mode);setFilters(parsed.data.filters);void run(1,parsed.data);}};
+    window.addEventListener("ace:search-request",receive);
+    return ()=>window.removeEventListener("ace:search-request",receive);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[storageKey]);
   async function run(page = 1, override?: DocumentSearchInput) {
     activeRequest.current?.abort();
     const controller = new AbortController();
@@ -637,7 +651,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       <LegalCenterNav active="busqueda" filters={filters} />
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
       <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary><p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length} </span>)}</details>
-      <section className="documentSearchIntro">
+      <section className={`documentSearchIntro${result ? " compactSearchIntro" : ""}`}>
         <span className="documentSearchEyebrow">TU BIBLIOTECA JURÍDICA</span>
         <h2>Encuentra el documento que necesitas</h2>
         <p>
@@ -645,6 +659,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           coincidencias y consulta el original.
         </p>
       </section>
+      <SearchAssistant ownerId={ownerId} onApply={input=>{setQuery(input.query);setMode(input.mode);setFilters(input.filters);void run(1,input);}} />
       <form
         className="documentSearchForm"
         onSubmit={(event: FormEvent) => {
@@ -712,6 +727,8 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 : "Por ejemplo: documentos que debe presentar el proveedor antes de firmar"
             }
             aria-describedby="document-search-hint"
+            onFocus={()=>setShowSuggestions(true)}
+            onBlur={()=>setTimeout(()=>setShowSuggestions(false),150)}
           />
           <button
             className="primaryButton"
@@ -730,12 +747,14 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             {loading ? "Buscando…" : "Buscar documentos"}
           </button>
         </div>
+        {showSuggestions && catalogueSuggestions(catalogue,query).length ? <ul className="searchCatalogueSuggestions" aria-label="Documentos del catálogo">{catalogueSuggestions(catalogue,query).map(row=><li key={row.documentId}><button type="button" onClick={()=>{setQuery(row.title);setMode("literal");setFilters(current=>({...current,documentId:row.documentId}));setShowSuggestions(false);}}>{row.title}<small>Documento del catálogo · seleccionar</small></button></li>)}</ul> : null}
         <p id="document-search-hint" className="documentSearchHint">
           {mode !== "semantic"
             ? (mode === "all_words" ? "Se exigen todas las palabras en el mismo documento. Usa hasta diez palabras de al menos dos caracteres; pueden aparecer en pasajes distintos." : "Se ignoran mayúsculas, tildes y espacios repetidos. También puedes escribir un número documental o Artículo seguido del número.")
             : "Los resultados se eligen por relevancia. No representan todas las coincidencias del catálogo."}
         </p>
         {mode !== "semantic" ? <label className="documentLiteralChoice">Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
+        <details className="searchPublicationRange"><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
         {!mobileFilters ? primaryFilters : null}
         <button type="button" className="secondaryButton mobileFilterToggle" onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
         <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`documentSearchFilters${mobileFilters ? " mobileOpen" : ""}`}>
@@ -744,7 +763,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             <SlidersHorizontal size={17} />
             Más filtros
             {activeFilters.length
-              ? ` · ${activeFilters.length} ajustes`
+              ? ` · ${activeFilters.length} ${activeFilters.length===1?"ajuste":"ajustes"}`
               : " · opcional"}
           </summary>
           <h3>Clasificación guiada</h3>
@@ -949,7 +968,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 </button>
               </span>
             ) : null}
-            {activeFilters.filter(([key])=>key!=="documentId").map(([key,value])=><span key={key}>{({documentType:"Tipo",year:"Año",regime:"Régimen",object:"Objeto",subject:"Materia",guidedTopic:"Tema",sourceEntity:"Entidad",article:"Artículo",vigencia:"Vigencia",documentTypes:"Tipos",years:"Años",includeUnknownRegime:"Sin régimen revisado",processType:"Proceso",topic:"Tema",status:"Estado"} as Record<string,string>)[key] ?? key}: {filterDisplayValue(key,value)} <button type="button" aria-label={`Quitar filtro ${key}`} onClick={()=>setFilters(current=>{const next={...current}; delete next[key as keyof DocumentSearchFilters];return next;})}><X size={14}/></button></span>)}
+            {activeFilters.filter(([key])=>key!=="documentId").map(([key,value])=><span key={key}>{({publishedFrom:"Publicación desde",publishedTo:"Publicación hasta",documentType:"Tipo",year:"Año",regime:"Régimen",object:"Objeto",subject:"Materia",guidedTopic:"Tema",sourceEntity:"Entidad",article:"Artículo",vigencia:"Vigencia",documentTypes:"Tipos",years:"Años",includeUnknownRegime:"Sin régimen revisado",processType:"Proceso",topic:"Tema",status:"Estado"} as Record<string,string>)[key] ?? key}: {filterDisplayValue(key,value)} <button type="button" aria-label={`Quitar filtro ${filterDisplayValue(key,value)}`} onClick={()=>setFilters(current=>{const next={...current}; delete next[key as keyof DocumentSearchFilters];return next;})}><X size={14}/></button></span>)}
             <button type="button" onClick={() => setFilters({})}>
               Quitar filtros
             </button>

@@ -14,6 +14,8 @@ export async function GET() {
         documents: catalogue.map((row) => ({
           documentType: row.document_type,
           documentId: row.id,
+          title: row.title,
+          documentNumber: typeof row.metadata.documentNumber === "string" ? row.metadata.documentNumber : null,
           dates: documentaryDates(row.metadata),
           year:
             typeof row.metadata.year === "number" ? row.metadata.year : null,

@@ -87,6 +87,8 @@ const option = (values: { value: string }[]) =>
     )
     .optional();
 export const documentSearchFiltersSchema = extendedLegalFiltersSchema.extend({
+  publishedFrom: z.string().date().optional().or(z.literal("")),
+  publishedTo: z.string().date().optional().or(z.literal("")),
   documentId: z.string().uuid().optional().or(z.literal("")),
   documentType: z.string().max(80).optional(),
   article: z.string().max(50).optional(),
@@ -116,6 +118,8 @@ export const documentSearchRequestSchema = z
     filters: documentSearchFiltersSchema.default({}),
   })
   .superRefine((value, context) => {
+    if (value.filters.publishedFrom && value.filters.publishedTo && value.filters.publishedFrom > value.filters.publishedTo)
+      context.addIssue({code:"custom",path:["filters","publishedTo"],message:"La fecha final debe ser posterior a la inicial."});
     if (value.mode === "all_words" && (value.query.split(/\s+/).length > 10 || value.query.split(/\s+/).some(word=>word.length<2)))
       context.addIssue({code:"custom",path:["query"],message:"Usa hasta diez palabras de al menos dos caracteres."});
     if (value.mode !== "semantic" && value.query.length > 500)
@@ -221,6 +225,8 @@ export function matchesSearchCatalogue(
   filters: DocumentSearchFilters,
 ) {
   const metadata = row.metadata;
+  const published = documentaryDates(metadata).published;
+  if ((filters.publishedFrom || filters.publishedTo) && (!published || (filters.publishedFrom && published < filters.publishedFrom) || (filters.publishedTo && published > filters.publishedTo))) return false;
   const year = typeof metadata.year === "number" ? metadata.year : null;
   const regime = reviewedRegime(metadata);
   if (
