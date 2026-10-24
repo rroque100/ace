@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { legalCenterHref } from "@/lib/legal-center";
+import { lexicalTopic } from "@/lib/search-discovery";
 import { SearchDiscovery } from "./search-discovery";
 import { SearchAssistant } from "./search-assistant";
 import { readableSearchPreview } from "@/lib/search-assistant";
@@ -228,15 +229,15 @@ function DocumentCard({
         )}
       </div>
       <p className="documentWhy">
-        {document.foundBy?.length ? `Encontrado por ${document.foundBy.map(method=>method==="words"?"palabras":"significado o referencias").join(" y ")} · ${matches.length} pasajes disponibles` : mode === "literal"
+        {mode === "literal" && !document.matchCount && document.titleMatch ? "Coincidencia con el número o título del documento" : document.foundBy?.length ? `Encontrado por ${document.foundBy.map(method=>method==="words"?"palabras":"significado o referencias").join(" y ")} · ${matches.length} pasajes disponibles` : mode === "literal"
           ? `${document.matchCount} ${document.matchCount===1?"fragmento":"fragmentos"} con la frase${document.titleMatch ? " · también coincide el título" : ""}`
           : `${document.matchCount} ${document.matchCount===1?"pasaje recuperado":"pasajes recuperados"}${mode==="all_words"?" con las palabras indicadas":" por significado"}`}
       </p>
       {matches[0] ? (
         <Excerpt
           text={matches[0].excerpt}
-          query={query}
-          literal={mode === "literal"} words={mode === "all_words"}
+          query={mode === "semantic" ? lexicalTopic(query) : query}
+          literal={mode === "literal"} words={mode !== "literal"}
         />
       ) : (
         <p className="documentMatchText">
@@ -312,8 +313,8 @@ function DocumentCard({
             </div>
             <Excerpt
               text={match.excerpt}
-              query={query}
-              literal={mode === "literal"} words={mode === "all_words"}
+              query={mode === "semantic" ? lexicalTopic(query) : query}
+              literal={mode === "literal"} words={mode !== "literal"}
             />
             <div className="documentMatchActions">
               <PdfCiteButton
