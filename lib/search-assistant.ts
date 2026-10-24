@@ -11,6 +11,10 @@ export const assistantProposalSchema = z.object({
 export type AssistantProposal = z.infer<typeof assistantProposalSchema>;
 export function parseAssistantProposal(text: string, scope: "search" | "global", original: string): AssistantProposal {
   const raw=JSON.parse(text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
+  const destination=assistantProposalSchema.shape.destination.parse(raw?.destination);
+  // Navigation has no document search criteria. A model may omit or empty them.
+  // Validate the route first; never let an arbitrary route reach this branch.
+  if(scope==="global" && destination!=="/busqueda") raw.search=documentSearchRequestSchema.parse({query:original,mode:original.length<5?"literal":"semantic"});
   if(Array.isArray(raw?.search?.filters)) {
     const entries=raw.search.filters.flatMap((item:unknown)=>{
       if(!item || typeof item!=="object" || Array.isArray(item)) throw new Error("Filtro inválido");

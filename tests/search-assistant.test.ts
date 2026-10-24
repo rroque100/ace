@@ -3,6 +3,10 @@ import { catalogueSuggestions, fallbackProposal, parseAssistantProposal, readabl
 import { documentSearchRequestSchema,matchesSearchCatalogue } from "../lib/document-search";
 const proposal=(overrides:Record<string,unknown>={})=>JSON.stringify({destination:"/busqueda",explanation:"Buscar documentos",search:{query:"garantías",mode:"semantic",filters:{}},...overrides});
 describe("search assistant boundaries",()=>{
+  it("accepts navigation without document criteria but still validates the destination",()=>{
+    expect(parseAssistantProposal(JSON.stringify({destination:"/guardado",explanation:"Abrir guardados"}),"global","consultas guardadas").destination).toBe("/guardado");
+    expect(()=>parseAssistantProposal(JSON.stringify({destination:"/configuracion",explanation:"Abrir"}),"global","configuración")).toThrow();
+  });
   it("normalizes provider filter lists and rejects duplicate ambiguous criteria",()=>{
     const search={query:"garantía de fiel cumplimiento",mode:"all_words",filters:[{documentType:"opinion"},{year:"2026"}]};
     expect(parseAssistantProposal(proposal({search}),"search","opiniones de 2026 sobre garantías").search.filters).toEqual({documentType:"opinion",year:2026});
