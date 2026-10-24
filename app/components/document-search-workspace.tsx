@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { legalCenterHref } from "@/lib/legal-center";
 import { SearchAssistant } from "./search-assistant";
 import { catalogueSuggestions, readableSearchPreview } from "@/lib/search-assistant";
 import { documentSearchRequestSchema } from "@/lib/document-search";
@@ -205,7 +206,7 @@ function DocumentCard({
       {document.dates?.imported ? <small>Incorporado: {document.dates.imported}</small> : null}
       {document.dates?.version ? <small className="documentVersion">Versión: {document.dates.version}</small> : null}
       {document.versionNote ? <p className="documentSearchHint">{document.versionNote}</p> : null}
-      {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={`/normas?documentId=${version.documentId}`}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
+      {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
         <span
           className={`legalValidity ${document.validity.tone}`}
