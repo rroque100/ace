@@ -145,6 +145,7 @@ function DocumentCard({
   selected: boolean; onSelect: () => void; selectionFull: boolean;
 }) {
   const [matches, setMatches] = useState(document.matches);
+  const [noMoreMatches,setNoMoreMatches]=useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
@@ -164,7 +165,9 @@ function DocumentCard({
       });
       const data = await response.json();
       if (!response.ok) throw new Error();
-      setMatches((current) => [...current, ...data.matches]);
+      const newMatches=(data.matches as typeof matches).filter(item=>!matches.some(current=>current.chunkId===item.chunkId));
+      if(!newMatches.length) {setNoMoreMatches(true);setError("No se recuperaron más pasajes en esta consulta. Puedes revisar el documento completo en el PDF.");}
+      setMatches(current=>[...current,...newMatches]);
     } catch {
       setError(
         "No se pudieron cargar más coincidencias. Reintenta o abre el PDF.",
@@ -321,7 +324,7 @@ function DocumentCard({
             </div>
           </section>
         ))}
-        {mode === "literal" && matches.length < document.matchCount ? (
+        {mode === "literal" && !noMoreMatches && matches.length < document.matchCount ? (
           <button
             type="button"
             className="secondaryButton"
@@ -994,6 +997,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           aria-label="Resultados de búsqueda"
           aria-busy={loading}
         >
+          {result.partialRetrieval ? <div className="documentSearchHint" role="status"><strong>Búsqueda parcial.</strong> Una parte de la recuperación no estuvo disponible. Los resultados pueden estar incompletos. Reintenta o revisa «Alcance de esta búsqueda».</div> : null}
           <div className="documentResultsHeading">
             <div>
               <h2>

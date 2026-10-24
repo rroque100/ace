@@ -1,3 +1,4 @@
+import { normalizeLiteralSearch } from "@/lib/document-search-query";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth";
@@ -33,14 +34,15 @@ export async function POST(request: Request) {
   if (!parsed.success)
     return NextResponse.json({ error: "Solicitud inválida" }, { status: 400 });
   try {
+    const normalized=normalizeLiteralSearch(parsed.data.query,parsed.data.article);
     return NextResponse.json(
       await supabaseRest("rpc/ace_literal_document_matches_v1", {
         method: "POST",
         body: JSON.stringify({
-          p_query: parsed.data.query,
+          p_query: normalized.query,
           p_id: parsed.data.documentId,
           p_offset: parsed.data.offset,
-          p_article: parsed.data.article ?? "",
+          p_article: normalized.article,
         }),
       }),
       { headers: { "Cache-Control": "no-store" } },

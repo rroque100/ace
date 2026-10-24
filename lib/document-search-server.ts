@@ -1,3 +1,4 @@
+import { normalizeLiteralSearch } from "./document-search-query";
 import { canonicalSourceEntity, documentaryDates, documentFamily, normalizedDocumentNumber, normalizedArticle } from "./search-document-metadata";
 import { supabaseRest } from "./supabase-server";
 import { CORPUS_ANSWER_TYPES } from "./official-corpus";
@@ -66,11 +67,11 @@ export async function searchDocuments(
   const byId = new Map(catalogue.map((row) => [row.id, row]));
   let documents: DocumentSearchResult[] = [];
   const warnings: string[] = [];
+  let partialRetrieval=false;
   if (catalogue.length && input.mode !== "semantic") {
     type Hit = { documentId: string; matchCount: number; titleMatch: boolean; matches: DocumentSearchMatch[] };
-    const articleQuery = input.query.match(/^(?:art[ií]culo|art\.?)\s*(\d+(?:\.\d+)*)(?:[.°º])?$/i);
-    const query = articleQuery ? (articleQuery[1].length === 1 ? `Artículo ${articleQuery[1]}` : articleQuery[1]) : input.query;
-    const article = normalizedArticle(input.filters.article || articleQuery?.[1] || "").split(".")[0];
+    const normalized = normalizeLiteralSearch(input.query,input.filters.article);
+    const {query,article} = normalized;
     const terms = input.mode === "all_words" ? [...new Set(query.trim().split(/\s+/))] : [query];
     if (terms.some(term=>term.length<2)) throw new Error("Cada palabra debe tener al menos dos caracteres en este modo.");
     if (terms.length > 10) throw new Error("Usa hasta diez palabras en este modo o cambia a búsqueda por significado.");
@@ -82,7 +83,7 @@ export async function searchDocuments(
         .map(match => [match.chunkId, match])).values()], matchCount: input.mode === "all_words" ? Math.max(...lists.map(list => list.find(other => other.documentId === hit.documentId)?.matchCount ?? 0)) : hit.matchCount }));
     // Format-tolerant identifier matches supplement title hits; never inspect private documents.
     const identifier = normalizedDocumentNumber(input.query);
-    if (/\d/.test(identifier) && !articleQuery && !article) for (const row of catalogue) {
+    if (/\d/.test(identifier) && !normalized.isArticleReference && !article) for (const row of catalogue) {
       const number = row.metadata.documentNumber ?? row.metadata.number;
       if (typeof number === "string" && normalizedDocumentNumber(number) === identifier && !hits.some(hit => hit.documentId === row.id))
         hits.push({ documentId: row.id, matchCount: 0, titleMatch: true, matches: [] });
@@ -114,6 +115,9 @@ export async function searchDocuments(
         allowedDocumentIds: catalogue.map((row) => row.id),
       },
     );
+    partialRetrieval=Boolean(result.semanticaCaida || result.retrieval?.lexical==="unavailable" || result.retrieval?.catalogue==="unavailable");
+    if(result.retrieval?.lexical==="unavailable") warnings.push("La búsqueda por palabras no estuvo disponible. Los resultados por significado pueden ser incompletos.");
+    if(result.retrieval?.catalogue==="unavailable") warnings.push("No se pudo completar la comprobación de las referencias documentales solicitadas. La recuperación puede ser incompleta.");
     const groups = new Map<string, typeof result.sources>();
     for (const source of result.sources)
       if (byId.has(source.documentId))
@@ -173,6 +177,7 @@ export async function searchDocuments(
     pages,
     scope: input.mode !== "semantic" ? "catalogue" : "retrieved",
     warnings,
+    partialRetrieval,
     query: input.query,
     mode: input.mode,
   };

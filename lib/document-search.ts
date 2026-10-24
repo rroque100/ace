@@ -371,6 +371,7 @@ export type DocumentSearchResponse = {
   scope: "catalogue" | "retrieved";
   warnings: string[];
   historyWarning?: string;
+  partialRetrieval?: boolean;
   query: string;
   mode: DocumentSearchInput["mode"];
 };

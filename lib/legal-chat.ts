@@ -1270,7 +1270,7 @@ function chunkToSource(
 export async function searchLegalSources(
   input: z.infer<typeof semanticSearchRequestSchema>,
   options?: { diversifyDocuments?: boolean; allowedDocumentIds?: string[] },
-): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean }> {
+): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean; retrieval: {semantic: "available" | "unavailable"; lexical: "available" | "unavailable"; catalogue: "available" | "unavailable"} }> {
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
     ...filters,
@@ -1333,6 +1333,7 @@ export async function searchLegalSources(
     return {
       assessment,
       semanticaCaida,
+      retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available"},
       sources: [],
     };
   }
@@ -1399,6 +1400,7 @@ export async function searchLegalSources(
 
   return {
     semanticaCaida,
+    retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available"},
     assessment,
     sources,
   };

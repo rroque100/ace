@@ -121,3 +121,11 @@ it("advierte que la fecha semántica no representa todo el catálogo",async()=>{
  const result=await searchDocuments(documentSearchRequestSchema.parse({query:"pregunta",mode:"semantic",sort:"newest"}));
  expect(result.warnings.join(" ")).toContain("solo ordena los documentos recuperados");
 });
+
+it("hace visible la caída léxica aunque la búsqueda semántica siga disponible",async()=>{
+ mocks.rest.mockResolvedValueOnce(rows);
+ mocks.semantic.mockResolvedValue({sources:[],semanticaCaida:false,retrieval:{semantic:"available",lexical:"unavailable",catalogue:"available"}});
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"consulta sintética",mode:"semantic"}));
+ expect(result.partialRetrieval).toBe(true);
+ expect(result.warnings.join(" ")).toContain("palabras no estuvo disponible");
+});
