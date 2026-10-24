@@ -21,6 +21,9 @@ describe("search assistant boundaries",()=>{
   });
   it("removes standalone signature noise without changing substantive statements",()=>{
     expect(readableSearchPreview("Firmado digitalmente por Juan\nArtículo 10. La firma digital es válida.")).toBe("Artículo 10. La firma digital es válida.");
+    const original="https://apps.firmaperu.gob.pe/web/ validador.xhtml Expediente N° 114947 T.D. 33507508 Solicitante: Entidad Asunto: Garantías";
+    expect(readableSearchPreview(original)).not.toContain("114947");
+    expect(readableSearchPreview(original)).toContain("Asunto: Garantías");
   });
   it("never treats import date as original publication",()=>{
     const row={id:"1",title:"Norma",document_type:"ley",source_entity:null,process_type:null,metadata:{importedAt:"2026-01-01T00:00:00Z",year:2026}};
