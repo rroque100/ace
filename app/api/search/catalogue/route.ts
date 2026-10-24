@@ -1,3 +1,4 @@
+import { supabaseRest } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { loadSearchCatalogue } from "@/lib/document-search-server";
@@ -8,9 +9,13 @@ export async function GET() {
   const auth = await requireUser();
   if ("error" in auth) return auth.error;
   try {
-    const catalogue = await loadSearchCatalogue();
+    const [catalogueResult,coverageResult] = await Promise.allSettled([loadSearchCatalogue(),supabaseRest("rpc/ace_search_library_coverage_v2",{method:"POST",body:"{}"})]);
+    if(catalogueResult.status!=="fulfilled") throw catalogueResult.reason;
+    const catalogue=catalogueResult.value;
     return NextResponse.json(
       {
+        coverage:coverageResult.status==="fulfilled"?coverageResult.value:null,
+        coverageWarning:coverageResult.status==="rejected"?"No se pudo comprobar el estado completo de incorporación de la biblioteca.":null,
         documents: catalogue.map((row) => ({
           documentType: row.document_type,
           documentId: row.id,

@@ -34,3 +34,8 @@ it("compara entradas restauradas sin depender del orden de las claves",async()=>
  expect(sameSearchInput(restored,{...restored,query:"otro"})).toBe(false);
  expect(documentaryDates({importedAt:"2026-10-24T00:07:00Z"}).imported).toBe("2026-10-23");
 });
+
+it("una identidad familiar explícita prevalece sobre título y número sin mezclar tipos",()=>{
+ expect(documentFamily("bases_estandar","Original",{documentFamilyId:"BASES-LP-OBRAS"})).toBe(documentFamily("bases_estandar","Rectificado",{documentFamilyId:"BASES-LP-OBRAS",number:"99"}));
+ expect(documentFamily("ley","Ley A",{documentNumber:"",number:"0099"})).toBe(documentFamily("ley","Ley B",{number:"99"}));
+});

@@ -1,0 +1,74 @@
+{
+  "checkedAt": "2026-10-24T12:21:01.721Z",
+  "catalogueDocuments": 92,
+  "checks": [
+    {
+      "query": "garantía de fiel cumplimiento",
+      "filters": {},
+      "old": 24,
+      "indexed": 24,
+      "equal": true
+    },
+    {
+      "query": "garantía de fiel cumplimiento",
+      "filters": {
+        "documentType": "opinion",
+        "year": 2026
+      },
+      "old": 7,
+      "indexed": 7,
+      "equal": true
+    },
+    {
+      "query": "contrato",
+      "filters": {
+        "object": "obras"
+      },
+      "old": 23,
+      "indexed": 23,
+      "equal": true
+    },
+    {
+      "query": "contrato",
+      "filters": {
+        "subject": "ejecucion"
+      },
+      "old": 17,
+      "indexed": 17,
+      "equal": true
+    },
+    {
+      "query": "contrato",
+      "filters": {
+        "vigencia": "unknown"
+      },
+      "old": 78,
+      "indexed": 78,
+      "equal": true
+    },
+    {
+      "query": "contrato",
+      "filters": {
+        "publishedFrom": "2026-01-01"
+      },
+      "old": 44,
+      "indexed": 44,
+      "equal": true
+    },
+    {
+      "query": "Art. 17.2",
+      "filters": {},
+      "old": 5,
+      "indexed": 5,
+      "equal": true
+    },
+    {
+      "query": "garantía contrato",
+      "filters": {},
+      "mode": "all_words",
+      "old": 43,
+      "indexed": 43,
+      "equal": true
+    }
+  ]
+}

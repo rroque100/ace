@@ -1,4 +1,5 @@
 import { normalizeLiteralSearch } from "@/lib/document-search-query";
+import { missingSearchIndex } from "@/lib/document-search-index";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth";
@@ -35,16 +36,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Solicitud inválida" }, { status: 400 });
   try {
     const normalized=normalizeLiteralSearch(parsed.data.query,parsed.data.article);
+    const body=JSON.stringify({p_query:normalized.query,p_id:parsed.data.documentId,p_offset:parsed.data.offset,p_article:normalized.article});
+    let result:unknown;
+    try {result=await supabaseRest("rpc/ace_search_document_matches_v2",{method:"POST",body});}
+    catch(error) {if(!missingSearchIndex(error)) throw error; result=await supabaseRest("rpc/ace_literal_document_matches_v1",{method:"POST",body});}
     return NextResponse.json(
-      await supabaseRest("rpc/ace_literal_document_matches_v1", {
-        method: "POST",
-        body: JSON.stringify({
-          p_query: normalized.query,
-          p_id: parsed.data.documentId,
-          p_offset: parsed.data.offset,
-          p_article: normalized.article,
-        }),
-      }),
+      result,
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {

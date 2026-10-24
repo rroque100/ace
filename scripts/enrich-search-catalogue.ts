@@ -4,9 +4,17 @@ async function main() {
   process.loadEnvFile(".env.local");
   const { getSupabaseAdminClient, writeAuditLog } = await import("../lib/supabase-server");
   const client=await getSupabaseAdminClient();
-  const {data:rows,error}=await client.from("documents").select("id,source_entity,metadata").eq("es_institucional",true).eq("status","indexed").limit(2001);
-  if(error) throw error;
-  if(rows.length>2000) throw Error("Catálogo fuera del límite de revisión.");
+  const rows:Array<{id:string;source_entity:string|null;metadata:Record<string,unknown>}> = [];
+  let cursor="";
+  for(let pageNumber=0;pageNumber<200;pageNumber++) {
+    let query=client.from("documents").select("id,source_entity,metadata").eq("es_institucional",true).eq("status","indexed").order("id").limit(500);
+    if(cursor) query=query.gt("id",cursor);
+    const {data:page,error}=await query;if(error) throw error;
+    rows.push(...page);
+    if(page.length<500) break;
+    const next=page[page.length-1].id;if(next<=cursor) throw Error("El catálogo no avanzó");cursor=next;
+    if(pageNumber===199) throw Error("Catálogo fuera del límite operativo; no se modificó información");
+  }
   let changed=0, dated=0, failures=0;
   for(const row of rows) {
     const metadata={...(row.metadata ?? {})};

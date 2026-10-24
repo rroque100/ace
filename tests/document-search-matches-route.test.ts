@@ -25,3 +25,8 @@ it("rechaza acceso anónimo antes de consultar corpus",async()=>{mocks.auth.mock
 
 it("respeta límite de solicitudes sin consultar corpus",async()=>{mocks.rate.mockReturnValue({allowed:false});expect((await POST(request("Art. 17"))).status).toBe(429);expect(mocks.rest).not.toHaveBeenCalled();});
 it("un fallo de coincidencias responde con error, no con lista vacía",async()=>{mocks.rest.mockRejectedValue(new Error("offline"));expect((await POST(request("Art. 17"))).status).toBe(503);});
+
+it("usa compatibilidad solo cuando la función nueva no está instalada",async()=>{
+ mocks.rest.mockRejectedValueOnce(new Error("PGRST202 ace_search_document_matches_v2 missing")).mockResolvedValueOnce({matches:[],totalMatches:0});
+ expect((await POST(request("Art. 17"))).status).toBe(200);expect(mocks.rest.mock.calls[1][0]).toBe("rpc/ace_literal_document_matches_v1");
+});

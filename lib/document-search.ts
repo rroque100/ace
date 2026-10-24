@@ -347,6 +347,7 @@ export type DocumentSearchMatch = {
   score: number | null;
 };
 export type DocumentSearchResult = {
+  versionNote?: string;
   dates?: ReturnType<typeof documentaryDates>;
   relatedVersions?: Array<{ documentId: string; title: string }>;
   documentId: string;
@@ -363,6 +364,7 @@ export type DocumentSearchResult = {
   titleMatch?: boolean;
 };
 export type DocumentSearchResponse = {
+  engine?: "indexed";
   documents: DocumentSearchResult[];
   totalDocuments: number;
   page: number;

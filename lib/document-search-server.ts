@@ -1,4 +1,5 @@
 import { normalizeLiteralSearch } from "./document-search-query";
+import { missingSearchIndex } from "./document-search-index";
 import { canonicalSourceEntity, documentaryDates, documentFamily, normalizedDocumentNumber, normalizedArticle } from "./search-document-metadata";
 import { supabaseRest } from "./supabase-server";
 import { CORPUS_ANSWER_TYPES } from "./official-corpus";
@@ -17,18 +18,18 @@ import {
 
 export async function loadSearchCatalogue(): Promise<SearchCatalogueRow[]> {
   const rows: SearchCatalogueRow[] = [];
-  for (let offset = 0; offset <= 2000; offset += 500) {
+  let after="";
+  for (let pageNumber = 0; pageNumber < 200; pageNumber++) {
     const page = await supabaseRest<SearchCatalogueRow[]>(
-      `documents?es_institucional=eq.true&status=eq.indexed&document_type=in.(${CORPUS_ANSWER_TYPES.join(",")})&select=id,title,document_type,source_entity,process_type,metadata&order=id&offset=${offset}&limit=500`,
+      `documents?es_institucional=eq.true&status=eq.indexed&document_type=in.(${CORPUS_ANSWER_TYPES.join(",")})&select=id,title,document_type,source_entity,process_type,metadata&order=id${after?`&id=gt.${encodeURIComponent(after)}`:""}&limit=500`,
     );
     rows.push(...page);
-    if (rows.length > 2000)
-      throw new Error(
-        "El catálogo supera el límite de esta consulta. No se calculó un total parcial; requiere ampliar el índice de catálogo.",
-      );
     if (page.length < 500) return rows;
+    const next=page[page.length-1].id;
+    if(next<=after) throw new Error("El catálogo no avanzó; no se publicará un conteo parcial.");
+    after=next;
   }
-  throw new Error("No se pudo completar el catálogo documental.");
+  throw new Error("El catálogo supera el límite operativo de revisión; no se publica un conteo parcial.");
 }
 function resultDocument(
   row: SearchCatalogueRow,
@@ -44,6 +45,7 @@ function resultDocument(
     documentType: row.document_type,
     sourceEntity: canonicalSourceEntity(row.source_entity),
     dates: documentaryDates(row.metadata),
+    versionNote:row.document_type==="bases_estandar"&&typeof row.metadata.selectionNote==="string"?row.metadata.selectionNote.slice(0,500):undefined,
     publication: publication.label,
     dateTime: publication.time,
     rank,
@@ -60,6 +62,24 @@ function resultDocument(
 export async function searchDocuments(
   input: DocumentSearchInput,
 ): Promise<DocumentSearchResponse> {
+  if(input.mode!=="semantic") {
+    const normalized=normalizeLiteralSearch(input.query,input.filters.article);
+    const identifier=normalizedDocumentNumber(input.query);
+    let indexed: {documents:Array<{row:SearchCatalogueRow;matches:DocumentSearchMatch[];rank:number;matchCount:number;titleMatch:boolean}>;totalDocuments:number;page:number;pages:number}|null=null;
+    try {
+      indexed=await supabaseRest("rpc/ace_search_documents_page_v2",{method:"POST",body:JSON.stringify({p_query:normalized.query,p_mode:input.mode,p_filters:{...input.filters,article:normalized.article,...(/\d/.test(identifier)&&!normalized.isArticleReference&&!normalized.article?{normalizedIdentifier:identifier}:{})},p_sort:input.sort,p_page:input.page,p_page_size:input.pageSize})});
+    } catch(error) {if(!missingSearchIndex(error)) throw error;}
+    if(indexed) {
+      if(!Array.isArray(indexed.documents)||!Number.isSafeInteger(indexed.totalDocuments)) throw new Error("Respuesta de índice inválida");
+      const documents=indexed.documents.map(hit=>resultDocument(hit.row,hit.matches,hit.rank,hit.matchCount,hit.titleMatch));
+      const warnings=[input.mode==="literal"?"La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias.":"Se exigen todas las palabras en el mismo documento; pueden aparecer en pasajes distintos. Los pasajes mostrados son una selección."];
+      if(documents.length) try {
+        const related=await supabaseRest<Array<{parentId:string;documentId:string;title:string}>>("rpc/ace_search_document_versions_v2",{method:"POST",body:JSON.stringify({p_ids:documents.map(doc=>doc.documentId)})});
+        for(const doc of documents) doc.relatedVersions=related.filter(item=>item.parentId===doc.documentId).map(({documentId,title})=>({documentId,title}));
+      } catch {warnings.push("No se pudieron comprobar las otras versiones de estos documentos.");}
+      return {documents,totalDocuments:indexed.totalDocuments,page:indexed.page,pages:indexed.pages,pageSize:input.pageSize,scope:"catalogue",warnings,query:input.query,mode:input.mode,engine:"indexed",partialRetrieval:false};
+    }
+  }
   const fullCatalogue = await loadSearchCatalogue();
   const catalogue = fullCatalogue.filter((row) =>
     matchesSearchCatalogue(row, input.filters),
@@ -69,6 +89,7 @@ export async function searchDocuments(
   const warnings: string[] = [];
   let partialRetrieval=false;
   if (catalogue.length && input.mode !== "semantic") {
+    if(catalogue.length>2000) throw new Error("Activa el índice documental para buscar este catálogo completo. No se publica una lista truncada.");
     type Hit = { documentId: string; matchCount: number; titleMatch: boolean; matches: DocumentSearchMatch[] };
     const normalized = normalizeLiteralSearch(input.query,input.filters.article);
     const {query,article} = normalized;

@@ -204,6 +204,7 @@ function DocumentCard({
       {document.dates?.updated ? <small>Texto actualizado: {document.dates.updated} · </small> : null}
       {document.dates?.imported ? <small>Incorporado: {document.dates.imported}</small> : null}
       {document.dates?.version ? <small className="documentVersion">Versión: {document.dates.version}</small> : null}
+      {document.versionNote ? <p className="documentSearchHint">{document.versionNote}</p> : null}
       {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={`/normas?documentId=${version.documentId}`}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
         <span
@@ -374,6 +375,8 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   const filtersRef = useRef<HTMLDetailsElement>(null);
   const restoredScroll = useRef<number | null>(null);
   const [catalogueReady, setCatalogueReady] = useState(false);
+  const [libraryCoverage,setLibraryCoverage]=useState<{registered:number;indexed:number;uploaded:number;processing:number;failed:number;publicationDatesKnown:number;textIndexDocuments:number}|null>(null);
+  const [coverageWarning,setCoverageWarning]=useState("");
   const [catalogue, setCatalogue] = useState<CatalogueEntry[]>([]);
   const [catalogueError, setCatalogueError] = useState("");
   const [catalogueRevision, setCatalogueRevision] = useState(0);
@@ -387,7 +390,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error();
-        setCatalogue(data.documents ?? []); setCatalogueReady(true);
+        setLibraryCoverage(data.coverage ?? null);setCoverageWarning(data.coverageWarning ?? "");setCatalogue(data.documents ?? []); setCatalogueReady(true);
         setCatalogueError("");
       })
       .catch((e) => {
@@ -653,7 +656,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     <div className="documentSearchWorkspace">
       <LegalCenterNav active="busqueda" filters={filters} />
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
-      <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary><p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length} </span>)}</details>
+      <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
       <section className={`documentSearchIntro${result ? " compactSearchIntro" : ""}`}>
         <span className="documentSearchEyebrow">TU BIBLIOTECA JURÍDICA</span>
         <h2>Encuentra el documento que necesitas</h2>

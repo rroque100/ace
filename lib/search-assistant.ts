@@ -50,6 +50,7 @@ export function catalogueSuggestions<T extends {title: string; documentId: strin
 export function readableSearchPreview(text:string) {
   const cleaned = text.split(/\n/).filter(line => !/^\s*(?:firmado digitalmente por\b|firma digital\b|c[oó]digo de verificaci[oó]n\b)/i.test(line)).join("\n")
     .replace(/https?:\/\/apps\.firmaperu\.gob\.pe\/web\/\s*validador\.xhtml/gi," ")
+    .replace(/La integridad del documento y la autor[ií]a de la\(s\) firma\(s\) pueden ser verificadas en:\s*/gi," ")
     .replace(/\bExpediente\s+N[°ºo.]?\s*\d+(?:\s+T\.D\.\s*\d+)?/gi," ")
     .replace(/\bSolicitante:\s*[^\n]{1,180}?(?=\s+Asunto:)/gi, " ").trim();
   return cleaned || text;

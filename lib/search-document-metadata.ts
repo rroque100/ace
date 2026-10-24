@@ -31,7 +31,9 @@ export function normalizedDocumentNumber(value: string) {
     .replace(/\bn\s*[.°ºo]+\s*/g, "").replace(/[^a-z0-9]/g, "").replace(/\d+/g, digits => digits.replace(/^0+(?=\d)/, ""));
 }
 export function documentFamily(type: string, title: string, metadata: Record<string, unknown>) {
-  const number = metadata.documentNumber ?? metadata.number;
+  const declared=metadata.documentFamilyId;
+  if(typeof declared==="string" && declared.trim()) return `${type}:${normalizedDocumentNumber(declared)}`;
+  const number = [metadata.documentNumber,metadata.number].find(value=>typeof value==="string"&&value.trim());
   const identity = typeof number === "string" && number.trim() ? normalizedDocumentNumber(number)
     : normalizedDocumentNumber(title.split(/—|texto actualizado|versi[oó]n/i)[0]);
   return `${type}:${identity}`;
