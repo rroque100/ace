@@ -4,6 +4,7 @@ import Link from "next/link";
 import { legalCenterHref } from "@/lib/legal-center";
 import { lexicalTopic } from "@/lib/search-discovery";
 import { SearchDiscovery } from "./search-discovery";
+import { VoiceSearch } from "./voice-search";
 import { SearchAssistant } from "./search-assistant";
 import { readableSearchPreview } from "@/lib/search-assistant";
 import { documentSearchRequestSchema } from "@/lib/document-search";
@@ -741,6 +742,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             onFocus={()=>setShowSuggestions(true)}
             onKeyDown={event=>{if(event.key==="Escape")setShowSuggestions(false);}}
           />
+          <VoiceSearch filters={filters} onApply={input=>{setQuery(input.query);setMode(input.mode);setFilters(input.filters);void run(1,input);}} />
           <button
             className="primaryButton"
             type="submit"

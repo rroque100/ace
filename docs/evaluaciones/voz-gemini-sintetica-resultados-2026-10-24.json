@@ -1,0 +1,32 @@
+{
+  "kind": "synthetic-desktop-voice-es-ES",
+  "humanReview": "pending",
+  "peruvianAccentValidated": false,
+  "runAt": "2026-10-24T14:43:28.325Z",
+  "results": [
+    {
+      "caseId": "opinion-year",
+      "model": "gemini-2.5-flash",
+      "elapsedMs": 3225,
+      "transcript": "opiniones de la DTN del 2026 sobre garantías.",
+      "uncertain": false,
+      "wordErrorRate": 0.3,
+      "normalizedWordErrorRate": 0,
+      "referencesExact": true,
+      "missingReferences": [],
+      "extraReferences": []
+    },
+    {
+      "caseId": "article-numeral",
+      "model": "gemini-2.5-flash",
+      "elapsedMs": 2105,
+      "transcript": "Artículo 113, numeral 1.",
+      "uncertain": false,
+      "wordErrorRate": 0.6,
+      "normalizedWordErrorRate": 0,
+      "referencesExact": true,
+      "missingReferences": [],
+      "extraReferences": []
+    }
+  ]
+}

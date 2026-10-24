@@ -1,0 +1,13 @@
+# Búsqueda por voz de ACE
+
+Diseño explícitamente solicitado: Hablar → revisar → confirmar criterios → buscar.
+
+Micrófono junto al buscador abre el diálogo existente de ACE, con aviso antes de pedir permiso. Grabaciones de hasta 45 segundos, un canal y limpieza del micrófono al detener/cancelar/cerrar/desmontar. Límite de envío 3 MB, formatos WebM/MP4/OGG/WAV verificados por firma en servidor. El audio reside en memoria de la ventana hasta cerrar o repetir; servidor solo durante la petición, sin Storage, tablas, historial ni logs del audio/transcripción. El proveedor indicado antes de grabar procesa audio, con enlaces a sus políticas oficiales; el asistente configurado procesa texto solo al preparar criterios. El endpoint no promete borrar procesamiento ya enviado a terceros al cancelar.
+
+Proveedor inicial Google Gemini 2.5 Flash cuando ya existe clave Google en ACE. Puede elegirse OpenAI mediante VOICE_TRANSCRIPTION_PROVIDER=openai y gpt-4o-mini-transcribe/gpt-4o-transcribe. La comprobación real de OpenAI falló por saldo, no permite comparar exactitud. No hay cambio de proveedor automático dentro de una petición: el cliente envía el proveedor consentido y el servidor lo comprueba. Gemini usa audio inline en su API nativa; OpenAI su endpoint de transcripción. Contexto en español de Perú, sin afirmar que sea un modelo regional es-PE certificado. Gemini no devuelve confianza acústica: se muestra revisión pendiente.
+
+Transcripción editable, reproducción local y propuesta separada. Conversión determinista de números españoles exclusivamente junto a artículo/numeral/año o año explícito del 2000 al 2099. No inventar números, dígitos de documentos ni régimen/vigencia. Referencias con alternativas o expresiones de duda exigen edición; todas las cifras, años y siglas requieren confirmación manual. Logprobs bajos son señales de revisión, no porcentajes de exactitud. La propuesta IA se valida contra las cifras transcritas antes de presentarse, con respaldo determinista si falla o altera referencias. Se conservan filtros actuales salvo tipo/año/artículo explícitamente confirmados en la propuesta.
+
+Estados: preparado, solicitando permiso, escuchando, procesando, revisa lo entendido y error recuperable. Detener, cancelar, volver a grabar. La búsqueda escrita sigue funcionando si no hay permiso, soporte, configuración o proveedor.
+
+Pruebas: normalización y ambigüedades, protección de referencias, auth, límites, formato, consentimiento, abortos y errores, y comparación de transcriptores con grabaciones aportadas explícitamente para evaluar. No declarar precisión jurídica ni acento peruano validado sin corpus de hablantes/ruido y revisión humana.
