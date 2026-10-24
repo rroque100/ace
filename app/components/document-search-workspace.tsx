@@ -213,10 +213,10 @@ function DocumentCard({
       {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
         <span
-          className={`legalValidity ${document.validity.tone}`}
+          className={`legalValidity ${document.validity.state === "current" ? "neutral" : document.validity.tone}`}
           title="Estado registrado; no confirma aplicabilidad al caso."
         >
-          {document.validity.label}
+          {document.validity.state === "current" ? "Registro: vigente · verificar revisión" : document.validity.label}
         </span>
         {objects.length || subjects.length ? (
           <span>
@@ -229,6 +229,7 @@ function DocumentCard({
           <span>Clasificación pendiente</span>
         )}
       </div>
+      {document.review ? <details className="documentReviewDetails"><summary>Régimen y revisión de esta versión</summary><p>{document.review.regime ? `Régimen registrado: ${document.review.regime}. ` : "Régimen sin identificar. "}{document.review.method}.</p>{document.review.evidence ? <p>Identificado en: {document.review.evidence}</p> : null}<p>{document.review.reviewer}{document.review.reviewedAt ? ` · ${document.review.reviewedAt.slice(0,10)}` : " · fecha sin registrar"}.</p><p>Registro de vigencia: {document.review.validityRecord}. {document.review.validityReview}</p><p>Las fechas de publicación, actualización e incorporación corresponden solo a esta versión.</p></details> : null}
       <p className="documentWhy">
         {mode === "literal" && !document.matchCount && document.titleMatch ? "Coincidencia con el número o título del documento" : document.foundBy?.length ? `Encontrado por ${document.foundBy.map(method=>method==="words"?"palabras":"significado o referencias").join(" y ")} · ${matches.length} pasajes disponibles` : mode === "literal"
           ? `${document.matchCount} ${document.matchCount===1?"fragmento":"fragmentos"} con la frase${document.titleMatch ? " · también coincide el título" : ""}`
@@ -683,7 +684,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       >
         <div
           className="documentSearchModes"
-          role="group"
+          role="radiogroup"
           aria-label="Cómo quieres buscar"
         >
           {(
@@ -700,11 +701,11 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               },
             ] as const
           ).map((item) => (
-            <button
+            <label
               key={item.value}
-              type="button"
-              aria-pressed={item.value === "literal" ? mode !== "semantic" : mode === item.value}
-              onClick={() => {
+              className="documentSearchModeOption"
+            >
+              <input type="radio" name="search-intent" value={item.value} checked={item.value === "literal" ? mode !== "semantic" : mode === item.value} onChange={() => {
                 activeRequest.current?.abort();
                 requestSequence.current++;
                 setLoading(false);
@@ -712,14 +713,13 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 setResult(null);
                 setLastInput(null);
                 setError("");
-              }}
-            >
+              }} />
               <Search size={18} />
               <span>
                 <strong>{item.label}</strong>
                 <small>{item.hint}</small>
               </span>
-            </button>
+            </label>
           ))}
         </div>
         <label htmlFor="document-search-query">
@@ -1092,12 +1092,17 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             <div className="documentSearchEmpty">
               <FileSearch size={28} />
               <h3>Sin coincidencias con estos criterios</h3>
+              <SearchDiscovery query={lastInput?.query ?? query} filters={lastInput?.filters ?? filters} visible={!loading && !dirty} correctionOnly onChoose={()=>{}} onCorrect={corrected=>{const next={...(lastInput ?? currentInput),query:corrected};setQuery(corrected);void run(1,next);}} />
               <p>
                 Prueba una frase más corta, cambia de modo o quita filtros.{" "}
                 {result.scope === "retrieved"
                   ? "Este modo no revisa exhaustivamente todo el catálogo."
                   : "Solo se ha consultado el texto indexado del corpus institucional."}
               </p>
+              <div className="documentEmptyActions">
+                {result.mode === "literal" ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),mode:"all_words" as const};setMode("all_words");void run(1,next);}}>Buscar todas las palabras</button> : null}
+                {activeFilters.length ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),filters:{}};setFilters({});void run(1,next);}}>Buscar sin filtros</button> : null}
+              </div>
             </div>
           ) : null}
           {result.pages > 1 ? (

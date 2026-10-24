@@ -20,6 +20,13 @@ beforeEach(() => {
   mocks.candidates.mockRejectedValue(new Error("PGRST202 ace_search_candidates_v3 missing"));
   mocks.indexed.mockRejectedValue(new Error("PGRST202 ace_search_documents_page_v2 missing"));
 });
+it("conserva el título literal incluso cuando contiene numeración o prefijos", async () => {
+  mocks.indexed.mockResolvedValue({ documents: [], totalDocuments: 0, page: 1, pages: 0 });
+  for (const query of ["Acuerdo de Sala Plena N.° 003-2022-TCE", "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026", "Directiva-n-0001-2026-ef-5401"]) {
+    await searchDocuments(documentSearchRequestSchema.parse({ query }));
+    expect(JSON.parse(mocks.indexed.mock.calls.at(-1)![1].body).p_query).toBe(query);
+  }
+});
 it("consulta solo corpus institucional indexado y tipos permitidos", async () => {
   mocks.rest.mockResolvedValueOnce([]);
   await loadSearchCatalogue();

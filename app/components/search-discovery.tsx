@@ -9,8 +9,9 @@ import { documentTypeLabel } from "@/lib/legal-taxonomy";
 type Suggestion = { documentId: string; title: string; documentType: string };
 type Discovery = { original: string; documents: Suggestion[]; correction: string | null };
 
-export function SearchDiscovery({ query, filters, visible, onChoose, onCorrect }: {
+export function SearchDiscovery({ query, filters, visible, correctionOnly = false, onChoose, onCorrect }: {
   query: string; filters: DocumentSearchFilters; visible: boolean;
+  correctionOnly?: boolean;
   onChoose: (document: Suggestion) => void; onCorrect: (query: string) => void;
 }) {
   const [response, setResponse] = useState<(Discovery & { filtersKey: string }) | null>(null);
@@ -32,6 +33,6 @@ export function SearchDiscovery({ query, filters, visible, onChoose, onCorrect }
   return <div className="searchDiscovery">
     {failed ? <small role="status">Las sugerencias no están disponibles. Puedes buscar igualmente.</small> : null}
     {current?.correction ? <p className="searchCorrection">¿Quisiste decir <button type="button" onClick={() => onCorrect(current.correction!)}>{current.correction}</button>? <small>Solo se cambia si lo seleccionas.</small></p> : null}
-    {current?.documents.length ? <section aria-label="Sugerencias del catálogo"><p className="searchSuggestionLabel">Documentos de tu biblioteca · con los filtros actuales</p><ul className="searchCatalogueSuggestions">{current.documents.map(document => <li key={document.documentId}><button type="button" onClick={() => onChoose(document)}><span>{document.title}</span><small>{documentTypeLabel(document.documentType)} · Buscar este documento</small></button></li>)}</ul></section> : null}
+    {!correctionOnly && current?.documents.length ? <section aria-label="Sugerencias del catálogo"><p className="searchSuggestionLabel">Documentos de tu biblioteca · con los filtros actuales</p><ul className="searchCatalogueSuggestions">{current.documents.map(document => <li key={document.documentId}><button type="button" onClick={() => onChoose(document)}><span>{document.title}</span><small>{documentTypeLabel(document.documentType)} · Buscar este documento</small></button></li>)}</ul></section> : null}
   </div>;
 }

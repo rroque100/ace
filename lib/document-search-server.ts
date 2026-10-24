@@ -5,6 +5,7 @@ import { canonicalSourceEntity, documentaryDates, documentFamily, normalizedDocu
 import { supabaseRest } from "./supabase-server";
 import { CORPUS_ANSWER_TYPES } from "./official-corpus";
 import { legalValidity } from "./legal-center";
+import { documentReviewSummary } from "./document-review";
 import {
   classifySearchDocument, passageSearchRank,
   compareSearchDocuments,
@@ -42,6 +43,7 @@ function resultDocument(
   const publication = documentPublication(row);
   return {
     documentId: row.id,
+    review: documentReviewSummary(row.metadata),
     title: row.title,
     documentType: row.document_type,
     sourceEntity: canonicalSourceEntity(row.source_entity),
@@ -64,7 +66,8 @@ export async function searchDocuments(
   input: DocumentSearchInput,
 ): Promise<DocumentSearchResponse> {
   if(input.mode!=="semantic") {
-    const normalized=normalizeLiteralSearch(equivalentReference(input.query),input.filters.article);
+    // Preserve exact titles. Identifier matching already normalizes references independently.
+    const normalized=normalizeLiteralSearch(input.query,input.filters.article);
     const identifier=normalizedDocumentNumber(input.query);
     let indexed: {documents:Array<{row:SearchCatalogueRow;matches:DocumentSearchMatch[];rank:number;matchCount:number;titleMatch:boolean}>;totalDocuments:number;page:number;pages:number}|null=null;
     try {

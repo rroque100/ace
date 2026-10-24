@@ -8,6 +8,7 @@ import { assistantProposalSchema, type AssistantProposal } from "@/lib/search-as
 import { type DocumentSearchFilters, type DocumentSearchInput } from "@/lib/document-search";
 import { VOICE_MAX_BYTES, VOICE_MAX_MS, voiceSearchInput, reviewVoiceText, voiceFallback, guardVoiceProposal } from "@/lib/voice-search";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
+import { acquireVoiceStream, voiceCaptureError } from "@/lib/voice-capture";
 
 const recordingTime = () => performance.now();
 
@@ -74,10 +75,12 @@ export function VoiceSearch({ filters, onApply }: { filters: DocumentSearchFilte
     setText(""); setOriginal(""); setAudioUrl(""); setProposal(null); setConfirmed(false); setError(""); setSeconds(0); setUncertain(false);
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") { setPhase("error"); setError("Este navegador no permite grabar aquí. Usa un navegador compatible o escribe tu búsqueda."); return; }
     setPhase("permission");
+    let stage: "microphone" | "recorder" = "microphone";
     try {
-      const acquired = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+      const acquired = await acquireVoiceStream(navigator.mediaDevices);
       if (generation.current !== token) { acquired.getTracks().forEach(track => track.stop()); return; }
       stream.current = acquired;
+      stage = "recorder";
       const mime = ["audio/webm;codecs=opus", "audio/mp4", "audio/ogg;codecs=opus"].find(type => MediaRecorder.isTypeSupported(type));
       if (!mime) throw new Error("unsupported");
       const recording = new MediaRecorder(acquired, { mimeType: mime, audioBitsPerSecond: 64_000 });
@@ -123,7 +126,7 @@ export function VoiceSearch({ filters, onApply }: { filters: DocumentSearchFilte
     } catch (failure) {
       if (generation.current !== token) return;
       release(); setPhase("error");
-      setError(failure instanceof DOMException && failure.name === "NotAllowedError" ? "No se concedió acceso al micrófono. Puedes habilitarlo en tu navegador o escribir la consulta." : "No se pudo abrir el micrófono. Revisa que esté conectado o continúa por escrito.");
+      setError(voiceCaptureError(failure, stage));
     }
   }
   async function transcribe(audio: Blob, duration: number, type: string, token: number) {

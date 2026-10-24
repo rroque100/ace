@@ -13,12 +13,15 @@ try {
     const started = performance.now();
     try {
       const result = await searchDocuments(documentSearchRequestSchema.parse(item.input));
-      results.push({ id: item.id, input: item.input, elapsedMs: Math.round(performance.now() - started), ...retrievalMetrics(item.expectedDocumentIds, result.documents.map(document => document.documentId)), partial: Boolean(result.partialRetrieval), scope: result.scope, warnings: result.warnings, results: result.documents.map(document => ({ documentId: document.documentId, title: document.title, foundBy: document.foundBy, pages: document.matches.map(match => [match.pageStart, match.pageEnd]) })) });
+      const metrics = item.expectEmpty === true ? { recallAtK: Number(result.documents.length === 0), reciprocalRank: Number(result.documents.length === 0), missing: [] } : retrievalMetrics(item.expectedDocumentIds, result.documents.map(document => document.documentId));
+      results.push({ id: item.id, kind: item.expectEmpty ? "negative" : "retrieval", input: item.input, elapsedMs: Math.round(performance.now() - started), ...metrics, partial: Boolean(result.partialRetrieval), scope: result.scope, warnings: result.warnings, results: result.documents.map(document => ({ documentId: document.documentId, title: document.title, foundBy: document.foundBy, pages: document.matches.map(match => [match.pageStart, match.pageEnd]) })) });
     } catch {
-      results.push({ id: item.id, elapsedMs: Math.round(performance.now() - started), failed: true, recallAtK: 0, reciprocalRank: 0 });
+      results.push({ id: item.id, kind: item.expectEmpty ? "negative" : "retrieval", elapsedMs: Math.round(performance.now() - started), failed: true, recallAtK: 0, reciprocalRank: 0 });
     }
   }
-  const report = { dataset: dataset.name, humanReview: dataset.humanReview, legalAccuracy: null, runAt: new Date().toISOString(), meanRecallAt10: results.reduce((sum, row) => sum + row.recallAtK, 0) / results.length, meanReciprocalRank: results.reduce((sum, row) => sum + row.reciprocalRank, 0) / results.length, results };
+  const positive = results.filter(row => row.kind !== "negative");
+  const negative = results.filter(row => row.kind === "negative");
+  const report = { dataset: dataset.name, humanReview: dataset.humanReview, legalAccuracy: null, runAt: new Date().toISOString(), retrievalCases: positive.length, negativeChecks: { total: negative.length, passed: negative.filter(row => row.recallAtK === 1).length }, meanRecallAt10: positive.length ? positive.reduce((sum, row) => sum + row.recallAtK, 0) / positive.length : null, meanReciprocalRank: positive.length ? positive.reduce((sum, row) => sum + row.reciprocalRank, 0) / positive.length : null, results };
   const output = process.argv[3];
   if (output) await writeFile(output, JSON.stringify(report, null, 2) + "\n");
   console.log(JSON.stringify({ cases: results.length, failed: results.filter(row => row.failed).length, meanRecallAt10: report.meanRecallAt10, meanReciprocalRank: report.meanReciprocalRank, humanReview: report.humanReview }));

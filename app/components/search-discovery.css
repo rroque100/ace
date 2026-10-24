@@ -8,3 +8,10 @@
 .searchDiscovery .searchCatalogueSuggestions button { min-height: 48px; text-align: left; width: 100%; }
 .searchDiscovery button:focus-visible { outline: 3px solid #0f766e; outline-offset: 3px; }
 .documentPassagePage { display: block; margin: .4rem 0 .8rem; color: #435e6a; }
+.documentSearchModes > .documentSearchModeOption { display:flex; align-items:flex-start; gap:12px; padding:14px; border:1px solid var(--ds-line); border-radius:12px; cursor:pointer; min-height:64px; }
+.documentSearchModeOption:has(input:checked) { background:#eaf5f1; border-color:#438e7f; }
+.documentSearchModeOption:focus-within { outline:3px solid #0f766e; outline-offset:3px; }
+.documentSearchModeOption input { margin-top:4px; accent-color:#0f766e; }
+.documentEmptyActions { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:16px; }
+.documentReviewDetails { font-size:13px; line-height:1.6; margin:12px 0; color:var(--ds-muted); }
+.documentReviewDetails summary { cursor:pointer; min-height:32px; }

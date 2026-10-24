@@ -1,0 +1,28 @@
+{
+  "batch": "ampliacion-mef-2026-10-24",
+  "entries": [
+    {
+      "title": "Resolución Directoral N.° 001-2026-EF/54.01 — modificación de bases estándar",
+      "type": "resolucion",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9281715/7614342-resolucion-directoral-n-001-2026-ef-54-01.pdf?v=1768319325",
+      "sourceEntity": "Ministerio de Economía y Finanzas",
+      "number": "001-2026-EF/54.01",
+      "year": 2026,
+      "versionLabel": "Publicación oficial del 13.01.2026",
+      "selectionNote": "Resolución original; los anexos de bases de esta publicación son DOCX, no se presentan como PDF ni se presume vigencia revisada.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "d85308b2931b73daab0a433c01a1e8712e08469c9dbdc772b12af4fdf6686525",
+      "documentId": "c885174e-c127-4556-9c6f-05aa44ea8fa6",
+      "verification": {
+        "pages": 3,
+        "chunks": 13,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T23:55:41.064Z"
+      }
+    }
+  ]
+}

@@ -347,6 +347,7 @@ export type DocumentSearchMatch = {
   score: number | null;
 };
 export type DocumentSearchResult = {
+  review?: ReturnType<typeof import("./document-review").documentReviewSummary>;
   foundBy?: Array<"words" | "meaning">;
   versionNote?: string;
   dates?: ReturnType<typeof documentaryDates>;
