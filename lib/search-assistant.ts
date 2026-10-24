@@ -5,12 +5,12 @@ import { OFFICIAL_CORPUS_TYPES } from "./official-corpus";
 export const assistantRequestSchema = z.object({ text: z.string().trim().min(3).max(500), scope: z.enum(["search", "global"]).default("search") });
 export const assistantProposalSchema = z.object({
   destination: z.enum(["/busqueda", "/chat", "/normas", "/guardado", "/historial", "/archivo"]),
-  explanation: z.string().max(400), clarification: z.string().max(200).optional(),
+  explanation: z.string().max(400), clarification: z.preprocess(value=>value===null?undefined:value,z.string().max(200).optional()),
   search: documentSearchRequestSchema,
 });
 export type AssistantProposal = z.infer<typeof assistantProposalSchema>;
 export function parseAssistantProposal(text: string, scope: "search" | "global", original: string): AssistantProposal {
-  const parsed = assistantProposalSchema.parse(JSON.parse(text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "")));
+  const parsed = assistantProposalSchema.parse(JSON.parse(text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "")));
   if (scope === "search") parsed.destination = "/busqueda";
   if (parsed.search.filters.documentType && !OFFICIAL_CORPUS_TYPES.some(type => type.value === parsed.search.filters.documentType)) throw new Error("Tipo desconocido");
   // The assistant cannot introduce identity, hidden classification or applicability constraints.

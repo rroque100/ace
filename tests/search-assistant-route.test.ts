@@ -1,7 +1,7 @@
 import {beforeEach,expect,it,vi} from "vitest";
 const mocks=vi.hoisted(()=>({auth:vi.fn(),rate:vi.fn(),create:vi.fn()}));
 vi.mock("@/lib/auth",()=>({requireUser:mocks.auth}));
-vi.mock("@/lib/openai-server",()=>({legalAnswerModel:"test",getOpenAIClient:()=>({responses:{create:mocks.create}})}));
+vi.mock("@/lib/openai-server",()=>({legalAnswerModel:"test",getProvider:()=>"gemini",getOpenAIClient:()=>({responses:{create:mocks.create}})}));
 vi.mock("@/lib/rate-limit",()=>({checkRateLimit:mocks.rate,getRateLimitKey:()=>"test",RATE_LIMITS:{aiSearch:{}},rateLimitResponse:()=>new Response(null,{status:429})}));
 import {POST} from "@/app/api/search/assistant/route";
 const request=(body:unknown)=>new Request("http://localhost/api/search/assistant",{method:"POST",body:JSON.stringify(body)});
