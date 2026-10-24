@@ -65,7 +65,8 @@ export async function POST(request: Request) {
     return NextResponse.json(result, {
       headers: { "Cache-Control": "no-store" },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith("Acota los filtros:")) return NextResponse.json({error:error.message},{status:422,headers:{"Cache-Control":"no-store"}});
     return NextResponse.json(
       {
         error:

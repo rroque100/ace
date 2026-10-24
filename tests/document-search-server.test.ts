@@ -1,6 +1,6 @@
 import { beforeEach, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ rest: vi.fn(), semantic: vi.fn(), indexed: vi.fn() }));
-vi.mock("@/lib/supabase-server", () => ({ supabaseRest: (path: string, options?: unknown) => path === "rpc/ace_search_documents_page_v2" ? mocks.indexed(path,options) : mocks.rest(path,options) }));
+const mocks = vi.hoisted(() => ({ rest: vi.fn(), semantic: vi.fn(), indexed: vi.fn(), candidates: vi.fn() }));
+vi.mock("@/lib/supabase-server", () => ({ supabaseRest: (path: string, options?: unknown) => path === "rpc/ace_search_documents_page_v2" ? mocks.indexed(path,options) : path === "rpc/ace_search_candidates_v3" ? mocks.candidates(path,options) : mocks.rest(path,options) }));
 vi.mock("@/lib/legal-chat", () => ({ searchLegalSources: mocks.semantic }));
 import {
   loadSearchCatalogue,
@@ -17,6 +17,7 @@ const rows = Array.from({ length: 12 }, (_, i) => ({
 }));
 beforeEach(() => {
   vi.resetAllMocks();
+  mocks.candidates.mockRejectedValue(new Error("PGRST202 ace_search_candidates_v3 missing"));
   mocks.indexed.mockRejectedValue(new Error("PGRST202 ace_search_documents_page_v2 missing"));
 });
 it("consulta solo corpus institucional indexado y tipos permitidos", async () => {
@@ -96,7 +97,7 @@ it("el modo semántico agrupa fragmentos y declara alcance recuperado", async ()
   expect(response.documents).toHaveLength(1);
   expect(response.documents[0].matches).toHaveLength(2);
   expect(response.scope).toBe("retrieved");
-  expect(response.warnings[0]).toContain("no cuenta todas");
+  expect(response.warnings.join(" ")).toContain("no cuenta todas");
 });
 
 it("exige todas las palabras dentro del mismo documento y elimina duplicados de pasajes",async()=>{
@@ -148,4 +149,34 @@ it("el índice filtra y pagina sin descargar el catálogo completo",async()=>{
 it("un fallo del índice no se oculta usando la búsqueda anterior",async()=>{
  mocks.indexed.mockRejectedValue(new Error("HTTP 503 database unavailable"));
  await expect(searchDocuments(documentSearchRequestSchema.parse({query:"texto"}))).rejects.toThrow("503");expect(mocks.rest).not.toHaveBeenCalled();
+});
+
+it("filtra candidatos en el índice y pasa el conjunto antes de recuperar por significado",async()=>{
+ mocks.candidates.mockResolvedValue({overflow:false,documents:[rows[0]]});
+ mocks.indexed.mockResolvedValue({documents:[],totalDocuments:0,page:1,pages:0});
+ mocks.semantic.mockResolvedValue({sources:[],semanticaCaida:false});
+ await searchDocuments(documentSearchRequestSchema.parse({query:"garantía contractual",mode:"semantic",filters:{documentType:"opinion"}}));
+ expect(JSON.parse(mocks.candidates.mock.calls[0][1].body).p_filters.documentType).toBe("opinion");
+ expect(mocks.semantic.mock.calls[0][1]).toMatchObject({allowedDocumentIds:[rows[0].id],indexedLexical:true});
+ expect(mocks.rest.mock.calls.some(call=>String(call[0]).startsWith("documents?"))).toBe(false);
+});
+it("no trunca candidatos ni publica ausencia si el índice falla",async()=>{
+ mocks.candidates.mockResolvedValue({overflow:true,documents:[]});
+ await expect(searchDocuments(documentSearchRequestSchema.parse({query:"garantía",mode:"semantic"}))).rejects.toThrow("10.000");
+ mocks.candidates.mockRejectedValue(new Error("503 offline"));
+ await expect(searchDocuments(documentSearchRequestSchema.parse({query:"garantía",mode:"semantic"}))).rejects.toThrow("503");
+});
+it("conserva documentos por palabras si el proveedor semántico falla",async()=>{
+ mocks.candidates.mockResolvedValue({overflow:false,documents:[rows[0]]});
+ mocks.indexed.mockResolvedValue({documents:[{row:rows[0],matches:[],rank:1,matchCount:0,titleMatch:true}],totalDocuments:1,page:1,pages:1});
+ mocks.rest.mockResolvedValue([]);mocks.semantic.mockRejectedValue(new Error("IA offline"));
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"garantía contractual",mode:"semantic"}));
+ expect(result.documents[0].documentId).toBe(rows[0].id);expect(result.documents[0].foundBy).toEqual(["words"]);expect(result.partialRetrieval).toBe(true);
+});
+it("conserva significado si falla la búsqueda por palabras y avisa",async()=>{
+ mocks.candidates.mockResolvedValue({overflow:false,documents:[rows[0]]});
+ mocks.indexed.mockRejectedValue(new Error("503 index offline"));
+ mocks.semantic.mockResolvedValue({sources:[{documentId:rows[0].id,chunkId:"c",excerpt:"contenido",score:.8}],semanticaCaida:false});
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"garantía contractual",mode:"semantic"}));
+ expect(result.documents[0].foundBy).toEqual(["meaning"]);expect(result.partialRetrieval).toBe(true);
 });

@@ -1,0 +1,276 @@
+{
+  "dataset": "document-retrieval-smoke-v1",
+  "humanReview": "pending",
+  "legalAccuracy": null,
+  "runAt": "2026-10-24T14:01:08.230Z",
+  "meanRecallAt10": 1,
+  "meanReciprocalRank": 1,
+  "results": [
+    {
+      "id": "titulo-0",
+      "input": {
+        "query": "Bases estándar de Licitación pública para bienes",
+        "mode": "literal",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 1111,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "catalogue",
+      "warnings": [
+        "La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias."
+      ],
+      "results": [
+        {
+          "documentId": "71e12539-5476-48f1-b628-77bb2888f1a6",
+          "title": "Bases estándar de Licitación pública para bienes — Publicación oficial 2025",
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "titulo-5",
+      "input": {
+        "query": "Bases estándar de Concurso público de servicios",
+        "mode": "literal",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 599,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "catalogue",
+      "warnings": [
+        "La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias."
+      ],
+      "results": [
+        {
+          "documentId": "d1cae8df-f4df-49ed-894f-31e68858378b",
+          "title": "Bases estándar de Concurso público de servicios — Publicación oficial 2025",
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "titulo-7",
+      "input": {
+        "query": "Bases estándar de Subasta inversa electrónica",
+        "mode": "literal",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 434,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "catalogue",
+      "warnings": [
+        "La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias."
+      ],
+      "results": [
+        {
+          "documentId": "2011fb6c-d561-42e9-8c3f-9c1b6982f906",
+          "title": "Bases estándar de Subasta inversa electrónica — Publicación oficial 2025",
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "titulo-8",
+      "input": {
+        "query": "Bases estándar de Comparación de precios",
+        "mode": "literal",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 420,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "catalogue",
+      "warnings": [
+        "La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias."
+      ],
+      "results": [
+        {
+          "documentId": "eff13341-298c-4b06-b4a0-af39053f3a0c",
+          "title": "Bases estándar de Comparación de precios — Publicación oficial 2025",
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "titulo-9",
+      "input": {
+        "query": "Bases estándar de Procedimientos no competitivos",
+        "mode": "literal",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 441,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "catalogue",
+      "warnings": [
+        "La frase se comprueba sobre títulos y texto indexado. Se muestran los pasajes mejor relacionados antes de cargar más coincidencias."
+      ],
+      "results": [
+        {
+          "documentId": "6da9592d-1793-4edb-ba00-bc9d593f8e38",
+          "title": "Bases estándar de Procedimientos no competitivos — Publicación oficial 2025",
+          "pages": []
+        }
+      ]
+    },
+    {
+      "id": "tema-sie",
+      "input": {
+        "query": "bases para subasta inversa electrónica",
+        "mode": "semantic",
+        "filters": {
+          "documentType": "bases_estandar"
+        }
+      },
+      "elapsedMs": 3540,
+      "recallAtK": 1,
+      "reciprocalRank": 1,
+      "missing": [],
+      "partial": false,
+      "scope": "retrieved",
+      "warnings": [
+        "Se combinan hasta 20 documentos por palabras con hasta 20 pasajes por significado/referencias. El orden combina posiciones, no porcentajes de certeza jurídica.",
+        "Este modo muestra documentos recuperados por relevancia; no cuenta todas las coincidencias del catálogo. Ordenar por fecha solo ordena los documentos recuperados; no busca los más recientes de toda la biblioteca. Puedes usar la frase exacta para una búsqueda documental completa del texto indexado."
+      ],
+      "results": [
+        {
+          "documentId": "2011fb6c-d561-42e9-8c3f-9c1b6982f906",
+          "title": "Bases estándar de Subasta inversa electrónica — Publicación oficial 2025",
+          "foundBy": [
+            "words",
+            "meaning"
+          ],
+          "pages": [
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "documentId": "eff13341-298c-4b06-b4a0-af39053f3a0c",
+          "title": "Bases estándar de Comparación de precios — Publicación oficial 2025",
+          "foundBy": [
+            "meaning"
+          ],
+          "pages": [
+            [
+              6,
+              7
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "documentId": "71e12539-5476-48f1-b628-77bb2888f1a6",
+          "title": "Bases estándar de Licitación pública para bienes — Publicación oficial 2025",
+          "foundBy": [
+            "meaning"
+          ],
+          "pages": [
+            [
+              4,
+              5
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "documentId": "e1b8ac53-a162-4703-bdd8-f897f0c4311f",
+          "title": "Bases estándar de Licitación pública abreviada para bienes — Publicación oficial 2025",
+          "foundBy": [
+            "meaning"
+          ],
+          "pages": [
+            [
+              4,
+              5
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "documentId": "eeb24a99-b0f7-4c69-82d4-0a41fd4d26ce",
+          "title": "Bases estándar de Licitación pública abreviada de obras — Publicación original 2025",
+          "foundBy": [
+            "meaning"
+          ],
+          "pages": [
+            [
+              6,
+              7
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

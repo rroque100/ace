@@ -1,3 +1,4 @@
+import { equivalentReference, lexicalTopic, fuseSearchDocuments } from "./search-discovery";
 import { normalizeLiteralSearch } from "./document-search-query";
 import { missingSearchIndex } from "./document-search-index";
 import { canonicalSourceEntity, documentaryDates, documentFamily, normalizedDocumentNumber, normalizedArticle } from "./search-document-metadata";
@@ -63,7 +64,7 @@ export async function searchDocuments(
   input: DocumentSearchInput,
 ): Promise<DocumentSearchResponse> {
   if(input.mode!=="semantic") {
-    const normalized=normalizeLiteralSearch(input.query,input.filters.article);
+    const normalized=normalizeLiteralSearch(equivalentReference(input.query),input.filters.article);
     const identifier=normalizedDocumentNumber(input.query);
     let indexed: {documents:Array<{row:SearchCatalogueRow;matches:DocumentSearchMatch[];rank:number;matchCount:number;titleMatch:boolean}>;totalDocuments:number;page:number;pages:number}|null=null;
     try {
@@ -80,7 +81,20 @@ export async function searchDocuments(
       return {documents,totalDocuments:indexed.totalDocuments,page:indexed.page,pages:indexed.pages,pageSize:input.pageSize,scope:"catalogue",warnings,query:input.query,mode:input.mode,engine:"indexed",partialRetrieval:false};
     }
   }
-  const fullCatalogue = await loadSearchCatalogue();
+  let indexScope = false;
+  let fullCatalogue: SearchCatalogueRow[];
+  if (input.mode === "semantic") {
+    try {
+      const candidates = await supabaseRest<{ overflow: boolean; documents: SearchCatalogueRow[] }>("rpc/ace_search_candidates_v3", { method: "POST", body: JSON.stringify({ p_filters: input.filters }) });
+      if (!candidates || !Array.isArray(candidates.documents)) throw new Error("Respuesta de candidatos inválida");
+      if (candidates.overflow) throw new Error("Acota los filtros: la búsqueda por significado admite hasta 10.000 documentos candidatos. La búsqueda exacta sigue disponible.");
+      fullCatalogue = candidates.documents;
+      indexScope = true;
+    } catch (error) {
+      if (!(error instanceof Error && /PGRST202|42883/.test(error.message) && /ace_search_candidates_v3/.test(error.message))) throw error;
+      fullCatalogue = await loadSearchCatalogue();
+    }
+  } else fullCatalogue = await loadSearchCatalogue();
   const catalogue = fullCatalogue.filter((row) =>
     matchesSearchCatalogue(row, input.filters),
   );
@@ -91,7 +105,7 @@ export async function searchDocuments(
   if (catalogue.length && input.mode !== "semantic") {
     if(catalogue.length>2000) throw new Error("Activa el índice documental para buscar este catálogo completo. No se publica una lista truncada.");
     type Hit = { documentId: string; matchCount: number; titleMatch: boolean; matches: DocumentSearchMatch[] };
-    const normalized = normalizeLiteralSearch(input.query,input.filters.article);
+    const normalized = normalizeLiteralSearch(equivalentReference(input.query),input.filters.article);
     const {query,article} = normalized;
     const terms = input.mode === "all_words" ? [...new Set(query.trim().split(/\s+/))] : [query];
     if (terms.some(term=>term.length<2)) throw new Error("Cada palabra debe tener al menos dos caracteres en este modo.");
@@ -129,14 +143,20 @@ export async function searchDocuments(
     );
   } else if (catalogue.length) {
     const { searchLegalSources } = await import("./legal-chat");
-    const result = await searchLegalSources(
-      { query: input.query, topK: 20, filters: input.filters },
-      {
-        diversifyDocuments: true,
-        allowedDocumentIds: catalogue.map((row) => row.id),
-      },
-    );
-    partialRetrieval=Boolean(result.semanticaCaida || result.retrieval?.lexical==="unavailable" || result.retrieval?.catalogue==="unavailable");
+    const topic = lexicalTopic(input.query);
+    const [meaningResult, wordsResult] = await Promise.allSettled([
+      searchLegalSources(
+        { query: input.query, topK: 20, filters: indexScope ? { article: input.filters.article?.split(".")[0] } : input.filters },
+        { diversifyDocuments: true, allowedDocumentIds: catalogue.map(row => row.id), indexedLexical: indexScope },
+      ),
+      topic.length >= 2 ? searchDocuments({ ...input, query: topic, mode: /\d/.test(topic) ? "literal" : "all_words", page: 1, pageSize: 20 }) : Promise.resolve(null),
+    ]);
+    if (meaningResult.status === "rejected" && (wordsResult.status === "rejected" || !wordsResult.value)) throw new Error("No se pudo recuperar documentos por palabras ni significado.");
+    const result = meaningResult.status === "fulfilled" ? meaningResult.value : { sources: [], semanticaCaida: true, retrieval: { semantic: "unavailable", lexical: "available", catalogue: "available" } };
+    const wordDocuments = wordsResult.status === "fulfilled" ? wordsResult.value?.documents ?? [] : [];
+    if (wordsResult.status === "rejected") warnings.push("La recuperación documental por palabras falló. Se conservan los resultados por significado.");
+    if (!indexScope) warnings.push("El índice de candidatos filtrados no está disponible; se usó el catálogo de compatibilidad.");
+    partialRetrieval=Boolean(wordsResult.status === "rejected" || result.semanticaCaida || result.retrieval?.lexical==="unavailable" || result.retrieval?.catalogue==="unavailable");
     if(result.retrieval?.lexical==="unavailable") warnings.push("La búsqueda por palabras no estuvo disponible. Los resultados por significado pueden ser incompletos.");
     if(result.retrieval?.catalogue==="unavailable") warnings.push("No se pudo completar la comprobación de las referencias documentales solicitadas. La recuperación puede ser incompleta.");
     const groups = new Map<string, typeof result.sources>();
@@ -160,6 +180,8 @@ export async function searchDocuments(
         Math.max(...sources.map((source) => source.score)),
       ),
     );
+    documents = fuseSearchDocuments(wordDocuments, documents);
+    warnings.push("Se combinan hasta 20 documentos por palabras con hasta 20 pasajes por significado/referencias. El orden combina posiciones, no porcentajes de certeza jurídica.");
     warnings.push(
       "Este modo muestra documentos recuperados por relevancia; no cuenta todas las coincidencias del catálogo. Ordenar por fecha solo ordena los documentos recuperados; no busca los más recientes de toda la biblioteca. Puedes usar la frase exacta para una búsqueda documental completa del texto indexado.",
     );
@@ -167,11 +189,11 @@ export async function searchDocuments(
       warnings.push(
         "La búsqueda por significado no estuvo disponible: se utilizó el respaldo por palabras. No interpretes esta lista como cobertura completa.",
       );
-    if (
+    if (!indexScope && (
       input.filters.object ||
       input.filters.subject ||
       input.filters.guidedTopic
-    )
+    ))
       warnings.push(
         "La clasificación se aplica a los candidatos recuperados. Una lista vacía no demuestra ausencia en el catálogo.",
       );
@@ -180,7 +202,7 @@ export async function searchDocuments(
     if (input.mode === "all_words") document.matchCount = document.matches.length;
     const row = byId.get(document.documentId)!;
     const family = documentFamily(row.document_type, row.title, row.metadata);
-    document.relatedVersions = fullCatalogue.filter(other => other.id !== row.id && documentFamily(other.document_type, other.title, other.metadata) === family)
+    document.relatedVersions ??= fullCatalogue.filter(other => other.id !== row.id && documentFamily(other.document_type, other.title, other.metadata) === family)
       .map(other => ({ documentId: other.id, title: other.title }));
   }
   documents.sort((a, b) => compareSearchDocuments(a, b, input.sort));

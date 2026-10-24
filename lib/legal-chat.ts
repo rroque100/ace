@@ -1269,11 +1269,12 @@ function chunkToSource(
 
 export async function searchLegalSources(
   input: z.infer<typeof semanticSearchRequestSchema>,
-  options?: { diversifyDocuments?: boolean; allowedDocumentIds?: string[] },
+  options?: { diversifyDocuments?: boolean; allowedDocumentIds?: string[]; indexedLexical?: boolean },
 ): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean; retrieval: {semantic: "available" | "unavailable"; lexical: "available" | "unavailable"; catalogue: "available" | "unavailable"} }> {
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
     ...filters,
+    ...(options?.allowedDocumentIds?.length ? { documentIds: options.allowedDocumentIds } : {}),
     processType: undefined,
     regime: undefined,
     includeUnknownRegime: undefined,
@@ -1316,7 +1317,7 @@ export async function searchLegalSources(
       semanticaCaida = true;
       return [];
     }),
-    searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2)).catch(() => { lexicalUnavailable = true; return []; }),
+    (options?.indexedLexical ? Promise.resolve([] as DocumentChunk[]) : searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2))).catch(() => { lexicalUnavailable = true; return []; }),
   ]);
   const vectorIds = uniqueValues(hits.map((hit) => hit._id));
 

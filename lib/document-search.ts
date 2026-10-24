@@ -347,6 +347,7 @@ export type DocumentSearchMatch = {
   score: number | null;
 };
 export type DocumentSearchResult = {
+  foundBy?: Array<"words" | "meaning">;
   versionNote?: string;
   dates?: ReturnType<typeof documentaryDates>;
   relatedVersions?: Array<{ documentId: string; title: string }>;

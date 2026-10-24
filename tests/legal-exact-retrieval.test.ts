@@ -37,3 +37,10 @@ it("respeta el documento elegido aunque exista otro original en el catálogo", a
   expect(result.sources.every((source) => source.documentId === "other")).toBe(true);
   expect(result.assessment.exactDocument?.status).toBe("not_retrieved");
 });
+
+it("aplica candidatos permitidos en Pinecone antes de recuperar y evita el respaldo global cuando el índice lo sustituye",async()=>{
+ mocks.rest.mockResolvedValue([]);
+ await searchLegalSources({query:"garantía contractual",topK:5},{allowedDocumentIds:["original"],indexedLexical:true});
+ expect(mocks.search.mock.calls[0][2]).toMatchObject({documentIds:["original"]});
+ expect(mocks.rest).not.toHaveBeenCalled();
+});

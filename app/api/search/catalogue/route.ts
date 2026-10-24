@@ -1,3 +1,4 @@
+import { reviewedRegime } from "@/lib/legal-workspace-filters";
 import { supabaseRest } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
@@ -18,6 +19,7 @@ export async function GET() {
         coverageWarning:coverageResult.status==="rejected"?"No se pudo comprobar el estado completo de incorporación de la biblioteca.":null,
         documents: catalogue.map((row) => ({
           documentType: row.document_type,
+          regime: reviewedRegime(row.metadata),
           documentId: row.id,
           title: row.title,
           documentNumber: typeof row.metadata.documentNumber === "string" ? row.metadata.documentNumber : null,

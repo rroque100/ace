@@ -1,0 +1,69 @@
+{
+  "suggestions": [
+    {
+      "query": "garantua",
+      "filters": {},
+      "elapsedMs": 664,
+      "correction": "garantia",
+      "documents": []
+    },
+    {
+      "query": "Opinión N.º D000102/2026/OECE/DTN",
+      "filters": {},
+      "elapsedMs": 229,
+      "correction": null,
+      "documents": [
+        {
+          "title": "Opinión N.° D000102-2026-OECE-DTN",
+          "documentId": "41002e8e-6897-4f68-b94c-3567574f1b3c",
+          "documentType": "opinion"
+        }
+      ]
+    },
+    {
+      "query": "bases",
+      "filters": {
+        "documentType": "bases_estandar"
+      },
+      "elapsedMs": 219,
+      "correction": null,
+      "documents": [
+        {
+          "title": "Bases estándar de Licitación pública de obras — Publicación oficial 2025",
+          "documentId": "7a31f8da-fc7b-490b-b07b-36b23cbda89b",
+          "documentType": "bases_estandar"
+        },
+        {
+          "title": "Bases estándar de Comparación de precios — Publicación oficial 2025",
+          "documentId": "eff13341-298c-4b06-b4a0-af39053f3a0c",
+          "documentType": "bases_estandar"
+        },
+        {
+          "title": "Bases estándar de Licitación pública para bienes — Publicación oficial 2025",
+          "documentId": "71e12539-5476-48f1-b628-77bb2888f1a6",
+          "documentType": "bases_estandar"
+        },
+        {
+          "title": "Bases estándar de Concurso público de servicios — Publicación oficial 2025",
+          "documentId": "d1cae8df-f4df-49ed-894f-31e68858378b",
+          "documentType": "bases_estandar"
+        },
+        {
+          "title": "Bases estándar de Licitación pública abreviada de obras — Publicación original 2025",
+          "documentId": "eeb24a99-b0f7-4c69-82d4-0a41fd4d26ce",
+          "documentType": "bases_estandar"
+        },
+        {
+          "title": "Bases estándar de Subasta inversa electrónica — Publicación oficial 2025",
+          "documentId": "2011fb6c-d561-42e9-8c3f-9c1b6982f906",
+          "documentType": "bases_estandar"
+        }
+      ]
+    }
+  ],
+  "candidateFilter": {
+    "overflow": false,
+    "count": 22,
+    "allMatch": true
+  }
+}

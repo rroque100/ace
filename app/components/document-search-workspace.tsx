@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { legalCenterHref } from "@/lib/legal-center";
+import { SearchDiscovery } from "./search-discovery";
 import { SearchAssistant } from "./search-assistant";
-import { catalogueSuggestions, readableSearchPreview } from "@/lib/search-assistant";
+import { readableSearchPreview } from "@/lib/search-assistant";
 import { documentSearchRequestSchema } from "@/lib/document-search";
 import { readSearchSession, searchSessionKey, sameSearchInput } from "@/lib/document-search-session";
 import { useEffect, useRef, useState, type FormEvent } from "react";
@@ -47,6 +48,7 @@ type CatalogueEntry = {
   documentId: string;
   dates?: { published: string | null; updated: string | null; imported: string | null; version: string | null };
   documentType: string;
+  regime?: string;
   year: number | null;
   entity: string | null;
   processType: string | null;
@@ -226,7 +228,7 @@ function DocumentCard({
         )}
       </div>
       <p className="documentWhy">
-        {mode === "literal"
+        {document.foundBy?.length ? `Encontrado por ${document.foundBy.map(method=>method==="words"?"palabras":"significado o referencias").join(" y ")} · ${matches.length} pasajes disponibles` : mode === "literal"
           ? `${document.matchCount} ${document.matchCount===1?"fragmento":"fragmentos"} con la frase${document.titleMatch ? " · también coincide el título" : ""}`
           : `${document.matchCount} ${document.matchCount===1?"pasaje recuperado":"pasajes recuperados"}${mode==="all_words"?" con las palabras indicadas":" por significado"}`}
       </p>
@@ -242,8 +244,9 @@ function DocumentCard({
           documento. No se ha localizado una página exacta para esta frase.
         </p>
       )}
+      {firstPage ? <small className="documentPassagePage">Pasaje en página {firstPage}{matches[0]?.pageEnd && matches[0].pageEnd!==firstPage ? `–${matches[0].pageEnd}` : ""}</small> : null}
       <div className="documentResultActions">
-        <PdfCiteButton documentId={document.documentId} page={firstPage} sidePanel quote={mode === "literal" ? query : matches[0]?.excerpt} label="Leer documento" />
+        <PdfCiteButton documentId={document.documentId} page={firstPage} sidePanel quote={mode === "literal" ? query : matches[0]?.excerpt} label="Leer PDF" />
         <button
           className="secondaryButton"
           type="button"
@@ -251,8 +254,9 @@ function DocumentCard({
           disabled={busy}
         >
           <MessageSquareText size={17} />
-          {busy ? "Abriendo chat…" : "Consultar con IA"}
+          {busy ? "Abriendo chat…" : "Consultar en Chat"}
         </button>
+        <Link className="secondaryButton" href={legalCenterHref("normas",{documentId:document.documentId,documentType:document.documentType})}>Ver en Normativa</Link>
         <SaveButton
           itemType="documento"
           documentId={document.documentId}
@@ -464,6 +468,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[storageKey]);
   async function run(page = 1, override?: DocumentSearchInput) {
+    setShowSuggestions(false);
     activeRequest.current?.abort();
     const controller = new AbortController();
     activeRequest.current = controller;
@@ -621,11 +626,11 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 <option value="">Todos los tipos</option>
                 {OFFICIAL_CORPUS_TYPES.map((item) => (
                   <option value={item.value} key={item.value}>
-                    {item.label}
+                    {item.label}{catalogueReady ? ` (${catalogue.filter(row=>row.documentType===item.value).length} en biblioteca)` : ""}
                   </option>
                 ))}
               </select>
-            </label><label>Régimen<select value={filters.regime ?? ""} onChange={e=>changeFilters({regime:e.target.value as DocumentSearchFilters["regime"]})}><option value="">Todos los regímenes</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Régimen especial</option><option value="no_determinado">Sin régimen revisado</option></select></label>            <label>
+            </label><label>Régimen<select value={filters.regime ?? ""} onChange={e=>changeFilters({regime:e.target.value as DocumentSearchFilters["regime"]})}><option value="">Todos los regímenes</option><option value="32069">Ley 32069{catalogueReady ? ` (${catalogue.filter(row=>row.regime==="32069").length} en biblioteca)` : ""}</option><option value="30225">Ley 30225{catalogueReady ? ` (${catalogue.filter(row=>row.regime==="30225").length} en biblioteca)` : ""}</option><option value="especial">Régimen especial{catalogueReady ? ` (${catalogue.filter(row=>row.regime==="especial").length} en biblioteca)` : ""}</option><option value="no_determinado">Sin régimen revisado{catalogueReady ? ` (${catalogue.filter(row=>row.regime==="no_determinado").length} en biblioteca)` : ""}</option></select></label>            <label>
               Fecha · año registrado
               <select
                 value={filters.year ?? ""}
@@ -647,7 +652,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                   .sort((a, b) => b - a)
                   .map((value) => (
                     <option key={value} value={value}>
-                      {value}
+                      {value} ({catalogue.filter(row=>row.year===value).length} en biblioteca)
                     </option>
                   ))}
               </select>
@@ -689,7 +694,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               {
                 value: "semantic",
                 label: "Quiero describir un tema",
-                hint: "Encuentra documentos relacionados con tu pregunta.",
+                hint: "Combina palabras y significado para encontrar fuentes.",
               },
             ] as const
           ).map((item) => (
@@ -716,9 +721,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           ))}
         </div>
         <label htmlFor="document-search-query">
-          {mode !== "semantic"
-            ? "¿Qué palabras o frase debe contener?"
-            : "¿Sobre qué necesitas información?"}
+          Busca una norma, un número o describe tu tema
         </label>
         <div className="documentSearchComposer">
           <textarea
@@ -727,7 +730,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             maxLength={mode !== "semantic" ? 500 : 8000}
             rows={2}
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => {setQuery(event.target.value);setFilters(current=>({...current,documentId:undefined}));setShowSuggestions(true);}}
             placeholder={
               mode !== "semantic"
                 ? "Por ejemplo: perfeccionamiento del contrato"
@@ -735,7 +738,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             }
             aria-describedby="document-search-hint"
             onFocus={()=>setShowSuggestions(true)}
-            onBlur={()=>setTimeout(()=>setShowSuggestions(false),150)}
+            onKeyDown={event=>{if(event.key==="Escape")setShowSuggestions(false);}}
           />
           <button
             className="primaryButton"
@@ -754,11 +757,11 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             {loading ? "Buscando…" : "Buscar documentos"}
           </button>
         </div>
-        {showSuggestions && catalogueSuggestions(catalogue,query).length ? <ul className="searchCatalogueSuggestions" aria-label="Documentos del catálogo">{catalogueSuggestions(catalogue,query).map(row=><li key={row.documentId}><button type="button" onClick={()=>{setQuery(row.title);setMode("literal");setFilters(current=>({...current,documentId:row.documentId}));setShowSuggestions(false);}}>{row.title}<small>Documento del catálogo · seleccionar</small></button></li>)}</ul> : null}
+        <SearchDiscovery query={query} filters={filters} visible={showSuggestions} onCorrect={corrected=>{setQuery(corrected);setFilters(current=>({...current,documentId:undefined}));inputRef.current?.focus();}} onChoose={document=>{const next={...currentInput,query:document.title,mode:"literal" as const,filters:{...filters,documentId:document.documentId}};setQuery(document.title);setMode("literal");setFilters(next.filters);setShowSuggestions(false);void run(1,next);}} />
         <p id="document-search-hint" className="documentSearchHint">
           {mode !== "semantic"
             ? (mode === "all_words" ? "Se exigen todas las palabras en el mismo documento. Usa hasta diez palabras de al menos dos caracteres; pueden aparecer en pasajes distintos." : "Se ignoran mayúsculas, tildes y espacios repetidos. También puedes escribir un número documental o Artículo seguido del número.")
-            : "Los resultados se eligen por relevancia. No representan todas las coincidencias del catálogo."}
+            : "Se combinan palabras y significado con tus filtros. La lista es una selección de resultados, no un conteo completo del catálogo."}
         </p>
         {mode !== "semantic" ? <label className="documentLiteralChoice">Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
         <details className="searchPublicationRange"><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
@@ -1012,7 +1015,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               </h2>
               <p>
                 Para «{lastInput?.query}» ·{" "}
-                {result.mode === "literal" ? "frase exacta" : result.mode === "all_words" ? "todas las palabras" : "por significado"}
+                {result.mode === "literal" ? "frase exacta" : result.mode === "all_words" ? "todas las palabras" : "palabras y significado"}
               </p>
             </div>
             <div className="documentResultOrdering">
