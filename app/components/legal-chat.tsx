@@ -870,6 +870,7 @@ function LegalChatSession() {
 
   const [documentType, setDocumentType] = useState(initialDocumentType);
   const [documentId, setDocumentId] = useState(initialDocumentId);
+  const [documentIds, setDocumentIds] = useState<string[]>([]);
   const [article, setArticle] = useState(initialArticle);
   const [processType, setProcessType] = useState(initialProcessType);
   const [sourceEntity, setSourceEntity] = useState(initialSourceEntity);
@@ -910,6 +911,7 @@ function LegalChatSession() {
         const textFilter = (key: string) => typeof restoredFilters[key] === "string" ? restoredFilters[key] as string : "";
         setDocumentType(textFilter("documentType"));
         setDocumentId(textFilter("documentId"));
+        setDocumentIds(Array.isArray(restoredFilters.documentIds) ? restoredFilters.documentIds.filter((id): id is string=>typeof id === "string") : []);
         setArticle(textFilter("article"));
         setProcessType(textFilter("processType"));
         setSourceEntity(textFilter("sourceEntity"));
@@ -946,6 +948,7 @@ function LegalChatSession() {
           clear: () => setDocumentType(""),
         }
       : null,
+    documentIds.length ? { key: "documentIds", label: `Solo ${documentIds.length} documentos seleccionados`, clear: () => setDocumentIds([]) } : null,
     documentId ? { key: "documentId", label: "Documento exacto", clear: () => setDocumentId("") } : null,
     article ? { key: "article", label: `Articulo: ${article}`, clear: () => setArticle("") } : null,
     processType
@@ -1055,7 +1058,7 @@ function LegalChatSession() {
         body: JSON.stringify({
           caseContext: userMessage.caseContext,
           attachmentIds,
-          filters: { ...extendedFilters, article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          filters: { ...extendedFilters, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
           question: normalizedQuestion,
@@ -1161,7 +1164,7 @@ function LegalChatSession() {
 
   function clearFilters() {
     setExtendedFilters({});
-    setDocumentId("");
+    setDocumentId(""); setDocumentIds([]);
     setArticle("");
     setDocumentType("");
     setProcessType("");

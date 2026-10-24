@@ -6,15 +6,16 @@ import type { ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
 
 export function ExtendedLegalFilterControls({
   value,
-  onChange,
+  onChange, hideRegime = false,
 }: {
+  hideRegime?: boolean;
   value: ExtendedLegalFilters;
   onChange: (value: ExtendedLegalFilters) => void;
 }) {
   return (
     <details className="legalWorkspacePanel">
       <summary>
-        Régimen, varios tipos y años
+        {hideRegime ? "Varios tipos y años" : "Régimen, varios tipos y años"}
         {[
           value.regime,
           value.documentTypes?.length,
@@ -24,7 +25,7 @@ export function ExtendedLegalFilterControls({
           : ""}
       </summary>
       <div className="legalWorkspaceGrid">
-        <label>
+        {!hideRegime ? <label>
           Régimen revisado
           <select
             value={value.regime ?? ""}
@@ -41,7 +42,7 @@ export function ExtendedLegalFilterControls({
             <option value="especial">Régimen especial</option>
             <option value="no_determinado">Sin régimen revisado</option>
           </select>
-        </label>
+        </label> : null}
         <label>
           Tipos de documento · puedes seleccionar varios
           <select
@@ -66,7 +67,7 @@ export function ExtendedLegalFilterControls({
           </select>
         </label>
         <label>
-          Años de publicación, separados por coma
+          Años registrados, separados por coma
           <input
             key={(value.years ?? []).join(",")}
             defaultValue={(value.years ?? []).join(", ")}
@@ -126,7 +127,7 @@ type SearchEntry = {
   id: string;
   title: string;
   created_at: string;
-  metadata: { query: string; filters: Record<string, unknown>; topK?: number; searchMode?: "literal"|"semantic"; sort?: "relevance"|"newest"|"oldest"; pageSize?: 5|10|20 };
+  metadata: { query: string; filters: Record<string, unknown>; topK?: number; searchMode?: "literal"|"all_words"|"semantic"; sort?: "relevance"|"newest"|"oldest"; pageSize?: 5|10|20 };
 };
 export function LegalSearchHistory({
   revision,

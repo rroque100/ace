@@ -1,3 +1,4 @@
+import { sourceEntityAliases } from "./search-document-metadata";
 import { embeddingDimensions } from "./openai-server";
 import { embedTexts } from "./embeddings";
 
@@ -132,7 +133,8 @@ export function compactFilter(filters?: SearchFilters) {
   }
 
   if (filters.sourceEntity) {
-    clauses.source_entity = { $eq: filters.sourceEntity };
+    const aliases = sourceEntityAliases(filters.sourceEntity);
+    clauses.source_entity = aliases.length > 1 ? { $in: aliases } : { $eq: filters.sourceEntity };
   }
 
   if (filters.status) {

@@ -97,3 +97,27 @@ it("el modo semántico agrupa fragmentos y declara alcance recuperado", async ()
   expect(response.scope).toBe("retrieved");
   expect(response.warnings[0]).toContain("no cuenta todas");
 });
+
+it("exige todas las palabras dentro del mismo documento y elimina duplicados de pasajes",async()=>{
+ const hit=(id:string,chunkId:string)=>({documentId:id,matchCount:1,titleMatch:false,matches:[{chunkId,excerpt:"texto sintético",pageStart:1,pageEnd:1,article:null,score:null}]});
+ mocks.rest.mockResolvedValueOnce(rows).mockResolvedValueOnce([hit(rows[0].id,"same"),hit(rows[1].id,"other")]).mockResolvedValueOnce([hit(rows[0].id,"same")]);
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"garantía contrato",mode:"all_words"}));
+ expect(result.totalDocuments).toBe(1);expect(result.documents[0].matches).toHaveLength(1);expect(result.scope).toBe("catalogue");
+ expect(mocks.rest.mock.calls.slice(1).map(call=>JSON.parse(call[1].body).p_query)).toEqual(["garantía","contrato"]);
+});
+it("reconoce un identificador normalizado sin fabricar un pasaje",async()=>{
+ mocks.rest.mockResolvedValueOnce([{...rows[0],metadata:{number:"D000102-2026-OECE-DTN"}}]).mockResolvedValueOnce([]);
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"Opinión N.º D102/2026/OECE/DTN"}));
+ expect(result.totalDocuments).toBe(1);expect(result.documents[0].titleMatch).toBe(true);expect(result.documents[0].matches).toEqual([]);
+});
+it("normaliza consultas de artículo y mantiene el límite institucional",async()=>{
+ mocks.rest.mockResolvedValueOnce(rows).mockResolvedValueOnce([]);
+ await searchDocuments(documentSearchRequestSchema.parse({query:"Art. 17.2"}));
+ const body=JSON.parse(mocks.rest.mock.calls[1][1].body);
+ expect(body.p_article).toBe("17");expect(body.p_query).toBe("17.2");expect(body.p_ids).toHaveLength(12);
+});
+it("advierte que la fecha semántica no representa todo el catálogo",async()=>{
+ mocks.rest.mockResolvedValueOnce(rows);mocks.semantic.mockResolvedValue({sources:[],semanticaCaida:false});
+ const result=await searchDocuments(documentSearchRequestSchema.parse({query:"pregunta",mode:"semantic",sort:"newest"}));
+ expect(result.warnings.join(" ")).toContain("solo ordena los documentos recuperados");
+});

@@ -34,6 +34,7 @@ import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-cata
 type Category = "normas" | "jurisprudencia" | "orientacion";
 
 type NormSummary = {
+  dates?: {published:string|null;updated:string|null;imported:string|null;version:string|null};
   regime?: string | null;
   id: string;
   title: string;
@@ -600,12 +601,13 @@ export function NormativeBrowser() {
                 <span className="normCardMeta">
                   {documentTypeLabel(norm.documentType)}
                   {norm.documentNumber ? ` · ${norm.documentNumber}` : ""}
-                  {norm.year ? ` · ${norm.year}` : ""}
+                  {norm.dates?.published ? ` · Publicado: ${norm.dates.published}` : norm.year ? ` · Año registrado: ${norm.year}` : ""}
+                  {norm.dates?.version ? ` · ${norm.dates.version}` : ""}
                 </span>
                 <span className="normCardTags">
                   {norm.articleCount > 0 ? <span className="normTag">{norm.articleCount} artículo(s)</span> : null}
                   <span className={`normTag ${norm.pagesDetected > 0 ? "ok" : "warn"}`}>
-                    {norm.pagesDetected} pag.
+                    {norm.pagesDetected > 0 ? `${norm.pagesDetected} pág.` : "Páginas sin registrar"}
                   </span>
                   <span className={`normTag ${norm.pineconeVerified ? "ok" : "warn"}`}>
                     Consulta IA {norm.pineconeVerified ? "lista" : "por preparar"}

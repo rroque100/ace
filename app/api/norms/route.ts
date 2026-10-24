@@ -1,3 +1,4 @@
+import { canonicalSourceEntity, documentaryDates } from "@/lib/search-document-metadata";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "@/lib/legal-workspace-filters";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
@@ -42,10 +43,6 @@ function typeFilter(category: string | null) {
   return "";
 }
 
-function textFilter(column: string, value: string | null) {
-  return value ? `&${column}=ilike.*${encodeURIComponent(value.replaceAll("*", ""))}*` : "";
-}
-
 function exactFilter(column: string, value: string | null) {
   return value ? `&${column}=eq.${encodeURIComponent(value)}` : "";
 }
@@ -66,10 +63,10 @@ export async function GET(request: Request) {
         `&es_institucional=eq.true&status=eq.indexed${extra.data.documentTypes?.length ? "" : typeFilter(category)}` +
         exactFilter("document_type", extra.data.documentTypes?.length ? null : params.get("documentType")) +
         exactFilter("process_type", params.get("processType")) +
-        textFilter("source_entity", params.get("sourceEntity")) +
+
         `&order=document_type.asc,created_at.desc&limit=300`,
     );
-    const filteredRows = rows.filter(row => matchesExtendedFilters({ documentType: row.document_type, year: typeof row.metadata?.year === "number" ? row.metadata.year : null, regime: reviewedRegime(row.metadata ?? {}), regimeReviewed: reviewedRegime(row.metadata ?? {}) !== "no_determinado" }, extra.data));
+    const filteredRows = rows.filter(row => (!params.get("sourceEntity") || (canonicalSourceEntity(row.source_entity) ?? "").toLowerCase().includes((canonicalSourceEntity(params.get("sourceEntity")) ?? "").toLowerCase())) && matchesExtendedFilters({ documentType: row.document_type, year: typeof row.metadata?.year === "number" ? row.metadata.year : null, regime: reviewedRegime(row.metadata ?? {}), regimeReviewed: reviewedRegime(row.metadata ?? {}) !== "no_determinado" }, extra.data));
     const documentIds = filteredRows.map((row) => row.id);
     const idFilter = documentIds.length ? `in.(${documentIds.map((id) => `"${id}"`).join(",")})` : "in.(\"\")";
     const [chunks, summaries, concordancias] = await Promise.all([
@@ -115,7 +112,8 @@ export async function GET(request: Request) {
         id: row.id,
         title: row.title,
         documentType: row.document_type,
-        sourceEntity: row.source_entity,
+        sourceEntity: canonicalSourceEntity(row.source_entity),
+        dates: documentaryDates(metadata),
         processType: row.process_type,
         status: row.status,
         regime: typeof metadata.regime === "string" ? metadata.regime : null,

@@ -1,3 +1,4 @@
+import { canonicalSourceEntity } from "./search-document-metadata";
 import { publishEvidence } from "./chat-evidence-publication";
 import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
@@ -190,7 +191,7 @@ function normalizeFilters(filters?: z.infer<typeof legalSearchFiltersSchema>): S
     documentId: filters?.documentId?.trim() || undefined,
     documentIds: filters?.documentIds?.length ? filters.documentIds : undefined,
     documentType: filters?.documentTypes?.length ? undefined : filters?.documentType?.trim() || undefined,
-    sourceEntity: filters?.sourceEntity?.trim() || undefined,
+    sourceEntity: canonicalSourceEntity(filters?.sourceEntity) || undefined,
     status: filters?.status?.trim() || undefined,
     topic: filters?.topic?.trim() || undefined,
     processType: filters?.processType?.trim() || undefined,
@@ -1214,7 +1215,7 @@ function chunkToSource(
   const pageStart = chunk.page_start ?? hit?.page_start ?? getNumberMetadata(chunkMetadata, "pageStart");
   const pageEnd = chunk.page_end ?? hit?.page_end ?? getNumberMetadata(chunkMetadata, "pageEnd");
   const source: LegalSource = {
-    version: recordedVersion(chunk.documents?.title ?? "", getStringMetadata(documentMetadata, "version") ?? getStringMetadata(documentMetadata, "versionDate")),
+    version: recordedVersion(chunk.documents?.title ?? "", getStringMetadata(documentMetadata, "officialVersion") ?? getStringMetadata(documentMetadata, "version") ?? getStringMetadata(documentMetadata, "versionDate")),
     numeral: article ? getStringMetadata(chunkMetadata, "numeral") : null,
     pageCount: getNumberMetadata(documentMetadata, "pageCount"),
     article,
@@ -1242,7 +1243,7 @@ function chunkToSource(
     ...checkedSourcePages(pageStart, pageEnd, getNumberMetadata(documentMetadata, "pageCount")),
     score: Math.max(semanticScore, lexicalScore),
     semanticScore,
-    sourceEntity: chunk.documents?.source_entity ?? hit?.source_entity ?? null,
+    sourceEntity: canonicalSourceEntity(chunk.documents?.source_entity ?? hit?.source_entity ?? null),
     processType:
       getStringMetadata(documentMetadata, "processType") ??
       getStringMetadata(documentMetadata, "process_type") ??

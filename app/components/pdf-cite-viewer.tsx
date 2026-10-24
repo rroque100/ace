@@ -9,6 +9,7 @@ type PdfCiteButtonProps = {
   page?: number | null;
   quote?: string | null;
   label?: string;
+  sidePanel?: boolean;
 };
 
 type Highlight = { left: number; top: number; width: number; height: number };
@@ -56,7 +57,7 @@ function quoteTokens(quote: string) {
   );
 }
 
-export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: PdfCiteButtonProps) {
+export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sidePanel = false }: PdfCiteButtonProps) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const [currentPage, setCurrentPage] = useState(page && page > 0 ? page : 1);
@@ -179,7 +180,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
   const fallbackHref = `/api/documents/${documentId}${hashParts.length ? `#${hashParts.join("&")}` : ""}`;
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root modal={!sidePanel} open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button className="secondaryButton compactButton" type="button">
           <FileSearch size={15} />
@@ -187,18 +188,18 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="dialogOverlay" />
-        <Dialog.Content className="pdfViewerContent" aria-describedby={undefined}>
+        {!sidePanel ? <Dialog.Overlay className="dialogOverlay" /> : null}
+        <Dialog.Content className={`pdfViewerContent${sidePanel ? " searchPdfPanel" : ""}`} aria-describedby={undefined}>
           <div className="pdfViewerBar">
-            <Dialog.Title>Cita en el documento</Dialog.Title>
+            <Dialog.Title>{sidePanel ? "Lectura del documento" : "Cita en el documento"}</Dialog.Title>
             <div className="pdfViewerControls">
-              <button className="iconButton" disabled={currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
+              <button className="iconButton" aria-label="Página anterior" disabled={currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
                 <ChevronLeft size={16} />
               </button>
               <span>
                 {currentPage} / {numPages}
               </span>
-              <button className="iconButton" disabled={currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
+              <button className="iconButton" aria-label="Página siguiente" disabled={currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
                 <ChevronRight size={16} />
               </button>
               <a className="secondaryButton compactButton" href={fallbackHref} rel="noreferrer" target="_blank">
@@ -206,7 +207,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
                 PDF exacto
               </a>
               <Dialog.Close asChild>
-                <button className="iconButton" type="button">
+                <button className="iconButton" type="button" aria-label="Cerrar documento">
                   <X size={16} />
                 </button>
               </Dialog.Close>

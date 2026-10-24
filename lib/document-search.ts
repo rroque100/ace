@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { canonicalSourceEntity, documentaryDates } from "./search-document-metadata";
 import {
   extendedLegalFiltersSchema,
   matchesExtendedFilters,
@@ -108,14 +109,16 @@ export const documentSearchFiltersSchema = extendedLegalFiltersSchema.extend({
 export const documentSearchRequestSchema = z
   .object({
     query: z.string().trim().min(2).max(8000),
-    mode: z.enum(["literal", "semantic"]).default("literal"),
+    mode: z.enum(["literal", "all_words", "semantic"]).default("literal"),
     sort: z.enum(["relevance", "newest", "oldest"]).default("relevance"),
     page: z.number().int().min(1).max(10000).default(1),
     pageSize: z.union([z.literal(5), z.literal(10), z.literal(20)]).default(10),
     filters: documentSearchFiltersSchema.default({}),
   })
   .superRefine((value, context) => {
-    if (value.mode === "literal" && value.query.length > 500)
+    if (value.mode === "all_words" && (value.query.split(/\s+/).length > 10 || value.query.split(/\s+/).some(word=>word.length<2)))
+      context.addIssue({code:"custom",path:["query"],message:"Usa hasta diez palabras de al menos dos caracteres."});
+    if (value.mode !== "semantic" && value.query.length > 500)
       context.addIssue({
         code: "custom",
         path: ["query"],
@@ -245,7 +248,7 @@ export function matchesSearchCatalogue(
     !query ||
     foldSearchText(String(value ?? "")).includes(foldSearchText(query));
   if (
-    !contains(row.source_entity, filters.sourceEntity) ||
+    !contains(canonicalSourceEntity(row.source_entity), canonicalSourceEntity(filters.sourceEntity) ?? undefined) ||
     !contains(metadata.topic, filters.topic) ||
     !contains(metadata.status, filters.status)
   )
@@ -294,6 +297,8 @@ export function matchesSearchCatalogue(
   return true;
 }
 export function documentPublication(row: SearchCatalogueRow) {
+  const published = documentaryDates(row.metadata).published;
+  if (published) return { label: published, time: Date.parse(published) };
   const value =
     row.metadata.publicationDate ??
     row.metadata.publishedAt ??
@@ -336,6 +341,8 @@ export type DocumentSearchMatch = {
   score: number | null;
 };
 export type DocumentSearchResult = {
+  dates?: ReturnType<typeof documentaryDates>;
+  relatedVersions?: Array<{ documentId: string; title: string }>;
   documentId: string;
   title: string;
   documentType: string;
@@ -361,6 +368,25 @@ export type DocumentSearchResponse = {
   query: string;
   mode: DocumentSearchInput["mode"];
 };
+
+/** Highlight each requested word without interpreting text as HTML. */
+export function allWordsMatchParts(text: string, query: string) {
+  const flags = new Uint8Array(text.length);
+  for (const word of new Set(query.trim().split(/\s+/))) {
+    let offset = 0;
+    for (const part of literalMatchParts(text, word)) {
+      if (part.match) flags.fill(1, offset, offset + part.text.length);
+      offset += part.text.length;
+    }
+  }
+  const result: Array<{text:string;match:boolean}> = [];
+  for (let start=0; start<text.length;) {
+    let end=start+1;
+    while(end<text.length && flags[end]===flags[start]) end++;
+    result.push({text:text.slice(start,end),match:Boolean(flags[start])}); start=end;
+  }
+  return result;
+}
 
 /** Mapa de caracteres para resaltar sin alterar el original ni interpretar HTML. */
 export function literalMatchParts(

@@ -1,7 +1,11 @@
 import { AppShell } from "../components/app-shell";
 import { DocumentSearchWorkspace } from "../components/document-search-workspace";
+import { getSessionUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
-export default function BusquedaPage() {
+export default async function BusquedaPage() {
+  const user = await getSessionUser();
+  if (!user) redirect("/login?next=%2Fbusqueda");
   return (
     <AppShell
       active="busqueda"
@@ -10,7 +14,7 @@ export default function BusquedaPage() {
       title="Búsqueda documental"
     >
       <section className="singleWorkspace">
-        <DocumentSearchWorkspace />
+        <DocumentSearchWorkspace ownerId={user.id} />
       </section>
     </AppShell>
   );

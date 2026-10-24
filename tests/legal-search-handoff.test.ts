@@ -69,3 +69,15 @@ it("recupera pregunta y filtros únicamente después de comprobar la sesión", a
   });
   expect(response.headers.get("cache-control")).toBe("no-store");
 });
+
+it("rechaza identificadores ajenos al formato UUID al trasladar una selección",async()=>{
+ const response=await POST(new Request("https://ace.example/api/search/handoff",{method:"POST",body:JSON.stringify({question:"Consulta sintética",filters:{documentIds:["invalid-id"]}})}));
+ expect(response.status).toBe(400);expect(mocks.rest).not.toHaveBeenCalled();
+});
+it("conserva la selección de varias fuentes en la sesión privada",async()=>{
+ mocks.rest.mockResolvedValue([{id:session}]);
+ const ids=[id,"00000000-0000-4000-8000-000000000003"];
+ await POST(new Request("https://ace.example/api/search/handoff",{method:"POST",body:JSON.stringify({question:"Consulta sintética sobre selección",filters:{documentIds:ids}})}));
+ const stored=JSON.parse(mocks.rest.mock.calls[0][2].body);
+ expect(stored.metadata.filters.documentIds).toEqual(ids);expect(stored.owner_id).toBe("alice");
+});

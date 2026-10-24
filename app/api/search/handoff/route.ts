@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { chatRequestSchema } from "@/lib/legal-chat";
@@ -8,6 +9,8 @@ export async function POST(request: Request) {
   const input = chatRequestSchema.safeParse(await request.json());
   if (!input.success)
     return NextResponse.json({ error: "Consulta inválida" }, { status: 400 });
+  const selection=z.array(z.string().uuid()).max(8).safeParse(input.data.filters?.documentIds ?? []);
+  if (!selection.success) return NextResponse.json({error:"Selección de documentos inválida"},{status:400});
   try {
     const [session] = await supabaseUserRest<Array<{ id: string }>>(
       auth.user.accessToken,
