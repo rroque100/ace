@@ -3,7 +3,7 @@ import { supabaseRest } from "./supabase-server";
 import { CORPUS_ANSWER_TYPES } from "./official-corpus";
 import { legalValidity } from "./legal-center";
 import {
-  classifySearchDocument,
+  classifySearchDocument, passageSearchRank,
   compareSearchDocuments,
   documentPublication,
   matchesSearchCatalogue,
@@ -87,13 +87,15 @@ export async function searchDocuments(
       if (typeof number === "string" && normalizedDocumentNumber(number) === identifier && !hits.some(hit => hit.documentId === row.id))
         hits.push({ documentId: row.id, matchCount: 0, titleMatch: true, matches: [] });
     }
+    for (const hit of hits) hit.matches.sort((a,b)=>passageSearchRank(input.query,b)-passageSearchRank(input.query,a));
     documents = hits
       .filter((hit) => byId.has(hit.documentId))
       .map((hit) =>
         resultDocument(
           byId.get(hit.documentId)!,
           hit.matches,
-          (hit.titleMatch ? 100 : 0) + Math.min(3, Math.log1p(hit.matchCount)) +
+          (hit.titleMatch ? 100 : 0) + Math.min(1, Math.log1p(hit.matchCount)) +
+            Math.max(0,...hit.matches.map(match=>passageSearchRank(input.query,match))) +
             (hit.matches.some(match => match.article && normalizedArticle(match.article) === article) && article ? 30 : 0) +
             (hit.matches.some(match => match.excerpt.trim().toLowerCase().startsWith(query.toLowerCase())) ? 8 : 0),
           hit.matchCount,

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { readSearchSession, searchSessionKey } from "@/lib/document-search-session";
+import { readSearchSession, searchSessionKey, sameSearchInput } from "@/lib/document-search-session";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -54,6 +54,16 @@ type HistoryEntry = {
   sort?: DocumentSearchInput["sort"];
   pageSize?: 5 | 10 | 20;
 };
+function filterDisplayValue(key:string,value:unknown):string {
+  if(Array.isArray(value)) return value.map(item=>filterDisplayValue(key==="documentTypes"?"documentType":key==="years"?"year":key,item)).join(", ");
+  if(key==="documentType") return documentTypeLabel(String(value));
+  if(key==="processType") return processTypeLabel(String(value)) || String(value);
+  if(key==="object") return searchObjects.find(item=>item.value===value)?.label ?? String(value);
+  if(key==="subject") return searchSubjects.find(item=>item.value===value)?.label ?? String(value);
+  if(key==="guidedTopic") return searchTopics.find(item=>item.value===value)?.label ?? String(value);
+  if(typeof value==="boolean") return value?"Incluido":"No incluido";
+  return String(value);
+}
 const initialFilters = (params: { get: (key: string) => string | null }) =>
   documentSearchFiltersSchema.parse({
     ...extendedFiltersFromParams(params),
@@ -425,8 +435,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   };
   const dirty = Boolean(
     lastInput &&
-      JSON.stringify({ ...lastInput, page: 1 }) !==
-        JSON.stringify(currentInput),
+      !sameSearchInput(lastInput, currentInput),
   );
   useEffect(() => {
     if (result && !dirty && document.activeElement !== inputRef.current) {
@@ -494,6 +503,23 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     window.addEventListener("pagehide",save);
     return () => { save(); window.removeEventListener("pagehide",save); };
   }, [storageKey,lastInput,selected]);
+  useEffect(()=>{
+    if (!mobileFilters) return;
+    const previous=document.activeElement as HTMLElement|null;
+    const overflow=document.body.style.overflow;
+    document.body.style.overflow="hidden";
+    filtersRef.current?.querySelector<HTMLElement>("button")?.focus();
+    const keys=(event:KeyboardEvent)=>{
+      if(event.key==="Escape") {event.preventDefault();setMobileFilters(false);return;}
+      if(event.key!=="Tab") return;
+      const items=[...(filtersRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled),select,input,summary,[tabindex="0"]') ?? [])].filter(item=>item.getClientRects().length);
+      const first=items[0],last=items[items.length-1];
+      if(event.shiftKey && document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first?.focus();}
+    };
+    document.addEventListener("keydown",keys);
+    return()=>{document.removeEventListener("keydown",keys);document.body.style.overflow=overflow;previous?.focus();};
+  },[mobileFilters]);
   async function chatSelection() {
     if (!selected.length) return;
     setChatBusy("selection"); setError("");
@@ -558,6 +584,53 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     ).length;
   const activeFilters = Object.entries(filters).filter(([, value]) =>
     Array.isArray(value) ? value.length : Boolean(value),
+  );
+  const primaryFilters = (
+<div className="documentPrimaryFilters">            <label>
+              Tipo de documento
+              <select
+                value={filters.documentType ?? ""}
+                onChange={(e) =>
+                  changeFilters({
+                    documentType: e.target.value,
+                    documentTypes: undefined,
+                  })
+                }
+              >
+                <option value="">Todos los tipos</option>
+                {OFFICIAL_CORPUS_TYPES.map((item) => (
+                  <option value={item.value} key={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </label><label>Régimen<select value={filters.regime ?? ""} onChange={e=>changeFilters({regime:e.target.value as DocumentSearchFilters["regime"]})}><option value="">Todos los regímenes</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Régimen especial</option><option value="no_determinado">Sin régimen revisado</option></select></label>            <label>
+              Fecha · año registrado
+              <select
+                value={filters.year ?? ""}
+                onChange={(e) =>
+                  changeFilters({
+                    year: e.target.value ? Number(e.target.value) : "",
+                    years: undefined,
+                  })
+                }
+              >
+                <option value="">Todos los años</option>
+                {[
+                  ...new Set(
+                    catalogue
+                      .map((row) => row.year)
+                      .filter((v): v is number => v !== null),
+                  ),
+                ]
+                  .sort((a, b) => b - a)
+                  .map((value) => (
+                    <option key={value} value={value}>
+                      {value}
+                    </option>
+                  ))}
+              </select>
+            </label></div>
   );
   return (
     <div className="documentSearchWorkspace">
@@ -663,54 +736,10 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             : "Los resultados se eligen por relevancia. No representan todas las coincidencias del catálogo."}
         </p>
         {mode !== "semantic" ? <label className="documentLiteralChoice">Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
-        <div className="documentPrimaryFilters">            <label>
-              Tipo de documento
-              <select
-                value={filters.documentType ?? ""}
-                onChange={(e) =>
-                  changeFilters({
-                    documentType: e.target.value,
-                    documentTypes: undefined,
-                  })
-                }
-              >
-                <option value="">Todos los tipos</option>
-                {OFFICIAL_CORPUS_TYPES.map((item) => (
-                  <option value={item.value} key={item.value}>
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </label><label>Régimen<select value={filters.regime ?? ""} onChange={e=>changeFilters({regime:e.target.value as DocumentSearchFilters["regime"]})}><option value="">Todos los regímenes</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Régimen especial</option><option value="no_determinado">Sin régimen revisado</option></select></label>            <label>
-              Fecha · año registrado
-              <select
-                value={filters.year ?? ""}
-                onChange={(e) =>
-                  changeFilters({
-                    year: e.target.value ? Number(e.target.value) : "",
-                    years: undefined,
-                  })
-                }
-              >
-                <option value="">Todos los años</option>
-                {[
-                  ...new Set(
-                    catalogue
-                      .map((row) => row.year)
-                      .filter((v): v is number => v !== null),
-                  ),
-                ]
-                  .sort((a, b) => b - a)
-                  .map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-              </select>
-            </label></div>
+        {!mobileFilters ? primaryFilters : null}
         <button type="button" className="secondaryButton mobileFilterToggle" onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
-        <details ref={filtersRef} className={`documentSearchFilters${mobileFilters ? " mobileOpen" : ""}`}>
-          <div className="mobileFilterHeader"><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>
+        <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`documentSearchFilters${mobileFilters ? " mobileOpen" : ""}`}>
+          <div className="mobileFilterHeader"><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
           <summary>
             <SlidersHorizontal size={17} />
             Más filtros
@@ -920,7 +949,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 </button>
               </span>
             ) : null}
-            {activeFilters.filter(([key])=>key!=="documentId").map(([key,value])=><span key={key}>{({documentType:"Tipo",year:"Año",regime:"Régimen",object:"Objeto",subject:"Materia",guidedTopic:"Tema",sourceEntity:"Entidad",article:"Artículo",vigencia:"Vigencia"} as Record<string,string>)[key] ?? key}: {Array.isArray(value)?value.join(", "):String(value)} <button type="button" aria-label={`Quitar filtro ${key}`} onClick={()=>setFilters(current=>{const next={...current}; delete next[key as keyof DocumentSearchFilters];return next;})}><X size={14}/></button></span>)}
+            {activeFilters.filter(([key])=>key!=="documentId").map(([key,value])=><span key={key}>{({documentType:"Tipo",year:"Año",regime:"Régimen",object:"Objeto",subject:"Materia",guidedTopic:"Tema",sourceEntity:"Entidad",article:"Artículo",vigencia:"Vigencia",documentTypes:"Tipos",years:"Años",includeUnknownRegime:"Sin régimen revisado",processType:"Proceso",topic:"Tema",status:"Estado"} as Record<string,string>)[key] ?? key}: {filterDisplayValue(key,value)} <button type="button" aria-label={`Quitar filtro ${key}`} onClick={()=>setFilters(current=>{const next={...current}; delete next[key as keyof DocumentSearchFilters];return next;})}><X size={14}/></button></span>)}
             <button type="button" onClick={() => setFilters({})}>
               Quitar filtros
             </button>

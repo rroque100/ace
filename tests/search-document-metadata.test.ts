@@ -25,3 +25,12 @@ it("restaura únicamente estados válidos y recientes por usuario",()=>{
  expect(readSearchSession('{"version":9}',2000)).toBeNull();
  expect(searchSessionKey("alice")).not.toBe(searchSessionKey("bob"));
 });
+
+it("compara entradas restauradas sin depender del orden de las claves",async()=>{
+ const {sameSearchInput}=await import("@/lib/document-search-session");
+ const {documentSearchRequestSchema}=await import("@/lib/document-search");
+ const restored=documentSearchRequestSchema.parse({query:"ejemplo",mode:"literal",page:2,pageSize:5,filters:{year:2026,documentType:"ley"}});
+ expect(sameSearchInput(restored,{query:"ejemplo",filters:{documentType:"ley",year:2026},pageSize:5,page:1,mode:"literal",sort:"relevance"})).toBe(true);
+ expect(sameSearchInput(restored,{...restored,query:"otro"})).toBe(false);
+ expect(documentaryDates({importedAt:"2026-10-24T00:07:00Z"}).imported).toBe("2026-10-23");
+});

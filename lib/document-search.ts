@@ -368,6 +368,14 @@ export type DocumentSearchResponse = {
   query: string;
   mode: DocumentSearchInput["mode"];
 };
+export function passageSearchRank(query: string, match: Pick<DocumentSearchMatch, "excerpt" | "article">) {
+  const text=foldSearchText(match.excerpt);
+  const terms=[...new Set(foldSearchText(query).split(/\s+/))].filter(term=>term.length>2 && !["del","las","los","para","con","una","por"].includes(term));
+  const hits=terms.filter(term=>text.includes(term));
+  return hits.length/Math.max(terms.length,1)*12
+    + (text.includes(foldSearchText(query)) ? 6 : 0)
+    + (match.article ? 2 : 0) - (/\.{5,}/.test(text.slice(0,500)) ? 8 : 0);
+}
 
 /** Highlight each requested word without interpreting text as HTML. */
 export function allWordsMatchParts(text: string, query: string) {

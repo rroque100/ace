@@ -11334,3 +11334,10 @@ a.panelOrigen:hover {
  .mobileFilterFooter { position:sticky; bottom:-85px; padding:12px 0; background:var(--surface); }
  .pdfViewerContent.searchPdfPanel { width:100vw; }
 }
+.pdfViewerContent.searchPdfPanel .pdfViewerBar { flex-wrap:wrap; }
+.pdfViewerContent.searchPdfPanel .pdfViewerControls { flex-wrap:wrap; }
+.documentResult>.documentVersion { display:block; margin-top:4px; }
+@media(max-width:720px) {
+ .mobileOpen .mobileFilterHeader { position:sticky; top:-16px; padding:8px 0; background:var(--surface); z-index:1; }
+ .mobileOpen .mobileFilterFooter { position:fixed; bottom:0; left:0; right:0; padding:12px 16px; border-top:1px solid var(--line); z-index:90; }
+}

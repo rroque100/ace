@@ -63,6 +63,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
   const [currentPage, setCurrentPage] = useState(page && page > 0 ? page : 1);
   const [numPages, setNumPages] = useState(1);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfRef = useRef<any>(null);
@@ -118,7 +119,8 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function renderPage(pdfjs: any, pdf: any, pageNumber: number) {
     const pageObj = await pdf.getPage(pageNumber);
-    const scale = 1.4;
+    const available = Math.max(220, (stageRef.current?.clientWidth ?? 800) - 32);
+    const scale = Math.min(1.4, available / pageObj.getViewport({scale:1}).width);
     const viewport = pageObj.getViewport({ scale });
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -193,13 +195,13 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
           <div className="pdfViewerBar">
             <Dialog.Title>{sidePanel ? "Lectura del documento" : "Cita en el documento"}</Dialog.Title>
             <div className="pdfViewerControls">
-              <button className="iconButton" aria-label="Página anterior" disabled={currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
+              <button className="iconButton" aria-label="Página anterior" disabled={status !== "ready" || currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
                 <ChevronLeft size={16} />
               </button>
               <span>
-                {currentPage} / {numPages}
+                {status === "ready" ? `${currentPage} / ${numPages}` : "Cargando…"}
               </span>
-              <button className="iconButton" aria-label="Página siguiente" disabled={currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
+              <button className="iconButton" aria-label="Página siguiente" disabled={status !== "ready" || currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
                 <ChevronRight size={16} />
               </button>
               <a className="secondaryButton compactButton" href={fallbackHref} rel="noreferrer" target="_blank">
@@ -214,7 +216,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
             </div>
           </div>
 
-          <div className="pdfViewerStage">
+          <div ref={stageRef} className="pdfViewerStage">
             {status === "loading" ? (
               <div className="emptyState">
                 <LoaderCircle size={20} />

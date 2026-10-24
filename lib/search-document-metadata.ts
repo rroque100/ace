@@ -17,8 +17,12 @@ export function documentaryDates(metadata: Record<string, unknown>) {
     }
     return null;
   };
+  const importedValue = metadata.importedAt ?? metadata.uploadedAt;
+  const imported = typeof importedValue === "string" && importedValue.includes("T") && !Number.isNaN(Date.parse(importedValue))
+    ? new Intl.DateTimeFormat("en-CA", {timeZone:"America/Lima",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(importedValue))
+    : date("importedAt", "uploadedAt");
   return { published: date("publicationDate", "publishedAt", "datePublished"),
-    updated: date("versionDate", "updatedTextAt"), imported: date("importedAt", "uploadedAt"),
+    updated: date("versionDate", "updatedTextAt"), imported,
     version: [metadata.officialVersion, metadata.version].find((v): v is string => typeof v === "string" && Boolean(v.trim())) ?? null };
 }
 export function normalizedDocumentNumber(value: string) {
