@@ -64,7 +64,12 @@ export function reviewVoiceText(original: string) {
 export function voiceFallback(text: string): AssistantProposal {
   const proposal = fallbackProposal(text);
   const type = /\bopini[oó]n(?:es)?\b/i.test(text) ? "opinion" : /\bresoluci[oó]n(?:es)?\b/i.test(text) ? "resolucion" : /\breglamento\b/i.test(text) ? "reglamento" : /\bdirectivas?\b/i.test(text) ? "directiva" : /\bpronunciamientos?\b/i.test(text) ? "pronunciamiento" : /\bacuerdo(?:s)? de sala plena\b/i.test(text) ? "acuerdo_sala_plena" : undefined;
-  const year = text.match(/\b(?:19|20)\d{2}\b/)?.[0];
+  const years = [...text.matchAll(/\b(?:19|20)\d{2}\b/g)].filter(match => {
+    const prefix = text.slice(0, match.index).slice(-70);
+    const suffix = text.slice(match.index + match[0].length);
+    return !/^\s*(?:soles|d[oó]lares|euros|unidades|por ciento|%)/i.test(suffix) && /(?:\b(?:año|de|del|en|opiniones|resoluciones|directivas|pronunciamientos|DTN|TCP|OECE|OSCE)\s*|[-/]\s*)$/i.test(prefix);
+  }).map(match => match[0]);
+  const year = new Set(years).size === 1 ? years[0] : undefined;
   const article = text.match(/\bart[ií]culo\s+(\d+(?:\.\d+)*)/i)?.[1];
   const theme = text.match(/\bsobre\s+(.+)/i)?.[1]?.trim();
   const otherNumbers = (text.match(/\d+(?:\.\d+)*/g) ?? []).filter(value => value !== year && value !== article);
@@ -87,7 +92,10 @@ export function guardVoiceProposal(text: string, proposal: AssistantProposal) {
   if ((proposal.search.query.match(/\b(?:OECE|OSCE|DTN|TCP|IVN)\b/gi) ?? []).some(value => !acronyms.some(original => original.toUpperCase() === value.toUpperCase()))) return voiceFallback(text);
   if ([...output].some(value => !source.has(value)) || [...source].some(value => !output.has(value))) return voiceFallback(text);
   const explicitFilters = voiceFallback(text).search.filters;
-  return { ...proposal, destination: "/busqueda" as const, search: documentSearchRequestSchema.parse({ ...proposal.search, filters: explicitFilters }) };
+  const search = documentSearchRequestSchema.parse({ ...proposal.search, filters: explicitFilters });
+  const finalNumbers = numeric(`${search.query} ${search.filters.article ?? ""} ${search.filters.year ?? ""}`);
+  if ([...source].some(value => !finalNumbers.has(value))) return voiceFallback(text);
+  return { ...proposal, destination: "/busqueda" as const, search };
 }
 
 export function voiceSearchInput(filters: DocumentSearchFilters, proposal: AssistantProposal) {

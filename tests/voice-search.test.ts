@@ -31,6 +31,8 @@ it("pide aclarar alternativas y duda en vez de completar una referencia", () => 
 it("conserva los ceros de identificadores y las fechas expresas", () => {
   expect(reviewVoiceText("Opinión 000102-2026/DTN del 23/09/2026").normalized).toBe("Opinión 000102-2026/DTN del 23/09/2026");
   expect(voiceFallback("Opinión 000102-2026/DTN sobre garantías").search.query).toContain("000102");
+  expect(voiceFallback("monto de 2026 soles").search.filters.year).toBeUndefined();
+  expect(voiceFallback("artículo 2026").search.filters.year).toBeUndefined();
 });
 it("rechaza cifras inventadas u omitidas por el asistente", () => {
   const bad = voiceFallback("artículo 13");
