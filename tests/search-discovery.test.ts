@@ -30,3 +30,8 @@ it("prioriza el documento encontrado por ambos métodos sin sumar scores", () =>
 it("no duplica la contribución si un proveedor repite un documento", () => {
   expect(fuseSearchDocuments([doc("a", 1), doc("a", 1)], [])[0].rank).toBe(1 / 61);
 });
+it("elige un pasaje centrado en el tema antes de una mención incidental", () => {
+  const lexical = { ...doc("a", 1), matches: [{ chunkId: "incidental", excerpt: "Introducción general. ".repeat(30) + "Documentación contractual", pageStart: 1, pageEnd: 2, article: null, score: null }] };
+  const semantic = { ...doc("a", .5), matches: [{ chunkId: "direct", excerpt: "Documentación contractual: condiciones y requisitos del documento.", pageStart: 5, pageEnd: 5, article: null, score: null }] };
+  expect(fuseSearchDocuments([lexical], [semantic], "documentación contractual")[0].matches[0].chunkId).toBe("direct");
+});

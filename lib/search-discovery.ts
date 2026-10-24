@@ -1,4 +1,4 @@
-import { foldSearchText, type DocumentSearchResult } from "./document-search";
+import { foldSearchText, passageSearchRank, type DocumentSearchResult } from "./document-search";
 
 /** Formatting only: digits and issuer names retain their identity. */
 export function equivalentReference(query: string) {
@@ -43,7 +43,7 @@ export function lexicalTopic(query: string) {
 }
 
 /** Reciprocal rank fusion: incomparable provider scores are never added directly. */
-export function fuseSearchDocuments(lexical: DocumentSearchResult[], semantic: DocumentSearchResult[]) {
+export function fuseSearchDocuments(lexical: DocumentSearchResult[], semantic: DocumentSearchResult[], query = "") {
   const combined = new Map<string, DocumentSearchResult>();
   for (const [method, list] of [["words", lexical], ["meaning", semantic]] as const) {
     const seen = new Set<string>();
@@ -60,5 +60,8 @@ export function fuseSearchDocuments(lexical: DocumentSearchResult[], semantic: D
       });
     });
   }
-  return [...combined.values()].sort((a, b) => b.rank - a.rank || a.documentId.localeCompare(b.documentId));
+  const passageRank = (match: DocumentSearchResult["matches"][number]) => passageSearchRank(query, match)
+    + passageSearchRank(query, { excerpt: match.excerpt.slice(0, 250), article: null }) / 2;
+  return [...combined.values()].map(document => ({ ...document, matches: query ? document.matches.sort((a, b) => passageRank(b) - passageRank(a) || (a.pageStart ?? Infinity) - (b.pageStart ?? Infinity) || a.chunkId.localeCompare(b.chunkId)) : document.matches }))
+    .sort((a, b) => b.rank - a.rank || a.documentId.localeCompare(b.documentId));
 }

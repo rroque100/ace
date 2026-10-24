@@ -180,7 +180,7 @@ export async function searchDocuments(
         Math.max(...sources.map((source) => source.score)),
       ),
     );
-    documents = fuseSearchDocuments(wordDocuments, documents);
+    documents = fuseSearchDocuments(wordDocuments, documents, input.query);
     warnings.push("Se combinan hasta 20 documentos por palabras con hasta 20 pasajes por significado/referencias. El orden combina posiciones, no porcentajes de certeza jurídica.");
     warnings.push(
       "Este modo muestra documentos recuperados por relevancia; no cuenta todas las coincidencias del catálogo. Ordenar por fecha solo ordena los documentos recuperados; no busca los más recientes de toda la biblioteca. Puedes usar la frase exacta para una búsqueda documental completa del texto indexado.",

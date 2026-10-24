@@ -10,8 +10,8 @@
 
 ## Evidencia
 - Compilación de producción, comprobación de tipos y revisión estática correctas. Persiste advertencia previa de empaquetado pdfjs-dist.
-- 205 pruebas correctas en 27 archivos antes de la última prueba específica de prefiltrado vectorial; registro final en la entrega.
-- Seis casos documentales en search-retrieval-cases-2026-10-24.json: documento esperado en primera posición en los seis. Tiempos observados 420–1111 ms en cinco consultas literales y 3540 ms en una combinada. Son observaciones puntuales, no percentiles ni pruebas de concurrencia.
+- 207 pruebas de regresión correctas en 27 archivos, incluyendo prefiltrado vectorial y selección del pasaje temático.
+- Seis casos documentales en search-retrieval-cases-2026-10-24.json: documento esperado en primera posición en los seis. Tiempos observados 433–1255 ms en cinco consultas literales y 4252 ms en una combinada. Son observaciones puntuales, no percentiles ni pruebas de concurrencia.
 - search-discovery-checks-2026-10-24.json documenta propuesta garantua → garantia, prioridad de identificador exacto y 22 candidatos del filtro opinión/2026, todos consistentes.
 - Los tests deterministas forman parte de la suite que ya ejecuta CI. La evaluación con servicios reales se ejecuta explícitamente: node scripts/evaluate-document-search.mjs docs/evaluaciones/search-retrieval-cases-2026-10-24.json docs/evaluaciones/search-retrieval-results-2026-10-24.json. No escribe historial ni conversaciones.
 
