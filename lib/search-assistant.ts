@@ -10,7 +10,16 @@ export const assistantProposalSchema = z.object({
 });
 export type AssistantProposal = z.infer<typeof assistantProposalSchema>;
 export function parseAssistantProposal(text: string, scope: "search" | "global", original: string): AssistantProposal {
-  const parsed = assistantProposalSchema.parse(JSON.parse(text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "")));
+  const raw=JSON.parse(text.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""));
+  if(Array.isArray(raw?.search?.filters)) {
+    const entries=raw.search.filters.flatMap((item:unknown)=>{
+      if(!item || typeof item!=="object" || Array.isArray(item)) throw new Error("Filtro inválido");
+      return Object.entries(item);
+    });
+    if(entries.length>10 || new Set(entries.map(([key]:[string,unknown])=>key)).size!==entries.length) throw new Error("Filtros ambiguos");
+    raw.search.filters=Object.fromEntries(entries);
+  }
+  const parsed = assistantProposalSchema.parse(raw);
   if (scope === "search") parsed.destination = "/busqueda";
   if (parsed.search.filters.documentType && !OFFICIAL_CORPUS_TYPES.some(type => type.value === parsed.search.filters.documentType)) throw new Error("Tipo desconocido");
   // The assistant cannot introduce identity, hidden classification or applicability constraints.
