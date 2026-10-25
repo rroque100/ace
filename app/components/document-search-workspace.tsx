@@ -359,6 +359,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   const params = useSearchParams();
   const router = useRouter();
   const storageKey = searchSessionKey(ownerId, params.toString());
+  const [savedSearch, setSavedSearch] = useState<ReturnType<typeof readSearchSession>>(null);
   const [showSuggestions,setShowSuggestions]=useState(false);
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [mode, setMode] = useState<DocumentSearchInput["mode"]>("literal");
@@ -514,15 +515,12 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     try {
       const snapshot = readSearchSession(sessionStorage.getItem(storageKey));
       if (!snapshot || cancelled) return;
-      setQuery(snapshot.input.query); setMode(snapshot.input.mode); setFilters(snapshot.input.filters);
-      setSort(snapshot.input.sort); setPageSize(snapshot.input.pageSize); setSelected(snapshot.selected);
-      restoredScroll.current=snapshot.scroll;
-      void run(snapshot.input.page, snapshot.input);
+      // A fresh visit stays blank. Restoring previous work requires an explicit action.
+      setSavedSearch(snapshot);
     } catch { /* Invalid or unavailable storage starts an empty search. */ }
     });
     return () => { cancelled=true; };
-    // Restore once per authenticated owner. Subsequent edits must not trigger restoration.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Offer previous work for this owner/context without changing the initial query.
   }, [storageKey]);
   useEffect(() => {
     const save = () => {
@@ -665,6 +663,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     <div className="documentSearchWorkspace">
       <LegalCenterNav active="busqueda" filters={filters} />
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
+      {savedSearch && !lastInput && !query ? <button type="button" className="secondaryButton" onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
       <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
       <section className={`documentSearchIntro${result ? " compactSearchIntro" : ""}`}>
         <span className="documentSearchEyebrow">TU BIBLIOTECA JURÍDICA</span>
