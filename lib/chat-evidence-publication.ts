@@ -1,3 +1,4 @@
+import { parseAlternatives, checkedAlternative } from "./chat-alternatives";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
 import { evidenceClaims, selectCoherentEvidence, type AuditSource, type EvidenceReview } from "./chat-evidence-audit";
@@ -38,13 +39,29 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
     && claim.markers.length && claim.markers.every(n => coherent.has(sources[n - 1]))
     && checkCitationFaithfulness(claim.text, sources).ok);
   review.omittedCount = review.claims.length ? claims.length - kept.length : 0;
+  const alternatives = parseAlternatives(question);
+  if (alternatives) {
+    const choices = kept.filter(claim => checkedAlternative(claim.text, alternatives));
+    // A checked explanation cannot stand in for an unchecked or contradictory choice.
+    const declaredChoices = claims.filter(claim => checkedAlternative(claim.text, alternatives));
+    if (choices.length !== 1 || declaredChoices.length !== 1) {
+      review.presentation = "empty";
+      review.documentary = "unchecked";
+      return review.reviewStatus === "failed" || review.reviewStatus === "unavailable" || review.reviewStatus === "incomplete"
+        ? "**Respuesta**\nNo pude completar la comprobación de una alternativa. Esto no significa que no exista una respuesta en las normas. Reintenta la consulta o abre las fuentes para revisarlas."
+        : "**Respuesta**\nNo pude confirmar una única alternativa con la evidencia recuperada. Los pasajes relacionados no bastan para elegir; hace falta la disposición que responda al enunciado y permita distinguir las opciones.";
+    }
+    const choice = choices[0];
+    kept.splice(kept.indexOf(choice),1); kept.unshift(choice);
+  }
   if (kept.length) {
     review.presentation = kept.length === claims.length && review.reviewStatus === "complete" ? "verified" : "partial";
     review.documentary = review.presentation === "verified" ? "checked" : "partial";
     const relevantSources = citedSourceNumbers(kept.map(c => c.text).join("\n"));
     const labels = relevantSources.slice(0, 2).map(n => {
       const quote = review.claims.flatMap(c => c.evidence ?? []).find(item => item.source === n)?.quote;
-      return `${sourceLabel(sources[n - 1], quote)} [F${n}]`;
+      const checkedText = alternatives ? kept.find(claim=>claim.markers.includes(n) && /\b\d+\.\d+\b/.test(claim.text))?.text : undefined;
+      return `${sourceLabel(sources[n - 1], checkedText ?? quote)} [F${n}]`;
     });
     const clean = (text: string) => text.replace(/^[.,;\s]+/, "");
     // Name only documents cited by the primary checked claim; never infer applicable law.
