@@ -711,7 +711,8 @@ export function NormativeBrowser() {
                       <Search size={15} />
                       <input
                         onChange={(event) => setArticleFilter(event.target.value)}
-                        placeholder="Buscar articulo o texto"
+                        aria-label="Buscar artículo o texto"
+                        placeholder="Buscar artículo o texto"
                         value={articleFilter}
                       />
                     </label>
@@ -728,6 +729,8 @@ export function NormativeBrowser() {
                         <Sparkles size={15} />
                         <input
                           onChange={(event) => setSemanticQuery(event.target.value)}
+                          aria-label="Buscar por tema en este documento"
+                          maxLength={500}
                           placeholder="Describe qué buscas en este documento"
                           value={semanticQuery}
                         />

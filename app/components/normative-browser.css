@@ -36,3 +36,10 @@
 .normPagination button:disabled { opacity:.5;cursor:default; }
 @media(max-width:1100px) { .normBrowser .normGrid { grid-template-columns:minmax(200px,260px) minmax(0,1fr); }.normBrowser .articleLayout { grid-template-columns:1fr; }.normativeSectionIndex { max-height:260px; } }
 @media(max-width:760px) { .normBrowser .normGrid { grid-template-columns:1fr; }.normBrowser .normList { max-height:360px; }.normBrowser .normPrimaryFilters { grid-template-columns:1fr; }.normReadingActions>* { width:100%;justify-content:center; }.normBrowser .normFilters { grid-template-columns:1fr; }.normBrowser .articleReader { padding:14px; }.normBrowser .versionChip { width:100%; }.normBrowser .normDetailHeader { flex-wrap:wrap; } }
+/* Avoid a compressed third column beside the application sidebar and document list. */
+.normBrowser .normDetail,.normBrowser .articleReader,.normBrowser .articleNavCol { min-width:0;max-width:100%; }
+.normBrowser .articleReader>* { min-width:0;max-width:100%; }
+.normBrowser .concordanciaChip { white-space:normal;overflow-wrap:anywhere;max-width:100%;text-align:left; }
+.normBrowser .sourceActions { flex-wrap:wrap; }
+.normBrowser .articleText { max-height:none;overflow:visible; }
+@media(max-width:1500px) { .normBrowser .articleLayout { grid-template-columns:minmax(0,1fr); }.normativeSectionIndex { max-height:240px; } }
