@@ -882,9 +882,22 @@ function LegalChatSession() {
 
   const timelineEndRef = useRef<HTMLDivElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
+  const composerDockRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   const hasConversation = messages.length > 0;
+  useEffect(() => {
+    if (!hasConversation) return;
+    const form = composerDockRef.current;
+    const shell = form?.closest<HTMLElement>(".legalShell");
+    if (!form || !shell) return;
+    const update = () => shell.style.setProperty("--legal-composer-height", `${Math.ceil(form.getBoundingClientRect().height)}px`);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(form);
+    return () => { observer.disconnect(); shell.style.removeProperty("--legal-composer-height"); };
+  }, [hasConversation]);
+
   const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession && !attachmentsBusy;
 
   useEffect(() => {
@@ -1617,7 +1630,7 @@ function LegalChatSession() {
 
       {hasConversation ? conversation : null}
 
-      <form className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}`} onSubmit={submitQuestion}>
+      <form ref={composerDockRef} className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}`} onSubmit={submitQuestion}>
         <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
           id="legal-chat-question"

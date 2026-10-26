@@ -198,6 +198,7 @@
 .legalWorkspace .documentMatchOptions { @apply rounded-lg border-0 bg-surface/50 px-3 py-1; }
 .legalWorkspace .documentMatchOptions>summary { @apply min-h-10 cursor-pointer text-[13px] leading-6 text-muted; }
 .legalWorkspace .documentMatchOptions .searchPublicationRange { @apply mt-3; }
+.legalWorkspace .mobileFilterToggle { @apply hidden; }
 .legalWorkspace .documentLibraryTools { @apply gap-1; }
 .legalWorkspace .documentLibraryTools>.legalWorkspacePanel { @apply border-0 bg-transparent p-1; }
 .legalWorkspace :is(.documentSearchHint,.documentCoverage,.chatQuestionHelp,.normScopeNote) { @apply text-[13px] leading-6; }
@@ -210,9 +211,11 @@
 .legalWorkspace .chatComposerBar { @apply mx-4 mb-3 mt-3; }
 .legalWorkspace .chatComposerDock { @apply sticky bottom-3 z-20 shadow-pop; }
 .legalWorkspace .chatComposerDock textarea { max-height: min(30dvh,180px); }
+.legalShell:has(.chatComposerDock) .aceAssistantWidget:has(>button[aria-label="Abrir Mi Yo"]) { bottom:calc(var(--legal-composer-height,200px) + 24px); }
 .legalWorkspace .chatQuestionHelp { @apply m-0; }
 .legalWorkspace .normReaderToolbar { @apply mb-3 flex flex-wrap items-center gap-3; scroll-margin-top:12px; }
 .legalWorkspace .normReaderToolbar:empty { @apply hidden; }
+.legalWorkspace .normReaderToolbar:focus { outline:none; }
 .legalWorkspace .normReaderToolbar>span { @apply text-[13px] leading-6 text-muted; }
 .legalWorkspace .normReading .normCatalogueControls,.legalWorkspace .normReading .normList { @apply hidden; }
 .legalWorkspace .normBrowsing .normDetail { @apply hidden; }
@@ -261,4 +264,7 @@
   .legalWorkspace .chatComposerBar { @apply mx-3 p-3; }
   .legalWorkspace .chatComposerDock .chatQuestionHelp { @apply hidden; }
   .legalWorkspace .normCategoryTabs { @apply grid-cols-1; }
+}
+@media (max-width: 720px) {
+  .legalWorkspace .mobileFilterToggle { @apply inline-flex; }
 }
