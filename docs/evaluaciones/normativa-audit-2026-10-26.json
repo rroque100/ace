@@ -1,0 +1,107 @@
+{
+  "checkedAt": "2026-10-26T13:43:03.788Z",
+  "institutionalDocuments": 93,
+  "types": [
+    "opinion",
+    "resolucion",
+    "guia_instructivo",
+    "bases_estandar",
+    "ley",
+    "pronunciamiento",
+    "directiva",
+    "reglamento",
+    "acuerdo_sala_plena"
+  ],
+  "versionFamilies": 90,
+  "relatedFamilies": [
+    {
+      "key": "reglamento:92025ef",
+      "documents": [
+        {
+          "id": "43b7991a-0768-45c2-a1a0-7c4d0c62abef",
+          "title": "Reglamento de la ley general de contrataciones publicas 32069",
+          "dates": {
+            "published": null,
+            "updated": null,
+            "imported": null,
+            "version": null
+          }
+        },
+        {
+          "id": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "dates": {
+            "published": null,
+            "updated": null,
+            "imported": "2026-10-22",
+            "version": "Texto actualizado al 09.01.2026"
+          }
+        }
+      ]
+    },
+    {
+      "key": "ley:32069",
+      "documents": [
+        {
+          "id": "6fb826a6-8be3-40f6-891d-f6f81b24a73b",
+          "title": "Ley general de contrataciones publicas",
+          "dates": {
+            "published": null,
+            "updated": null,
+            "imported": null,
+            "version": null
+          }
+        },
+        {
+          "id": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "dates": {
+            "published": null,
+            "updated": null,
+            "imported": "2026-10-22",
+            "version": "Texto actualizado al 19.07.2026"
+          }
+        }
+      ]
+    },
+    {
+      "key": "bases_estandar:basesestandardelicitacionpublicaabreviadadeobras",
+      "documents": [
+        {
+          "id": "eeb24a99-b0f7-4c69-82d4-0a41fd4d26ce",
+          "title": "Bases estándar de Licitación pública abreviada de obras — Publicación original 2025",
+          "dates": {
+            "published": "2025-04-20",
+            "updated": null,
+            "imported": "2026-10-24",
+            "version": "Publicación original 2025"
+          }
+        },
+        {
+          "id": "fb37186c-f9b6-4e3b-9a7b-fc6fc424fba7",
+          "title": "Bases estándar de Licitación pública abreviada de obras — Texto rectificado publicado en 2025",
+          "dates": {
+            "published": "2025-04-20",
+            "updated": null,
+            "imported": "2026-10-24",
+            "version": "Texto rectificado publicado en 2025"
+          }
+        }
+      ]
+    }
+  ],
+  "readingCheck": {
+    "documentId": "43b7991a-0768-45c2-a1a0-7c4d0c62abef",
+    "articles": 381,
+    "articlesWithSection": 0,
+    "articlesWithExplicitHeading": 377,
+    "articlesWithoutPage": 0,
+    "chunks": 441,
+    "references": 290,
+    "incomingReferences": 2
+  },
+  "validityChecks": {
+    "currentExcludedNonCurrent": true
+  },
+  "humanLegalReview": "pending"
+}

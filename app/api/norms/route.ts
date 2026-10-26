@@ -1,164 +1,45 @@
-import { canonicalSourceEntity, documentaryDates } from "@/lib/search-document-metadata";
-import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "@/lib/legal-workspace-filters";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { requireUser } from "@/lib/auth";
-import { supabaseRest } from "@/lib/supabase-server";
-import { countReferencedPages } from "@/lib/document-pages";
+import { loadSearchCatalogue } from "@/lib/document-search-server";
+import { documentSearchFiltersSchema, matchesSearchCatalogue } from "@/lib/document-search";
 import { corpusTypesForGroup } from "@/lib/official-corpus";
-
+import { canonicalSourceEntity, documentaryDates } from "@/lib/search-document-metadata";
+import { reviewedRegime } from "@/lib/legal-workspace-filters";
+import { documentReviewSummary } from "@/lib/document-review";
+import { normTitleMatches } from "@/lib/normative-library";
+import { optionalNormativeRows } from "@/lib/normative-server";
+import { countReferencedPages } from "@/lib/document-pages";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-type NormRow = {
-  id: string;
-  title: string;
-  document_type: string;
-  source_entity: string | null;
-  process_type: string | null;
-  status: string;
-  metadata: Record<string, unknown>;
-  created_at: string;
-  norma_articulos: Array<{ count: number }>;
-};
-
-type ChunkRow = {
-  document_id: string;
-  page_start: number | null;
-  page_end: number | null;
-  pinecone_vector_id: string | null;
-};
-
-type SummaryRow = {
-  document_id: string;
-};
-
-type ConcordanciaRow = {
-  source_document_id: string;
-};
-
-function typeFilter(category: string | null) {
-  if (category && ["normas", "jurisprudencia", "orientacion"].includes(category)) {
-    return `&document_type=in.(${corpusTypesForGroup(category).join(",")})`;
-  }
-  return "";
-}
-
-function exactFilter(column: string, value: string | null) {
-  return value ? `&${column}=eq.${encodeURIComponent(value)}` : "";
-}
-
+const requestSchema = z.object({ q:z.string().max(200).default(""), category:z.enum(["normas","jurisprudencia","orientacion"]).default("normas"), page:z.coerce.number().int().min(1).max(10000).default(1), pageSize:z.coerce.number().int().min(5).max(50).default(20), vigencia:z.enum(["","vigente","no vigente","derogado","unknown"]).default("") });
 export async function GET(request: Request) {
+  const auth = await requireUser(); if ("error" in auth) return auth.error;
+  const params = new URL(request.url).searchParams;
+  const options = requestSchema.safeParse(Object.fromEntries(params));
+  const filters = documentSearchFiltersSchema.safeParse({ documentType:params.get("documentType")??undefined, processType:params.get("processType")??undefined, sourceEntity:params.get("sourceEntity")??undefined, year:params.get("year")?Number(params.get("year")):undefined, vigencia:params.get("vigencia")??undefined, topic:params.get("topic")??undefined, regime:params.get("regime")??"", includeUnknownRegime:params.get("includeUnknownRegime")==="true", documentTypes:params.get("documentTypes")?.split(",").filter(Boolean), years:params.get("years")?.split(",").filter(Boolean).map(Number) });
+  if (!options.success || !filters.success) return NextResponse.json({error:"Revisa los filtros.",norms:[]},{status:400});
   try {
-    const auth = await requireUser();
-    if ("error" in auth) {
-      return auth.error;
-    }
-
-    const params = new URL(request.url).searchParams;
-    const category = params.get("category");
-    const extra = extendedLegalFiltersSchema.safeParse({ documentTypes: params.get("documentTypes")?.split(",").filter(Boolean), years: params.get("years")?.split(",").filter(Boolean).map(Number), regime: params.get("regime") ?? "", includeUnknownRegime: params.get("includeUnknownRegime") === "true" });
-    if (!extra.success) return NextResponse.json({ error: "Filtros inválidos", norms: [] }, { status: 400 });
-    const rows = await supabaseRest<NormRow[]>(
-      `documents?select=id,title,document_type,source_entity,process_type,status,metadata,created_at,norma_articulos(count)` +
-        `&es_institucional=eq.true&status=eq.indexed${extra.data.documentTypes?.length ? "" : typeFilter(category)}` +
-        exactFilter("document_type", extra.data.documentTypes?.length ? null : params.get("documentType")) +
-        exactFilter("process_type", params.get("processType")) +
-
-        `&order=document_type.asc,created_at.desc&limit=300`,
-    );
-    const filteredRows = rows.filter(row => (!params.get("sourceEntity") || (canonicalSourceEntity(row.source_entity) ?? "").toLowerCase().includes((canonicalSourceEntity(params.get("sourceEntity")) ?? "").toLowerCase())) && matchesExtendedFilters({ documentType: row.document_type, year: typeof row.metadata?.year === "number" ? row.metadata.year : null, regime: reviewedRegime(row.metadata ?? {}), regimeReviewed: reviewedRegime(row.metadata ?? {}) !== "no_determinado" }, extra.data));
-    const documentIds = filteredRows.map((row) => row.id);
-    const idFilter = documentIds.length ? `in.(${documentIds.map((id) => `"${id}"`).join(",")})` : "in.(\"\")";
-    const [chunks, summaries, concordancias] = await Promise.all([
-      supabaseRest<ChunkRow[]>(
-        `document_chunks?document_id=${idFilter}&select=document_id,page_start,page_end,pinecone_vector_id&limit=20000`,
-      ).catch(() => []),
-      supabaseRest<SummaryRow[]>(
-        `document_summaries?document_id=${idFilter}&select=document_id&limit=1000`,
-      ).catch(() => []),
-      supabaseRest<ConcordanciaRow[]>(
-        `norma_concordancias?source_document_id=${idFilter}&select=source_document_id&limit=20000`,
-      ).catch(() => []),
-    ]);
-    const chunksByDocument = new Map<string, ChunkRow[]>();
-    const summaryIds = new Set(summaries.map((summary) => summary.document_id));
-    const concordanceCount = new Map<string, number>();
-
-    for (const chunk of chunks) {
-      chunksByDocument.set(chunk.document_id, [...(chunksByDocument.get(chunk.document_id) ?? []), chunk]);
-    }
-
-    for (const concordancia of concordancias) {
-      concordanceCount.set(
-        concordancia.source_document_id,
-        (concordanceCount.get(concordancia.source_document_id) ?? 0) + 1,
-      );
-    }
-
-    const norms = filteredRows
-      .map((row) => {
-      const metadata = row.metadata ?? {};
-      const documentChunks = chunksByDocument.get(row.id) ?? [];
-      const pagesDetected = countReferencedPages(documentChunks);
-      const vectorsDetected = documentChunks.filter((chunk) => chunk.pinecone_vector_id).length;
-      const pineconeVerification = metadata.pinecone;
-      const pineconeVerified = Boolean(
-        pineconeVerification &&
-          typeof pineconeVerification === "object" &&
-          (pineconeVerification as Record<string, unknown>).verification &&
-          ((pineconeVerification as Record<string, unknown>).verification as Record<string, unknown>).verified === true,
-      );
-      return {
-        id: row.id,
-        title: row.title,
-        documentType: row.document_type,
-        sourceEntity: canonicalSourceEntity(row.source_entity),
-        dates: documentaryDates(metadata),
-        processType: row.process_type,
-        status: row.status,
-        regime: typeof metadata.regime === "string" ? metadata.regime : null,
-        articleCount: row.norma_articulos?.[0]?.count ?? 0,
-        documentNumber:
-          typeof metadata.documentNumber === "string"
-            ? metadata.documentNumber
-            : typeof metadata.number === "string"
-              ? metadata.number
-              : null,
-        vigencia: typeof metadata.vigencia === "string" ? metadata.vigencia : null,
-        topic: typeof metadata.topic === "string" ? metadata.topic : null,
-        year: typeof metadata.year === "number" ? metadata.year : null,
-        amends: typeof metadata.amends === "string" ? metadata.amends : null,
-        concordanceCount: concordanceCount.get(row.id) ?? 0,
-        createdAt: row.created_at,
-        hasSummary: summaryIds.has(row.id),
-        pagesDetected,
-        pineconeVerified,
-        qualityStatus:
-          documentChunks.length > 0 && pagesDetected > 0 && (pineconeVerified || vectorsDetected > 0)
-            ? "lista"
-            : "revisar",
-        vectorCount: vectorsDetected,
-      };
-    })
-      .filter((row) => {
-        const year = params.get("year");
-        const vigencia = params.get("vigencia")?.toLowerCase();
-        const topic = params.get("topic")?.toLowerCase();
-
-        if (!extra.data.years?.length && year && String(row.year ?? "") !== year) return false;
-        if (vigencia && !(row.vigencia ?? "").toLowerCase().includes(vigencia)) return false;
-        if (topic && !(row.topic ?? "").toLowerCase().includes(topic)) return false;
-        return true;
-      });
-
-    return NextResponse.json({ norms });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "No se pudieron listar las normas",
-        norms: [],
-      },
-      { status: 500 },
-    );
-  }
+    const rows = await loadSearchCatalogue();
+    const categoryRows = rows.filter(row=>corpusTypesForGroup(options.data.category).includes(row.document_type));
+    const matches = categoryRows.filter(row=>matchesSearchCatalogue(row,filters.data)&&normTitleMatches(row,options.data.q));
+    matches.sort((a,b)=>a.title.localeCompare(b.title,"es")||a.id.localeCompare(b.id));
+    const total=matches.length, pages=Math.ceil(total/options.data.pageSize), page=Math.min(options.data.page,Math.max(1,pages));
+    const selected=matches.slice((page-1)*options.data.pageSize,page*options.data.pageSize);
+    const warnings:string[]=[];
+    const ids=`in.(${selected.map(row=>row.id).join(",")})`;
+    const [chunks,summaries,references,articles] = selected.length ? await Promise.all([
+      optionalNormativeRows<{document_id:string;page_start:number|null;page_end:number|null;pinecone_vector_id:string|null}>(`document_chunks?document_id=${ids}&select=id,document_id,page_start,page_end,pinecone_vector_id`,"No se pudieron comprobar las páginas y el índice de consulta.",warnings),
+      optionalNormativeRows<{document_id:string}>(`document_summaries?document_id=${ids}&select=id,document_id`,"No se pudo comprobar la disponibilidad de resúmenes.",warnings),
+      optionalNormativeRows<{source_document_id:string}>(`norma_concordancias?source_document_id=${ids}&select=id,source_document_id`,"No se pudieron comprobar las referencias.",warnings),
+      optionalNormativeRows<{document_id:string}>(`norma_articulos?document_id=${ids}&select=id,document_id`,"No se pudo comprobar el índice de artículos.",warnings),
+    ]) : [[],[],[],[]];
+    const norms=selected.map(row=>{
+      const own=chunks.filter(item=>item.document_id===row.id);
+      const pinecone=row.metadata.pinecone as {verification?:{verified?:boolean}}|undefined;
+      const pineconeVerified=pinecone?.verification?.verified===true;
+      return { id:row.id,title:row.title,documentType:row.document_type,sourceEntity:canonicalSourceEntity(row.source_entity),processType:row.process_type,status:typeof row.metadata.status==="string"?row.metadata.status:"indexed",regime:reviewedRegime(row.metadata),dates:documentaryDates(row.metadata),review:documentReviewSummary(row.metadata),documentNumber:row.metadata.documentNumber??row.metadata.number??null,year:row.metadata.year??null,vigencia:row.metadata.vigencia??null,topic:row.metadata.topic??null,amends:row.metadata.amends??null,articleCount:articles.filter(item=>item.document_id===row.id).length,pagesDetected:countReferencedPages(own),vectorCount:own.filter(item=>item.pinecone_vector_id).length,pineconeVerified,hasSummary:summaries.some(item=>item.document_id===row.id),concordanceCount:references.filter(item=>item.source_document_id===row.id).length,qualityStatus:warnings.length?"revisar":"lista" };
+    });
+    return NextResponse.json({norms,total,page,pages,pageSize:options.data.pageSize,warnings,facets:{entities:[...new Set(categoryRows.map(row=>canonicalSourceEntity(row.source_entity)).filter(Boolean))].sort(),years:[...new Set(categoryRows.map(row=>row.metadata.year).filter(value=>typeof value==="number"))].sort((a,b)=>Number(b)-Number(a)),categoryTotal:categoryRows.length}},{headers:{"Cache-Control":"no-store"}});
+  } catch { return NextResponse.json({error:"No se pudo completar el listado. Intenta de nuevo; esto no significa que no existan documentos.",norms:[]},{status:503}); }
 }
