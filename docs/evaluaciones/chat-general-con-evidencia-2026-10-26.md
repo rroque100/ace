@@ -16,3 +16,6 @@ Se consultó el corpus real sin guardar conversaciones de prueba. Una explicaci�
 
 ## Límites
 No se añadieron fuentes ni reglas normativas fijas. Los cuerpos, regímenes y versiones sin revisión humana siguen pendientes. La recuperación no certifica cobertura completa del catálogo. La precisión jurídica requiere evaluación amplia por especialistas; la aprobación automática comprueba respaldo de las fuentes recuperadas, no aplicabilidad definitiva a un caso.
+
+## Comprobación de producción
+El commit 810495d quedó Ready y asignado a ace-rormi.vercel.app. Desde el navegador se realizó una consulta nueva de comparación: el Chat mostró tres filas (finalidad, responsable y contenido), citas abiertas por celda y revisión documental comprobada. Se corrigió además el ancho mínimo de las columnas para impedir palabras partidas letra por letra, con desplazamiento horizontal contenido en la tabla.

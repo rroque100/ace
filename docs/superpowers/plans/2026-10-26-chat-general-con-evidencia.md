@@ -12,4 +12,4 @@ No codificar respuestas jurídicas. Respetar filtros, selección obligatoria, ar
 - [x] Integrar recuperación por subpreguntas, avisos de fallos parciales e instrucciones de generación adaptativas. Mantener alternativas existentes.
 - [x] Revisar respuestas largas por lotes acotados, conservar lo comprobado y declarar cualquier límite o fallo sin convertirlo en ausencia de fuentes.
 - [x] Probar formatos, selección, casos, streaming, errores y regresiones; ejecutar tipos, lint y build.
-- [ ] Comprobar con consultas reales del corpus y publicar los cambios autorizados, verificando producción.
+- [x] Comprobar con consultas reales del corpus y publicar los cambios autorizados, verificando producción.

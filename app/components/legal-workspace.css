@@ -287,3 +287,8 @@
 .legalWorkspace .compareSide label { @apply flex min-w-0 max-w-full flex-col gap-2; }
 .legalWorkspace .compareSide :is(input,select) { @apply w-full min-w-0; }
 @container (max-width:720px) { .legalWorkspace .compareColumns { @apply grid-cols-1; } }
+/* Keep comparison labels readable; narrow screens scroll the table, not the page. */
+.legalWorkspace .answerTableWrap { @apply min-w-0 max-w-full overflow-x-auto; }
+.legalWorkspace .answerTable { @apply w-full min-w-[40rem] table-fixed; }
+.legalWorkspace .answerTable :is(th,td) { word-break:normal; overflow-wrap:break-word; }
+.legalWorkspace .answerTable :is(th,td):first-child { @apply w-32; }
