@@ -27,14 +27,14 @@
 .legalWorkspace .legalCenterNav { @apply mb-6 rounded-2xl border border-line bg-panel p-2 shadow-card; }
 .legalWorkspace .legalCenterNav nav { @apply grid grid-cols-3 gap-1; }
 .legalWorkspace .legalCenterNav .legalCenterItem {
-  @apply flex min-h-16 min-w-0 items-center gap-3 rounded-xl border border-transparent px-4 py-3 text-ink no-underline transition-colors;
+  @apply flex min-h-16 min-w-0 items-center gap-3 whitespace-normal rounded-xl border border-transparent px-4 py-3 text-ink no-underline transition-colors;
 }
 .legalWorkspace .legalCenterNav a.legalCenterItem:hover { @apply bg-surface; }
 .legalWorkspace .legalCenterNav .legalCenterItem[aria-current=page] { @apply border-brand/20 bg-brand-soft text-brand; }
 .legalWorkspace .legalCenterNav .legalCenterItem svg { @apply size-5 shrink-0; }
 .legalWorkspace .legalCenterNav .legalNavLabel { @apply block text-[14px] font-semibold leading-5; }
 .legalWorkspace .legalCenterNav .legalNavHint { @apply mt-0.5 block text-[12px] font-normal leading-5 text-muted; }
-.legalWorkspace .legalCenterNav .legalNavScope { @apply m-0 border-t border-line/60 px-3 pb-1 pt-2 text-[12px] leading-5 text-muted; }
+.legalWorkspace .legalCenterNav .legalNavScope { @apply m-0 block border-t border-line/60 px-3 pb-1 pt-2 text-[12px] leading-5 text-muted; }
 .legalWorkspace :is(.legalWorkspacePanel,.documentCoverage) { @apply rounded-xl border border-line bg-panel p-4 shadow-none; }
 .legalWorkspace :is(.legalWorkspacePanel,.documentCoverage)>summary { @apply min-h-8 cursor-pointer text-[13px] font-medium leading-6 text-muted; }
 .legalWorkspace :is(.documentCoverage,.documentSearchLimits) { @apply text-[13px] leading-6 text-muted; }
@@ -129,6 +129,9 @@
 .legalWorkspace :is(.normProvenance,.normTechnicalState,.normAssistedReading) { @apply my-3 rounded-xl border border-line bg-panel px-4 py-2; }
 .legalWorkspace :is(.normProvenance,.normTechnicalState,.normAssistedReading)>summary { @apply min-h-10 cursor-pointer text-[13px] font-medium leading-6; }
 .legalWorkspace .versionPanel { @apply my-4 rounded-xl border border-line bg-surface/50 p-4; }
+.legalWorkspace .versionPanel>summary { @apply min-h-8 cursor-pointer text-[13px] font-medium leading-6; }
+.legalWorkspace .versionPanel>span { @apply mt-3 block text-[12px] leading-6 text-muted; }
+.legalWorkspace .articleSearch input:not([type]) { @apply border-0 bg-transparent; }
 .legalWorkspace .normBrowser .articleLayout { @apply mt-5 grid grid-cols-1 gap-5; }
 .legalWorkspace .normativeSectionIndex { @apply max-h-60 rounded-xl border border-line bg-surface/40 p-3; }
 .legalWorkspace .normativeSectionIndex button { @apply rounded-lg; }

@@ -660,8 +660,8 @@ export function NormativeBrowser() {
               </details>
               {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
               {selectedVersionGroup ? (
-                <div className="versionPanel">
-                  <strong>Versionado normativo</strong>
+                <details className="versionPanel">
+                  <summary>Versiones del documento · {selectedVersionGroup.total}</summary>
                   <span>
                     {selectedVersionGroup.total} documentos de la misma familia · ordenados por fecha de actualización o publicación; fechas desconocidas al final
                   </span>
@@ -684,7 +684,7 @@ export function NormativeBrowser() {
                       Hay notas o estados que requieren revisión. No se ha comprobado aquí que una norma modifique o derogue otra.
                     </small>
                   ) : null}
-                </div>
+                </details>
               ) : null}
 
               {repeatedArticleNumbers(detail.articles).length ? <p className="normPartialNotice">Hay numeración de artículos repetida en este archivo. Puede contener varios cuerpos o secciones; el ámbito aún no está separado. Comprueba encabezado y página del PDF antes de citar.</p> : null}
