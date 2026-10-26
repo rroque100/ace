@@ -1617,35 +1617,6 @@ function LegalChatSession() {
 
       {hasConversation ? conversation : null}
 
-      <div className="chatComposeTools">
-      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
-      <section className="chatCaseContext" aria-label="Contexto del caso">
-        <details>
-          <summary>Añadir datos del caso · opcional</summary>
-          <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
-          <fieldset disabled={isStreaming || loadingSession}>
-            <label>Régimen aplicable
-              <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
-                onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
-            </label>
-            <label>Objeto contractual
-              <input maxLength={400} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
-                onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
-            </label>
-            <label>Fechas relevantes
-              <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
-                onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
-            </label>
-            <label>Hechos del caso
-              <textarea rows={3} maxLength={6000} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
-                onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
-            </label>
-          </fieldset>
-        </details>
-        <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
-        {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
-      </section>
-      </div>
       <form className="chatComposerBar" onSubmit={submitQuestion}>
         <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
@@ -1681,6 +1652,35 @@ function LegalChatSession() {
         )}
         <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
+      <div className="chatComposeTools">
+      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <section className="chatCaseContext" aria-label="Contexto del caso">
+        <details>
+          <summary>Añadir datos del caso · opcional</summary>
+          <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
+          <fieldset disabled={isStreaming || loadingSession}>
+            <label>Régimen aplicable
+              <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
+                onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
+            </label>
+            <label>Objeto contractual
+              <input maxLength={400} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
+                onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
+            </label>
+            <label>Fechas relevantes
+              <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
+                onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
+            </label>
+            <label>Hechos del caso
+              <textarea rows={3} maxLength={6000} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
+                onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
+            </label>
+          </fieldset>
+        </details>
+        <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
+        {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
+      </section>
+      </div>
       {!hasConversation ? conversation : null}
       </div>
       <aside className="chatNormsRail" aria-label="Normas de la última respuesta">

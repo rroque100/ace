@@ -662,18 +662,18 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   return (
     <div className="documentSearchWorkspace">
       <LegalCenterNav active="busqueda" filters={filters} />
-      <LegalSearchHistory revision={historyRevision} onRestore={restore} />
-      {savedSearch && !lastInput && !query ? <button type="button" className="secondaryButton" onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
-      <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
       <section className={`documentSearchIntro${result ? " compactSearchIntro" : ""}`}>
+        <div>
         <span className="documentSearchEyebrow">TU BIBLIOTECA JURÍDICA</span>
         <h2>Encuentra el documento que necesitas</h2>
         <p>
           Busca una frase conocida o describe lo que necesitas. Revisa las
           coincidencias y consulta el original.
         </p>
-      </section>
+        </div>
       <SearchAssistant ownerId={ownerId} onApply={input=>{setQuery(input.query);setMode(input.mode);setFilters(input.filters);void run(1,input);}} />
+      </section>
+
       <form
         className="documentSearchForm"
         onSubmit={(event: FormEvent) => {
@@ -987,6 +987,11 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           </div>
         ) : null}
       </form>
+      <div className="documentLibraryTools">
+      <LegalSearchHistory revision={historyRevision} onRestore={restore} />
+      {savedSearch && !lastInput && !query ? <button type="button" className="secondaryButton" onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
+      <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
+      </div>
       {error ? (
         <p className="documentSearchError" role="alert">
           {error}

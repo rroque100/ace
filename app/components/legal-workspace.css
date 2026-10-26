@@ -23,6 +23,7 @@
 .legalWorkspace .secondaryButton { @apply border border-line bg-panel text-ink hover:border-brand/40 hover:bg-brand-soft hover:text-brand; }
 .legalWorkspace :is(button:disabled,a[aria-disabled=true]) { @apply cursor-not-allowed opacity-50; }
 .legalWorkspace :is(.documentSearchWorkspace,.legalTool,.normBrowser) { @apply min-w-0 max-w-full; }
+.legalWorkspace .documentSearchWorkspace { @apply gap-4; }
 .legalWorkspace .legalCenterNav { @apply mb-6 rounded-2xl border border-line bg-panel p-2 shadow-card; }
 .legalWorkspace .legalCenterNav nav { @apply grid grid-cols-3 gap-1; }
 .legalWorkspace .legalCenterNav .legalCenterItem {
@@ -43,7 +44,10 @@
 .legalWorkspace :is(.documentSearchIntro h2,.toolPanelHeader h2) { @apply m-0 text-[23px] font-semibold leading-8 tracking-tight text-ink; }
 .legalWorkspace :is(.documentSearchEyebrow,.toolPanelHeader .eyebrow) { @apply mb-2 block text-[11px] font-semibold tracking-wider text-brand; }
 .legalWorkspace .documentSearchIntro p { @apply mt-2 text-[14px] leading-6 text-muted; }
-.legalWorkspace .searchAssistantTrigger { @apply w-auto; }
+.legalWorkspace .documentSearchIntro { @apply my-0 flex flex-wrap items-center justify-between gap-4; }
+.legalWorkspace .searchAssistantTrigger { @apply mb-0 w-auto justify-self-start; }
+.legalWorkspace .documentLibraryTools { @apply grid gap-2; }
+.legalWorkspace .documentLibraryTools>.legalWorkspacePanel { @apply m-0 px-4 py-2; }
 .legalWorkspace .documentSearchForm { @apply mt-4 grid gap-4 rounded-2xl border border-line bg-panel p-6 shadow-card; }
 .legalWorkspace .documentSearchModes { @apply mb-1 grid grid-cols-2 gap-3; }
 .legalWorkspace .documentSearchModes .documentSearchModeOption {
@@ -109,7 +113,7 @@
 .legalWorkspace .normCategoryTabs button { @apply min-h-11 rounded-lg border-0 bg-transparent px-3 py-2 text-[13px] font-medium text-muted shadow-none; }
 .legalWorkspace .normCategoryTabs button[aria-pressed=true] { @apply bg-brand text-white; }
 .legalWorkspace .normSearchEntry>div { @apply rounded-xl border border-line bg-panel px-4 py-1; }
-.legalWorkspace .normSearchEntry input { @apply border-0 bg-transparent; }
+.legalWorkspace .normSearchEntry input:not([type]) { @apply border-0 bg-transparent; }
 .legalWorkspace .normBrowser .normPrimaryFilters { @apply grid grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-3 py-4; }
 .legalWorkspace .normAdvancedFilters { @apply my-2 rounded-xl border border-line bg-panel px-4 py-2; }
 .legalWorkspace .normCatalogueCount { @apply my-4 text-[13px] leading-6 text-muted; }
@@ -138,7 +142,7 @@
 
 @container (max-width: 1080px) {
   .legalWorkspace .chatReadingLayout { @apply grid-cols-1; }
-  .legalWorkspace .chatNormsRail { @apply static order-first; }
+  .legalWorkspace .chatNormsRail { @apply static order-none; }
   .legalWorkspace .normBrowser .normGrid { @apply grid-cols-[240px_minmax(0,1fr)] gap-3; }
   .legalWorkspace .legalCenterNav .legalNavHint { @apply hidden; }
 }
