@@ -1,4 +1,5 @@
 "use client";
+import {WorkNotesPanel} from "./work-notes-panel";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { procedimientosElegibles, type TopesProcedimiento } from "@/lib/topes-procedimiento";
@@ -1679,6 +1680,7 @@ export function NecesidadDetail({
   // minmax(0,1fr) justo por esto; el `grid` desnudo, no.
   return (
     <div className="tw grid grid-cols-[minmax(0,1fr)] gap-[18px] py-[22px]">
+      <WorkNotesPanel targetType="necesidad" targetId={necesidad.id}/>
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <h2 className="text-xl font-bold leading-tight tracking-tight text-ink" title={necesidad.nombre}>

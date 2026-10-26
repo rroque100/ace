@@ -1,3 +1,4 @@
+import {ChatQualityPanel} from "../components/chat-quality-panel";
 import Link from "next/link";
 import { Bot, Lock } from "lucide-react";
 import { AppShell } from "../components/app-shell";
@@ -21,6 +22,7 @@ export default async function EvaluacionPage() {
       title="Evaluación continua del asistente"
     >
       <section className="singleWorkspace">
+        {user?.isLegal || isAdmin ? <ChatQualityPanel/> : null}
         {isAdmin ? (
           <EvalDashboard />
         ) : (

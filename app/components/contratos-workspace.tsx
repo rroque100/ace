@@ -1,4 +1,5 @@
 "use client";
+import {WorkNotesPanel} from "./work-notes-panel";
 
 import { useState, useCallback } from "react";
 import { FileText, Gavel, ShoppingCart } from "lucide-react";
@@ -81,6 +82,7 @@ export function ContratosWorkspace() {
         </div>
       ) : null}
 
+      {modo === "sie" ? <WorkNotesPanel targetType="contrato_sie" targetId={contratoCargado}/> : <WorkNotesPanel targetType="contrato_cp" targetId={contratoCpCargado}/>}
       {modo === "sie" ? <ContratoSieForm key={loadKey} contratoId={contratoCargado} onSaved={() => setContratoCargado(null)} /> : null}
       {modo === "cp" ? <ContratoCpForm key={loadKey} contratoId={contratoCpCargado} onSaved={() => setContratoCpCargado(null)} /> : null}
       {modo === "mis-contratos" ? (

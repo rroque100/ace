@@ -1,0 +1,10 @@
+import {beforeEach,it,expect,vi} from 'vitest';
+const mocks=vi.hoisted(()=>({auth:vi.fn(),rest:vi.fn()}));vi.mock('@/lib/auth',()=>({requireUser:mocks.auth}));vi.mock('@/lib/supabase-server',()=>({supabaseUserRest:mocks.rest}));
+import {POST} from '@/app/api/chat/quality/route';
+const id='00000000-0000-4000-8000-000000000001';
+beforeEach(()=>{vi.resetAllMocks();mocks.auth.mockResolvedValue({user:{id:'reviewer',accessToken:'jwt',isLegal:true}});});
+const req=(body:unknown)=>new Request('https://ace.test/api/chat/quality',{method:'POST',body:JSON.stringify(body)});
+it('rechaza perfiles sin permiso jurídico',async()=>{mocks.auth.mockResolvedValue({user:{isLegal:false,isAdmin:false}});expect((await POST(req({}))).status).toBe(403);expect(mocks.rest).not.toHaveBeenCalled();});
+it('no acepta revisión sin fuentes y respuesta',async()=>{expect((await POST(req({question:'Una pregunta válida',status:'reviewed'}))).status).toBe(400);expect(mocks.rest).not.toHaveBeenCalled();});
+it('no valora un candidato pendiente como caso validado',async()=>{mocks.rest.mockResolvedValueOnce([]).mockResolvedValueOnce([{id}]);expect((await POST(req({action:'score',caseId:id,messageId:id,scores:{accuracy:2,currency:2,citations:2,exceptions:2,insufficiency:2},reason:'Revisión detallada de fuentes'}))).status).toBe(404);expect(mocks.rest).toHaveBeenCalledTimes(2);});
+it('rechaza fuentes que no están disponibles',async()=>{mocks.rest.mockResolvedValueOnce([]);expect((await POST(req({question:'Una pregunta válida',expectedAnswer:'Respuesta',expectedSources:[{documentId:id}],status:'reviewed',reviewNote:'Revisión detallada de fuentes'}))).status).toBe(400);});

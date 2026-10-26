@@ -292,3 +292,15 @@
 .legalWorkspace .answerTable { @apply w-full min-w-[40rem] table-fixed; }
 .legalWorkspace .answerTable :is(th,td) { word-break:normal; overflow-wrap:break-word; }
 .legalWorkspace .answerTable :is(th,td):first-child { @apply w-32; }
+.chatExperienceDialog { @apply grid gap-4 overflow-y-auto; max-height:85dvh; width:min(92vw,48rem); }
+.chatExperienceDialog label { @apply grid gap-2 text-sm font-semibold; }
+.chatExperienceDialog input,.chatExperienceDialog select,.chatExperienceDialog textarea,.chatClarification input { @apply w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900; }
+.chatNotePreview { @apply rounded-xl border border-slate-200 bg-slate-50 p-4; }
+.chatNotePreview pre { @apply max-h-72 overflow-auto whitespace-pre-wrap break-words font-sans text-sm; }
+.legalWorkspace .chatComposerCompact { @apply grid-cols-[minmax(0,1fr)_auto] gap-3 p-3; }
+.legalWorkspace .chatComposerCompact textarea { min-height:44px; max-height:44px; resize:none; }
+.legalWorkspace .chatComposerCompact .chatQuestionHelp { @apply hidden; }
+.chatClarification { @apply my-3 rounded-xl border border-slate-200 p-3 text-sm; }
+.chatClarification form,.chatClarification label { @apply grid gap-3; }
+
+.legalWorkspace .chatComposerCompact .chatQuestionLabel { @apply sr-only; }

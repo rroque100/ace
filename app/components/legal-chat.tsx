@@ -1,5 +1,11 @@
 "use client";
 
+import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
+import {conversationUrl} from "@/lib/chat-continuity";
+import {useChatContinuity} from "./use-chat-continuity";
+import {ChatWorkNote} from "./chat-work-note";
+import {ChatFeedback} from "./chat-feedback";
+import {ChatClarification} from "./chat-clarification";
 import { materialWarnings } from "@/lib/chat-signals";
 import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
@@ -33,8 +39,6 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Square,
-  ThumbsDown,
-  ThumbsUp,
   User,
   X,
 } from "lucide-react";
@@ -166,23 +170,7 @@ const exampleQuestions = [
   "¿Qué garantías y cláusulas obligatorias debe incluir un contrato?",
 ];
 
-const followUpPrompts = [
-  "Convierte la respuesta en checklist operativo.",
-  "Amplía el fundamento legal con las mismas fuentes.",
-  "Señala limitaciones y puntos que requieren revisión humana.",
-];
-
-function followUpsFor(message: ConversationMessage) {
-  if (message.confidence === "baja") {
-    return [
-      "Indica qué fuente falta para responder con confianza.",
-      "Formula una búsqueda para encontrar el artículo exacto.",
-      "Señala qué documentos debo cargar o reindexar.",
-    ];
-  }
-
-  return followUpPrompts;
-}
+function followUpsFor(message:ConversationMessage){return contextualFollowups(message);}
 
 const documentTypes = [{ label: "Todos", value: "" }, ...ANSWERABLE_DOCUMENT_TYPE_OPTIONS];
 
@@ -832,13 +820,15 @@ function MessageEvidence({
   );
 }
 
-export function LegalChat() {
+export function LegalChat({ownerId=""}:{ownerId?:string}) {
   const searchParams = useSearchParams();
   // Una instancia por conversación evita arrastrar contexto y peticiones a otra sesión.
-  return <LegalChatSession key={searchParams.get("sessionId") ?? "new"} />;
+  const [adoptedSession,setAdoptedSession]=useState<string|null>(null);
+  const requested=searchParams.get("sessionId");
+  return <LegalChatSession ownerId={ownerId} onAdopt={id=>{setAdoptedSession(id);}} key={requested===adoptedSession?"new":requested??"new"} />;
 }
 
-function LegalChatSession() {
+function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|null)=>void}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedSessionId = searchParams.get("sessionId");
@@ -892,6 +882,13 @@ function LegalChatSession() {
   const composerRef = useRef<HTMLTextAreaElement>(null);
   const composerDockRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const hydratedSession=useRef<string|null>(null);
+  const [composerFocused,setComposerFocused]=useState(false);
+  const continuity=useChatContinuity({owner:ownerId,session:sessionId??requestedSessionId,loading:loadingSession,question,onRestore:setQuestion,preferInitial:Boolean(initialQuestion)});
+  function adoptSession(id:string){
+    hydratedSession.current=id;setSessionId(id);
+    if(requestedSessionId!==id){onAdopt(id);window.history.replaceState(window.history.state,"",conversationUrl(window.location.href,id));}
+  }
 
   const hasConversation = messages.length > 0;
   useEffect(() => {
@@ -909,7 +906,7 @@ function LegalChatSession() {
   const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession && !attachmentsBusy;
 
   useEffect(() => {
-    if (!requestedSessionId) return;
+    if (!requestedSessionId || hydratedSession.current===requestedSessionId) return;
     const controller = new AbortController();
     void (async () => {
       try {
@@ -941,6 +938,7 @@ function LegalChatSession() {
         setTopic(textFilter("topic"));
         setVigencia(textFilter("vigencia"));
         setYear(restoredFilters.year ? String(restoredFilters.year) : "");
+        hydratedSession.current=payload.session.id;
         setSessionId(payload.session.id);
         setMessages(restored.filter((message) => message.role === "user" || message.role === "assistant").map((message) => ({
           id: message.id, persistedId: message.id, role: message.role, content: message.content,
@@ -1030,7 +1028,7 @@ function LegalChatSession() {
         telemetry: event.telemetry,
         citationWarnings: event.citationWarnings ?? [],
       }));
-      setSessionId((current) => event.sessionId ?? current);
+      if(event.sessionId)adoptSession(event.sessionId);
       return;
     }
 
@@ -1176,6 +1174,7 @@ function LegalChatSession() {
 
   function resetChat() {
     abortRef.current?.abort();
+    continuity.clear();onAdopt(null);hydratedSession.current=null;
     setMessages([]);
     setQuestion("");
     setCaseContext({ ...emptyCaseContext }); setAttachmentIds([]); setExtendedFilters({});
@@ -1237,15 +1236,16 @@ function LegalChatSession() {
     message: ConversationMessage,
     action: "mark_correct" | "mark_incorrect" | "save_note",
     note?: string,
+    reason?: FeedbackReason,
   ) {
     if (!message.persistedId) {
       setError("La respuesta aún no tiene identificador persistido.");
-      return;
+      return false;
     }
 
     try {
       const response = await fetch(`/api/chat/messages/${message.persistedId}`, {
-        body: JSON.stringify({ action, note }),
+        body: JSON.stringify({ action, note, reason }),
         headers: { "Content-Type": "application/json" },
         method: "PATCH",
       });
@@ -1253,7 +1253,7 @@ function LegalChatSession() {
 
       if (!response.ok) {
         setError(payload.error ?? "No se pudo guardar la acción.");
-        return;
+        return false;
       }
 
       updateMessage(message.id, (item) =>
@@ -1262,8 +1262,10 @@ function LegalChatSession() {
           : { ...item, feedback: action === "mark_correct" ? "correct" : "incorrect" },
       );
       setError("");
+      return true;
     } catch {
       setError("No se pudo conectar con el servidor.");
+      return false;
     }
   }
 
@@ -1435,26 +1437,8 @@ function LegalChatSession() {
                         {copiedId === `${message.id}-sources` ? <Check size={16} /> : <CopyCheck size={16} />}
                         {copiedId === `${message.id}-sources` ? "Copiado" : "Copiar con fuentes"}
                       </button>
-                      <button
-                        aria-pressed={message.feedback === "correct"}
-                        className="responseActionButton compactAction"
-                        onClick={() => void updateAssistantMessage(message, "mark_correct")}
-                        title="Marcar respuesta correcta"
-                        type="button"
-                      >
-                        <ThumbsUp size={16} />
-                        Correcta
-                      </button>
-                      <button
-                        aria-pressed={message.feedback === "incorrect"}
-                        className="responseActionButton compactAction"
-                        onClick={() => void updateAssistantMessage(message, "mark_incorrect")}
-                        title="Marcar respuesta incorrecta"
-                        type="button"
-                      >
-                        <ThumbsDown size={16} />
-                        Incorrecta
-                      </button>
+                      {message.persistedId?<ChatWorkNote messageId={message.persistedId}/>:null}
+                      <ChatFeedback value={message.feedback} onSubmit={async(action,reason,note)=>Boolean(await updateAssistantMessage(message,action,note,reason))}/>
                       <button
                         className="responseActionButton compactAction"
                         onClick={() => exportMessage(message)}
@@ -1474,6 +1458,7 @@ function LegalChatSession() {
                     </div>
                   ) : null}
 
+                  {!message.streaming && !message.error && message.id === lastAssistantId ? <ChatClarification review={message.assessment?.evidenceReview} context={message.caseContext??caseContext} disabled={isStreaming} onApply={context=>{setCaseContext(context);void submitQuestion(undefined,message.questionText,context);}}/>:null}
                   {!message.streaming && !message.error && message.id === lastAssistantId ? (
                     <div className="followChips">
                       {followUpsFor(message).map((prompt) => (
@@ -1512,6 +1497,7 @@ function LegalChatSession() {
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
       {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className="secondaryButton compactButton" onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
+      {continuity.notice?<p className="normScopeNote" role="status">{continuity.notice}</p>:null}
       <div className="chatReadingLayout"><div className="chatMainColumn">
       <header className="chatHeader">
         <div className="chatHeaderTitle">
@@ -1642,7 +1628,7 @@ function LegalChatSession() {
 
       {hasConversation ? conversation : null}
 
-      <form ref={composerDockRef} className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}`} onSubmit={submitQuestion}>
+      <form ref={composerDockRef} className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
         <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
           id="legal-chat-question"
@@ -1678,7 +1664,7 @@ function LegalChatSession() {
         <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className="chatComposeTools">
-      <CaseAttachments sessionId={sessionId} onSession={setSessionId} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
       <section className="chatCaseContext" aria-label="Contexto del caso">
         <details>
           <summary>Añadir datos del caso · opcional</summary>
