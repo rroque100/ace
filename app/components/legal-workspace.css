@@ -282,3 +282,8 @@
 .legalWorkspace .textComparison nav { @apply flex flex-wrap justify-between gap-3; }
 .legalWorkspace .textComparison nav button { @apply min-h-11 rounded-lg border border-line px-4; }
 @container (max-width:720px) { .legalWorkspace .textDiffColumns { @apply grid-cols-1; } }
+.legalWorkspace .compareColumns { @apply grid min-w-0 grid-cols-2 gap-4; }
+.legalWorkspace .compareSide { @apply min-w-0 max-w-full; }
+.legalWorkspace .compareSide label { @apply flex min-w-0 max-w-full flex-col gap-2; }
+.legalWorkspace .compareSide :is(input,select) { @apply w-full min-w-0; }
+@container (max-width:720px) { .legalWorkspace .compareColumns { @apply grid-cols-1; } }
