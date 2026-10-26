@@ -19,3 +19,9 @@
 La identidad de un artículo no acredita por sí misma su régimen aplicable. La revisión humana de cuerpos, destinos y versiones sigue pendiente donde el catálogo no la registra. Las diferencias de texto pueden incluir OCR y fragmentación; no se presentan como modificaciones jurídicas confirmadas.
 
 La validación en teléfono físico, teclado virtual y micrófono real requiere dispositivo y participación del usuario. Debe registrarse por separado de la revisión de escritorio; no se acredita por reglas CSS ni pruebas de programación.
+## Verificación publicada
+La versión a3adb28 quedó Ready en Vercel y publicada en ace-rormi.vercel.app. Se comprobó la apertura del artículo exacto, sus identificadores en enlaces al Chat, las dos versiones de la familia y el formulario autorizado de corrección con historial. La comparación textual recorrió 441 y 495 bloques, produjo 23 regiones de diferencias y permitió avanzar a la segunda página. Son diferencias del texto disponible, no cambios jurídicos certificados.
+
+Durante la revisión se corrigió un problema visual previo del comparador: los identificadores recibidos por enlace no aparecían entre los primeros 30 documentos del selector. Ahora se recuperan también los nombres de esas selecciones exactas y se mantienen visibles aunque no pertenezcan a esa página del catálogo.
+
+Se confirmó un ancho efectivo de 390 píxeles y ausencia de desbordamiento horizontal del documento en la lectura y en la comparación. Esto no sustituye las pruebas de teléfono, teclado virtual, audio y PDF en un dispositivo físico.

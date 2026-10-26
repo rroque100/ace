@@ -267,7 +267,7 @@ function SideEditor({
       <label>
         <span>Documento especifico (opcional)</span>
         <select onChange={(event) => onChange({ ...value, documentId: event.target.value })} value={value.documentId}>
-          <option value="">Cualquiera del alcance</option>
+          <option value="">Cualquiera del alcance</option>{value.documentId && !documents.some(item=>item.id===value.documentId)?<option value={value.documentId}>Documento seleccionado · {value.documentId}</option>:null}
           {documents.map((item) => (
             <option key={item.id} value={item.id}>
               {item.title}
@@ -363,12 +363,21 @@ export function NormativeCompare() {
       try {
         const result = await fetch("/api/documents", { cache: "no-store" });
         const payload = (await result.json()) as { documents?: DocumentOption[] };
-        setDocuments(payload.documents ?? []);
+        const initial = payload.documents ?? [];
+        const selectedIds = [...new Set([searchParams.get("documentIdA"), searchParams.get("documentIdB")].filter((id): id is string => Boolean(id)))];
+        const selected = await Promise.all(selectedIds.filter(id=>!initial.some(doc=>doc.id===id)).map(async id=>{
+          const response=await fetch(`/api/norms/${encodeURIComponent(id)}`,{cache:"no-store"});
+          if(!response.ok)throw Error("No se pudo comprobar uno de los documentos seleccionados.");
+          const detail=await response.json() as {norm:{id:string;title:string;documentType:string}};
+          return {id:detail.norm.id,title:detail.norm.title,document_type:detail.norm.documentType};
+        }));
+        setDocuments([...selected,...initial]);
       } catch {
         setDocuments([]);
+        setError("No se pudieron cargar los nombres de los documentos. Se conservan los identificadores seleccionados; vuelve a abrir la comparación para comprobarlos.");
       }
     })();
-  }, []);
+  }, [searchParams]);
 
   function resolveSource(side: "A" | "B", number: number) {
     const list = side === "A" ? sourcesA : sourcesB;
