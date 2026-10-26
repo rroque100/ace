@@ -17,6 +17,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
+  ArrowLeft,
   BookOpenCheck,
   CheckCircle2,
   ExternalLink,
@@ -177,6 +178,8 @@ export function NormativeBrowser() {
   const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [norms, setNorms] = useState<NormSummary[]>([]);
   const [loadingList, setLoadingList] = useState(false);
+  const [reading, setReading] = useState(Boolean(targetDocumentId));
+  const readingRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(targetDocumentId);
   const [detail, setDetail] = useState<NormDetail | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
@@ -281,8 +284,16 @@ export function NormativeBrowser() {
     };
   }, []);
 
+  useEffect(() => {
+    if (reading && selectedId) {
+      readingRef.current?.scrollIntoView({ block: "start" });
+      readingRef.current?.focus({ preventScroll: true });
+    }
+  }, [reading, selectedId]);
+
   async function selectNorm(id: string, targetArticleId?: string) {
     const sequence=++detailSequence.current;
+    setReading(true);
     setSelectedId(id);
     setDetail(null);
     setSelectedArticleId(null);
@@ -499,9 +510,10 @@ export function NormativeBrowser() {
   }
 
   return (
-    <div className="toolPanel normBrowser">
+    <div className={`toolPanel normBrowser ${reading ? "normReading" : "normBrowsing"}`}>
       <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
 
+      <div className="normCatalogueControls">
       <div className="toolPanelHeader">
         <div>
           <p className="eyebrow">Base documental</p>
@@ -547,8 +559,13 @@ export function NormativeBrowser() {
       <p className="normCatalogueCount" role="status">{loadingList ? "Consultando documentos…" : `${pagination.total} documentos encontrados · ${facets.categoryTotal} en esta categoría`} · El régimen identificado no confirma aplicabilidad al caso.</p>
       {listWarnings.length ? <div className="normPartialNotice" role="status"><strong>Listado disponible con comprobaciones pendientes</strong>{listWarnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
 
-      {error ? <p className="formMessage errorText">{error}</p> : null}
 
+      </div>
+      {error ? <p className="formMessage errorText">{error}</p> : null}
+      <div className="normReaderToolbar" ref={readingRef} tabIndex={-1}>
+        {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
+        {reading ? <span>Lectura del documento · comprueba la versión y la página del PDF.</span> : null}
+      </div>
       <div className="normGrid">
         <aside className="normList" aria-label="Listado de normas">
           {loadingList ? (
@@ -622,6 +639,9 @@ export function NormativeBrowser() {
                 </a>
               </header>
 
+              {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
+              {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
+              <details className="normDocumentInfo"><summary>Ficha, versiones y acciones del documento</summary>
               {detail.norm.amends ? (
                 <div className="normAmends">
                   <AlertTriangle size={15} />
@@ -632,7 +652,6 @@ export function NormativeBrowser() {
               <div className="normReadingActions"><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
               <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
               <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
-              {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
               <details className="normTechnicalState"><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
               <div className="normQualityStrip">
                 {detail.norm.articleCount > 0 ? <span data-ready={true}>
@@ -658,7 +677,6 @@ export function NormativeBrowser() {
               </div>
 
               </details>
-              {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
               {selectedVersionGroup ? (
                 <details className="versionPanel">
                   <summary>Versiones del documento · {selectedVersionGroup.total}</summary>
@@ -687,6 +705,8 @@ export function NormativeBrowser() {
                 </details>
               ) : null}
 
+              </details>
+
               {repeatedArticleNumbers(detail.articles).length ? <p className="normPartialNotice">Hay numeración de artículos repetida en este archivo. Puede contener varios cuerpos o secciones; el ámbito aún no está separado. Comprueba encabezado y página del PDF antes de citar.</p> : null}
               {detail.articles.length === 0 ? (
                 <div className="normJurisprudence">
@@ -706,7 +726,7 @@ export function NormativeBrowser() {
                 </div>
               ) : (
                 <div className="articleLayout">
-                  <div className="articleNavCol">
+                  <details className="articleNavCol normArticleNavigation"><summary>Índice y búsqueda en el documento</summary>
                     <label className="articleSearch">
                       <Search size={15} />
                       <input
@@ -764,7 +784,7 @@ export function NormativeBrowser() {
                       </div>
                     ) : null}
                     <NormativeIndex articles={visibleArticles} selectedId={selectedArticle?.id} onSelect={setSelectedArticleId} />
-                  </div>
+                  </details>
 
                   <article className="articleReader">
                     {selectedArticle ? (

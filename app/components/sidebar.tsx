@@ -227,9 +227,11 @@ export function Sidebar({
         </div>
 
         <nav className="nav" aria-label="Menu principal">
-          {sections.map((section) => (
-            <div className="navSection" key={section.label}>
-              <span className="navSectionLabel">{section.label}</span>
+          {sections.map((section) => {
+            const foldAdmin = ["chat", "busqueda", "normas"].includes(active) && section.label.toLowerCase() === "administrar" && !collapsed;
+            const SectionTag = foldAdmin ? "details" : "div";
+            return <SectionTag className={`navSection${foldAdmin ? " navAdminDisclosure" : ""}`} key={section.label}>
+              {foldAdmin ? <summary className="navSectionLabel">Administración</summary> : <span className="navSectionLabel">{section.label}</span>}
               <div className="navSectionItems">
                 {section.items.map((item) => {
                   const Icon = ICONOS[item.icon];
@@ -256,8 +258,8 @@ export function Sidebar({
                   );
                 })}
               </div>
-            </div>
-          ))}
+            </SectionTag>;
+          })}
         </nav>
 
         {user ? (

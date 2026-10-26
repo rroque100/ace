@@ -1617,7 +1617,7 @@ function LegalChatSession() {
 
       {hasConversation ? conversation : null}
 
-      <form className="chatComposerBar" onSubmit={submitQuestion}>
+      <form className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}`} onSubmit={submitQuestion}>
         <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
           id="legal-chat-question"

@@ -83,7 +83,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
   })).filter((section) => section.items.length > 0);
 
   return (
-    <main className="shell">
+    <main className={`shell${["chat", "busqueda", "normas"].includes(active) ? " legalShell" : ""}`}>
       {/* Primer elemento enfocable del documento: salta el menu lateral. */}
       <a className="skipLink" href="#contenido">
         Saltar al contenido

@@ -759,15 +759,17 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             {loading ? "Buscando…" : "Buscar documentos"}
           </button>
         </div>
+        {!mobileFilters ? primaryFilters : null}
         <SearchDiscovery query={query} filters={filters} visible={showSuggestions} onCorrect={corrected=>{setQuery(corrected);setFilters(current=>({...current,documentId:undefined}));inputRef.current?.focus();}} onChoose={document=>{const next={...currentInput,query:document.title,mode:"literal" as const,filters:{...filters,documentId:document.documentId}};setQuery(document.title);setMode("literal");setFilters(next.filters);setShowSuggestions(false);void run(1,next);}} />
         <p id="document-search-hint" className="documentSearchHint">
           {mode !== "semantic"
             ? (mode === "all_words" ? "Se exigen todas las palabras en el mismo documento. Usa hasta diez palabras de al menos dos caracteres; pueden aparecer en pasajes distintos." : "Se ignoran mayúsculas, tildes y espacios repetidos. También puedes escribir un número documental o Artículo seguido del número.")
             : "Se combinan palabras y significado con tus filtros. La lista es una selección de resultados, no un conteo completo del catálogo."}
         </p>
+        <details className="documentMatchOptions"><summary>Opciones de coincidencia y fechas</summary>
         {mode !== "semantic" ? <label className="documentLiteralChoice">Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
         <details className="searchPublicationRange"><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
-        {!mobileFilters ? primaryFilters : null}
+        </details>
         <button type="button" className="secondaryButton mobileFilterToggle" onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
         <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`documentSearchFilters${mobileFilters ? " mobileOpen" : ""}`}>
           <div className="mobileFilterHeader"><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
