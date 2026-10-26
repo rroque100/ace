@@ -553,7 +553,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     try {
       const response=await fetch("/api/search/handoff",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
         question:`Revisa ${selected.map(item=>`«${item.title}»`).join("; ")} para esta consulta: ${lastInput?.query ?? query}. ${expandCorpus ? "Puedes ampliar con otras fuentes disponibles; distingue expresamente las fuentes añadidas." : "Usa exclusivamente los documentos seleccionados."} Cita documento y página e indica los límites.`,
-        filters:expandCorpus ? {} : {documentIds:selected.map(item=>item.documentId)},
+        filters:{selectedDocumentIds:selected.map(item=>item.documentId),expandCorpus,...(!expandCorpus?{documentIds:selected.map(item=>item.documentId)}:{})},
       })});
       const data=await response.json(); if (!response.ok) throw new Error();
       router.push(`/chat?sessionId=${data.sessionId}`);

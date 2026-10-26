@@ -2,6 +2,9 @@
 
 import "./normative-browser.css";
 import Link from "next/link";
+import {resolveArticleIdentity} from "@/lib/normative-identity";
+import {NormativeBodyReview} from "./normative-body-review";
+import { ConcordanceReview } from "./concordance-review";
 import { NormativeIndex } from "./normative-index";
 import { legalCenterHref } from "@/lib/legal-center";
 import { referenceReviewLabel, repeatedArticleNumbers } from "@/lib/normative-library";
@@ -66,6 +69,7 @@ type NormSummary = {
 };
 
 type Article = {
+  bodyId?:string;bodyTitle?:string;bodyReviewed?:boolean;bodyRevision?:number;version?:string|null;
   id: string;
   articleNumber: string;
   label: string | null;
@@ -79,6 +83,7 @@ type Article = {
 };
 
 type Concordancia = {
+  destinationCheck?:{valid:boolean;reason:string};
   id: string;
   refType: string | null;
   relationType?: string | null;
@@ -102,6 +107,7 @@ type Citing = {
 };
 
 type NormDetail = {
+  canCorrectReferences?:boolean;
   warnings?: string[];
   norm: NormSummary & { summary: string | null };
   articles: Article[];
@@ -174,6 +180,8 @@ export function NormativeBrowser() {
   const labelProcessType = (value?: string | null) => processLabelFromOptions(processTypes, value) ?? processTypeLabel(value);
   const targetDocumentId = searchParams.get("documentId");
   const targetArticle = searchParams.get("article");
+  const targetArticleUuid = searchParams.get("articleId");
+  const targetBodyId = searchParams.get("bodyId");
   const [category, setCategory] = useState<Category>(() => corpusGroupForType(searchParams.get("documentType") ?? "ley"));
   const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [norms, setNorms] = useState<NormSummary[]>([]);
@@ -266,8 +274,9 @@ export function NormativeBrowser() {
   }, [titleQuery,page,extendedFilters, category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
 
   useEffect(() => {
+    if(!selectedId)return;
     let cancelled = false;
-    fetch("/api/norms/versions")
+    fetch(`/api/norms/versions?documentId=${selectedId}`)
       .then(async response => {if(!response.ok) throw new Error();return response.json();})
       .then((payload) => {
         if (!cancelled) {
@@ -282,7 +291,7 @@ export function NormativeBrowser() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [selectedId]);
 
   useEffect(() => {
     if (reading && selectedId) {
@@ -314,13 +323,11 @@ export function NormativeBrowser() {
       }
 
       setDetail(payload);
-      const target = targetArticleId
-        ? payload.articles.find((article) => article.id === targetArticleId)
-        : undefined;
-      const targetByNumber = targetArticle
-        ? payload.articles.find((article) => article.articleNumber === targetArticle)
-        : null;
-      setSelectedArticleId(target?.id ?? targetByNumber?.id ?? payload.articles[0]?.id ?? null);
+      const requested=targetArticleId || (id===targetDocumentId?targetArticleUuid:null);
+      const number=id===targetDocumentId?targetArticle:null;
+      const resolution=requested||number?resolveArticleIdentity(payload.articles,{articleId:requested,articleNumber:requested?null:number,bodyId:!targetArticleId&&id===targetDocumentId?targetBodyId:null}):null;
+      if(resolution && resolution.status!=="found")setError(resolution.status==="ambiguous"?"El número corresponde a varios artículos. Elige el cuerpo y artículo en el índice; no se seleccionó uno por su cuenta.":"No se encontró el artículo solicitado en esta versión.");
+      setSelectedArticleId(resolution?resolution.article?.id??null:payload.articles[0]?.id??null);
     } catch {
       if(sequence===detailSequence.current) setError("No se pudo conectar con el servidor.");
     } finally {
@@ -352,7 +359,7 @@ export function NormativeBrowser() {
   }
 
   function navigateToConcordancia(concordancia: Concordancia) {
-    if (!concordancia.resolved || !concordancia.targetDocumentId) {
+    if (!concordancia.resolved || !concordancia.targetDocumentId || !concordancia.destinationCheck?.valid) {
       return;
     }
 
@@ -384,7 +391,7 @@ export function NormativeBrowser() {
   }, [detail, articleFilter, onlyVigente]);
 
   const selectedArticle = useMemo(
-    () => visibleArticles.find((article) => article.id === selectedArticleId) ?? visibleArticles[0] ?? null,
+    () => visibleArticles.find((article) => article.id === selectedArticleId) ?? null,
     [visibleArticles, selectedArticleId],
   );
 
@@ -431,7 +438,7 @@ export function NormativeBrowser() {
     if (!detail || chatBusy) return;
     setChatBusy(true); setError("");
     try {
-      const response=await fetch("/api/search/handoff",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:`Explica ${article ? `el artículo ${article.articleNumber} de ` : "el documento "}${detail.norm.title}. Responde solo con este documento${article ? " y el artículo seleccionado" : ""}, cita documento y página, distingue regla y excepciones e indica qué falta comprobar.${article ? ` Pasaje seleccionado (página ${article.pageStart ?? "sin registrar"}, sección ${article.sectionTitle ?? "sin identificar"}): ${article.content.slice(0,1200)}` : ""}`,filters:{documentId:detail.norm.id,documentIds:[detail.norm.id],documentType:detail.norm.documentType,...(article && !repeatedArticleNumbers(detail.articles).includes(article.articleNumber)?{article:article.articleNumber}:{})}})});
+      const response=await fetch("/api/search/handoff",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:`Explica ${article ? `el artículo ${article.articleNumber} de ` : "el documento "}${detail.norm.title}. Responde solo con este documento${article ? " y el artículo seleccionado" : ""}, cita documento y página, distingue regla y excepciones e indica qué falta comprobar.${article ? ` Pasaje seleccionado (página ${article.pageStart ?? "sin registrar"}, sección ${article.sectionTitle ?? "sin identificar"}): ${article.content.slice(0,1200)}` : ""}`,filters:{documentId:detail.norm.id,documentIds:[detail.norm.id],articleId:article?.id,bodyId:article?.bodyId,documentType:detail.norm.documentType,...(article && !repeatedArticleNumbers(detail.articles).includes(article.articleNumber)?{article:article.articleNumber}:{})}})});
       const payload=await response.json();if(!response.ok || !payload.sessionId) throw new Error();
       router.push(`/chat?sessionId=${payload.sessionId}`);
     } catch {setError("No se pudo abrir el chat con esta fuente. Reintenta.");}
@@ -511,7 +518,7 @@ export function NormativeBrowser() {
 
   return (
     <div className={`toolPanel normBrowser ${reading ? "normReading" : "normBrowsing"}`}>
-      <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
+      <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, articleId:selectedArticle?.id, bodyId:selectedArticle?.bodyId, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
 
       <div className="normCatalogueControls">
       <div className="toolPanelHeader">
@@ -694,7 +701,7 @@ export function NormativeBrowser() {
                         type="button"
                       >
                         {document.dates?.version ?? document.title} · Actualizado: {document.dates?.updated ?? "sin fecha"} · Publicado: {document.dates?.published ?? "sin fecha"}
-                      </button>{document.id!==detail.norm.id ? <Link className="secondaryButton compactButton" href={`/comparar?${new URLSearchParams({documentIdA:detail.norm.id,documentIdB:document.id,documentTypeA:detail.norm.documentType,documentTypeB:document.documentType}).toString()}`}>Comparar estas versiones</Link> : null}</div>
+                      </button>{document.id!==detail.norm.id ? <Link className="secondaryButton compactButton" href={`/comparar?${new URLSearchParams({comparison:"texto",documentIdA:detail.norm.id,documentIdB:document.id,documentTypeA:detail.norm.documentType,documentTypeB:document.documentType}).toString()}`}>Comparar texto de estas versiones</Link> : null}</div>
                     ))}
                   </div>
                   {currentVersionDocument?.amends || hasModifiedArticle ? (
@@ -772,8 +779,8 @@ export function NormativeBrowser() {
                           <button
                             key={source.chunkId}
                             onClick={() => {
-                              const match = detail.articles.find((article) => article.articleNumber === source.article);
-                              if (match) setSelectedArticleId(match.id);
+                              const match = resolveArticleIdentity(detail.articles,{articleNumber:source.article});
+                              if (match.status==="found") setSelectedArticleId(match.article.id); else setError("El pasaje no identifica un artículo único. Selecciónalo en el índice y comprueba el cuerpo normativo.");
                             }}
                             type="button"
                           >
@@ -794,7 +801,7 @@ export function NormativeBrowser() {
                             {selectedArticle.sectionTitle ? (
                               <span className="articleSection">{selectedArticle.sectionTitle}</span>
                             ) : null}
-                            <strong>Articulo {selectedArticle.articleNumber}</strong>
+                            <strong>Articulo {selectedArticle.articleNumber}</strong><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
                           </div>
                           <div className="articleBadges">
                             {selectedArticle.pageStart ? (
@@ -821,6 +828,7 @@ export function NormativeBrowser() {
 
                         <p className="normScopeNote">Texto extraído del documento · comprueba la página del PDF para citar.</p>
                         <p className="articleText">{selectedArticle.content}</p>
+                        {detail.canCorrectReferences ? <NormativeBodyReview key={selectedArticle.id} articleId={selectedArticle.id} title={selectedArticle.bodyReviewed?selectedArticle.bodyTitle:undefined} revision={selectedArticle.bodyRevision??0} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/> : null}
 
                         {selectedReading ? (
                           <details className="normAssistedReading"><summary>Extracto y señales automáticas · sin revisión jurídica</summary><div className="legalReadingPanel">
@@ -863,7 +871,7 @@ export function NormativeBrowser() {
                                 <strong>Referencias detectadas · sin revisión jurídica</strong>
                                 <div className="concordanciaList">
                                   {articleConcordancias.map((concordancia) =>
-                                    concordancia.resolved && concordancia.targetDocumentId ? (
+                                    concordancia.resolved && concordancia.targetDocumentId && concordancia.destinationCheck?.valid ? (
                                       <button
                                         key={concordancia.id}
                                         className="concordanciaChip resolved"
@@ -871,7 +879,7 @@ export function NormativeBrowser() {
                                         type="button"
                                         title={concordancia.rawText}
                                       >
-                                        <span>{referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)}</span>
+                                        <span>{concordancia.destinationCheck?.reason ?? referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)}</span>
                                         {concordancia.targetDocumentTitle ?? "Norma"}
                                         {concordancia.targetArticleNumber
                                           ? `, art. ${concordancia.targetArticleNumber}`
@@ -883,10 +891,11 @@ export function NormativeBrowser() {
                                         className="concordanciaChip external"
                                         title={concordancia.rawText}
                                       >
-                                        {referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)} · {concordancia.rawText} · no indexada
+                                        {concordancia.destinationCheck?.reason ?? referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)} · {concordancia.rawText} · no indexada
                                       </span>
                                     ),
                                   )}
+                                  {detail.canCorrectReferences ? <details><summary>Revisar destinos e historial</summary>{articleConcordancias.map(reference=><div key={reference.id}><p>{reference.rawText}</p><ConcordanceReview referenceId={reference.id} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/></div>)}</details> : null}
                                 </div>
                               </div>
                             ) : null}

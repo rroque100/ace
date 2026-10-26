@@ -7,6 +7,12 @@ vi.mock("@/lib/supabase-server", () => ({
 }));
 import { POST } from "@/app/api/search/handoff/route";
 import { GET } from "@/app/api/search/context/route";
+it("conserva identificadores iniciales y permiso de expansión en la sesión",async()=>{
+ mocks.auth.mockResolvedValue({user:{id:"alice",accessToken:"alice-jwt"}});mocks.rest.mockResolvedValue([{id:"00000000-0000-4000-8000-000000000001"}]);
+ const ids=["00000000-0000-4000-8000-000000000002"];
+ const response=await POST(new Request("https://ace.example/api/search/handoff",{method:"POST",body:JSON.stringify({question:"Consulta con fuentes iniciales",filters:{selectedDocumentIds:ids,expandCorpus:true}})}));
+ expect(response.status).toBe(200);expect(JSON.parse(mocks.rest.mock.calls[0][2].body).metadata.filters).toMatchObject({selectedDocumentIds:ids,expandCorpus:true});
+});
 const session = "00000000-0000-4000-8000-000000000001",
   id = "00000000-0000-4000-8000-000000000002";
 beforeEach(() => {

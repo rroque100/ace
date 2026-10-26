@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "../components/legal-workspace.css";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { NormativeCompare } from "../components/normative-compare";
@@ -16,7 +17,7 @@ export default function CompararPage() {
       eyebrow="Analisis normativo"
       title="Comparacion entre normas con evidencia"
     >
-      <section className="singleWorkspace">
+      <section className="singleWorkspace tw legalWorkspace">
         <NormativeCompare />
       </section>
     </AppShell>

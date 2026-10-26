@@ -1,0 +1,15 @@
+import {beforeEach,expect,it,vi} from "vitest";
+const mocks=vi.hoisted(()=>({auth:vi.fn(),rest:vi.fn()}));
+vi.mock("@/lib/auth",()=>({requireUser:mocks.auth}));
+vi.mock("@/lib/supabase-server",()=>({supabaseRest:mocks.rest}));
+import {POST} from "@/app/api/norms/concordances/[id]/route";
+import {POST as bodyReview} from "@/app/api/norms/articles/[id]/body/route";
+const id="00000000-0000-4000-8000-000000000001",actor="00000000-0000-4000-8000-000000000002";
+const context={params:Promise.resolve({id})};
+const request=(body:unknown)=>new Request("http://localhost/api/norms/concordances/"+id,{method:"POST",body:JSON.stringify(body)});
+beforeEach(()=>{vi.resetAllMocks();mocks.auth.mockResolvedValue({user:{id:actor,isAdmin:true}});mocks.rest.mockResolvedValue({revision:1});});
+it("no permite corregir a un usuario de consulta",async()=>{mocks.auth.mockResolvedValue({user:{id:actor}});expect((await POST(request({}),context)).status).toBe(403);expect(mocks.rest).not.toHaveBeenCalled();});
+it("exige motivo y artículo válido",async()=>{expect((await POST(request({documentId:id,articleId:null,reason:"corto",revision:0}),context)).status).toBe(400);});
+it("usa el actor de la sesión y una sola transacción auditada",async()=>{expect((await POST(request({documentId:id,articleId:id,reason:"Destino comprobado en el PDF",revision:0,actor:"otro"}),context)).status).toBe(200);expect(mocks.rest.mock.calls[0][0]).toBe("rpc/ace_correct_reference_v1");expect(JSON.parse(mocks.rest.mock.calls[0][1].body).p_actor).toBe(actor);});
+it("no sobrescribe una revisión concurrente",async()=>{mocks.rest.mockRejectedValue(Error("40001"));expect((await POST(request({documentId:id,articleId:id,reason:"Comprobado de nuevo en PDF",revision:0}),context)).status).toBe(409);});
+it("la identificación de cuerpo también exige permiso y motivo",async()=>{const result=await bodyReview(request({title:"Reglamento",reason:"Identificado en el encabezado del PDF",revision:0}),context);expect(result.status).toBe(200);expect(mocks.rest.mock.calls[0][0]).toBe("rpc/ace_review_article_body_v1");});

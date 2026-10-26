@@ -1,3 +1,4 @@
+import { articleBodyIdentity, checkReferenceDestination } from "@/lib/normative-identity";
 import { annotateArticleSections } from "@/lib/normative-library";
 import { z } from "zod";
 import { documentaryDates, canonicalSourceEntity } from "@/lib/search-document-metadata";
@@ -24,6 +25,7 @@ type DocumentRow = {
 
 type ArticleRow = {
   id: string;
+  metadata?: Record<string,unknown>;
   article_number: string;
   article_label: string | null;
   section_title: string | null;
@@ -57,8 +59,8 @@ type ConcordanciaRow = {
   resolved: boolean;
   target_document_id: string | null;
   target_article_id: string | null;
-  targetDoc: { id: string; title: string } | null;
-  targetArt: { article_number: string } | null;
+  targetDoc: { id: string; title: string; document_type?:string; es_institucional?:boolean; metadata?:Record<string,unknown> } | null;
+  targetArt: { id:string; document_id:string; article_number: string } | null;
 };
 
 export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
@@ -81,7 +83,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       ),
       loadNormativeRows<ArticleRow>(
         `norma_articulos?document_id=eq.${id}` +
-          `&select=id,article_number,article_label,section_title,ordinal,content,page_start,page_end,status,vigencia` +
+          `&select=id,article_number,article_label,section_title,ordinal,content,page_start,page_end,status,vigencia,metadata` +
           ``,
       ),
       supabaseRest<SummaryRow[]>(
@@ -89,7 +91,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       ).catch(() => { warnings.push("No se pudo comprobar el resumen asistido."); return []; }),
       loadNormativeRows<ConcordanciaRow>(
         `norma_concordancias?source_document_id=eq.${id}` +
-          `&select=id,source_article_id,ref_type,ref_document_number,ref_article_number,relation_type,raw_text,resolved,target_document_id,target_article_id,targetDoc:documents!target_document_id(id,title),targetArt:norma_articulos!target_article_id(article_number)`,
+          `&select=id,source_article_id,ref_type,ref_document_number,ref_article_number,relation_type,raw_text,resolved,target_document_id,target_article_id,targetDoc:documents!target_document_id(id,title,document_type,metadata,es_institucional),targetArt:norma_articulos!target_article_id(id,document_id,article_number)`,
       ).catch(() => { warnings.push("No se pudieron comprobar las referencias relacionadas."); return []; }),
       loadNormativeRows<ChunkRow>(
         `document_chunks?document_id=eq.${id}&select=id,page_start,page_end,pinecone_vector_id`,
@@ -128,16 +130,18 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
         refArticleNumber: row.ref_article_number,
         rawText: row.raw_text,
         resolved: row.resolved,
-        targetDocumentId: row.target_document_id,
-        targetDocumentTitle: row.targetDoc?.title ?? null,
-        targetArticleId: row.target_article_id,
-        targetArticleNumber: row.targetArt?.article_number ?? row.ref_article_number,
+        destinationCheck:checkReferenceDestination({targetDocumentId:row.target_document_id,targetArticleId:row.target_article_id,refArticleNumber:row.ref_article_number,refDocumentNumber:row.ref_document_number,refType:row.ref_type,sourceDocumentId:id},row.targetDoc?.es_institucional?{documentId:row.targetArt?.document_id??row.targetDoc.id,documentType:row.targetDoc.document_type,articleId:row.targetArt?.id,articleNumber:row.targetArt?.article_number,documentNumber:String(row.targetDoc.metadata?.documentNumber??row.targetDoc.metadata?.number??"")}:null),
+        targetDocumentId: row.targetDoc?.es_institucional?row.target_document_id:null,
+        targetDocumentTitle: row.targetDoc?.es_institucional?row.targetDoc.title:null,
+        targetArticleId: row.targetDoc?.es_institucional?row.target_article_id:null,
+        targetArticleNumber: row.targetDoc?.es_institucional?row.targetArt?.article_number??row.ref_article_number:row.ref_article_number,
       });
       concordanciasByArticle[row.source_article_id] = list;
     }
 
     return NextResponse.json({
       warnings,
+      canCorrectReferences:auth.user.isAdmin||auth.user.isEditor||auth.user.isLegal,
       concordanciasByArticle,
       norm: {
         id: document.id,
@@ -175,6 +179,9 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       articles: annotateArticleSections(articles).map((article) => ({
         id: article.id,
         articleNumber: article.article_number,
+        ...articleBodyIdentity(id,article.metadata),
+        bodyRevision:Number(article.metadata?.bodyRevision??0),
+        version:documentaryDates(metadata).version,
         label: article.article_label,
         sectionTitle: article.section_title,
         sectionOrigin: article.sectionOrigin,

@@ -10,11 +10,12 @@ export const legalCenterViews = [
 ] as const;
 
 // Solo metadatos documentales: nunca trasladar hechos, preguntas o sesiones por URL.
-const sharedFilterKeys = ["documentType", "documentId", "article", "processType", "sourceEntity", "year", "topic", "vigencia", "regime", "includeUnknownRegime", "documentTypes", "years"] as const;
+const sharedFilterKeys = ["documentType", "documentId", "articleId", "bodyId", "article", "processType", "sourceEntity", "year", "topic", "vigencia", "regime", "includeUnknownRegime", "documentTypes", "years"] as const;
 export function legalCenterHref(view: LegalCenterView, filters: LegalCenterFilters = {}) {
   const params = new URLSearchParams();
   for (const key of sharedFilterKeys) {
     const value = filters[key];
+    if(key === "articleId" && !/^[0-9a-f-]{36}$/i.test(String(value))) continue;
     if (key === "regime" && !["32069", "30225", "especial", "no_determinado"].includes(String(value))) continue;
     if (key === "includeUnknownRegime" && value !== true && value !== "true") continue;
     if (key === "documentTypes" && (!Array.isArray(value) || !value.every(type => CORPUS_ANSWER_TYPES.includes(String(type))))) continue;

@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth";
-import { loadSearchCatalogue } from "@/lib/document-search-server";
-import { documentSearchFiltersSchema, matchesSearchCatalogue } from "@/lib/document-search";
+import { supabaseRest } from "@/lib/supabase-server";
+import type {SearchCatalogueRow} from "@/lib/document-search";
+import { documentSearchFiltersSchema } from "@/lib/document-search";
 import { corpusTypesForGroup } from "@/lib/official-corpus";
 import { canonicalSourceEntity, documentaryDates } from "@/lib/search-document-metadata";
 import { reviewedRegime } from "@/lib/legal-workspace-filters";
 import { documentReviewSummary } from "@/lib/document-review";
-import { normTitleMatches } from "@/lib/normative-library";
 import { optionalNormativeRows } from "@/lib/normative-server";
 import { countReferencedPages } from "@/lib/document-pages";
 export const dynamic = "force-dynamic";
@@ -20,12 +20,10 @@ export async function GET(request: Request) {
   const filters = documentSearchFiltersSchema.safeParse({ documentType:params.get("documentType")??undefined, processType:params.get("processType")??undefined, sourceEntity:params.get("sourceEntity")??undefined, year:params.get("year")?Number(params.get("year")):undefined, vigencia:params.get("vigencia")??undefined, topic:params.get("topic")??undefined, regime:params.get("regime")??"", includeUnknownRegime:params.get("includeUnknownRegime")==="true", documentTypes:params.get("documentTypes")?.split(",").filter(Boolean), years:params.get("years")?.split(",").filter(Boolean).map(Number) });
   if (!options.success || !filters.success) return NextResponse.json({error:"Revisa los filtros.",norms:[]},{status:400});
   try {
-    const rows = await loadSearchCatalogue();
-    const categoryRows = rows.filter(row=>corpusTypesForGroup(options.data.category).includes(row.document_type));
-    const matches = categoryRows.filter(row=>matchesSearchCatalogue(row,filters.data)&&normTitleMatches(row,options.data.q));
-    matches.sort((a,b)=>a.title.localeCompare(b.title,"es")||a.id.localeCompare(b.id));
-    const total=matches.length, pages=Math.ceil(total/options.data.pageSize), page=Math.min(options.data.page,Math.max(1,pages));
-    const selected=matches.slice((page-1)*options.data.pageSize,page*options.data.pageSize);
+    const catalogue=await supabaseRest<{documents:SearchCatalogueRow[];total:number;page:number;pages:number;pageSize:number;facets:{categoryTotal:number;entities:string[];years:number[]}}>("rpc/ace_normative_catalogue_v1",{method:"POST",body:JSON.stringify({p_filters:filters.data,p_types:corpusTypesForGroup(options.data.category),p_query:options.data.q,p_page:options.data.page,p_page_size:options.data.pageSize})});
+    if(!Array.isArray(catalogue.documents)||!Number.isSafeInteger(catalogue.total))throw Error("Respuesta de catálogo inválida");
+    const selected=catalogue.documents;
+    const {total,page,pages}=catalogue;
     const warnings:string[]=[];
     const ids=`in.(${selected.map(row=>row.id).join(",")})`;
     const [chunks,summaries,references,articles] = selected.length ? await Promise.all([
@@ -40,6 +38,6 @@ export async function GET(request: Request) {
       const pineconeVerified=pinecone?.verification?.verified===true;
       return { id:row.id,title:row.title,documentType:row.document_type,sourceEntity:canonicalSourceEntity(row.source_entity),processType:row.process_type,status:typeof row.metadata.status==="string"?row.metadata.status:"indexed",regime:reviewedRegime(row.metadata),dates:documentaryDates(row.metadata),review:documentReviewSummary(row.metadata),documentNumber:row.metadata.documentNumber??row.metadata.number??null,year:row.metadata.year??null,vigencia:row.metadata.vigencia??null,topic:row.metadata.topic??null,amends:row.metadata.amends??null,articleCount:articles.filter(item=>item.document_id===row.id).length,pagesDetected:countReferencedPages(own),vectorCount:own.filter(item=>item.pinecone_vector_id).length,pineconeVerified,hasSummary:summaries.some(item=>item.document_id===row.id),concordanceCount:references.filter(item=>item.source_document_id===row.id).length,qualityStatus:warnings.length?"revisar":"lista" };
     });
-    return NextResponse.json({norms,total,page,pages,pageSize:options.data.pageSize,warnings,facets:{entities:[...new Set(categoryRows.map(row=>canonicalSourceEntity(row.source_entity)).filter(Boolean))].sort(),years:[...new Set(categoryRows.map(row=>row.metadata.year).filter(value=>typeof value==="number"))].sort((a,b)=>Number(b)-Number(a)),categoryTotal:categoryRows.length}},{headers:{"Cache-Control":"no-store"}});
+    return NextResponse.json({norms,total,page,pages,pageSize:options.data.pageSize,warnings,facets:{...catalogue.facets,entities:[...new Set(catalogue.facets.entities.map(entity=>canonicalSourceEntity(entity)).filter(Boolean))].sort()},engine:"database"},{headers:{"Cache-Control":"no-store"}});
   } catch { return NextResponse.json({error:"No se pudo completar el listado. Intenta de nuevo; esto no significa que no existan documentos.",norms:[]},{status:503}); }
 }

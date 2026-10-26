@@ -268,3 +268,17 @@
 @media (max-width: 720px) {
   .legalWorkspace .mobileFilterToggle { @apply inline-flex; }
 }
+.legalWorkspace .concordanceReview { @apply my-3 min-w-0; }
+.legalWorkspace .concordanceReview label { @apply my-3 grid min-w-0 gap-2 text-[13px]; }
+.legalWorkspace .concordanceReview :is(input,select,textarea) { @apply w-full min-w-0; }
+.legalWorkspace .concordanceReview button { @apply m-1 min-h-11 rounded-lg border border-line bg-panel px-3 py-2 text-left text-[13px]; }
+.legalWorkspace .concordanceReview button[aria-pressed=true] { @apply border-brand bg-brand-soft; }
+.legalWorkspace .textComparison { @apply my-5 grid min-w-0 gap-3; }
+.legalWorkspace .textComparison>details { @apply rounded-xl border border-line bg-panel p-4; }
+.legalWorkspace .textComparison summary { @apply min-h-11 cursor-pointer text-[14px] font-semibold; }
+.legalWorkspace .textDiffColumns { @apply grid min-w-0 grid-cols-2 gap-4; }
+.legalWorkspace .textDiffColumns>section { @apply min-w-0 rounded-lg border border-line p-3; }
+.legalWorkspace .textDiffColumns pre { @apply whitespace-pre-wrap break-words font-sans text-[14px] leading-7; overflow-wrap:anywhere; }
+.legalWorkspace .textComparison nav { @apply flex flex-wrap justify-between gap-3; }
+.legalWorkspace .textComparison nav button { @apply min-h-11 rounded-lg border border-line px-4; }
+@container (max-width:720px) { .legalWorkspace .textDiffColumns { @apply grid-cols-1; } }

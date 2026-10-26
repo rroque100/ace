@@ -55,6 +55,8 @@ function readChatWideViewport() { return window.matchMedia(chatWideQuery).matche
 function readChatServerViewport() { return false; }
 
 type ChatSource = {
+  articleId?:string;bodyId?:string;bodyTitle?:string;
+  selectionOrigin?: "selected" | "additional";
   version?: string | null;
   numeral?: string | null;
   requestedOriginal?: boolean;
@@ -85,6 +87,7 @@ type ChatSource = {
 };
 
 type ChatAssessment = {
+  selection?:{requested:number;recovered:number;missing:string[];failed:string[]};
   evidenceReview?: EvidenceReview;
   coverage?: {
     bases: boolean;
@@ -465,6 +468,8 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         <span>{reference.source.documentTitle}</span>
       </div>
       <div className="sourceModalMeta">
+        {reference.source.articleId ? <span>{reference.source.bodyTitle??"Cuerpo normativo sin identificar"} · {reference.source.version??"Versión sin registrar"}</span> : null}
+        {reference.source.selectionOrigin ? <span>{reference.source.selectionOrigin==="selected"?"Fuente de la selección inicial":"Fuente adicional"}</span> : null}
         <span>{reference.source.documentType}</span>
         <span>{reference.source.sourceEntity ?? "Sin entidad"}</span>
         {processTypeLabel(reference.source.processType) ? (
@@ -527,7 +532,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
           ? `Abrir PDF en página ${reference.source.pageStart}`
           : "Abrir PDF"}
       </a>
-      <Link className="secondaryButton compactButton" href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article })}>Ver en Normativa</Link>
+      <Link className="secondaryButton compactButton" href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article,articleId:reference.source.articleId,bodyId:reference.source.bodyId })}>Ver en Normativa</Link>
       <Link className="secondaryButton compactButton" href={legalCenterHref("busqueda", { documentId: reference.source.documentId, documentType: reference.source.documentType })}>Buscar en este documento</Link>
       </div>
     </article>
@@ -693,6 +698,7 @@ function AnswerUseCard({
         <strong>{status.label}</strong>
         {!review?.presentation ? <span>{status.detail}</span> : null}
       </div>
+      {assessment?.selection ? <p role="status">Fuentes iniciales recuperadas: {assessment.selection.recovered} de {assessment.selection.requested}.{assessment.selection.missing.length?` ${assessment.selection.missing.length} sin pasajes recuperados.`:""}{assessment.selection.failed.length?` Falló la consulta de ${assessment.selection.failed.length}; reintenta antes de concluir que falta evidencia.`:""}</p> : null}
       {review?.presentation ? <p className="reviewApplicability">{reviewApplicability(review)}</p> : null}
       {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
       {!review?.presentation ? <p className="chatPlainEvidence">Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
@@ -871,7 +877,9 @@ function LegalChatSession() {
   const [documentType, setDocumentType] = useState(initialDocumentType);
   const [documentId, setDocumentId] = useState(initialDocumentId);
   const [documentIds, setDocumentIds] = useState<string[]>([]);
+  const [sourceSelection, setSourceSelection] = useState<{selectedDocumentIds:string[];expandCorpus:boolean}>({selectedDocumentIds:[],expandCorpus:false});
   const [article, setArticle] = useState(initialArticle);
+  const [articleIdentity,setArticleIdentity]=useState({articleId:searchParams.get("articleId")??"",bodyId:searchParams.get("bodyId")??""});
   const [processType, setProcessType] = useState(initialProcessType);
   const [sourceEntity, setSourceEntity] = useState(initialSourceEntity);
   const [topic, setTopic] = useState(initialTopic);
@@ -925,7 +933,9 @@ function LegalChatSession() {
         setDocumentType(textFilter("documentType"));
         setDocumentId(textFilter("documentId"));
         setDocumentIds(Array.isArray(restoredFilters.documentIds) ? restoredFilters.documentIds.filter((id): id is string=>typeof id === "string") : []);
+        setSourceSelection({selectedDocumentIds:Array.isArray(restoredFilters.selectedDocumentIds)?restoredFilters.selectedDocumentIds.filter((id):id is string=>typeof id==="string"):[],expandCorpus:restoredFilters.expandCorpus===true});
         setArticle(textFilter("article"));
+        setArticleIdentity({articleId:textFilter("articleId"),bodyId:textFilter("bodyId")});
         setProcessType(textFilter("processType"));
         setSourceEntity(textFilter("sourceEntity"));
         setTopic(textFilter("topic"));
@@ -961,9 +971,10 @@ function LegalChatSession() {
           clear: () => setDocumentType(""),
         }
       : null,
-    documentIds.length ? { key: "documentIds", label: `Solo ${documentIds.length} documentos seleccionados`, clear: () => setDocumentIds([]) } : null,
+    documentIds.length ? { key: "documentIds", label: `Solo ${documentIds.length} documentos seleccionados`, clear: () => {setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});} } : null,
     documentId ? { key: "documentId", label: "Documento exacto", clear: () => setDocumentId("") } : null,
-    article ? { key: "article", label: `Articulo: ${article}`, clear: () => setArticle("") } : null,
+    article ? { key: "article", label: `Articulo: ${article}`, clear: () => {setArticle("");setArticleIdentity({articleId:"",bodyId:""});} } : null,
+    articleIdentity.articleId&&!article ? {key:"articleIdentity",label:"Artículo exacto seleccionado",clear:()=>setArticleIdentity({articleId:"",bodyId:""})}:null,
     processType
       ? {
           key: "processType",
@@ -976,7 +987,7 @@ function LegalChatSession() {
     vigencia ? { key: "vigencia", label: `Vigencia: ${vigencia}`, clear: () => setVigencia("") } : null,
     year ? { key: "year", label: `Año: ${year}`, clear: () => setYear("") } : null,
   ].filter(Boolean) as Array<{ key: string; label: string; clear: () => void }>;
-  const currentFilterValues = { article, documentId, documentType, processType, sourceEntity, topic, vigencia, year };
+  const currentFilterValues = { articleId:articleIdentity.articleId,bodyId:articleIdentity.bodyId, article, documentId, documentType, processType, sourceEntity, topic, vigencia, year };
 
   // Mantiene a la vista el último mensaje mientras llega el streaming.
   useEffect(() => {
@@ -1071,7 +1082,7 @@ function LegalChatSession() {
         body: JSON.stringify({
           caseContext: userMessage.caseContext,
           attachmentIds,
-          filters: { ...extendedFilters, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          filters: { ...extendedFilters, ...sourceSelection, articleId:articleIdentity.articleId||undefined,bodyId:articleIdentity.bodyId||undefined, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
           question: normalizedQuestion,
@@ -1177,8 +1188,8 @@ function LegalChatSession() {
 
   function clearFilters() {
     setExtendedFilters({});
-    setDocumentId(""); setDocumentIds([]);
-    setArticle("");
+    setDocumentId(""); setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});
+    setArticle("");setArticleIdentity({articleId:"",bodyId:""});
     setDocumentType("");
     setProcessType("");
     setSourceEntity("");
@@ -1378,9 +1389,9 @@ function LegalChatSession() {
                   {!message.streaming && !message.error && message.sources?.length ? (
                     <div className="msgSourceChips">
                       {groupSourcesByDocument(message.sources).map(({ document, sources: docSources }) => (
-                        <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
+                        <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} data-origin={document.selectionOrigin} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
                           <FileText size={13} />
-                          {document.documentTitle}
+                          {document.selectionOrigin ? <span>{document.selectionOrigin==="selected"?"Selección inicial · ":"Fuente añadida · "}</span> : null}{document.documentTitle}
                           <em>{consultedFragments(docSources.length)}</em>
                         </button>
                       ))}
@@ -1499,6 +1510,7 @@ function LegalChatSession() {
   return (
     <div className="legalTool chatRedesign chatAccessible">
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
+      {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className="secondaryButton compactButton" onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
       <div className="chatReadingLayout"><div className="chatMainColumn">
       <header className="chatHeader">

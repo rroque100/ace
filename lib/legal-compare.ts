@@ -25,7 +25,7 @@ export const compareRequestSchema = z.object({
   topic: z.string().min(5),
   sideA: comparisonSideSchema,
   sideB: comparisonSideSchema,
-  mode: z.enum(["tema", "articulo"]).default("tema"),
+  mode: z.enum(["tema", "articulo", "texto"]).default("tema"),
 });
 
 type ComparisonSide = z.infer<typeof comparisonSideSchema>;

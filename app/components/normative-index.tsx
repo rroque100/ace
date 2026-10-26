@@ -1,10 +1,10 @@
 "use client";
 
-type IndexArticle = { id:string;articleNumber:string;sectionTitle:string|null;label:string|null };
+type IndexArticle = {bodyTitle?:string;bodyId?:string; id:string;articleNumber:string;sectionTitle:string|null;label:string|null };
 export function NormativeIndex({articles,selectedId,onSelect}:{articles:IndexArticle[];selectedId?:string;onSelect:(id:string)=>void}) {
   const groups:Array<{title:string;articles:IndexArticle[]}>=[];
   for(const article of articles) {
-    const title=article.sectionTitle?.trim()||"Sección no identificada";
+    const title=`${article.bodyTitle ?? "Cuerpo sin identificar"} · ${article.sectionTitle?.trim()||"Sección no identificada"}`;
     if(groups.at(-1)?.title!==title)groups.push({title,articles:[]});
     groups[groups.length-1].articles.push(article);
   }
