@@ -84,6 +84,21 @@ it("rechaza una conversación no autorizada antes de consultar o generar", async
  expect(mocks.search).not.toHaveBeenCalled();expect(mocks.create).not.toHaveBeenCalled();
 });
 
+it("reintenta una generación cortada una sola vez antes de revisarla",async()=>{
+ const draft="Las fuentes del recurso deben revisarse. [F1]";
+ mocks.create.mockResolvedValueOnce({output_text:"BORRADOR CORTADO",raw:{choices:[{finish_reason:"length"}]}}).mockResolvedValueOnce({output_text:draft}).mockResolvedValueOnce({output_text:JSON.stringify({claims:[{id:1,status:"supported",reason:"Pasaje coincidente",evidence:[{source:1,passage:1}]}]})});
+ const result=await answerLegalQuestion(chatRequestSchema.parse({question:"¿Cómo revisar el recurso de apelación?"}),auth);
+ expect(mocks.create).toHaveBeenCalledTimes(3);expect(result.answer).toContain(draft);expect(result.answer).not.toContain("BORRADOR CORTADO");
+ expect(mocks.create.mock.calls[1][0].input.at(-1).content).toContain("interrumpió");
+});
+
+it("no transmite el borrador truncado del streaming y revisa el reintento",async()=>{
+ const draft="Las fuentes del recurso deben revisarse. [F1]";
+ mocks.create.mockResolvedValueOnce((async function*(){yield{type:"response.output_text.delta",delta:"BORRADOR CORTADO"};yield{type:"response.incomplete"};})()).mockResolvedValueOnce({output_text:draft}).mockResolvedValueOnce({output_text:JSON.stringify({claims:[{id:1,status:"supported",reason:"Pasaje coincidente",evidence:[{source:1,passage:1}]}]})});
+ const events=[];for await(const event of streamLegalAnswer(chatRequestSchema.parse({question:"¿Cómo revisar el recurso de apelación?"}),auth))events.push(event);
+ const deltas=events.filter(event=>event.type==="delta");expect(deltas).toHaveLength(1);expect(JSON.stringify(deltas)).not.toContain("BORRADOR CORTADO");expect(JSON.stringify(deltas)).toContain(draft);
+});
+
 
 it("publica y guarda estados finales solo después de revisar todo el borrador", async () => {
   const draft = "Las fuentes del recurso deben revisarse. [F1]";

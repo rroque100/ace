@@ -1,3 +1,5 @@
+import { checkedAnswerSections } from "./chat-answer-layout";
+import { isCaseQuestion, caseInformationNeeds } from "./chat-question-plan";
 import { parseAlternatives, checkedAlternative } from "./chat-alternatives";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
@@ -30,9 +32,8 @@ export function relevantLiteral(question: string, sources: AuditSource[]) {
 }
 
 export function publishEvidence(answer: string, sources: AuditSource[], review: EvidenceReview, question: string, context?: CaseContext) {
-  const contextual = Object.values(context ?? {}).some(value => value?.trim())
-    || /\b(?:mi|nuestro|este|ese)\s+(?:caso|contrato|procedimiento|proceso)|\ben mi entidad\b|\b(?:adjunt[oa]|expediente|convocad[oa]|suscrito|suscribimos|firmamos)\b|\b\d{4}\b|\b\d{1,2}[/-]\d{1,2}\b/i.test(normalize(question));
-  review.queryScope = contextual ? "case" : "general";
+  review.queryScope = isCaseQuestion(question,context) ? "case" : "general";
+  review.missing=caseInformationNeeds(question,context);
   const claims = evidenceClaims(answer);
   const coherent = new Set(selectCoherentEvidence(sources, question, context));
   const kept = claims.filter(claim => review.claims.find(r => r.id === claim.id)?.status === "supported"
@@ -67,6 +68,10 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
     // Name only documents cited by the primary checked claim; never infer applicable law.
     const titles = [...new Set(kept[0].markers.map(n => sources[n - 1].documentTitle))];
     const frame = `Según ${titles.map(title => `«${title}»`).join(" y ")}:`;
+    if(!alternatives) {
+      const body=checkedAnswerSections(answer,new Set(kept.map(claim=>claim.id)));
+      return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${body.main}\n\n**Disposición y fuente**\n${labels.join("\n\n")}${body.detail ? `\n\n**Desarrollo comprobado**\n${body.detail}` : ""}`;
+    }
     return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${clean(kept[0].text)}\n\n**Disposición y fuente**\n${labels[0]}${kept.length > 1 ? `\n\n**Desarrollo comprobado**\n${kept.slice(1).map(c => clean(c.text)).join("\n\n")}` : ""}`;
   }
   const allowed = sources.filter(source => coherent.has(source));

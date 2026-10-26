@@ -42,7 +42,7 @@ describe("publicación con respaldo documental", () => {
     const complete = vi.fn();
     await auditEvidence(Array(25).fill(claim).join("\n"), sources, undefined, complete);
     await auditEvidence(claim, [], undefined, complete);
-    expect(complete).not.toHaveBeenCalled();
+    expect(complete).toHaveBeenCalledTimes(2);
     expect(initialEvidenceReview().missing).toContain("objeto contractual");
   });
   it("avisa mezcla de regímenes revisados sin deducir aplicación por fecha", async () => {

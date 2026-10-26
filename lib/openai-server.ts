@@ -91,11 +91,13 @@ function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, opt
       const stream = (await client.chat.completions.create(
         chatParams as unknown as OpenAI.Chat.ChatCompletionCreateParamsStreaming, options,
       )) as AsyncIterable<OpenAI.Chat.ChatCompletionChunk>;
+      let incomplete=false;
       for await (const chunk of stream) {
+        if(chunk.choices?.[0]?.finish_reason==="length")incomplete=true;
         const delta = chunk.choices?.[0]?.delta?.content;
         if (delta) yield { type: "response.output_text.delta", delta };
       }
-      yield { type: "response.completed" };
+      yield { type: incomplete ? "response.incomplete" : "response.completed" };
     })();
   }
   return client.chat.completions
