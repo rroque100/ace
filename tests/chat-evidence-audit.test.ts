@@ -73,6 +73,23 @@ describe("publicación con respaldo documental", () => {
     expect(selectCoherentEvidence([old, other], "Compara la Ley 30225 y 32069")).toHaveLength(2);
     expect(isRegimeComparison("Comparación de precios según la Ley 32069")).toBe(false);
   });
+  it("la familia la decide la mejor evidencia, no el orden: una Ley 30225 débil no tapa el Reglamento de la 32069", () => {
+    // Caso real: «¿qué porcentaje debe tener la garantía de fiel cumplimiento?». La lista
+    // va por rango normativo (ley antes que reglamento) y la Ley 30225 art. 50 entró por
+    // coincidencia de palabras, con calidad 0,44.
+    const debil = { ...sources[0], documentTitle: "Ley N.° 30225", article: "50", evidenceQuality: 0.44 };
+    const reglamento = { ...sources[0], documentTitle: "Reglamento de la Ley N.° 32069", article: "113", evidenceQuality: 1 };
+    const opinion = { ...sources[0], documentTitle: "Opinión N.° D000099-2026-OECE-DTN", article: null, evidenceQuality: 0.78 };
+    expect(selectCoherentEvidence([debil, reglamento, opinion], "¿Qué porcentaje debe tener la garantía?"))
+      .toEqual([reglamento, opinion]);
+    // Al revés: si la 30225 es la fuerte, gana ella.
+    const fuerte = { ...debil, evidenceQuality: 0.95 };
+    const reglamentoDebil = { ...reglamento, evidenceQuality: 0.3 };
+    expect(selectCoherentEvidence([fuerte, reglamentoDebil], "Consulta general")).toEqual([fuerte]);
+    // Diferencias menores a ~0,1 son empate: decide el orden de llegada.
+    expect(selectCoherentEvidence([{ ...debil, evidenceQuality: 0.96 }, reglamento], "Consulta general"))
+      .toEqual([{ ...debil, evidenceQuality: 0.96 }]);
+  });
   it("comprueba cifras con marcadores anotados y agrupados", () => {
     expect(checkCitationFaithfulness("Dato 11% [F1, Artículo de prueba]", sources).ok).toBe(false);
     expect(checkCitationFaithfulness("Dato 10% [F1, F2]", sources).ok).toBe(true);

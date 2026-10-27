@@ -5,6 +5,7 @@ import { citedSourceNumbers } from "./chat-source-locations";
 import type { CaseContext } from "./chat-case-context";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { detectValidityTarget } from "./chat-vigencia";
+import { qualityBucket } from "./chat-recency";
 
 export type AuditSource = {
   documentTitle: string; excerpt: string; article?: string | null;
@@ -12,6 +13,8 @@ export type AuditSource = {
   pageStart?: number | null; pageEnd?: number | null; pageCount?: number | null;
   regime?: string | null; regimeReviewed?: boolean; vigencia?: string | null;
   version?: string | null; numeral?: string | null;
+  /** Calidad de la evidencia (0-1); si falta, la familia la decide el orden de llegada. */
+  evidenceQuality?: number;
 };
 /** Identifies the named norm, never its temporal applicability. No incidental quotations. */
 export function sourceNormIdentity(source: AuditSource) {
@@ -27,14 +30,37 @@ export function isRegimeComparison(question: string) {
     || (/\b32069\b/.test(text) && /\b30225\b/.test(text))
     || /(?:compar|diferencia).{0,30}regimenes|regimen anterior.{0,30}nuevo|\b(?:compara|comparar|contrasta|diferencias?).{0,40}\b(?:normas|leyes|reglamentos|versiones|documentos|fuentes)\b/.test(text);
 }
+/**
+ * La familia (Ley 30225 o 32069) con la mejor evidencia; a igual tramo de calidad,
+ * la que aparece antes. Antes mandaba solo el orden de la lista, que va por rango
+ * normativo: una Ley 30225 art. 50 con calidad 0,44 (entró por coincidencia de
+ * palabras) quedaba delante del art. 113 del Reglamento de la 32069 (calidad 1,00,
+ * el que trae el 10 % de la garantía) y la familia entera de este último se
+ * descartaba. Medido en producción con «¿qué porcentaje debe tener la garantía de
+ * fiel cumplimiento?»: respondía con una Opinión OECE y «Faltan fuentes críticas:
+ * Reglamento vigente».
+ */
+function strongestIdentity(sources: AuditSource[]) {
+  const best = new Map<string, number>();
+  for (const source of sources) {
+    const identity = sourceNormIdentity(source);
+    if (!identity) continue;
+    const bucket = qualityBucket(source.evidenceQuality ?? 0);
+    if (!best.has(identity) || bucket > best.get(identity)!) best.set(identity, bucket);
+  }
+  let selected: string | null = null;
+  for (const [identity, bucket] of best) {
+    if (selected === null || bucket > best.get(selected)!) selected = identity;
+  }
+  return selected;
+}
 export function selectCoherentEvidence<T extends AuditSource>(sources: T[], question: string, context?: CaseContext) {
   if (isRegimeComparison(question)) return sources;
   const identities = [...new Set(sources.map(sourceNormIdentity).filter(Boolean))];
   if (identities.length < 2) return sources;
   const declared = ["32069", "30225"].find(id => new RegExp(`\\b${id}\\b`).test(context?.regime ?? ""));
-  // With no declaration, use the first relevant documentary family conditionally, never as confirmed law for the case.
-  const first = sources.find(s => sourceNormIdentity(s));
-  const selected = declared ?? (first ? sourceNormIdentity(first) : null);
+  // With no declaration, use the family with the strongest evidence conditionally, never as confirmed law for the case.
+  const selected = declared ?? strongestIdentity(sources);
   return sources.filter(s => !sourceNormIdentity(s) || sourceNormIdentity(s) === selected);
 }
 export type EvidenceClaim = { id: number; text: string; markers: number[] };
