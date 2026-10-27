@@ -56,7 +56,7 @@ create function public.ace_invalidate_validity_v1() returns trigger language plp
 begin
  if row(new.storage_path,new.storage_bucket,new.file_size,new.file_name,new.title,new.metadata->>'officialVersion',new.metadata->>'version',new.metadata->>'versionDate',new.metadata->>'updatedTextAt',new.metadata->>'sha256')
  is distinct from row(old.storage_path,old.storage_bucket,old.file_size,old.file_name,old.title,old.metadata->>'officialVersion',old.metadata->>'version',old.metadata->>'versionDate',old.metadata->>'updatedTextAt',old.metadata->>'sha256') then
-  new.metadata=(coalesce(new.metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('validityInvalidatedAt',now(),'validityRevision',coalesce((old.metadata->>'validityRevision')::integer,0)+1);
+  new.metadata=(coalesce(new.metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('vigencia','por revisar','validityInvalidatedAt',now(),'validityRevision',coalesce((old.metadata->>'validityRevision')::integer,0)+1);
  end if;
  return new;
 end;$$;
@@ -65,9 +65,9 @@ create trigger document_validity_invalidation before update on public.documents 
 create function public.ace_invalidate_article_validity_v1() returns trigger language plpgsql security definer set search_path=public as $$
 begin
  if tg_op='INSERT' then
-  update public.documents set metadata=(coalesce(metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('validityInvalidatedAt',now(),'validityRevision',coalesce((metadata->>'validityRevision')::integer,0)+1) where id=new.document_id and metadata ? 'validityReviews';
+  update public.documents set metadata=(coalesce(metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('vigencia','por revisar','validityInvalidatedAt',now(),'validityRevision',coalesce((metadata->>'validityRevision')::integer,0)+1) where id=new.document_id and metadata ? 'validityReviews';
  elsif tg_op='DELETE' or (tg_op='UPDATE' and row(new.content,new.article_number,new.document_id,new.metadata->'normativeBody') is distinct from row(old.content,old.article_number,old.document_id,old.metadata->'normativeBody')) then
-  update public.documents set metadata=(coalesce(metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('validityInvalidatedAt',now(),'validityRevision',coalesce((metadata->>'validityRevision')::integer,0)+1) where id=old.document_id and metadata ? 'validityReviews';
+  update public.documents set metadata=(coalesce(metadata,'{}'::jsonb)-'validityReviews')||jsonb_build_object('vigencia','por revisar','validityInvalidatedAt',now(),'validityRevision',coalesce((metadata->>'validityRevision')::integer,0)+1) where id=old.document_id and metadata ? 'validityReviews';
  end if;
  return old;
 end;$$;

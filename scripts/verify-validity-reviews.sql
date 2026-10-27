@@ -36,6 +36,7 @@ begin
  exception when invalid_parameter_value then null;end;
  update public.documents set file_name=file_name||'.rollback-test' where id=doc;
  if exists(select 1 from public.documents where id=doc and metadata ? 'validityReviews')then raise exception 'File change did not invalidate review';end if;
+ if exists(select 1 from public.ace_search_documents_v2 where document_id=doc and validity='current')then raise exception 'Invalidated document still filtered as current';end if;
  if (select count(*) from public.document_validity_reviews where document_id=doc)<>count_before+2 then raise exception 'History lost';end if;
  select coalesce((metadata->>'validityRevision')::integer,0) into rev from public.documents where id=doc;
  perform public.ace_review_validity_v1(doc,actor,data||jsonb_build_object('revision',rev));
