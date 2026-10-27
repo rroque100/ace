@@ -1,5 +1,6 @@
 import {z} from "zod";
 import type {EvidenceReview} from "./chat-evidence-audit";
+import {citedSourceNumbers} from "./chat-source-locations";
 import {planQuestion} from "./chat-question-plan";
 export const FEEDBACK_REASONS=[
  {value:"incorrect_citation",label:"Cita incorrecta"},{value:"not_answered",label:"No respondió mi pregunta"},
@@ -7,7 +8,7 @@ export const FEEDBACK_REASONS=[
 ] as const;
 export const feedbackSchema=z.object({action:z.enum(["save_note","mark_correct","mark_incorrect"]),note:z.string().trim().max(4000).nullish(),reason:z.enum(["incorrect_citation","not_answered","missing_exceptions","too_long","other"]).optional()});
 export type FeedbackReason=typeof FEEDBACK_REASONS[number]["value"];
-export function contextualFollowups(message:{questionText?:string;assessment?:{evidenceReview?:EvidenceReview};sources?:Array<{article?:string|null;documentTitle:string}>}) {
+export function contextualFollowups(message:{questionText?:string;content?:string;assessment?:{evidenceReview?:EvidenceReview};sources?:Array<{article?:string|null;documentTitle:string}>}) {
  const review=message.assessment?.evidenceReview,tasks=planQuestion(message.questionText??"").tasks;
  if(review?.reviewStatus==="failed")return ["Reintenta comprobar la respuesta con las mismas fuentes.","Indica qué parte no pudo comprobarse y cómo puedo revisarla."];
  if(review?.presentation==="empty"||review?.presentation==="literal")return ["Formula una búsqueda para localizar la disposición que responde a mi pregunta.","Distingue lo que consta en las fuentes de lo que todavía falta comprobar."];
@@ -17,7 +18,7 @@ export function contextualFollowups(message:{questionText?:string;assessment?:{e
  else if(tasks.includes("requirements")||tasks.includes("procedure"))result.push("Organiza lo comprobado en una lista de pasos y responsables; indica si algún responsable no consta.");
  else if(tasks.includes("numeric"))result.push("Explica las condiciones y excepciones de la cifra citada, sin añadir datos no comprobados.");
  else if(tasks.includes("summary"))result.push("Destaca las obligaciones y los límites que aparecen en el documento resumido.");
- const source=message.sources?.find(item=>item.article);
+ const source=citedSourceNumbers(message.content??"").map(number=>message.sources?.[number-1]).find(item=>item?.article)??(!message.content?message.sources?.find(item=>item.article):undefined);
  if(source)result.push(`Explica el artículo ${source.article} de «${source.documentTitle.slice(0,150)}» y su relación con mi pregunta, usando esa fuente.`);
  result.push("Señala qué conclusiones requieren revisión humana antes de aplicarlas.");return [...new Set(result)].slice(0,3);
 }

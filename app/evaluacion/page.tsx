@@ -24,8 +24,8 @@ export default async function EvaluacionPage() {
       <section className="singleWorkspace">
         {user?.isLegal || isAdmin ? <ChatQualityPanel/> : null}
         {isAdmin ? (
-          <EvalDashboard />
-        ) : (
+          <details><summary>Indicadores automáticos históricos · no miden precisión jurídica</summary><p>Los porcentajes siguientes corresponden a comprobaciones automáticas de recuperación y términos. No sustituyen la revisión jurídica humana.</p><EvalDashboard /></details>
+        ) : !user?.isLegal ? (
           <div className="emptyState">
             <Lock size={20} />
             <p>
@@ -36,7 +36,7 @@ export default async function EvaluacionPage() {
               Ir al chat
             </Link>
           </div>
-        )}
+        ) : null}
       </section>
     </AppShell>
   );

@@ -304,3 +304,9 @@
 .chatClarification form,.chatClarification label { @apply grid gap-3; }
 
 .legalWorkspace .chatComposerCompact .chatQuestionLabel { @apply sr-only; }
+
+.chatNoteText { @apply max-h-80 overflow-auto break-words text-sm; }
+.chatNoteText table { @apply my-3 w-full border-collapse text-left; min-width:36rem; }
+.chatNoteText th,.chatNoteText td { @apply border border-slate-200 p-3 align-top; }
+.chatNoteText p,.chatNoteText ul { @apply my-3; }
+.chatExperienceDialog form { @apply grid gap-4; }

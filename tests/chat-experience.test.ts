@@ -14,3 +14,5 @@ describe('continuidad y calidad',()=>{
  it('la nota conserva solo fuentes citadas y sesión',()=>{const note=workNoteSnapshot({id:'m',session_id:'s',content:'Regla [F2]',sources:[{documentTitle:'No citada'},{documentTitle:'Citada',documentId:'d',pageStart:2}],metadata:{question:'Pregunta'}});expect(note.sources).toHaveLength(1);expect(note.sources[0].title).toBe('Citada');expect(note.sessionId).toBe('s');expect(note.status).toBe('pending_review');});
  it('seguimiento depende de la consulta',()=>{expect(contextualFollowups({questionText:'Compara las dos versiones',sources:[]} as never).join(' ')).toMatch(/diferencias|compar/i);});
 });
+
+it("el seguimiento usa una fuente citada y no el primer candidato irrelevante",()=>{const prompts=contextualFollowups({questionText:"Resume el requerimiento",content:"Respuesta [F2]",sources:[{article:"21",documentTitle:"Otro documento"},{article:"44",documentTitle:"Fuente utilizada"}]});expect(prompts.join(" ")).toContain("artículo 44");expect(prompts.join(" ")).not.toContain("artículo 21");});

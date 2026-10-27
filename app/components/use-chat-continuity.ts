@@ -18,5 +18,5 @@ export function useChatContinuity({owner,session,loading,question,onRestore,pref
   return()=>{save();clearInterval(timer);window.removeEventListener("scroll",scroll);window.removeEventListener("pagehide",save);};
  },[owner,session,loading,preferInitial]);
  useEffect(()=>{if(!owner||loading||!previousKey.current)return;const timer=setTimeout(()=>{try{sessionStorage.setItem(previousKey.current!,JSON.stringify({version:1,updatedAt:Date.now(),question,scroll:position.current}));}catch{}},250);return()=>clearTimeout(timer);},[owner,loading,question]);
- return {notice,clear:()=>{setNotice("");if(owner)try{sessionStorage.removeItem(chatContinuityKey(owner,session));sessionStorage.removeItem(chatContinuityKey(owner,null));}catch{}latest.current="";position.current=0;}};
+ return {notice:!question.trim()&&notice.startsWith("Borrador recuperado")?"":notice,clear:()=>{setNotice("");if(owner)try{sessionStorage.removeItem(chatContinuityKey(owner,session));sessionStorage.removeItem(chatContinuityKey(owner,null));}catch{}latest.current="";position.current=0;}};
 }
