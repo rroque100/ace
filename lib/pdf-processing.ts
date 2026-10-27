@@ -1540,6 +1540,255 @@ export async function indexMissingDispositions(
   return report;
 }
 
+export type AbsorbedCleanupReport = {
+  applied: boolean;
+  /** Articulo que absorbia las disposiciones (100 en la Ley, 389 en el Reglamento). */
+  lastArticle: string | null;
+  /** Fragmentos antiguos que se borran: ocupan paginas que el articulo real no tiene. */
+  obsolete: Array<{ id: string; chunk_index: number; page_end: number | null; page_start: number | null; pinecone_vector_id: string; content: string }>;
+  /** Fraccion del texto de esos fragmentos que ya esta en el articulo real o en las disposiciones nuevas. */
+  coverage: number;
+  chunksToAdd: number;
+  warnings: string[];
+};
+
+const coverageWindow = 40;
+const minCleanupCoverage = 0.98;
+
+// Comparacion tolerante: mismo texto sin espacios ni saltos.
+function squash(text: string) {
+  return text.replace(/\s+/g, "");
+}
+
+// Los fragmentos antiguos traen los encabezados de seccion y los ordinales tal como
+// los imprime la norma («DISPOSICIONES COMPLEMENTARIAS FINALES», «PRIMERA.»); las
+// filas nuevas los reescriben («Disposicion Complementaria Final Primera.»). Esos
+// limites no coinciden por construccion, asi que se compara el texto ENTRE ellos:
+// medirlo de corrido daba ~90 % y todo el desfase caia en los limites.
+const coverageBoundary =
+  /DISPOSICI(?:ONES|[ÓO]N)\s+COMPLEMENTARIAS?\s+\p{Lu}+|(?<![\p{L}\p{N}])\p{Lu}+(?:\s+\p{Lu}+)?\.(?=\s)/gu;
+
+function textCoverage(sample: string, reference: string) {
+  const haystack = squash(reference);
+  let found = 0;
+  let total = 0;
+  for (const piece of sample.split(coverageBoundary).map(squash)) {
+    if (piece.length === 0) continue;
+    if (piece.length <= coverageWindow) {
+      total += piece.length;
+      if (haystack.includes(piece)) found += piece.length;
+      continue;
+    }
+    // Ventanas contiguas desde el principio y una ultima pegada al final.
+    const starts = new Set<number>([piece.length - coverageWindow]);
+    for (let offset = 0; offset + coverageWindow <= piece.length; offset += coverageWindow) starts.add(offset);
+    for (const start of starts) {
+      total += coverageWindow;
+      if (haystack.includes(piece.slice(start, start + coverageWindow))) found += coverageWindow;
+    }
+  }
+  return total === 0 ? 1 : found / total;
+}
+
+// Limpia los fragmentos que dejo el defecto de lib/disposiciones-normativas.ts: el
+// ultimo articulo absorbia las disposiciones y su texto (truncado) quedo en
+// fragmentos etiquetados con ese articulo y con paginas que no le corresponden. Tras
+// indexMissingDispositions, ese contenido esta duplicado y mal etiquetado.
+//
+// Orden pensado para no dejar nunca un hueco: 1) se inserta el articulo real como
+// fragmento nuevo y correcto, 2) se borran los obsoletos (BD y vectores), 3) se
+// corrige la fila de norma_articulos. Solo se borra si la copia de seguridad que
+// devuelve el llamador ya esta a salvo y si el texto borrado esta cubierto por lo
+// que queda (`coverage`); si no, se niega.
+export async function cleanAbsorbedArticleChunks(
+  document: DocumentRecord,
+  pages: Array<{ pageNumber: number; text: string }>,
+  options: { apply: boolean; backup?: (payload: unknown) => void },
+): Promise<AbsorbedCleanupReport> {
+  const segments = segmentArticlesFromPages(pages);
+  const real = segments.filter((segment) => !dispositionLabelPattern.test(segment.articleNumber)).at(-1);
+  const dispositions = segments.filter((segment) => dispositionLabelPattern.test(segment.articleNumber));
+  const report: AbsorbedCleanupReport = {
+    applied: false,
+    chunksToAdd: 0,
+    coverage: 0,
+    lastArticle: real?.articleNumber ?? null,
+    obsolete: [],
+    warnings: [],
+  };
+
+  if (!real || dispositions.length === 0) {
+    report.warnings.push("El PDF no tiene articulos y disposiciones reconocibles; no hay nada que limpiar.");
+    return report;
+  }
+
+  const id = document.id;
+  const candidates = await supabaseRest<AbsorbedCleanupReport["obsolete"] & Array<{ metadata: { article?: string } }>>(
+    `document_chunks?document_id=eq.${id}&metadata->>article=eq.${encodeURIComponent(real.articleNumber)}&select=id,chunk_index,page_start,page_end,pinecone_vector_id,content,metadata&order=chunk_index.asc&limit=1000`,
+  );
+  // Obsoleto = lleva el numero del ultimo articulo, EMPIEZA donde empieza el real y
+  // termina mas alla de donde termina (paginas que ya son de las disposiciones). Un
+  // fragmento con el mismo numero pero en otras paginas (el art. 100 del Reglamento
+  // frente al 100 de la Ley) no es el absorbente.
+  report.obsolete = candidates.filter(
+    (chunk) =>
+      chunk.page_start === real.pageStart && (chunk.page_end ?? 0) > (real.pageEnd ?? 0),
+  );
+
+  if (report.obsolete.length === 0) {
+    report.warnings.push("No hay fragmentos absorbentes: nada que limpiar.");
+    return report;
+  }
+
+  const [alreadyIndexed] = await Promise.all([
+    supabaseRest<Array<{ chunk_index: number }>>(
+      `document_chunks?document_id=eq.${id}&metadata->>article=like.DC*&select=chunk_index&limit=1`,
+    ),
+  ]);
+  if (alreadyIndexed.length === 0) {
+    report.warnings.push("Las disposiciones aun no estan indexadas (indexMissingDispositions): borrar ahora perderia su texto.");
+    return report;
+  }
+
+  const kept = [real.content, ...dispositions.map((segment) => segment.content)].join("\n");
+  const coverages = report.obsolete.map((chunk) => textCoverage(chunk.content, kept));
+  report.coverage = coverages.reduce((sum, value) => sum + value, 0) / coverages.length;
+  report.chunksToAdd = chunkByArticles([real]).length;
+
+  if (report.coverage < minCleanupCoverage) {
+    report.warnings.push(
+      `Solo el ${(report.coverage * 100).toFixed(1)} % del texto a borrar esta cubierto por lo que quedaria: no se borra.`,
+    );
+    return report;
+  }
+  if (!options.apply) return report;
+
+  const [lastChunk, chunkTemplate, articleRows] = await Promise.all([
+    supabaseRest<Array<{ chunk_index: number }>>(
+      `document_chunks?document_id=eq.${id}&select=chunk_index&order=chunk_index.desc&limit=1`,
+    ),
+    supabaseRest<Array<{ metadata: Record<string, unknown> }>>(
+      `document_chunks?document_id=eq.${id}&select=metadata&order=chunk_index.asc&limit=1`,
+    ),
+    supabaseRest<Array<Record<string, unknown> & { id: string }>>(
+      `norma_articulos?document_id=eq.${id}&article_number=eq.${encodeURIComponent(real.articleNumber)}&select=*`,
+    ),
+  ]);
+  if (articleRows.length !== 1) {
+    throw new Error(`Se esperaba una fila de norma_articulos para el art. ${real.articleNumber} y hay ${articleRows.length}.`);
+  }
+
+  // Copia de seguridad ANTES de tocar nada: permite restaurar exactamente lo borrado.
+  options.backup?.({ articleRow: articleRows[0], chunks: report.obsolete, documentId: id, title: document.title });
+
+  const firstIndex = (lastChunk[0]?.chunk_index ?? -1) + 1;
+  const documentNumber = (chunkTemplate[0].metadata.documentNumber as string | null | undefined) ?? null;
+  const documentType = (chunkTemplate[0].metadata.documentType as string | undefined) ?? document.document_type;
+  const processType = (chunkTemplate[0].metadata.processType as string | null | undefined) ?? null;
+  const topic = getMetadataString(document.metadata, "topic");
+  const vigencia = getMetadataString(document.metadata, "vigencia");
+  const year = getMetadataNumber(document.metadata, "year");
+  const status = getMetadataString(document.metadata, "status") ?? document.status;
+
+  const newChunks = chunkByArticles([real]);
+  const rows: ChunkInsert[] = newChunks.map((chunk, offset) => ({
+    chunk_index: firstIndex + offset,
+    content: chunk.content,
+    document_id: id,
+    metadata: {
+      ...chunkTemplate[0].metadata,
+      article: chunk.article,
+      pageEnd: chunk.pageEnd,
+      pageStart: chunk.pageStart,
+      sectionTitle: chunk.sectionTitle,
+    },
+    page_end: chunk.pageEnd,
+    page_start: chunk.pageStart,
+    pinecone_vector_id: `${id}::${firstIndex + offset}`,
+  }));
+
+  let insertedIds: string[] = [];
+  let vectorIds: string[] = [];
+  try {
+    const inserted = await insertChunksInBatches(rows);
+    insertedIds = inserted.map((chunk) => chunk.id);
+    const records = inserted.map((chunk) => ({
+      _id: chunk.pinecone_vector_id,
+      article: typeof chunk.metadata.article === "string" ? chunk.metadata.article : undefined,
+      chunk_id: chunk.id,
+      chunk_index: chunk.chunk_index,
+      document_id: id,
+      document_number: documentNumber ?? undefined,
+      document_type: documentType,
+      hierarchy_rank: hierarchyRank(documentType),
+      page_end: chunk.page_end ?? undefined,
+      page_start: chunk.page_start ?? undefined,
+      process_type: processType ?? undefined,
+      section_title: typeof chunk.metadata.sectionTitle === "string" ? chunk.metadata.sectionTitle : undefined,
+      source_entity: document.source_entity ?? undefined,
+      source_role: sourceRole(documentType),
+      status,
+      text: buildEmbeddingText({
+        article: typeof chunk.metadata.article === "string" ? chunk.metadata.article : null,
+        content: chunk.content,
+        documentNumber,
+        documentType,
+        pageEnd: chunk.page_end,
+        pageStart: chunk.page_start,
+        processType,
+        sectionTitle: typeof chunk.metadata.sectionTitle === "string" ? chunk.metadata.sectionTitle : null,
+        sourceEntity: document.source_entity,
+        title: document.title,
+        topic,
+        vigencia,
+        year,
+      }),
+      title: document.title,
+      topic,
+      vigencia,
+      year,
+    }));
+    vectorIds = records.map((record) => record._id);
+    await upsertTextRecords(records);
+  } catch (error) {
+    // Todavia no se ha borrado nada: basta con deshacer lo insertado.
+    if (vectorIds.length > 0) await deleteRecords(vectorIds).catch(() => undefined);
+    if (insertedIds.length > 0) {
+      await supabaseRest(`document_chunks?id=in.(${insertedIds.join(",")})`, { method: "DELETE" }).catch(() => undefined);
+    }
+    throw error;
+  }
+
+  // El articulo real ya esta bien indexado: ahora si, se retiran los obsoletos.
+  await deleteRecords(report.obsolete.map((chunk) => chunk.pinecone_vector_id));
+  await supabaseRest(`document_chunks?id=in.(${report.obsolete.map((chunk) => chunk.id).join(",")})`, {
+    method: "DELETE",
+  });
+  await supabaseRest(`norma_articulos?id=eq.${articleRows[0].id}`, {
+    body: JSON.stringify({ content: real.content, page_end: real.pageEnd, page_start: real.pageStart }),
+    method: "PATCH",
+  });
+
+  const [fresh] = await supabaseRest<Array<{ metadata: Record<string, unknown> }>>(`documents?id=eq.${id}&select=metadata`);
+  const current = fresh?.metadata ?? document.metadata;
+  const pinecone = (current.pinecone ?? {}) as Record<string, unknown>;
+  const delta = newChunks.length - report.obsolete.length;
+  await supabaseRest(`documents?id=eq.${id}`, {
+    body: JSON.stringify({
+      metadata: {
+        ...current,
+        chunkCount: (Number(current.chunkCount) || 0) + delta,
+        pinecone: { ...pinecone, recordCount: (Number(pinecone.recordCount) || 0) + delta },
+        absorbedChunksCleaned: { at: new Date().toISOString(), article: real.articleNumber, removed: report.obsolete.length },
+      },
+    }),
+    method: "PATCH",
+  });
+
+  report.applied = true;
+  return report;
+}
+
 export async function processPdfForSearch(document: DocumentRecord, file: File) {
   const jobId = await createProcessingJob(document.id);
   let insertedVectorIds: string[] = [];
