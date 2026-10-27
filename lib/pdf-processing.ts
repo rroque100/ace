@@ -7,6 +7,7 @@ import { type DocumentRecord, supabaseRest } from "./supabase-server";
 import { deleteRecords, getPineconeConfig, upsertTextRecords, verifyDocumentIndexedInPinecone } from "./pinecone";
 import { scopeProcessType } from "./documents";
 import { repairLigatures } from "./text-normalization";
+import { dispositionSectionTitle, dispositionZoneStart, segmentDispositions } from "./disposiciones-normativas";
 import {
   type RefType,
   detectCitations,
@@ -519,7 +520,7 @@ export function chunkPages(pages: Array<{ pageNumber: number; text: string }>) {
   return chunks;
 }
 
-type ArticleSegment = {
+export type ArticleSegment = {
   articleNumber: string;
   content: string;
   ordinal: number;
@@ -547,7 +548,7 @@ const maxArticleForwardGap = 5;
 // letra), descartando referencias internas como "segun el articulo 5". Si la
 // norma no tiene cabeceras de articulo (bases, contratos, resoluciones) devuelve
 // una lista vacia.
-function segmentArticlesFromPages(pages: Array<{ pageNumber: number; text: string }>): ArticleSegment[] {
+export function segmentArticlesFromPages(pages: Array<{ pageNumber: number; text: string }>): ArticleSegment[] {
   let tagged = "";
   const pageMarks: Array<{ offset: number; page: number }> = [];
 
@@ -614,11 +615,26 @@ function segmentArticlesFromPages(pages: Array<{ pageNumber: number; text: strin
     return page;
   };
 
+  // Ultimo caracter con texto del tramo [start, end): el salto de linea que une
+  // dos paginas pertenece a la pagina siguiente, y contarlo daba como pagina final
+  // la de la cabecera que sigue (un articulo que acaba en la p. 3 salia 3-4).
+  const lastCharOffset = (start: number, end: number) =>
+    Math.max(start, start + tagged.slice(start, end).trimEnd().length - 1);
+
   const articles: ArticleSegment[] = [];
+
+  // El ultimo articulo NO llega hasta el final del texto: ahi empiezan las
+  // disposiciones complementarias, que se segmentan aparte (mas abajo). Antes el
+  // ultimo articulo (el 100 de la Ley 32069, el 389 de su Reglamento) las
+  // absorbia y el tope de maxArticleContentLength se comia la derogatoria, que es
+  // la que deroga la Ley 30225. Ver lib/disposiciones-normativas.ts.
+  const lastHeadIndex = heads[heads.length - 1].index;
+  const zoneStart = dispositionZoneStart(tagged, lastHeadIndex);
 
   for (let index = 0; index < heads.length; index += 1) {
     const start = heads[index].index;
-    const end = index + 1 < heads.length ? heads[index + 1].index : tagged.length;
+    const end =
+      index + 1 < heads.length ? heads[index + 1].index : zoneStart > start ? zoneStart : tagged.length;
     const content = normalizeText(tagged.slice(start, end)).slice(0, maxArticleContentLength);
 
     if (content.length < 30) {
@@ -629,10 +645,29 @@ function segmentArticlesFromPages(pages: Array<{ pageNumber: number; text: strin
       articleNumber: heads[index].number,
       content,
       ordinal: articles.length,
-      pageEnd: pageAt(Math.max(start, end - 1)),
+      pageEnd: pageAt(lastCharOffset(start, end)),
       pageStart: pageAt(start),
       sectionTitle: detectSectionTitle(content),
       title: content.split("\n")[0].slice(0, 160),
+    });
+  }
+
+  for (const disposition of segmentDispositions(tagged, lastHeadIndex)) {
+    const content = normalizeText(disposition.content);
+
+    if (content.length < 30) {
+      continue;
+    }
+
+    articles.push({
+      // DCF-1, DCT-4, DCM-1, DCD-1: etiqueta estable para citar y filtrar.
+      articleNumber: disposition.label,
+      content,
+      ordinal: articles.length,
+      pageEnd: pageAt(lastCharOffset(disposition.start, disposition.end)),
+      pageStart: pageAt(disposition.start),
+      sectionTitle: dispositionSectionTitle(disposition.kind),
+      title: disposition.heading,
     });
   }
 
@@ -1275,6 +1310,234 @@ async function persistConcordancias(documentId: string, articles: InsertedArticl
       method: "POST",
     }).catch(() => undefined);
   }
+}
+
+const dispositionLabelPattern = /^DC[FTMD]-\d+$/;
+
+export type DispositionIndexReport = {
+  applied: boolean;
+  /** Etiquetas (DCF-1, DCT-4…) que el PDF contiene. */
+  detected: string[];
+  /** Las que ya tenian fragmento: no se tocan (la operacion es idempotente). */
+  alreadyIndexed: string[];
+  /** Las que se anaden (o se anadirian, en simulacion). */
+  missing: string[];
+  chunksToAdd: number;
+  warnings: string[];
+};
+
+// Anade a un documento YA indexado las disposiciones complementarias que le
+// faltan, sin reindexarlo. Reindexar (processPdfForSearch) borra y recrea todos
+// los fragmentos y vectores del documento; para arreglar solo la cola de la norma
+// es un riesgo desproporcionado sobre la Ley y el Reglamento, que son la base de
+// todas las respuestas. Aqui solo se INSERTA: fragmentos, filas de norma_articulos
+// y vectores nuevos; lo existente no se modifica. Si algo falla despues de
+// insertar, se deshace unicamente lo insertado en esta llamada.
+//
+// No recalcula norma_concordancias: persistConcordancias borra las del documento
+// entero y reconstruirlas desde un subconjunto de articulos las dejaria peor.
+export async function indexMissingDispositions(
+  document: DocumentRecord,
+  pages: Array<{ pageNumber: number; text: string }>,
+  options: { apply: boolean },
+): Promise<DispositionIndexReport> {
+  const detectedSegments = segmentArticlesFromPages(pages).filter((segment) =>
+    dispositionLabelPattern.test(segment.articleNumber),
+  );
+  const detected = detectedSegments.map((segment) => segment.articleNumber);
+  const report: DispositionIndexReport = {
+    alreadyIndexed: [],
+    applied: false,
+    chunksToAdd: 0,
+    detected,
+    missing: [],
+    warnings: [],
+  };
+
+  if (detectedSegments.length === 0) {
+    report.warnings.push("El PDF no contiene disposiciones complementarias reconocibles.");
+    return report;
+  }
+
+  const id = document.id;
+  const [indexedChunkLabels, indexedArticleLabels, lastChunk, chunkTemplate, lastArticle, articleTemplate] =
+    await Promise.all([
+      supabaseRest<Array<{ metadata: { article?: string } }>>(
+        `document_chunks?document_id=eq.${id}&metadata->>article=like.DC*&select=metadata&limit=1000`,
+      ),
+      supabaseRest<Array<{ article_number: string }>>(
+        `norma_articulos?document_id=eq.${id}&article_number=like.DC*&select=article_number&limit=1000`,
+      ),
+      supabaseRest<Array<{ chunk_index: number }>>(
+        `document_chunks?document_id=eq.${id}&select=chunk_index&order=chunk_index.desc&limit=1`,
+      ),
+      supabaseRest<Array<{ metadata: Record<string, unknown> }>>(
+        `document_chunks?document_id=eq.${id}&select=metadata&order=chunk_index.asc&limit=1`,
+      ),
+      supabaseRest<Array<{ ordinal: number }>>(
+        `norma_articulos?document_id=eq.${id}&select=ordinal&order=ordinal.desc&limit=1`,
+      ),
+      supabaseRest<Array<Record<string, unknown>>>(
+        `norma_articulos?document_id=eq.${id}&select=document_number,document_type,hierarchy_rank,process_type,status,vigencia,year,metadata&limit=1`,
+      ),
+    ]);
+
+  const chunkLabels = new Set(indexedChunkLabels.map((row) => row.metadata?.article ?? ""));
+  const articleLabels = new Set(indexedArticleLabels.map((row) => row.article_number));
+  report.alreadyIndexed = detected.filter((label) => chunkLabels.has(label));
+
+  const needChunks = detectedSegments.filter((segment) => !chunkLabels.has(segment.articleNumber));
+  const needArticles = detectedSegments.filter((segment) => !articleLabels.has(segment.articleNumber));
+  report.missing = needChunks.map((segment) => segment.articleNumber);
+
+  for (const segment of needArticles) {
+    if (chunkLabels.has(segment.articleNumber)) {
+      report.warnings.push(`${segment.articleNumber}: tiene fragmento pero no fila en norma_articulos; se anade la fila.`);
+    }
+  }
+
+  const newChunks = chunkByArticles(needChunks);
+  report.chunksToAdd = newChunks.length;
+
+  if (!options.apply || (needChunks.length === 0 && needArticles.length === 0)) {
+    return report;
+  }
+
+  if (!chunkTemplate[0] || !articleTemplate[0]) {
+    throw new Error("El documento no tiene fragmentos o articulos previos de los que copiar los metadatos: reindexalo completo.");
+  }
+
+  const firstIndex = (lastChunk[0]?.chunk_index ?? -1) + 1;
+  const firstOrdinal = (lastArticle[0]?.ordinal ?? -1) + 1;
+  const documentNumber = (chunkTemplate[0].metadata.documentNumber as string | null | undefined) ?? null;
+  const documentType = (chunkTemplate[0].metadata.documentType as string | undefined) ?? document.document_type;
+  const processType = (chunkTemplate[0].metadata.processType as string | null | undefined) ?? null;
+  const topic = getMetadataString(document.metadata, "topic");
+  const vigencia = getMetadataString(document.metadata, "vigencia");
+  const year = getMetadataNumber(document.metadata, "year");
+  const status = getMetadataString(document.metadata, "status") ?? document.status;
+
+  const chunkRows: ChunkInsert[] = newChunks.map((chunk, offset) => ({
+    chunk_index: firstIndex + offset,
+    content: chunk.content,
+    document_id: id,
+    metadata: {
+      ...chunkTemplate[0].metadata,
+      article: chunk.article,
+      pageEnd: chunk.pageEnd,
+      pageStart: chunk.pageStart,
+      sectionTitle: chunk.sectionTitle,
+    },
+    page_end: chunk.pageEnd,
+    page_start: chunk.pageStart,
+    pinecone_vector_id: `${id}::${firstIndex + offset}`,
+  }));
+
+  let insertedChunkIds: string[] = [];
+  const insertedArticleIds: string[] = [];
+  let vectorIds: string[] = [];
+
+  try {
+    const insertedChunks = await insertChunksInBatches(chunkRows);
+    insertedChunkIds = insertedChunks.map((chunk) => chunk.id);
+
+    const articleRows = needArticles.map((segment, offset) => ({
+      ...articleTemplate[0],
+      article_label: segment.title,
+      article_number: segment.articleNumber,
+      content: segment.content,
+      document_id: id,
+      ordinal: firstOrdinal + offset,
+      page_end: segment.pageEnd,
+      page_start: segment.pageStart,
+      section_title: segment.sectionTitle,
+    }));
+
+    for (let index = 0; index < articleRows.length; index += chunkInsertBatchSize) {
+      const inserted = await supabaseRest<Array<{ id: string }>>("norma_articulos", {
+        body: JSON.stringify(articleRows.slice(index, index + chunkInsertBatchSize)),
+        method: "POST",
+      });
+      insertedArticleIds.push(...inserted.map((row) => row.id));
+    }
+
+    const records = insertedChunks.map((chunk) => ({
+      _id: chunk.pinecone_vector_id,
+      article: typeof chunk.metadata.article === "string" ? chunk.metadata.article : undefined,
+      chunk_id: chunk.id,
+      chunk_index: chunk.chunk_index,
+      document_id: id,
+      document_number: documentNumber ?? undefined,
+      document_type: documentType,
+      hierarchy_rank: hierarchyRank(documentType),
+      page_end: chunk.page_end ?? undefined,
+      page_start: chunk.page_start ?? undefined,
+      process_type: processType ?? undefined,
+      section_title: typeof chunk.metadata.sectionTitle === "string" ? chunk.metadata.sectionTitle : undefined,
+      source_entity: document.source_entity ?? undefined,
+      source_role: sourceRole(documentType),
+      status,
+      text: buildEmbeddingText({
+        article: typeof chunk.metadata.article === "string" ? chunk.metadata.article : null,
+        content: chunk.content,
+        documentNumber,
+        documentType,
+        pageEnd: chunk.page_end,
+        pageStart: chunk.page_start,
+        processType,
+        sectionTitle: typeof chunk.metadata.sectionTitle === "string" ? chunk.metadata.sectionTitle : null,
+        sourceEntity: document.source_entity,
+        title: document.title,
+        topic,
+        vigencia,
+        year,
+      }),
+      title: document.title,
+      topic,
+      vigencia,
+      year,
+    }));
+    vectorIds = records.map((record) => record._id);
+    await upsertTextRecords(records);
+
+    const [fresh] = await supabaseRest<Array<{ metadata: Record<string, unknown> }>>(
+      `documents?id=eq.${id}&select=metadata`,
+    );
+    const current = fresh?.metadata ?? document.metadata;
+    const pinecone = (current.pinecone ?? {}) as Record<string, unknown>;
+    await supabaseRest(`documents?id=eq.${id}`, {
+      body: JSON.stringify({
+        metadata: {
+          ...current,
+          articleCount: (Number(current.articleCount) || 0) + insertedArticleIds.length,
+          chunkCount: (Number(current.chunkCount) || 0) + insertedChunkIds.length,
+          dispositionsIndexed: { at: new Date().toISOString(), labels: detected, version: "disposiciones-v1" },
+          pinecone: { ...pinecone, recordCount: (Number(pinecone.recordCount) || 0) + records.length },
+        },
+      }),
+      method: "PATCH",
+    });
+  } catch (error) {
+    // Deshacer solo lo insertado aqui. Los fragmentos de busqueda cuelgan de
+    // document_chunks por cascada.
+    if (vectorIds.length > 0) {
+      await deleteRecords(vectorIds).catch(() => undefined);
+    }
+    if (insertedArticleIds.length > 0) {
+      await supabaseRest(`norma_articulos?id=in.(${insertedArticleIds.join(",")})`, { method: "DELETE" }).catch(
+        () => undefined,
+      );
+    }
+    if (insertedChunkIds.length > 0) {
+      await supabaseRest(`document_chunks?id=in.(${insertedChunkIds.join(",")})`, { method: "DELETE" }).catch(
+        () => undefined,
+      );
+    }
+    throw error;
+  }
+
+  report.applied = true;
+  return report;
 }
 
 export async function processPdfForSearch(document: DocumentRecord, file: File) {
