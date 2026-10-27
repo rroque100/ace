@@ -139,7 +139,7 @@ export function MiYoWidget() {
   }
 
   return (
-    <div className="tw fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+    <div className="aceAssistantWidget tw fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       {open ? (
         <div className="flex h-[min(600px,80vh)] w-[min(380px,92vw)] flex-col overflow-hidden rounded-xl border border-line bg-canvas shadow-pop">
           <header className="flex shrink-0 items-center justify-between gap-2 bg-brand px-4 py-3 text-white">

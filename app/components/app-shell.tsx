@@ -1,3 +1,4 @@
+import { SearchAssistant } from "./search-assistant";
 import { getArchivoScopeLevel, getSessionUser, puedeUsarProcesos, type SessionUser } from "@/lib/auth";
 import { contarNecesidadesPendientes } from "@/lib/necesidades-bandeja";
 import { NAVEGACION, type ActiveId } from "@/lib/navegacion";
@@ -39,6 +40,7 @@ type AppShellProps = {
   eyebrow: string;
   title: string;
   action?: React.ReactNode;
+  showFiscalYear?: boolean;
 };
 
 async function countRecentNews() {
@@ -53,7 +55,7 @@ async function countRecentNews() {
   }
 }
 
-export async function AppShell({ active, action, children, eyebrow, title }: AppShellProps) {
+export async function AppShell({ active, action, children, eyebrow, title, showFiscalYear = true }: AppShellProps) {
   const [user, newsCount] = await Promise.all([getSessionUser(), countRecentNews()]);
   const officeName = user ? await getOfficeName(user.oficinaId) : null;
   // Bandeja de necesidades pendientes de la acción de este usuario: badge en el
@@ -81,7 +83,7 @@ export async function AppShell({ active, action, children, eyebrow, title }: App
   })).filter((section) => section.items.length > 0);
 
   return (
-    <main className="shell">
+    <main className={`shell${["chat", "busqueda", "normas"].includes(active) ? " legalShell" : ""}`}>
       {/* Primer elemento enfocable del documento: salta el menu lateral. */}
       <a className="skipLink" href="#contenido">
         Saltar al contenido
@@ -103,10 +105,10 @@ export async function AppShell({ active, action, children, eyebrow, title }: App
             <p className="eyebrow">{eyebrow}</p>
             <h1 style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               {title}
-              <YearSelector />
+              {showFiscalYear ? <YearSelector /> : null}
             </h1>
           </div>
-          {action}
+          <div className="topbarSearchActions">{user ? <SearchAssistant ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
         </header>
 
         {children}

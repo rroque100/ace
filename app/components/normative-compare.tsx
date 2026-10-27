@@ -17,6 +17,9 @@ import {
 } from "@/lib/legal-taxonomy";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
 
+import {NormativeTextDiff} from "./normative-text-diff";
+import type {compareDocumentTexts} from "@/lib/normative-text-comparison";
+
 type CompareSource = {
   article: string | null;
   chunkId: string;
@@ -46,6 +49,8 @@ type Assessment = {
 };
 
 type CompareResponse = {
+  scopeNotice?:string;
+  textComparison?:Awaited<ReturnType<typeof compareDocumentTexts>>;
   assessment?: { a: Assessment; b: Assessment; overall: "alta" | "media" | "baja" };
   comparisonId?: string | null;
   error?: string;
@@ -262,7 +267,7 @@ function SideEditor({
       <label>
         <span>Documento especifico (opcional)</span>
         <select onChange={(event) => onChange({ ...value, documentId: event.target.value })} value={value.documentId}>
-          <option value="">Cualquiera del alcance</option>
+          <option value="">Cualquiera del alcance</option>{value.documentId && !documents.some(item=>item.id===value.documentId)?<option value={value.documentId}>Documento seleccionado · {value.documentId}</option>:null}
           {documents.map((item) => (
             <option key={item.id} value={item.id}>
               {item.title}
@@ -349,7 +354,8 @@ export function NormativeCompare() {
 
   const sourcesA = useMemo(() => response?.sourcesA ?? [], [response]);
   const sourcesB = useMemo(() => response?.sourcesB ?? [], [response]);
-  const canSubmit = topic.trim().length >= 5 && !loading;
+  const [comparisonKind,setComparisonKind]=useState<"tema"|"texto">(searchParams.get("comparison")==="texto"?"texto":"tema");
+  const canSubmit = !loading && (comparisonKind==="texto"?Boolean(sideA.documentId&&sideB.documentId&&sideA.documentId!==sideB.documentId):topic.trim().length>=5);
 
   useEffect(() => {
     // Carga los documentos para poblar los selectores de documento especifico.
@@ -357,12 +363,21 @@ export function NormativeCompare() {
       try {
         const result = await fetch("/api/documents", { cache: "no-store" });
         const payload = (await result.json()) as { documents?: DocumentOption[] };
-        setDocuments(payload.documents ?? []);
+        const initial = payload.documents ?? [];
+        const selectedIds = [...new Set([searchParams.get("documentIdA"), searchParams.get("documentIdB")].filter((id): id is string => Boolean(id)))];
+        const selected = await Promise.all(selectedIds.filter(id=>!initial.some(doc=>doc.id===id)).map(async id=>{
+          const response=await fetch(`/api/norms/${encodeURIComponent(id)}`,{cache:"no-store"});
+          if(!response.ok)throw Error("No se pudo comprobar uno de los documentos seleccionados.");
+          const detail=await response.json() as {norm:{id:string;title:string;documentType:string}};
+          return {id:detail.norm.id,title:detail.norm.title,document_type:detail.norm.documentType};
+        }));
+        setDocuments([...selected,...initial]);
       } catch {
         setDocuments([]);
+        setError("No se pudieron cargar los nombres de los documentos. Se conservan los identificadores seleccionados; vuelve a abrir la comparación para comprobarlos.");
       }
     })();
-  }, []);
+  }, [searchParams]);
 
   function resolveSource(side: "A" | "B", number: number) {
     const list = side === "A" ? sourcesA : sourcesB;
@@ -372,7 +387,7 @@ export function NormativeCompare() {
   async function submitComparison(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const normalizedTopic = topic.trim();
+    const normalizedTopic = comparisonKind==="texto"?"Comparación del texto indexado completo":topic.trim();
 
     if (normalizedTopic.length < 5) {
       setError("Escribe un tema mas especifico para comparar.");
@@ -385,7 +400,7 @@ export function NormativeCompare() {
 
     try {
       const result = await fetch("/api/compare", {
-        body: JSON.stringify({ sideA, sideB, topic: normalizedTopic }),
+        body: JSON.stringify({ sideA, sideB, topic: normalizedTopic,mode:comparisonKind }),
         headers: { "Content-Type": "application/json" },
         method: "POST",
       });
@@ -423,12 +438,14 @@ export function NormativeCompare() {
       </div>
 
       <form className="toolBody" onSubmit={submitComparison}>
+        <label>Tipo de comparación<select disabled={loading} value={comparisonKind} onChange={e=>{setComparisonKind(e.target.value as "tema"|"texto");setResponse(null);}}><option value="tema">Temática con IA · selección de pasajes</option><option value="texto">Todo el texto indexado · sin IA</option></select></label>
+        <p>{comparisonKind==="texto"?"Selecciona dos documentos exactos. Se comparará todo su texto indexado disponible, sin certificar que la extracción cubra el PDF completo.":"La IA compara pasajes relacionados con un tema. Puede omitir diferencias de otras partes del documento."}</p>
         <div className="compareColumns">
           <SideEditor documents={documents} onChange={setSideA} processTypes={processTypes} side="A" title="Norma A" value={sideA} />
           <SideEditor documents={documents} onChange={setSideB} processTypes={processTypes} side="B" title="Norma B" value={sideB} />
         </div>
 
-        <label className="promptInput">
+        {comparisonKind==="tema" ? <div><label className="promptInput">
           <span>Tema a comparar</span>
           <textarea
             aria-label="Tema a comparar"
@@ -446,6 +463,7 @@ export function NormativeCompare() {
           ))}
         </div>
 
+        </div> : null}
         <div className="formActions">
           <button className="secondaryButton" onClick={resetComparison} type="button">
             <RotateCcw size={17} />
@@ -463,10 +481,12 @@ export function NormativeCompare() {
       {loading ? (
         <div className="emptyState">
           <LoaderCircle size={20} />
-          <span>Recuperando fuentes de ambos lados y generando la comparacion...</span>
+          <span>{comparisonKind==="texto"?"Leyendo y comparando todo el texto indexado disponible…":"Recuperando pasajes y preparando la comparación temática…"}</span>
         </div>
       ) : null}
 
+      {response?.textComparison ? <NormativeTextDiff key={`${response.textComparison.a.id}-${response.textComparison.b.id}`} data={response.textComparison}/> : null}
+      {response?.scopeNotice ? <p role="status">{response.scopeNotice}</p> : null}
       {response?.result ? (
         <div className="documentList">
           <div className="listHeader">

@@ -1,25 +1,21 @@
-import Link from "next/link";
+import {getSessionUser} from "@/lib/auth";
 import { Suspense } from "react";
-import { UploadCloud } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { LegalChat } from "../components/legal-chat";
+import "../components/legal-workspace.css";
 
-export default function ChatPage() {
+export default async function ChatPage() {
+  const user=await getSessionUser();
   return (
     <AppShell
       active="chat"
-      action={
-        <Link className="secondaryButton" href="/documentos">
-          <UploadCloud size={17} />
-          Gestionar documentos
-        </Link>
-      }
-      eyebrow="Consulta legal"
-      title="Chat juridico con fuentes verificables"
+      showFiscalYear={false}
+      eyebrow="Centro Jurídico"
+      title="Chat jurídico"
     >
-      <section className="singleWorkspace">
+      <section className="singleWorkspace tw legalWorkspace min-w-0">
         <Suspense fallback={<div className="emptyState">Cargando chat...</div>}>
-          <LegalChat />
+          <LegalChat ownerId={user?.id??""} />
         </Suspense>
       </section>
     </AppShell>

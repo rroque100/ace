@@ -3,25 +3,22 @@
 // Los `value` deben mantenerse alineados con `allowedDocumentTypes` y
 // `allowedProcessTypes` de `lib/documents.ts`.
 
+import { CORPUS_ANSWER_TYPES, OFFICIAL_CORPUS_TYPES } from "./official-corpus";
 export type TaxonomyOption = {
   label: string;
   value: string;
 };
 
 export const DOCUMENT_TYPES: TaxonomyOption[] = [
-  { label: "Ley", value: "ley" },
-  { label: "Reglamento", value: "reglamento" },
-  { label: "Opinion", value: "opinion" },
-  { label: "Directiva", value: "directiva" },
+  ...OFFICIAL_CORPUS_TYPES.map(({ value, label }) => ({ value, label })),
   { label: "Bases integradas", value: "bases_integradas" },
-  { label: "Resolucion", value: "resolucion" },
   { label: "Contrato", value: "contrato" },
   { label: "Expediente", value: "expediente" },
   { label: "Otros", value: "otros" },
 ];
 
 // Tipos documentales que el chat puede usar como fundamento de una respuesta.
-export const ANSWERABLE_DOCUMENT_TYPES = ["ley", "reglamento", "opinion", "directiva"];
+export const ANSWERABLE_DOCUMENT_TYPES = CORPUS_ANSWER_TYPES;
 
 export const ANSWERABLE_DOCUMENT_TYPE_OPTIONS = DOCUMENT_TYPES.filter((item) =>
   ANSWERABLE_DOCUMENT_TYPES.includes(item.value),

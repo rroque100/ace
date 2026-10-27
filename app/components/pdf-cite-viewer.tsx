@@ -1,19 +1,43 @@
 "use client";
+import"./library-workspace.css";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink, FileSearch, LoaderCircle, X } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  FileSearch,
+  LoaderCircle,
+  X,
+} from "lucide-react";
+import type { SourceBlock } from "@/lib/source-blocks";
+import { SaveButton } from "./save-button";
 
 type PdfCiteButtonProps = {
   documentId: string;
   page?: number | null;
   quote?: string | null;
   label?: string;
+  sidePanel?: boolean;
+  locator?: string | null;
 };
 
 type Highlight = { left: number; top: number; width: number; height: number };
 
-const stopWords = new Set(["para", "por", "que", "con", "los", "las", "del", "una", "como", "este", "esta"]);
+const stopWords = new Set([
+  "para",
+  "por",
+  "que",
+  "con",
+  "los",
+  "las",
+  "del",
+  "una",
+  "como",
+  "este",
+  "esta",
+]);
 
 function normalizeQuoteText(value: string) {
   return value
@@ -56,12 +80,31 @@ function quoteTokens(quote: string) {
   );
 }
 
-export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: PdfCiteButtonProps) {
+export function PdfCiteButton({
+  documentId,
+  page,
+  quote,
+  label = "Ver cita",
+  sidePanel = false,
+  locator,
+}: PdfCiteButtonProps) {
+  const [blocks, setBlocks] = useState<SourceBlock[]>([]);
+  const [sourceTitle, setSourceTitle] = useState("");
+  const [blockOffset, setBlockOffset] = useState(0);
+  const [blockQuery, setBlockQuery] = useState("");
+  const matchingBlocks = blockQuery.trim()
+    ? blocks.filter((b) =>
+        normalizeQuoteText(b.content).includes(normalizeQuoteText(blockQuery)),
+      )
+    : blocks;
   const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">(
+    "idle",
+  );
   const [currentPage, setCurrentPage] = useState(page && page > 0 ? page : 1);
   const [numPages, setNumPages] = useState(1);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfRef = useRef<any>(null);
@@ -76,6 +119,25 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
     async function load() {
       setStatus("loading");
       try {
+        const contentResponse = await fetch(
+          `/api/documents/${documentId}/content`,
+        );
+        if (contentResponse.ok) {
+          const content = await contentResponse.json();
+          if (content.format !== "pdf" && Array.isArray(content.blocks)) {
+            if (cancelled) return;
+            setBlocks(content.blocks);
+            setSourceTitle(content.title);
+            const at = content.blocks.findIndex((b: SourceBlock) =>
+              locator
+                ? b.id === locator
+                : Boolean(quote && b.content.includes(quote.slice(0, 70))),
+            );
+            setBlockOffset(Math.max(0, at));
+            setStatus("ready");
+            return;
+          }
+        }
         const pdfjs = await import("pdfjs-dist");
         pdfjs.GlobalWorkerOptions.workerSrc = new URL(
           "pdfjs-dist/build/pdf.worker.min.mjs",
@@ -93,7 +155,10 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
         }
         pdfRef.current = pdf;
         setNumPages(pdf.numPages);
-        const startPage = Math.min(Math.max(page && page > 0 ? page : 1, 1), pdf.numPages);
+        const startPage = Math.min(
+          Math.max(page && page > 0 ? page : 1, 1),
+          pdf.numPages,
+        );
         setCurrentPage(startPage);
         await renderPage(pdfjs, pdf, startPage);
         if (!cancelled) {
@@ -117,7 +182,14 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function renderPage(pdfjs: any, pdf: any, pageNumber: number) {
     const pageObj = await pdf.getPage(pageNumber);
-    const scale = 1.4;
+    const available = Math.max(
+      220,
+      (stageRef.current?.clientWidth ?? 800) - 32,
+    );
+    const scale = Math.min(
+      1.4,
+      available / pageObj.getViewport({ scale: 1 }).width,
+    );
     const viewport = pageObj.getViewport({ scale });
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -136,8 +208,11 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
 
     const textContent = await pageObj.getTextContent();
     const rects: Highlight[] = [];
-    const searchPhraseTokens = quote ? quoteTokens(pdfSearchPhrase(quote)) : new Set<string>();
-    const relevantTokens = searchPhraseTokens.size >= 3 ? searchPhraseTokens : tokens;
+    const searchPhraseTokens = quote
+      ? quoteTokens(pdfSearchPhrase(quote))
+      : new Set<string>();
+    const relevantTokens =
+      searchPhraseTokens.size >= 3 ? searchPhraseTokens : tokens;
 
     for (const item of textContent.items) {
       const str: string = item.str ?? "";
@@ -145,7 +220,9 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
         continue;
       }
       const normalized = normalizeQuoteText(str);
-      const matches = Array.from(relevantTokens).some((token) => normalized.includes(token));
+      const matches = Array.from(relevantTokens).some((token) =>
+        normalized.includes(token),
+      );
       if (!matches) {
         continue;
       }
@@ -179,7 +256,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
   const fallbackHref = `/api/documents/${documentId}${hashParts.length ? `#${hashParts.join("&")}` : ""}`;
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root modal={!sidePanel} open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button className="secondaryButton compactButton" type="button">
           <FileSearch size={15} />
@@ -187,33 +264,119 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="dialogOverlay" />
-        <Dialog.Content className="pdfViewerContent" aria-describedby={undefined}>
+        {!sidePanel ? <Dialog.Overlay className="dialogOverlay" /> : null}
+        <Dialog.Content
+          className={`pdfViewerContent${sidePanel ? " searchPdfPanel" : ""}`}
+          aria-describedby={undefined}
+        >
           <div className="pdfViewerBar">
-            <Dialog.Title>Cita en el documento</Dialog.Title>
+            <Dialog.Title>
+              {sidePanel ? "Lectura del documento" : "Cita en el documento"}
+            </Dialog.Title>
             <div className="pdfViewerControls">
-              <button className="iconButton" disabled={currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
+              <button
+                className="iconButton"
+                aria-label="Página anterior"
+                disabled={
+                  blocks.length > 0 || status !== "ready" || currentPage <= 1
+                }
+                onClick={() => goTo(currentPage - 1)}
+                type="button"
+              >
                 <ChevronLeft size={16} />
               </button>
               <span>
-                {currentPage} / {numPages}
+                {blocks.length
+                  ? "Lectura por bloques"
+                  : status === "ready"
+                    ? `${currentPage} / ${numPages}`
+                    : "Cargando…"}
               </span>
-              <button className="iconButton" disabled={currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
+              <button
+                className="iconButton"
+                aria-label="Página siguiente"
+                disabled={
+                  blocks.length > 0 ||
+                  status !== "ready" ||
+                  currentPage >= numPages
+                }
+                onClick={() => goTo(currentPage + 1)}
+                type="button"
+              >
                 <ChevronRight size={16} />
               </button>
-              <a className="secondaryButton compactButton" href={fallbackHref} rel="noreferrer" target="_blank">
+              <a
+                className="secondaryButton compactButton"
+                href={fallbackHref}
+                rel="noreferrer"
+                target="_blank"
+              >
                 <ExternalLink size={15} />
-                PDF exacto
+                Original
               </a>
               <Dialog.Close asChild>
-                <button className="iconButton" type="button">
+                <button
+                  className="iconButton"
+                  type="button"
+                  aria-label="Cerrar documento"
+                >
                   <X size={16} />
                 </button>
               </Dialog.Close>
             </div>
           </div>
 
-          <div className="pdfViewerStage">
+          <div ref={stageRef} className="pdfViewerStage">
+            {blocks.length ? (
+              <section
+                className="tw sourceBlockReader space-y-4 p-4"
+                aria-label="Texto del original"
+              >
+                <p className="text-sm text-slate-600">
+                  {sourceTitle} · Referencias por bloque, sin páginas físicas.
+                </p>
+                <p className="text-xs text-slate-600">La numeración de bloques y tablas permite localizar el texto extraído. El diseño y las imágenes se consultan en el original.</p>
+                <label className="grid gap-2 text-sm font-semibold">Buscar dentro del documento<input className="rounded-lg border border-slate-300 p-3 font-normal" value={blockQuery} onChange={e=>{setBlockQuery(e.target.value);setBlockOffset(0);}} placeholder="Escribe una palabra del contenido"/></label>
+                <p className="text-xs text-slate-600">{matchingBlocks.length} bloques{blockQuery?" con coincidencias":" disponibles"}</p>
+                {matchingBlocks.slice(blockOffset, blockOffset + 30).map((b) => (
+                  <article
+                    id={b.id}
+                    key={b.id}
+                    className="rounded-xl border border-slate-200 bg-white p-4"
+                  >
+                    <strong className="text-sm text-teal-800">{b.label}</strong>
+                    <p className="my-3 whitespace-pre-wrap text-sm leading-7">
+                      {b.content}
+                    </p>
+                    <SaveButton
+                      itemType="documento"
+                      title={sourceTitle.slice(0,300)}
+                      documentId={documentId}
+                      locator={b.id}
+                      label="Guardar pasaje"
+                    />
+                  </article>
+                ))}
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    className="secondaryButton"
+                    disabled={blockOffset === 0}
+                    onClick={() =>
+                      setBlockOffset(Math.max(0, blockOffset - 30))
+                    }
+                  >
+                    Bloques anteriores
+                  </button>
+                  <button
+                    className="secondaryButton"
+                    disabled={blockOffset + 30 >= matchingBlocks.length}
+                    onClick={() => setBlockOffset(blockOffset + 30)}
+                  >
+                    Más bloques
+                  </button>
+                </div>
+              </section>
+            ) : null}
             {status === "loading" ? (
               <div className="emptyState">
                 <LoaderCircle size={20} />
@@ -222,23 +385,41 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita" }: P
             ) : null}
             {status === "error" ? (
               <div className="emptyState">
-                <span>No se pudo renderizar el visor.</span>
-                <a className="primaryButton" href={fallbackHref} rel="noreferrer" target="_blank">
-                  Abrir PDF en la página {page ?? 1}
+                <span>No se pudo mostrar el documento. Puedes abrir el original.</span>
+                <a
+                  className="primaryButton"
+                  href={fallbackHref}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Descargar original
                 </a>
               </div>
             ) : null}
-            <div className="pdfCanvasWrap" style={{ display: status === "ready" ? "block" : "none" }}>
+            <div
+              className="pdfCanvasWrap"
+              style={{
+                display:
+                  status === "ready" && !blocks.length ? "block" : "none",
+              }}
+            >
               <canvas ref={canvasRef} />
               {highlights.map((rect, index) => (
                 <span
                   className="pdfHighlight"
                   key={index}
-                  style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height }}
+                  style={{
+                    left: rect.left,
+                    top: rect.top,
+                    width: rect.width,
+                    height: rect.height,
+                  }}
                 />
               ))}
               {status === "ready" && highlights.length === 0 && quote ? (
-                <span className="pdfHint">No se pudo resaltar texto exacto; revise la pagina indicada.</span>
+                <span className="pdfHint">
+                  No se pudo resaltar texto exacto; revise la pagina indicada.
+                </span>
               ) : null}
             </div>
           </div>

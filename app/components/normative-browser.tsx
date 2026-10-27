@@ -1,9 +1,29 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import "./normative-browser.css";
+import Link from "next/link";
+import {DocumentValidityReview} from "./document-validity-review";
+import type {ValidityRecord} from "@/lib/validity-review";
+import {reviewedValidity} from "@/lib/validity-review";
+import {resolveArticleIdentity} from "@/lib/normative-identity";
+import {NormativeBodyReview} from "./normative-body-review";
+import { ConcordanceReview } from "./concordance-review";
+import { NormativeIndex } from "./normative-index";
+import { legalCenterHref } from "@/lib/legal-center";
+import { referenceReviewLabel, repeatedArticleNumbers } from "@/lib/normative-library";
+import type { documentReviewSummary } from "@/lib/document-review";
+
+import { ExtendedLegalFilterControls } from "./legal-workspace-tools";
+import { extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
+import { LegalCenterNav } from "./legal-center-nav";
+import { LegalValidityBadge } from "./legal-validity-badge";
+import { legalValidity } from "@/lib/legal-center";
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
+  ArrowLeft,
   BookOpenCheck,
   CheckCircle2,
   ExternalLink,
@@ -13,20 +33,25 @@ import {
   LoaderCircle,
   MessageSquareText,
   Network,
-  RotateCcw,
   ScrollText,
   Search,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { DOCUMENT_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
+import { corpusGroupForType, corpusTypesForGroup } from "@/lib/official-corpus";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
+import{SourceWorkLink}from"./source-work-link";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
 
-type Category = "normas" | "jurisprudencia";
+type Category = "normas" | "jurisprudencia" | "orientacion";
 
 type NormSummary = {
+  review?: ReturnType<typeof documentReviewSummary>;
+  sourceUrl?: string | null;
+  dates?: {published:string|null;updated:string|null;imported:string|null;version:string|null};
+  regime?: string | null;
   id: string;
   title: string;
   documentType: string;
@@ -48,6 +73,8 @@ type NormSummary = {
 };
 
 type Article = {
+  validityReview?:ValidityRecord|null;
+  bodyId?:string;bodyTitle?:string;bodyReviewed?:boolean;bodyRevision?:number;version?:string|null;
   id: string;
   articleNumber: string;
   label: string | null;
@@ -61,6 +88,7 @@ type Article = {
 };
 
 type Concordancia = {
+  destinationCheck?:{valid:boolean;reason:string};
   id: string;
   refType: string | null;
   relationType?: string | null;
@@ -84,6 +112,8 @@ type Citing = {
 };
 
 type NormDetail = {
+  canCorrectReferences?:boolean;
+  warnings?: string[];
   norm: NormSummary & { summary: string | null };
   articles: Article[];
   concordanciasByArticle: Record<string, Concordancia[]>;
@@ -103,6 +133,7 @@ type SemanticSource = {
 type VersionGroup = {
   key: string;
   documents: Array<{
+    dates?: {published:string|null;updated:string|null;imported:string|null;version:string|null};
     amends: string | null;
     documentType: string;
     id: string;
@@ -112,7 +143,6 @@ type VersionGroup = {
     year: number | null;
   }>;
   hasAmendments: boolean;
-  latestYear: number;
   title: string;
   total: number;
 };
@@ -122,28 +152,7 @@ function isNotCurrent(vigencia?: string | null, status?: string | null) {
   return text.includes("derog") || text.includes("modific");
 }
 
-function classifyConcordance(rawText: string, refType?: string | null, relationType?: string | null) {
-  const relationLabels: Record<string, string> = {
-    complementa: "Complementa",
-    concordancia: "Concordancia",
-    deroga: "Deroga",
-    modifica: "Modifica",
-    reglamenta: "Reglamenta",
-    remite: "Remite",
-  };
-
-  if (relationType && relationLabels[relationType]) {
-    return relationLabels[relationType];
-  }
-
-  const text = `${refType ?? ""} ${rawText}`.toLowerCase();
-  if (text.includes("derog")) return "Deroga";
-  if (text.includes("modific")) return "Modifica";
-  if (text.includes("reglament")) return "Reglamenta";
-  if (text.includes("remit") || text.includes("conforme") || text.includes("segun")) return "Remite";
-  if (text.includes("complement")) return "Complementa";
-  return "Concordancia";
-}
+function classifyConcordance() { return "Referencia detectada"; }
 
 function articleBrief(article: Article) {
   const firstSentence = article.content
@@ -176,9 +185,14 @@ export function NormativeBrowser() {
   const labelProcessType = (value?: string | null) => processLabelFromOptions(processTypes, value) ?? processTypeLabel(value);
   const targetDocumentId = searchParams.get("documentId");
   const targetArticle = searchParams.get("article");
-  const [category, setCategory] = useState<Category>("normas");
+  const targetArticleUuid = searchParams.get("articleId");
+  const targetBodyId = searchParams.get("bodyId");
+  const [category, setCategory] = useState<Category>(() => corpusGroupForType(searchParams.get("documentType") ?? "ley"));
+  const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [norms, setNorms] = useState<NormSummary[]>([]);
   const [loadingList, setLoadingList] = useState(false);
+  const [reading, setReading] = useState(Boolean(targetDocumentId));
+  const readingRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(targetDocumentId);
   const [detail, setDetail] = useState<NormDetail | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
@@ -189,24 +203,41 @@ export function NormativeBrowser() {
   const [error, setError] = useState("");
   const [documentTypeFilter, setDocumentTypeFilter] = useState(searchParams.get("documentType") ?? "");
   const [processTypeFilter, setProcessTypeFilter] = useState(searchParams.get("processType") ?? "");
-  const [sourceEntityFilter, setSourceEntityFilter] = useState("");
-  const [yearFilter, setYearFilter] = useState("");
-  const [vigenciaFilter, setVigenciaFilter] = useState("");
-  const [topicFilter, setTopicFilter] = useState("");
+  const [sourceEntityFilter, setSourceEntityFilter] = useState(searchParams.get("sourceEntity") ?? "");
+  const [yearFilter, setYearFilter] = useState(searchParams.get("year") ?? "");
+  const [vigenciaFilter, setVigenciaFilter] = useState(searchParams.get("vigencia") ?? "");
+  const [topicFilter, setTopicFilter] = useState(searchParams.get("topic") ?? "");
   const [semanticQuery, setSemanticQuery] = useState("");
   const [semanticLoading, setSemanticLoading] = useState(false);
+  const [semanticNotice, setSemanticNotice] = useState("");
   const [semanticSources, setSemanticSources] = useState<SemanticSource[]>([]);
+  const [titleQuery, setTitleQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [reviewEpoch,setReviewEpoch]=useState(0);
+  const [pagination, setPagination] = useState({total:0,pages:0});
+  const [facets, setFacets] = useState<{entities:string[];years:number[];categoryTotal:number}>({entities:[],years:[],categoryTotal:0});
+  const [listWarnings, setListWarnings] = useState<string[]>([]);
+  const [versionsError, setVersionsError] = useState("");
+  const [citingError, setCitingError] = useState("");
+  const [chatBusy, setChatBusy] = useState(false);
+  const detailSequence = useRef(0);
+  const openedTarget = useRef<string|null>(null);
   const [versions, setVersions] = useState<VersionGroup[]>([]);
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
     async function loadNorms() {
       setLoadingList(true);
       setError("");
 
       try {
-        const params = new URLSearchParams({ category });
+        const params = new URLSearchParams({ category, q:titleQuery, page:String(page) });
+        if (extendedFilters.documentTypes?.length) params.set("documentTypes", extendedFilters.documentTypes.join(","));
+        if (extendedFilters.years?.length) params.set("years", extendedFilters.years.join(","));
+        if (extendedFilters.regime) params.set("regime", extendedFilters.regime);
+        if (extendedFilters.includeUnknownRegime) params.set("includeUnknownRegime", "true");
         if (documentTypeFilter) params.set("documentType", documentTypeFilter);
         if (processTypeFilter) params.set("processType", processTypeFilter);
         if (sourceEntityFilter) params.set("sourceEntity", sourceEntityFilter);
@@ -214,8 +245,8 @@ export function NormativeBrowser() {
         if (vigenciaFilter) params.set("vigencia", vigenciaFilter);
         if (topicFilter) params.set("topic", topicFilter);
 
-        const response = await fetch(`/api/norms?${params.toString()}`);
-        const payload = (await response.json()) as { norms?: NormSummary[]; error?: string };
+        const response = await fetch(`/api/norms?${params.toString()}`,{signal:controller.signal});
+        const payload = (await response.json()) as { norms?: NormSummary[]; error?: string; total:number;pages:number;warnings?:string[];facets:typeof facets };
 
         if (cancelled) {
           return;
@@ -228,9 +259,8 @@ export function NormativeBrowser() {
         }
 
         setNorms(payload.norms ?? []);
-        if (targetDocumentId && (payload.norms ?? []).some((norm) => norm.id === targetDocumentId)) {
-          void selectNorm(targetDocumentId);
-        }
+        setPagination({total:payload.total,pages:payload.pages});setFacets(payload.facets);setListWarnings(payload.warnings ?? []);
+
       } catch {
         if (!cancelled) {
           setError("No se pudo conectar con el servidor.");
@@ -242,18 +272,18 @@ export function NormativeBrowser() {
       }
     }
 
-    void loadNorms();
+    const timer = setTimeout(()=>void loadNorms(),250);
 
     return () => {
-      cancelled = true;
+      cancelled = true; controller.abort(); clearTimeout(timer);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
+  }, [reviewEpoch,titleQuery,page,extendedFilters, category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
 
   useEffect(() => {
+    if(!selectedId)return;
     let cancelled = false;
-    fetch("/api/norms/versions")
-      .then((response) => response.json())
+    fetch(`/api/norms/versions?documentId=${selectedId}`)
+      .then(async response => {if(!response.ok) throw new Error();return response.json();})
       .then((payload) => {
         if (!cancelled) {
           setVersions(payload.versions ?? []);
@@ -261,47 +291,73 @@ export function NormativeBrowser() {
       })
       .catch(() => {
         if (!cancelled) {
-          setVersions([]);
+          setVersions([]);setVersionsError("No se pudieron comprobar las versiones relacionadas.");
         }
       });
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (reading && selectedId) {
+      readingRef.current?.scrollIntoView({ block: "start" });
+      readingRef.current?.focus({ preventScroll: true });
+    }
+  }, [reading, selectedId]);
+
+  function refreshAfterValidityReview() {
+    if(!selectedId)return;
+    const sequence=detailSequence.current;
+    setReviewEpoch(value=>value+1);
+    void fetch(`/api/norms/${selectedId}`,{cache:"no-store"}).then(async response=>{
+      if(!response.ok)throw Error("La revisión se guardó, pero no se pudo actualizar la ficha. Vuelve a abrirla.");
+      const payload=await response.json() as NormDetail;
+      if(sequence!==detailSequence.current)return;
+      setDetail(payload);
+    }).catch(cause=>{if(sequence===detailSequence.current)setError(cause instanceof Error?cause.message:"No se pudo actualizar la ficha");});
+  }
 
   async function selectNorm(id: string, targetArticleId?: string) {
+    const sequence=++detailSequence.current;
+    setReading(true);
     setSelectedId(id);
     setDetail(null);
     setSelectedArticleId(null);
     setArticleFilter("");
     setOnlyVigente(false);
-    setSemanticSources([]);
-    setSemanticQuery("");
+    setSemanticSources([]);setSemanticLoading(false);
+    setSemanticQuery("");setSemanticNotice("");
     setLoadingDetail(true);
 
     try {
       const response = await fetch(`/api/norms/${id}`);
       const payload = (await response.json()) as NormDetail & { error?: string };
 
+      if(sequence!==detailSequence.current) return;
       if (!response.ok) {
         setError(payload.error ?? "No se pudo cargar la norma.");
         return;
       }
 
       setDetail(payload);
-      const target = targetArticleId
-        ? payload.articles.find((article) => article.id === targetArticleId)
-        : undefined;
-      const targetByNumber = targetArticle
-        ? payload.articles.find((article) => article.articleNumber === targetArticle)
-        : null;
-      setSelectedArticleId(target?.id ?? targetByNumber?.id ?? payload.articles[0]?.id ?? null);
+      const requested=targetArticleId || (id===targetDocumentId?targetArticleUuid:null);
+      const number=id===targetDocumentId?targetArticle:null;
+      const resolution=requested||number?resolveArticleIdentity(payload.articles,{articleId:requested,articleNumber:requested?null:number,bodyId:!targetArticleId&&id===targetDocumentId?targetBodyId:null}):null;
+      if(resolution && resolution.status!=="found")setError(resolution.status==="ambiguous"?"El número corresponde a varios artículos. Elige el cuerpo y artículo en el índice; no se seleccionó uno por su cuenta.":"No se encontró el artículo solicitado en esta versión.");
+      setSelectedArticleId(resolution?resolution.article?.id??null:payload.articles[0]?.id??null);
     } catch {
-      setError("No se pudo conectar con el servidor.");
+      if(sequence===detailSequence.current) setError("No se pudo conectar con el servidor.");
     } finally {
-      setLoadingDetail(false);
+      if(sequence===detailSequence.current) setLoadingDetail(false);
     }
   }
+
+  useEffect(()=>{
+    if(targetDocumentId && openedTarget.current!==targetDocumentId){openedTarget.current=targetDocumentId;void selectNorm(targetDocumentId);}
+    // A deep link opens its exact document even when it is not on the current catalogue page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[targetDocumentId]);
 
   function navigateToArticleRef(documentId: string | null, articleId: string | null) {
     if (!documentId) {
@@ -321,7 +377,7 @@ export function NormativeBrowser() {
   }
 
   function navigateToConcordancia(concordancia: Concordancia) {
-    if (!concordancia.resolved || !concordancia.targetDocumentId) {
+    if (!concordancia.resolved || !concordancia.targetDocumentId || !concordancia.destinationCheck?.valid) {
       return;
     }
 
@@ -336,7 +392,7 @@ export function NormativeBrowser() {
     const needle = articleFilter.trim().toLowerCase();
 
     return detail.articles.filter((article) => {
-      if (onlyVigente && isNotCurrent(article.vigencia, article.status)) {
+      if (onlyVigente && (article.validityReview?reviewedValidity(article.validityReview):legalValidity(article.vigencia, article.status)).state !== "current") {
         return false;
       }
 
@@ -353,7 +409,7 @@ export function NormativeBrowser() {
   }, [detail, articleFilter, onlyVigente]);
 
   const selectedArticle = useMemo(
-    () => visibleArticles.find((article) => article.id === selectedArticleId) ?? visibleArticles[0] ?? null,
+    () => visibleArticles.find((article) => article.id === selectedArticleId) ?? null,
     [visibleArticles, selectedArticleId],
   );
 
@@ -365,8 +421,9 @@ export function NormativeBrowser() {
     }
 
     let cancelled = false;
+    void Promise.resolve().then(()=>{if(!cancelled){setCiting([]);setCitingError("");}});
     fetch(`/api/norms/articles/${selectedArticleId2}/citing`)
-      .then((response) => response.json())
+      .then(async response=>{if(!response.ok)throw new Error();return response.json();})
       .then((payload) => {
         if (!cancelled) {
           setCiting(payload.citing ?? []);
@@ -374,7 +431,7 @@ export function NormativeBrowser() {
       })
       .catch(() => {
         if (!cancelled) {
-          setCiting([]);
+          setCiting([]);setCitingError("No se pudo comprobar qué documentos citan este artículo.");
         }
       });
 
@@ -395,25 +452,17 @@ export function NormativeBrowser() {
     ? isNotCurrent(selectedArticle.vigencia, selectedArticle.status) || Boolean(detail?.norm.amends)
     : false;
 
-  function sendArticleToChat(article: Article, intent = "explica su alcance, requisitos, limites y aplicacion practica") {
-    if (!detail) {
-      return;
-    }
-
-    const prompt = `Sobre ${detail.norm.title}, articulo ${article.articleNumber}: ${intent}. Usa solo este documento y articulo como fuente principal.`;
-    const params = new URLSearchParams({
-      article: article.articleNumber,
-      documentId: detail.norm.id,
-      documentType: detail.norm.documentType,
-      pregunta: prompt,
-    });
-
-    if (detail.norm.processType) {
-      params.set("processType", detail.norm.processType);
-    }
-
-    router.push(`/chat?${params.toString()}`);
+  async function askDocument(article?: Article) {
+    if (!detail || chatBusy) return;
+    setChatBusy(true); setError("");
+    try {
+      const response=await fetch("/api/search/handoff",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:`Explica ${article ? `el artículo ${article.articleNumber} de ` : "el documento "}${detail.norm.title}. Responde solo con este documento${article ? " y el artículo seleccionado" : ""}, cita documento y página, distingue regla y excepciones e indica qué falta comprobar.${article ? ` Pasaje seleccionado (página ${article.pageStart ?? "sin registrar"}, sección ${article.sectionTitle ?? "sin identificar"}): ${article.content.slice(0,1200)}` : ""}`,filters:{documentId:detail.norm.id,documentIds:[detail.norm.id],articleId:article?.id,bodyId:article?.bodyId,documentType:detail.norm.documentType,...(article && !repeatedArticleNumbers(detail.articles).includes(article.articleNumber)?{article:article.articleNumber}:{})}})});
+      const payload=await response.json();if(!response.ok || !payload.sessionId) throw new Error();
+      router.push(`/chat?sessionId=${payload.sessionId}`);
+    } catch {setError("No se pudo abrir el chat con esta fuente. Reintenta.");}
+    finally {setChatBusy(false);}
   }
+  function sendArticleToChat(article: Article) { void askDocument(article); }
 
   function compareArticle(article: Article) {
     if (!detail) return;
@@ -442,7 +491,8 @@ export function NormativeBrowser() {
       return;
     }
 
-    setSemanticLoading(true);
+    const sequence=detailSequence.current;
+    setSemanticLoading(true);setSemanticNotice("");
     setSemanticSources([]);
     try {
       const response = await fetch(`/api/norms/${detail.norm.id}/semantic`, {
@@ -450,16 +500,19 @@ export function NormativeBrowser() {
         headers: { "Content-Type": "application/json" },
         method: "POST",
       });
-      const payload = (await response.json()) as { sources?: SemanticSource[]; error?: string };
+      const payload = (await response.json()) as { sources?: SemanticSource[]; error?: string; assessment?: {evidenceWarnings?:string[]}; retrieval?:Record<string,string> };
+      if(sequence!==detailSequence.current)return;
       if (response.ok) {
         setSemanticSources(payload.sources ?? []);
+        const partial=Object.values(payload.retrieval ?? {}).includes("unavailable");
+        setSemanticNotice(partial?"Recuperación parcial: no estuvieron disponibles todas las vías de consulta. Los resultados pueden ser incompletos.":payload.sources?.length?"Selección de pasajes del documento; no es un recorrido exhaustivo.":"No se recuperaron pasajes con esta consulta. Esto no acredita que el documento no trate el tema.");
       } else {
         setError(payload.error ?? "No se pudo buscar dentro de la norma.");
       }
     } catch {
-      setError("No se pudo conectar con el buscador semantico.");
+      if(sequence===detailSequence.current)setError("No se pudo conectar con el buscador semantico.");
     } finally {
-      setSemanticLoading(false);
+      if(sequence===detailSequence.current)setSemanticLoading(false);
     }
   }
 
@@ -469,11 +522,11 @@ export function NormativeBrowser() {
     setSourceEntityFilter("");
     setYearFilter("");
     setVigenciaFilter("");
-    setTopicFilter("");
+    setTopicFilter("");setTitleQuery("");setPage(1);setExtendedFilters({});
   }
 
   function changeCategory(nextCategory: Category) {
-    setCategory(nextCategory);
+    setCategory(nextCategory);setPage(1);setExtendedFilters({});
     setDocumentTypeFilter("");
     setSelectedId(null);
     setDetail(null);
@@ -482,11 +535,14 @@ export function NormativeBrowser() {
   }
 
   return (
-    <div className="toolPanel normBrowser">
+    <div className={`toolPanel normBrowser ${reading ? "normReading" : "normBrowsing"}`}>
+      <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, articleId:selectedArticle?.id, bodyId:selectedArticle?.bodyId, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
+
+      <div className="normCatalogueControls">
       <div className="toolPanelHeader">
         <div>
           <p className="eyebrow">Base documental</p>
-          <h2>Navegador normativo</h2>
+          <h2>Explora documentos y criterios</h2>
         </div>
         <Library size={22} />
       </div>
@@ -505,61 +561,36 @@ export function NormativeBrowser() {
           onClick={() => changeCategory("jurisprudencia")}
           type="button"
         >
-          Jurisprudencia y opiniones
+          Criterios y decisiones
+        </button>
+        <button aria-pressed={category === "orientacion"} onClick={() => changeCategory("orientacion")} type="button">
+          Bases y orientación
         </button>
       </div>
 
-      <div className="normFilters">
-        <label>
-          <span>Tipo</span>
-          <select onChange={(event) => setDocumentTypeFilter(event.target.value)} value={documentTypeFilter}>
-            <option value="">Todos</option>
-            {DOCUMENT_TYPES.filter((item) =>
-              category === "normas"
-                ? ["ley", "reglamento", "directiva"].includes(item.value)
-                : ["resolucion", "opinion"].includes(item.value),
-            ).map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Proceso</span>
-          <select onChange={(event) => setProcessTypeFilter(event.target.value)} value={processTypeFilter}>
-            <option value="">Todos</option>
-            {processTypes.map((item) => (
-              <option key={item.value} value={item.value}>
-                {item.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>Entidad</span>
-          <input onChange={(event) => setSourceEntityFilter(event.target.value)} placeholder="OECE, MEF..." value={sourceEntityFilter} />
-        </label>
-        <label>
-          <span>Año</span>
-          <input inputMode="numeric" onChange={(event) => setYearFilter(event.target.value)} placeholder="2025" value={yearFilter} />
-        </label>
-        <label>
-          <span>Vigencia</span>
-          <input onChange={(event) => setVigenciaFilter(event.target.value)} placeholder="vigente" value={vigenciaFilter} />
-        </label>
-        <label>
-          <span>Tema</span>
-          <input onChange={(event) => setTopicFilter(event.target.value)} placeholder="procedimiento" value={topicFilter} />
-        </label>
-        <button className="secondaryButton compactButton" onClick={clearNormFilters} type="button">
-          <RotateCcw size={15} />
-          Limpiar
-        </button>
+      <div className="normSearchEntry"><label htmlFor="norm-title-query">Encuentra un documento por título o número</label><div><Search size={18} aria-hidden="true"/><input id="norm-title-query" value={titleQuery} maxLength={200} onChange={event=>{setTitleQuery(event.target.value);setPage(1);}} placeholder="Por ejemplo: Reglamento de la Ley 32069" /></div></div>
+      <div className="normFilters normPrimaryFilters">
+        <label><span>Tipo</span><select value={documentTypeFilter} onChange={event=>{setDocumentTypeFilter(event.target.value);setPage(1);}}><option value="">Todos los tipos</option>{DOCUMENT_TYPES.filter(item=>corpusTypesForGroup(category).includes(item.value)).map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
+        <label><span>Régimen identificado</span><select value={extendedFilters.regime ?? ""} onChange={event=>{setExtendedFilters({...extendedFilters,regime:event.target.value as ExtendedLegalFilters["regime"]});setPage(1);}}><option value="">Todos</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Especial</option><option value="no_determinado">Sin identificar</option></select></label>
+        <label><span>Año registrado</span><select value={yearFilter} onChange={event=>{setYearFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{facets.years.map(year=><option key={year} value={year}>{year}</option>)}</select></label>
+        <button className="secondaryButton" type="button" onClick={clearNormFilters}>Restablecer</button>
       </div>
+      <details className="normAdvancedFilters"><summary>Más filtros · entidad, procedimiento y revisión{[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length ? ` · ${[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length} activos` : ""}</summary><div className="normFilters">
+        <label><span>Entidad</span><select value={sourceEntityFilter} onChange={event=>{setSourceEntityFilter(event.target.value);setPage(1);}}><option value="">Todas</option>{facets.entities.map(entity=><option key={entity} value={entity}>{entity}</option>)}</select></label>
+        <label><span>Procedimiento</span><select value={processTypeFilter} onChange={event=>{setProcessTypeFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{processTypes.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
+        <label><span>Estado registrado de vigencia</span><select value={vigenciaFilter} onChange={event=>{setVigenciaFilter(event.target.value);setPage(1);}}><option value="">Todos</option><option value="vigente">Registrado como vigente</option><option value="no vigente">Registrado como no vigente</option><option value="parcialmente vigente">Parcialmente vigente</option><option value="unknown">Sin confirmar / por revisar</option></select></label>
+        <label><span>Tema registrado</span><input value={topicFilter} onChange={event=>{setTopicFilter(event.target.value);setPage(1);}} placeholder="Tema del catálogo" /></label>
+        </div><ExtendedLegalFilterControls value={extendedFilters} onChange={value=>{setExtendedFilters(value);setPage(1);if(value.documentTypes?.length)setDocumentTypeFilter("");if(value.years?.length)setYearFilter("");}} /></details>
+      <p className="normCatalogueCount" role="status">{loadingList ? "Consultando documentos…" : `${pagination.total} documentos encontrados · ${facets.categoryTotal} en esta categoría`} · El régimen identificado no confirma aplicabilidad al caso.</p>
+      {listWarnings.length ? <div className="normPartialNotice" role="status"><strong>Listado disponible con comprobaciones pendientes</strong>{listWarnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
 
+
+      </div>
       {error ? <p className="formMessage errorText">{error}</p> : null}
-
+      <div className="normReaderToolbar" ref={readingRef} tabIndex={-1}>
+        {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
+        {reading ? <span>Lectura del documento · comprueba la versión y la página del PDF.</span> : null}
+      </div>
       <div className="normGrid">
         <aside className="normList" aria-label="Listado de normas">
           {loadingList ? (
@@ -570,7 +601,7 @@ export function NormativeBrowser() {
           ) : norms.length === 0 ? (
             <div className="emptyState">
               <ScrollText size={18} />
-              <span>No hay documentos en esta categoria.</span>
+              <span>{error ? "No se pudo cargar el listado. Revisa el mensaje e intenta de nuevo." : facets.categoryTotal===0 ? "Esta categoría aún no tiene documentos incorporados." : "No hay coincidencias con estos filtros. Prueba restablecerlos."}</span>
             </div>
           ) : (
             norms.map((norm) => (
@@ -584,29 +615,16 @@ export function NormativeBrowser() {
                 <span className="normCardMeta">
                   {documentTypeLabel(norm.documentType)}
                   {norm.documentNumber ? ` · ${norm.documentNumber}` : ""}
-                  {norm.year ? ` · ${norm.year}` : ""}
+                  {norm.dates?.published ? ` · Publicado: ${norm.dates.published}` : norm.year ? ` · Año registrado: ${norm.year}` : ""}
+                  {norm.dates?.version ? ` · ${norm.dates.version}` : ""}
                 </span>
-                <span className="normCardTags">
-                  <span className="normTag">{norm.articleCount} articulo(s)</span>
-                  <span className={`normTag ${norm.pagesDetected > 0 ? "ok" : "warn"}`}>
-                    {norm.pagesDetected} pag.
-                  </span>
-                  <span className={`normTag ${norm.pineconeVerified ? "ok" : "warn"}`}>
-                    Pinecone {norm.pineconeVerified ? "ok" : "rev."}
-                  </span>
-                  <span className={`normTag ${norm.hasSummary ? "ok" : "warn"}`}>
-                    Resumen {norm.hasSummary ? "si" : "no"}
-                  </span>
-                  <span className="normTag">{norm.concordanceCount} ref.</span>
-                  {norm.vigencia ? (
-                    <span className={`normTag ${isNotCurrent(norm.vigencia) ? "warn" : "ok"}`}>
-                      {norm.vigencia}
-                    </span>
-                  ) : null}
+                {norm.sourceEntity ? <span className="normCardEntity">{norm.sourceEntity}</span> : null}
+                <span className="normCardTags"><span className="normTag">{norm.regime && norm.regime!=="no_determinado" ? `Régimen ${norm.regime}` : "Régimen sin identificar"}</span><LegalValidityBadge value={norm.vigencia} status={norm.status} review={norm.review?.validity} compact />
                 </span>
               </button>
             ))
           )}
+          {pagination.pages>1 ? <nav className="normPagination" aria-label="Páginas de documentos"><button type="button" disabled={loadingList||page<=1} onClick={()=>setPage(value=>value-1)}>Anterior</button><span>{page} / {pagination.pages}</span><button type="button" disabled={loadingList||page>=pagination.pages} onClick={()=>setPage(value=>value+1)}>Siguiente</button></nav> : null}
         </aside>
 
         <section className="normDetail" aria-label="Detalle de la norma">
@@ -618,8 +636,8 @@ export function NormativeBrowser() {
           ) : !detail ? (
             <div className="emptyState">
               <Library size={20} />
-              <strong>Selecciona una norma</strong>
-              <span>Elige un documento de la izquierda para leerlo por articulo.</span>
+              <strong>Selecciona un documento</strong>
+              <span>Elige una norma, criterio o guía para revisar su contenido y abrir el PDF.</span>
             </div>
           ) : (
             <>
@@ -633,6 +651,7 @@ export function NormativeBrowser() {
                       : ""}
                   </p>
                   <h3>{detail.norm.title}</h3>
+                  <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
                 <a
                   className="secondaryButton compactButton"
@@ -641,22 +660,30 @@ export function NormativeBrowser() {
                   target="_blank"
                 >
                   <ExternalLink size={15} />
-                  Abrir PDF
+                  Abrir original
                 </a>
               </header>
+              <div className="sourceActions"><PdfCiteButton documentId={detail.norm.id} label="Leer contenido junto a la ficha" sidePanel/><SourceWorkLink documentIds={[detail.norm.id]}/></div>
 
+              {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
+              {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
+              <details className="normDocumentInfo"><summary>Ficha, vigencia, versiones y acciones del documento</summary>
               {detail.norm.amends ? (
                 <div className="normAmends">
                   <AlertTriangle size={15} />
-                  <span>Relaciones de vigencia: {detail.norm.amends}</span>
+                  <span>Nota registrada · efectos jurídicos sin comprobar: {detail.norm.amends}</span>
                 </div>
               ) : null}
 
+              <div className="normReadingActions"><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
+              <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
+              <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={refreshAfterValidityReview} />              <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
+              <details className="normTechnicalState"><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
               <div className="normQualityStrip">
-                <span data-ready={detail.norm.articleCount > 0}>
+                {detail.norm.articleCount > 0 ? <span data-ready={true}>
                   <BookOpenCheck size={15} />
                   {detail.norm.articleCount} articulos
-                </span>
+                </span> : null}
                 <span data-ready={detail.norm.pagesDetected > 0}>
                   <FileText size={15} />
                   {detail.norm.pagesDetected} paginas con cita
@@ -667,7 +694,7 @@ export function NormativeBrowser() {
                 </span>
                 <span data-ready={detail.norm.pineconeVerified}>
                   <ShieldCheck size={15} />
-                  Pinecone {detail.norm.pineconeVerified ? "verificado" : "pendiente"}
+                  Consulta IA {detail.norm.pineconeVerified ? "disponible" : "pendiente"}
                 </span>
                 <span data-ready={detail.norm.hasSummary}>
                   <CheckCircle2 size={15} />
@@ -675,16 +702,16 @@ export function NormativeBrowser() {
                 </span>
               </div>
 
+              </details>
               {selectedVersionGroup ? (
-                <div className="versionPanel">
-                  <strong>Versionado normativo</strong>
+                <details className="versionPanel">
+                  <summary>Versiones del documento · {selectedVersionGroup.total}</summary>
                   <span>
-                    {selectedVersionGroup.total} documento(s) relacionados · version mas reciente{" "}
-                    {selectedVersionGroup.latestYear || "s/d"}
+                    {selectedVersionGroup.total} documentos de la misma familia · ordenados por fecha de actualización o publicación; fechas desconocidas al final
                   </span>
                   <div className="versionList">
                     {selectedVersionGroup.documents.map((document) => (
-                      <button
+                      <div key={document.id} className="normVersionChoice"><button
                         className={`versionChip ${document.id === detail.norm.id ? "active" : ""} ${
                           isNotCurrent(document.vigencia, document.status) ? "warn" : ""
                         }`}
@@ -692,32 +719,31 @@ export function NormativeBrowser() {
                         onClick={() => selectNorm(document.id)}
                         type="button"
                       >
-                        {document.year ?? "s/a"} · {document.vigencia ?? document.status ?? "vigencia s/d"}
-                      </button>
+                        {document.dates?.version ?? document.title} · Actualizado: {document.dates?.updated ?? "sin fecha"} · Publicado: {document.dates?.published ?? "sin fecha"}
+                      </button>{document.id!==detail.norm.id ? <Link className="secondaryButton compactButton" href={`/comparar?${new URLSearchParams({comparison:"texto",documentIdA:detail.norm.id,documentIdB:document.id,documentTypeA:detail.norm.documentType,documentTypeB:document.documentType}).toString()}`}>Comparar texto de estas versiones</Link> : null}</div>
                     ))}
                   </div>
                   {currentVersionDocument?.amends || hasModifiedArticle ? (
                     <small>
-                      Advertencia: existen relaciones de modificacion o el articulo/documento requiere validar vigencia.
+                      Hay notas o estados que requieren revisión. No se ha comprobado aquí que una norma modifique o derogue otra.
                     </small>
                   ) : null}
-                </div>
+                </details>
               ) : null}
 
+              </details>
+
+              {repeatedArticleNumbers(detail.articles).length ? <p className="normPartialNotice">Hay numeración de artículos repetida en este archivo. Puede contener varios cuerpos o secciones; el ámbito aún no está separado. Comprueba encabezado y página del PDF antes de citar.</p> : null}
               {detail.articles.length === 0 ? (
                 <div className="normJurisprudence">
                   {detail.norm.summary ? (
-                    <p>{detail.norm.summary}</p>
+                    <details className="normAssistedReading"><summary>Resumen asistido · contenido generado, no texto original</summary><p>{detail.norm.summary}</p><small>Contrasta la explicación con el documento original. No se presume revisión humana.</small></details>
                   ) : (
                     <p>Este documento no tiene articulos detectados. Abre el PDF para leerlo completo.</p>
                   )}
                   <button
                     className="secondaryButton compactButton"
-                    onClick={() =>
-                      router.push(
-                        `/chat?pregunta=${encodeURIComponent(`Resume y explica ${detail.norm.title}`)}`,
-                      )
-                    }
+                    onClick={() => void askDocument()} disabled={chatBusy}
                     type="button"
                   >
                     <MessageSquareText size={15} />
@@ -726,12 +752,13 @@ export function NormativeBrowser() {
                 </div>
               ) : (
                 <div className="articleLayout">
-                  <div className="articleNavCol">
+                  <details className="articleNavCol normArticleNavigation"><summary>Índice y búsqueda en el documento</summary>
                     <label className="articleSearch">
                       <Search size={15} />
                       <input
                         onChange={(event) => setArticleFilter(event.target.value)}
-                        placeholder="Buscar articulo o texto"
+                        aria-label="Buscar artículo o texto"
+                        placeholder="Buscar artículo o texto"
                         value={articleFilter}
                       />
                     </label>
@@ -741,14 +768,16 @@ export function NormativeBrowser() {
                         onChange={(event) => setOnlyVigente(event.target.checked)}
                         type="checkbox"
                       />
-                      Solo vigente
+                      Solo registrado como vigente
                     </label>
                     <div className="semanticInNorm">
                       <label className="articleSearch">
                         <Sparkles size={15} />
                         <input
                           onChange={(event) => setSemanticQuery(event.target.value)}
-                          placeholder="Buscar semantico en esta norma"
+                          aria-label="Buscar por tema en este documento"
+                          maxLength={500}
+                          placeholder="Describe qué buscas en este documento"
                           value={semanticQuery}
                         />
                       </label>
@@ -762,14 +791,15 @@ export function NormativeBrowser() {
                         Buscar
                       </button>
                     </div>
+                    {semanticNotice ? <p className="normScopeNote" role="status">{semanticNotice}</p> : null}
                     {semanticSources.length > 0 ? (
                       <div className="semanticNormResults">
                         {semanticSources.slice(0, 5).map((source) => (
                           <button
                             key={source.chunkId}
                             onClick={() => {
-                              const match = detail.articles.find((article) => article.articleNumber === source.article);
-                              if (match) setSelectedArticleId(match.id);
+                              const match = resolveArticleIdentity(detail.articles,{articleNumber:source.article});
+                              if (match.status==="found") setSelectedArticleId(match.article.id); else setError("El pasaje no identifica un artículo único. Selecciónalo en el índice y comprueba el cuerpo normativo.");
                             }}
                             type="button"
                           >
@@ -779,25 +809,8 @@ export function NormativeBrowser() {
                         ))}
                       </div>
                     ) : null}
-                    <div className="articleIndex">
-                      {visibleArticles.length === 0 ? (
-                        <span className="articleIndexEmpty">Sin coincidencias</span>
-                      ) : (
-                        visibleArticles.map((article) => (
-                          <button
-                            key={article.id}
-                            className={`articleChip ${
-                              selectedArticle?.id === article.id ? "active" : ""
-                            } ${isNotCurrent(article.vigencia, article.status) ? "warn" : ""}`}
-                            onClick={() => setSelectedArticleId(article.id)}
-                            type="button"
-                          >
-                            Art. {article.articleNumber}
-                          </button>
-                        ))
-                      )}
-                    </div>
-                  </div>
+                    <NormativeIndex articles={visibleArticles} selectedId={selectedArticle?.id} onSelect={setSelectedArticleId} />
+                  </details>
 
                   <article className="articleReader">
                     {selectedArticle ? (
@@ -807,7 +820,7 @@ export function NormativeBrowser() {
                             {selectedArticle.sectionTitle ? (
                               <span className="articleSection">{selectedArticle.sectionTitle}</span>
                             ) : null}
-                            <strong>Articulo {selectedArticle.articleNumber}</strong>
+                            <strong>Articulo {selectedArticle.articleNumber}</strong><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
                           </div>
                           <div className="articleBadges">
                             {selectedArticle.pageStart ? (
@@ -818,13 +831,7 @@ export function NormativeBrowser() {
                                   : ""}
                               </span>
                             ) : null}
-                            <span
-                              className={`normTag ${
-                                isNotCurrent(selectedArticle.vigencia, selectedArticle.status) ? "warn" : "ok"
-                              }`}
-                            >
-                              {selectedArticle.vigencia ?? selectedArticle.status ?? "vigencia s/d"}
-                            </span>
+                            <LegalValidityBadge value={selectedArticle.vigencia} status={selectedArticle.status} review={selectedArticle.validityReview} />
                           </div>
                         </div>
 
@@ -838,16 +845,18 @@ export function NormativeBrowser() {
                           </div>
                         ) : null}
 
+                        <p className="normScopeNote">Texto extraído del documento · comprueba la página del PDF para citar.</p>
                         <p className="articleText">{selectedArticle.content}</p>
+                        {detail.canCorrectReferences ? <NormativeBodyReview key={selectedArticle.id} articleId={selectedArticle.id} title={selectedArticle.bodyReviewed?selectedArticle.bodyTitle:undefined} revision={selectedArticle.bodyRevision??0} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/> : null}
 
                         {selectedReading ? (
-                          <div className="legalReadingPanel">
+                          <details className="normAssistedReading"><summary>Extracto y señales automáticas · sin revisión jurídica</summary><div className="legalReadingPanel">
                             <div>
-                              <strong>Resumen breve</strong>
+                              <strong>Extracto textual abreviado</strong>
                               <p>{selectedReading.summary}</p>
                             </div>
                             <div>
-                              <strong>Requisitos o reglas detectadas</strong>
+                              <strong>Pasajes con palabras de obligación</strong>
                               {selectedReading.requirements.length > 0 ? (
                                 <ul>
                                   {selectedReading.requirements.map((item) => (
@@ -855,11 +864,11 @@ export function NormativeBrowser() {
                                   ))}
                                 </ul>
                               ) : (
-                                <span>No se detectaron reglas textuales evidentes.</span>
+                                <span>No se encontraron palabras coincidentes; esto no significa que no existan obligaciones.</span>
                               )}
                             </div>
                             <div>
-                              <strong>Riesgos de interpretacion</strong>
+                              <strong>Pasajes con palabras de excepción o advertencia</strong>
                               {selectedReading.risks.length > 0 ? (
                                 <ul>
                                   {selectedReading.risks.map((item) => (
@@ -867,20 +876,21 @@ export function NormativeBrowser() {
                                   ))}
                                 </ul>
                               ) : (
-                                <span>Sin alertas textuales automaticas; revisar contexto normativo.</span>
+                                <span>No se encontraron palabras coincidentes; esto no acredita ausencia de excepciones o riesgos.</span>
                               )}
                             </div>
-                          </div>
+                          </div><p>Detección por palabras, no análisis jurídico. Para una explicación con fuentes, consulta este artículo en Chat.</p></details>
                         ) : null}
 
+                        {citingError ? <p className="normPartialNotice" role="status">{citingError}</p> : null}
                         {articleConcordancias.length > 0 || citing.length > 0 ? (
                           <div className="concordanciaPanel">
                             {articleConcordancias.length > 0 ? (
                               <div className="concordanciaGroup">
-                                <strong>Concordancias</strong>
+                                <strong>Referencias detectadas · sin revisión jurídica</strong>
                                 <div className="concordanciaList">
                                   {articleConcordancias.map((concordancia) =>
-                                    concordancia.resolved && concordancia.targetDocumentId ? (
+                                    concordancia.resolved && concordancia.targetDocumentId && concordancia.destinationCheck?.valid ? (
                                       <button
                                         key={concordancia.id}
                                         className="concordanciaChip resolved"
@@ -888,7 +898,7 @@ export function NormativeBrowser() {
                                         type="button"
                                         title={concordancia.rawText}
                                       >
-                                        <span>{classifyConcordance(concordancia.rawText, concordancia.refType, concordancia.relationType)}</span>
+                                        <span>{concordancia.destinationCheck?.reason ?? referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)}</span>
                                         {concordancia.targetDocumentTitle ?? "Norma"}
                                         {concordancia.targetArticleNumber
                                           ? `, art. ${concordancia.targetArticleNumber}`
@@ -900,10 +910,11 @@ export function NormativeBrowser() {
                                         className="concordanciaChip external"
                                         title={concordancia.rawText}
                                       >
-                                        {classifyConcordance(concordancia.rawText, concordancia.refType, concordancia.relationType)} · {concordancia.rawText} · no indexada
+                                        {concordancia.destinationCheck?.reason ?? referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)} · {concordancia.rawText} · no indexada
                                       </span>
                                     ),
                                   )}
+                                  {detail.canCorrectReferences ? <details><summary>Revisar destinos e historial</summary>{articleConcordancias.map(reference=><div key={reference.id}><p>{reference.rawText}</p><ConcordanceReview referenceId={reference.id} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/></div>)}</details> : null}
                                 </div>
                               </div>
                             ) : null}
@@ -922,7 +933,7 @@ export function NormativeBrowser() {
                                       type="button"
                                       title={item.rawText}
                                     >
-                                      <span>{classifyConcordance(item.rawText)}</span>
+                                      <span>{classifyConcordance()}</span>
                                       {item.sourceDocumentTitle ?? "Norma"}
                                       {item.sourceArticleNumber ? `, art. ${item.sourceArticleNumber}` : ""}
                                     </button>
@@ -946,10 +957,11 @@ export function NormativeBrowser() {
                             target="_blank"
                           >
                             <FileText size={15} />
-                            Abrir PDF
+                            Abrir original
                           </a>
                           <button
                             className="secondaryButton compactButton"
+                            disabled={chatBusy}
                             onClick={() => sendArticleToChat(selectedArticle)}
                             type="button"
                           >

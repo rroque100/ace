@@ -1,0 +1,45 @@
+.normBrowser { --norm-accent:#116f68; }
+.normSearchEntry { margin:20px 0 12px; }
+.normSearchEntry>label { display:block;font-weight:650;margin-bottom:8px; }
+.normSearchEntry>div { display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:4px 12px; }
+.normSearchEntry input { border:0;background:transparent;min-height:44px;flex:1;min-width:0;font:inherit; }
+.normBrowser .normPrimaryFilters { grid-template-columns:repeat(3,minmax(140px,1fr)) auto;padding:12px 0;align-items:end; }
+.normAdvancedFilters { margin:8px 0 16px;border-block:1px solid var(--line);padding:12px 0; }
+.normBrowser summary { cursor:pointer;min-height:32px;line-height:1.5; }
+.normCatalogueCount,.normScopeNote { font-size:13px;color:var(--muted);line-height:1.6; }
+.normPartialNotice { background:#fbf8ef;border-left:3px solid #ae8031;padding:12px 16px;border-radius:4px;font-size:13px;line-height:1.6; }
+.normPartialNotice p { margin:4px 0; }
+.normBrowser .normCard { padding:14px;text-align:left; }
+.normCardEntity { font-size:12px;color:var(--muted); }
+.normBrowser .normCardTags { margin-top:4px; }
+.normBrowser .normCardTags .normTag { font-size:11px; }
+.normBrowser .normList { max-height:76vh; }
+.normReadingActions { display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 8px; }
+.normProvenance,.normTechnicalState,.normAssistedReading { border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:12px 0;background:#fff; }
+.normProvenance p,.normTechnicalState p,.normAssistedReading>p { font-size:13px;color:var(--muted);line-height:1.7;overflow-wrap:anywhere; }
+.normBrowser .versionPanel { background:#f5f8f7;border:0;padding:14px;border-radius:10px; }
+.normBrowser .versionList { max-height:180px;overflow:auto; }
+.normBrowser .versionChip { min-height:44px;text-align:left;line-height:1.5; }
+.normBrowser .articleText { font-size:16px;line-height:1.95;white-space:pre-wrap;overflow-wrap:anywhere; }
+.normBrowser .articleLayout { grid-template-columns:minmax(180px,230px) minmax(0,1fr);margin-top:20px; }
+.normativeSectionIndex { display:grid;gap:10px;max-height:62vh;overflow:auto;padding:4px; }
+.normativeSectionIndex>small { color:var(--muted);font-size:12px;line-height:1.5; }
+.normativeSectionIndex details { border-bottom:1px solid var(--line);padding-bottom:8px; }
+.normativeSectionIndex summary { font-size:12px;font-weight:650;overflow-wrap:anywhere; }
+.normativeSectionIndex ol { list-style:none;padding:0;margin:8px 0;display:grid;gap:4px; }
+.normativeSectionIndex button { display:grid;gap:4px;width:100%;min-height:44px;text-align:left;border:1px solid transparent;border-radius:7px;background:transparent;padding:8px;color:inherit;cursor:pointer; }
+.normativeSectionIndex button span { font-size:12px;color:var(--muted); }
+.normativeSectionIndex button[aria-current] { background:#eaf5f1;border-color:var(--norm-accent); }
+.normBrowser button:focus-visible,.normBrowser summary:focus-visible,.normBrowser a:focus-visible,.normBrowser input:focus-visible,.normBrowser select:focus-visible { outline:3px solid var(--norm-accent);outline-offset:3px; }
+.normPagination { display:flex;align-items:center;justify-content:space-between;gap:6px;padding:12px 0; }
+.normPagination button { min-height:44px;border:1px solid var(--line);border-radius:7px;background:white;padding:8px;cursor:pointer; }
+.normPagination button:disabled { opacity:.5;cursor:default; }
+@media(max-width:1100px) { .normBrowser .normGrid { grid-template-columns:minmax(200px,260px) minmax(0,1fr); }.normBrowser .articleLayout { grid-template-columns:1fr; }.normativeSectionIndex { max-height:260px; } }
+@media(max-width:760px) { .normBrowser .normGrid { grid-template-columns:1fr; }.normBrowser .normList { max-height:360px; }.normBrowser .normPrimaryFilters { grid-template-columns:1fr; }.normReadingActions>* { width:100%;justify-content:center; }.normBrowser .normFilters { grid-template-columns:1fr; }.normBrowser .articleReader { padding:14px; }.normBrowser .versionChip { width:100%; }.normBrowser .normDetailHeader { flex-wrap:wrap; } }
+/* Avoid a compressed third column beside the application sidebar and document list. */
+.normBrowser .normDetail,.normBrowser .articleReader,.normBrowser .articleNavCol { min-width:0;max-width:100%; }
+.normBrowser .articleReader>* { min-width:0;max-width:100%; }
+.normBrowser .concordanciaChip { white-space:normal;overflow-wrap:anywhere;max-width:100%;text-align:left; }
+.normBrowser .sourceActions { flex-wrap:wrap; }
+.normBrowser .articleText { max-height:none;overflow:visible; }
+@media(max-width:1500px) { .normBrowser .articleLayout { grid-template-columns:minmax(0,1fr); }.normativeSectionIndex { max-height:240px; } }

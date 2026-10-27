@@ -1,0 +1,16 @@
+/* Touch adjustments are scoped to the new library and source workflows. */
+@media (max-width: 640px) {
+  .librarySourcesWorkspace button,
+  .savedSourcesWorkspace button,
+  .librarySourcesDialog button,
+  .sourceBlockReader button,
+  .sourceSaveDialog button { min-height: 44px; min-width: 44px; }
+  .librarySourcesWorkspace input:not([type="checkbox"]),
+  .librarySourcesWorkspace select,
+  .savedSourcesWorkspace input:not([type="checkbox"]),
+  .savedSourcesWorkspace select,
+  .librarySourcesDialog select,
+  .sourceBlockReader input { min-height: 44px; }
+  .librarySourcesWorkspace,
+  .savedSourcesWorkspace { padding-bottom: 6rem; }
+}

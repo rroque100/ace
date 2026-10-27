@@ -1,6 +1,7 @@
+import { z } from "zod";
+import { loadNormativeRows } from "@/lib/normative-server";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
-import { supabaseRest } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -23,13 +24,13 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
 
     const { id } = await context.params;
 
-    if (!id) {
+    if (!z.string().uuid().safeParse(id).success) {
       return NextResponse.json({ error: "Falta id del articulo" }, { status: 400 });
     }
 
-    const rows = await supabaseRest<CitingRow[]>(
+    const rows = await loadNormativeRows<CitingRow>(
       `norma_concordancias?target_article_id=eq.${id}&resolved=eq.true` +
-        `&select=id,source_article_id,raw_text,sourceDoc:documents!source_document_id(id,title),sourceArt:norma_articulos!source_article_id(article_number)`,
+        `&sourceDoc.es_institucional=eq.true&select=id,source_article_id,raw_text,sourceDoc:documents!source_document_id!inner(id,title),sourceArt:norma_articulos!source_article_id(article_number)`,
     );
 
     return NextResponse.json({
@@ -42,11 +43,11 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
         rawText: row.raw_text,
       })),
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         citing: [],
-        error: error instanceof Error ? error.message : "No se pudo cargar 'citado por'",
+        error: "No se pudo comprobar qué documentos citan este artículo.",
       },
       { status: 500 },
     );

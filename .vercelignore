@@ -1,0 +1,93 @@
+# Dependencias y build
+node_modules
+.next
+out
+dist
+build
+.vercel
+.netlify
+.netlify-cache
+.netlify-deploy
+
+# Variables de entorno (NUNCA al repo: contienen API keys y secretos)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.production.local
+# Backups locales de .env (p. ej. .env.local.djlhz.bak) — nunca al repo
+.env.local.*
+# PDF de referencia de topes (OECE, "prohibida su reproducción"): fuera del repo.
+actuaciones-preparatorias/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+dev-server.log
+
+# Cobertura y build info
+coverage
+tsconfig.tsbuildinfo
+.next-dev
+.next-library-dev/
+.next-library-build/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Config de servidores MCP: contiene tokens (Supabase, Pinecone). Nunca al repo.
+.mcp.json
+
+# Corpus PDFs y artefactos sueltos (van en Storage, no en git)
+/normas/
+/documentos/
+/SDD nuevo.pdf
+/Nuevo Documento de Microsoft Word.docx
+
+# Tests de Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Membretes / artefactos locales
+membrete/
+
+# Skills de agentes instalados con `npx skills add`. Son dependencias
+# descargadas, no código del proyecto: se reinstalan con el mismo comando.
+# Ojo con .claude/: solo se ignora la carpeta de skills (que ahí dentro es un
+# ENLACE SIMBÓLICO, y esos viajan mal entre Windows y Linux). El resto
+# —launch.json, settings— sí puede versionarse.
+.agents/
+.claude/skills/
+
+# Requerimientos generados para revisar el formato: son salida, no fuente.
+docs/requerimientos/
+
+# Dump de datos con PII y hashes de Auth — NO commitear (migración manual)
+docs/supabase/datos.sql
+docs/supabase/datos/
+
+# Estado local del CLI de Supabase (a qué proyecto está enlazado esta máquina,
+# versión del binario) — se regenera con `supabase link`, no es código.
+supabase/.temp/
+
+# Archivos privados de trabajo: no se publican con el código
+/NOTAS DE PAGO/
+/DOC.pdf
+/SKM_*.pdf
+/area.XLS
+/.eval-out.json
+.vercel
+.env*
+
+# Solo fuentes necesarias para el despliegue
+.env*
+.next*/
+docs/
+tests/
+scripts/
+.codex/

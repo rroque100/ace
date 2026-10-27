@@ -77,7 +77,9 @@ export function checkCitationFaithfulness(
   // grupo).
   const markerGroup = new RegExp(`((?:\\s*,?\\s*\\[${markerLetter}\\d+\\])+)`, "g");
   const markerOne = new RegExp(`\\[${markerLetter}(\\d+)\\]`, "g");
-  const parts = answer.split(markerGroup).filter(Boolean);
+  const standardized = answer.replace(new RegExp(`\\[${markerLetter}[^\\]\\n]*\\]`, "g"), group =>
+    [...group.matchAll(new RegExp(`\\b${markerLetter}(\\d+)`, "g"))].map(match => `[${markerLetter}${match[1]}]`).join(" "));
+  const parts = standardized.split(markerGroup).filter(Boolean);
 
   for (let index = 0; index < parts.length; index += 1) {
     const part = parts[index];
@@ -103,7 +105,8 @@ export function checkCitationFaithfulness(
 
     for (const datum of data) {
       checked += 1;
-      const supported = citedExcerpts.some((excerpt) => digitsOf(excerpt).includes(datum.digits));
+      const canonical = (value: string) => value.toLowerCase().replace(/\s+/g, "").replace(/,/g, ".");
+      const supported = citedExcerpts.some((excerpt) => extractSpecificData(excerpt).some(item => canonical(item.raw) === canonical(datum.raw)));
       if (!supported) {
         issues.push({
           datum: datum.raw,

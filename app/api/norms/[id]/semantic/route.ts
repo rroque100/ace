@@ -1,3 +1,5 @@
+import { z } from "zod";
+import { supabaseRest } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { searchLegalSources } from "@/lib/legal-chat";
@@ -16,10 +18,12 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const payload = (await request.json()) as { query?: string };
     const query = payload.query?.trim() ?? "";
 
-    if (!id || query.length < 5) {
+    if (!z.string().uuid().safeParse(id).success || query.length < 5 || query.length > 500) {
       return NextResponse.json({ error: "Consulta insuficiente" }, { status: 400 });
     }
 
+    const documents=await supabaseRest<Array<{id:string}>>(`documents?id=eq.${id}&es_institucional=eq.true&status=eq.indexed&select=id`);
+    if(!documents.length)return NextResponse.json({error:"Documento no disponible"},{status:404});
     const result = await searchLegalSources({
       filters: { documentId: id },
       query,

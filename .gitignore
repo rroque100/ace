@@ -32,6 +32,8 @@ dev-server.log
 coverage
 tsconfig.tsbuildinfo
 .next-dev
+.next-library-dev/
+.next-library-build/
 
 # Sistema
 .DS_Store
@@ -72,3 +74,12 @@ docs/supabase/datos/
 # Estado local del CLI de Supabase (a qué proyecto está enlazado esta máquina,
 # versión del binario) — se regenera con `supabase link`, no es código.
 supabase/.temp/
+
+# Archivos privados de trabajo: no se publican con el código
+/NOTAS DE PAGO/
+/DOC.pdf
+/SKM_*.pdf
+/area.XLS
+/.eval-out.json
+.vercel
+.env*

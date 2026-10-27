@@ -1,0 +1,325 @@
+@reference "../tailwind.css";
+
+/* Unlayered, scoped compatibility rules override historical unlayered CSS.
+   All layout and controls below use the installed Tailwind design tokens. */
+.legalWorkspace {
+  @apply min-w-0 text-ink;
+  --legal-reading-ink: #243b53;
+  container-type: inline-size;
+}
+.legalWorkspace :is(button,a,input,select,textarea,summary):focus-visible {
+  @apply outline-2 outline-offset-4 outline-brand;
+}
+.legalWorkspace :is(input,select,textarea) { @apply max-w-full; }
+.legalWorkspace :is(input:not([type=checkbox]):not([type=radio]),select) {
+  @apply min-h-11 rounded-lg border border-line bg-panel px-3 text-[14px] text-ink shadow-none;
+}
+.legalWorkspace :is(input[type=checkbox],input[type=radio]) { @apply size-4 shrink-0 accent-brand; }
+.legalWorkspace textarea { @apply rounded-xl border border-line bg-panel p-3 text-[16px] leading-7 text-ink shadow-none; }
+.legalWorkspace :is(.primaryButton,.secondaryButton) {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-semibold leading-5 shadow-none transition-colors;
+}
+.legalWorkspace .primaryButton { @apply border border-brand bg-brand text-white hover:bg-brand-dark; }
+.legalWorkspace .secondaryButton { @apply border border-line bg-panel text-ink hover:border-brand/40 hover:bg-brand-soft hover:text-brand; }
+.legalWorkspace :is(button:disabled,a[aria-disabled=true]) { @apply cursor-not-allowed opacity-50; }
+.legalWorkspace :is(.documentSearchWorkspace,.legalTool,.normBrowser) { @apply min-w-0 max-w-full; }
+.legalWorkspace .documentSearchWorkspace { @apply gap-4; }
+.legalWorkspace .legalCenterNav { @apply mb-6 rounded-2xl border border-line bg-panel p-2 shadow-card; }
+.legalWorkspace .legalCenterNav nav { @apply grid grid-cols-3 gap-1; }
+.legalWorkspace .legalCenterNav .legalCenterItem {
+  @apply flex min-h-16 min-w-0 items-center gap-3 whitespace-normal rounded-xl border border-transparent px-4 py-3 text-ink no-underline transition-colors;
+}
+.legalWorkspace .legalCenterNav a.legalCenterItem:hover { @apply bg-surface; }
+.legalWorkspace .legalCenterNav .legalCenterItem[aria-current=page] { @apply border-brand/20 bg-brand-soft text-brand; }
+.legalWorkspace .legalCenterNav .legalCenterItem svg { @apply size-5 shrink-0; }
+.legalWorkspace .legalCenterNav .legalNavLabel { @apply block text-[14px] font-semibold leading-5; }
+.legalWorkspace .legalCenterNav .legalNavHint { @apply mt-0.5 block text-[12px] font-normal leading-5 text-muted; }
+.legalWorkspace .legalCenterNav .legalNavScope { @apply m-0 block border-t border-line/60 px-3 pb-1 pt-2 text-[12px] leading-5 text-muted; }
+.legalWorkspace :is(.legalWorkspacePanel,.documentCoverage) { @apply rounded-xl border border-line bg-panel p-4 shadow-none; }
+.legalWorkspace :is(.legalWorkspacePanel,.documentCoverage)>summary { @apply min-h-8 cursor-pointer text-[13px] font-medium leading-6 text-muted; }
+.legalWorkspace :is(.documentCoverage,.documentSearchLimits) { @apply text-[13px] leading-6 text-muted; }
+.legalWorkspace .documentCoverage { @apply my-3 border-0 bg-transparent px-1 py-0; }
+.legalWorkspace .documentCoverage>span { @apply m-1 inline-block rounded-md bg-surface px-2 py-1 text-[12px]; }
+.legalWorkspace :is(.documentSearchIntro,.toolPanelHeader) { @apply mb-4 mt-6 border-0 bg-transparent p-0; }
+.legalWorkspace :is(.documentSearchIntro h2,.toolPanelHeader h2) { @apply m-0 text-[23px] font-semibold leading-8 tracking-tight text-ink; }
+.legalWorkspace :is(.documentSearchEyebrow,.toolPanelHeader .eyebrow) { @apply mb-2 block text-[11px] font-semibold tracking-wider text-brand; }
+.legalWorkspace .documentSearchIntro p { @apply mt-2 text-[14px] leading-6 text-muted; }
+.legalWorkspace .documentSearchIntro { @apply my-0 flex flex-wrap items-center justify-between gap-4; }
+.legalWorkspace .searchAssistantTrigger { @apply mb-0 w-auto justify-self-start; }
+.legalWorkspace .documentLibraryTools { @apply grid gap-2; }
+.legalWorkspace .documentLibraryTools>.legalWorkspacePanel { @apply m-0 px-4 py-2; }
+.legalWorkspace .documentSearchForm { @apply mt-4 grid gap-4 rounded-2xl border border-line bg-panel p-6 shadow-card; }
+.legalWorkspace .documentSearchModes { @apply mb-1 grid grid-cols-2 gap-3; }
+.legalWorkspace .documentSearchModes .documentSearchModeOption {
+  @apply flex min-h-20 cursor-pointer items-center gap-3 rounded-xl border border-line bg-panel p-4 text-ink transition-colors hover:border-brand/40;
+}
+.legalWorkspace .documentSearchModeOption:has(input:checked) { @apply border-brand bg-brand-soft shadow-none; }
+.legalWorkspace .documentSearchModes strong { @apply block text-[14px] font-semibold leading-5; }
+.legalWorkspace .documentSearchModes small { @apply mt-1 block text-[12px] leading-5 text-muted; }
+.legalWorkspace .documentSearchComposer { @apply flex items-end gap-3; }
+.legalWorkspace .documentSearchComposer textarea { @apply min-h-24 flex-1 resize-y border-line p-4; }
+.legalWorkspace .documentSearchComposer button { @apply min-h-11 shrink-0 px-4 py-3; }
+.legalWorkspace :is(.documentPrimaryFilters,.documentFilterGrid) { @apply grid grid-cols-3 gap-4; }
+.legalWorkspace :is(.documentPrimaryFilters,.documentFilterGrid,.normPrimaryFilters) label { @apply grid min-w-0 gap-2 text-[12px] font-semibold leading-5 text-muted; }
+.legalWorkspace :is(.documentSearchFilters,.searchPublicationRange) { @apply rounded-lg border border-line bg-surface/50 p-3; }
+.legalWorkspace :is(.documentSearchFilters,.searchPublicationRange)>summary { @apply min-h-8 cursor-pointer text-[13px] font-medium leading-6 text-ink; }
+.legalWorkspace .documentSearchHint { @apply m-0 text-[12px] leading-6 text-muted; }
+.legalWorkspace :is(.documentResultsHeading,.documentResultOrdering) { @apply flex flex-wrap items-end justify-between gap-3; }
+.legalWorkspace .documentResultsHeading { @apply py-4; }
+.legalWorkspace .documentResultsHeading h2 { @apply m-0 text-[20px] font-semibold leading-7 tracking-tight; }
+.legalWorkspace .documentSearchResults { @apply mt-4 grid gap-4; }
+.legalWorkspace .documentSearchWorkspace .documentResult { @apply rounded-2xl border border-line bg-panel p-5 shadow-card; }
+.legalWorkspace .documentResult h3 { @apply my-3 text-[18px] font-semibold leading-7 tracking-tight; }
+.legalWorkspace .documentResult .documentMatchText { @apply text-[15px] leading-7; }
+.legalWorkspace .documentResultActions { @apply mt-4 flex flex-wrap gap-2 border-t border-line/70 pt-4; }
+.legalWorkspace :is(.documentActiveFilters,.documentResultTags) { @apply flex flex-wrap gap-2; }
+.legalWorkspace .documentActiveFilters button { @apply inline-flex min-h-9 items-center gap-2 rounded-lg border border-brand/20 bg-brand-soft px-3 py-1 text-[12px] text-brand; }
+.legalWorkspace .documentSelection { @apply rounded-2xl border border-brand/30 bg-brand-soft p-5; }
+.legalWorkspace .documentSearchEmpty { @apply rounded-2xl border border-dashed border-line bg-panel px-6 py-10; }
+.legalWorkspace .documentPagination { @apply flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4; }
+
+/* Chat: the exchange is the main surface; supporting sources remain adjacent. */
+.legalWorkspace .chatUtilityRow { @apply mb-4 flex flex-wrap items-center justify-between gap-3; }
+.legalWorkspace .chatReadingLayout { @apply grid grid-cols-[minmax(0,1fr)_260px] items-start gap-5; }
+.legalWorkspace .chatMainColumn { @apply min-w-0 overflow-visible rounded-2xl border border-line bg-panel shadow-card; }
+.legalWorkspace .chatHeader { @apply flex flex-wrap items-center justify-between gap-4 rounded-t-2xl border-b border-line bg-panel px-6 py-5; }
+.legalWorkspace .chatHeader h2 { @apply text-[19px] font-semibold leading-7 tracking-tight; }
+.legalWorkspace .chatContextBar { @apply border-b border-line/70 bg-surface/50 px-6 py-2; }
+.legalWorkspace .chatConversation { @apply h-auto max-h-none min-h-0 overflow-visible px-6 py-6; }
+.legalWorkspace .chatEmptyRedesign { @apply min-h-0 gap-6 py-6; }
+.legalWorkspace .chatEmptyIcon { @apply rounded-2xl bg-brand-soft text-brand shadow-none; }
+.legalWorkspace .chatEmptyIntro strong { @apply text-[27px] leading-9 tracking-tight; }
+.legalWorkspace .chatEmptyExamples .exampleCards { @apply grid gap-2; }
+.legalWorkspace .chatEmptyExamples .exampleCards button { @apply min-h-12 rounded-xl border border-line bg-panel px-4 py-3 text-left text-[14px] leading-6 text-ink shadow-none hover:border-brand/40 hover:bg-brand-soft; }
+.legalWorkspace .msgRow { @apply mx-auto my-5 max-w-[760px] gap-3; }
+.legalWorkspace .msgRow.user .msgBubble { @apply rounded-2xl border border-brand/15 bg-brand-soft text-ink shadow-none; }
+.legalWorkspace :is(.msgBubbleBody,.answerContent,.msgBubble p) { @apply text-[16px] leading-8; }
+.legalWorkspace .chatNormsRail { @apply sticky top-5 min-w-0 rounded-2xl border border-line bg-panel p-4 shadow-none; }
+.legalWorkspace .chatNormsRail summary { @apply cursor-pointer text-[14px] font-semibold leading-6; }
+.legalWorkspace .chatComposeTools { @apply gap-2 px-6; }
+.legalWorkspace .chatComposeTools .legalWorkspacePanel { @apply rounded-xl border border-line bg-surface/50 px-4 py-2; }
+.legalWorkspace .chatCaseContext { @apply bg-transparent; }
+.legalWorkspace .chatComposerBar { @apply relative mx-6 mb-6 mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-2xl border border-brand/40 bg-panel p-4 shadow-card; }
+.legalWorkspace .chatComposerBar textarea { @apply min-h-20 resize-y border-0 bg-transparent p-0 shadow-none; }
+.legalWorkspace .chatComposerBar:focus-within { @apply border-brand ring-2 ring-brand/10; }
+.legalWorkspace .chatQuestionLabel { @apply text-[14px] font-semibold; }
+.legalWorkspace .chatQuestionHelp { @apply text-[12px] leading-5; }
+.legalWorkspace .sourceChip { @apply rounded-lg border border-line bg-surface px-3 py-2 text-[12px] leading-5; }
+
+/* Normativa: independent document list and reading area, without a third
+   narrow text column when the application sidebar consumes the viewport. */
+.legalWorkspace .normBrowser { @apply rounded-none border-0 bg-transparent p-0 shadow-none; }
+.legalWorkspace .normCategoryTabs { @apply mb-5 grid grid-cols-3 gap-1 rounded-xl border border-line bg-panel p-1; }
+.legalWorkspace .normCategoryTabs button { @apply min-h-11 rounded-lg border-0 bg-transparent px-3 py-2 text-[13px] font-medium text-muted shadow-none; }
+.legalWorkspace .normCategoryTabs button[aria-pressed=true] { @apply bg-brand text-white; }
+.legalWorkspace .normSearchEntry>div { @apply rounded-xl border border-line bg-panel px-4 py-1; }
+.legalWorkspace .normSearchEntry input:not([type]) { @apply border-0 bg-transparent; }
+.legalWorkspace .normBrowser .normPrimaryFilters { @apply grid grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-3 py-4; }
+.legalWorkspace .normAdvancedFilters { @apply my-2 rounded-xl border border-line bg-panel px-4 py-2; }
+.legalWorkspace .normCatalogueCount { @apply my-4 text-[13px] leading-6 text-muted; }
+.legalWorkspace .normBrowser .normGrid { @apply grid grid-cols-[280px_minmax(0,1fr)] items-start gap-5; }
+.legalWorkspace .normList { @apply sticky top-5 grid max-h-[80vh] gap-2 overflow-y-auto rounded-xl border border-line bg-panel p-2; }
+.legalWorkspace .normBrowser .normCard { @apply w-full rounded-lg border border-transparent bg-panel p-3 text-left shadow-none transition-colors hover:bg-surface; }
+.legalWorkspace .normCard.active { @apply border-brand/40 bg-brand-soft; }
+.legalWorkspace .normCardTitle { @apply text-[14px] font-semibold leading-6; }
+.legalWorkspace .normDetail { @apply min-w-0 rounded-2xl border border-line bg-panel p-5 shadow-card; }
+.legalWorkspace .normDetailHeader { @apply flex flex-wrap gap-3 border-b border-line pb-4; }
+.legalWorkspace .normDetailHeader h3 { @apply text-[21px] font-semibold leading-8 tracking-tight; }
+.legalWorkspace .normAmends { @apply my-3 rounded-lg bg-surface px-3 py-2 text-[12px] leading-6 text-muted; }
+.legalWorkspace :is(.normProvenance,.normTechnicalState,.normAssistedReading) { @apply my-3 rounded-xl border border-line bg-panel px-4 py-2; }
+.legalWorkspace :is(.normProvenance,.normTechnicalState,.normAssistedReading)>summary { @apply min-h-10 cursor-pointer text-[13px] font-medium leading-6; }
+.legalWorkspace .versionPanel { @apply my-4 rounded-xl border border-line bg-surface/50 p-4; }
+.legalWorkspace .versionPanel>summary { @apply min-h-8 cursor-pointer text-[13px] font-medium leading-6; }
+.legalWorkspace .versionPanel>span { @apply mt-3 block text-[12px] leading-6 text-muted; }
+.legalWorkspace .articleSearch input:not([type]) { @apply border-0 bg-transparent; }
+.legalWorkspace .normBrowser .articleLayout { @apply mt-5 grid grid-cols-1 gap-5; }
+.legalWorkspace .normativeSectionIndex { @apply max-h-60 rounded-xl border border-line bg-surface/40 p-3; }
+.legalWorkspace .normativeSectionIndex button { @apply rounded-lg; }
+.legalWorkspace .normativeSectionIndex button[aria-current] { @apply border-brand/30 bg-brand-soft; }
+.legalWorkspace .normBrowser .articleReader { @apply min-w-0 rounded-xl border border-line bg-panel p-5 shadow-none; }
+.legalWorkspace .articleReaderHeader { @apply flex flex-wrap items-start justify-between gap-3 border-b border-line pb-4; }
+.legalWorkspace .articleSection { @apply text-[12px] font-medium leading-6 text-muted; }
+.legalWorkspace .normBrowser .articleText { @apply max-h-none overflow-visible text-[16px] leading-8; color:var(--legal-reading-ink); }
+.legalWorkspace .concordanciaChip { @apply max-w-full whitespace-normal break-words rounded-lg border border-line bg-surface px-3 py-2 text-left text-[12px] leading-6; }
+.legalWorkspace .normReadingActions,.legalWorkspace .sourceActions { @apply flex flex-wrap gap-2; }
+
+@container (max-width: 1080px) {
+  .legalWorkspace .chatReadingLayout { @apply grid-cols-1; }
+  .legalWorkspace .chatNormsRail { @apply static order-none; }
+  .legalWorkspace .normBrowser .normGrid { @apply grid-cols-[240px_minmax(0,1fr)] gap-3; }
+  .legalWorkspace .legalCenterNav .legalNavHint { @apply hidden; }
+}
+@container (max-width: 720px) {
+  .legalWorkspace .legalCenterNav .legalCenterItem { @apply min-h-14 flex-col justify-center gap-1 px-2 py-2 text-center; }
+  .legalWorkspace .legalCenterNav .legalNavLabel { @apply text-[12px] leading-5; }
+  .legalWorkspace .legalCenterNav .legalNavScope { @apply text-[11px]; }
+  .legalWorkspace :is(.documentSearchModes,.documentPrimaryFilters,.documentFilterGrid) { @apply grid-cols-1; }
+  .legalWorkspace .documentSearchForm { @apply p-4; }
+  .legalWorkspace .documentSearchComposer { @apply flex-wrap; }
+  .legalWorkspace .documentSearchComposer textarea { @apply basis-full; }
+  .legalWorkspace .documentSearchComposer .primaryButton { @apply flex-1; }
+  .legalWorkspace .chatHeader,.legalWorkspace .chatContextBar,.legalWorkspace .chatConversation { @apply px-4; }
+  .legalWorkspace .chatComposeTools { @apply px-4; }
+  .legalWorkspace .chatComposerBar { @apply mx-4 grid-cols-1; }
+  .legalWorkspace .chatEmptyIntro strong { @apply text-[23px] leading-8; }
+  .legalWorkspace .normBrowser .normPrimaryFilters { @apply grid-cols-1; }
+  .legalWorkspace .normBrowser .normGrid { @apply grid-cols-1; }
+  .legalWorkspace .normList { @apply static max-h-72; }
+  .legalWorkspace .normDetail { @apply p-4; }
+  .legalWorkspace .normBrowser .articleReader { @apply p-4; }
+  .legalWorkspace .normCategoryTabs button { @apply px-2 text-[12px]; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .legalWorkspace *, .legalWorkspace *::before, .legalWorkspace *::after { transition-duration:0.01ms; animation-duration:0.01ms; animation-iteration-count:1; }
+}
+
+/* Compact workspaces: task first, documentary details on demand. */
+.legalShell .content { @apply min-w-0 px-5 py-5; }
+.legalShell .topbar { @apply mb-3 min-h-0 gap-3 border-0 pb-1; }
+.legalShell .topbar h1 { @apply text-[24px] leading-8 tracking-tight; }
+.legalShell .topbar .eyebrow { @apply mb-1 text-[11px]; }
+.legalShell .sidebar .navAdminDisclosure>summary { @apply flex min-h-11 cursor-pointer items-center rounded-lg px-3 text-[12px]; }
+.legalShell .sidebar .navAdminDisclosure>summary::after { content:"＋"; margin-left:auto; }
+.legalShell .sidebar .navAdminDisclosure[open]>summary::after { content:"−"; }
+.legalWorkspace .legalCenterNav { @apply mb-3 rounded-xl border-0 bg-transparent p-0 shadow-none; }
+.legalWorkspace .legalCenterNav nav { @apply rounded-xl border border-line bg-panel p-1; }
+.legalWorkspace .legalCenterNav .legalCenterItem { @apply min-h-11 rounded-lg px-3 py-2; }
+.legalWorkspace .legalCenterNav .legalNavHint { @apply hidden; }
+.legalWorkspace .legalCenterNav .legalNavScope { @apply hidden; }
+.legalWorkspace .documentSearchIntro { @apply gap-2; }
+.legalWorkspace .documentSearchIntro .documentSearchEyebrow { @apply hidden; }
+.legalWorkspace .documentSearchIntro h2 { @apply text-[19px] leading-7; }
+.legalWorkspace .documentSearchIntro p { @apply m-0 text-[13px] leading-6; }
+.legalWorkspace .documentSearchForm { @apply mt-0 gap-3 rounded-xl p-4; }
+.legalWorkspace .documentSearchModes { @apply mb-0 gap-2; }
+.legalWorkspace .documentSearchModes .documentSearchModeOption { @apply min-h-11 gap-2 rounded-lg px-3 py-2; }
+.legalWorkspace .documentSearchModes small { @apply hidden; }
+.legalWorkspace .documentSearchComposer textarea { @apply min-h-16 p-3; }
+.legalWorkspace .documentMatchOptions { @apply rounded-lg border-0 bg-surface/50 px-3 py-1; }
+.legalWorkspace .documentMatchOptions>summary { @apply min-h-10 cursor-pointer text-[13px] leading-6 text-muted; }
+.legalWorkspace .documentMatchOptions .searchPublicationRange { @apply mt-3; }
+.legalWorkspace .mobileFilterToggle { @apply hidden; }
+.legalWorkspace .documentLibraryTools { @apply gap-1; }
+.legalWorkspace .documentLibraryTools>.legalWorkspacePanel { @apply border-0 bg-transparent p-1; }
+.legalWorkspace :is(.documentSearchHint,.documentCoverage,.chatQuestionHelp,.normScopeNote) { @apply text-[13px] leading-6; }
+.legalWorkspace .chatUtilityRow { @apply mb-2 gap-2; }
+.legalWorkspace .chatUtilityRow>.legalWorkspacePanel { @apply min-w-0 border-0 bg-transparent p-1; }
+.legalWorkspace .chatHeader { @apply px-4 py-3; }
+.legalWorkspace .chatHeader h2 { @apply text-[17px] leading-6; }
+.legalWorkspace .chatHeaderTitle p:not(.eyebrow) { @apply text-[13px] leading-6; }
+.legalWorkspace .chatContextBar { @apply px-4 py-0; }
+.legalWorkspace .chatComposerBar { @apply mx-4 mb-3 mt-3; }
+.legalWorkspace .chatComposerDock { @apply sticky bottom-3 z-20 shadow-pop; }
+.legalWorkspace .chatComposerDock textarea { max-height: min(30dvh,180px); }
+.legalShell:has(.chatComposerDock) .aceAssistantWidget:has(>button[aria-label="Abrir Mi Yo"]) { bottom:calc(var(--legal-composer-height,200px) + 24px); }
+.legalWorkspace .chatQuestionHelp { @apply m-0; }
+.legalWorkspace .normReaderToolbar { @apply mb-3 flex flex-wrap items-center gap-3; scroll-margin-top:12px; }
+.legalWorkspace .normReaderToolbar:empty { @apply hidden; }
+.legalWorkspace .normReaderToolbar:focus { outline:none; }
+.legalWorkspace .normReaderToolbar>span { @apply text-[13px] leading-6 text-muted; }
+.legalWorkspace .normReading .normCatalogueControls,.legalWorkspace .normReading .normList { @apply hidden; }
+.legalWorkspace .normBrowsing .normDetail { @apply hidden; }
+.legalWorkspace .normBrowser .normGrid { @apply grid-cols-1; }
+.legalWorkspace .normBrowsing .normList { @apply static grid max-h-none grid-cols-2 gap-3 overflow-visible border-0 bg-transparent p-0; }
+.legalWorkspace .normBrowsing .normList>.normPagination,.legalWorkspace .normBrowsing .normList>.emptyState { @apply col-span-full; }
+.legalWorkspace .normBrowser .normCard { @apply h-full rounded-xl border border-line bg-panel p-4; }
+.legalWorkspace .normDetail { @apply p-4; }
+.legalWorkspace .normDetailHeader h3 { @apply text-[20px] leading-7; }
+.legalWorkspace .normDocumentInfo { @apply my-3 rounded-lg border-0 bg-surface/50 px-3 py-1; }
+.legalWorkspace .normDocumentInfo>summary { @apply min-h-10 cursor-pointer text-[13px] font-medium leading-6; }
+.legalWorkspace .normDocumentInfo>details { @apply border-0 bg-transparent; }
+.legalWorkspace .normBrowser .articleLayout { @apply mt-3 gap-3; }
+.legalWorkspace .normArticleNavigation { @apply min-w-0 rounded-lg border border-line bg-surface/30 px-3 py-1; }
+.legalWorkspace .normArticleNavigation>summary { @apply min-h-10 cursor-pointer text-[13px] font-medium leading-6; }
+.legalWorkspace .normArticleNavigation[open] { @apply pb-3; }
+.legalWorkspace .normativeSectionIndex { @apply mt-3 border-0 bg-transparent; }
+.legalWorkspace .normBrowser .articleReader { @apply mx-auto w-full max-w-[900px] rounded-none border-0 p-2; }
+.legalWorkspace .normBrowser .articleText { @apply text-[16px] leading-8; }
+.legalWorkspace .articleReaderHeader { @apply pb-3; }
+.legalWorkspace .articleSection { @apply text-[13px] leading-6; }
+
+@container (min-width: 1100px) {
+  .legalWorkspace .normReading .articleLayout { @apply grid-cols-[260px_minmax(0,1fr)]; }
+  .legalWorkspace .normArticleNavigation { @apply sticky top-3; }
+}
+@container (max-width: 720px) {
+  .legalWorkspace .documentPrimaryFilters { @apply grid-cols-3 gap-2; }
+  .legalWorkspace .documentPrimaryFilters label { @apply text-[12px]; }
+  .legalWorkspace .documentPrimaryFilters select { @apply w-full min-w-0 px-2 text-[13px]; }
+  .legalWorkspace .normBrowsing .normList { @apply grid-cols-1; }
+  .legalWorkspace .normReaderToolbar>span { @apply hidden; }
+  .legalWorkspace .normBrowser .articleReader { @apply p-0; }
+  .legalWorkspace .chatComposerDock { bottom:max(8px,env(safe-area-inset-bottom)); }
+}
+@media (max-width: 980px) {
+  .legalShell .content { @apply px-3 pb-6 pt-16; }
+  .legalShell .topbar { @apply flex flex-wrap items-center; }
+  .legalShell .topbarSearchActions { @apply w-auto; }
+  .legalShell .topbar h1 { @apply text-[22px]; }
+}
+@media (max-width: 480px) {
+  .legalWorkspace .documentSearchModes { @apply grid-cols-1; }
+  .legalWorkspace .documentPrimaryFilters { @apply grid-cols-1; }
+  .legalWorkspace .chatUtilityRow>span { @apply hidden; }
+  .legalWorkspace .chatComposerBar { @apply mx-3 p-3; }
+  .legalWorkspace .chatComposerDock .chatQuestionHelp { @apply hidden; }
+  .legalWorkspace .normCategoryTabs { @apply grid-cols-1; }
+}
+@media (max-width: 720px) {
+  .legalWorkspace .mobileFilterToggle { @apply inline-flex; }
+}
+.legalWorkspace .concordanceReview { @apply my-3 min-w-0; }
+.legalWorkspace .concordanceReview label { @apply my-3 grid min-w-0 gap-2 text-[13px]; }
+.legalWorkspace .concordanceReview :is(input,select,textarea) { @apply w-full min-w-0; }
+.legalWorkspace .concordanceReview button { @apply m-1 min-h-11 rounded-lg border border-line bg-panel px-3 py-2 text-left text-[13px]; }
+.legalWorkspace .concordanceReview button[aria-pressed=true] { @apply border-brand bg-brand-soft; }
+.legalWorkspace .textComparison { @apply my-5 grid min-w-0 gap-3; }
+.legalWorkspace .textComparison>details { @apply rounded-xl border border-line bg-panel p-4; }
+.legalWorkspace .textComparison summary { @apply min-h-11 cursor-pointer text-[14px] font-semibold; }
+.legalWorkspace .textDiffColumns { @apply grid min-w-0 grid-cols-2 gap-4; }
+.legalWorkspace .textDiffColumns>section { @apply min-w-0 rounded-lg border border-line p-3; }
+.legalWorkspace .textDiffColumns pre { @apply whitespace-pre-wrap break-words font-sans text-[14px] leading-7; overflow-wrap:anywhere; }
+.legalWorkspace .textComparison nav { @apply flex flex-wrap justify-between gap-3; }
+.legalWorkspace .textComparison nav button { @apply min-h-11 rounded-lg border border-line px-4; }
+@container (max-width:720px) { .legalWorkspace .textDiffColumns { @apply grid-cols-1; } }
+.legalWorkspace .compareColumns { @apply grid min-w-0 grid-cols-2 gap-4; }
+.legalWorkspace .compareSide { @apply min-w-0 max-w-full; }
+.legalWorkspace .compareSide label { @apply flex min-w-0 max-w-full flex-col gap-2; }
+.legalWorkspace .compareSide :is(input,select) { @apply w-full min-w-0; }
+@container (max-width:720px) { .legalWorkspace .compareColumns { @apply grid-cols-1; } }
+/* Keep comparison labels readable; narrow screens scroll the table, not the page. */
+.legalWorkspace .answerTableWrap { @apply min-w-0 max-w-full overflow-x-auto; }
+.legalWorkspace .answerTable { @apply w-full min-w-[40rem] table-fixed; }
+.legalWorkspace .answerTable :is(th,td) { word-break:normal; overflow-wrap:break-word; }
+.legalWorkspace .answerTable :is(th,td):first-child { @apply w-32; }
+.chatExperienceDialog { @apply grid gap-4 overflow-y-auto; max-height:85dvh; width:min(92vw,48rem); }
+.chatExperienceDialog label { @apply grid gap-2 text-sm font-semibold; }
+.chatExperienceDialog input,.chatExperienceDialog select,.chatExperienceDialog textarea,.chatClarification input { @apply w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900; }
+.chatNotePreview { @apply rounded-xl border border-slate-200 bg-slate-50 p-4; }
+.chatNotePreview pre { @apply max-h-72 overflow-auto whitespace-pre-wrap break-words font-sans text-sm; }
+.legalWorkspace .chatComposerCompact { @apply grid-cols-[minmax(0,1fr)_auto] gap-3 p-3; }
+.legalWorkspace .chatComposerCompact textarea { min-height:44px; max-height:44px; resize:none; }
+.legalWorkspace .chatComposerCompact .chatQuestionHelp { @apply hidden; }
+.chatClarification { @apply my-3 rounded-xl border border-slate-200 p-3 text-sm; }
+.chatClarification form,.chatClarification label { @apply grid gap-3; }
+
+.legalWorkspace .chatComposerCompact .chatQuestionLabel { @apply sr-only; }
+
+.chatNoteText { @apply max-h-80 overflow-auto break-words text-sm; }
+.chatNoteText table { @apply my-3 w-full border-collapse text-left; min-width:36rem; }
+.chatNoteText th,.chatNoteText td { @apply border border-slate-200 p-3 align-top; }
+.chatNoteText p,.chatNoteText ul { @apply my-3; }
+.chatExperienceDialog form { @apply grid gap-4; }
+.documentValidityReview { @apply my-4 grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm; }
+.documentValidityReview h3 { @apply font-semibold text-slate-900; }
+.documentValidityReview form,.documentValidityReview label { @apply grid gap-2; }
+.validityReviewGrid { @apply grid gap-3 sm:grid-cols-2; }
+.documentValidityReview input:not([type=checkbox]),.documentValidityReview select,.documentValidityReview textarea { @apply w-full min-w-0 rounded-lg border border-slate-300 bg-white p-3 text-slate-900; min-height:44px; }
+.validityArticleChoices { @apply my-2 grid max-h-60 gap-2 overflow-auto rounded-lg border border-slate-200 bg-white p-3; }
+.validityArticleChoices label { @apply flex items-start gap-2; }
+.validityArticleChoices input { @apply mt-1 shrink-0; }
+.validityReviewDetails { @apply my-2 max-w-full text-sm font-normal text-slate-700; }
+.validityReviewDetails summary { @apply cursor-pointer font-medium text-teal-800; }
+.validityReviewDetails p { @apply my-2 break-words; }
+.validityReviewDetails a { @apply mr-4 inline-block break-all text-teal-800 underline underline-offset-2; }
+.documentValidityReview details article { @apply my-3 border-t border-slate-200 pt-3; }

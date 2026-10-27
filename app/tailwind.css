@@ -84,6 +84,12 @@
 @source "./components/expedientes-archivo-workspace.tsx";
 @source "./components/expedientes-archivo";
 
+/* Centro Jurídico: Chat, Búsqueda y Normativa. Sin reset global. */
+@source "./components/legal-center-nav.tsx";
+@source "./chat/page.tsx";
+@source "./busqueda/page.tsx";
+@source "./normas/page.tsx";
+
 /* "Mi Yo" — el asistente único, flota en <AppShell> sobre cualquier módulo. */
 @source "./components/asistente";
 

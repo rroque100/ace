@@ -1,0 +1,6 @@
+import{it,expect}from"vitest";import{libraryCollectionIds,libraryFiltersSchema,librarySourceNotice}from"../lib/library-workspace";
+import{libraryProcedureForTitle}from"../lib/library-workspace";
+it("permite varias materias sin deducir vigencia o régimen",()=>{expect(libraryCollectionIds("Directiva de arbitraje y garantías en obras")).toEqual(["obras","garantias","arbitraje"]);expect(libraryCollectionIds("SEACE",{libraryCollections:{reviewed:true,values:["rnp","inventado"]}})).toEqual(["rnp"]);});
+it("valida RUC como texto de once dígitos",()=>{expect(libraryFiltersSchema.safeParse({ruc:"123"}).success).toBe(false);expect(libraryFiltersSchema.parse({ruc:"01234567890"}).ruc).toBe("01234567890");});
+it("distingue comunicación informativa y modelo editable",()=>{expect(librarySourceNotice("comunicado")).toContain("informativa");expect(librarySourceNotice("bases_estandar")).toContain("Modelo");});
+it("propone el procedimiento a partir del título, conservando variantes",()=>{expect(libraryProcedureForTitle("Bases estándar — Licitación Pública Abreviada para Bienes")).toBe("licitacion_publica_abreviada_bienes");expect(libraryProcedureForTitle("Bases estándar — Concurso Público para Consultoría de Obra")).toBe("concurso_publico_consultoria");expect(libraryProcedureForTitle("Texto sin procedimiento identificado")).toBeNull();});

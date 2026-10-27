@@ -1,0 +1,10 @@
+import {beforeEach,it,expect,vi} from 'vitest';
+const mocks=vi.hoisted(()=>({auth:vi.fn(),rest:vi.fn()}));
+vi.mock('@/lib/auth',()=>({requireUser:mocks.auth}));vi.mock('@/lib/supabase-server',()=>({supabaseUserRest:mocks.rest}));
+import {POST} from '@/app/api/chat/work-notes/route';
+const id='00000000-0000-4000-8000-000000000001';
+beforeEach(()=>{vi.resetAllMocks();mocks.auth.mockResolvedValue({user:{id:'alice',accessToken:'jwt-alice'}});});
+const request=(preview=true)=>new Request('https://ace.test/api/chat/work-notes'+(preview?'?preview=1':''),{method:'POST',body:JSON.stringify({messageId:id,targetType:'necesidad',targetId:id,snapshot:{answer:'forjada'}})});
+it('exige autenticación',async()=>{mocks.auth.mockResolvedValue({error:new Response(null,{status:401})});expect((await POST(request())).status).toBe(401);expect(mocks.rest).not.toHaveBeenCalled();});
+it('no prepara una nota de un destino inaccesible',async()=>{mocks.rest.mockResolvedValueOnce([{id,role:'assistant'}]).mockResolvedValueOnce([]);expect((await POST(request())).status).toBe(404);});
+it('vista previa deriva respuesta del servidor y no escribe',async()=>{mocks.rest.mockResolvedValueOnce([{id,role:'assistant',content:'Real',sources:[],metadata:{}}]).mockResolvedValueOnce([{id}]);const response=await POST(request());expect(response.status).toBe(200);expect((await response.json()).preview.answer).toBe('Real');expect(mocks.rest).toHaveBeenCalledTimes(2);});

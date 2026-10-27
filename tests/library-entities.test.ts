@@ -1,0 +1,3 @@
+import{expect,it}from"vitest";import{detectLibraryEntity}from"../lib/library-entities";
+it("separa consultante de emisor sin deducir RUC",()=>{const e=detectLibraryEntity("OECE RUC: 99999999999 Solicitante: Gobierno Regional de Ejemplo Asunto: Consulta","opinion");expect(e?.name).toBe("Gobierno Regional de Ejemplo");expect(e?.key).toBe("requestingEntity");expect(e?.ruc).toBeNull();});
+it("registra RUC solo cuando aparece junto a la entidad",()=>{expect(detectLibraryEntity("Entidad: Municipalidad Ejemplo RUC: 12345678901 Objeto: Servicios","pronunciamiento")).toMatchObject({name:"Municipalidad Ejemplo",ruc:"12345678901",key:"contractingEntity"});expect(detectLibraryEntity("Se menciona una municipalidad en el análisis.","pronunciamiento")).toBeNull();});

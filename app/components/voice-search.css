@@ -1,0 +1,19 @@
+.voiceSearchTrigger { align-self: stretch; min-width: 64px; min-height: 48px; display: inline-flex; gap: 6px; align-items: center; justify-content: center; }
+.voiceSearchBody { display: grid; gap: 16px; color: var(--ink); line-height: 1.55; }
+.voiceSearchBody label { display: grid; gap: 6px; font-weight: 600; }
+.voiceSearchBody textarea,.voiceSearchBody input:not([type=checkbox]),.voiceSearchBody select { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); font: inherit; }
+.voiceSearchBody audio { width: 100%; }
+.voiceSearchBody .voiceConsent { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 400; cursor: pointer; padding-block: 6px; }
+.voiceConsent input { margin-top: 5px; width: 18px; height: 18px; flex-shrink: 0; }
+.voiceSearchBody button { min-height: 44px; }
+.voiceSearchSteps { display: flex; gap: 12px; list-style-position: inside; margin: 0; padding: 0; color: var(--muted); font-size: 13px; }
+.voiceSearchSteps li { flex: 1; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+.voicePrivacy { padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: 13px; }
+.voicePrivacy p { margin-block: 8px; }
+.voicePrivacy a { text-decoration: underline; text-underline-offset: 3px; }
+.voiceListening { display: grid; gap: 12px; padding: 24px 16px; text-align: center; justify-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.voiceReviewNote,.voiceInterpretation { border-left: 3px solid var(--accent); padding: 10px 12px; background: var(--surface); font-size: 14px; }
+.voiceCriteria { display: grid; gap: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.voiceCriteriaNumbers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.voiceSearchBody :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media(max-width:640px) { .voiceSearchTrigger { min-height: 48px; } .voiceCriteriaNumbers { grid-template-columns: 1fr; } }

@@ -1,23 +1,21 @@
-import Link from "next/link";
-import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
-import { SemanticSearch } from "../components/semantic-search";
+import { DocumentSearchWorkspace } from "../components/document-search-workspace";
+import { getSessionUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import "../components/legal-workspace.css";
 
-export default function BusquedaPage() {
+export default async function BusquedaPage() {
+  const user = await getSessionUser();
+  if (!user) redirect("/login?next=%2Fbusqueda");
   return (
     <AppShell
       active="busqueda"
-      action={
-        <Link className="secondaryButton" href="/chat">
-          <Bot size={17} />
-          Ir al chat
-        </Link>
-      }
-      eyebrow="Consultas"
-      title="Consultas semanticas con evidencia documental"
+      showFiscalYear={false}
+      eyebrow="Centro Jurídico"
+      title="Búsqueda documental"
     >
-      <section className="singleWorkspace">
-        <SemanticSearch />
+      <section className="singleWorkspace tw legalWorkspace min-w-0">
+        <DocumentSearchWorkspace ownerId={user.id} />
       </section>
     </AppShell>
   );

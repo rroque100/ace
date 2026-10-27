@@ -1,0 +1,18 @@
+import {beforeEach,expect,it,vi} from "vitest";
+const mocks=vi.hoisted(()=>({auth:vi.fn(),catalogue:vi.fn(),optional:vi.fn(),rest:vi.fn()}));
+vi.mock("@/lib/auth",()=>({requireUser:mocks.auth}));
+vi.mock("@/lib/document-search-server",()=>({loadSearchCatalogue:mocks.catalogue}));
+vi.mock("@/lib/normative-server",()=>({optionalNormativeRows:mocks.optional}));
+vi.mock("@/lib/supabase-server",()=>({supabaseRest:mocks.rest}));
+import {GET} from "@/app/api/norms/route";
+import {GET as versions} from "@/app/api/norms/versions/route";
+const row={id:"document-320",title:"Norma",document_type:"ley",source_entity:"OECE",process_type:"todos",metadata:{year:2025}};
+const request=(query="")=>new Request(`http://localhost/api/norms?${query}`);
+beforeEach(()=>{vi.resetAllMocks();mocks.auth.mockResolvedValue({user:{id:"user"}});mocks.optional.mockResolvedValue([]);mocks.rest.mockResolvedValue({documents:[row],total:350,page:17,pages:18,pageSize:20,facets:{entities:["OECE"],years:[2025],categoryTotal:350}});});
+it("exige autenticación antes de consultar documentos",async()=>{mocks.auth.mockResolvedValue({error:new Response(null,{status:401})});expect((await GET(request())).status).toBe(401);expect(mocks.rest).not.toHaveBeenCalled();});
+it("rechaza filtros y paginación inválidos",async()=>{for(const query of ["vigencia=cualquiera","category=privado","page=0","pageSize=200","year=NaN"])expect((await GET(request(query))).status).toBe(400);});
+it("pagina y filtra en la base, sin cargar todo el catálogo",async()=>{const data=await(await GET(request("page=17&pageSize=20&vigencia=vigente&q=Norma"))).json();expect(data.total).toBe(350);expect(data.page).toBe(17);expect(data.engine).toBe("database");expect(mocks.catalogue).not.toHaveBeenCalled();expect(JSON.parse(mocks.rest.mock.calls[0][1].body)).toMatchObject({p_page:17,p_query:"Norma",p_filters:{vigencia:"vigente"}});expect(mocks.optional.mock.calls.every(call=>call[0].includes("document-320"))).toBe(true);});
+it("publica fallos auxiliares sin ocultar el listado",async()=>{mocks.optional.mockImplementation(async(_p,_m,w)=>{w.push("Pendiente");return[];});const data=await(await GET(request())).json();expect(data.norms).toHaveLength(1);expect(data.warnings.length).toBeGreaterThan(0);});
+it("no presenta una caída como cero documentos",async()=>{mocks.rest.mockRejectedValue(Error("secreto"));const r=await GET(request());expect(r.status).toBe(503);expect(await r.text()).not.toContain("secreto");});
+it("rechaza una respuesta inválida del índice",async()=>{mocks.rest.mockResolvedValue({documents:null});expect((await GET(request())).status).toBe(503);});
+it("versiones conserva todas las categorías institucionales",async()=>{mocks.rest.mockResolvedValue([{...row,document_type:"bases_estandar"},{...row,id:"other",document_type:"acuerdo_sala_plena"}]);const data=await(await versions(new Request("http://localhost/api/norms/versions?documentId=00000000-0000-4000-8000-000000000001"))).json();expect(data.versions.map((g:{documents:Array<{documentType:string}>})=>g.documents[0].documentType)).toEqual(["bases_estandar","acuerdo_sala_plena"]);});

@@ -1,4 +1,5 @@
 import { loadServerPdfJs } from "./pdf-server";
+import { corpusSourceKind } from "./official-corpus";
 import pdfParse from "pdf-parse/lib/pdf-parse";
 import { createHash } from "crypto";
 import { getOpenAIClient, legalAnswerModel, pdfOcrModel } from "./openai-server";
@@ -158,7 +159,7 @@ const documentTypeKeyword: Record<string, string> = {
   resolucion: "resoluci[oó]n",
 };
 
-function detectDocumentNumber(title: string, text: string, documentType?: string) {
+export function detectDocumentNumber(title: string, text: string, documentType?: string) {
   const source = `${title}\n${text.slice(0, 6000)}`;
 
   // 1) Patron del PROPIO tipo del documento primero, para no capturar una norma
@@ -167,7 +168,7 @@ function detectDocumentNumber(title: string, text: string, documentType?: string
   const keyword = documentType ? documentTypeKeyword[documentType] : undefined;
   if (keyword) {
     const specific = source.match(
-      new RegExp(`\\b(?:${keyword})\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`, "i"),
+      new RegExp(`\\b(?:${keyword})\\s*[-]?\\s*(?:n(?:ro|[.°º])?[°º]?\\s*)?(${normNumberToken})`, "i"),
     );
     if (specific?.[1]) {
       return specific[1].replace(/[.,;:]+$/, "");
@@ -177,7 +178,7 @@ function detectDocumentNumber(title: string, text: string, documentType?: string
   // 2) Fallback generico (cualquier tipo de norma).
   const match = source.match(
     new RegExp(
-      `\\b(?:ley|decreto\\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\\s*[-]?\\s*(?:n(?:\\.|°|º|ro)?\\s*)?(${normNumberToken})`,
+      `\\b(?:ley|decreto\\s+supremo|directiva|opini[oó]n|resoluci[oó]n)\\s*[-]?\\s*(?:n(?:ro|[.°º])?[°º]?\\s*)?(${normNumberToken})`,
       "i",
     ),
   );
@@ -276,7 +277,8 @@ function processAnchors(processType?: string | null) {
 }
 
 function sourceRole(documentType: string) {
-  return documentType === "bases_integradas" ? "operativo" : "normativo";
+  const kind = corpusSourceKind(documentType);
+  return kind === "norma" ? "normativo" : kind === "criterio" ? "interpretativo" : "operativo";
 }
 
 function hierarchyRank(documentType: string) {
@@ -295,6 +297,17 @@ function hierarchyRank(documentType: string) {
 function getMetadataString(metadata: Record<string, unknown>, key: string) {
   const value = metadata[key];
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+export function resolveDocumentValidity(metadata: Record<string, unknown>, inferred?: string | null) {
+  // Una importación pendiente de revisión no acredita vigencia mediante IA.
+  if (metadata.legalReviewStatus === "pendiente") return "desconocida";
+  return inferred ?? getMetadataString(metadata, "vigencia");
+}
+
+export function resolvePublishedDocumentNumber(metadata: Record<string, unknown>, inferred?: string | null) {
+  if (getMetadataString(metadata, "officialPublicationUrl")) return getMetadataString(metadata, "number") ?? null;
+  return inferred ?? null;
 }
 
 function getMetadataNumber(metadata: Record<string, unknown>, key: string) {
@@ -1265,6 +1278,11 @@ async function persistConcordancias(documentId: string, articles: InsertedArticl
 }
 
 export async function processPdfForSearch(document: DocumentRecord, file: File) {
+  if(document.mime_type!=="application/pdf"){
+    const{indexSourceDocument}=await import("./source-indexing");
+    const result=await indexSourceDocument(document,new Uint8Array(await file.arrayBuffer()),{force:true});
+    return {chunkCount:"chunks"in result?result.chunks:Number(document.metadata.chunkCount??0),pageCount:0,textLength:"textLength"in result?result.textLength:Number(document.metadata.textLength??0)};
+  }
   const jobId = await createProcessingJob(document.id);
   let insertedVectorIds: string[] = [];
 
@@ -1311,18 +1329,19 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
     // En opiniones la IA suele capturar una norma referenciada (p. ej. "Ley
     // 27269") en vez del numero de la propia opinion; por eso aqui la deteccion
     // deterministica (que lee el numero del titulo/encabezado) tiene prioridad.
-    const documentNumber =
+    const documentNumber = resolvePublishedDocumentNumber(document.metadata,
       documentType === "opinion"
         ? detectedNumber ??
           getInsightString(insights, "number") ??
           getMetadataString(document.metadata, "number")
         : getInsightString(insights, "number") ??
           getMetadataString(document.metadata, "number") ??
-          detectedNumber;
+          detectedNumber);
     // scopeProcessType garantiza que Ley/Reglamento queden en "todos" y las
     // Opiniones en general, sin que la inferencia de IA pueda sobrescribirlo.
     const processType = scopeProcessType(
       documentType,
+      getMetadataString(document.metadata, "officialPublicationUrl") ? document.process_type ?? null :
       document.process_type ??
         getMetadataString(document.metadata, "processType") ??
         getMetadataString(document.metadata, "process_type") ??
@@ -1371,12 +1390,12 @@ export async function processPdfForSearch(document: DocumentRecord, file: File) 
       relatedArticles: insights.relatedArticles ?? [],
       structuredExtractionVersion: "legal-structure-v1",
       sourceRole: sourceRole(documentType),
-      status: insights.status ?? getMetadataString(document.metadata, "status"),
+      status: document.metadata.legalReviewStatus === "pendiente" ? "revision_pendiente" : insights.status ?? getMetadataString(document.metadata, "status"),
       summary: insights.summary ?? getMetadataString(document.metadata, "summary"),
       textLength: text.length,
       topic: insights.topic ?? getMetadataString(document.metadata, "topic"),
-      vigencia: insights.vigencia ?? getMetadataString(document.metadata, "vigencia"),
-      year: insights.year ?? getMetadataNumber(document.metadata, "year"),
+      vigencia: resolveDocumentValidity(document.metadata, insights.vigencia),
+      year: getMetadataNumber(document.metadata, "year") ?? insights.year,
     };
 
     if (chunks.length === 0) {

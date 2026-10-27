@@ -7,13 +7,14 @@ export default function GuardadoPage() {
   return (
     <AppShell
       active="guardado"
+      showFiscalYear={false}
       action={
         <Link className="secondaryButton" href="/busqueda">
           <FileSearch size={17} />
-          Ir a Consultas
+          Ir a Búsqueda
         </Link>
       }
-      eyebrow="Engagement"
+      eyebrow="Mi trabajo jurídico"
       title="Mis carpetas y guardados"
     >
       <section className="singleWorkspace">

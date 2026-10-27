@@ -1,4 +1,5 @@
 "use client";
+import {WorkNotesPanel} from "./work-notes-panel";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -701,6 +702,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
 
   return (
     <div className="tw grid gap-4 p-[18px]">
+      <WorkNotesPanel targetType="expediente" targetId={process.id}/>
       <header className="flex flex-wrap items-start justify-between gap-3">
         <div>
           {editandoNomenclature ? (

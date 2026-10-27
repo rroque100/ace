@@ -1,3 +1,4 @@
+import { sourceEntityAliases } from "./search-document-metadata";
 import { embeddingDimensions } from "./openai-server";
 import { embedTexts } from "./embeddings";
 
@@ -85,6 +86,10 @@ const upsertRetryDelayMs = 65000;
 const maxUpsertRetries = 3;
 
 export type SearchFilters = {
+  documentTypes?: string[];
+  years?: number[];
+  regime?: "" | "32069" | "30225" | "especial" | "no_determinado";
+  includeUnknownRegime?: boolean;
   indexGeneration?: string;
   article?: string;
   documentId?: string;
@@ -104,7 +109,10 @@ export function compactFilter(filters?: SearchFilters) {
     return undefined;
   }
 
-  const clauses: Record<string, { $eq: string | number } | { $in: string[] }> = {};
+  const clauses: Record<string, { $eq: string | number } | { $in: Array<string | number> }> = {};
+
+  if (filters.documentTypes?.length) clauses.document_type = { $in: filters.documentTypes };
+  if (filters.years?.length) clauses.year = { $in: filters.years };
 
   if (filters.indexGeneration) clauses.index_generation = { $eq: filters.indexGeneration };
 
@@ -120,12 +128,13 @@ export function compactFilter(filters?: SearchFilters) {
     clauses.document_id = { $eq: filters.documentId };
   }
 
-  if (filters.documentType) {
+  if (filters.documentType && !filters.documentTypes?.length) {
     clauses.document_type = { $eq: filters.documentType };
   }
 
   if (filters.sourceEntity) {
-    clauses.source_entity = { $eq: filters.sourceEntity };
+    const aliases = sourceEntityAliases(filters.sourceEntity);
+    clauses.source_entity = aliases.length > 1 ? { $in: aliases } : { $eq: filters.sourceEntity };
   }
 
   if (filters.status) {
@@ -144,7 +153,7 @@ export function compactFilter(filters?: SearchFilters) {
     clauses.vigencia = { $eq: filters.vigencia };
   }
 
-  if (filters.year) {
+  if (filters.year && !filters.years?.length) {
     clauses.year = { $eq: filters.year };
   }
 
@@ -333,7 +342,7 @@ export async function describePineconeIndex(): Promise<PineconeIndexInfo> {
   return value;
 }
 
-export async function upsertTextRecords(records: PineconeRecord[], namespaceOverride?: string) {
+export async function upsertTextRecords(records: PineconeRecord[], namespaceOverride?: string, preparedEmbeddings?: number[][]) {
   if (records.length === 0) {
     return;
   }
@@ -346,7 +355,10 @@ export async function upsertTextRecords(records: PineconeRecord[], namespaceOver
   const index = await describePineconeIndex();
 
   // Embeddings con OpenAI (no con el modelo integrado de Pinecone).
-  const embeddings = await embedTexts(records.map((record) => record.text));
+  const embeddings = preparedEmbeddings ?? await embedTexts(records.map((record) => record.text));
+  if (embeddings.length !== records.length || embeddings.some(vector => !vector.length)) {
+    throw new Error("Los embeddings no corresponden a los registros que se van a indexar");
+  }
   const vectors = records.map((record, position) => ({
     id: record._id,
     values: embeddings[position],

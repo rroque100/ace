@@ -1,23 +1,17 @@
-import Link from "next/link";
-import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
-import { NormativeBrowser } from "../components/normative-browser";
+import { NormativeWorkspace } from "../components/library-workspace";
+import "../components/legal-workspace.css";
 
 export default function NormasPage() {
   return (
     <AppShell
       active="normas"
-      action={
-        <Link className="secondaryButton" href="/chat">
-          <Bot size={17} />
-          Ir al chat
-        </Link>
-      }
-      eyebrow="Base documental"
-      title="Navegador normativo: lee la norma por articulo"
+      showFiscalYear={false}
+      eyebrow="Centro Jurídico"
+      title="Normativa y criterios"
     >
-      <section className="singleWorkspace">
-        <NormativeBrowser />
+      <section className="singleWorkspace tw legalWorkspace min-w-0">
+        <NormativeWorkspace />
       </section>
     </AppShell>
   );

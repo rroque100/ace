@@ -1,0 +1,3 @@
+import{it,expect}from"vitest";import{csvSafe,dossierCsv,sourceSnapshot}from"../lib/source-dossier";
+it("neutraliza fórmulas y conserva comillas y saltos en CSV",()=>{expect(csvSafe(" =HYPERLINK(1)")).toBe('"\' =HYPERLINK(1)"');expect(csvSafe('a"b')).toBe('"a""b"');expect(dossierCsv([{title:"Fuente",locatorLabel:"Tabla 2",quote:"original"}])).toContain("Tabla 2");});
+it("conserva versión y origen sin confirmar vigencia",()=>{const s=sourceSnapshot({id:"a",title:"Documento",metadata:{officialVersion:"v2",officialPublicationUrl:"https://www.gob.pe/fuente"}});expect(s.version).toBe("v2");expect(s.review).toBe("pendiente");});

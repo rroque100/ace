@@ -1,0 +1,7 @@
+"use client";
+import {useState} from "react";
+export function NormativeBodyReview({articleId,revision,title,onSaved}:{articleId:string;revision:number;title?:string;onSaved:()=>void}) {
+ const [body,setBody]=useState(title??""),[reason,setReason]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState("");
+ async function save(){setBusy(true);setError("");try{const r=await fetch(`/api/norms/articles/${articleId}/body`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:body,reason,revision})});const d=await r.json();if(!r.ok)throw Error(d.error);onSaved();}catch(e){setError(e instanceof Error?e.message:"No se pudo guardar");}finally{setBusy(false);}}
+ return <details className="normProvenance"><summary>Identificar el cuerpo normativo de este artículo</summary><p>Comprueba los encabezados y la página del PDF. Se registra este artículo por su identificador, sin reasignar automáticamente otros artículos.</p><label>Nombre del cuerpo normativo<input maxLength={160} value={body} onChange={e=>setBody(e.target.value)} placeholder="Por ejemplo: Decreto aprobatorio o Reglamento" /></label><label>Motivo y ubicación comprobada<textarea minLength={10} maxLength={2000} value={reason} onChange={e=>setReason(e.target.value)} /></label>{error?<p role="alert">{error}</p>:null}<button type="button" className="secondaryButton" disabled={busy||body.trim().length<3||reason.trim().length<10} onClick={()=>void save()}>{busy?"Guardando…":"Guardar identificación con historial"}</button></details>;
+}

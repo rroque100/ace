@@ -1,9 +1,26 @@
 "use client";
 
+import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
+import {conversationUrl} from "@/lib/chat-continuity";
+import {useChatContinuity} from "./use-chat-continuity";
+import {ChatWorkNote} from "./chat-work-note";
+import {ChatFeedback} from "./chat-feedback";
+import {ChatClarification} from "./chat-clarification";
+import { materialWarnings } from "@/lib/chat-signals";
+import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
+import type { EvidenceReview } from "@/lib/chat-evidence-audit";
+import { CaseAttachments } from "./case-attachments";
+import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
+import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
+import type { LegalResponseTelemetry } from "@/lib/legal-telemetry";
+import { LegalCenterNav } from "./legal-center-nav";
+import { LegalValidityBadge } from "./legal-validity-badge";
+import { legalCenterHref } from "@/lib/legal-center";
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
 import {
   AlertTriangle,
   Bot,
@@ -22,8 +39,6 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Square,
-  ThumbsDown,
-  ThumbsUp,
   User,
   X,
 } from "lucide-react";
@@ -32,9 +47,28 @@ import {
   processTypeLabel,
 } from "@/lib/legal-taxonomy";
 import { SaveButton } from "./save-button";
+import{PdfCiteButton}from"./pdf-cite-viewer";
+import{SourceWorkLink}from"./source-work-link";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
 
+const chatWideQuery = "(min-width: 1101px)";
+function subscribeChatViewport(callback: () => void) {
+  const query = window.matchMedia(chatWideQuery);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
+function readChatWideViewport() { return window.matchMedia(chatWideQuery).matches; }
+function readChatServerViewport() { return false; }
+
 type ChatSource = {
+  locator?:string|null;locatorLabel?:string|null;sourceFormat?:string|null;
+  articleId?:string;bodyId?:string;bodyTitle?:string;
+  selectionOrigin?: "selected" | "additional";
+  version?: string | null;
+  numeral?: string | null;
+  requestedOriginal?: boolean;
+  referenceRelation?: "original" | "cites_requested" | "related";
+  pageCount?: number | null;
   article: string | null;
   sectionTitle?: string | null;
   chunkId: string;
@@ -60,6 +94,8 @@ type ChatSource = {
 };
 
 type ChatAssessment = {
+  selection?:{requested:number;recovered:number;missing:string[];failed:string[]};
+  evidenceReview?: EvidenceReview;
   coverage?: {
     bases: boolean;
     directiva: boolean;
@@ -82,18 +118,27 @@ type Confidence = "alta" | "media" | "baja";
 
 // Eventos NDJSON que emite POST /api/chat.
 type StreamEvent =
-  | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence }
+  | { type: "meta"; sources: ChatSource[]; assessment: ChatAssessment; confidence: Confidence; caseDocuments?: CaseDocumentReference[] }
   | { type: "delta"; text: string }
+  | { type: "progress"; stage: "drafting" | "checking" }
   | {
       type: "done";
       sessionId: string | null;
       messageId: string | null;
       model: string;
       citationWarnings?: string[];
+      assessment?: ChatAssessment;
+      confidence?: Confidence;
+      telemetry?: LegalResponseTelemetry;
     }
   | { type: "error"; error: string };
 
+type CaseDocumentReference = { id:string; name:string; sessionId:string; partial:boolean };
 type ConversationMessage = {
+  progress?: "drafting" | "checking";
+  caseDocuments?: CaseDocumentReference[];
+  telemetry?: LegalResponseTelemetry;
+  caseContext?: CaseContext;
   id: string;
   role: "user" | "assistant";
   content: string;
@@ -128,23 +173,7 @@ const exampleQuestions = [
   "¿Qué garantías y cláusulas obligatorias debe incluir un contrato?",
 ];
 
-const followUpPrompts = [
-  "Convierte la respuesta en checklist operativo.",
-  "Amplía el fundamento legal con las mismas fuentes.",
-  "Señala limitaciones y puntos que requieren revisión humana.",
-];
-
-function followUpsFor(message: ConversationMessage) {
-  if (message.confidence === "baja") {
-    return [
-      "Indica qué fuente falta para responder con confianza.",
-      "Formula una búsqueda para encontrar el artículo exacto.",
-      "Señala qué documentos debo cargar o reindexar.",
-    ];
-  }
-
-  return followUpPrompts;
-}
+function followUpsFor(message:ConversationMessage){return contextualFollowups(message);}
 
 const documentTypes = [{ label: "Todos", value: "" }, ...ANSWERABLE_DOCUMENT_TYPE_OPTIONS];
 
@@ -164,21 +193,9 @@ function groupSourcesByDocument(sources: ChatSource[]) {
   return Array.from(grouped.values());
 }
 
-function confidenceClasses(confidence?: Confidence) {
-  if (confidence === "alta") {
-    return "confidencePill high";
-  }
-
-  if (confidence === "media") {
-    return "confidencePill medium";
-  }
-
-  return "confidencePill low";
-}
-
 function confidenceMeaning(confidence?: Confidence) {
   if (confidence === "alta") {
-    return "Alta: hay evidencia normativa suficiente, buena coincidencia con la pregunta y referencias trazables por página o artículo.";
+    return "Alta relevancia documental: hay coincidencias y referencias trazables. No confirma por sí sola la vigencia, la aplicabilidad ni la exactitud jurídica.";
   }
 
   if (confidence === "media") {
@@ -188,29 +205,6 @@ function confidenceMeaning(confidence?: Confidence) {
   return "Baja: no usar como conclusión jurídica; faltan fuentes suficientes, trazabilidad precisa o coincidencia fuerte con la pregunta.";
 }
 
-function answerUseLabel(confidence?: Confidence, sufficient?: boolean) {
-  if (confidence === "alta" && sufficient !== false) {
-    return {
-      detail: "Apta como borrador sustentado; revisa las citas antes de usarla formalmente.",
-      label: "Usable con revisión",
-      tone: "ok",
-    };
-  }
-
-  if (confidence === "media" && sufficient !== false) {
-    return {
-      detail: "Úsala como orientación; confirma artículo, página y vigencia.",
-      label: "Requiere verificación",
-      tone: "warn",
-    };
-  }
-
-  return {
-    detail: "No la uses como conclusión jurídica hasta completar fuentes normativas.",
-    label: "No concluyente",
-    tone: "bad",
-  };
-}
 
 function documentPdfUrl(source: Pick<ChatSource, "documentId" | "pageStart">) {
   return `/api/documents/${source.documentId}${source.pageStart ? `#page=${source.pageStart}` : ""}`;
@@ -218,11 +212,7 @@ function documentPdfUrl(source: Pick<ChatSource, "documentId" | "pageStart">) {
 
 function buildSearchUrl(message: ConversationMessage, filters: Record<string, string>) {
   const params = new URLSearchParams();
-  const query = message.questionText ?? message.content;
-
-  if (query) {
-    params.set("q", query);
-  }
+  if (message.persistedId) return `/busqueda?messageId=${encodeURIComponent(message.persistedId)}`;
 
   for (const [key, value] of Object.entries(filters)) {
     if (value) {
@@ -233,7 +223,8 @@ function buildSearchUrl(message: ConversationMessage, filters: Record<string, st
   return `/busqueda?${params.toString()}`;
 }
 
-function sourcePrecisionLabel(source: Pick<ChatSource, "article" | "pageStart">) {
+function sourcePrecisionLabel(source: Pick<ChatSource, "article" | "pageStart"|"locatorLabel">) {
+  if(source.locatorLabel&&!source.pageStart)return `Referencia por bloque: ${source.locatorLabel}`;
   if (source.article && source.pageStart) {
     return `Referencia precisa: artículo ${source.article}, página ${source.pageStart}`;
   }
@@ -469,24 +460,30 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         <span>{reference.source.documentTitle}</span>
       </div>
       <div className="sourceModalMeta">
+        {reference.source.articleId ? <span>{reference.source.bodyTitle??"Cuerpo normativo sin identificar"} · {reference.source.version??"Versión sin registrar"}</span> : null}
+        {reference.source.selectionOrigin ? <span>{reference.source.selectionOrigin==="selected"?"Fuente de la selección inicial":"Fuente adicional"}</span> : null}
         <span>{reference.source.documentType}</span>
         <span>{reference.source.sourceEntity ?? "Sin entidad"}</span>
         {processTypeLabel(reference.source.processType) ? (
           <span>{processTypeLabel(reference.source.processType)}</span>
         ) : null}
         {reference.source.sectionTitle ? <span>{reference.source.sectionTitle}</span> : null}
-        <span>Calidad {reference.source.evidenceQuality.toFixed(2)}</span>
+
       </div>
       <div className="sourceExactBox">
-        <strong>Ubicación verificada</strong>
+        <strong>{reference.source.pageCount ? "Ubicación con rango comprobado" : "Ubicación registrada"}</strong>
+        {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : reference.source.referenceRelation === "cites_requested" ? "Menciona al documento solicitado; evidencia indirecta" : "Material relacionado; no sustituye al original solicitado"}</span> : null}
         <span>{sourcePrecisionLabel(reference.source)}</span>
-        <small>
+        <small>La ubicación del fragmento no acredita por sí sola vigencia ni aplicabilidad jurídica.</small>
+        <details className="chatTechnicalDetails"><summary>Detalles de coincidencia</summary><small>
           Fragmento {reference.source.chunkIndex + 1} · {reference.source.matchType} · semántico{" "}
           {reference.source.semanticScore.toFixed(3)} · literal{" "}
           {(reference.source.lexicalScore * 100).toFixed(0)}%
-        </small>
+        </small></details>
       </div>
       <strong>{reference.source.citation}</strong>
+      <p>Numeral: {reference.source.numeral ?? "no registrado"} · Versión: {reference.source.version ?? "no registrada"}</p>
+      <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} documentId={reference.source.documentId} articleId={reference.source.articleId} />
 
       {hits > 0 ? (
         <div className="sourceQuote">
@@ -515,6 +512,10 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         </details>
       ) : null}
 
+      <div className="sourceActions">
+      <PdfCiteButton documentId={reference.source.documentId} page={reference.source.pageStart} locator={reference.source.locator} quote={reference.source.excerpt} label="Leer ubicación citada"/>
+      <SaveButton itemType="documento" title={reference.source.documentTitle.slice(0,300)} documentId={reference.source.documentId} locator={reference.source.locator??undefined} articleId={reference.source.articleId} chunkId={!reference.source.articleId&&/^[0-9a-f-]{36}$/i.test(reference.source.chunkId)?reference.source.chunkId:undefined} label="Guardar pasaje"/>
+      <SourceWorkLink documentIds={[reference.source.documentId]}/>
       <a
         className="secondaryButton compactButton"
         href={documentPdfUrl(reference.source)}
@@ -524,8 +525,11 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         <ExternalLink size={15} />
         {reference.source.pageStart
           ? `Abrir PDF en página ${reference.source.pageStart}`
-          : "Abrir PDF"}
+          : "Abrir original"}
       </a>
+      <Link className="secondaryButton compactButton" href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article,articleId:reference.source.articleId,bodyId:reference.source.bodyId })}>Ver en Normativa</Link>
+      <Link className="secondaryButton compactButton" href={legalCenterHref("busqueda", { documentId: reference.source.documentId, documentType: reference.source.documentType })}>Buscar en este documento</Link>
+      </div>
     </article>
   );
 }
@@ -619,6 +623,19 @@ function AnswerContent({
   return <div className="answerContent">{nodes}</div>;
 }
 
+function ReviewedAnswerContent({ content, review, sources, onOpenSources }: {
+  content: string; review?: EvidenceReview; sources: ChatSource[];
+  onOpenSources: (references: SourceReference[]) => void;
+}) {
+  const sections = chatAnswerSections(content, review);
+  return <>
+    <AnswerContent content={sections.main} sources={sources} onOpenSources={onOpenSources} />
+    {sections.detail ? <details className="chatTechnicalDetails"><summary>Ver fundamento y fuentes</summary>
+      <AnswerContent content={sections.detail} sources={sources} onOpenSources={onOpenSources} />
+    </details> : null}
+  </>;
+}
+
 function CoverageGrid({ coverage }: { coverage?: ChatAssessment["coverage"] }) {
   const items = [
     { label: "Ley", value: coverage?.ley, detail: "normativa" },
@@ -656,7 +673,13 @@ function AnswerUseCard({
     return null;
   }
 
-  const status = answerUseLabel(confidence, assessment?.sufficient);
+  const review = assessment?.evidenceReview;
+  const status = review ? {
+    tone: review.presentation ? "neutral" : "warn", label: review.presentation ? reviewSummary(review, message.content) : "Respuesta anterior sin reevaluar",
+    detail: "La aplicación al caso sigue pendiente de confirmar.",
+  } : { tone: "warn", label: "Respuesta anterior sin reevaluar", detail: "Puedes volver a consultar para revisarla." };
+  const signalWarnings = review?.presentation ? [] : materialWarnings(assessment?.evidenceWarnings);
+  const technicalNotes = review?.presentation ? reviewTechnicalNotes(review, materialWarnings(assessment?.evidenceWarnings)) : [];
   const interpretedQuery =
     assessment?.queryUsed &&
     message.questionText &&
@@ -665,30 +688,50 @@ function AnswerUseCard({
       : "";
 
   return (
-    <div className="answerUseCard" data-tone={status.tone}>
+    <div className={`answerUseCard${review?.presentation ? " reviewSummaryCard" : ""}`} data-tone={status.tone}>
       <div>
         <strong>{status.label}</strong>
-        <span>{status.detail}</span>
+        {!review?.presentation ? <span>{status.detail}</span> : null}
       </div>
-      {assessment ? (
-        <div className="answerUseMetrics">
-          <span>{assessment.uniqueDocuments} doc.</span>
-          <span>score {assessment.topScore.toFixed(3)}</span>
-          <span>calidad {assessment.evidenceQuality.toFixed(2)}</span>
-          <span>literal {(assessment.lexicalScore * 100).toFixed(0)}%</span>
-        </div>
-      ) : null}
-      {interpretedQuery ? <small>Pregunta interpretada: {interpretedQuery}</small> : null}
-      {assessment?.reason ? <small>{assessment.reason}</small> : null}
+      {assessment?.selection ? <p role="status">Fuentes iniciales recuperadas: {assessment.selection.recovered} de {assessment.selection.requested}.{assessment.selection.missing.length?` ${assessment.selection.missing.length} sin pasajes recuperados.`:""}{assessment.selection.failed.length?` Falló la consulta de ${assessment.selection.failed.length}; reintenta antes de concluir que falta evidencia.`:""}</p> : null}
+      {review?.presentation ? <p className="reviewApplicability">{reviewApplicability(review)}</p> : null}
+      {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
+      {!review?.presentation ? <p className="chatPlainEvidence">Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
+      {review && (review.claims.length > 0 || technicalNotes.length > 0 || Boolean(assessment)) ? <details className="chatTechnicalDetails">
+        <summary>Qué comprobó ACE</summary>
+        <p>Revisión automática de afirmaciones; no sustituye la revisión de un especialista.</p>
+        {technicalNotes.length ? <ul>{technicalNotes.map(note => <li key={note}>{note}</li>)}</ul> : null}
+        <ol>{review.claims.map(claim => <li key={claim.id}>
+          <strong>{claim.status === "supported" ? "Respaldada" : claim.status === "contradicted" ? "Contradicha" : "Respaldo insuficiente"}</strong>: {claim.reason}
+          {claim.evidence?.map((item, index) => {
+            const source = message.sources?.[item.source - 1];
+            return source ? <blockquote key={index}>{item.quote}<br />
+              <a href={`/api/documents/${encodeURIComponent(source.documentId)}${source.pageStart ? `#page=${source.pageStart}` : ""}`} target="_blank" rel="noreferrer">Abrir documento citado</a>
+            </blockquote> : null;
+          })}
+        </li>)}</ol>
+        {assessment && review.presentation ? <div>
+          <p><strong>Sobre la búsqueda</strong></p>
+          <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
+          {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
+          <small>Estas medidas no indican exactitud jurídica.</small>
+        </div> : null}
+      </details> : null}
+      {assessment && !review?.presentation ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
+        <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
+        {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
+        {assessment.reason ? <p>{assessment.reason}</p> : null}
+        <small>Estas medidas no indican exactitud jurídica.</small>
+      </details> : null}
       <div className="answerUseActions">
         <Link className="secondaryButton compactButton" href={buildSearchUrl(message, filters)}>
           <Search size={14} />
-          Revisar evidencia
+          Buscar más información
         </Link>
         {status.tone === "bad" ? (
           <Link className="secondaryButton compactButton" href="/validar">
             <ShieldCheck size={14} />
-            Verificar corpus
+            Revisar documentos disponibles
           </Link>
         ) : null}
       </div>
@@ -716,12 +759,12 @@ function MessageEvidence({
     <details className="msgEvidence">
       <summary>
         <FileText size={14} />
-        Ver fuentes y detalle
-        <span className="msgEvidenceCount">{sources.length}</span>
+        Normas consultadas
+        <span className="msgEvidenceCount">{consultedFragments(sources.length)}</span>
       </summary>
 
       {assessment ? (
-        <div className="msgEvidenceMeta">
+        <details className="msgEvidenceMeta"><summary>Cómo se seleccionaron estas normas</summary>
           {message.confidence ? (
             <p className="confidenceMeaning">{confidenceMeaning(message.confidence)}</p>
           ) : null}
@@ -731,13 +774,13 @@ function MessageEvidence({
             {(assessment.lexicalScore * 100).toFixed(0)}%
           </small>
           <CoverageGrid coverage={assessment.coverage} />
-          {assessment.evidenceWarnings?.length ? (
+          {!assessment.evidenceReview?.presentation && assessment.evidenceWarnings?.length ? (
             <div className="warningList">
               <AlertTriangle size={15} />
               <span>{assessment.evidenceWarnings.join(" ")}</span>
             </div>
           ) : null}
-        </div>
+        </details>
       ) : null}
 
       {groupSourcesByDocument(sources).map(({ document, sources: documentSources }, index) => (
@@ -746,7 +789,7 @@ function MessageEvidence({
           <strong>{document.documentTitle}</strong>
           <small>
             {document.documentType} · {document.sourceEntity ?? "Sin entidad"} ·{" "}
-            {documentSources.length} fragmento(s)
+            {consultedFragments(documentSources.length)}
           </small>
           {documentSources.map((source) => {
             const reference: SourceReference = {
@@ -757,8 +800,7 @@ function MessageEvidence({
             return (
               <details key={source.chunkId}>
                 <summary>
-                  {source.citation || `Fragmento ${source.chunkIndex + 1}`} · calidad{" "}
-                  {source.evidenceQuality.toFixed(2)}
+                  {source.citation || `Fragmento ${source.chunkIndex + 1}`}
                 </summary>
                 <strong className="precisionLine">{sourcePrecisionLabel(source)}</strong>
                 <p>{source.excerpt}</p>
@@ -785,8 +827,18 @@ function MessageEvidence({
   );
 }
 
-export function LegalChat() {
+export function LegalChat({ownerId=""}:{ownerId?:string}) {
   const searchParams = useSearchParams();
+  // Una instancia por conversación evita arrastrar contexto y peticiones a otra sesión.
+  const [adoptedSession,setAdoptedSession]=useState<string|null>(null);
+  const requested=searchParams.get("sessionId");
+  return <LegalChatSession ownerId={ownerId} onAdopt={id=>{setAdoptedSession(id);}} key={requested===adoptedSession?"new":requested??"new"} />;
+}
+
+function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|null)=>void}) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedSessionId = searchParams.get("sessionId");
   const { processTypes: configuredProcessTypes } = useSettingsCatalog();
   const processTypes = withBlankProcessOption(configuredProcessTypes);
   const initialQuestion = searchParams.get("pregunta") ?? "";
@@ -805,6 +857,11 @@ export function LegalChat() {
 
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [question, setQuestion] = useState(initialQuestion);
+  const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
+  const [attachmentsBusy, setAttachmentsBusy] = useState(false);
+  const [attachmentIds, setAttachmentIds] = useState<string[]>([]);
+  const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
+  const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
   const [tone, setTone] = useState("formal");
   const [length, setLength] = useState("media");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -816,7 +873,10 @@ export function LegalChat() {
 
   const [documentType, setDocumentType] = useState(initialDocumentType);
   const [documentId, setDocumentId] = useState(initialDocumentId);
+  const [documentIds, setDocumentIds] = useState<string[]>([]);
+  const [sourceSelection, setSourceSelection] = useState<{selectedDocumentIds:string[];expandCorpus:boolean}>({selectedDocumentIds:[],expandCorpus:false});
   const [article, setArticle] = useState(initialArticle);
+  const [articleIdentity,setArticleIdentity]=useState({articleId:searchParams.get("articleId")??"",bodyId:searchParams.get("bodyId")??""});
   const [processType, setProcessType] = useState(initialProcessType);
   const [sourceEntity, setSourceEntity] = useState(initialSourceEntity);
   const [topic, setTopic] = useState(initialTopic);
@@ -827,10 +887,86 @@ export function LegalChat() {
 
   const timelineEndRef = useRef<HTMLDivElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
+  const composerDockRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const hydratedSession=useRef<string|null>(null);
+  const [composerFocused,setComposerFocused]=useState(false);
+  const continuity=useChatContinuity({owner:ownerId,session:sessionId??requestedSessionId,loading:loadingSession,question,onRestore:setQuestion,preferInitial:Boolean(initialQuestion)});
+  function adoptSession(id:string){
+    hydratedSession.current=id;setSessionId(id);
+    if(requestedSessionId!==id){onAdopt(id);window.history.replaceState(window.history.state,"",conversationUrl(window.location.href,id));}
+  }
 
   const hasConversation = messages.length > 0;
-  const canSubmit = question.trim().length >= 5 && !isStreaming;
+  useEffect(() => {
+    if (!hasConversation) return;
+    const form = composerDockRef.current;
+    const shell = form?.closest<HTMLElement>(".legalShell");
+    if (!form || !shell) return;
+    const update = () => shell.style.setProperty("--legal-composer-height", `${Math.ceil(form.getBoundingClientRect().height)}px`);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(form);
+    return () => { observer.disconnect(); shell.style.removeProperty("--legal-composer-height"); };
+  }, [hasConversation]);
+
+  const canSubmit = question.trim().length >= 5 && !isStreaming && !loadingSession && !attachmentsBusy;
+
+  useEffect(() => {
+    if (!requestedSessionId || hydratedSession.current===requestedSessionId) return;
+    const controller = new AbortController();
+    void (async () => {
+      try {
+        const response = await fetch(`/api/chat/sessions/${encodeURIComponent(requestedSessionId)}`, {
+          cache: "no-store", signal: controller.signal,
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error ?? "No se pudo abrir la conversación");
+        if (controller.signal.aborted) return;
+        const restored = payload.messages as Array<{
+          id: string; role: ConversationMessage["role"]; content: string; sources: ChatSource[];
+          model: string; metadata: Record<string, unknown>;
+        }>;
+        const latestUser = [...restored].reverse().find((message) => message.role === "user");
+        setAttachmentIds(Array.isArray(latestUser?.metadata?.attachmentIds) ? latestUser.metadata.attachmentIds as string[] : []);
+        if (!restored.length && typeof payload.session.metadata?.prefill === "string") setQuestion(payload.session.metadata.prefill);
+        setCaseContext(readCaseContext(latestUser?.metadata?.caseContext ?? payload.session.metadata?.caseContext));
+        const restoredFilters = (latestUser?.metadata?.filters ?? payload.session.metadata?.filters ?? {}) as Record<string, unknown>;
+        setExtendedFilters(extendedLegalFiltersSchema.parse(restoredFilters));
+        const textFilter = (key: string) => typeof restoredFilters[key] === "string" ? restoredFilters[key] as string : "";
+        setDocumentType(textFilter("documentType"));
+        setDocumentId(textFilter("documentId"));
+        setDocumentIds(Array.isArray(restoredFilters.documentIds) ? restoredFilters.documentIds.filter((id): id is string=>typeof id === "string") : []);
+        setSourceSelection({selectedDocumentIds:Array.isArray(restoredFilters.selectedDocumentIds)?restoredFilters.selectedDocumentIds.filter((id):id is string=>typeof id==="string"):[],expandCorpus:restoredFilters.expandCorpus===true});
+        setArticle(textFilter("article"));
+        setArticleIdentity({articleId:textFilter("articleId"),bodyId:textFilter("bodyId")});
+        setProcessType(textFilter("processType"));
+        setSourceEntity(textFilter("sourceEntity"));
+        setTopic(textFilter("topic"));
+        setVigencia(textFilter("vigencia"));
+        setYear(restoredFilters.year ? String(restoredFilters.year) : "");
+        hydratedSession.current=payload.session.id;
+        setSessionId(payload.session.id);
+        setMessages(restored.filter((message) => message.role === "user" || message.role === "assistant").map((message) => ({
+          id: message.id, persistedId: message.id, role: message.role, content: message.content,
+          sources: message.sources ?? [], model: message.model,
+          caseDocuments: message.metadata?.caseDocuments as CaseDocumentReference[] | undefined,
+          caseContext: readCaseContext(message.metadata?.caseContext),
+          assessment: message.metadata?.assessment as ChatAssessment | undefined,
+          confidence: message.metadata?.confidence as Confidence | undefined,
+          questionText: message.metadata?.question as string | undefined,
+          feedback: message.metadata?.feedback as ConversationMessage["feedback"],
+          note: message.metadata?.note as string | undefined,
+          telemetry: message.metadata?.telemetry as LegalResponseTelemetry | undefined,
+        })));
+      } catch (cause) {
+        if (!controller.signal.aborted) setError(cause instanceof Error ? cause.message : "No se pudo abrir la conversación");
+      } finally {
+        if (!controller.signal.aborted) setLoadingSession(false);
+      }
+    })();
+    return () => controller.abort();
+  }, [requestedSessionId]);
 
   const activeFilters: Array<{ key: string; label: string; clear: () => void }> = [
     documentType
@@ -840,8 +976,10 @@ export function LegalChat() {
           clear: () => setDocumentType(""),
         }
       : null,
+    documentIds.length ? { key: "documentIds", label: `Solo ${documentIds.length} documentos seleccionados`, clear: () => {setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});} } : null,
     documentId ? { key: "documentId", label: "Documento exacto", clear: () => setDocumentId("") } : null,
-    article ? { key: "article", label: `Articulo: ${article}`, clear: () => setArticle("") } : null,
+    article ? { key: "article", label: `Articulo: ${article}`, clear: () => {setArticle("");setArticleIdentity({articleId:"",bodyId:""});} } : null,
+    articleIdentity.articleId&&!article ? {key:"articleIdentity",label:"Artículo exacto seleccionado",clear:()=>setArticleIdentity({articleId:"",bodyId:""})}:null,
     processType
       ? {
           key: "processType",
@@ -854,12 +992,12 @@ export function LegalChat() {
     vigencia ? { key: "vigencia", label: `Vigencia: ${vigencia}`, clear: () => setVigencia("") } : null,
     year ? { key: "year", label: `Año: ${year}`, clear: () => setYear("") } : null,
   ].filter(Boolean) as Array<{ key: string; label: string; clear: () => void }>;
-  const currentFilterValues = { article, documentId, documentType, processType, sourceEntity, topic, vigencia, year };
+  const currentFilterValues = { articleId:articleIdentity.articleId,bodyId:articleIdentity.bodyId, article, documentId, documentType, processType, sourceEntity, topic, vigencia, year };
 
   // Mantiene a la vista el último mensaje mientras llega el streaming.
   useEffect(() => {
-    timelineEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages]);
+    if (isStreaming) timelineEndRef.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "end" });
+  }, [messages, isStreaming]);
 
   function updateMessage(id: string, patch: (message: ConversationMessage) => ConversationMessage) {
     setMessages((current) => current.map((message) => (message.id === id ? patch(message) : message)));
@@ -870,12 +1008,17 @@ export function LegalChat() {
       updateMessage(assistantId, (message) => ({
         ...message,
         sources: event.sources,
+        caseDocuments: event.caseDocuments,
         assessment: event.assessment,
         confidence: event.confidence,
       }));
       return;
     }
 
+    if (event.type === "progress") {
+      updateMessage(assistantId, message => ({ ...message, progress: event.stage }));
+      return;
+    }
     if (event.type === "delta") {
       updateMessage(assistantId, (message) => ({ ...message, content: message.content + event.text }));
       return;
@@ -887,16 +1030,19 @@ export function LegalChat() {
         streaming: false,
         persistedId: event.messageId,
         model: event.model,
+        assessment: event.assessment ?? message.assessment,
+        confidence: event.confidence ?? message.confidence,
+        telemetry: event.telemetry,
         citationWarnings: event.citationWarnings ?? [],
       }));
-      setSessionId((current) => event.sessionId ?? current);
+      if(event.sessionId)adoptSession(event.sessionId);
       return;
     }
 
     updateMessage(assistantId, (message) => ({ ...message, streaming: false, error: event.error }));
   }
 
-  async function submitQuestion(event?: React.FormEvent<HTMLFormElement>, override?: string) {
+  async function submitQuestion(event?: React.FormEvent<HTMLFormElement>, override?: string, retryContext?: CaseContext) {
     event?.preventDefault();
 
     const normalizedQuestion = (override ?? question).trim();
@@ -904,17 +1050,19 @@ export function LegalChat() {
       setError("Escribe una pregunta más específica.");
       return;
     }
-    if (isStreaming) {
+    if (isStreaming || loadingSession || attachmentsBusy) {
       return;
     }
 
     const userMessage: ConversationMessage = {
+      caseContext: { ...(retryContext ?? caseContext) },
       content: normalizedQuestion,
       id: buildMessageId(),
       role: "user",
     };
     const assistantId = buildMessageId();
     const assistantMessage: ConversationMessage = {
+      caseContext: userMessage.caseContext,
       content: "",
       id: assistantId,
       mode: `${tone}/${length}`,
@@ -937,7 +1085,9 @@ export function LegalChat() {
     try {
       const response = await fetch("/api/chat", {
         body: JSON.stringify({
-          filters: { article, documentId, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          caseContext: userMessage.caseContext,
+          attachmentIds,
+          filters: { ...extendedFilters, ...sourceSelection, articleId:articleIdentity.articleId||undefined,bodyId:articleIdentity.bodyId||undefined, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
           question: normalizedQuestion,
@@ -1026,19 +1176,26 @@ export function LegalChat() {
       // Quita el turno fallido (asistente) y su pregunta para reenviarlo limpio.
       return current.filter((_, position) => position !== index && position !== index - 1);
     });
-    void submitQuestion(undefined, message.questionText);
+    void submitQuestion(undefined, message.questionText, message.caseContext);
   }
 
   function resetChat() {
     abortRef.current?.abort();
+    continuity.clear();onAdopt(null);hydratedSession.current=null;
     setMessages([]);
     setQuestion("");
+    setCaseContext({ ...emptyCaseContext }); setAttachmentIds([]); setExtendedFilters({});
+    setLoadingSession(false);
+    if (requestedSessionId) router.replace("/chat");
     setSessionId(null);
     setError("");
     setCopiedId("");
   }
 
   function clearFilters() {
+    setExtendedFilters({});
+    setDocumentId(""); setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});
+    setArticle("");setArticleIdentity({articleId:"",bodyId:""});
     setDocumentType("");
     setProcessType("");
     setSourceEntity("");
@@ -1086,15 +1243,16 @@ export function LegalChat() {
     message: ConversationMessage,
     action: "mark_correct" | "mark_incorrect" | "save_note",
     note?: string,
+    reason?: FeedbackReason,
   ) {
     if (!message.persistedId) {
       setError("La respuesta aún no tiene identificador persistido.");
-      return;
+      return false;
     }
 
     try {
       const response = await fetch(`/api/chat/messages/${message.persistedId}`, {
-        body: JSON.stringify({ action, note }),
+        body: JSON.stringify({ action, note, reason }),
         headers: { "Content-Type": "application/json" },
         method: "PATCH",
       });
@@ -1102,7 +1260,7 @@ export function LegalChat() {
 
       if (!response.ok) {
         setError(payload.error ?? "No se pudo guardar la acción.");
-        return;
+        return false;
       }
 
       updateMessage(message.id, (item) =>
@@ -1111,8 +1269,10 @@ export function LegalChat() {
           : { ...item, feedback: action === "mark_correct" ? "correct" : "incorrect" },
       );
       setError("");
+      return true;
     } catch {
       setError("No se pudo conectar con el servidor.");
+      return false;
     }
   }
 
@@ -1137,10 +1297,215 @@ export function LegalChat() {
     target.style.height = `${Math.min(target.scrollHeight, 168)}px`;
   }
 
+  const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
 
+  const conversation = (
+<div className="chatConversation">
+        {!hasConversation ? (
+          <div className="chatEmptyRedesign">
+            <div className="chatEmptyIntro">
+              <div className="chatEmptyIcon">
+                <Bot size={28} />
+              </div>
+              <strong>¿Qué necesitas resolver?</strong>
+              <span>
+                Cuéntame tu duda sobre contrataciones públicas. Puedes empezar con una pregunta o adjuntar un documento de tu caso.
+              </span>
+            </div>
+
+            <div className="chatEmptyExamples">
+              <p>¿No sabes cómo empezar?</p>
+              <div className="exampleCards">
+                {exampleQuestions.map((item) => (
+                  <button key={item} onClick={() => { setQuestion(item); composerRef.current?.focus(); }} type="button">
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {messages.map((message) => (
+          <div className={`msgRow ${message.role}`} key={message.id}>
+            <div className="msgAvatar">{message.role === "user" ? <User size={16} /> : <Bot size={16} />}</div>
+            <div className="msgBubble">
+              {message.role === "assistant" ? (
+                <>
+                  <div className="msgBubbleTop">
+                    <strong>Respuesta</strong>
+                    <span className="chatAiLabel">Asistente de ACE</span>
+                  </div>
+
+                  {message.streaming && !message.content ? (
+                    <span className="loadingInline" role="status" aria-live="polite">
+                      <LoaderCircle size={16} />
+                      {message.progress === "checking" ? "Comprobando afirmaciones y citas…" : message.progress === "drafting" ? "Preparando una respuesta con las fuentes…" : "Buscando fuentes…"}
+                    </span>
+                  ) : (
+                    <div className="msgBubbleBody">
+                      <ReviewedAnswerContent
+                        content={message.content}
+                        review={message.assessment?.evidenceReview}
+                        onOpenSources={(references) => setSelectedReferences(references)}
+                        sources={message.sources ?? []}
+                      />
+                      {message.streaming ? <span className="streamCursor" aria-hidden="true" /> : null}
+                    </div>
+                  )}
+
+                  {!message.error && !message.streaming ? (
+                    <AnswerUseCard
+                      assessment={message.assessment}
+                      confidence={message.confidence}
+                      filters={currentFilterValues}
+                      message={message}
+                    />
+                  ) : null}
+
+                  {!message.streaming && !message.assessment?.evidenceReview?.presentation && message.citationWarnings?.length ? (
+                    <div className="msgCitationWarning">
+                      <AlertTriangle size={15} />
+                      <div>
+                        <strong>Verificación de citas</strong>
+                        <span>
+                          Algunos datos citados no se encontraron en el fragmento citado; confírmalos
+                          en el texto original antes de usarlos:
+                        </span>
+                        <ul>
+                          {message.citationWarnings.map((warning, index) => (
+                            <li key={index}>{warning}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {message.error ? (
+                    <div className="msgError">
+                      <AlertTriangle size={15} />
+                      <span>{message.error}</span>
+                      {message.questionText ? (
+                        <button className="secondaryButton compactButton" onClick={() => retry(message)} type="button">
+                          <RotateCcw size={14} />
+                          Reintentar
+                        </button>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {!message.streaming && !message.error && message.sources?.length ? (
+                    <div className="msgSourceChips">
+                      {groupSourcesByDocument(message.sources).map(({ document, sources: docSources }) => (
+                        <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} data-origin={document.selectionOrigin} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
+                          <FileText size={13} />
+                          {document.selectionOrigin ? <span>{document.selectionOrigin==="selected"?"Selección inicial · ":"Fuente añadida · "}</span> : null}{document.documentTitle}
+                          <em>{consultedFragments(docSources.length)}</em>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {message.caseDocuments?.length ? <section className="legalWorkspacePanel" aria-label="Originales de los documentos del caso"><strong>Documentos de tu caso</strong><ul className="legalWorkspaceHistory">{message.caseDocuments.map((document,index)=><li key={document.id}><a href={`/api/chat/attachments/${document.id}?sessionId=${document.sessionId}`} target="_blank" rel="noreferrer">[C{index+1}] {document.name}</a><small>{document.partial?"Lectura parcial · revisar":"Texto extraído · revisar"}</small></li>)}</ul></section> : null}
+                  {!message.streaming && !message.error ? (
+                    <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
+                  ) : null}
+
+                  {!message.streaming && message.telemetry ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
+                  {!message.streaming && !message.error && message.content ? (
+                    <div className="responseActions">
+                      <small className="responseActionsHint">Acciones sobre esta respuesta</small>
+                      <button
+                        className="responseActionButton compactAction"
+                        onClick={() => void copyMessage(message)}
+                        title="Copia solo el texto de la respuesta"
+                        type="button"
+                      >
+                        {copiedId === message.id ? <Check size={16} /> : <Clipboard size={16} />}
+                        {copiedId === message.id ? "Copiado" : "Copiar"}
+                      </button>
+                      <details className="chatMoreActions"><summary>Más acciones</summary><div className="chatMoreActionsBody">
+                      <button
+                        className="responseActionButton"
+                        onClick={() => void updateAssistantMessage(message, "save_note", buildAutomaticNote(message))}
+                        title="Guarda pregunta, respuesta y fuentes como nota automatica"
+                        type="button"
+                      >
+                        <Pin size={15} />
+                        {message.note ? "Nota guardada" : "Nota rápida"}
+                      </button>
+                      <button
+                        className="responseActionButton compactAction"
+                        onClick={() => void copyMessageWithSources(message)}
+                        title="Copia la respuesta junto con las citas recuperadas"
+                        type="button"
+                      >
+                        {copiedId === `${message.id}-sources` ? <Check size={16} /> : <CopyCheck size={16} />}
+                        {copiedId === `${message.id}-sources` ? "Copiado" : "Copiar con fuentes"}
+                      </button>
+                      {message.persistedId?<ChatWorkNote messageId={message.persistedId}/>:null}
+                      <ChatFeedback value={message.feedback} onSubmit={async(action,reason,note)=>Boolean(await updateAssistantMessage(message,action,note,reason))}/>
+                      <button
+                        className="responseActionButton compactAction"
+                        onClick={() => exportMessage(message)}
+                        title="Exportar la respuesta con pregunta, confianza y fuentes a Word"
+                        type="button"
+                      >
+                        <Download size={16} />
+                        Exportar Word
+                      </button>
+                      </div></details>
+                      <SaveButton
+                        itemType="mensaje"
+                        messageId={message.persistedId ?? undefined}
+                        title={message.content.slice(0, 120)}
+                        label="Guardar"
+                      />
+                    </div>
+                  ) : null}
+
+                  {!message.streaming && !message.error && message.id === lastAssistantId ? <ChatClarification review={message.assessment?.evidenceReview} context={message.caseContext??caseContext} disabled={isStreaming} onApply={context=>{setCaseContext(context);void submitQuestion(undefined,message.questionText,context);}}/>:null}
+                  {!message.streaming && !message.error && message.id === lastAssistantId ? (
+                    <div className="followChips">
+                      {followUpsFor(message).map((prompt) => (
+                        <button disabled={isStreaming} key={prompt} onClick={() => void submitQuestion(undefined, prompt)} type="button">
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <p>{message.content}</p>
+                  {message.caseContext && Object.values(message.caseContext).some(Boolean) ? (
+                    <details className="chatTurnContext">
+                      <summary>Contexto utilizado</summary>
+                      <p>Régimen: {message.caseContext.regime || "No indicado"}</p>
+                      <p>Objeto: {message.caseContext.object || "No indicado"}</p>
+                      <p>Fechas: {message.caseContext.dates || "No indicadas"}</p>
+                      <p>Hechos: {message.caseContext.facts || "No indicados"}</p>
+                    </details>
+                  ) : null}
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {error ? <p className="formMessage errorText">{error}</p> : null}
+        <div ref={timelineEndRef} aria-hidden="true" />
+      </div>
+  );
+
   return (
-    <div className="legalTool chatRedesign">
+    <div className="legalTool chatRedesign chatAccessible">
+      <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
+      {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className="secondaryButton compactButton" onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
+      <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
+      {continuity.notice?<p className="normScopeNote" role="status">{continuity.notice}</p>:null}
+      <div className="chatReadingLayout"><div className="chatMainColumn">
       <header className="chatHeader">
         <div className="chatHeaderTitle">
           <div className="legalToolIcon">
@@ -1148,18 +1513,18 @@ export function LegalChat() {
           </div>
           <div>
             <p className="eyebrow">Consulta legal</p>
-            <h2>Chat jurídico</h2>
-            <p>Respuestas redactadas solo cuando hay fuentes suficientes, con cita verificable.</p>
+            <h2>Conversemos sobre tu consulta</h2>
+            <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
           </div>
         </div>
-        <button className="secondaryButton compactButton" onClick={resetChat} type="button">
+        <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
           <RotateCcw size={16} />
           Nueva consulta
         </button>
       </header>
 
       <div className="chatContextBar">
-        <div className="styleSelectors">
+        <details className="chatStyleDisclosure"><summary>Personalizar respuesta</summary><div className="styleSelectors">
           <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
             Estilo de respuesta
           </span>
@@ -1195,7 +1560,7 @@ export function LegalChat() {
           </div>
         </div>
 
-        <div className="filterArea">
+        </details><div className="filterArea">
           {activeFilters.map((filter) => (
             <button className="filterChip" key={filter.key} onClick={filter.clear} type="button">
               {filter.label}
@@ -1209,11 +1574,13 @@ export function LegalChat() {
             type="button"
           >
             <SlidersHorizontal size={15} />
-            Filtros
+            Afinar búsqueda{activeFilters.length ? ` · ${activeFilters.length}` : ""}
           </button>
 
           {showFilters ? (
             <div className="filterPopover">
+              <p>Opcional. Limita los documentos que se consultarán; puedes preguntar sin completar estos campos.</p>
+              <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
               <div className="filterPopoverGrid">
                 <label>
                   <span>Tipo</span>
@@ -1266,249 +1633,26 @@ export function LegalChat() {
         </div>
       </div>
 
-      <div className="chatConversation">
-        {!hasConversation ? (
-          <div className="chatEmptyRedesign">
-            <div className="chatEmptyIntro">
-              <div className="chatEmptyIcon">
-                <Bot size={28} />
-              </div>
-              <strong>¿Qué necesitas consultar?</strong>
-              <span>
-                Pregunta con tus propias palabras sobre contrataciones públicas. Te respondo con base en
-                las leyes, reglamentos, directivas y opiniones cargadas, y te muestro de dónde sale cada dato.
-              </span>
-            </div>
+      {hasConversation ? conversation : null}
 
-            <div className="chatHowItWorks">
-              <div>
-                <span className="howStepNum">1</span>
-                <div>
-                  <strong>Escribe tu pregunta</strong>
-                  <small>En lenguaje normal, no hace falta saber de leyes.</small>
-                </div>
-              </div>
-              <div>
-                <span className="howStepNum">2</span>
-                <div>
-                  <strong>Busco en los documentos</strong>
-                  <small>Reviso las normas y opiniones cargadas.</small>
-                </div>
-              </div>
-              <div>
-                <span className="howStepNum">3</span>
-                <div>
-                  <strong>Te respondo con fuentes</strong>
-                  <small>Cada dato lleva su cita; tócala para verla.</small>
-                </div>
-              </div>
-            </div>
-
-            <div className="chatEmptyExamples">
-              <p>Prueba con una de estas:</p>
-              <div className="exampleCards">
-                {exampleQuestions.map((item) => (
-                  <button key={item} onClick={() => setQuestion(item)} type="button">
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        {messages.map((message) => (
-          <div className={`msgRow ${message.role}`} key={message.id}>
-            <div className="msgAvatar">{message.role === "user" ? <User size={16} /> : <Bot size={16} />}</div>
-            <div className="msgBubble">
-              {message.role === "assistant" ? (
-                <>
-                  <div className="msgBubbleTop">
-                    <strong>Respuesta</strong>
-                    {message.confidence ? (
-                      <span className={confidenceClasses(message.confidence)} title={confidenceMeaning(message.confidence)}>
-                        Confianza {message.confidence}
-                      </span>
-                    ) : null}
-                  </div>
-
-                  {!message.error ? (
-                    <AnswerUseCard
-                      assessment={message.assessment}
-                      confidence={message.confidence}
-                      filters={currentFilterValues}
-                      message={message}
-                    />
-                  ) : null}
-
-                  {message.streaming && !message.content ? (
-                    <span className="loadingInline">
-                      <LoaderCircle size={16} />
-                      Buscando fuentes y redactando…
-                    </span>
-                  ) : (
-                    <div className="msgBubbleBody">
-                      <AnswerContent
-                        content={message.content}
-                        onOpenSources={(references) => setSelectedReferences(references)}
-                        sources={message.sources ?? []}
-                      />
-                      {message.streaming ? <span className="streamCursor" aria-hidden="true" /> : null}
-                    </div>
-                  )}
-
-                  {!message.streaming && message.citationWarnings?.length ? (
-                    <div className="msgCitationWarning">
-                      <AlertTriangle size={15} />
-                      <div>
-                        <strong>Verificación de citas</strong>
-                        <span>
-                          Algunos datos citados no se encontraron en el fragmento citado; confírmalos
-                          en el texto original antes de usarlos:
-                        </span>
-                        <ul>
-                          {message.citationWarnings.map((warning, index) => (
-                            <li key={index}>{warning}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ) : null}
-
-                  {message.error ? (
-                    <div className="msgError">
-                      <AlertTriangle size={15} />
-                      <span>{message.error}</span>
-                      {message.questionText ? (
-                        <button className="secondaryButton compactButton" onClick={() => retry(message)} type="button">
-                          <RotateCcw size={14} />
-                          Reintentar
-                        </button>
-                      ) : null}
-                    </div>
-                  ) : null}
-
-                  {!message.streaming && !message.error && message.sources?.length ? (
-                    <div className="msgSourceChips">
-                      {groupSourcesByDocument(message.sources).map(({ document, sources: docSources }) => (
-                        <span className="sourceChip" key={document.documentId} title={document.documentTitle}>
-                          <FileText size={13} />
-                          {document.documentTitle}
-                          <em>{docSources.length}</em>
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  {!message.streaming && !message.error ? (
-                    <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
-                  ) : null}
-
-                  {!message.streaming && !message.error && message.content ? (
-                    <div className="responseActions">
-                      <small className="responseActionsHint">Acciones sobre esta respuesta</small>
-                      <button
-                        className="responseActionButton"
-                        onClick={() => void updateAssistantMessage(message, "save_note", buildAutomaticNote(message))}
-                        title="Guarda pregunta, respuesta y fuentes como nota automatica"
-                        type="button"
-                      >
-                        <Pin size={15} />
-                        {message.note ? "Nota guardada" : "Nota rápida"}
-                      </button>
-                      <button
-                        className="responseActionButton compactAction"
-                        onClick={() => void copyMessage(message)}
-                        title="Copia solo el texto de la respuesta"
-                        type="button"
-                      >
-                        {copiedId === message.id ? <Check size={16} /> : <Clipboard size={16} />}
-                        {copiedId === message.id ? "Copiado" : "Copiar"}
-                      </button>
-                      <button
-                        className="responseActionButton compactAction"
-                        onClick={() => void copyMessageWithSources(message)}
-                        title="Copia la respuesta junto con las citas recuperadas"
-                        type="button"
-                      >
-                        {copiedId === `${message.id}-sources` ? <Check size={16} /> : <CopyCheck size={16} />}
-                        {copiedId === `${message.id}-sources` ? "Copiado" : "Copiar con fuentes"}
-                      </button>
-                      <button
-                        aria-pressed={message.feedback === "correct"}
-                        className="responseActionButton compactAction"
-                        onClick={() => void updateAssistantMessage(message, "mark_correct")}
-                        title="Marcar respuesta correcta"
-                        type="button"
-                      >
-                        <ThumbsUp size={16} />
-                        Correcta
-                      </button>
-                      <button
-                        aria-pressed={message.feedback === "incorrect"}
-                        className="responseActionButton compactAction"
-                        onClick={() => void updateAssistantMessage(message, "mark_incorrect")}
-                        title="Marcar respuesta incorrecta"
-                        type="button"
-                      >
-                        <ThumbsDown size={16} />
-                        Incorrecta
-                      </button>
-                      <button
-                        className="responseActionButton compactAction"
-                        onClick={() => exportMessage(message)}
-                        title="Exportar la respuesta con pregunta, confianza y fuentes a Word"
-                        type="button"
-                      >
-                        <Download size={16} />
-                        Exportar Word
-                      </button>
-                      <SaveButton
-                        itemType="mensaje"
-                        messageId={message.persistedId ?? undefined}
-                        title={message.content.slice(0, 120)}
-                        label="Guardar en carpeta"
-                      />
-                    </div>
-                  ) : null}
-
-                  {!message.streaming && !message.error && message.id === lastAssistantId ? (
-                    <div className="followChips">
-                      {followUpsFor(message).map((prompt) => (
-                        <button disabled={isStreaming} key={prompt} onClick={() => void submitQuestion(undefined, prompt)} type="button">
-                          {prompt}
-                        </button>
-                      ))}
-                    </div>
-                  ) : null}
-                </>
-              ) : (
-                <p>{message.content}</p>
-              )}
-            </div>
-          </div>
-        ))}
-
-        {error ? <p className="formMessage errorText">{error}</p> : null}
-        <div ref={timelineEndRef} aria-hidden="true" />
-      </div>
-
-      <form className="chatComposerBar" onSubmit={submitQuestion}>
+      <form ref={composerDockRef} className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
+        <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
-          aria-label="Pregunta jurídica"
+          id="legal-chat-question"
+          aria-describedby="chat-question-help"
           onChange={(event) => {
             setQuestion(event.target.value);
             autoGrow(event.target);
           }}
           onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
+            if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) {
               event.preventDefault();
               if (canSubmit) {
                 void submitQuestion();
               }
             }
           }}
-          placeholder="Escribe tu consulta… (Enter envía · Shift+Enter salto de línea)"
+          placeholder="Por ejemplo: ¿qué documentos necesito revisar para este caso?"
           ref={composerRef}
           rows={1}
           value={question}
@@ -1521,21 +1665,61 @@ export function LegalChat() {
         ) : (
           <button className="primaryButton sendButton" disabled={!canSubmit} type="submit">
             <Send size={18} />
-            Consultar
+            Enviar consulta
           </button>
         )}
+        <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
+      <div className="chatComposeTools">
+      <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <section className="chatCaseContext" aria-label="Contexto del caso">
+        <details>
+          <summary>Añadir datos del caso · opcional</summary>
+          <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
+          <fieldset disabled={isStreaming || loadingSession}>
+            <label>Régimen aplicable
+              <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
+                onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
+            </label>
+            <label>Objeto contractual
+              <input maxLength={400} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
+                onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
+            </label>
+            <label>Fechas relevantes
+              <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
+                onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
+            </label>
+            <label>Hechos del caso
+              <textarea rows={3} maxLength={6000} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
+                onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
+            </label>
+          </fieldset>
+        </details>
+        <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
+        {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
+      </section>
+      </div>
+      {!hasConversation ? conversation : null}
+      </div>
+      <aside className="chatNormsRail" aria-label="Normas de la última respuesta">
+        <details open={wideChat || undefined}><summary><FileText size={18} /> Normas de la respuesta</summary>
+          <p>Abre una norma para comprobar el fragmento y acceder al PDF.</p>
+          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className="chatNormCard" key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{consultedFragments(related.length)} · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
+          <p className="chatRailNote">Los archivos que adjuntas son documentos del caso; no acreditan una regla jurídica.</p>
+        </details>
+      </aside></div>
 
       <Dialog.Root open={Boolean(selectedReferences)} onOpenChange={(open) => !open && setSelectedReferences(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="sourceModal">
+          <Dialog.Content className="sourceModal chatSourceSheet">
             <Dialog.Title>
               {selectedReferences && selectedReferences.length > 1
                 ? `Fuentes ${selectedReferences.map((reference) => reference.number).join(", ")}`
                 : `Fuente ${selectedReferences?.[0]?.number ?? ""}`}
             </Dialog.Title>
-            <Dialog.Description>Verificación documental de la afirmación seleccionada.</Dialog.Description>
+            <Dialog.Description>Revisa el texto original, su ubicación y el PDF antes de usar esta información.</Dialog.Description>
+            <Dialog.Close className="chatSourceClose" aria-label="Cerrar normas y volver al chat"><X size={20} /></Dialog.Close>
             {selectedReferences ? (
               <div className="sourceModalBody">
                 {selectedReferences.map((reference) => (

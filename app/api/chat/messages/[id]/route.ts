@@ -1,6 +1,7 @@
+import {feedbackSchema,type FeedbackReason} from "@/lib/chat-experience";
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
-import { supabaseRest, supabaseUserRest, writeAuditLog } from "@/lib/supabase-server";
+import { supabaseUserRest, writeAuditLog, esIdSeguro } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -15,7 +16,7 @@ type ChatMessageRow = {
 
 function mergeMessageMetadata(
   current: Record<string, unknown>,
-  input: { action: string; note?: string | null },
+  input: { action: string; note?: string | null;reason?:FeedbackReason },
 ) {
   const feedbackHistory = Array.isArray(current.feedbackHistory)
     ? current.feedbackHistory
@@ -28,6 +29,7 @@ function mergeMessageMetadata(
         action: input.action,
         createdAt: new Date().toISOString(),
         note: input.note ?? null,
+        reason:input.reason??null,
       },
     ],
   };
@@ -46,6 +48,8 @@ function mergeMessageMetadata(
       feedback: input.action === "mark_correct" ? "correct" : "incorrect",
       feedbackAt: new Date().toISOString(),
       feedbackNote: input.note ?? null,
+      feedbackReason:input.reason??null,
+      feedbackReviewStatus:"user_feedback",
     };
   }
 
@@ -81,12 +85,11 @@ export async function PATCH(
 
     const { accessToken } = auth.user;
     const { id } = await context.params;
-    const body = (await request.json().catch(() => ({}))) as {
-      action?: string;
-      note?: string | null;
-    };
+    const parsed=feedbackSchema.safeParse(await request.json().catch(()=>null));
+    if(!parsed.success)return NextResponse.json({error:"Revisa la acción, el motivo y la extensión del comentario"},{status:400});
+    const body=parsed.data;
 
-    if (!id) {
+    if (!esIdSeguro(id)) {
       return NextResponse.json({ error: "Falta id del mensaje" }, { status: 400 });
     }
 
@@ -113,6 +116,7 @@ export async function PATCH(
 
     const metadata = mergeMessageMetadata(message.metadata ?? {}, {
       action: body.action,
+      reason:body.reason,
       note: typeof body.note === "string" ? body.note.trim() : null,
     });
     const [updated] = await supabaseUserRest<ChatMessageRow[]>(accessToken, `chat_messages?id=eq.${id}`, {
@@ -123,6 +127,7 @@ export async function PATCH(
     await writeAuditLog({
       action: `chat.response.${body.action}`,
       details: {
+        reason:body.reason??null,
         note: typeof body.note === "string" ? body.note.trim() : null,
       },
       entityId: id,
@@ -165,6 +170,7 @@ export async function PATCH(
           message_id: id,
           metadata: {
             note: typeof body.note === "string" ? body.note.trim() : null,
+            reason:body.reason??null,reviewStatus:"user_feedback_not_expert_validation",
           },
           question,
           recovered_sources: recoveredSources,
@@ -173,25 +179,7 @@ export async function PATCH(
       }).catch(() => undefined);
     }
 
-    if (body.action === "mark_incorrect") {
-      const filters =
-        message.metadata?.filters && typeof message.metadata.filters === "object"
-          ? (message.metadata.filters as Record<string, unknown>)
-          : {};
-
-      if (question) {
-        await supabaseRest("eval_preguntas", {
-          body: JSON.stringify({
-            document_type: typeof filters.documentType === "string" ? filters.documentType || null : null,
-            expected_keywords: [],
-            expected_sources: [],
-            process_type: typeof filters.processType === "string" ? filters.processType || null : null,
-            question,
-          }),
-          method: "POST",
-        }).catch(() => undefined);
-      }
-    }
+    // User feedback stays private and is never promoted automatically to a legal benchmark.
 
     return NextResponse.json({
       message: updated,
