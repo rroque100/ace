@@ -1,5 +1,6 @@
 import {activeValidityReview,reviewedValidity} from "./validity-review";
 import { equivalentReference, lexicalTopic, fuseSearchDocuments } from "./search-discovery";
+import { stripPageMarkers } from "./page-markers";
 import { normalizeLiteralSearch } from "./document-search-query";
 import { missingSearchIndex } from "./document-search-index";
 import { canonicalSourceEntity, documentaryDates, documentFamily, normalizedDocumentNumber, normalizedArticle } from "./search-document-metadata";
@@ -53,7 +54,8 @@ function resultDocument(
     publication: publication.label,
     dateTime: publication.time,
     rank,
-    matches,
+    // Cada pasaje llega con el marcador interno «=== PAGINA N ===» del texto indexado.
+    matches: matches.map((match) => ({ ...match, excerpt: stripPageMarkers(match.excerpt) })),
     matchCount,
     titleMatch,
     classification: classifySearchDocument(row),

@@ -27,6 +27,7 @@ import {
 import { documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
+import { stripPageMarkers } from "@/lib/page-markers";
 
 type SearchSource = {
   requestedOriginal?: boolean;
@@ -436,7 +437,7 @@ export function SemanticSearch() {
       source.documentTitle,
       sourceLocation(source),
       `Score: ${source.score.toFixed(3)}`,
-      source.excerpt,
+      stripPageMarkers(source.excerpt),
     ].join("\n");
 
     await navigator.clipboard.writeText(text);
@@ -737,7 +738,7 @@ export function SemanticSearch() {
                 {source.regime ? <span>{source.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${source.regime}`}</span> : null}
                 {source.year ? <span>{source.year}</span> : null}
               </div>
-              <p>{source.excerpt}</p>
+              <p>{stripPageMarkers(source.excerpt)}</p>
               <details className="sourceTechDetail">
                 <summary>Detalle tecnico</summary>
                 <div className="sourceMetaGrid">

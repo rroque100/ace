@@ -10,6 +10,7 @@ import { canonicalSourceEntity } from "./search-document-metadata";
 import { publishEvidence } from "./chat-evidence-publication";
 import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
+import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
@@ -1261,7 +1262,8 @@ function chunkToSource(
     regime: reviewedRegime(documentMetadata),
     regimeReviewed: reviewedRegime(documentMetadata) !== "no_determinado",
     evidenceQuality: 0,
-    excerpt: chunk.content.slice(0, 1400),
+    // Sin el marcador interno de página: ni el modelo ni el usuario deben verlo.
+    excerpt: stripPageMarkers(chunk.content).slice(0, 1400),
     fileName: chunk.documents?.file_name ?? "archivo.pdf",
     lexicalScore,
     rerankScore: 0,
