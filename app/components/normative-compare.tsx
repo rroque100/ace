@@ -19,6 +19,7 @@ import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } f
 
 import {NormativeTextDiff} from "./normative-text-diff";
 import type {compareDocumentTexts} from "@/lib/normative-text-comparison";
+import { stripPageMarkers } from "@/lib/page-markers";
 
 type CompareSource = {
   article: string | null;
@@ -315,7 +316,7 @@ function EvidencePanel({
               {index + 1} · {source.documentType} · calidad {source.evidenceQuality.toFixed(2)}
             </summary>
             <strong>{source.citation || `Fragmento ${source.chunkIndex + 1}`}</strong>
-            <p>{source.excerpt}</p>
+            <p>{stripPageMarkers(source.excerpt)}</p>
             <a className="sourceLink" href={documentPdfUrl(source)} rel="noreferrer" target="_blank">
               <ExternalLink size={14} />
               {source.pageStart ? `Abrir pagina ${source.pageStart}` : "Abrir PDF"}
@@ -551,7 +552,7 @@ export function NormativeCompare() {
                   <strong>{selectedReference.source.citation}</strong>
                   <div className="sourceQuote">
                     <Quote size={17} />
-                    <p>{selectedReference.source.excerpt}</p>
+                    <p>{stripPageMarkers(selectedReference.source.excerpt)}</p>
                   </div>
                   <a
                     className="secondaryButton compactButton"

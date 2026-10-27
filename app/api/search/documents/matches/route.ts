@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth";
 import { supabaseRest } from "@/lib/supabase-server";
+import { stripPageMarkersInExcerpts } from "@/lib/page-markers";
 import {
   checkRateLimit,
   getRateLimitKey,
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
     try {result=await supabaseRest("rpc/ace_search_document_matches_v2",{method:"POST",body});}
     catch(error) {if(!missingSearchIndex(error)) throw error; result=await supabaseRest("rpc/ace_literal_document_matches_v1",{method:"POST",body});}
     return NextResponse.json(
-      result,
+      stripPageMarkersInExcerpts(result),
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {

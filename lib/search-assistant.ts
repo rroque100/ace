@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { documentSearchRequestSchema } from "./document-search";
 import { OFFICIAL_CORPUS_TYPES } from "./official-corpus";
+import { stripPageMarkers } from "./page-markers";
 
 export const assistantRequestSchema = z.object({ text: z.string().trim().min(3).max(500), scope: z.enum(["search", "global"]).default("search") });
 export const assistantProposalSchema = z.object({
@@ -48,7 +49,7 @@ export function catalogueSuggestions<T extends {title: string; documentId: strin
 }
 /** Preview only; original source and PDF remain untouched. */
 export function readableSearchPreview(text:string) {
-  const cleaned = text.split(/\n/).filter(line => !/^\s*(?:firmado digitalmente por\b|firma digital\b|c[oó]digo de verificaci[oó]n\b)/i.test(line)).join("\n")
+  const cleaned = stripPageMarkers(text).split(/\n/).filter(line => !/^\s*(?:firmado digitalmente por\b|firma digital\b|c[oó]digo de verificaci[oó]n\b)/i.test(line)).join("\n")
     .replace(/https?:\/\/apps\.firmaperu\.gob\.pe\/web\/\s*validador\.xhtml/gi," ")
     .replace(/La integridad del documento y la autor[ií]a de la\(s\) firma\(s\) pueden ser verificadas en:\s*/gi," ")
     .replace(/\bExpediente\s+N[°ºo.]?\s*\d+(?:\s+T\.D\.\s*\d+)?/gi," ")

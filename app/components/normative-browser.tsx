@@ -43,6 +43,7 @@ import { corpusGroupForType, corpusTypesForGroup } from "@/lib/official-corpus";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
+import { stripPageMarkers } from "@/lib/page-markers";
 
 type Category = "normas" | "jurisprudencia" | "orientacion";
 
@@ -802,7 +803,7 @@ export function NormativeBrowser() {
                             type="button"
                           >
                             <strong>{source.article ? `Art. ${source.article}` : source.citation}</strong>
-                            <span>{source.excerpt.slice(0, 110)}</span>
+                            <span>{stripPageMarkers(source.excerpt).slice(0, 110)}</span>
                           </button>
                         ))}
                       </div>

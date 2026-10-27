@@ -7,6 +7,7 @@ import {ChatWorkNote} from "./chat-work-note";
 import {ChatFeedback} from "./chat-feedback";
 import {ChatClarification} from "./chat-clarification";
 import { materialWarnings } from "@/lib/chat-signals";
+import { stripPageMarkers } from "@/lib/page-markers";
 import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
@@ -443,11 +444,13 @@ function renderInlineWithSources(
 }
 
 function SourceModalReference({ reference }: { reference: SourceReference }) {
+  // Las conversaciones guardadas conservan el marcador interno «=== PAGINA N ===».
+  const cleanExcerpt = stripPageMarkers(reference.source.excerpt);
   const { snippet, matched, hits } = relevantSnippet(
-    reference.source.excerpt,
+    cleanExcerpt,
     reference.paragraphText,
   );
-  const showFullExcerpt = snippet.trim() !== reference.source.excerpt.trim();
+  const showFullExcerpt = snippet.trim() !== cleanExcerpt.trim();
 
   return (
     <article className="sourceModalReference">
@@ -504,7 +507,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
       {showFullExcerpt ? (
         <details className="sourceFullExcerpt">
           <summary>Ver fragmento completo de la fuente</summary>
-          <p>{reference.source.excerpt}</p>
+          <p>{cleanExcerpt}</p>
         </details>
       ) : null}
 
@@ -796,7 +799,7 @@ function MessageEvidence({
                   {source.citation || `Fragmento ${source.chunkIndex + 1}`}
                 </summary>
                 <strong className="precisionLine">{sourcePrecisionLabel(source)}</strong>
-                <p>{source.excerpt}</p>
+                <p>{stripPageMarkers(source.excerpt)}</p>
                 <div className="evidenceCardActions">
                   <button
                     className="secondaryButton compactButton"
