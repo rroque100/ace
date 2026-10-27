@@ -1,3 +1,4 @@
+import {activeValidityReview,reviewedValidity} from "./validity-review";
 import { z } from "zod";
 import { canonicalSourceEntity, documentaryDates } from "./search-document-metadata";
 import {
@@ -265,7 +266,7 @@ export function matchesSearchCatalogue(
     row.process_type !== "todos"
   )
     return false;
-  const validity = legalValidity(
+  const validity = activeValidityReview(metadata)?reviewedValidity(activeValidityReview(metadata)!):legalValidity(
     typeof metadata.vigencia === "string" ? metadata.vigencia : null,
     typeof metadata.status === "string" ? metadata.status : null,
   );

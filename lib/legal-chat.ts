@@ -1,3 +1,5 @@
+import {legalValidity} from "./legal-center";
+import {activeValidityReview,reviewedValidity,type ValidityRecord} from "./validity-review";
 import { comparisonDraft } from "./chat-comparison-draft";
 import { generationIncomplete, compactRetryParams } from "./chat-generation-completeness";
 import { planQuestion, adaptiveAnswerInstruction } from "./chat-question-plan";
@@ -105,6 +107,7 @@ type DocumentChunk = {
 };
 
 export type LegalSource = {
+  validityReview?:ValidityRecord|null;
   articleId?:string;bodyId?:string;bodyTitle?:string;
   selectionOrigin?: "selected" | "additional";
   version?: string | null;
@@ -566,7 +569,9 @@ function sourceMatchesFilters(source: LegalSource, filters: SearchFilters) {
     return false;
   }
 
-  if (filters.vigencia && !normalizeComparable(source.vigencia).includes(normalizeComparable(filters.vigencia))) {
+  const expectedValidity:Record<string,string>={vigente:"current","no vigente":"not_current",derogado:"not_current",unknown:"unknown"};
+  const actualValidity=source.validityReview?reviewedValidity(source.validityReview):legalValidity(source.vigencia,source.status);
+  if (filters.vigencia && (expectedValidity[filters.vigencia]?expectedValidity[filters.vigencia]!==actualValidity.state:normalizeComparable(source.vigencia)!==normalizeComparable(filters.vigencia))) {
     return false;
   }
 
@@ -762,7 +767,7 @@ Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.doc
 Procedencia: ${source.selectionOrigin === "selected" ? "selección inicial del usuario" : source.selectionOrigin === "additional" ? "fuente adicional recuperada" : "búsqueda general"}
 Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
 Relación con el identificador solicitado: ${source.referenceRelation === "original" ? "documento original identificado en el catálogo" : source.referenceRelation === "cites_requested" ? "el fragmento menciona el documento solicitado; evidencia indirecta" : "material relacionado; no acredita ser el original solicitado"}
-Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}; año según su número: ${yearFromDocumentNumber(source.documentNumber) ?? "no disponible"}
+Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}; revisión humana de vigencia (no acredita aplicación al caso): ${JSON.stringify(source.validityReview??null)}; año según su número: ${yearFromDocumentNumber(source.documentNumber) ?? "no disponible"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
 Ubicacion: ${source.citation}
@@ -1235,6 +1240,7 @@ function chunkToSource(
   const pageStart = chunk.page_start ?? hit?.page_start ?? getNumberMetadata(chunkMetadata, "pageStart");
   const pageEnd = chunk.page_end ?? hit?.page_end ?? getNumberMetadata(chunkMetadata, "pageEnd");
   const source: LegalSource = {
+    validityReview:activeValidityReview(documentMetadata),
     version: recordedVersion(chunk.documents?.title ?? "", getStringMetadata(documentMetadata, "officialVersion") ?? getStringMetadata(documentMetadata, "version") ?? getStringMetadata(documentMetadata, "versionDate")),
     numeral: article ? getStringMetadata(chunkMetadata, "numeral") : null,
     pageCount: getNumberMetadata(documentMetadata, "pageCount"),
@@ -1294,6 +1300,8 @@ export async function searchLegalSources(
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
     ...filters,
+    // Review state is authoritative in Supabase; vector metadata may predate a human review.
+    vigencia:undefined,
     ...(options?.allowedDocumentIds?.length ? { documentIds: options.allowedDocumentIds } : {}),
     processType: undefined,
     regime: undefined,

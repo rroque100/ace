@@ -310,3 +310,16 @@
 .chatNoteText th,.chatNoteText td { @apply border border-slate-200 p-3 align-top; }
 .chatNoteText p,.chatNoteText ul { @apply my-3; }
 .chatExperienceDialog form { @apply grid gap-4; }
+.documentValidityReview { @apply my-4 grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm; }
+.documentValidityReview h3 { @apply font-semibold text-slate-900; }
+.documentValidityReview form,.documentValidityReview label { @apply grid gap-2; }
+.validityReviewGrid { @apply grid gap-3 sm:grid-cols-2; }
+.documentValidityReview input:not([type=checkbox]),.documentValidityReview select,.documentValidityReview textarea { @apply w-full min-w-0 rounded-lg border border-slate-300 bg-white p-3 text-slate-900; min-height:44px; }
+.validityArticleChoices { @apply my-2 grid max-h-60 gap-2 overflow-auto rounded-lg border border-slate-200 bg-white p-3; }
+.validityArticleChoices label { @apply flex items-start gap-2; }
+.validityArticleChoices input { @apply mt-1 shrink-0; }
+.validityReviewDetails { @apply my-2 max-w-full text-sm font-normal text-slate-700; }
+.validityReviewDetails summary { @apply cursor-pointer font-medium text-teal-800; }
+.validityReviewDetails p { @apply my-2 break-words; }
+.validityReviewDetails a { @apply mr-4 inline-block break-all text-teal-800 underline underline-offset-2; }
+.documentValidityReview details article { @apply my-3 border-t border-slate-200 pt-3; }

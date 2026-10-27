@@ -733,7 +733,7 @@ export function SemanticSearch() {
                 ) : null}
                 {source.topic ? <span>Tema {source.topic}</span> : null}
                 {source.status ? <span>Estado {source.status}</span> : null}
-                <LegalValidityBadge value={source.vigencia} status={source.status} />
+                <LegalValidityBadge value={source.vigencia} status={source.status} documentId={source.documentId} />
                 {source.regime ? <span>{source.regime === "no_determinado" ? "Régimen por revisar" : `Régimen ${source.regime}`}</span> : null}
                 {source.year ? <span>{source.year}</span> : null}
               </div>

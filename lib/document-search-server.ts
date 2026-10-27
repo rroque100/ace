@@ -1,3 +1,4 @@
+import {activeValidityReview,reviewedValidity} from "./validity-review";
 import { equivalentReference, lexicalTopic, fuseSearchDocuments } from "./search-discovery";
 import { normalizeLiteralSearch } from "./document-search-query";
 import { missingSearchIndex } from "./document-search-index";
@@ -56,7 +57,7 @@ function resultDocument(
     matchCount,
     titleMatch,
     classification: classifySearchDocument(row),
-    validity: legalValidity(
+    validity: activeValidityReview(row.metadata) ? reviewedValidity(activeValidityReview(row.metadata)!) : legalValidity(
       typeof row.metadata.vigencia === "string" ? row.metadata.vigencia : null,
       typeof row.metadata.status === "string" ? row.metadata.status : null,
     ),

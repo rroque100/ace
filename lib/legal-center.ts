@@ -37,7 +37,7 @@ export function legalValidity(vigencia?: string | null, status?: string | null):
   if (/derog|no vigente|sin vigencia|vencid/.test(value)) {
     return { state: "not_current", label: "No vigente según registro", tone: "warn" };
   }
-  if (/modific/.test(value) || /revision pendiente|pending review|por revisar/.test(review)) {
+  if (/modific|parcial|por revisar/.test(value) || /revision pendiente|pending review|por revisar/.test(review)) {
     return { state: "unknown", label: "Vigencia por revisar", tone: "warn" };
   }
   if (value === "vigente") return { state: "current", label: "Vigente según registro", tone: "ok" };

@@ -12,7 +12,7 @@ import { optionalNormativeRows } from "@/lib/normative-server";
 import { countReferencedPages } from "@/lib/document-pages";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-const requestSchema = z.object({ q:z.string().max(200).default(""), category:z.enum(["normas","jurisprudencia","orientacion"]).default("normas"), page:z.coerce.number().int().min(1).max(10000).default(1), pageSize:z.coerce.number().int().min(5).max(50).default(20), vigencia:z.enum(["","vigente","no vigente","derogado","unknown"]).default("") });
+const requestSchema = z.object({ q:z.string().max(200).default(""), category:z.enum(["normas","jurisprudencia","orientacion"]).default("normas"), page:z.coerce.number().int().min(1).max(10000).default(1), pageSize:z.coerce.number().int().min(5).max(50).default(20), vigencia:z.enum(["","vigente","no vigente","parcialmente vigente","derogado","unknown"]).default("") });
 export async function GET(request: Request) {
   const auth = await requireUser(); if ("error" in auth) return auth.error;
   const params = new URL(request.url).searchParams;

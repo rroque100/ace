@@ -479,7 +479,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
       </div>
       <strong>{reference.source.citation}</strong>
       <p>Numeral: {reference.source.numeral ?? "no registrado"} · Versión: {reference.source.version ?? "no registrada"}</p>
-      <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} />
+      <LegalValidityBadge value={reference.source.vigencia} status={reference.source.status} documentId={reference.source.documentId} articleId={reference.source.articleId} />
 
       {hits > 0 ? (
         <div className="sourceQuote">

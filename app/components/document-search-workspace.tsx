@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import {LegalValidityBadge} from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
 import { lexicalTopic } from "@/lib/search-discovery";
 import { SearchDiscovery } from "./search-discovery";
@@ -212,12 +213,7 @@ function DocumentCard({
       {document.versionNote ? <p className="documentSearchHint">{document.versionNote}</p> : null}
       {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
-        <span
-          className={`legalValidity ${document.validity.state === "current" ? "neutral" : document.validity.tone}`}
-          title="Estado registrado; no confirma aplicabilidad al caso."
-        >
-          {document.validity.state === "current" ? "Registro: vigente · verificar revisión" : document.validity.label}
-        </span>
+        <LegalValidityBadge value={document.review?.validityRecord} review={document.review?.validity} />
         {objects.length || subjects.length ? (
           <span>
             {[...objects, ...subjects].join(" · ")}

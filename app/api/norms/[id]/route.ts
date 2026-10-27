@@ -1,3 +1,4 @@
+import {activeValidityReview} from "@/lib/validity-review";
 import { articleBodyIdentity, checkReferenceDestination } from "@/lib/normative-identity";
 import { annotateArticleSections } from "@/lib/normative-library";
 import { z } from "zod";
@@ -179,6 +180,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       articles: annotateArticleSections(articles).map((article) => ({
         id: article.id,
         articleNumber: article.article_number,
+        validityReview:activeValidityReview(metadata,article.id),
         ...articleBodyIdentity(id,article.metadata),
         bodyRevision:Number(article.metadata?.bodyRevision??0),
         version:documentaryDates(metadata).version,

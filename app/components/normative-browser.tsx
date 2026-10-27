@@ -2,6 +2,9 @@
 
 import "./normative-browser.css";
 import Link from "next/link";
+import {DocumentValidityReview} from "./document-validity-review";
+import type {ValidityRecord} from "@/lib/validity-review";
+import {reviewedValidity} from "@/lib/validity-review";
 import {resolveArticleIdentity} from "@/lib/normative-identity";
 import {NormativeBodyReview} from "./normative-body-review";
 import { ConcordanceReview } from "./concordance-review";
@@ -69,6 +72,7 @@ type NormSummary = {
 };
 
 type Article = {
+  validityReview?:ValidityRecord|null;
   bodyId?:string;bodyTitle?:string;bodyReviewed?:boolean;bodyRevision?:number;version?:string|null;
   id: string;
   articleNumber: string;
@@ -374,7 +378,7 @@ export function NormativeBrowser() {
     const needle = articleFilter.trim().toLowerCase();
 
     return detail.articles.filter((article) => {
-      if (onlyVigente && legalValidity(article.vigencia, article.status).state !== "current") {
+      if (onlyVigente && (article.validityReview?reviewedValidity(article.validityReview):legalValidity(article.vigencia, article.status)).state !== "current") {
         return false;
       }
 
@@ -560,7 +564,7 @@ export function NormativeBrowser() {
       <details className="normAdvancedFilters"><summary>Más filtros · entidad, procedimiento y revisión{[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length ? ` · ${[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length} activos` : ""}</summary><div className="normFilters">
         <label><span>Entidad</span><select value={sourceEntityFilter} onChange={event=>{setSourceEntityFilter(event.target.value);setPage(1);}}><option value="">Todas</option>{facets.entities.map(entity=><option key={entity} value={entity}>{entity}</option>)}</select></label>
         <label><span>Procedimiento</span><select value={processTypeFilter} onChange={event=>{setProcessTypeFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{processTypes.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
-        <label><span>Estado registrado de vigencia</span><select value={vigenciaFilter} onChange={event=>{setVigenciaFilter(event.target.value);setPage(1);}}><option value="">Todos</option><option value="vigente">Registrado como vigente</option><option value="no vigente">Registrado como no vigente</option><option value="unknown">Sin confirmar / por revisar</option></select></label>
+        <label><span>Estado registrado de vigencia</span><select value={vigenciaFilter} onChange={event=>{setVigenciaFilter(event.target.value);setPage(1);}}><option value="">Todos</option><option value="vigente">Registrado como vigente</option><option value="no vigente">Registrado como no vigente</option><option value="parcialmente vigente">Parcialmente vigente</option><option value="unknown">Sin confirmar / por revisar</option></select></label>
         <label><span>Tema registrado</span><input value={topicFilter} onChange={event=>{setTopicFilter(event.target.value);setPage(1);}} placeholder="Tema del catálogo" /></label>
         </div><ExtendedLegalFilterControls value={extendedFilters} onChange={value=>{setExtendedFilters(value);setPage(1);if(value.documentTypes?.length)setDocumentTypeFilter("");if(value.years?.length)setYearFilter("");}} /></details>
       <p className="normCatalogueCount" role="status">{loadingList ? "Consultando documentos…" : `${pagination.total} documentos encontrados · ${facets.categoryTotal} en esta categoría`} · El régimen identificado no confirma aplicabilidad al caso.</p>
@@ -601,7 +605,7 @@ export function NormativeBrowser() {
                   {norm.dates?.version ? ` · ${norm.dates.version}` : ""}
                 </span>
                 {norm.sourceEntity ? <span className="normCardEntity">{norm.sourceEntity}</span> : null}
-                <span className="normCardTags"><span className="normTag">{norm.regime && norm.regime!=="no_determinado" ? `Régimen ${norm.regime}` : "Régimen sin identificar"}</span><LegalValidityBadge value={norm.vigencia} status={norm.status} />
+                <span className="normCardTags"><span className="normTag">{norm.regime && norm.regime!=="no_determinado" ? `Régimen ${norm.regime}` : "Régimen sin identificar"}</span><LegalValidityBadge value={norm.vigencia} status={norm.status} review={norm.review?.validity} compact />
                 </span>
               </button>
             ))
@@ -633,7 +637,7 @@ export function NormativeBrowser() {
                       : ""}
                   </p>
                   <h3>{detail.norm.title}</h3>
-                  <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} />
+                  <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
                 <a
                   className="secondaryButton compactButton"
@@ -658,6 +662,7 @@ export function NormativeBrowser() {
 
               <div className="normReadingActions"><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
               <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
+              <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={()=>{void fetch(`/api/norms/${detail.norm.id}`,{cache:"no-store"}).then(async response=>{if(!response.ok)throw Error("La revisión se guardó, pero no se pudo actualizar la ficha. Vuelve a abrirla.");const payload=await response.json() as NormDetail;setDetail(payload);setNorms(previous=>previous.map(item=>item.id===payload.norm.id?payload.norm:item));}).catch(cause=>setError(cause instanceof Error?cause.message:"No se pudo actualizar la ficha"));}} />
               <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
               <details className="normTechnicalState"><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
               <div className="normQualityStrip">
@@ -812,7 +817,7 @@ export function NormativeBrowser() {
                                   : ""}
                               </span>
                             ) : null}
-                            <LegalValidityBadge value={selectedArticle.vigencia} status={selectedArticle.status} />
+                            <LegalValidityBadge value={selectedArticle.vigencia} status={selectedArticle.status} review={selectedArticle.validityReview} />
                           </div>
                         </div>
 
