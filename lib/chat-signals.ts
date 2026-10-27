@@ -21,7 +21,7 @@ export type SignalAssessment = {
   evidenceWarnings: string[];
 };
 
-type SourceValidity = { vigencia?: string | null; documentNumber?: string | null };
+type SourceValidity = { vigencia?: string | null; documentNumber?: string | null; article?: string | null; excerpt?: string };
 
 // El texto de assessSources va sin tildes («criticas»): se admiten ambas grafías.
 const MISSING_CRITICAL = /^Faltan fuentes cr[ií]ticas/i;
@@ -53,6 +53,15 @@ function citedNumbers(question: string): string[] {
 export function hasConfirmedValidity(sources: SourceValidity[], question = ""): boolean {
   const numbers = citedNumbers(question);
   return sources.some((source) => {
+    // Una disposición derogatoria o transitoria que NOMBRA la norma preguntada
+    // declara su suerte con su propio texto, aunque el registro del documento
+    // diga «desconocida» (así están las copias SPIJ de la Ley 32069).
+    if (
+      /^DC[DT]-\d+$/.test(source.article ?? "") &&
+      numbers.some((number) => (source.excerpt ?? "").replace(/\s*-\s*/g, "-").includes(number))
+    ) {
+      return true;
+    }
     const value = (source.vigencia ?? "").toLowerCase();
     if (!(value === "vigente" || value.startsWith("derogad"))) return false;
     if (numbers.length === 0) return true;

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { citedSourceNumbers } from "./chat-source-locations";
 import type { CaseContext } from "./chat-case-context";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
+import { detectValidityTarget } from "./chat-vigencia";
 
 export type AuditSource = {
   documentTitle: string; excerpt: string; article?: string | null;
@@ -20,7 +21,10 @@ export function sourceNormIdentity(source: AuditSource) {
 }
 export function isRegimeComparison(question: string) {
   const text = question.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-  return (/\b32069\b/.test(text) && /\b30225\b/.test(text))
+  // \u00ab\u00bfSigue vigente la Ley 30225?\u00bb se responde con la norma que la deroga: hacen
+  // falta las dos familias, y descartar una dejaba fuera la derogatoria.
+  return detectValidityTarget(question) !== null
+    || (/\b32069\b/.test(text) && /\b30225\b/.test(text))
     || /(?:compar|diferencia).{0,30}regimenes|regimen anterior.{0,30}nuevo|\b(?:compara|comparar|contrasta|diferencias?).{0,40}\b(?:normas|leyes|reglamentos|versiones|documentos|fuentes)\b/.test(text);
 }
 export function selectCoherentEvidence<T extends AuditSource>(sources: T[], question: string, context?: CaseContext) {
@@ -129,7 +133,9 @@ export async function auditEvidence(answer: string, sources: AuditSource[], cont
   const regimes = [...new Set(sources.filter(s => s.regimeReviewed && s.regime && s.regime !== "no_determinado").map(s => s.regime!))];
   review.regimeFrame = { declared: context?.regime || null, documented: regimes,
     status: regimes.length > 1 ? "mixed" : regimes.length === 1 ? "conditional" : "unknown" };
-  if (regimes.length > 1) review.warnings.push("Se recuperaron fuentes de distintos regímenes: no pueden aplicarse indistintamente al caso.");
+  // En una pregunta de vigencia, mezclar la norma preguntada y la que la deroga es
+  // justo lo que se pide; el aviso solo confundiría.
+  if (regimes.length > 1 && !detectValidityTarget(question)) review.warnings.push("Se recuperaron fuentes de distintos regímenes: no pueden aplicarse indistintamente al caso.");
   if (sources.some(s => !s.regimeReviewed)) review.warnings.push("Hay fuentes cuyo régimen no ha sido revisado en el catálogo.");
   const allClaims = evidenceClaims(answer), claims=allClaims.slice(0,48);
   for (const marker of citedSourceNumbers(answer).filter(n => n < 1 || n > sources.length)) review.warnings.push(`La cita [F${marker}] no corresponde a una fuente recuperada y se retira de la respuesta.`);

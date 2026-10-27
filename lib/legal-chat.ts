@@ -13,6 +13,7 @@ import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-rece
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
+import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
 import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
@@ -1689,6 +1690,15 @@ async function prepareLegalAnswer(
   const selectedIds=[...new Set(input.filters?.selectedDocumentIds ?? ((input.filters?.documentIds?.length??0)<=8?input.filters?.documentIds??[]:[]))];
   const focusedQueries = alternatives ? alternativeQueries(alternatives) : questionPlan.subqueries;
   const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
+  // Pregunta de vigencia de una norma concreta: la respuesta está en las
+  // disposiciones derogatorias/transitorias de la que la sustituye, que la
+  // recuperación abierta no sube (ver lib/chat-vigencia.ts). Pasadas dirigidas sin
+  // el filtro de proceso: la derogatoria no pertenece a ningún proceso.
+  const validityTarget = alternatives || input.filters?.articleId ? null : detectValidityTarget(input.question);
+  const validityTask = validityTarget
+    ? Promise.allSettled(validityRetrievalQueries(validityTarget.norms).map(query =>
+        searchLegalSources({ filters: { ...chatFilters, processType: "" }, query, topK: 8 })))
+    : Promise.resolve([]);
   const selectedRecoveryTask=recoverSelectedSources(selectedIds,id=>searchLegalSources({filters:{documentId:id},query:contextualQuery,topK:2},{allowedDocumentIds:[id],indexedLexical:true}));
   let exactArticle:LegalSource[]=[];let articleFailed=false;
   if(input.filters?.articleId)try{exactArticle=await exactArticleEvidence(input.filters.articleId,input.filters.documentId,input.filters.bodyId);}catch{articleFailed=true;}
@@ -1765,6 +1775,12 @@ async function prepareLegalAnswer(
     ]);
   const selectedRecovery=await selectedRecoveryTask;
   const alternativeResults = await alternativeTask;
+  const validityEvidence = validityTarget
+    ? pickValidityEvidence(
+        (await validityTask).flatMap(result => result.status === "fulfilled" ? result.value.sources : []),
+        validityTarget.norms,
+      )
+    : [];
   const alternativeSources = alternativeResults.flatMap(result => result.status === "fulfilled" ? result.value.sources : []).filter(source=>sourceSupportsProcess(source,requestedProcessType));
   const processRelevantBroadSources = (broadSearchResult?.sources ?? []).filter((source) =>
     sourceSupportsProcess(source, requestedProcessType),
@@ -1798,7 +1814,7 @@ async function prepareLegalAnswer(
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
   const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
   const seeds = !alternatives ? alternativeResults.flatMap(result=>result.status==="fulfilled"?result.value.sources.slice(0,1):[]).filter(source=>sourceSupportsProcess(source,requestedProcessType)) : [];
-  const selected = alternatives ? alternativePool.slice(0,12) : [...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
+  const selected = alternatives ? alternativePool.slice(0,12) : [...validityEvidence,...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
   const beforeCoherence = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, alternatives || questionPlan.subqueries.length ? 12 : 8);
   const coherent = originals.length ? beforeCoherence : selectCoherentEvidence(beforeCoherence, input.question, input.caseContext);
@@ -1916,6 +1932,7 @@ async function prepareLegalAnswer(
       {
         content: caseEvidenceInstruction + "\n" +
       (assessment.exactDocument && assessment.exactDocument.status !== "found" ? "El original solicitado NO se recuperó o su catálogo no pudo comprobarse. Comienza indicándolo explícitamente. Distingue referencias indirectas de contenido del original; no atribuyas al original una regla leída en otro documento. " : "") +
+      (validityTarget && validityEvidence.length ? validityInstruction(validityTarget.norms) : "") +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
       "Prioridad cronológica: las fuentes llegan ordenadas dentro de cada rango normativo de la más reciente a la más antigua (por el año de su número o, en las leyes, por su numeración). Si dos fuentes del MISMO rango dicen cosas distintas, da preferencia a la más reciente y menciona la anterior solo como antecedente; la jerarquía normativa (ley, reglamento, directiva) prevalece sobre la fecha y una fecha posterior NO prueba por sí sola que una norma derogue a otra. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
