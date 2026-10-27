@@ -212,6 +212,7 @@ export function NormativeBrowser() {
   const [semanticSources, setSemanticSources] = useState<SemanticSource[]>([]);
   const [titleQuery, setTitleQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [reviewEpoch,setReviewEpoch]=useState(0);
   const [pagination, setPagination] = useState({total:0,pages:0});
   const [facets, setFacets] = useState<{entities:string[];years:number[];categoryTotal:number}>({entities:[],years:[],categoryTotal:0});
   const [listWarnings, setListWarnings] = useState<string[]>([]);
@@ -275,7 +276,7 @@ export function NormativeBrowser() {
     return () => {
       cancelled = true; controller.abort(); clearTimeout(timer);
     };
-  }, [titleQuery,page,extendedFilters, category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
+  }, [reviewEpoch,titleQuery,page,extendedFilters, category, documentTypeFilter, processTypeFilter, sourceEntityFilter, targetDocumentId, topicFilter, vigenciaFilter, yearFilter]);
 
   useEffect(() => {
     if(!selectedId)return;
@@ -303,6 +304,18 @@ export function NormativeBrowser() {
       readingRef.current?.focus({ preventScroll: true });
     }
   }, [reading, selectedId]);
+
+  function refreshAfterValidityReview() {
+    if(!selectedId)return;
+    const sequence=detailSequence.current;
+    setReviewEpoch(value=>value+1);
+    void fetch(`/api/norms/${selectedId}`,{cache:"no-store"}).then(async response=>{
+      if(!response.ok)throw Error("La revisión se guardó, pero no se pudo actualizar la ficha. Vuelve a abrirla.");
+      const payload=await response.json() as NormDetail;
+      if(sequence!==detailSequence.current)return;
+      setDetail(payload);
+    }).catch(cause=>{if(sequence===detailSequence.current)setError(cause instanceof Error?cause.message:"No se pudo actualizar la ficha");});
+  }
 
   async function selectNorm(id: string, targetArticleId?: string) {
     const sequence=++detailSequence.current;
@@ -652,7 +665,7 @@ export function NormativeBrowser() {
 
               {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
               {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
-              <details className="normDocumentInfo"><summary>Ficha, versiones y acciones del documento</summary>
+              <details className="normDocumentInfo"><summary>Ficha, vigencia, versiones y acciones del documento</summary>
               {detail.norm.amends ? (
                 <div className="normAmends">
                   <AlertTriangle size={15} />
@@ -662,8 +675,7 @@ export function NormativeBrowser() {
 
               <div className="normReadingActions"><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
               <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
-              <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={()=>{void fetch(`/api/norms/${detail.norm.id}`,{cache:"no-store"}).then(async response=>{if(!response.ok)throw Error("La revisión se guardó, pero no se pudo actualizar la ficha. Vuelve a abrirla.");const payload=await response.json() as NormDetail;setDetail(payload);setNorms(previous=>previous.map(item=>item.id===payload.norm.id?payload.norm:item));}).catch(cause=>setError(cause instanceof Error?cause.message:"No se pudo actualizar la ficha"));}} />
-              <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
+              <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={refreshAfterValidityReview} />              <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
               <details className="normTechnicalState"><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
               <div className="normQualityStrip">
                 {detail.norm.articleCount > 0 ? <span data-ready={true}>
