@@ -22,6 +22,8 @@
 // documentos importados.
 
 import { createHash, randomUUID } from "node:crypto";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import pdfParse from "pdf-parse/lib/pdf-parse";
 import { downloadOfficialPdf, validateOfficialUrl } from "@/lib/official-import/download";
 import { processPdfForSearch } from "@/lib/pdf-processing";
 import { supabaseRest, uploadPdfToStorage, type DocumentRecord } from "@/lib/supabase-server";
@@ -32,13 +34,17 @@ const apply = args.includes("--aplicar");
 const tipo = flag("--tipo") as keyof typeof TIPOS | undefined;
 const only = (flag("--solo") ?? "").split(",").map((x) => x.trim().toLowerCase()).filter(Boolean);
 const detail = args.includes("--detalle");
+const regimeFilter = flag("--regimen"); // 32069 | 30225: solo importa los que citan esa ley y no la otra
+const classifyOnly = args.includes("--clasificar"); // simulación que además lee las primeras páginas de cada PDF
+const sampleSize = flag("--muestra") ? Number(flag("--muestra")) : Infinity;
+const cachePath = flag("--cache");
 const since = flag("--desde");
 const until = flag("--hasta");
 const limit = flag("--limite") ? Number(flag("--limite")) : Infinity;
 const concurrency = Math.max(1, Number(flag("--concurrencia") ?? 3));
 const order = flag("--orden") === "asc" ? "asc" : "desc";
 
-const BASE = "https://www.gob.pe/institucion/oece/normas-legales";
+const SITE = "https://www.gob.pe/institucion/oece";
 const TIPOS = {
   "resolucion-tcp": {
     documentType: "resolucion",
@@ -68,6 +74,16 @@ const TIPOS = {
     terms: undefined,
     titleRe: /^Decreto Supremo\s+N/i,
   },
+  // Se publican en «informes-publicaciones», no en «normas-legales». Esa sección no filtra por
+  // fechas: se lee de lo más reciente hacia atrás y se corta al pasar de --desde.
+  pronunciamiento: {
+    documentType: "pronunciamiento",
+    filterType: "64",
+    label: (n: string) => `Pronunciamiento N° ${n}`,
+    section: "informes-publicaciones",
+    terms: undefined,
+    titleRe: /^Pronunciamiento\s+N/i,
+  },
   "sala-plena": {
     documentType: "acuerdo_sala_plena",
     filterType: "73",
@@ -78,10 +94,13 @@ const TIPOS = {
 } as const;
 
 if (!tipo || !(tipo in TIPOS)) {
-  console.error("Uso: importar-gobpe-oece.mts --tipo resolucion-tcp|sala-plena|ley|decreto-legislativo|decreto-supremo [--solo 1341,082-2019-EF] [--detalle] [--desde AAAA-MM-DD] [--hasta AAAA-MM-DD] [--aplicar] [--limite N] [--concurrencia N] [--orden desc|asc]");
+  console.error("Uso: importar-gobpe-oece.mts --tipo resolucion-tcp|sala-plena|ley|decreto-legislativo|decreto-supremo|pronunciamiento [--regimen 32069|30225] [--clasificar] [--muestra N] [--cache archivo.json] [--solo 1341,082-2019-EF] [--detalle] [--desde AAAA-MM-DD] [--hasta AAAA-MM-DD] [--aplicar] [--limite N] [--concurrencia N] [--orden desc|asc]");
   process.exit(1);
 }
-const kind = TIPOS[tipo];
+const kind = TIPOS[tipo] as (typeof TIPOS)[keyof typeof TIPOS] & { section?: string };
+const section = kind.section ?? "normas-legales";
+const noDateFilter = section !== "normas-legales";
+const BASE = `${SITE}/${section}`;
 const dmy = (iso: string) => iso.split("-").reverse().join("/");
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -152,10 +171,11 @@ function listingUrl(sheet: number) {
   const url = new URL(BASE);
   url.searchParams.set("filter[type]", kind.filterType);
   if (kind.terms) url.searchParams.set("filter[terms]", kind.terms);
-  if (since) url.searchParams.set("filter[start_date]", dmy(since));
-  if (until) url.searchParams.set("filter[end_date]", dmy(until));
+  if (!noDateFilter && since) url.searchParams.set("filter[start_date]", dmy(since));
+  if (!noDateFilter && until) url.searchParams.set("filter[end_date]", dmy(until));
   url.searchParams.set("filter[per_page]", "100");
-  url.searchParams.set("filter[order]", "publication_asc"); // orden estable mientras se pagina
+  // asc = orden estable mientras se pagina; en la sección sin filtro de fechas, desc para poder cortar.
+  url.searchParams.set("filter[order]", noDateFilter && since ? "publication_desc" : "publication_asc");
   if (sheet > 1) url.searchParams.set("sheet", String(sheet));
   return url.href;
 }
@@ -166,7 +186,9 @@ const total = Number(firstPage.match(/([\d.,]+)\s*resultados/)?.[1].replace(/[.,
 const pages = Math.max(1, Math.ceil(total / 100));
 const listed = new Map<string, Item>();
 for (const item of parseListing(firstPage)) listed.set(item.key, item);
+const pageIsOlderThanSince = (items: Item[]) => noDateFilter && Boolean(since) && items.length > 0 && items.every((item) => item.date && item.date < since!);
 for (let sheet = 2; sheet <= pages; sheet += 1) {
+  if (pageIsOlderThanSince([...listed.values()].slice(-100))) break;
   await sleep(1200);
   for (const item of parseListing(await getText(listingUrl(sheet)))) if (!listed.has(item.key)) listed.set(item.key, item);
   if (sheet % 10 === 0) console.log(`  listado: hoja ${sheet}/${pages}, ${listed.size} documentos`);
@@ -192,7 +214,8 @@ for (const row of existing) {
   if (typeof row.metadata?.sha256 === "string") haveHash.add(row.metadata.sha256);
 }
 
-const all = [...listed.values()].sort((a, b) => a.date.localeCompare(b.date) || a.key.localeCompare(b.key));
+const inRange = (item: Item) => (!since || item.date >= since) && (!until || item.date <= until);
+const all = [...listed.values()].filter(inRange).sort((a, b) => a.date.localeCompare(b.date) || a.key.localeCompare(b.key));
 if (order === "desc") all.reverse();
 const already = all.filter((item) => haveKey.has(item.key) || haveUrl.has(item.publicationUrl));
 const missing = all.filter((item) => !haveKey.has(item.key) && !haveUrl.has(item.publicationUrl));
@@ -224,6 +247,42 @@ console.log(`Ya en ACE: ${already.length} (a ${toEnrich.length} de ellos se les 
 console.log(`Faltan: ${missing.length}${Number.isFinite(limit) ? ` · en esta pasada: ${selected.length}` : ""}`);
 if (unrecognized.length) console.log(`Sin número reconocible (${unrecognized.length}), p. ej.: ${[...new Set(unrecognized)].slice(0, 6).join(" | ")}`);
 console.log("Faltan por mes:", [...byMonth].sort().map(([month, n]) => `${month}: ${n}`).join(" · ") || "—");
+
+// Régimen según la norma que cita el propio documento (primeras páginas, sin OCR). Lo decisivo es
+// la fecha de convocatoria del procedimiento (Ley 32069, DCT Cuarta), que el texto del
+// pronunciamiento refleja al citar la ley y el reglamento que aplica.
+type Regime = "32069" | "30225" | "mixto" | "sin-indicio";
+const classifyCache: Record<string, { regimen: Regime; n32069: number; n30225: number }> = cachePath && existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, "utf8")) : {};
+async function classify(item: Item, bytes: Buffer): Promise<Regime> {
+  const cached = classifyCache[item.key];
+  if (cached) return cached.regimen;
+  const text = (await pdfParse(bytes, { max: 4 })).text;
+  const n32069 = (text.match(/\b32069\b|Ley General de Contrataciones P[uú]blicas|009\s*-?\s*2025\s*-?\s*EF/gi) ?? []).length;
+  const n30225 = (text.match(/\b30225\b|Ley de Contrataciones del Estado|082\s*-?\s*2019\s*-?\s*EF|344\s*-?\s*2018\s*-?\s*EF/gi) ?? []).length;
+  const regimen: Regime = n32069 && !n30225 ? "32069" : n30225 && !n32069 ? "30225" : n32069 && n30225 ? "mixto" : "sin-indicio";
+  classifyCache[item.key] = { regimen, n32069, n30225 };
+  if (cachePath) writeFileSync(cachePath, JSON.stringify(classifyCache));
+  return regimen;
+}
+if (!apply && classifyOnly) {
+  const sample = missing.slice(0, Math.min(sampleSize, missing.length));
+  const counts = new Map<Regime, number>();
+  let done = 0;
+  let cursor = 0;
+  await Promise.all(Array.from({ length: 3 }, async () => {
+    while (cursor < sample.length) {
+      const item = sample[cursor++];
+      try {
+        const regimen = await classify(item, await downloadOfficialPdf(item.pdfUrl));
+        counts.set(regimen, (counts.get(regimen) ?? 0) + 1);
+      } catch (error) { console.error(`  ${item.number}: ${error instanceof Error ? error.message : error}`); }
+      done += 1;
+      if (done % 50 === 0) console.log(`  clasificados ${done}/${sample.length}`);
+      await sleep(250);
+    }
+  }));
+  console.log(`Clasificación por régimen (${sample.length} documentos leídos, sin guardar nada):`, [...counts].map(([k, v]) => `${k}: ${v}`).join(" · "));
+}
 
 // 3. Peso estimado: HEAD a una muestra repartida de lo que falta.
 async function estimateSize() {
@@ -258,6 +317,7 @@ const batch = `gobpe-oece-${new Date().toISOString().slice(0, 10)}`;
 let imported = 0;
 let failed = 0;
 let enriched = 0;
+let skippedByRegime = 0;
 let next = 0;
 
 for (const item of toEnrich) {
@@ -273,6 +333,10 @@ async function importOne(item: Item, label: string) {
   let bytes: Buffer | undefined;
   for (let attempt = 1; !bytes; attempt += 1) {
     try { bytes = await downloadOfficialPdf(item.pdfUrl); } catch (error) { if (attempt >= 3) throw error; await sleep(1500 * attempt); }
+  }
+  if (regimeFilter) {
+    const regimen = await classify(item, bytes);
+    if (regimen !== regimeFilter) { console.log(`${label} · omitida: régimen según el texto = ${regimen}`); skippedByRegime += 1; return; }
   }
   const sha256 = createHash("sha256").update(bytes).digest("hex");
   if (haveHash.has(sha256)) { console.log(`${label} · omitida: mismo archivo que otro ya importado`); return; }
@@ -337,5 +401,5 @@ await Promise.all(
     }
   }),
 );
-console.log(`\nTerminado: ${imported} importadas, ${failed} con error.`);
+console.log(`\nTerminado: ${imported} importadas, ${failed} con error${regimeFilter ? `, ${skippedByRegime} omitidas por régimen` : ""}.`);
 process.exit(failed > 0 ? 1 : 0);
