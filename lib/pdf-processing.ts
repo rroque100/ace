@@ -109,6 +109,10 @@ type StructuredLegalMetadata = {
 function normalizeText(text: string) {
   return repairLigatures(
     text
+      // Algunos PDF (p. ej. pronunciamientos del OECE) traen el caracter nulo en el texto
+      // extraido, y Postgres no puede guardarlo en una columna text/jsonb: el documento
+      // entero caia con «\u0000 cannot be converted to text» al insertar sus fragmentos.
+      .replace(/\u0000/g, "")
       .replace(/\r/g, "\n")
       .replace(/[ \t]+/g, " ")
       .replace(/\n{3,}/g, "\n\n"),
