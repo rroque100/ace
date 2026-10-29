@@ -19,7 +19,7 @@ import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalValidity } from "@/lib/legal-center";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
@@ -46,6 +46,21 @@ import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-cata
 import { stripPageMarkers } from "@/lib/page-markers";
 
 type Category = "normas" | "jurisprudencia" | "orientacion";
+
+const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+
+/** «2008-09-01» → «1 sep 2008». Lo que no es una fecha ISO se devuelve tal cual. */
+function formatNormDate(value?: string | null) {
+  const match = (value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return value ?? "";
+  return `${Number(match[3])} ${MONTHS[Number(match[2]) - 1] ?? match[2]} ${match[1]}`;
+}
+
+/** La «versión» a veces es el nombre del archivo subido («Archivo oficial 6682397-….pdf»): no se muestra. */
+function readableVersion(value?: string | null) {
+  if (!value || /[.](pdf|docx?)$/i.test(value.trim()) || /^archivo /i.test(value)) return "";
+  return value;
+}
 
 type NormSummary = {
   review?: ReturnType<typeof documentReviewSummary>;
@@ -198,6 +213,19 @@ export function NormativeBrowser() {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [articleFilter, setArticleFilter] = useState("");
+  // Con ancho suficiente el índice va al lado del texto y abierto; en pantallas estrechas empieza
+  // plegado. Si la persona lo abre o lo cierra, manda su elección.
+  const wideScreen = useSyncExternalStore(
+    (notify) => {
+      const query = window.matchMedia("(min-width: 1180px)");
+      query.addEventListener("change", notify);
+      return () => query.removeEventListener("change", notify);
+    },
+    () => window.matchMedia("(min-width: 1180px)").matches,
+    () => false,
+  );
+  const [articleNavChoice, setArticleNavChoice] = useState<boolean | null>(null);
+  const articleNavOpen = articleNavChoice ?? wideScreen;
   const [onlyVigente, setOnlyVigente] = useState(false);
   const [citing, setCiting] = useState<Citing[]>([]);
   const [error, setError] = useState("");
@@ -539,13 +567,7 @@ export function NormativeBrowser() {
       <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, articleId:selectedArticle?.id, bodyId:selectedArticle?.bodyId, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
 
       <div className="normCatalogueControls">
-      <div className="toolPanelHeader">
-        <div>
-          <p className="eyebrow">Base documental</p>
-          <h2>Explora documentos y criterios</h2>
-        </div>
-        <Library size={22} />
-      </div>
+      <p className="normIntro">Busca por título o número, o explora por categoría. Cada documento enlaza su PDF para poder citarlo con su página.</p>
 
       {/* Filtro de categoría sobre el mismo listado, no pestañas. */}
       <div className="sourceTabs normCategoryTabs" role="group" aria-label="Categoria">
@@ -581,7 +603,11 @@ export function NormativeBrowser() {
         <label><span>Estado registrado de vigencia</span><select value={vigenciaFilter} onChange={event=>{setVigenciaFilter(event.target.value);setPage(1);}}><option value="">Todos</option><option value="vigente">Registrado como vigente</option><option value="no vigente">Registrado como no vigente</option><option value="parcialmente vigente">Parcialmente vigente</option><option value="unknown">Sin confirmar / por revisar</option></select></label>
         <label><span>Tema registrado</span><input value={topicFilter} onChange={event=>{setTopicFilter(event.target.value);setPage(1);}} placeholder="Tema del catálogo" /></label>
         </div><ExtendedLegalFilterControls value={extendedFilters} onChange={value=>{setExtendedFilters(value);setPage(1);if(value.documentTypes?.length)setDocumentTypeFilter("");if(value.years?.length)setYearFilter("");}} /></details>
-      <p className="normCatalogueCount" role="status">{loadingList ? "Consultando documentos…" : `${pagination.total} documentos encontrados · ${facets.categoryTotal} en esta categoría`} · El régimen identificado no confirma aplicabilidad al caso.</p>
+      <p className="normCatalogueCount" role="status">
+        <strong>{loadingList ? "Consultando documentos…" : `${pagination.total} ${pagination.total === 1 ? "documento" : "documentos"}`}</strong>
+        {loadingList ? null : <span>{facets.categoryTotal} en esta categoría</span>}
+        <span className="normCatalogueNote">La vigencia y el régimen se confirman dentro de cada documento; el listado no acredita que apliquen a tu caso. Solo se marca lo que consta como vigente o no vigente.</span>
+      </p>
       {listWarnings.length ? <div className="normPartialNotice" role="status"><strong>Listado disponible con comprobaciones pendientes</strong>{listWarnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
 
 
@@ -594,10 +620,10 @@ export function NormativeBrowser() {
       <div className="normGrid">
         <aside className="normList" aria-label="Listado de normas">
           {loadingList ? (
-            <div className="emptyState">
-              <LoaderCircle size={18} />
-              <span>Cargando...</span>
-            </div>
+            <>
+              <span className="normSkeletonLabel" role="status">Cargando documentos…</span>
+              {Array.from({ length: 6 }, (_, index) => <div key={index} className="normCardSkeleton" aria-hidden="true"><i /><i /><i /></div>)}
+            </>
           ) : norms.length === 0 ? (
             <div className="emptyState">
               <ScrollText size={18} />
@@ -611,15 +637,22 @@ export function NormativeBrowser() {
                 onClick={() => selectNorm(norm.id)}
                 type="button"
               >
-                <strong>{norm.title}</strong>
-                <span className="normCardMeta">
-                  {documentTypeLabel(norm.documentType)}
-                  {norm.documentNumber ? ` · ${norm.documentNumber}` : ""}
-                  {norm.dates?.published ? ` · Publicado: ${norm.dates.published}` : norm.year ? ` · Año registrado: ${norm.year}` : ""}
-                  {norm.dates?.version ? ` · ${norm.dates.version}` : ""}
+                <span className="normCardTop">
+                  <span className="normCardType">{documentTypeLabel(norm.documentType)}</span>
+                  {norm.dates?.published || norm.year ? <time className="normCardDate">{norm.dates?.published ? formatNormDate(norm.dates.published) : `Año ${norm.year}`}</time> : null}
                 </span>
-                {norm.sourceEntity ? <span className="normCardEntity">{norm.sourceEntity}</span> : null}
-                <span className="normCardTags"><span className="normTag">{norm.regime && norm.regime!=="no_determinado" ? `Régimen ${norm.regime}` : "Régimen sin identificar"}</span><LegalValidityBadge value={norm.vigencia} status={norm.status} review={norm.review?.validity} compact />
+                <strong className="normCardTitle">{norm.title}</strong>
+                <span className="normCardMeta">
+                  {[
+                    norm.documentNumber && !norm.title.includes(norm.documentNumber) ? `N.° ${norm.documentNumber}` : "",
+                    norm.sourceEntity ?? "",
+                    readableVersion(norm.dates?.version),
+                  ].filter(Boolean).join(" · ")}
+                </span>
+                {/* Solo se muestra lo que informa: «sin identificar» y «por revisar» en todas las tarjetas era ruido. */}
+                <span className="normCardTags">
+                  {norm.regime && norm.regime !== "no_determinado" ? <span className="normTag">Régimen {norm.regime}</span> : null}
+                  {legalValidity(norm.vigencia, norm.status).state !== "unknown" || norm.review?.validity ? <LegalValidityBadge value={norm.vigencia} status={norm.status} review={norm.review?.validity} compact /> : null}
                 </span>
               </button>
             ))
@@ -653,15 +686,21 @@ export function NormativeBrowser() {
                   <h3>{detail.norm.title}</h3>
                   <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
-                <a
-                  className="secondaryButton compactButton"
-                  href={`/api/documents/${detail.norm.id}`}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  <ExternalLink size={15} />
-                  Abrir PDF
-                </a>
+                <div className="normHeaderActions">
+                  <button type="button" className="primaryButton compactButton" disabled={chatBusy} onClick={() => void askDocument()}>
+                    <MessageSquareText size={15} />
+                    Consultar en Chat
+                  </button>
+                  <a
+                    className="secondaryButton compactButton"
+                    href={`/api/documents/${detail.norm.id}`}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <ExternalLink size={15} />
+                    Abrir PDF
+                  </a>
+                </div>
               </header>
 
               {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
@@ -751,7 +790,7 @@ export function NormativeBrowser() {
                 </div>
               ) : (
                 <div className="articleLayout">
-                  <details className="articleNavCol normArticleNavigation"><summary>Índice y búsqueda en el documento</summary>
+                  <details className="articleNavCol normArticleNavigation" open={articleNavOpen} onToggle={(event) => setArticleNavChoice(event.currentTarget.open)}><summary>Índice y búsqueda en el documento</summary>
                     <label className="articleSearch">
                       <Search size={15} />
                       <input
