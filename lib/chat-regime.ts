@@ -252,9 +252,31 @@ export function comparisonInstruction(): string {
   return (
     "La pregunta compara la Ley 30225 (régimen anterior, derogado salvo transición) con la Ley 32069 (régimen vigente). " +
     "Responde con una tabla Markdown de tres columnas: Aspecto | Ley 30225 | Ley 32069. Una fila por aspecto realmente comparable. " +
+    "Cada fuente indica «Régimen según su identificador»: en la columna Ley 30225 van SOLO las fuentes de ese régimen (la Ley 30225, sus modificatorias —los Decretos Legislativos 1341 y 1444— y su reglamento, el D.S. 344-2018-EF); en la columna Ley 32069, SOLO las del régimen vigente. " +
+    "Una modificatoria de la Ley 30225 NO es la «ley nueva». Una fuente de régimen «no determinable» no va en ninguna columna. " +
     "En CADA celda cita la fuente con [F#] o escribe «no consta en las fuentes recuperadas»; no completes de memoria ni inventes diferencias. " +
     "Si de una de las dos leyes no se recuperó ninguna fuente, dilo antes de la tabla en vez de suponer su contenido. " +
     "Cierra con una línea: qué ley se aplica a un procedimiento depende de su fecha de convocatoria (Disposición Complementaria Transitoria Cuarta de la Ley 32069). "
+  );
+}
+
+/** Régimen de una fuente para mostrárselo al modelo: deducido de su identificador, nunca revisado por una persona. */
+export function regimeLabel(source: SourceLike): string {
+  const regime = sourceRegime(source);
+  return regime ? `Ley ${regime}` : "no determinable";
+}
+
+/**
+ * Cuando la persona no da fecha ni nombra una ley, rige lo vigente. Sin esta regla el modelo elegía entre fuentes casi
+ * idénticas de los dos regímenes (el artículo de impedimentos del D.Leg. 1444 y el de la Ley 32069) por el orden en
+ * que llegaban, y respondía con la ley derogada como si fuera la actual.
+ */
+export function defaultRegimeInstruction(): string {
+  return (
+    "La pregunta no indica fecha de convocatoria ni nombra una ley: responde con el régimen VIGENTE (Ley 32069 y su Reglamento, D.S. 009-2025-EF). " +
+    "Cada fuente indica «Régimen según su identificador». Las de la Ley 30225, sus modificatorias (Decretos Legislativos 1341 y 1444) y su reglamento (D.S. 344-2018-EF) son del régimen anterior: " +
+    "no las uses como respuesta principal; si aportan contexto, preséntalas aparte y di expresamente que son del régimen anterior, solo aplicable a procedimientos convocados antes de la vigencia de la Ley 32069. " +
+    "Si ninguna fuente vigente responde, dilo en lugar de contestar con la del régimen anterior. "
   );
 }
 
@@ -273,6 +295,7 @@ type CitedSource = { article?: string | null; documentType: string; excerpt: str
 export function temporalApplicationBlock(question: string, sources: CitedSource[]): string | null {
   if (!isTemporalApplicabilityQuestion(question)) return null;
   const intent = questionRegimeIntent(question);
+  if (intent.convocatoria && intent.ambiguous) return ambiguousDateBlock(intent.convocatoria.raw, sources);
   if (!intent.convocatoria || (intent.regime !== "32069" && intent.regime !== "30225")) return null;
   const rule = sources.findIndex((source) => source.documentType === "ley" && source.article === "DCT-4");
   if (rule < 0) return null;
@@ -287,5 +310,21 @@ export function temporalApplicationBlock(question: string, sources: CitedSource[
     `Indicas que el procedimiento se convocó en ${intent.convocatoria.raw}. Esa fecha es ${when}, así que corresponde la **Ley ${intent.regime}**: ` +
     `los procedimientos de selección iniciados antes de la vigencia se rigen por las normas vigentes al momento de su convocatoria [F${rule + 1}]. ` +
     "Se aplica por la fecha de convocatoria, no por la del contrato. Es un cálculo con la fecha que indicas; confírmala en el expediente.\n\n"
+  );
+}
+
+/**
+ * «Abril de 2025» o «2025» contienen la fecha de corte: el mes no basta para saber qué ley rige. Se dice con
+ * claridad y se pide el día, en vez de dejar que el modelo elija una de las dos leyes o enumere ambas sin concluir.
+ */
+function ambiguousDateBlock(raw: string, sources: CitedSource[]): string {
+  const rule = sources.findIndex((source) => source.documentType === "ley" && source.article === "DCT-4");
+  const dateSource = sources.findIndex((source) => /22 de abril de 2025/i.test(source.excerpt));
+  const cut = dateSource >= 0 ? `el ${displayDate(LEY_32069_VIGENCIA)} [F${dateSource + 1}]` : "la entrada en vigencia de la Ley 32069";
+  return (
+    "**Falta la fecha exacta de la convocatoria**\n" +
+    `Indicas que el procedimiento se convocó en ${raw}, y ese período contiene la fecha desde la que rige la Ley 32069. ` +
+    `Si se convocó antes de ${cut} corresponde la **Ley 30225**; desde esa fecha, la **Ley 32069**${rule >= 0 ? ` (los procedimientos iniciados antes de la vigencia se rigen por las normas vigentes al momento de su convocatoria [F${rule + 1}])` : ""}. ` +
+    "Indica el **día exacto** de la convocatoria para poder concluir.\n\n"
   );
 }

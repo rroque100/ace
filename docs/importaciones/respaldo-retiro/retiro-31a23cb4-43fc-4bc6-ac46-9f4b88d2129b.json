@@ -1,0 +1,482 @@
+{
+  "guardadoEn": "2026-10-29T19:59:04.167Z",
+  "motivo": "PDF recortado de gob.pe (páginas sueltas del diario, no la norma completa); sustituir por el texto íntegro",
+  "documento": {
+    "id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+    "title": "Decreto Supremo N.° 168-2020-EF",
+    "file_name": "168-2020-EF.pdf",
+    "file_size": 846730,
+    "mime_type": "application/pdf",
+    "storage_bucket": "documents",
+    "storage_path": "official/gobpe-oece-2026-10-28/e30b5c99-0821-4b25-8a18-666203f2688d.pdf",
+    "document_type": "reglamento",
+    "source_entity": "OECE",
+    "status": "indexed",
+    "error_message": null,
+    "metadata": {
+      "ai": {
+        "suggestedDocumentType": "reglamento",
+        "suggestedSourceEntity": "Ministerio de Economía y Finanzas",
+        "classificationConfidence": "alta"
+      },
+      "year": 2020,
+      "topic": "Contrataciones Públicas y Reactivación Económica COVID-19",
+      "amends": "Modifica el numeral 43.2 del artículo 43, el numeral 98.1 del artículo 98, los numerales 168.3 y 168.4 del artículo 168 y el numeral 171.1 del artículo 171 del Reglamento de la Ley de Contrataciones del Estado, aprobado por Decreto Supremo N° 344-2018-EF. También dispone la modificación de la Directiva N° 004-2016-PERÚ COMPRAS y la adecuación de las Bases Estándar del OSCE.",
+      "number": "168-2020-EF",
+      "regime": "no_determinado",
+      "sha256": "468ae3ff8ba78e0c3a5cb1d39ca27f61fffd151c6708de6274caa0b999322dc7",
+      "status": "revision_pendiente",
+      "summary": "Este Decreto Supremo establece disposiciones en materia de contrataciones públicas para facilitar la reactivación de contratos de bienes y servicios, distintos a los de supervisión de obra, afectados por la emergencia del COVID-19. Busca contribuir a la reactivación económica del país, fomentando la participación de micro y pequeñas empresas. Modifica el Reglamento de la Ley de Contrataciones del Estado en aspectos como la priorización de homologación, implementación de Catálogos Electrónicos y procedimientos para la reactivación de contratos paralizados, incluyendo ampliaciones de plazo, adelantos y modificaciones contractuales para medidas sanitarias.",
+      "pinecone": {
+        "batches": 1,
+        "upserted": 8,
+        "namespace": "legal-documents-gemini",
+        "recordCount": 8,
+        "verification": {
+          "attempts": 1,
+          "hitCount": 8,
+          "verified": true
+        }
+      },
+      "vigencia": "desconocida",
+      "pageCount": 3,
+      "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/898400/DS168_2020EF.pdf",
+      "chunkCount": 8,
+      "ocrPartial": false,
+      "sourceRole": "normativo",
+      "textLength": 19447,
+      "contentHash": "54910b85d2ada69bcd042b6ba9f2463dae7f49d0f711cd162ecd5186af079063",
+      "importBatch": "gobpe-oece-2026-10-28",
+      "ocrMaxPages": 25,
+      "processType": "todos",
+      "articleCount": 3,
+      "uploadSource": "official-import",
+      "hierarchyRank": 3,
+      "selectionNote": "Documento de la página oficial del OECE (gob.pe); el régimen y su aplicación quedan pendientes de revisión.",
+      "detectedIssuer": "Peruano Artículo 4",
+      "documentNumber": "168-2020-EF",
+      "processAliases": [
+        "todos los procesos",
+        "aplicacion general"
+      ],
+      "processAnchors": [
+        "norma general aplicable a todos los procesos de contratacion publica"
+      ],
+      "sumillaOficial": "Establecen disposiciones en materia de contrataciones públicas para facilitar la reactivación de contratos de bienes y servicios y modifican el Reglamento de la Ley de Contrataciones del Estado",
+      "practicalImpact": "Permite a las entidades públicas y contratistas reactivar contratos de bienes y servicios paralizados por la pandemia, facilitando la continuidad de proyectos y la adaptación a las nuevas condiciones sanitarias. Ofrece mecanismos para la ampliación de plazos, otorgamiento de adelantos y modificación de contratos, lo que agiliza la ejecución contractual. Además, promueve la participación de MYPEs a través de la homologación y catálogos electrónicos, ampliando las oportunidades de negocio para estas empresas.",
+      "publicationDate": "2020-06-30",
+      "relatedArticles": [
+        "Artículo 1 (Objeto)",
+        "Artículo 2 (Priorización de los procesos de homologación)",
+        "Artículo 3 (Implementación de Catálogos Electrónicos de Acuerdo Marco)",
+        "Tercera Disposición Complementaria Final (Reactivación de contratos de bienes y servicios)",
+        "Primera Disposición Complementaria Modificatoria (Modificación del Reglamento de la Ley de Contrataciones del Estado)"
+      ],
+      "detectedArticles": [
+        "4",
+        "1",
+        "5",
+        "11",
+        "118",
+        "2",
+        "3",
+        "158",
+        "153",
+        "34",
+        "43",
+        "98",
+        "168",
+        "171",
+        "46",
+        "50",
+        "49",
+        "191"
+      ],
+      "detectedNumerals": [
+        "2.1",
+        "2.2",
+        "2.3",
+        "3.1",
+        "158.4",
+        "158.5",
+        "158.6",
+        "34.10",
+        "3.2",
+        "1.1",
+        "43.2",
+        "98.1",
+        "168.3",
+        "168.4",
+        "171.1",
+        "49.6",
+        "50.1"
+      ],
+      "extractionMethod": "pdf-text",
+      "detectedRelations": [
+        {
+          "text": "modifica la Directiva N° 004-2016-PERÚ COMPRAS, “Proceso de Homologación de Requerimientos”, a fin de adecuarla a lo dispuesto en el artículo 2 del presente Decreto Supremo",
+          "relationType": "modifica"
+        },
+        {
+          "text": "conforme al régimen general de contrataciones de Estado, paralizadas por la declaratoria de Estado de Emergencia Nacional producida por el COVID-19; asimismo, mediante Decreto Supremo N° 110-2020-PCM se aprueba la",
+          "relationType": "remite"
+        },
+        {
+          "text": "conforme al régimen general de contrataciones del Estado, paralizadas por la declaratoria de Estado de Emergencia Nacional producida por el COVID-19, aprobada por el Decreto Supremo N° 044-2020-PCM",
+          "relationType": "remite"
+        }
+      ],
+      "legalReviewStatus": "pendiente",
+      "regimenSegunTexto": "Ley 30225",
+      "indexedTextComplete": true,
+      "chunkInsertBatchSize": 100,
+      "detectedDispositions": [
+        "Capítulo II del Título II de la Ley Nº 29173 regula el Régimen de Percepciones del Impuesto General a las Ventas (IGV) aplicable a las operaciones de venta gravadas con",
+        "anexo forma parte integrante del presente decreto supremo",
+        "Disposición Complementaria Modificatoria del presente Decreto Supremo, resulta aplicable a los procedimientos de selección que se convoquen a partir de la entrada en vigencia de la presente norma"
+      ],
+      "maxChunksPerDocument": "unlimited",
+      "embeddingTextStrategy": "legal-context-header-plus-page-chunk",
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/738482-168-2020-ef",
+      "detectedValiditySignals": [
+        "modifica la Directiva N° 004-2016-PERÚ COMPRAS, “Proceso de Homologación de Requerimientos”, a fin de adecuarla a lo dispuesto en el artículo 2 del presente Decreto Supremo",
+        "modificado el contrato en los términos contenidos en el documento de aprobación respectivo, sin necesidad de la suscripción de documento posterior",
+        "modificados, suministrados o prestados siguiendo la descripción particular de la Entidad; y, (iii) Se entreguen o implementen dentro de los cinco (5) días siguientes de formalizada la contrat",
+        "modificado por el Decreto Legislativo N° 1433, dispone que las"
+      ],
+      "indexingPipelineVersion": "legal-page-aware-v2",
+      "structuredExtractionVersion": "legal-structure-v1"
+    },
+    "created_at": "2026-10-28T20:49:14.984348+00:00",
+    "updated_at": "2026-10-28T20:49:27.578049+00:00",
+    "process_type": "todos",
+    "oficina_id": null,
+    "es_institucional": true
+  },
+  "fragmentos": [
+    {
+      "id": "3f2d9b0a-ad3f-4fcf-97c5-629967c67e3b",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 0,
+      "page_start": 1,
+      "page_end": 1,
+      "content": "Artículo 4. Criterios para la entrega de bienes Dispónese que la entrega de bienes que se realice con cargo a los recursos autorizados en el artículo 1 del presente Decreto Supremo, se efectúa conforme a los criterios determinados en la Resolución Jefatural Nº 082-2020-INDECI.",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::0",
+      "metadata": {
+        "article": "4",
+        "pageEnd": 1,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "3e7deee7-6d68-4e38-9c22-7798098d77ec",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 1,
+      "page_start": 1,
+      "page_end": 2,
+      "content": "Artículo 5. Refrendo El presente Decreto Supremo es refrendado por la Ministra de Economía y Finanzas. Dado en la Casa de Gobierno, en Lima, a los veintinueve días del mes de junio del año dos mil veinte. MARTÍN ALBERTO VIZCARRA CORNEJO Presidente de la República MARÍA ANTONIETA ALVA LUPERDI Ministra de Economía y Finanzas 1869172-3 Aprueban el Listado de entidades que podrán ser exceptuadas de la percepción del Impuesto General a las Ventas DECRETO DE SUPREMO N° 167-2020-EF EL PRESIDENTE DE LA REPÚBLICA CONSIDERANDO: Que, el Capítulo II del Título II de la Ley Nº 29173 regula el Régimen de Percepciones del Impuesto General a las Ventas (IGV) aplicable a las operaciones de venta gravadas con dicho impuesto de los bienes señalados en el Apéndice 1 de la indicada Ley, por el cual el agente de percepción percibirá del cliente un monto por concepto de IGV que este último causará en sus operaciones posteriores; Que, el artículo 11 de la citada Ley señala que no se efectuará la percepción, entre otras, en las operaciones respecto de las cuales se emita un comprobante de pago que otorgue derecho al crédito fiscal y el cliente tenga la condición de agente de retención del IGV o figure en el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV”; Que, con relación al referido Listado, el mencionado artículo 11 dispone que será aprobado mediante decreto supremo refrendado por el Ministro de Economía y Finanzas y señala las entidades que podrán ser incluidas en aquel; asimismo, indica que la SUNAT elaborará la relación de tales entidades y detalla las condiciones que deben verificarse para tal efecto; Que, según lo indicado en el citado artículo, el Ministerio de Economía y Finanzas publicará el referido listado, a través de su portal en internet, a más tardar el último día hábil de los meses de marzo, junio, setiembre y diciembre de cada año, el cual regirá a partir del primer día calendario del mes siguiente a la fecha de su publicación; Que, en consecuencia, resulta necesario aprobar el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV”; En uso de las facultades conferidas por el numeral 8 del artículo 118 de la Constitución Política del Perú y de conformidad con lo establecido en el artículo 11 de la Ley N° 29173 y normas modificatorias; DECRETA: Artículo 1. Aprobación del Listado Apruébase el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV” a que se refiere el artículo 11 de la Ley Nº 29173, que como anexo forma parte integrante del presente decreto supremo. Artículo 2",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::1",
+      "metadata": {
+        "article": "5",
+        "pageEnd": 2,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "940a1f29-6fac-4ccd-b59c-4438ab5997ee",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 2,
+      "page_start": 1,
+      "page_end": 2,
+      "content": ". Publicación De conformidad con lo dispuesto en el artículo 11 de la Ley Nº 29173, dicho Listado a que se refiere el artículo precedente es publicado en el Portal Institucional del Ministerio de Economía y Finanzas (www.gob.pe/mef), a más tardar, el último día hábil del mes de junio de 2020 y regirá a partir del primer día calendario del mes siguiente a la fecha de su publicación. Artículo 3. Refrendo El presente decreto supremo es refrendado por la Ministra de Economía y Finanzas. Dado en la Casa de Gobierno, en Lima, a los veintinueve días del mes de junio del año dos mil veinte. MARTÍN ALBERTO VIZCARRA CORNEJO Presidente de la República MARÍA ANTONIETA ALVA LUPERDI Ministra de Economía y Finanzas 1869172-4 Establecen disposiciones en materia de contrataciones públicas para facilitar la reactivación de contratos de bienes y servicios y modifican el Reglamento de la Ley de Contrataciones del Estado DECRETO SUPREMO Nº 168-2020-EF EL PRESIDENTE DE LA REPÚBLICA CONSIDERANDO: Que, mediante la Ley N° 30225, Ley de Contrataciones del Estado se establecen las disposiciones y lineamientos que deben observar las Entidades del Sector Público en los procesos de contratación de bienes, servicios y obras que realicen, cuyo Texto Único Ordenado ha sido aprobado mediante Decreto Supremo N° 082-2019-EF; Que, mediante Decreto Supremo Nº 008-2020-SA, se declara en Emergencia Sanitaria a nivel nacional por el plazo de noventa (90) días calendario y se dictan medidas de prevención y control del COVID-19, orientadas a reducir el impacto negativo en la p",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::2",
+      "metadata": {
+        "article": "5",
+        "pageEnd": 2,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "d91cf682-ee9f-44f2-a1b0-61ead32c354c",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 3,
+      "page_start": 1,
+      "page_end": 2,
+      "content": "oblación ante la existencia de situaciones de riesgo elevado para la salud y la vida de los pobladores, así como a mejorar las condiciones sanitarias y la calidad de vida de su población, y adoptar acciones destinadas a prevenir situaciones y hechos que conlleven a la configuración de éstas; el cual ha sido prorrogado mediante Decreto Supremo N° 020-2020-SA, por el plazo de noventa (90) días calendario; Que, mediante Decreto Supremo N° 044-2020-PCM, precisado por los Decretos Supremos N°s 045 y 046- 2020-PCM, se declara el Estado de Emergencia Nacional por el plazo de quince (15) días calendario, y se dispone el aislamiento social obligatorio (cuarentena), por las graves circunstancias que afectan la vida de la Nación a consecuencia del brote del COVID-19; habiéndose prorrogado dicho plazo por los Decretos Supremos N°s 051, 064, 075, 083 y 094-2020-PCM, hasta el 30 de junio de 2020; Que, mediante Decreto Supremo N° 080-2020-PCM se aprueba la Fase 1 de la “Reanudación de Actividades”; así como los criterios fundamentales para su implementación gradual y progresiva; en cuyo artículo 3, se dispone que los sectores competentes de cada actividad incluida en las fases de la Reanudación de Actividades, aprueban los Protocolos Sanitarios Sectoriales para dicho fin; Que, mediante Decreto Supremo N° 101-2020-PCM, se aprueba la Fase 2 de la Reanudación de Actividades económicas; disponiendo en la Segunda Disposición Complementaria Final, la reactivación de obras públicas y sus respectivos contratos de supervisión contratados conforme al régimen general de contrataciones de Estado, paralizadas por la declaratoria de Estado de Emergencia Nacional producida por el COVID-19; asimismo, mediante Decreto Supremo N° 110-2020-PCM se aprueba la",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::3",
+      "metadata": {
+        "article": "5",
+        "pageEnd": 2,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "7667c13a-13d1-4e7e-a0ca-4cfdd311bca8",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 4,
+      "page_start": 1,
+      "page_end": 2,
+      "content": "15 NORMAS LEGALES Martes 30 de junio de 2020 El Peruano / ampliación de las actividades económicas de la Fase 2 de la Reanudación de Actividades, aprobada mediante Decreto Supremo Nº 101-2020-PCM; Que, en consecuencia, corresponde establecer disposiciones en materia de contratación pública que permitan incidir favorablemente en la reactivación económica del país, en especial fomentando la participación de las micro y pequeñas empresas, facilitando la reactivación de los contratos de bienes y servicios, distintos a los servicios de supervisión de obra vigentes, frente al Estado de Emergencia Sanitaria y el Estado de Emergencia Nacional por el brote del COVID-19; Que, asimismo, es necesario realizar modificaciones al Reglamento de la Ley de Contrataciones del Estado que contribuyan a la reactivación económica en el marco del proceso de reanudación de actividades económicas; De conformidad con lo dispuesto en la Ley N° 29158, Ley Orgánica del Poder Ejecutivo; en el Decreto Legislativo N° 1439, Decreto Legislativo del Sistema Nacional de Abastecimiento y en el Texto Único Ordenado de la Ley N° 30225, Ley de Contrataciones del Estado, aprobado mediante Decreto Supremo N° 082-2019-EF; DECRETA: Artículo 1.- Objeto El presente Decreto Supremo tiene por objeto establecer disposiciones en materia de contrataciones públicas que realicen las entidades públicas a nivel nacional en el marco del Texto Único Ordenado de la Ley N° 30225, Ley de Contrataciones del Estado, aprobado mediante Decreto Supremo N° 082-2019-EF, a fin de contribuir favorablemente a la reactivación económica del país afectada por la emergencia producida por el COVID-19. Artículo 2.- Priorización de los procesos de homologación 2.1 Dispónese que en un plazo no mayor de diez (10) días hábiles contados a partir de la entrada en vigencia del presente Decreto Supremo, los Ministerios aprueban, mediante resolución de su titular, las Fichas de Homologación que, a la misma fecha de entrada en vigencia del presente Decreto Supremo, cuentan con opinión favorable por parte de la Central de Compras Públicas. 2.2 La Central de Compras Públicas, en coordinación con el Ministerio de la Producción, identifica aquellos sectores productivos con mayor oferta de las micro y pequeñas empresas, los cuales son comunicados por la Central de Compras Públicas a los Ministerios competentes",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::4",
+      "metadata": {
+        "article": "5",
+        "pageEnd": 2,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "b293bfcd-47c5-4a73-8be1-879b892a3414",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 5,
+      "page_start": 1,
+      "page_end": 2,
+      "content": ". 2.3 Los Ministerios actualizan su Plan de Homologación, priorizando las Fichas que correspondan a los sectores productivos con mayor oferta de micro y pequeñas empresas; y remiten a la Central de Compras Públicas dicho Plan actualizado dentro de los diez (10) días hábiles siguientes de recibida la comunicación indicada en el numeral 2.2, bajo responsabilidad. Artículo 3.- Implementación de Catálogos Electrónicos de Acuerdo Marco Dispónese que la Central de Compras Públicas implemente Catálogos Electrónicos de Acuerdo Marco, que incluyen bienes y/o servicios ofrecidos por las micro y pequeñas empresas de los sectores productivos con mayor oferta, identificados en el marco de lo dispuesto en el numeral 2.2 del artículo 2. Artículo 4.- Refrendo El presente Decreto Supremo es refrendado por la Ministra de Economía y Finanzas.",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::5",
+      "metadata": {
+        "article": "5",
+        "pageEnd": 2,
+        "pageCount": 3,
+        "pageStart": 1,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": null,
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "1b43f1fd-e037-4f77-b0bf-8ae03f49ecf4",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 6,
+      "page_start": 3,
+      "page_end": 3,
+      "content": "Disposición Complementaria Modificatoria Primera. Modificación del Reglamento de la Ley de Contrataciones del Estado Modifícanse el numeral 43.2 del artículo 43, el numeral 98.1 del artículo 98, los numerales 168.3 y 168.4 del artículo 168 y el numeral 171.1 del artículo 171 del Reglamento de la Ley de Contrataciones del Estado, aprobado por Decreto Supremo N° 344-2018- EF, los mismos que quedan redactados en los siguientes términos: “Artículo 43. Órgano a cargo del procedimiento de selección (...) 43.2. Para la Licitación Pública, el Concurso Público y la Selección de Consultores Individuales, la Entidad designa un comité de selección para cada procedimiento. El órgano encargado de las contrataciones tiene a su cargo la Subasta Inversa Electrónica, la Adjudicación Simplificada, la Comparación de Precios y la Contratación Directa. En la Subasta Inversa Electrónica y en la Adjudicación Simplificada la Entidad puede designar a un comité de selección o un comité de selección permanente, cuando lo considere necesario. (...)” “ Artículo 98. Condiciones para el empleo de la Comparación de Precios 98.1. Para aplicar el procedimiento de selección de Comparación de Precios, la Entidad verifica que los bienes y/o servicios en general objeto de la contratación: (i) Existen en el mercado; (ii) Cumplan con las especificaciones técnicas o términos de referencia sin necesidad de ser fabricados, producidos, modificados, suministrados o prestados siguiendo la descripción particular de la Entidad; y, (iii) Se entreguen o implementen dentro de los cinco (5) días siguientes de formalizada la contratación”. “Artículo 168. Recepción y conformidad (...) 168.3. La conformidad se emite en un plazo máximo de siete (7) días de producida la recepción, salvo que se requiera efectuar pruebas que permitan verificar el cumplimiento de la obligación, o si se trata de consultorías, en cuyo caso la conformidad se emite en un plazo máximo de quince (15) días, bajo responsabilidad del funcionario que debe emitir la conformidad. 168.4. De existir observaciones, la Entidad las comunica al contratista, indicando claramente el sentido de estas, otorgándole un plazo para subsanar no menor de dos (2) ni mayor de ocho (08) días. Dependiendo de la complejidad o sofisticación de las subsanaciones a realizar, o si se trata de consultorías, el plazo para subsanar no puede ser menor de cinco (5) ni mayor de quince (15) días. Subsanadas las observaciones dentro del plazo otorgado, no corresponde la aplicación de penalidades. (...)” “Artículo 171. Del pago 171.1",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::6",
+      "metadata": {
+        "article": "DCM-1",
+        "pageEnd": 3,
+        "pageCount": 3,
+        "pageStart": 3,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": "Disposiciones Complementarias Modificatorias",
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    },
+    {
+      "id": "8ab44e92-ffd0-4dee-81e6-7527b18ba76a",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "chunk_index": 7,
+      "page_start": 3,
+      "page_end": 3,
+      "content": ". La Entidad paga las contraprestaciones pactadas a favor del contratista dentro de los diez (10) días calendario siguientes de otorgada la conformidad de los bienes, servicios en general y consultorías, siempre que se verifiquen las condiciones establecidas en el contrato para ello, bajo responsabilidad del funcionario competente. (...)” Segunda. Incorporación del numeral 49.6 del artículo 46 y del literal g) al numeral 50.1 del artículo 50 del Reglamento de la Ley de Contrataciones del Estado Incorpórase el numeral 49.6 al artículo 49 y el literal g) al numeral 50.1 del artículo 50 del Reglamento de la Ley de Contrataciones del Estado, aprobado por Decreto Supremo N° 344-2018-EF, en los siguientes términos: “Artículo 49. Requisitos de Calificación (...) 49.6. cuando en los procedimientos de selección de Adjudicación Simplificada para la contratación de bienes y servicios en general se incluya el requisito de calificación de experiencia del postor en la especialidad, la experiencia exigida a los postores que acrediten tener la condición de micro y pequeña empresa, o los consorcios conformados en su totalidad por estas, no podrá superar el 25% del valor estimado” “Artículo 50. Procedimiento de evaluación 50.1. Los documentos del procedimiento contemplan lo siguiente: (...) g) En procesos de Adjudicación Simplificada, a los postores que tengan la condición de micro y pequeña empresa, o a los consorcios conformados en su totalidad por estas, y a su solicitud, se les asigna una bonificación equivalente al cinco por ciento (5%) sobre el puntaje total obtenido, siempre que acrediten tener tal condición otorgada por la Autoridad competente.” Tercera. Vigencia de las modificaciones e incorporaciones al Reglamento de la Ley de Contrataciones del Estado Lo dispuesto en la Primera y Segunda Disposición Complementaria Modificatoria del presente Decreto Supremo, resulta aplicable a los procedimientos de selección que se convoquen a partir de la entrada en vigencia de la presente norma.",
+      "token_count": null,
+      "pinecone_vector_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b::7",
+      "metadata": {
+        "article": "DCM-1",
+        "pageEnd": 3,
+        "pageCount": 3,
+        "pageStart": 3,
+        "ocrPartial": false,
+        "sourceRole": "normativo",
+        "processType": "todos",
+        "documentType": "reglamento",
+        "sectionTitle": "Disposiciones Complementarias Modificatorias",
+        "hierarchyRank": 3,
+        "documentNumber": "168-2020-EF",
+        "processAliases": [
+          "todos los procesos",
+          "aplicacion general"
+        ],
+        "processAnchors": [
+          "norma general aplicable a todos los procesos de contratacion publica"
+        ],
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:21.339142+00:00"
+    }
+  ],
+  "normaArticulos": [
+    {
+      "id": "87871d06-4f57-41ad-8ebd-2f4e62b356a8",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "article_number": "DCM-1",
+      "article_label": "Disposición Complementaria Modificatoria Primera",
+      "section_title": "Disposiciones Complementarias Modificatorias",
+      "ordinal": 2,
+      "content": "Disposición Complementaria Modificatoria Primera. Modificación del Reglamento de la Ley de Contrataciones del Estado Modifícanse el numeral 43.2 del artículo 43, el numeral 98.1 del artículo 98, los numerales 168.3 y 168.4 del artículo 168 y el numeral 171.1 del artículo 171 del Reglamento de la Ley de Contrataciones del Estado, aprobado por Decreto Supremo N° 344-2018- EF, los mismos que quedan redactados en los siguientes términos: “Artículo 43. Órgano a cargo del procedimiento de selección (...) 43.2. Para la Licitación Pública, el Concurso Público y la Selección de Consultores Individuales, la Entidad designa un comité de selección para cada procedimiento. El órgano encargado de las contrataciones tiene a su cargo la Subasta Inversa Electrónica, la Adjudicación Simplificada, la Comparación de Precios y la Contratación Directa. En la Subasta Inversa Electrónica y en la Adjudicación Simplificada la Entidad puede designar a un comité de selección o un comité de selección permanente, cuando lo considere necesario. (...)” “ Artículo 98. Condiciones para el empleo de la Comparación de Precios 98.1. Para aplicar el procedimiento de selección de Comparación de Precios, la Entidad verifica que los bienes y/o servicios en general objeto de la contratación: (i) Existen en el mercado; (ii) Cumplan con las especificaciones técnicas o términos de referencia sin necesidad de ser fabricados, producidos, modificados, suministrados o prestados siguiendo la descripción particular de la Entidad; y, (iii) Se entreguen o implementen dentro de los cinco (5) días siguientes de formalizada la contratación”. “Artículo 168. Recepción y conformidad (...) 168.3. La conformidad se emite en un plazo máximo de siete (7) días de producida la recepción, salvo que se requiera efectuar pruebas que permitan verificar el cumplimiento de la obligación, o si se trata de consultorías, en cuyo caso la conformidad se emite en un plazo máximo de quince (15) días, bajo responsabilidad del funcionario que debe emitir la conformidad. 168.4. De existir observaciones, la Entidad las comunica al contratista, indicando claramente el sentido de estas, otorgándole un plazo para subsanar no menor de dos (2) ni mayor de ocho (08) días. Dependiendo de la complejidad o sofisticación de las subsanaciones a realizar, o si se trata de consultorías, el plazo para subsanar no puede ser menor de cinco (5) ni mayor de quince (15) días. Subsanadas las observaciones dentro del plazo otorgado, no corresponde la aplicación de penalidades. (...)” “Artículo 171. Del pago 171.1. La Entidad paga las contraprestaciones pactadas a favor del contratista dentro de los diez (10) días calendario siguientes de otorgada la conformidad de los bienes, servicios en general y consultorías, siempre que se verifiquen las condiciones establecidas en el contrato para ello, bajo responsabilidad del funcionario competente. (...)” Segunda. Incorporación del numeral 49.6 del artículo 46 y del literal g) al numeral 50.1 del artículo 50 del Reglamento de la Ley de Contrataciones del Estado Incorpórase el numeral 49.6 al artículo 49 y el literal g) al numeral 50.1 del artículo 50 del Reglamento de la Ley de Contrataciones del Estado, aprobado por Decreto Supremo N° 344-2018-EF, en los siguientes términos: “Artículo 49. Requisitos de Calificación (...) 49.6. cuando en los procedimientos de selección de Adjudicación Simplificada para la contratación de bienes y servicios en general se incluya el requisito de calificación de experiencia del postor en la especialidad, la experiencia exigida a los postores que acrediten tener la condición de micro y pequeña empresa, o los consorcios conformados en su totalidad por estas, no podrá superar el 25% del valor estimado” “Artículo 50. Procedimiento de evaluación 50.1. Los documentos del procedimiento contemplan lo siguiente: (...) g) En procesos de Adjudicación Simplificada, a los postores que tengan la condición de micro y pequeña empresa, o a los consorcios conformados en su totalidad por estas, y a su solicitud, se les asigna una bonificación equivalente al cinco por ciento (5%) sobre el puntaje total obtenido, siempre que acrediten tener tal condición otorgada por la Autoridad competente.” Tercera. Vigencia de las modificaciones e incorporaciones al Reglamento de la Ley de Contrataciones del Estado Lo dispuesto en la Primera y Segunda Disposición Complementaria Modificatoria del presente Decreto Supremo, resulta aplicable a los procedimientos de selección que se convoquen a partir de la entrada en vigencia de la presente norma.",
+      "page_start": 3,
+      "page_end": 3,
+      "document_type": "reglamento",
+      "document_number": "168-2020-EF",
+      "hierarchy_rank": 3,
+      "process_type": "todos",
+      "status": "revision_pendiente",
+      "vigencia": "desconocida",
+      "year": 2020,
+      "metadata": {
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:22.421657+00:00"
+    },
+    {
+      "id": "eb34fb43-ef93-4063-937e-e9a36376c0f1",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "article_number": "4",
+      "article_label": "Artículo 4. Criterios para la entrega de bienes Dispónese que la entrega de bienes que se realice con cargo a los recursos autorizados en el artículo 1 del pres",
+      "section_title": null,
+      "ordinal": 0,
+      "content": "Artículo 4. Criterios para la entrega de bienes Dispónese que la entrega de bienes que se realice con cargo a los recursos autorizados en el artículo 1 del presente Decreto Supremo, se efectúa conforme a los criterios determinados en la Resolución Jefatural Nº 082-2020-INDECI.",
+      "page_start": 1,
+      "page_end": 1,
+      "document_type": "reglamento",
+      "document_number": "168-2020-EF",
+      "hierarchy_rank": 3,
+      "process_type": "todos",
+      "status": "revision_pendiente",
+      "vigencia": "desconocida",
+      "year": 2020,
+      "metadata": {
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:22.421657+00:00"
+    },
+    {
+      "id": "3a30f2a2-f549-472b-bacf-1830a8298ed4",
+      "document_id": "31a23cb4-43fc-4bc6-ac46-9f4b88d2129b",
+      "article_number": "5",
+      "article_label": "Artículo 5. Refrendo El presente Decreto Supremo es refrendado por la Ministra de Economía y Finanzas. Dado en la Casa de Gobierno, en Lima, a los veintinueve d",
+      "section_title": null,
+      "ordinal": 1,
+      "content": "Artículo 5. Refrendo El presente Decreto Supremo es refrendado por la Ministra de Economía y Finanzas. Dado en la Casa de Gobierno, en Lima, a los veintinueve días del mes de junio del año dos mil veinte. MARTÍN ALBERTO VIZCARRA CORNEJO Presidente de la República MARÍA ANTONIETA ALVA LUPERDI Ministra de Economía y Finanzas 1869172-3 Aprueban el Listado de entidades que podrán ser exceptuadas de la percepción del Impuesto General a las Ventas DECRETO DE SUPREMO N° 167-2020-EF EL PRESIDENTE DE LA REPÚBLICA CONSIDERANDO: Que, el Capítulo II del Título II de la Ley Nº 29173 regula el Régimen de Percepciones del Impuesto General a las Ventas (IGV) aplicable a las operaciones de venta gravadas con dicho impuesto de los bienes señalados en el Apéndice 1 de la indicada Ley, por el cual el agente de percepción percibirá del cliente un monto por concepto de IGV que este último causará en sus operaciones posteriores; Que, el artículo 11 de la citada Ley señala que no se efectuará la percepción, entre otras, en las operaciones respecto de las cuales se emita un comprobante de pago que otorgue derecho al crédito fiscal y el cliente tenga la condición de agente de retención del IGV o figure en el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV”; Que, con relación al referido Listado, el mencionado artículo 11 dispone que será aprobado mediante decreto supremo refrendado por el Ministro de Economía y Finanzas y señala las entidades que podrán ser incluidas en aquel; asimismo, indica que la SUNAT elaborará la relación de tales entidades y detalla las condiciones que deben verificarse para tal efecto; Que, según lo indicado en el citado artículo, el Ministerio de Economía y Finanzas publicará el referido listado, a través de su portal en internet, a más tardar el último día hábil de los meses de marzo, junio, setiembre y diciembre de cada año, el cual regirá a partir del primer día calendario del mes siguiente a la fecha de su publicación; Que, en consecuencia, resulta necesario aprobar el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV”; En uso de las facultades conferidas por el numeral 8 del artículo 118 de la Constitución Política del Perú y de conformidad con lo establecido en el artículo 11 de la Ley N° 29173 y normas modificatorias; DECRETA: Artículo 1. Aprobación del Listado Apruébase el “Listado de entidades que podrán ser exceptuadas de la percepción del IGV” a que se refiere el artículo 11 de la Ley Nº 29173, que como anexo forma parte integrante del presente decreto supremo. Artículo 2. Publicación De conformidad con lo dispuesto en el artículo 11 de la Ley Nº 29173, dicho Listado a que se refiere el artículo precedente es publicado en el Portal Institucional del Ministerio de Economía y Finanzas (www.gob.pe/mef), a más tardar, el último día hábil del mes de junio de 2020 y regirá a partir del primer día calendario del mes siguiente a la fecha de su publicación. Artículo 3. Refrendo El presente decreto supremo es refrendado por la Ministra de Economía y Finanzas. Dado en la Casa de Gobierno, en Lima, a los veintinueve días del mes de junio del año dos mil veinte. MARTÍN ALBERTO VIZCARRA CORNEJO Presidente de la República MARÍA ANTONIETA ALVA LUPERDI Ministra de Economía y Finanzas 1869172-4 Establecen disposiciones en materia de contrataciones públicas para facilitar la reactivación de contratos de bienes y servicios y modifican el Reglamento de la Ley de Contrataciones del Estado DECRETO SUPREMO Nº 168-2020-EF EL PRESIDENTE DE LA REPÚBLICA CONSIDERANDO: Que, mediante la Ley N° 30225, Ley de Contrataciones del Estado se establecen las disposiciones y lineamientos que deben observar las Entidades del Sector Público en los procesos de contratación de bienes, servicios y obras que realicen, cuyo Texto Único Ordenado ha sido aprobado mediante Decreto Supremo N° 082-2019-EF; Que, mediante Decreto Supremo Nº 008-2020-SA, se declara en Emergencia Sanitaria a nivel nacional por el plazo de noventa (90) días calendario y se dictan medidas de prevención y control del COVID-19, orientadas a reducir el impacto negativo en la población ante la existencia de situaciones de riesgo elevado para la salud y la vida de los pobladores, así como a mejorar las condiciones sanitarias y la calidad de vida de su población, y adoptar acciones destinadas a prevenir situaciones y hechos que conlleven a la configuración de éstas; el cual ha sido prorrogado mediante Decreto Supremo N° 020-2020-SA, por el plazo de noventa (90) días calendario; Que, mediante Decreto Supremo N° 044-2020-PCM, precisado por los Decretos Supremos N°s 045 y 046- 2020-PCM, se declara el Estado de Emergencia Nacional por el plazo de quince (15) días calendario, y se dispone el aislamiento social obligatorio (cuarentena), por las graves circunstancias que afectan la vida de la Nación a consecuencia del brote del COVID-19; habiéndose prorrogado dicho plazo por los Decretos Supremos N°s 051, 064, 075, 083 y 094-2020-PCM, hasta el 30 de junio de 2020; Que, mediante Decreto Supremo N° 080-2020-PCM se aprueba la Fase 1 de la “Reanudación de Actividades”; así como los criterios fundamentales para su implementación gradual y progresiva; en cuyo artículo 3, se dispone que los sectores competentes de cada actividad incluida en las fases de la Reanudación de Actividades, aprueban los Protocolos Sanitarios Sectoriales para dicho fin; Que, mediante Decreto Supremo N° 101-2020-PCM, se aprueba la Fase 2 de la Reanudación de Actividades económicas; disponiendo en la Segunda Disposición Complementaria Final, la reactivación de obras públicas y sus respectivos contratos de supervisión contratados conforme al régimen general de contrataciones de Estado, paralizadas por la declaratoria de Estado de Emergencia Nacional producida por el COVID-19; asimismo, mediante Decreto Supremo N° 110-2020-PCM se aprueba la\n\n15 NORMAS LEGALES Martes 30 de junio de 2020 El Peruano / ampliación de las actividades económicas de la Fase 2 de la Reanudación de Actividades, aprobada mediante Decreto Supremo Nº 101-2020-PCM; Que, en consecuencia, corresponde establecer disposiciones en materia de contratación pública que permitan incidir favorablemente en la reactivación económica del país, en especial fomentando la participación de las micro y pequeñas empresas, facilitando la reactivación de los contratos de bienes y servicios, distintos a los servicios de supervisión de obra vigentes, frente al Estado de Emergencia Sanitaria y el Estado de Emergencia Nacional por el brote del COVID-19; Que, asimismo, es necesario realizar modificaciones al Reglamento de la Ley de Contrataciones del Estado que contribuyan a la reactivación económica en el marco del proceso de reanudación de actividades económicas; De conformidad con lo dispuesto en la Ley N° 29158, Ley Orgánica del Poder Ejecutivo; en el Decreto Legislativo N° 1439, Decreto Legislativo del Sistema Nacional de Abastecimiento y en el Texto Único Ordenado de la Ley N° 30225, Ley de Contrataciones del Estado, aprobado mediante Decreto Supremo N° 082-2019-EF; DECRETA: Artículo 1.- Objeto El presente Decreto Supremo tiene por objeto establecer disposiciones en materia de contrataciones públicas que realicen las entidades públicas a nivel nacional en el marco del Texto Único Ordenado de la Ley N° 30225, Ley de Contrataciones del Estado, aprobado mediante Decreto Supremo N° 082-2019-EF, a fin de contribuir favorablemente a la reactivación económica del país afectada por la emergencia producida por el COVID-19. Artículo 2.- Priorización de los procesos de homologación 2.1 Dispónese que en un plazo no mayor de diez (10) días hábiles contados a partir de la entrada en vigencia del presente Decreto Supremo, los Ministerios aprueban, mediante resolución de su titular, las Fichas de Homologación que, a la misma fecha de entrada en vigencia del presente Decreto Supremo, cuentan con opinión favorable por parte de la Central de Compras Públicas. 2.2 La Central de Compras Públicas, en coordinación con el Ministerio de la Producción, identifica aquellos sectores productivos con mayor oferta de las micro y pequeñas empresas, los cuales son comunicados por la Central de Compras Públicas a los Ministerios competentes. 2.3 Los Ministerios actualizan su Plan de Homologación, priorizando las Fichas que correspondan a los sectores productivos con mayor oferta de micro y pequeñas empresas; y remiten a la Central de Compras Públicas dicho Plan actualizado dentro de los diez (10) días hábiles siguientes de recibida la comunicación indicada en el numeral 2.2, bajo responsabilidad. Artículo 3.- Implementación de Catálogos Electrónicos de Acuerdo Marco Dispónese que la Central de Compras Públicas implemente Catálogos Electrónicos de Acuerdo Marco, que incluyen bienes y/o servicios ofrecidos por las micro y pequeñas empresas de los sectores productivos con mayor oferta, identificados en el marco de lo dispuesto en el numeral 2.2 del artículo 2. Artículo 4.- Refrendo El presente Decreto Supremo es refrendado por la Ministra de Economía y Finanzas.",
+      "page_start": 1,
+      "page_end": 2,
+      "document_type": "reglamento",
+      "document_number": "168-2020-EF",
+      "hierarchy_rank": 3,
+      "process_type": "todos",
+      "status": "revision_pendiente",
+      "vigencia": "desconocida",
+      "year": 2020,
+      "metadata": {
+        "extractionMethod": "pdf-text"
+      },
+      "created_at": "2026-10-28T20:49:22.421657+00:00"
+    }
+  ]
+}

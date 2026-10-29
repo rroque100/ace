@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   LEY_32069_VIGENCIA,
   comparisonInstruction,
+  defaultRegimeInstruction,
   extractConvocatoria,
   extractDates,
   isRegimeComparison,
@@ -9,6 +10,7 @@ import {
   pickTemporalEvidence,
   questionRegimeIntent,
   regimeForDate,
+  regimeLabel,
   regimeRankAdjustment,
   sourceRegime,
   temporalApplicationBlock,
@@ -220,8 +222,25 @@ describe("instrucciones al generador", () => {
     expect(temporalInstruction(questionRegimeIntent("¿Qué ley aplica a mi proceso?"))).toMatch(/pídela/);
     expect(temporalInstruction(questionRegimeIntent("Se convocó en 2025, ¿qué ley aplica?"))).toMatch(/pide la fecha exacta/);
   });
+  it("sin fecha ni ley nombrada rige lo vigente, y el régimen anterior solo como contexto expreso", () => {
+    const texto = defaultRegimeInstruction();
+    expect(texto).toMatch(/régimen VIGENTE/);
+    expect(texto).toMatch(/Régimen según su identificador/);
+    expect(texto).toMatch(/1341 y 1444/);
+    expect(texto).toMatch(/344-2018-EF/);
+    expect(texto).toMatch(/solo aplicable a procedimientos convocados antes/);
+  });
+  it("cada fuente se muestra con el régimen deducido de su identificador, sin inventar uno", () => {
+    expect(regimeLabel({ documentType: "ley", documentNumber: "32069", documentTitle: "Ley N.° 32069" })).toBe("Ley 32069");
+    expect(regimeLabel({ documentType: "ley", documentNumber: "1444", documentTitle: "Decreto Legislativo N.° 1444" })).toBe("Ley 30225");
+    expect(regimeLabel({ documentType: "reglamento", documentNumber: "344-2018-EF", documentTitle: "Decreto Supremo N.° 344-2018-EF — Reglamento de la Ley N.° 30225" })).toBe("Ley 30225");
+    expect(regimeLabel({ documentType: "ley", documentNumber: "27444", documentTitle: "Ley general de procedimiento administrativo del Estado" })).toBe("no determinable");
+  });
   it("comparación: tabla con cita en cada celda y sin inventar", () => {
     const texto = comparisonInstruction();
+    // Las modificatorias de la Ley 30225 no pueden pasar por «la ley nueva» (caso real: D.Leg. 1444 como columna de la Ley 32069).
+    expect(texto).toMatch(/modificatoria de la Ley 30225 NO es la «ley nueva»/);
+    expect(texto).toMatch(/1341 y 1444/);
     expect(texto).toMatch(/Aspecto \| Ley 30225 \| Ley 32069/);
     expect(texto).toMatch(/no consta en las fuentes recuperadas/);
   });
@@ -257,10 +276,29 @@ describe("conclusión directa calculada en código", () => {
     expect(conFecha).toContain("22 de abril de 2025");
     expect(conFecha).toContain("[F2]");
   });
-  it("no emite nada sin la regla recuperada, sin fecha de convocatoria o con fecha ambigua", () => {
+  it("no emite conclusión sin la regla recuperada, sin fecha de convocatoria o sin ser una pregunta de aplicación", () => {
     expect(temporalApplicationBlock(Q, [otra])).toBeNull();
     expect(temporalApplicationBlock("¿Qué ley aplica a mi proceso?", [regla])).toBeNull();
-    expect(temporalApplicationBlock("Se convocó en 2025, ¿qué ley aplica?", [regla])).toBeNull();
     expect(temporalApplicationBlock("¿Qué porcentaje es la garantía?", [regla])).toBeNull();
+  });
+  it("con una fecha que contiene el corte («2025», «abril de 2025») no decide: pide el día exacto y explica las dos salidas", () => {
+    for (const pregunta of ["Se convocó en 2025, ¿qué ley aplica?", "El procedimiento se convocó en abril de 2025. ¿Qué ley rige?"]) {
+      const bloque = temporalApplicationBlock(pregunta, [regla])!;
+      expect(bloque, pregunta).toContain("Falta la fecha exacta de la convocatoria");
+      expect(bloque, pregunta).toContain("día exacto");
+      // Da las dos salidas sin elegir ninguna y cita la regla de transición.
+      expect(bloque, pregunta).toContain("Ley 30225");
+      expect(bloque, pregunta).toContain("Ley 32069");
+      expect(bloque, pregunta).toContain("[F1]");
+      expect(bloque, pregunta).not.toContain("Aplicación a tu caso");
+    }
+    // Sin la regla recuperada no inventa la cita; sin la fecha de vigencia en una fuente, no la nombra.
+    const sinRegla = temporalApplicationBlock("Se convocó en 2025, ¿qué ley aplica?", [otra])!;
+    expect(sinRegla).not.toContain("[F");
+    expect(sinRegla).toContain("la entrada en vigencia de la Ley 32069");
+    expect(sinRegla).not.toContain("22 de abril");
+  });
+  it("una fecha completa sigue concluyendo, no pidiendo el día", () => {
+    expect(temporalApplicationBlock("Se convocó el 3 de marzo de 2025, ¿qué ley aplica?", [regla])).toContain("Aplicación a tu caso");
   });
 });

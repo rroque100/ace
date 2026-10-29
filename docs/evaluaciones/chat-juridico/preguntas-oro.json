@@ -1,126 +1,782 @@
 {
-  "_lee": "Banco de regresión del chat jurídico. Cada caso fija lo que la respuesta DEBE cumplir (no un texto exacto: el modelo varía). Se ejecuta con `npx tsx --env-file=.env.local scripts/evaluar-chat-oro.mts`. Las expectativas se basan en conducta comprobable (qué ley rige por fecha, qué fuentes entran, cuándo se pide contexto), no en datos jurídicos que el corpus no confirme. 'contiene' = todos; 'contieneAlguno' = al menos uno; comparaciones sin tildes ni mayúsculas.",
+  "_lee": "Banco de regresión del chat jurídico. Cada caso fija lo que la respuesta DEBE cumplir (no un texto exacto: el modelo varía). Se ejecuta con `npx tsx --env-file=.env.local scripts/evaluar-chat-oro.mts`. Las expectativas se basan en conducta comprobable (qué ley rige por fecha, qué fuentes entran, cuándo se pide contexto), no en datos jurídicos que el corpus no confirme. 'contiene' = todos; 'contieneAlguno' = al menos uno; comparaciones sin tildes ni mayúsculas. Los casos con `historial` prueban seguimientos (turnos previos del usuario y del asistente). `intermitente: true` marca un caso que acierta unas veces y otras no: se informa como AVISO y no hace fallar la ejecución.",
   "casos": [
     {
       "id": "fecha-junio-2026",
       "grupo": "fecha-del-caso",
       "pregunta": "Mi procedimiento se convocó en junio de 2026 y quiero saber si puedo aplicar la Ley 30225.",
-      "contiene": ["Aplicación a tu caso", "Ley 32069"],
-      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 32069"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
     },
     {
       "id": "fecha-2024",
       "grupo": "fecha-del-caso",
       "pregunta": "Mi procedimiento se convocó en 2024, ¿qué ley le corresponde?",
-      "contiene": ["Aplicación a tu caso", "Ley 30225"],
-      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 30225"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
     },
     {
       "id": "fecha-3-marzo-2025",
       "grupo": "fecha-del-caso",
       "pregunta": "El procedimiento se convocó el 3 de marzo de 2025. ¿Qué ley rige?",
-      "contiene": ["Ley 30225"],
-      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+      "contiene": [
+        "Ley 30225"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
     },
     {
       "id": "fecha-15-mayo-2025",
       "grupo": "fecha-del-caso",
       "pregunta": "El procedimiento se convocó el 15 de mayo de 2025. ¿Qué ley rige?",
-      "contiene": ["Ley 32069"],
-      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+      "contiene": [
+        "Ley 32069"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
     },
     {
       "id": "fecha-en-datos-del-caso",
       "grupo": "fecha-del-caso",
       "pregunta": "¿Puedo aplicar la Ley 30225?",
-      "contextoCaso": { "regime": "", "dates": "Convocado en junio de 2026", "facts": "" },
-      "contiene": ["Aplicación a tu caso", "Ley 32069"]
+      "contextoCaso": {
+        "regime": "",
+        "dates": "Convocado en junio de 2026",
+        "facts": ""
+      },
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 32069"
+      ]
     },
     {
       "id": "comparar-garantias",
       "grupo": "comparar-regimenes",
       "pregunta": "¿Qué cambió entre la Ley 30225 y la Ley 32069 respecto de las garantías?",
-      "contiene": ["30225", "32069", "|"],
-      "fuentes": [{ "documentType": "ley", "titleIncludes": "30225" }, { "documentType": "ley", "titleIncludes": "32069" }]
+      "contiene": [
+        "30225",
+        "32069",
+        "|"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "titleIncludes": "30225"
+        },
+        {
+          "documentType": "ley",
+          "titleIncludes": "32069"
+        }
+      ]
     },
     {
       "id": "comparar-penalidades",
       "grupo": "comparar-regimenes",
       "pregunta": "Compara la Ley 30225 y la Ley 32069 en penalidades por mora.",
-      "contiene": ["30225", "32069", "|"]
+      "contiene": [
+        "30225",
+        "32069",
+        "|"
+      ]
     },
     {
       "id": "vigencia-30225",
       "grupo": "vigencia",
       "pregunta": "¿La Ley 30225 sigue vigente?",
-      "contieneAlguno": ["derog", "ya no está vigente", "deja de estar vigente", "dejó de estar vigente"],
-      "fuentes": [{ "documentType": "ley", "article": "DCD" }]
+      "contieneAlguno": [
+        "derog",
+        "ya no está vigente",
+        "deja de estar vigente",
+        "dejó de estar vigente"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCD"
+        }
+      ]
     },
     {
       "id": "garantia-fiel-cumplimiento",
       "grupo": "norma-vigente-primero",
       "pregunta": "¿Qué garantía se exige para el fiel cumplimiento del contrato?",
-      "contiene": ["garant"],
-      "fuentes": [{ "documentType": "reglamento", "titleIncludes": "32069" }]
+      "contiene": [
+        "garant"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069"
+        }
+      ]
     },
     {
       "id": "atraso-en-la-entrega",
       "grupo": "norma-vigente-primero",
       "pregunta": "¿Qué pasa si el contratista se atrasa en la entrega?",
-      "contiene": ["penalidad"],
-      "fuentes": [{ "documentType": "reglamento", "article": "120" }]
+      "contiene": [
+        "penalidad"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "article": "120"
+        }
+      ]
     },
     {
       "id": "ley-y-reglamento-vigentes",
       "grupo": "norma-vigente-primero",
       "pregunta": "¿Qué ley regula las contrataciones públicas y cuál es su reglamento vigente?",
-      "contiene": ["32069"]
+      "contiene": [
+        "32069"
+      ]
     },
     {
       "id": "vaga-mi-contrato",
       "grupo": "preguntas-vagas",
       "pregunta": "no sé qué hacer con mi contrato",
-      "contiene": ["Necesito un poco más de contexto"],
+      "contiene": [
+        "Necesito un poco más de contexto"
+      ],
       "sinFuentes": true
     },
     {
       "id": "vaga-una-compra",
       "grupo": "preguntas-vagas",
       "pregunta": "necesito ayuda con una compra",
-      "contiene": ["Necesito un poco más de contexto"],
+      "contiene": [
+        "Necesito un poco más de contexto"
+      ],
       "sinFuentes": true
     },
     {
       "id": "vaga-que-hago",
       "grupo": "preguntas-vagas",
       "pregunta": "¿Qué hago?",
-      "contiene": ["Necesito un poco más de contexto"],
+      "contiene": [
+        "Necesito un poco más de contexto"
+      ],
       "sinFuentes": true
     },
     {
       "id": "no-vaga-con-tema",
       "grupo": "preguntas-vagas",
       "pregunta": "necesito ayuda con la penalidad por mora",
-      "contiene": ["penalidad"],
-      "noContiene": ["Necesito un poco más de contexto"]
+      "contiene": [
+        "penalidad"
+      ],
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
     },
     {
       "id": "no-vaga-definicion",
       "grupo": "preguntas-vagas",
       "pregunta": "¿Qué es un contrato?",
-      "noContiene": ["Necesito un poco más de contexto"]
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
     },
     {
       "id": "trampa-monto-uit",
       "grupo": "anti-alucinacion",
       "pregunta": "¿Cuál es el monto máximo exacto en UIT para usar comparación de precios?",
-      "noContiene": ["8 uit"]
+      "noContiene": [
+        "8 uit"
+      ]
     },
     {
       "id": "trampa-articulo-inexistente",
       "grupo": "anti-alucinacion",
       "pregunta": "¿Qué dice el artículo 9999 de la Ley 32069?",
-      "contieneAlguno": ["no encontr", "no consta", "no se encontr", "no existe", "no hay", "sin fuentes", "no se recuper"]
+      "contieneAlguno": [
+        "no encontr",
+        "no consta",
+        "no se encontr",
+        "no existe",
+        "no hay",
+        "sin fuentes",
+        "no se recuper"
+      ]
+    },
+    {
+      "id": "seg-fecha-2024",
+      "grupo": "seguimientos",
+      "pregunta": "¿Y si fue en 2024?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "Mi procedimiento se convocó en junio de 2026 y el contratista se atrasó en la entrega. ¿Qué penalidad corresponde según el reglamento?"
+        },
+        {
+          "role": "assistant",
+          "content": "Corresponde la Ley 32069; la penalidad por mora se calcula con la fórmula del reglamento."
+        }
+      ],
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 30225"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
+    },
+    {
+      "id": "seg-fecha-2026-desde-2024",
+      "grupo": "seguimientos",
+      "pregunta": "¿Y si fue en junio de 2026?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "Mi procedimiento se convocó en 2024 y el contratista se atrasó en la entrega. ¿Qué penalidad corresponde según el reglamento?"
+        },
+        {
+          "role": "assistant",
+          "content": "Corresponde la Ley 30225."
+        }
+      ],
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 32069"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
+    },
+    {
+      "id": "seg-para-obras",
+      "grupo": "seguimientos",
+      "pregunta": "¿Y para obras?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué garantía se exige para el fiel cumplimiento del contrato?"
+        },
+        {
+          "role": "assistant",
+          "content": "Se exige una garantía de fiel cumplimiento."
+        }
+      ],
+      "contiene": [
+        "garant"
+      ],
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
+    },
+    {
+      "id": "seg-como-se-calcula",
+      "grupo": "seguimientos",
+      "pregunta": "¿Cómo se calcula?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué penalidad por mora se aplica si el contratista se atrasa en la entrega?"
+        },
+        {
+          "role": "assistant",
+          "content": "Se aplica una penalidad por mora."
+        }
+      ],
+      "contiene": [
+        "penalidad"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "article": "120"
+        }
+      ]
+    },
+    {
+      "id": "seg-ese-articulo",
+      "grupo": "seguimientos",
+      "pregunta": "ese artículo qué dice",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué dice el artículo 120 del reglamento?"
+        },
+        {
+          "role": "assistant",
+          "content": "El artículo 120 regula las penalidades."
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "article": "120"
+        }
+      ]
+    },
+    {
+      "id": "seg-cambio-de-tema",
+      "grupo": "seguimientos",
+      "pregunta": "¿Qué es la subasta inversa electrónica?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué penalidad por mora se aplica si el contratista se atrasa en la entrega?"
+        },
+        {
+          "role": "assistant",
+          "content": "Se aplica una penalidad por mora."
+        }
+      ],
+      "contiene": [
+        "subasta"
+      ],
+      "noContiene": [
+        "penalidad por mora"
+      ]
+    },
+    {
+      "id": "seg-vaga-con-historial",
+      "grupo": "seguimientos",
+      "pregunta": "no sé qué hacer ahora",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué penalidad por mora se aplica si el contratista se atrasa en la entrega?"
+        },
+        {
+          "role": "assistant",
+          "content": "Se aplica una penalidad por mora."
+        }
+      ],
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
+    },
+    {
+      "id": "seg-de-un-seguimiento",
+      "grupo": "seguimientos",
+      "pregunta": "¿y el tope?",
+      "historial": [
+        {
+          "role": "user",
+          "content": "¿Qué penalidad por mora se aplica si el contratista se atrasa en la entrega?"
+        },
+        {
+          "role": "assistant",
+          "content": "…"
+        },
+        {
+          "role": "user",
+          "content": "¿Y para servicios?"
+        },
+        {
+          "role": "assistant",
+          "content": "…"
+        }
+      ],
+      "contieneAlguno": [
+        "tope",
+        "máximo",
+        "maximo",
+        "diez por ciento",
+        "10 %",
+        "10%"
+      ],
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
+    },
+    {
+      "id": "fecha-31-dic-2024",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó el 31 de diciembre de 2024. ¿Qué ley rige?",
+      "contiene": [
+        "Ley 30225"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
+    },
+    {
+      "id": "fecha-22-abril-2025",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó el 22 de abril de 2025. ¿Qué ley rige?",
+      "contiene": [
+        "Ley 32069"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
+    },
+    {
+      "id": "fecha-abril-2025-sin-dia",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó en abril de 2025. ¿Qué ley rige?",
+      "contieneAlguno": [
+        "fecha exacta",
+        "día exacto",
+        "dia exacto",
+        "fecha precisa",
+        "día de la convocatoria",
+        "fecha de convocatoria"
+      ]
+    },
+    {
+      "id": "fecha-2025-sin-mes",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó en 2025. ¿Qué ley rige?",
+      "contieneAlguno": [
+        "fecha exacta",
+        "día exacto",
+        "dia exacto",
+        "fecha precisa",
+        "fecha de convocatoria",
+        "22 de abril"
+      ]
+    },
+    {
+      "id": "fecha-2024-penalidad-reglamento-anterior",
+      "grupo": "fecha-del-caso",
+      "pregunta": "Mi procedimiento se convocó en 2024 y el contratista se atrasó en la entrega. ¿Qué penalidad corresponde según el reglamento?",
+      "contiene": [
+        "Ley 30225",
+        "penalidad"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "344-2018",
+          "article": "162"
+        }
+      ]
+    },
+    {
+      "id": "fecha-en-datos-del-caso-2024",
+      "grupo": "fecha-del-caso",
+      "pregunta": "¿Qué ley me corresponde?",
+      "contextoCaso": {
+        "regime": "",
+        "dates": "Convocado el 3 de marzo de 2025",
+        "facts": ""
+      },
+      "contiene": [
+        "Aplicación a tu caso",
+        "Ley 30225"
+      ]
+    },
+    {
+      "id": "comparar-plazos",
+      "grupo": "comparar-regimenes",
+      "pregunta": "¿Qué diferencias hay entre la Ley 30225 y la Ley 32069 en los plazos de pago?",
+      "contiene": [
+        "30225",
+        "32069",
+        "|"
+      ],
+      "intermitente": true
+    },
+    {
+      "id": "comparar-impedimentos",
+      "grupo": "comparar-regimenes",
+      "pregunta": "Compara los impedimentos para contratar con el Estado entre la Ley 30225 y la Ley 32069.",
+      "contiene": [
+        "30225",
+        "32069",
+        "|"
+      ]
+    },
+    {
+      "id": "comparar-sin-nombrar-numeros",
+      "grupo": "comparar-regimenes",
+      "pregunta": "¿Qué cambió entre la ley anterior y la nueva ley de contrataciones en materia de garantías?",
+      "contiene": [
+        "30225",
+        "32069"
+      ]
+    },
+    {
+      "id": "vigencia-32069-desde-cuando",
+      "grupo": "vigencia",
+      "pregunta": "¿Desde cuándo rige la Ley 32069 y qué pasa con los procedimientos iniciados antes?",
+      "contiene": [
+        "32069"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley",
+          "article": "DCT-4"
+        }
+      ]
+    },
+    {
+      "id": "vigencia-reglamento-anterior",
+      "grupo": "vigencia",
+      "pregunta": "¿El D.S. 344-2018-EF sigue vigente?",
+      "contieneAlguno": [
+        "derog",
+        "ya no está vigente",
+        "deja de estar vigente",
+        "dejó de estar vigente"
+      ]
+    },
+    {
+      "id": "norma-impedimentos",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Quiénes están impedidos de ser participantes o contratistas del Estado?",
+      "contiene": [
+        "impedid"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley"
+        }
+      ],
+      "noContiene": [
+        "Según «Decreto Legislativo N.° 1444»"
+      ]
+    },
+    {
+      "id": "norma-apelacion",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo funciona el recurso de apelación contra el otorgamiento de la buena pro?",
+      "contiene": [
+        "apelaci"
+      ]
+    },
+    {
+      "id": "norma-funciones-oece",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cuáles son las funciones del OECE?",
+      "contiene": [
+        "oece"
+      ],
+      "fuentes": [
+        {
+          "documentType": "ley"
+        }
+      ]
+    },
+    {
+      "id": "norma-tribunal",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué funciones tiene el Tribunal de Contrataciones Públicas?",
+      "contiene": [
+        "tribunal"
+      ]
+    },
+    {
+      "id": "norma-expediente",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué es el expediente de contratación y qué debe contener?",
+      "contiene": [
+        "expediente"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069"
+        }
+      ]
+    },
+    {
+      "id": "norma-comparacion-precios",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cuáles son los requisitos para una compra por comparación de precios?",
+      "contiene": [
+        "comparaci"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069"
+        }
+      ]
+    },
+    {
+      "id": "norma-subasta-inversa",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo se desarrolla una subasta inversa electrónica?",
+      "contiene": [
+        "subasta"
+      ]
+    },
+    {
+      "id": "norma-valor-opinion",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué valor tiene una opinión del OECE frente a la Ley y el Reglamento?",
+      "contiene": [
+        "opini"
+      ]
+    },
+    {
+      "id": "norma-garantia-adelantos",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué garantía se exige para recibir un adelanto de pago?",
+      "contiene": [
+        "adelanto"
+      ]
+    },
+    {
+      "id": "norma-resolucion-contrato",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿En qué casos se puede resolver un contrato?",
+      "contiene": [
+        "resol"
+      ]
+    },
+    {
+      "id": "norma-ampliacion-plazo",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo se solicita una ampliación de plazo durante la ejecución del contrato?",
+      "contiene": [
+        "ampliaci",
+        "plazo"
+      ]
+    },
+    {
+      "id": "norma-prestaciones-adicionales",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cuándo se pueden aprobar prestaciones adicionales en un contrato?",
+      "contiene": [
+        "adicional"
+      ]
+    },
+    {
+      "id": "norma-conformidad",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué es la conformidad de la prestación y quién la otorga?",
+      "contiene": [
+        "conformidad"
+      ]
+    },
+    {
+      "id": "norma-controversias",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo se resuelven las controversias durante la ejecución del contrato?",
+      "contiene": [
+        "arbitr"
+      ]
+    },
+    {
+      "id": "trampa-ley-inexistente",
+      "grupo": "anti-alucinacion",
+      "pregunta": "¿Qué establece la Ley 99999 sobre contrataciones públicas?",
+      "contieneAlguno": [
+        "no encontr",
+        "no consta",
+        "no se encontr",
+        "no se recuper",
+        "no existe",
+        "no hay",
+        "no se identific",
+        "no figura",
+        "no se ha recuper"
+      ]
+    },
+    {
+      "id": "trampa-decreto-inexistente",
+      "grupo": "anti-alucinacion",
+      "pregunta": "¿Qué dice el Decreto Supremo 999-2099-EF?",
+      "contieneAlguno": [
+        "no encontr",
+        "no consta",
+        "no se encontr",
+        "no se recuper",
+        "no existe",
+        "no hay",
+        "no se identific",
+        "no figura",
+        "no se ha recuper"
+      ]
+    },
+    {
+      "id": "trampa-articulo-inexistente-reglamento",
+      "grupo": "anti-alucinacion",
+      "pregunta": "Explica el artículo 5000 del Reglamento de la Ley 32069.",
+      "contieneAlguno": [
+        "no se recuper",
+        "no encontr",
+        "no consta",
+        "no existe"
+      ]
+    },
+    {
+      "id": "trampa-opinion-inexistente",
+      "grupo": "anti-alucinacion",
+      "pregunta": "¿Qué concluye la Opinión N.° 999-2099/DTN?",
+      "contieneAlguno": [
+        "no encontr",
+        "no consta",
+        "no se encontr",
+        "no se recuper",
+        "no existe",
+        "no hay",
+        "no se identific",
+        "no figura",
+        "no se ha recuper"
+      ]
+    },
+    {
+      "id": "vaga-tengo-una-duda",
+      "grupo": "preguntas-vagas",
+      "pregunta": "tengo una duda",
+      "contiene": [
+        "Necesito un poco más de contexto"
+      ],
+      "sinFuentes": true
+    },
+    {
+      "id": "vaga-ayuda",
+      "grupo": "preguntas-vagas",
+      "pregunta": "ayuda por favor",
+      "contiene": [
+        "Necesito un poco más de contexto"
+      ],
+      "sinFuentes": true
+    },
+    {
+      "id": "no-vaga-ampliacion-plazo",
+      "grupo": "preguntas-vagas",
+      "pregunta": "¿Qué hago si me piden una ampliación de plazo?",
+      "contiene": [
+        "plazo"
+      ],
+      "noContiene": [
+        "Necesito un poco más de contexto"
+      ]
     }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "batch": "reglamento-30225-2026-10-29",
+  "entries": [
+    {
+      "title": "Decreto Supremo N.° 344-2018-EF — Reglamento de la Ley N.° 30225, Ley de Contrataciones del Estado",
+      "type": "reglamento",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/235964-344-2018-ef",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/264496/DS344_2018EF.pdf?v=1546471349",
+      "sourceEntity": "Ministerio de Economía y Finanzas",
+      "number": "344-2018-EF",
+      "year": 2018,
+      "versionLabel": "Texto original publicado el 31.12.2018",
+      "selectionNote": "Reglamento del régimen anterior (Ley 30225), derogado por el D.S. 009-2025-EF. Texto ORIGINAL de 2018: no incorpora las modificaciones posteriores (D.S. 377-2019-EF, 168-2020-EF, 162-2021-EF, 234-2022-EF, 051-2024-EF, entre otras), de modo que su vigencia y su aplicación a un caso quedan pendientes de revisión. Se incorpora para poder citar las reglas del régimen que rige los procedimientos convocados antes del 22.04.2025.",
+      "regime": "30225",
+      "status": "indexed",
+      "sha256": "fb471dc80798d10f7484d73fcd59f24ad2f46edfe53df82f2158d7682f301792",
+      "documentId": "2ec35172-b316-4ce1-8ff1-53fe1e4b9941",
+      "verification": {
+        "pages": 64,
+        "chunks": 283,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-29T20:01:30.555Z"
+      }
+    }
+  ]
+}

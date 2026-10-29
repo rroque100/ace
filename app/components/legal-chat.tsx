@@ -12,6 +12,8 @@ import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnical
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
 import { VoiceDictation } from "./voice-dictation";
+import { useCaseProfile } from "./use-case-profile";
+import { describeProfile, describeProfileAge, isEmptyCommonContext, isStaleProfile, matchesProfile, profileToContext } from "@/lib/case-profile";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
 import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
 import type { LegalResponseTelemetry } from "@/lib/legal-telemetry";
@@ -750,7 +752,8 @@ function MessageEvidence({
   const sources = message.sources ?? [];
   const assessment = message.assessment;
 
-  if (sources.length === 0 && !assessment) {
+  // Un pedido de aclaración no consultó ninguna norma: «0 fragmentos consultados» sobraría.
+  if (message.model === "needs-clarification" || (sources.length === 0 && !assessment)) {
     return null;
   }
 
@@ -861,6 +864,16 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const [attachmentIds, setAttachmentIds] = useState<string[]>([]);
   const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
   const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
+  // Caso activo: régimen, fecha de convocatoria y objeto recordados en este navegador (ver lib/case-profile.ts).
+  const { profile: caseProfile, save: saveCaseProfile, clear: clearCaseProfile } = useCaseProfile(ownerId);
+  const [profileNow] = useState(() => Date.now());
+  const profilePrefilled = useRef(false);
+  // Una consulta nueva arranca con el caso activo ya puesto; una sesión existente conserva el suyo (el de sus mensajes).
+  useEffect(() => {
+    if (!caseProfile || profilePrefilled.current || requestedSessionId) return;
+    profilePrefilled.current = true;
+    setCaseContext((current) => (isEmptyCommonContext(current) ? { ...current, ...profileToContext(caseProfile), facts: current.facts } : current));
+  }, [caseProfile, requestedSessionId]);
   const [tone, setTone] = useState("formal");
   const [length, setLength] = useState("media");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -1183,12 +1196,19 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
     continuity.clear();onAdopt(null);hydratedSession.current=null;
     setMessages([]);
     setQuestion("");
-    setCaseContext({ ...emptyCaseContext }); setAttachmentIds([]); setExtendedFilters({});
+    setCaseContext(caseProfile ? profileToContext(caseProfile) : { ...emptyCaseContext }); setAttachmentIds([]); setExtendedFilters({});
     setLoadingSession(false);
     if (requestedSessionId) router.replace("/chat");
     setSessionId(null);
     setError("");
     setCopiedId("");
+  }
+
+  // Quitar el caso activo no deja los datos a medias: vacía también los campos, para que una fecha vieja no siga
+  // mandando sin que se vea. Los hechos de la pregunta en curso se conservan.
+  function dropCaseProfile() {
+    clearCaseProfile();
+    setCaseContext((current) => ({ ...current, regime: "", dates: "", object: undefined }));
   }
 
   function clearFilters() {
@@ -1430,7 +1450,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                     <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
                   ) : null}
 
-                  {!message.streaming && message.telemetry ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
+                  {!message.streaming && message.telemetry && message.model !== "needs-clarification" ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
                   {!message.streaming && !message.error && message.content ? (
                     <div className="responseActions">
                       <small className="responseActionsHint">Acciones sobre esta respuesta</small>
@@ -1694,6 +1714,16 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       <div className="chatComposeTools">
       <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
       <section className="chatCaseContext" aria-label="Contexto del caso">
+        {caseProfile ? (
+          <div className="caseProfileChip" role="status" data-stale={isStaleProfile(caseProfile, profileNow) ? "true" : undefined}>
+            <div>
+              <strong>Caso activo</strong>
+              <span>{describeProfile(caseProfile)}</span>
+              <small>{describeProfileAge(caseProfile, profileNow)}{isStaleProfile(caseProfile, profileNow) ? " · comprueba que sigue siendo tu caso" : " · se aplica a tus consultas"}</small>
+            </div>
+            <button className="secondaryButton compactButton" type="button" onClick={dropCaseProfile} disabled={isStreaming || loadingSession}>Quitar</button>
+          </div>
+        ) : null}
         <details>
           <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
@@ -1725,6 +1755,13 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
             </div>
           </fieldset>
+          <div className="caseProfileActions">
+            <button className="secondaryButton compactButton" type="button" onClick={() => saveCaseProfile(caseContext)}
+              disabled={isStreaming || loadingSession || isEmptyCommonContext(caseContext) || Boolean(caseProfile && matchesProfile(caseContext, caseProfile))}>
+              {caseProfile && matchesProfile(caseContext, caseProfile) ? "Caso activo guardado" : "Guardar como caso activo"}
+            </button>
+            <small>Recuerda régimen, fechas y objeto en este navegador para tus próximas consultas. Los hechos no se guardan.</small>
+          </div>
         </details>
         <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
         {loadingSession ? <p role="status">Recuperando conversación…</p> : null}

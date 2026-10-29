@@ -16,10 +16,12 @@ import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./cha
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
 import {
   comparisonInstruction,
+  defaultRegimeInstruction,
   isRegimeComparison as isComparisonOfRegimes,
   isTemporalApplicabilityQuestion,
   pickTemporalEvidence,
   questionRegimeIntent,
+  regimeLabel,
   regimeRankAdjustment,
   sourceRegime,
   temporalApplicationBlock,
@@ -38,6 +40,7 @@ import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSour
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
 import { missingArticleNotice, missingRequestedArticles } from "./chat-article-check";
+import { withRetry } from "./retry";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -67,6 +70,9 @@ export type ChatAuthContext = {
   // Lo usa el evaluador continuo para no ensuciar el historial del chat. Por defecto persiste.
   persist?: boolean;
   role?: string;
+  // Historial dado a mano, en lugar de leerlo de la sesión. Solo para evaluar seguimientos sin base de datos
+  // (scripts/evaluar-chat-oro.mts); el chat real siempre lo lee de la sesión del usuario, con su JWT.
+  history?: Array<{ role: "user" | "assistant"; content: string }>;
 };
 
 const legalSearchFiltersSchema = extendedLegalFiltersSchema.extend({
@@ -800,6 +806,7 @@ Documento: ${source.documentTitle}${source.documentNumber ? ` (N.° ${source.doc
 Procedencia: ${source.selectionOrigin === "selected" ? "selección inicial del usuario" : source.selectionOrigin === "additional" ? "fuente adicional recuperada" : "búsqueda general"}
 Tipo: ${source.documentType}; clase de evidencia: ${corpusSourceKind(source.documentType)}
 Relación con el identificador solicitado: ${source.referenceRelation === "original" ? "documento original identificado en el catálogo" : source.referenceRelation === "cites_requested" ? "el fragmento menciona el documento solicitado; evidencia indirecta" : "material relacionado; no acredita ser el original solicitado"}
+Régimen según su identificador (deducido de su número o título, no revisado por una persona): ${regimeLabel({ documentType: source.documentType, documentNumber: source.documentNumber, documentTitle: source.documentTitle, regime: source.regimeReviewed ? source.regime : null, year: source.year })}
 Régimen registrado: ${source.regime ?? "no_determinado"}; vigencia registrada: ${source.vigencia ?? "desconocida"}; revisión humana de vigencia (no acredita aplicación al caso): ${JSON.stringify(source.validityReview??null)}; año según su número: ${yearFromDocumentNumber(source.documentNumber) ?? "no disponible"}
 Entidad: ${source.sourceEntity ?? "No registrada"}
 Tipo de proceso: ${source.processType ?? "No registrado"}
@@ -1728,7 +1735,7 @@ async function prepareLegalAnswer(
   input: z.infer<typeof chatRequestSchema>,
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
-  const [history, caseDocuments] = await Promise.all([getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds)]);
+  const [history, caseDocuments] = await Promise.all([auth.history && auth.persist === false ? Promise.resolve(auth.history as ChatMessageRecord[]) : getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds)]);
   // Un seguimiento («¿y si fue en 2024?») se busca con el tema de la conversación; ver resolveFollowUp.
   const followup = resolveFollowUp(input.question, history);
   const contextualQuery = caseSearchQuery(followup.query, input.caseContext);
@@ -2046,6 +2053,7 @@ async function prepareLegalAnswer(
       (validityTarget && validityEvidence.length ? validityInstruction(validityTarget.norms) : "") +
       (temporal ? temporalInstruction(regimeIntent) : "") +
       (comparison ? comparisonInstruction() : "") +
+      (!temporal && !comparison && !validityTarget && regimeIntent.regime === null ? defaultRegimeInstruction() : "") +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
       "Prioridad cronológica: las fuentes llegan ordenadas dentro de cada rango normativo de la más reciente a la más antigua (por el año de su número o, en las leyes, por su numeración). Si dos fuentes del MISMO rango dicen cosas distintas, da preferencia a la más reciente y menciona la anterior solo como antecedente; la jerarquía normativa (ley, reglamento, directiva) prevalece sobre la fecha y una fecha posterior NO prueba por sí sola que una norma derogue a otra. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",
@@ -2138,7 +2146,8 @@ export async function answerLegalQuestion(
   } else {
     try {
       const openai = getOpenAIClient();
-      let response = await openai.responses.create(prep.generationParams, { timeout: 25000, maxRetries: 0 });
+      // Un 429 o un 503 pasajeros se reintentan una vez antes de caer al extracto de fuentes; un tiempo agotado no (ya gastó su plazo).
+      let response = await withRetry(() => openai.responses.create(prep.generationParams, { timeout: 25000, maxRetries: 0 }), { attempts: 2, baseMs: 700 });
       if(generationIncomplete(response))response=await openai.responses.create(compactRetryParams(prep.generationParams),{timeout:25000,maxRetries:0});
       if(generationIncomplete(response)){prep.assessment.evidenceWarnings.push("El proveedor interrumpió la respuesta después de un reintento; no se publicó como conclusión completa.");throw Error("generation_incomplete");}
       answer = applySystemConfidence(response.output_text, prep.assessment.confidence);
@@ -2213,7 +2222,8 @@ export async function* streamLegalAnswer(
     let acc = "";let incomplete=false;
     try {
       const openai = getOpenAIClient();
-      const stream = await openai.responses.create({ ...prep.generationParams, stream: true }, { timeout: 25000, maxRetries: 0 });
+      // Solo se reintenta ABRIR el stream: un corte a mitad de respuesta ya mostró texto al usuario y no se repite.
+      const stream = await withRetry(() => openai.responses.create({ ...prep.generationParams, stream: true }, { timeout: 25000, maxRetries: 0 }), { attempts: 2, baseMs: 700 });
       for await (const event of stream) {
         if(event.type === "response.incomplete")incomplete=true;
         if (event.type === "response.output_text.delta") {

@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { withRetry } from "./retry";
 
 // ---------------------------------------------------------------------------
 // Proveedor de IA: OpenAI, Google Gemini (AI Studio) o Z.ai (Zhipu / GLM).
@@ -226,24 +227,28 @@ export async function embedWithGoogle(textos: string[], dimensiones: number): Pr
   // 100 es el maximo por llamada que documenta batchEmbedContents.
   for (let i = 0; i < textos.length; i += 100) {
     const lote = textos.slice(i, i + 100);
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${googleEmbeddingModel}:batchEmbedContents?key=${apiKey}`,
-      {
-        body: JSON.stringify({
-          requests: lote.map((texto) => ({
-            content: { parts: [{ text: texto }] },
-            model: `models/${googleEmbeddingModel}`,
-            outputDimensionality: dimensiones,
-          })),
-        }),
-        headers: { "Content-Type": "application/json" },
-        method: "POST",
-      },
-    );
-    if (!res.ok) {
-      throw new Error(`Google embeddings ${res.status}: ${(await res.text()).slice(0, 200)}`);
-    }
-    const json = (await res.json()) as { embeddings?: { values: number[] }[] };
+    // Un 429 por minuto o un 503 de medio segundo no deben dejar un documento en `error` ni degradar una respuesta:
+    // se reintenta con espera creciente. El crédito agotado (402) no se reintenta; ver lib/retry.ts.
+    const json = await withRetry(async () => {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${googleEmbeddingModel}:batchEmbedContents?key=${apiKey}`,
+        {
+          body: JSON.stringify({
+            requests: lote.map((texto) => ({
+              content: { parts: [{ text: texto }] },
+              model: `models/${googleEmbeddingModel}`,
+              outputDimensionality: dimensiones,
+            })),
+          }),
+          headers: { "Content-Type": "application/json" },
+          method: "POST",
+        },
+      );
+      if (!res.ok) {
+        throw new Error(`Google embeddings ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      }
+      return (await res.json()) as { embeddings?: { values: number[] }[] };
+    }, { attempts: 3, baseMs: 400 });
     for (const e of json.embeddings ?? []) salida.push(e.values);
   }
   return salida;

@@ -31,6 +31,9 @@ if (!batch || batch.startsWith("--")) {
 const rows = await supabaseRest<DocumentRecord[]>(
   `documents?status=in.(${stuck ? "error,processing,uploaded" : "error"})&metadata->>importBatch=like.${encodeURIComponent(batch)}*&select=*&order=created_at.asc&limit=1000`,
 );
+// Los documentos retirados a propósito (scripts/retirar-del-rag.mts) quedan en `error` para salir del corpus;
+// reindexarlos aquí los devolvería al chat justo con el texto recortado que motivó retirarlos.
+for (let i = rows.length - 1; i >= 0; i -= 1) if (rows[i].metadata?.retiredFromRag) rows.splice(i, 1);
 console.log(`${apply ? "APLICANDO" : "SIMULACIÓN"} · lote «${batch}*» · en error: ${rows.length}`);
 for (const row of rows) console.log(`  ${row.title} — ${String(row.error_message ?? "").replace(/\s+/g, " ").slice(0, 90)}`);
 if (!apply || rows.length === 0) {
