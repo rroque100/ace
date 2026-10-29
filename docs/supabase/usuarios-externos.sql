@@ -95,7 +95,7 @@ ALTER TABLE public.uso_ia ENABLE ROW LEVEL SECURITY;
 -- El formulario de entrada ofrecía «Registrarse» y Supabase tiene el registro abierto (disable_signup = false):
 -- cualquiera con un correo podía crearse una cuenta con rol `consulta` y gastar IA. El formulario ya no ofrece
 -- registrarse, pero la API de Auth sigue aceptándolo mientras el registro esté abierto. Este disparador lo neutraliza:
--- una cuenta que llega SIN `app_metadata.tipo` (las del administrador siempre lo llevan: interno o externo) se marca
+-- una cuenta que llega SIN `app_metadata.tipo` (las del administrador siempre lo llevan: 'interno' o 'externo') se marca
 -- como externa SIN módulos, y el proxy no le abre nada. Solo actúa en altas nuevas; no toca a nadie que ya exista.
 --
 -- Además, desactiva el registro abierto en el panel de Supabase: Authentication → Sign In / Providers → «Allow new
@@ -109,12 +109,12 @@ CREATE OR REPLACE FUNCTION public.marcar_alta_sin_acceso()
  RETURNS trigger
  LANGUAGE plpgsql
  SECURITY DEFINER
- SET search_path TO public
+ SET search_path TO 'public'
 AS $function$
 begin
-  if new.raw_app_meta_data is null or not (new.raw_app_meta_data ? tipo) then
-    new.raw_app_meta_data := coalesce(new.raw_app_meta_data, {}::jsonb)
-      || jsonb_build_object(tipo, externo, modulos, []::jsonb);
+  if new.raw_app_meta_data is null or not (new.raw_app_meta_data ? 'tipo') then
+    new.raw_app_meta_data := coalesce(new.raw_app_meta_data, '{}'::jsonb)
+      || jsonb_build_object('tipo', 'externo', 'modulos', '[]'::jsonb);
   end if;
   return new;
 end;
