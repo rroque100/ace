@@ -22,7 +22,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { emptyCaseContext, readCaseContext, type CaseContext } from "@/lib/chat-case-context";
+import { appendDictation, caseFieldLimits, dictationRoom, emptyCaseContext, readCaseContext, type CaseContext, type CaseField } from "@/lib/chat-case-context";
 import {
   AlertTriangle,
   Bot,
@@ -1298,8 +1298,15 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   // cuando el diálogo ya se cerró (`focusComposer`), porque Radix se lo devuelve antes al botón «Dictar».
   // 8 000 es el máximo que acepta el servidor para la pregunta (legal-chat.ts).
   function insertDictation(dictated: string) {
-    setQuestion((current) => `${current.trimEnd()}${current.trim() ? " " : ""}${dictated}`.slice(0, 8000));
+    setQuestion((current) => appendDictation(current, dictated, 8000));
   }
+  // Dictado de «Datos del caso»: se AÑADE al campo y nunca lo reemplaza. Los topes son los del servidor
+  // (chat-case-context.ts); `room` es lo que aún cabe, para que el diálogo avise en vez de recortar en silencio.
+  function appendCaseField(field: CaseField, dictated: string) {
+    setCaseContext((current) => ({ ...current, [field]: appendDictation(current[field] ?? "", dictated, caseFieldLimits[field]) }));
+  }
+  const caseFieldRoom = (field: CaseField) => dictationRoom(caseContext[field] ?? "", caseFieldLimits[field]);
+  function focusCaseField(field: CaseField) { const box = document.getElementById(`case-${field}`) as HTMLInputElement | HTMLTextAreaElement | null; if (box) { box.focus(); box.setSelectionRange(box.value.length, box.value.length); } }
   function focusComposer() {
     const box = composerRef.current;
     if (box) { box.focus(); autoGrow(box); box.setSelectionRange(box.value.length, box.value.length); }
@@ -1688,22 +1695,32 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
           <fieldset disabled={isStreaming || loadingSession}>
-            <label>Régimen aplicable
-              <input maxLength={200} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
+            <div className="caseField">
+              <div className="caseFieldHead"><label htmlFor="case-regime">Régimen aplicable</label>
+                <VoiceDictation compact title="Dictar el régimen aplicable" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("regime")} onInsert={(text) => appendCaseField("regime", text)} onAfterInsert={() => focusCaseField("regime")} /></div>
+              <input id="case-regime" maxLength={caseFieldLimits.regime} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
                 onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
-            </label>
-            <label>Objeto contractual
-              <input maxLength={400} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
+            </div>
+            {/* El nombre va en un <label htmlFor> aparte del botón Dictar: dentro del label, el texto del botón
+                pasaría a formar parte del nombre accesible del campo. */}
+            <div className="caseField">
+              <div className="caseFieldHead"><label htmlFor="case-object">Objeto contractual</label>
+                <VoiceDictation compact title="Dictar el objeto contractual" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("object")} onInsert={(text) => appendCaseField("object", text)} onAfterInsert={() => focusCaseField("object")} /></div>
+              <input id="case-object" maxLength={caseFieldLimits.object} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
                 onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
-            </label>
-            <label>Fechas relevantes
-              <textarea rows={2} maxLength={1000} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
+            </div>
+            <div className="caseField">
+              <div className="caseFieldHead"><label htmlFor="case-dates">Fechas relevantes</label>
+                <VoiceDictation compact title="Dictar las fechas relevantes" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("dates")} onInsert={(text) => appendCaseField("dates", text)} onAfterInsert={() => focusCaseField("dates")} /></div>
+              <textarea id="case-dates" rows={2} maxLength={caseFieldLimits.dates} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
                 onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
-            </label>
-            <label>Hechos del caso
-              <textarea rows={3} maxLength={6000} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
+            </div>
+            <div className="caseField">
+              <div className="caseFieldHead"><label htmlFor="case-facts">Hechos del caso</label>
+                <VoiceDictation compact title="Dictar los hechos del caso" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("facts")} onInsert={(text) => appendCaseField("facts", text)} onAfterInsert={() => focusCaseField("facts")} /></div>
+              <textarea id="case-facts" rows={3} maxLength={caseFieldLimits.facts} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
                 onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
-            </label>
+            </div>
           </fieldset>
         </details>
         <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>

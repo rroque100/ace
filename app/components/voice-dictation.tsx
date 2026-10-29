@@ -12,10 +12,15 @@ import { useVoiceRecorder } from "./use-voice-recorder";
 // cita la norma errónea con apariencia de autoridad), así que quien dicta siempre ve y puede corregir el texto
 // antes de pulsar «Enviar». Comparte captura y transcripción con la búsqueda por voz (use-voice-recorder).
 
-export function VoiceDictation({ onInsert, onAfterInsert, disabled = false, title = "Dictar la pregunta", description = "Habla, revisa el texto y se añadirá a tu pregunta. No se envía hasta que tú lo decidas." }: {
+export function VoiceDictation({ onInsert, onAfterInsert, disabled = false, compact = false, maxChars: room, insertLabel = "Insertar en la pregunta", title = "Dictar la pregunta", description = "Habla, revisa el texto y se añadirá a tu pregunta. No se envía hasta que tú lo decidas." }: {
   onInsert: (text: string) => void;
   /** Se llama cuando el diálogo ya se cerró tras insertar: ahí se puede devolver el foco a la caja. */
   onAfterInsert?: () => void;
+  /** Botón pequeño para ponerlo junto al nombre de un campo, en vez del botón grande del compositor. */
+  compact?: boolean;
+  /** Caracteres que aún caben en el destino. Si lo dictado no cabe, no se inserta (no se recorta en silencio). */
+  maxChars?: number;
+  insertLabel?: string;
   disabled?: boolean;
   title?: string;
   description?: string;
@@ -24,19 +29,22 @@ export function VoiceDictation({ onInsert, onAfterInsert, disabled = false, titl
   const voice = useVoiceRecorder({ purpose: "chat", open, rememberConsent: true });
   const { phase, config, error, consent, setConsent, seconds, maxSeconds, maxChars, text, setText, original, audioUrl, doubtful } = voice;
   const review = reviewVoiceText(text);
-  const usable = text.trim().length >= 3;
+  const normalized = review.normalized.trim();
+  const full = room !== undefined && room < 3;
+  const tooLong = room !== undefined && normalized.length > room;
+  const usable = text.trim().length >= 3 && !tooLong;
   const inserted = useRef(false);
 
   function close() { voice.reset(); setOpen(false); }
   function insert() {
     if (!usable) return;
-    onInsert(review.normalized.trim());
+    onInsert(normalized);
     inserted.current = true;
     close();
   }
 
   return <Dialog open={open} onOpenChange={value => value ? setOpen(true) : close()}>
-    <DialogTrigger asChild><button type="button" className="secondaryButton voiceSearchTrigger" aria-label={title} title={title} disabled={disabled}><Mic size={20} aria-hidden="true" /><span>Dictar</span></button></DialogTrigger>
+    <DialogTrigger asChild><button type="button" className={compact ? "secondaryButton voiceDictationInline" : "secondaryButton voiceSearchTrigger"} aria-label={title} title={full ? "El campo está lleno" : title} disabled={disabled || full}><Mic size={compact ? 16 : 20} aria-hidden="true" /><span>Dictar</span></button></DialogTrigger>
     <DialogContent title={title} description={description} size="lg" onCloseAutoFocus={event => { if (!inserted.current) return; inserted.current = false; event.preventDefault(); onAfterInsert?.(); }}>
       <div className="voiceSearchBody">
         <ol className="voiceSearchSteps" aria-label="Pasos del dictado"><li>Hablar</li><li>Revisar</li><li>Insertar</li></ol>
@@ -60,7 +68,8 @@ export function VoiceDictation({ onInsert, onAfterInsert, disabled = false, titl
           {review.normalized !== text ? <p className="voiceInterpretation"><strong>Se insertará con esta interpretación:</strong> {review.normalized}</p> : null}
           {review.references.length ? <p><strong>Números y siglas para confirmar:</strong> {review.references.join(" · ")}</p> : null}
           {review.warnings.map(warning => <p className="voiceReviewNote" key={warning}>{warning}</p>)}
-          <button className="primaryButton" type="button" disabled={!usable} onClick={insert}>Insertar en la pregunta</button>
+          {tooLong ? <p className="voiceReviewNote">Lo dictado ocupa {normalized.length} caracteres y en este campo caben {room}. Acórtalo para poder insertarlo.</p> : null}
+          <button className="primaryButton" type="button" disabled={!usable} onClick={insert}>{insertLabel}</button>
           <button className="secondaryButton" type="button" onClick={() => void voice.start()}><RotateCcw size={17} /> Volver a grabar</button>
         </> : null}
         {error ? <p role="alert" className="voiceReviewNote">{error}</p> : null}

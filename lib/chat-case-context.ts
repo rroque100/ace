@@ -1,11 +1,26 @@
 import { z } from "zod";
 
+// Fuente única de los topes: los usa el esquema del servidor y los campos del formulario (que además los
+// necesitan para decir cuánto cabe al dictar), así no pueden desalinearse.
+export const caseFieldLimits = { object: 400, regime: 200, dates: 1000, facts: 6000 } as const;
+export type CaseField = keyof typeof caseFieldLimits;
+
 export const caseContextSchema = z.object({
-  object: z.string().trim().max(400).optional(),
-  regime: z.string().trim().max(200).default(""),
-  dates: z.string().trim().max(1000).default(""),
-  facts: z.string().trim().max(6000).default(""),
+  object: z.string().trim().max(caseFieldLimits.object).optional(),
+  regime: z.string().trim().max(caseFieldLimits.regime).default(""),
+  dates: z.string().trim().max(caseFieldLimits.dates).default(""),
+  facts: z.string().trim().max(caseFieldLimits.facts).default(""),
 });
+
+/** Añade lo dictado al final de un texto sin reemplazarlo; el resultado nunca supera `max`. */
+export function appendDictation(current: string, dictated: string, max: number) {
+  const base = current.trimEnd();
+  return `${base}${base.trim() ? " " : ""}${dictated}`.slice(0, max);
+}
+/** Caracteres que aún caben al dictar en un campo (cuenta el espacio que se añade al unir). */
+export function dictationRoom(current: string, max: number) {
+  return Math.max(0, max - current.trimEnd().length - (current.trim() ? 1 : 0));
+}
 export type CaseContext = z.infer<typeof caseContextSchema>;
 export const emptyCaseContext: CaseContext = { regime: "", dates: "", facts: "" };
 

@@ -91,6 +91,9 @@
 .legalWorkspace .chatComposerBar { @apply relative mx-6 mb-6 mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-3 rounded-2xl border border-brand/40 bg-panel p-4 shadow-card; }
 .legalWorkspace .chatComposerBar textarea { @apply min-h-20 resize-y border-0 bg-transparent p-0 shadow-none; }
 .legalWorkspace .chatComposerActions { @apply flex items-end gap-2 self-end; }
+.legalWorkspace .chatCaseContext .caseField { @apply grid min-w-0 gap-1.5; }
+.legalWorkspace .chatCaseContext .caseField:last-child { grid-column: 1 / -1; }
+.legalWorkspace .chatCaseContext .caseFieldHead { @apply flex min-h-9 items-center justify-between gap-2; }
 .legalWorkspace .chatComposerBar:focus-within { @apply border-brand ring-2 ring-brand/10; }
 .legalWorkspace .chatQuestionLabel { @apply text-[14px] font-semibold; }
 .legalWorkspace .chatQuestionHelp { @apply text-[12px] leading-5; }
