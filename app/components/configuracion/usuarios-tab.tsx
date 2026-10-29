@@ -33,7 +33,7 @@ import {
   inputSelect,
 } from "./ui";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useMemo, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmDialog } from "../confirm-dialog";
 import {
   type CreatedCredential,
@@ -282,6 +282,15 @@ export function UsuariosTab({
   const passwordOk =
     newUserPassword.length >= PASSWORD_MINIMO && newUserPassword === newUserPassword2;
   const puedeCrear = usuarioOk && passwordOk;
+  // Radix enfoca por defecto el primer elemento enfocable de la modal, que es la «X» de cerrar: quien abre el alta
+  // tendría que tabular para empezar a escribir. El foco inicial va al campo Usuario.
+  const usuarioInputRef = useRef<HTMLInputElement>(null);
+
+  function handleSubmitCreate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (creatingUser) return;
+    void handleCreate();
+  }
 
   async function handleCreate() {
     if (!puedeCrear) return;
@@ -741,9 +750,12 @@ export function UsuariosTab({
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[1100] grid place-items-center bg-[rgba(23,32,51,0.55)] p-4" />
           <Dialog.Content
-            aria-label="Crear o vincular usuario"
             className="fixed top-1/2 left-1/2 z-[1101] w-[calc(100%-32px)] max-w-[560px] max-h-[90vh] overflow-auto rounded-xl border border-line bg-panel text-ink shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
             onInteractOutside={(e) => e.preventDefault()}
+            onOpenAutoFocus={(e) => {
+              e.preventDefault();
+              usuarioInputRef.current?.focus();
+            }}
           >
             <div className="sticky top-0 z-[1] flex items-center justify-between gap-3 border-b border-line bg-panel px-5 py-3">
               <Dialog.Title asChild>
@@ -761,16 +773,19 @@ export function UsuariosTab({
               </button>
             </div>
 
+            {/* Un <form> de verdad: Enter en cualquier campo envía el alta, como espera quien teclea la contraseña. */}
+            <form onSubmit={handleSubmitCreate}>
             <div className="p-5">
-              <p className="m-0 mb-3.5 text-sm text-muted">
+              <Dialog.Description className="m-0 mb-3.5 text-sm text-muted">
                 El usuario es el <strong>DNI</strong>: con ese número y su contraseña entra a ACE.
                 Si ya existe, ACE actualiza su perfil y permisos. Los datos personales identifican al
                 firmante en los documentos oficiales (designación de evaluadores, membretes, actas).
-              </p>
+              </Dialog.Description>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className={`${formLabel} col-span-full`}>
                   <span className="text-sm font-semibold text-slate-700">Usuario <span className="text-xs font-normal text-muted">obligatorio</span></span>
                   <input
+                    ref={usuarioInputRef}
                     className={inputBase}
                     autoComplete="off"
                     inputMode="numeric"
@@ -803,7 +818,7 @@ export function UsuariosTab({
                     value={newUserCargo}
                   />
                 </label>
-                <label className={`${formLabel} col-span-full`}>
+                <label className={formLabel}>
                   <span className="text-sm font-semibold text-slate-700">Grado académico</span>
                   <input
                     className={inputBase}
@@ -849,13 +864,13 @@ export function UsuariosTab({
                     value={newUserPassword}
                   />
                   {newUserPassword && newUserPassword.length < PASSWORD_MINIMO ? (
-                    <small className="mt-1 block text-xs leading-snug text-warning">
+                    <small role="alert" className="mt-1 block text-xs leading-snug text-warning">
                       Muy corta: mínimo {PASSWORD_MINIMO} caracteres.
                     </small>
                   ) : null}
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Repetir contraseña</span>
+                  <span className="text-sm font-semibold text-slate-700">Repetir contraseña <span className="text-xs font-normal text-muted">obligatorio</span></span>
                   <input
                     className={inputBase}
                     autoComplete="new-password"
@@ -865,10 +880,10 @@ export function UsuariosTab({
                     value={newUserPassword2}
                   />
                   {newUserPassword2 && newUserPassword !== newUserPassword2 ? (
-                    <small className="mt-1 block text-xs leading-snug text-warning">No coinciden.</small>
+                    <small role="alert" className="mt-1 block text-xs leading-snug text-warning">No coinciden.</small>
                   ) : null}
                 </label>
-                <label className="col-span-full flex flex-row items-center gap-2 flex-wrap">
+                <div className="col-span-full flex flex-row items-center gap-2 flex-wrap">
                   <button
                     className={`${btnSecCompact} text-xs`}
                     onClick={() => setVerPassword((v) => !v)}
@@ -889,9 +904,9 @@ export function UsuariosTab({
                   >
                     <KeyRound size={14} /> Generar una
                   </button>
-                </label>
+                </div>
                 {!newUserOficinaId ? (
-                  <label className={formLabel}>
+                  <label className={`${formLabel} col-span-full`}>
                     <span className="text-sm font-semibold text-slate-700">Entidad o unidad</span>
                     <input
                       className={inputBase}
@@ -923,14 +938,14 @@ export function UsuariosTab({
               <button
                 className={btnPrimary}
                 disabled={creatingUser || !puedeCrear}
-                onClick={handleCreate}
                 title={puedeCrear ? undefined : "Completa el usuario (8 dígitos) y la contraseña"}
-                type="button"
+                type="submit"
               >
                 <Plus size={16} />
                 {creatingUser ? "Procesando..." : "Crear / vincular"}
               </button>
             </div>
+            </form>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
