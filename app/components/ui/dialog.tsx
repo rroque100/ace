@@ -33,6 +33,9 @@ export type DialogContentProps = {
   size?: keyof typeof widths;
   children: React.ReactNode;
   className?: string;
+  /** Radix devuelve el foco al disparador al cerrar. Quien necesite dejarlo en otro sitio (p. ej. la caja de
+   *  texto donde se acaba de insertar algo) llama a `event.preventDefault()` aquí y lo coloca él. */
+  onCloseAutoFocus?: (event: Event) => void;
 };
 
 export function DialogContent({
@@ -43,6 +46,7 @@ export function DialogContent({
   size = "md",
   children,
   className,
+  onCloseAutoFocus,
 }: DialogContentProps) {
   return (
     <DialogPrimitive.Portal>
@@ -60,6 +64,7 @@ export function DialogContent({
         // descripcion la comunicaba. Por eso se pasa la propiedad solo en el
         // caso sin descripcion, en vez de calcular su valor.
         {...(description ? {} : { "aria-describedby": undefined })}
+        onCloseAutoFocus={onCloseAutoFocus}
         className={cn(
           "tw fixed left-1/2 top-1/2 z-50 flex max-h-[calc(100dvh-32px)] w-[calc(100vw-32px)] -translate-x-1/2 -translate-y-1/2 flex-col",
           "overflow-hidden rounded-[16px] border border-line bg-panel shadow-pop animate-content-in",

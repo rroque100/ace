@@ -1,7 +1,16 @@
 import { documentSearchRequestSchema, type DocumentSearchFilters } from "./document-search";
 import { fallbackProposal, type AssistantProposal } from "./search-assistant";
 
-export const VOICE_MAX_MS = 45_000;
+// La búsqueda es una frase corta; el chat se usa para describir un caso, que dicho en voz alta es bastante más
+// largo. El tope de bytes es el mismo (a 64 kbps, 120 s ocupan ~1 MB) y el de texto del chat queda muy por
+// debajo de los 8 000 caracteres que admite la pregunta.
+export const VOICE_LIMITS = {
+  search: { maxMs: 45_000, maxChars: 500 },
+  chat: { maxMs: 120_000, maxChars: 2_000 },
+} as const;
+export type VoicePurpose = keyof typeof VOICE_LIMITS;
+export const isVoicePurpose = (value: unknown): value is VoicePurpose => typeof value === "string" && Object.hasOwn(VOICE_LIMITS, value);
+export const VOICE_MAX_MS = VOICE_LIMITS.search.maxMs;
 export const VOICE_MAX_BYTES = 3 * 1024 * 1024;
 export const VOICE_MIME_TYPES = ["audio/webm", "audio/mp4", "audio/ogg", "audio/wav"] as const;
 const fold = (text: string) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -53,7 +62,7 @@ function replaceIgnoringAccents(text: string, pattern: RegExp, replace: (match: 
 export function reviewVoiceText(original: string) {
   const warnings: string[] = [];
   const doubtful = new RegExp(`\\b(?:o|u)\\s+(?:\\d+|${numberWords})\\b|\\b(?:creo|quiz[aá]s|tal vez|no s[eé]|no estoy segur[oa])\\b`, "i").test(fold(original));
-  if (doubtful) warnings.push("Hay una referencia dudosa. Aclara el número o vuelve a grabar antes de preparar la búsqueda.");
+  if (doubtful) warnings.push("Hay una referencia dudosa. Aclara el número o vuelve a grabar antes de continuar.");
   let normalized = original;
   if (!doubtful) {
     const reference = new RegExp(`\\b(art[ií]culo|numeral|año)\\s+((?:${numberWords})(?:\\s+(?:${numberWords}))*)\\b`, "gi");

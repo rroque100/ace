@@ -62,3 +62,28 @@ it("registra el motivo real en el servidor sin cambiar lo que ve el usuario", as
     expect(warn).not.toHaveBeenCalled();
   } finally { error.mockRestore(); warn.mockRestore(); }
 });
+const withPurpose = (purpose: string | null, duration: string) => {
+  const data = new FormData(); data.append("consent", "true"); data.append("provider", "openai"); data.append("durationMs", duration);
+  if (purpose !== null) data.append("purpose", purpose);
+  data.append("audio", new File([new TextEncoder().encode("RIFF0000WAVE0000")], "consulta.wav", { type: "audio/wav" }));
+  return new Request("https://ace.example/api/search/voice", { method: "POST", body: data });
+};
+it("el chat admite dictados más largos que la búsqueda y cada uno recibe su tope de texto", async () => {
+  // 100 s: válido para el chat (máx. 120 s), demasiado para la búsqueda (máx. 45 s).
+  expect((await POST(withPurpose("chat", "100000"))).status).toBe(200);
+  expect(mocks.transcribe.mock.calls[0][2]).toBe(2000);
+  mocks.transcribe.mockClear();
+  expect((await POST(withPurpose("search", "100000"))).status).toBe(400);
+  expect((await POST(withPurpose("chat", "125000"))).status).toBe(400);
+  expect(mocks.transcribe).not.toHaveBeenCalled();
+});
+it("sin `purpose` sigue siendo la búsqueda y un uso desconocido se rechaza", async () => {
+  expect((await POST(withPurpose(null, "2000"))).status).toBe(200);
+  expect(mocks.transcribe.mock.calls[0][2]).toBe(500);
+  mocks.transcribe.mockClear();
+  for (const raro of ["admin", "", "__proto__", "constructor"]) expect((await POST(withPurpose(raro, "2000"))).status, raro).toBe(400);
+  expect(mocks.transcribe).not.toHaveBeenCalled();
+});
+it("la configuración publica los límites de cada uso", async () => {
+  expect(await (await GET()).json()).toMatchObject({ maxSeconds: 45, limits: { search: { maxMs: 45000, maxChars: 500 }, chat: { maxMs: 120000, maxChars: 2000 } } });
+});

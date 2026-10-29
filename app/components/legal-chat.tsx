@@ -11,6 +11,7 @@ import { stripPageMarkers } from "@/lib/page-markers";
 import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
 import { CaseAttachments } from "./case-attachments";
+import { VoiceDictation } from "./voice-dictation";
 import { ExtendedLegalFilterControls, LegalChatRecent } from "./legal-workspace-tools";
 import { extendedLegalFiltersSchema, extendedFiltersFromParams, type ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
 import type { LegalResponseTelemetry } from "@/lib/legal-telemetry";
@@ -1293,6 +1294,17 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
     target.style.height = `${Math.min(target.scrollHeight, 168)}px`;
   }
 
+  // El dictado se AÑADE a lo ya escrito (no lo reemplaza): nunca se envía solo. El foco vuelve a la caja
+  // cuando el diálogo ya se cerró (`focusComposer`), porque Radix se lo devuelve antes al botón «Dictar».
+  // 8 000 es el máximo que acepta el servidor para la pregunta (legal-chat.ts).
+  function insertDictation(dictated: string) {
+    setQuestion((current) => `${current.trimEnd()}${current.trim() ? " " : ""}${dictated}`.slice(0, 8000));
+  }
+  function focusComposer() {
+    const box = composerRef.current;
+    if (box) { box.focus(); autoGrow(box); box.setSelectionRange(box.value.length, box.value.length); }
+  }
+
   const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
 
@@ -1653,17 +1665,20 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           rows={1}
           value={question}
         />
-        {isStreaming ? (
-          <button className="secondaryButton stopButton" onClick={stopStreaming} type="button">
-            <Square size={16} />
-            Detener
-          </button>
-        ) : (
-          <button className="primaryButton sendButton" disabled={!canSubmit} type="submit">
-            <Send size={18} />
-            Enviar consulta
-          </button>
-        )}
+        <div className="chatComposerActions">
+          <VoiceDictation onInsert={insertDictation} onAfterInsert={focusComposer} disabled={isStreaming || loadingSession} />
+          {isStreaming ? (
+            <button className="secondaryButton stopButton" onClick={stopStreaming} type="button">
+              <Square size={16} />
+              Detener
+            </button>
+          ) : (
+            <button className="primaryButton sendButton" disabled={!canSubmit} type="submit">
+              <Send size={18} />
+              Enviar consulta
+            </button>
+          )}
+        </div>
         <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className="chatComposeTools">

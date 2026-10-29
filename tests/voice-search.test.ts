@@ -75,3 +75,13 @@ it("convierte los números con tilde: «año dos mil veintiséis» no puede qued
   // Las tildes del resto de la frase se conservan: solo se sustituye el número.
   expect(reviewVoiceText("artículo veintiséis, garantía de cumplimiento").normalized).toBe("artículo 26, garantía de cumplimiento");
 });
+it("cada uso tiene sus límites y solo se aceptan usos conocidos", async () => {
+  const { VOICE_LIMITS, isVoicePurpose, VOICE_MAX_MS } = await import("@/lib/voice-search");
+  expect(VOICE_MAX_MS).toBe(VOICE_LIMITS.search.maxMs);
+  expect(VOICE_LIMITS.chat.maxMs).toBeGreaterThan(VOICE_LIMITS.search.maxMs);
+  // El texto del chat debe caber en la pregunta (8 000 caracteres en legal-chat.ts) y la grabación, en los 3 MB.
+  expect(VOICE_LIMITS.chat.maxChars).toBeLessThan(8000);
+  expect(VOICE_LIMITS.chat.maxMs / 1000 * 64_000 / 8).toBeLessThan(3 * 1024 * 1024);
+  for (const bueno of ["search", "chat"]) expect(isVoicePurpose(bueno)).toBe(true);
+  for (const malo of ["", "admin", "__proto__", "toString", null, undefined, 1]) expect(isVoicePurpose(malo)).toBe(false);
+});

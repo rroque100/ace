@@ -37,3 +37,20 @@ it("no cambia de proveedor en caso de fallo ni interpreta silencio como éxito",
   await expect(transcribeSearchAudio(file)).rejects.toThrow("429");
   await expect(transcribeSearchAudio(file)).rejects.toThrow(); expect(mocks.create).not.toHaveBeenCalled();
 });
+it("el tope de texto es 500 por defecto y se amplía para el dictado del chat", async () => {
+  const largo = "Mi procedimiento se convocó en junio y el contratista se atrasó. ".repeat(12).trim();
+  expect(largo.length).toBeGreaterThan(500);
+  mocks.create.mockResolvedValue({ text: largo });
+  await expect(transcribeSearchAudio(file)).rejects.toThrow();
+  expect((await transcribeSearchAudio(file, undefined, 2000)).text).toBe(largo);
+  mocks.create.mockResolvedValue({ text: "x".repeat(2001) });
+  await expect(transcribeSearchAudio(file, undefined, 2000)).rejects.toThrow();
+});
+it("Gemini recibe más margen de salida cuando el tope de texto es mayor", async () => {
+  vi.stubEnv("VOICE_TRANSCRIPTION_PROVIDER", "gemini"); vi.stubEnv("GOOGLE_API_KEY", "test-google-only");
+  const fetcher = vi.fn().mockImplementation(async () => new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ text: "Artículo 113" }) }] } }] }), { status: 200 }));
+  vi.stubGlobal("fetch", fetcher);
+  await transcribeSearchAudio(file); await transcribeSearchAudio(file, undefined, 2000);
+  expect(JSON.parse(fetcher.mock.calls[0][1].body).generationConfig.maxOutputTokens).toBe(1000);
+  expect(JSON.parse(fetcher.mock.calls[1][1].body).generationConfig.maxOutputTokens).toBe(1334);
+});
