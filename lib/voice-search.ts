@@ -34,6 +34,21 @@ export function spanishNumber(text: string): number | null {
   return prefix === null || prefix === 0 || suffix === null ? null : prefix * 1000 + suffix;
 }
 
+// Quita las tildes SIN cambiar la longitud (NFD la alargaría y desalinearía los índices), de modo que se pueda
+// buscar sobre el texto sin tildes y sustituir sobre el original. Hace falta porque los números con tilde
+// («veintiséis», «veintitrés», «veintidós», «dieciséis») no están en `numberWords` y, sin esto, «año dos mil
+// veintiséis» se convertía en «año 2000 veintiséis»: el año equivocado, sin ningún aviso.
+const stripAccents = (text: string) => text.replace(/[áàâä]/gi, "a").replace(/[éèêë]/gi, "e").replace(/[íìîï]/gi, "i").replace(/[óòôö]/gi, "o").replace(/[úùûü]/gi, "u");
+function replaceIgnoringAccents(text: string, pattern: RegExp, replace: (match: RegExpMatchArray, original: string) => string) {
+  let out = ""; let last = 0;
+  for (const match of stripAccents(text).matchAll(pattern)) {
+    const start = match.index ?? 0;
+    out += text.slice(last, start) + replace(match, text.slice(start, start + match[0].length));
+    last = start + match[0].length;
+  }
+  return out + text.slice(last);
+}
+
 /** Interpretation only. The original transcript is always retained separately. */
 export function reviewVoiceText(original: string) {
   const warnings: string[] = [];
@@ -42,10 +57,10 @@ export function reviewVoiceText(original: string) {
   let normalized = original;
   if (!doubtful) {
     const reference = new RegExp(`\\b(art[ií]culo|numeral|año)\\s+((?:${numberWords})(?:\\s+(?:${numberWords}))*)\\b`, "gi");
-    normalized = normalized.replace(reference, (full, kind: string, words: string) => {
-      const number = spanishNumber(words);
+    normalized = replaceIgnoringAccents(normalized, reference, (match, full) => {
+      const number = spanishNumber(match[2]);
       if (number === null) { warnings.push(`Revisa la referencia «${full}»; no se convirtió.`); return full; }
-      return `${kind} ${number}`;
+      return `${full.slice(0, match[1].length)} ${number}`;
     });
     normalized = normalized.replace(/\b(?:dos mil)(?:\s+(?:[a-záéíóúñ]+)){0,5}/gi, (full) => {
       // Only a complete number sequence; never absorb the following topic.

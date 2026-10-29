@@ -57,3 +57,21 @@ it("valida las firmas de archivo, sin confiar en la extensión", () => {
   const wav = new TextEncoder().encode("RIFF0000WAVE0000"); expect(audioMimeFromBytes(wav)).toBe("audio/wav");
   expect(audioMimeFromBytes(new TextEncoder().encode("not-a-real-sound!"))).toBeNull();
 });
+it("convierte los números con tilde: «año dos mil veintiséis» no puede quedar como 2000", () => {
+  // Caso real: antes salía «año 2000 veintiséis», el año equivocado y sin aviso.
+  for (const [dicho, esperado] of [
+    ["opiniones del año dos mil veintiséis sobre garantías", "opiniones del año 2026 sobre garantías"],
+    ["opiniones del año dos mil veintitrés", "opiniones del año 2023"],
+    ["resoluciones del año dos mil veintidós del TCP", "resoluciones del año 2022 del TCP"],
+    ["artículo veintitrés de la ley", "artículo 23 de la ley"],
+    ["Artículo Veintiséis del reglamento", "Artículo 26 del reglamento"],
+    ["artículo dieciséis", "artículo 16"],
+    ["artículo cincuenta y dos", "artículo 52"],
+  ] as const) {
+    const review = reviewVoiceText(dicho);
+    expect(review.normalized, dicho).toBe(esperado);
+    expect(review.warnings, dicho).toEqual([]);
+  }
+  // Las tildes del resto de la frase se conservan: solo se sustituye el número.
+  expect(reviewVoiceText("artículo veintiséis, garantía de cumplimiento").normalized).toBe("artículo 26, garantía de cumplimiento");
+});
