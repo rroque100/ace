@@ -750,7 +750,7 @@ export function UsuariosTab({
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[1100] grid place-items-center bg-[rgba(23,32,51,0.55)] p-4" />
           <Dialog.Content
-            className="fixed top-1/2 left-1/2 z-[1101] w-[calc(100%-32px)] max-w-[560px] max-h-[90vh] overflow-auto rounded-xl border border-line bg-panel text-ink shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+            className="fixed inset-4 z-[1101] m-auto h-fit max-h-[calc(100dvh-2rem)] max-w-[560px] overflow-auto rounded-xl border border-line bg-panel text-ink shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
             onInteractOutside={(e) => e.preventDefault()}
             onOpenAutoFocus={(e) => {
               e.preventDefault();
