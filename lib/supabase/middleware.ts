@@ -1,6 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { esOficinaAbastecimiento } from "@/lib/entity-utils";
+import { accionAuditable, decidirAccesoExterno, ipDeSolicitud, leerCredencialExterna, moduloDeRuta } from "@/lib/modulos-acceso";
+import { registrarEventoAcceso } from "@/lib/auditoria-externos";
+import { usuarioDeCorreo } from "@/lib/usuario-credencial";
 
 // Rutas accesibles sin sesion.
 function isPublicPath(pathname: string) {
@@ -34,8 +37,16 @@ function esRutaDeProcesos(pathname: string): boolean {
 
 // Refresca la sesion (cookies) en cada request y bloquea el acceso sin sesion:
 // redirige paginas a /login y responde 401 en rutas /api.
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request });
+export async function updateSession(request: NextRequest, waitUntil: (trabajo: Promise<unknown>) => void = (trabajo) => void trabajo) {
+  // La IP y la ruta se las pasa el proxy al resto del servidor (auditoría y consumo de IA) en cabeceras propias. Se
+  // ESCRIBEN aquí, encima de lo que mande el cliente: no se puede falsear la IP mandando `x-ace-ip`.
+  const ip = ipDeSolicitud((nombre) => request.headers.get(nombre));
+  const reenviar = new Headers(request.headers);
+  reenviar.set("x-ace-ip", ip);
+  reenviar.set("x-ace-ruta", request.nextUrl.pathname);
+  reenviar.set("x-ace-metodo", request.method);
+  const siguiente = () => NextResponse.next({ request: { headers: reenviar } });
+  let supabaseResponse = siguiente();
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -53,7 +64,9 @@ export async function updateSession(request: NextRequest) {
         for (const { name, value } of cookiesToSet) {
           request.cookies.set(name, value);
         }
-        supabaseResponse = NextResponse.next({ request });
+        // Con cabeceras propias, la cookie refrescada no viaja sola: se copia la que acaba de quedar en la solicitud.
+        reenviar.set("cookie", request.headers.get("cookie") ?? "");
+        supabaseResponse = siguiente();
         for (const { name, value, options } of cookiesToSet) {
           supabaseResponse.cookies.set(name, value, options);
         }
@@ -67,6 +80,17 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
+  // La identidad validada se pasa al resto del servidor en cabeceras propias (consumo de IA y cuota; ver lib/uso-ia.ts).
+  // Se escriben SIEMPRE, también vacías, para que lo que mande el cliente con esos nombres nunca llegue más allá.
+  const credencial = leerCredencialExterna(user?.app_metadata, Date.now());
+  reenviar.set("x-ace-uid", user?.id ?? "");
+  reenviar.set("x-ace-tipo", user ? (credencial.externo ? "externo" : "interno") : "");
+  reenviar.set("x-ace-cuota", credencial.externo && credencial.cuotaIAMensual !== null ? String(credencial.cuotaIAMensual) : "");
+  // La respuesta ya creada no ve cabeceras añadidas después: se rehace conservando las cookies que ya se hubieran refrescado.
+  const previa = supabaseResponse;
+  supabaseResponse = siguiente();
+  for (const cookie of previa.cookies.getAll()) supabaseResponse.cookies.set(cookie);
+
   if (!user && !isPublicPath(pathname)) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
@@ -77,6 +101,43 @@ export async function updateSession(request: NextRequest) {
     redirectUrl.search = "";
     redirectUrl.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
     return NextResponse.redirect(redirectUrl);
+  }
+
+  // Cuentas EXTERNAS (asesores, alumnos): solo entran a los módulos que tienen habilitados y su actividad queda
+  // registrada. Las credenciales salen del token (`app_metadata`), así que no cuesta una consulta a la base.
+  // Cuando una cuenta externa no abre una ruta se rechaza AQUÍ, antes de que llegue a ninguna página o API: ocultar
+  // enlaces no es seguridad (ver lib/modulos-acceso.ts).
+  if (user) {
+    if (credencial.externo) {
+      const registrar = (accion: string, estado: number | null) =>
+        waitUntil(registrarEventoAcceso({
+          usuarioId: user.id,
+          usuario: usuarioDeCorreo(user.email ?? "") ?? user.email ?? null,
+          modulo: moduloDeRuta(pathname),
+          accion,
+          ruta: pathname,
+          metodo: request.method,
+          estado,
+          ip,
+          userAgent: request.headers.get("user-agent"),
+        }));
+      const decision = decidirAccesoExterno(credencial, pathname);
+      if (decision.tipo === "denegar") {
+        if (!decision.esperado) registrar(`acceso denegado (${decision.motivo}): ${pathname}`, 403);
+        if (pathname.startsWith("/api/")) {
+          return NextResponse.json(
+            { error: decision.motivo === "vencido" ? "Tu acceso ha vencido. Contacta con el administrador." : "Tu cuenta no tiene acceso a esta función." },
+            { status: 403 },
+          );
+        }
+        return NextResponse.redirect(new URL(decision.destino, request.url));
+      }
+      // En una navegación dentro de la app el navegador pide la página con `RSC: 1`, no como documento: también es «ver».
+      const esPrecarga = request.headers.get("next-router-prefetch") !== null || request.headers.get("purpose") === "prefetch";
+      const esDocumento = (request.headers.get("accept") ?? "").includes("text/html") || request.headers.get("rsc") === "1";
+      const accion = accionAuditable({ metodo: request.method, pathname, esDocumento, esPrecarga });
+      if (accion) registrar(accion, null);
+    }
   }
 
   // Consulta el perfil solo cuando hace falta (rutas de Procesos): es una

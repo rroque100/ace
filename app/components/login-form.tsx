@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { LogIn, UserPlus } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import {
   credencialAIdentificador,
@@ -14,19 +14,19 @@ type LoginFormProps = {
   next: string;
 };
 
+// Aquí ya no hay «Registrarse»: las cuentas las crea el administrador (personal de la entidad y usuarios externos con
+// los módulos que se les asignen). Con el registro abierto, cualquiera con un correo podía crearse una cuenta de
+// consulta y gastar IA sin que nadie la hubiera autorizado.
 export function LoginForm({ next }: LoginFormProps) {
   const router = useRouter();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
-    setInfo(null);
 
     if (!usuario.includes("@") && !esUsuarioValido(usuario)) {
       setError(`El usuario es tu DNI: ${USUARIO_LONGITUD} dígitos.`);
@@ -39,28 +39,15 @@ export function LoginForm({ next }: LoginFormProps) {
       // Auth solo entiende de correos: el usuario de ocho dígitos se traduce a su
       // correo interno aquí, en el único punto donde se habla con Supabase.
       const email = credencialAIdentificador(usuario);
-      if (mode === "signin") {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) {
-          throw signInError;
-        }
-        router.push(next);
-        router.refresh();
-      } else {
-        const { data, error: signUpError } = await supabase.auth.signUp({ email, password });
-        if (signUpError) {
-          throw signUpError;
-        }
-        if (data.session) {
-          router.push(next);
-          router.refresh();
-        } else {
-          setInfo(
-            "Cuenta creada. Si la confirmacion por correo esta activada, revisa tu bandeja; luego inicia sesion.",
-          );
-          setMode("signin");
-        }
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        throw signInError;
       }
+      // El inicio de sesión ocurre en el navegador, directo contra Supabase: el servidor no lo ve. Se le avisa para que
+      // quede en la auditoría de las cuentas externas con su IP. Si falla no impide entrar.
+      await fetch("/api/auth/registro-acceso", { method: "POST" }).catch(() => undefined);
+      router.push(next);
+      router.refresh();
     } catch (err) {
       setError(err instanceof Error && err.message === "Invalid login credentials"
         ? "El DNI o correo y la contraseña no coinciden con una cuenta. Revisa los datos; si olvidaste tu contraseña, solicita al administrador que la cambie."
@@ -72,28 +59,6 @@ export function LoginForm({ next }: LoginFormProps) {
 
   return (
     <form className="authForm" onSubmit={handleSubmit}>
-      {/* No son pestañas aunque lo parezcan: los dos modos comparten los mismos
-          campos. Lo único que cambia es a dónde se envía el formulario, así que
-          esto elige el modo, no un panel. */}
-      <div className="authTabs" role="group" aria-label="Modo de acceso">
-        <button
-          type="button"
-          aria-pressed={mode === "signin"}
-          className={mode === "signin" ? "active" : undefined}
-          onClick={() => setMode("signin")}
-        >
-          Iniciar sesion
-        </button>
-        <button
-          type="button"
-          aria-pressed={mode === "signup"}
-          className={mode === "signup" ? "active" : undefined}
-          onClick={() => setMode("signup")}
-        >
-          Registrarse
-        </button>
-      </div>
-
       <label className="authField">
         <span>DNI o correo</span>
         <input
@@ -113,25 +78,28 @@ export function LoginForm({ next }: LoginFormProps) {
       </label>
 
       <label className="authField">
-        <span>Contrasena</span>
+        <span>Contraseña</span>
         <input
           type="password"
-          autoComplete={mode === "signin" ? "current-password" : "new-password"}
+          autoComplete="current-password"
           required
           minLength={6}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          placeholder="Minimo 6 caracteres"
+          placeholder="Mínimo 6 caracteres"
         />
       </label>
 
       {error ? <p className="authError">{error}</p> : null}
-      {info ? <p className="authInfo">{info}</p> : null}
 
       <button className="primaryButton" type="submit" disabled={loading}>
-        {mode === "signin" ? <LogIn size={18} /> : <UserPlus size={18} />}
-        {loading ? "Procesando..." : mode === "signin" ? "Entrar" : "Crear cuenta"}
+        <LogIn size={18} />
+        {loading ? "Procesando..." : "Entrar"}
       </button>
+
+      <p className="authHint">
+        Para proteger el sistema, ACE registra la dirección IP y la actividad de las cuentas externas y las conserva 12 meses.
+      </p>
     </form>
   );
 }

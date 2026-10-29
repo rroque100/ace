@@ -1,4 +1,6 @@
 import { embeddingDimensions, embeddingModel, embeddingProvider, embedWithGoogle, getEmbeddingClient, googleEmbeddingModel } from "./openai-server";
+import { exigirCuotaIA, registrarUsoIA } from "./uso-ia";
+import { estimarTokens } from "./uso-ia-medicion";
 
 // Generación de embeddings, compartida por todo lo que necesite vectores (antes
 // vivía solo dentro de lib/pinecone.ts). Se extrae aparte porque pgvector
@@ -79,6 +81,8 @@ export async function embedTexts(texts: string[]): Promise<number[][]> {
 }
 
 async function computeEmbeddings(texts: string[]): Promise<number[][]> {
+  // Una cuenta externa con la cuota agotada no genera más vectores (cada búsqueda por significado los genera).
+  await exigirCuotaIA();
   // El proveedor se elige con EMBEDDING_PROVIDER. Con `google` se usa Gemini a
   // 1536 dimensiones, que es la del índice. Ver el aviso de embeddingProvider en
   // openai-server: cambiar de proveedor obliga a reindexar, porque los espacios
@@ -88,6 +92,8 @@ async function computeEmbeddings(texts: string[]): Promise<number[][]> {
     for (let start = 0; start < texts.length; start += maxEmbeddingBatchSize) {
       const batch = texts.slice(start, start + maxEmbeddingBatchSize).map((text) => text.slice(0, 8000));
       vectores.push(...(await embedWithGoogle(batch, embeddingDimensions)));
+      // Gemini no informa los tokens de un embedding: se estiman por la longitud y se marcan como estimados.
+      registrarUsoIA({ operacion: "embedding", modelo: googleEmbeddingModel, tokensEntrada: estimarTokens(batch.join("")), tokensSalida: 0, estimado: true }, "embedding", "google");
     }
     return vectores;
   }
@@ -105,6 +111,7 @@ async function computeEmbeddings(texts: string[]): Promise<number[][]> {
     for (const item of response.data) {
       vectors.push(item.embedding as number[]);
     }
+    registrarUsoIA({ operacion: "embedding", modelo: embeddingModel, tokensEntrada: response.usage?.total_tokens ?? estimarTokens(batch.join("")), tokensSalida: 0, estimado: response.usage?.total_tokens === undefined }, "embedding", "openai");
   }
 
   return vectors;

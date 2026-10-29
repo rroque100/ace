@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 import { withRetry } from "./retry";
+import { medirCliente } from "./uso-ia-medicion";
+import { exigirCuotaIA, registrarUsoIA } from "./uso-ia";
 
 // ---------------------------------------------------------------------------
 // Proveedor de IA: OpenAI, Google Gemini (AI Studio) o Z.ai (Zhipu / GLM).
@@ -122,6 +124,13 @@ function withChatShim(client: OpenAI): OpenAI {
 }
 
 export function getOpenAIClient() {
+  // Todo el consumo de modelos pasa por aquí: se mide para atribuirlo a la cuenta y al módulo que lo originó, y una
+  // cuenta externa con la cuota agotada no puede lanzar más llamadas (ver lib/uso-ia.ts).
+  const proveedor = getProvider();
+  return medirCliente(crearClienteProveedor(), (uso) => registrarUsoIA(uso, uso.operacion, proveedor), () => exigirCuotaIA());
+}
+
+function crearClienteProveedor() {
   const provider = getProvider();
   if (provider === "gemini") {
     const apiKey = geminiKey() as string;

@@ -54,6 +54,11 @@ export const NAVEGACION = [
     label: "Centro Jurídico",
   },
   {
+    // Módulo de las cuentas EXTERNAS (ver lib/modulos-acceso.ts). Todavía no está construido: la página explica que viene.
+    items: [{ href: "/simulacro", icon: "BookOpenCheck", id: "simulacro", label: "Simulacro de examen", adminOnly: false, soloExterno: true }],
+    label: "Simulacro",
+  },
+  {
     items: [{ href: "/archivo", icon: "Archive", id: "archivo", label: "Archivo documental", adminOnly: false }],
     label: "Documentación",
   },
@@ -100,6 +105,8 @@ export const NAVEGACION = [
     requiredRole?: string;
     /** Expedientes/Contratos: exclusivo de la oficina de Abastecimiento. */
     soloAbastecimiento?: boolean;
+    /** Solo para cuentas externas con el módulo habilitado; el personal de la entidad no lo ve en el menú. */
+    soloExterno?: boolean;
   }>;
 }>;
 

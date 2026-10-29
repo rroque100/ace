@@ -6,6 +6,7 @@ import { supabaseRest } from "@/lib/supabase-server";
 import { Sidebar } from "./sidebar";
 import { YearSelector } from "./year-selector";
 import { MiYoWidget } from "./asistente/mi-yo-widget";
+import { rutaPermitidaExterno } from "@/lib/modulos-acceso";
 
 // Frase clara (para usuarios no tecnicos) de que puede ver cada usuario en el
 // archivo de expedientes, derivada del mismo modelo de scope de lib/auth.
@@ -60,7 +61,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
   const officeName = user ? await getOfficeName(user.oficinaId) : null;
   // Bandeja de necesidades pendientes de la acción de este usuario: badge en el
   // menú, para que se entere sin abrir la sección (cierra el lazo del SLA).
-  const bandejaNecesidades = user ? await contarNecesidadesPendientes(user) : 0;
+  const bandejaNecesidades = user && !user.esExterno ? await contarNecesidadesPendientes(user) : 0;
   const isAdmin = Boolean(user?.isAdmin);
   const scopeText = user ? scopePhrase(user) : "";
   // Expedientes/Contratos son exclusivos de la oficina de Abastecimiento
@@ -78,6 +79,11 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
       // los tres de "Procesos" tienen la clave `soloAbastecimiento` en su
       // tipo, así que el resto necesita el chequeo `in` antes de leerla.
       const soloAbastecimiento = "soloAbastecimiento" in item && item.soloAbastecimiento;
+      const soloExterno = "soloExterno" in item && item.soloExterno;
+      // Una cuenta externa ve SOLO los módulos que tiene habilitados (el mismo criterio con el que el proxy le abre o cierra
+      // las rutas: ver lib/modulos-acceso.ts). El personal de la entidad no ve el menú del simulacro hasta que exista.
+      if (user?.esExterno) return rutaPermitidaExterno(user.modulosExternos, item.href);
+      if (soloExterno) return false;
       return (!item.adminOnly || isAdmin) && (!soloAbastecimiento || puedeProcesos);
     }),
   })).filter((section) => section.items.length > 0);
@@ -116,7 +122,8 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
 
       {/* Flota sobre cualquier módulo autenticado: un solo asistente, no uno
           por página (ver docs/superpowers/plans). Sin sesión no se renderiza. */}
-      {user ? <MiYoWidget /> : null}
+      {/* El asistente atiende al personal de la entidad (expedientes, necesidades): una cuenta externa no lo tiene. */}
+      {user && !user.esExterno ? <MiYoWidget /> : null}
     </main>
   );
 }

@@ -87,6 +87,9 @@ async function createOrLinkUser(input: {
     email_confirm: true,
     password: input.password,
     user_metadata: metadata,
+    // Marca a la cuenta como creada por el administrador (personal de la entidad). Una cuenta que llega sin `tipo` se trata
+    // como registro por cuenta propia y queda sin acceso (ver docs/supabase/usuarios-externos.sql).
+    app_metadata: { tipo: "interno" },
   });
   if (data.user && !error) {
     await upsertProfile({

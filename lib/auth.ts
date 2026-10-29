@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { entitiesMatch, esOficinaAbastecimiento, normalizeEntity } from "@/lib/entity-utils";
 import { esIdSeguro } from "@/lib/supabase-server";
+import { leerCredencialExterna, type ModuloExterno } from "@/lib/modulos-acceso";
+import { CuotaIAAgotadaError, exigirCuotaIA } from "@/lib/uso-ia";
 import {
   type AppRole,
   type Capability,
@@ -52,6 +55,14 @@ export type SessionUser = {
   oficinaId?: string | null;
   // Jefe de oficina: ve/administra TODO lo de su oficina (no solo lo propio).
   esJefe: boolean;
+  // Cuenta EXTERNA (asesor, alumno): solo entra a los módulos habilitados (ver lib/modulos-acceso.ts). Sale del
+  // `app_metadata` del token, que la persona no puede modificar.
+  esExterno: boolean;
+  modulosExternos: ModuloExterno[];
+  // Cuenta externa cuyo acceso ya venció (fecha de fin pasada o ilegible).
+  externoVencido: boolean;
+  // Tokens de IA permitidos al mes a una cuenta externa; null = sin tope.
+  cuotaIAMensual: number | null;
 };
 
 function normalizeRole(raw: string | null | undefined): AppRole {
@@ -140,7 +151,9 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   }
 
   const role = normalizeRole(profile?.role);
-  const isAdmin = role === "admin";
+  // Una cuenta externa nunca es administradora, aunque su perfil dijera otra cosa: el acceso externo es más estrecho que cualquier rol.
+  const credencialExterna = leerCredencialExterna(user.app_metadata, Date.now());
+  const isAdmin = role === "admin" && !credencialExterna.externo;
 
   return {
     accessToken: sessionData.session?.access_token ?? "",
@@ -158,6 +171,10 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     role,
     oficinaId: profile?.oficina_id ?? null,
     esJefe: Boolean(profile?.es_jefe),
+    esExterno: credencialExterna.externo,
+    modulosExternos: credencialExterna.modulos,
+    externoVencido: credencialExterna.vencido,
+    cuotaIAMensual: credencialExterna.externo ? credencialExterna.cuotaIAMensual : null,
   };
 }
 
@@ -190,6 +207,23 @@ export async function requireUser(): Promise<AuthResult> {
 
   if (!user) {
     return { error: NextResponse.json({ error: "No autenticado" }, { status: 401 }) };
+  }
+
+  // Una cuenta externa con la cuota mensual de IA agotada puede seguir leyendo (su historial, las normas), pero no lanzar
+  // nada que escriba —preguntar al chat, grabar voz—, que es lo que gasta IA. La barrera de fondo está en el cliente de
+  // modelos (lib/openai-server.ts); esto da un 429 claro en vez de una respuesta degradada.
+  if (user.esExterno && user.cuotaIAMensual !== null) {
+    const metodo = ((await headers().catch(() => null))?.get("x-ace-metodo") ?? "GET").toUpperCase();
+    if (metodo !== "GET" && metodo !== "HEAD" && metodo !== "OPTIONS") {
+      try {
+        await exigirCuotaIA();
+      } catch (error) {
+        if (error instanceof CuotaIAAgotadaError) {
+          return { error: NextResponse.json({ error: error.message, codigo: "cuota_ia_agotada" }, { status: 429 }) };
+        }
+        throw error;
+      }
+    }
   }
 
   return { user };

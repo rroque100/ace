@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { AlertCircle, Building2, CalendarDays, CheckCircle2, FileSpreadsheet, Gavel, Hash, Landmark, Scale, UserCog, Users } from "lucide-react";
+import { AlertCircle, Building2, CalendarDays, CheckCircle2, FileSpreadsheet, Gavel, Hash, Landmark, Scale, ShieldCheck, UserCog, Users } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { AdminSettings } from "./admin-settings";
 import { ConfirmDialog } from "./confirm-dialog";
@@ -34,6 +34,17 @@ const OficinasSettings = dynamic(() => import("./oficinas-settings").then((m) =>
   ssr: false,
 });
 
+// Usuarios externos (accesos por módulo y auditoría): solo se monta al entrar en su pestaña.
+const ExternosTab = dynamic(() => import("./configuracion/externos-tab").then((m) => m.ExternosTab), {
+  loading: () => (
+    <div className="grid gap-3" aria-busy="true">
+      <div className="h-9 w-64 animate-pulse rounded-lg bg-line/70" />
+      <div className="h-52 animate-pulse rounded-[10px] bg-line/70" />
+    </div>
+  ),
+  ssr: false,
+});
+
 // El catálogo de instituciones arbitrales solo se monta al entrar en su pestaña.
 const InstitucionesArbitralesTab = dynamic(
   () =>
@@ -56,11 +67,12 @@ type SectionKey =
   | "numeracion"
   | "membrete"
   | "usuarios"
+  | "externos"
   | "personal"
   | "arbitraje"
   | "feriados";
 
-type Owner = "admin" | "ofic" | "personal" | "arbitraje";
+type Owner = "admin" | "ofic" | "personal" | "arbitraje" | "externos";
 
 type NavItem = {
   key: SectionKey;
@@ -132,6 +144,13 @@ const NAV: { grupo: string; items: NavItem[] }[] = [
         owner: "admin",
       },
       {
+        key: "externos",
+        icon: <ShieldCheck size={18} />,
+        label: "Usuarios externos",
+        desc: "Accesos por módulo y auditoría",
+        owner: "externos",
+      },
+      {
         key: "personal",
         icon: <Users size={18} />,
         label: "Personal",
@@ -193,6 +212,10 @@ const SECCION_INFO: Record<SectionKey, { titulo: string; sub: string }> = {
     titulo: "Usuarios y accesos",
     sub: "Cuentas del sistema. El rol define los permisos; la oficina y la jefatura, qué expedientes ve cada persona.",
   },
+  externos: {
+    titulo: "Usuarios externos",
+    sub: "Cuentas de asesores y alumnos que entran solo a los módulos que se les habilitan (Centro Jurídico, simulacro de examen o ambos). Cada una tiene vigencia y cuota mensual de IA, y su IP, su actividad y su consumo quedan auditados.",
+  },
   personal: {
     titulo: "Padrón de personal",
     sub: "Servidores de la entidad cargados desde el .xls del SIGA. Alimenta el selector de personas de Necesidades y Expedientes: elegir en vez de teclear nombre, DNI y cargo.",
@@ -211,6 +234,7 @@ const OWNER: Record<SectionKey, Owner> = {
   municipalidad: "admin",
   procesos: "admin",
   usuarios: "admin",
+  externos: "externos",
   feriados: "admin",
   areas: "ofic",
   numeracion: "ofic",
@@ -261,6 +285,7 @@ export function ConfiguracionWorkspace({ currentUserId }: { currentUserId: strin
     OWNER[active] === "ofic" ? (active as "areas" | "numeracion" | "membrete") : null;
   const personalSection = OWNER[active] === "personal" ? "personal" : null;
   const enArbitraje = active === "arbitraje";
+  const enExternos = active === "externos";
 
   // Callbacks estables: los hijos ya tienen los datos y los reportan aquí.
   const reportAdmin = useCallback(
@@ -380,6 +405,8 @@ export function ConfiguracionWorkspace({ currentUserId }: { currentUserId: strin
     numeracion: summary.oficinasConNumeracion > 0,
     membrete: summary.oficinasConMembrete > 0,
     usuarios: summary.usersCount > 0,
+    // Opcional: la entidad puede operar sin cuentas externas.
+    externos: true,
     personal: (summary.personalCount ?? 0) > 0,
     // Catálogo OPCIONAL: la entidad puede operar sin instituciones arbitrales
     // registradas, así que no cuenta como sección pendiente en la puesta a punto.
@@ -409,6 +436,7 @@ export function ConfiguracionWorkspace({ currentUserId }: { currentUserId: strin
         ? { texto: "Falta área", tono: "warn" }
         : { texto: `${summary.oficinasConMembrete}/${summary.oficinasCount}`, tono: "mute" },
     usuarios: { texto: String(summary.usersCount), tono: summary.usersCount === 0 ? "warn" : "mute" },
+    externos: null,
     personal:
       summary.personalCount === null
         ? null
@@ -552,6 +580,7 @@ export function ConfiguracionWorkspace({ currentUserId }: { currentUserId: strin
         />
         <PersonalSettings section={personalSection} />
         {enArbitraje ? <InstitucionesArbitralesTab /> : null}
+        {enExternos ? <ExternosTab /> : null}
       </div>
 
       <ConfirmDialog
