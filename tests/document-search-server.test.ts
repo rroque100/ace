@@ -2,6 +2,9 @@ import { beforeEach, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({ rest: vi.fn(), semantic: vi.fn(), indexed: vi.fn(), candidates: vi.fn() }));
 vi.mock("@/lib/supabase-server", () => ({ supabaseRest: (path: string, options?: unknown) => path === "rpc/ace_search_documents_page_v2" ? mocks.indexed(path,options) : path === "rpc/ace_search_candidates_v3" ? mocks.candidates(path,options) : mocks.rest(path,options) }));
 vi.mock("@/lib/legal-chat", () => ({ searchLegalSources: mocks.semantic }));
+// La búsqueda por régimen consulta `documents?` para ubicar la Ley y el Reglamento de cada régimen; este test comprueba que el
+// FILTRADO de candidatos no baja el catálogo, así que esa búsqueda de ids se aísla aquí.
+vi.mock("@/lib/regime-documents", () => ({ getRegimeDocumentIds: async () => ({ "32069": [], "30225": [] }) }));
 import {
   loadSearchCatalogue,
   searchDocuments,
