@@ -7,7 +7,7 @@
 // un procedimiento convocado antes del 22-04-2025 se rige por la Ley 30225, y las preguntas de comparación o de
 // vigencia exigen nombrarla. Con la regla antigua, la respuesta correcta a «convoqué en 2024» habría suspendido.
 
-import { isRegimeComparison, isTemporalApplicabilityQuestion, questionRegimeIntent } from "./chat-regime";
+import { isRegimeComparison, isTemporalApplicabilityQuestion, questionRegimeIntent, regimeLabel } from "./chat-regime";
 
 // Normas del régimen anterior: en una pregunta común, citarlas es traer la norma equivocada.
 export const derogatedNormPatterns = ["30225", "344-2018", "320-2019", "350-2015", "ley de contrataciones del estado"];
@@ -46,4 +46,16 @@ export function detectGroundingViolations(answer: string, sourcesCount: number, 
   if (outOfRange.length > 0) violations.push(`Citas [F#] fuera de rango (inexistentes): ${outOfRange.map((n) => `F${n}`).join(", ")}.`);
 
   return violations;
+}
+
+type GroundingSource = { excerpt?: string | null; documentType: string; documentNumber?: string | null; documentTitle?: string | null; year?: number | null; regime?: string | null };
+
+/**
+ * Textos contra los que se comprueba que una mención al régimen anterior esté respaldada: el fragmento de cada fuente
+ * MÁS el régimen que el chat le muestra al modelo («Ley 30225» para el D.Leg. 1444, deducido de su identificador). Sin
+ * eso, una respuesta correcta que dice «el D.Leg. 1444, que modificó la Ley 30225» (contexto del régimen anterior,
+ * como se le pide) se marcaba como alucinación porque el fragmento del decreto no repite el número de la ley.
+ */
+export function groundingTexts(sources: GroundingSource[]): string[] {
+  return sources.map((source) => `${source.excerpt ?? ""} ${regimeLabel({ documentType: source.documentType, documentNumber: source.documentNumber, documentTitle: source.documentTitle ?? undefined, regime: source.regime, year: source.year })}`);
 }

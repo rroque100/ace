@@ -14,7 +14,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { answerLegalQuestion, chatRequestSchema } from "@/lib/legal-chat";
 import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
-import { detectGroundingViolations } from "@/lib/eval-grounding";
+import { detectGroundingViolations, groundingTexts } from "@/lib/eval-grounding";
 import { caseSearchQuery } from "@/lib/chat-case-context";
 import { resolveFollowUp } from "@/lib/legal-document-reference";
 
@@ -70,7 +70,7 @@ for (const caso of elegidos) {
     // La regla del régimen anterior se juzga con la pregunta COMPLETA que el chat resolvió (seguimiento con su historial, datos del
     // caso): «¿y si fue en 2024?» suelta no dice que se habla de la Ley 30225, pero en la conversación sí.
     const consulta = caseSearchQuery(resolveFollowUp(caso.pregunta, caso.historial ?? []).query, caso.contextoCaso ? { regime: "", dates: "", facts: "", ...caso.contextoCaso } : undefined);
-    fallos.push(...detectGroundingViolations(respuesta, nFuentes, [], consulta, resultado.sources.map((fuente) => fuente.excerpt)));
+    fallos.push(...detectGroundingViolations(respuesta, nFuentes, [], consulta, groundingTexts(resultado.sources)));
     const fidelidad = checkCitationFaithfulness(respuesta, resultado.sources);
     if (!fidelidad.ok) fallos.push(...fidelidad.issues.map((problema) => `Cita infiel: ${problema.reason}`));
   } catch (error) {

@@ -42,7 +42,7 @@ describe("artículo pedido que no se recuperó (caso real: «artículo 9999» re
   });
   it("con varios artículos, avisa solo de los que faltan", () => {
     expect(missingRequestedArticles("compara el artículo 61 y el artículo 9999", [fuente("61")])).toEqual(["9999"]);
-    expect(missingArticleNotice(["9999", "8888"])).toContain("No se recuperó los artículos 9999 y 8888");
+    expect(missingArticleNotice(["9999", "8888"])).toContain("No se recuperaron los artículos 9999 y 8888");
     expect(missingArticleNotice(["9999", "8888", "61a"])).toContain("los artículos 9999, 8888 y 61A");
   });
   it("no avisa cuando no hay fuentes (ya hay otro aviso) ni cuando la pregunta nombra un documento concreto", () => {

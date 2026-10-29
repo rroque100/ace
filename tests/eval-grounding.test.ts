@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allowsPreviousRegime, detectGroundingViolations } from "@/lib/eval-grounding";
+import { allowsPreviousRegime, detectGroundingViolations, groundingTexts } from "@/lib/eval-grounding";
 
 describe("citar el régimen anterior: falla en una pregunta común, correcto cuando la pregunta trata de él", () => {
   const respuesta = "Para un procedimiento convocado antes de abril de 2025 se aplica la Ley 30225 [F1], según la DCT-4 [F2].";
@@ -63,5 +63,19 @@ describe("una mención al régimen anterior que respaldan las fuentes recuperada
   });
   it("lo que la pregunta veta expresamente falla aunque una fuente lo contenga", () => {
     expect(detectGroundingViolations(respuesta, 7, ["344-2018"], pregunta, [disposicion]).some((f) => /vetado/.test(f))).toBe(true);
+  });
+});
+
+describe("el régimen que el chat le muestra al modelo respalda su mención (caso real: «impedimentos» citaba el D.Leg. 1444 como contexto)", () => {
+  it("el D.Leg. 1444 lleva el régimen «Ley 30225» aunque su fragmento no repita el número", () => {
+    const textos = groundingTexts([{ excerpt: "Están impedidos de ser participantes…", documentType: "ley", documentNumber: "1444", documentTitle: "Decreto Legislativo N.° 1444" }]);
+    expect(textos[0]).toContain("Ley 30225");
+    const respuesta = "Los Decretos Legislativos 1444 y 1341 modificaron la Ley N.° 30225 y también establecían impedimentos [F3].";
+    expect(detectGroundingViolations(respuesta, 4, [], "¿Quiénes están impedidos de ser contratistas del Estado?", textos)).toEqual([]);
+  });
+  it("una fuente del régimen vigente no respalda una mención a la Ley 30225", () => {
+    const textos = groundingTexts([{ excerpt: "Impedimentos para contratar", documentType: "ley", documentNumber: "32069", documentTitle: "Ley N.° 32069" }]);
+    expect(textos[0]).not.toContain("Ley 30225");
+    expect(detectGroundingViolations("Rige la Ley 30225 [F1].", 1, [], "¿Quiénes están impedidos?", textos).some((f) => /30225/.test(f))).toBe(true);
   });
 });

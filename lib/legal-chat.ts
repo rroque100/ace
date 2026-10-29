@@ -39,7 +39,7 @@ import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } fr
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
-import { missingArticleNotice, missingRequestedArticles } from "./chat-article-check";
+import { missingArticleNotice, missingNormNotice, missingRequestedArticles, missingRequestedNorms } from "./chat-article-check";
 import { withRetry } from "./retry";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
@@ -917,8 +917,11 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   // La fecha de convocatoria puede venir de «Datos del caso» y no de la pregunta: se mira con ambas.
   if (prep.status === "generate") answer = (temporalApplicationBlock(caseSearchQuery(prep.followupQuestion ?? input.question, input.caseContext), prep.sources) ?? "") + answer;
   // Si se pidió un artículo por su número y ninguna fuente lo es, se dice antes que nada (ver chat-article-check.ts).
-  // Con un artículo elegido en los filtros no aplica: ahí la fuente es ese artículo por construcción.
-  if (prep.status === "generate" && !input.filters?.articleId && !input.filters?.article) answer = (missingArticleNotice(missingRequestedArticles(input.question, prep.sources)) ?? "") + answer;
+  // Con un artículo elegido en los filtros no aplica: ahí la fuente es ese artículo por construcción. Vale también
+  // para la salida «sin fuentes suficientes» (status final), que es justo donde un pedido inexistente suele acabar.
+  if (!input.filters?.articleId && !input.filters?.article) answer = (missingArticleNotice(missingRequestedArticles(input.question, prep.sources)) ?? "") + answer;
+  // Lo mismo con una norma pedida por su número (decreto, ley) que ninguna fuente recuperada lleva.
+  if (!input.filters?.documentId && (input.filters?.selectedDocumentIds?.length ?? 0) === 0) answer = (missingNormNotice(missingRequestedNorms(input.question, prep.sources)) ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;

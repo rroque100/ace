@@ -2,7 +2,7 @@ import { answerLegalQuestion } from "@/lib/legal-chat";
 import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
 import { procedureEntries, procedureSourceRequirements } from "@/lib/procedure-catalog";
 import { supabaseUserRest } from "@/lib/supabase-server";
-import { detectGroundingViolations } from "@/lib/eval-grounding";
+import { detectGroundingViolations, groundingTexts } from "@/lib/eval-grounding";
 
 // Evaluacion continua del RAG (Fase 4): corre un set de preguntas curadas contra el
 // pipeline real de respuesta del chat y mide cobertura de keywords, suficiencia de
@@ -383,7 +383,7 @@ export async function runEvaluation(accessToken: string) {
         result.sources.length,
         pregunta.expected_must_not_contain ?? [],
         pregunta.question,
-        result.sources.map((source) => source.excerpt),
+        groundingTexts(result.sources),
       );
       // Fidelidad de cita: datos especificos citados deben constar en el fragmento.
       const faithfulness = checkCitationFaithfulness(result.answer, result.sources);
