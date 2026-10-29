@@ -42,3 +42,23 @@ it("no expone errores del proveedor ni publica un éxito falso", async () => {
   mocks.transcribe.mockRejectedValue(new Error("private provider credential detail"));
   const response = await POST(request()); expect(response.status).toBe(503); expect(await response.text()).not.toContain("private provider");
 });
+it("registra el motivo real en el servidor sin cambiar lo que ve el usuario", async () => {
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  try {
+    mocks.transcribe.mockRejectedValue(new Error("Voice provider HTTP 400"));
+    const response = await POST(request());
+    expect(response.status).toBe(503);
+    expect(await response.text()).not.toContain("HTTP 400");
+    expect(error).toHaveBeenCalledOnce();
+    const line = String(error.mock.calls[0][0]);
+    expect(line).toContain("[voice-search] proveedor (openai, audio/wav, 16 B, 2000 ms)");
+    expect(line).toContain("Voice provider HTTP 400");
+
+    error.mockClear();
+    mocks.transcribe.mockRejectedValue(new DOMException("aborted", "AbortError"));
+    expect((await POST(request())).status).toBe(503);
+    expect(error).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
+  } finally { error.mockRestore(); warn.mockRestore(); }
+});

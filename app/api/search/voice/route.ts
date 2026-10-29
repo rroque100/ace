@@ -3,6 +3,7 @@ import { requireUser } from "@/lib/auth";
 import { getProvider } from "@/lib/openai-server";
 import { voiceAvailable, voiceConfiguration, transcribeSearchAudio } from "@/lib/voice-transcription";
 import { VOICE_MAX_BYTES, VOICE_MAX_MS, audioMimeFromBytes } from "@/lib/voice-search";
+import { voiceFailure } from "@/lib/voice-failure";
 import { checkRateLimit, getRateLimitKey, rateLimitResponse } from "@/lib/rate-limit";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,7 +30,14 @@ export async function POST(request: Request) {
   try {
     const result = await transcribeSearchAudio(file, request.signal);
     return NextResponse.json(result, { headers });
-  } catch {
+  } catch (error) {
+    // El usuario recibe siempre el mismo mensaje; el motivo real queda solo en el log del servidor. No se
+    // registra el audio, el texto ni el usuario: proveedor, formato, tamaño y duración bastan para diagnosticar.
+    const failure = voiceFailure(error);
+    if (failure.kind !== "cancelada") {
+      const log = failure.kind === "sin-texto" ? console.warn : console.error;
+      log(`[voice-search] ${failure.kind} (${voiceConfiguration().providerId}, ${file.type}, ${file.size} B, ${duration} ms): ${failure.detail}`);
+    }
     return NextResponse.json({ error: "No se pudo obtener una transcripción utilizable. Repite una grabación corta o escribe tu consulta." }, { status: 503, headers });
   }
 }
