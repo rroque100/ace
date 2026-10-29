@@ -3289,15 +3289,6 @@ textarea:focus,
   font-weight: 700;
 }
 
-/* Composer tipo barra */
-.legalCenterNav { padding: 16px 20px; border-bottom: 1px solid var(--line); background: var(--panel, #fff); }
-.legalCenterNav nav { display: flex; flex-wrap: wrap; gap: 8px; }
-.legalCenterNav .legalCenterItem { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid transparent; border-radius: 10px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
-.legalCenterNav a:hover { color: var(--brand); background: var(--soft); }
-.legalCenterNav .legalCenterItem[aria-current="page"] { color: var(--brand); border-color: var(--line); background: var(--soft); }
-.legalCenterNav a:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
-.legalCenterNav p { margin: 10px 0 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
-.legalCenterNav small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .normTag.legalValidity.neutral { color: #475569; background: #f1f5f9; border-color: #cbd5e1; }
 .normTag.legalValidity.warn { color: #854d0e; background: #fef9c3; border-color: #fde68a; }
 .legalCenterNotice { margin: 12px 20px; padding: 12px 16px; color: #854d0e; background: #fefce8; border: 1px solid #fde68a; border-radius: 10px; line-height: 1.5; }
@@ -3305,7 +3296,6 @@ textarea:focus,
 .normBrowser .normCategoryTabs button { min-width: 0; min-height: 44px; white-space: normal; }
 .normBrowser .normFilters { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 16px; }
 @media (max-width: 640px) { .normBrowser .normCategoryTabs, .normBrowser .normFilters { grid-template-columns: 1fr; } }
-@media (max-width: 640px) { .legalCenterNav { padding: 12px; } .legalCenterNav nav { display: grid; grid-template-columns: 1fr; } .legalCenterNav .legalCenterItem { justify-content: flex-start; } }
 
 .chatCaseContext { padding: 14px 18px; border-top: 1px solid var(--line); background: var(--surface); }
 .chatCaseContext summary, .chatTurnContext summary { cursor: pointer; font-weight: 600; }
@@ -11078,9 +11068,6 @@ a.panelOrigen:hover {
   display: block;
   overflow: visible;
 }
-.chatAccessible .legalCenterNav { margin-bottom: 12px; }
-.chatAccessible .legalCenterNav > p,
-.chatAccessible .legalCenterNav > small { display: none; }
 .chatUtilityRow { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .chatUtilityRow > span { color: var(--chat-muted); font-size: 13px; }
 .chatUtilityRow .legalWorkspacePanel { margin: 0; padding: 10px 14px; min-width: 180px; max-width: 520px; }
@@ -11178,8 +11165,6 @@ a.panelOrigen:hover {
  .chatAccessible .sendButton, .chatAccessible .stopButton { width: 100%; }
  .chatAccessible .filterPopoverGrid { grid-template-columns: minmax(0,1fr); }
  .chatSourceSheet { padding: 20px; border-radius: 0; }
- .chatAccessible .legalCenterNav nav { display: flex; overflow-x: auto; }
- .chatAccessible .legalCenterItem { white-space: nowrap; }
 }
 @media (prefers-reduced-motion: reduce) { .chatAccessible *, .chatSourceSheet * { scroll-behavior: auto; transition: none; animation: none; } }
 @media (max-width: 1100px) { .chatNormsRail:has(.chatNormsEmpty) { display: none; } }
