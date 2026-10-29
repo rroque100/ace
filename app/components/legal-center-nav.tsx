@@ -17,11 +17,12 @@ const icons = { chat: Bot, busqueda: FileSearch, normas: Library };
 // El color del texto va en la barra y no en cada enlace: `styles.css` tiene `a { color: inherit }` FUERA de
 // capa, y una regla sin capa gana siempre a las utilidades (que viven en `@layer utilities`) sin importar la
 // especificidad. Los enlaces heredan el color; el elemento activo, que es un `<span>`, sí admite `text-brand`.
+// Por la misma razón no hay utilidades de foco ni `no-underline`: el anillo de foco lo fija, sin capa,
+// `.legalWorkspace :is(a, …):focus` (legal-workspace.css) y el subrayado `a { text-decoration: none }`.
 const nav = "mb-3";
 const bar = "grid grid-cols-3 gap-1 rounded-xl border border-line bg-panel p-1 text-ink [.chatAccessible_&]:max-[640px]:overflow-x-auto";
 const item =
-  "flex min-h-11 min-w-0 items-center gap-3 whitespace-normal rounded-lg border no-underline transition-colors px-3 py-2 " +
-  "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-brand " +
+  "flex min-h-11 min-w-0 items-center gap-3 whitespace-normal rounded-lg border px-3 py-2 transition-colors " +
   "@max-[720px]:flex-col @max-[720px]:justify-center @max-[720px]:gap-1 @max-[720px]:text-center";
 const itemLink = "border-transparent hover:bg-surface";
 const itemActive = "border-brand/20 bg-brand-soft text-brand";
