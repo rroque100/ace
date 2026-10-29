@@ -111,22 +111,9 @@ export function peticionRedaccionA2(
   return { camposObjetivo, camposLlenos };
 }
 
-/**
- * De la propuesta del copiloto (`api → texto`), qué campos conviene APLICAR: solo
- * los que están VACÍOS en el paso, para no pisar lo que la DEC ya escribió. Es la
- * misma disciplina de la precarga («rellena huecos, no sobrescribe»).
- */
-export function camposAplicables(
-  propuesta: Record<string, string>,
-  a3Data: Record<string, unknown>,
-): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (const [key, texto] of Object.entries(propuesta)) {
-    if (!texto?.trim()) continue;
-    if (comoTexto(a3Data[key]).trim() === "") out[key] = texto;
-  }
-  return out;
-}
+// Se mantiene exportada desde aquí por compatibilidad; vive en un módulo sin dependencias de servidor porque la
+// importa un componente de cliente (ver expediente-campos-aplicables.ts).
+export { camposAplicables } from "./expediente-campos-aplicables";
 
 // ===== Iteración 4 · Chat del expediente =====
 

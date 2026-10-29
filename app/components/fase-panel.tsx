@@ -92,7 +92,7 @@ import {
 } from "@/lib/estrategia-formato";
 import { problemasDelPaso } from "@/lib/calidad-paso";
 import { progresoDeGrupos, visibilidadDePaso } from "@/lib/fase-campos-visibles";
-import { camposAplicables } from "@/lib/expediente-copiloto";
+import { camposAplicables } from "@/lib/expediente-campos-aplicables";
 import { filasTextarea } from "@/lib/textarea-alto";
 import { avisoFechaRequerida } from "@/lib/cronograma-fechas";
 import { faltaParaAprobar, montoA7 as coberturaA7 } from "@/lib/expediente-contenido";
