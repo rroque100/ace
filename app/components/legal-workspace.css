@@ -323,3 +323,105 @@
 .validityReviewDetails p { @apply my-2 break-words; }
 .validityReviewDetails a { @apply mr-4 inline-block break-all text-teal-800 underline underline-offset-2; }
 .documentValidityReview details article { @apply my-3 border-t border-slate-200 pt-3; }
+
+/* ───────────────────────── Normativa y criterios · rediseño ─────────────────────────
+   Objetivos: encontrar rápido (menos cromo antes de los resultados), tarjetas que se
+   escanean de un vistazo (tipo, fecha, título, fuente; sin la misma insignia repetida en
+   las 37), y un lector con índice al lado y texto cómodo. Va al final a propósito: gana en
+   la cascada a las reglas históricas de este mismo bloque sin editarlas. */
+
+/* Cabecera y buscador */
+.legalWorkspace .normIntro { @apply mb-4 mt-0 max-w-[70ch] text-[14px] leading-6 text-muted; }
+.legalWorkspace .normSearchEntry { @apply mb-3 mt-0; }
+.legalWorkspace .normSearchEntry>label { @apply mb-2 block text-[13px] font-semibold text-ink; }
+.legalWorkspace .normSearchEntry>div { @apply rounded-xl border border-line bg-panel px-4 py-1 shadow-card transition-shadow; }
+.legalWorkspace .normSearchEntry>div:focus-within { @apply border-brand/50 shadow-focus; }
+.legalWorkspace .normSearchEntry input { @apply text-[15px]; }
+.legalWorkspace .normBrowser .normPrimaryFilters { @apply items-end gap-3 py-3; }
+.legalWorkspace .normPrimaryFilters label>span { @apply mb-1 block text-[12px] font-semibold leading-5 text-muted; }
+.legalWorkspace .normPrimaryFilters .secondaryButton { @apply border-transparent bg-transparent text-muted shadow-none hover:border-line hover:bg-surface hover:text-ink; }
+.legalWorkspace .normAdvancedFilters { @apply border-line bg-panel; }
+.legalWorkspace .normCatalogueCount { @apply my-3 flex flex-wrap items-baseline gap-x-2 text-[13px] leading-6 text-muted; }
+
+/* Indicador de plegado propio en todos los <details> de la página (el triángulo del
+   navegador es diminuto y se pierde). */
+.legalWorkspace .normBrowser details>summary { @apply flex cursor-pointer list-none items-center gap-2 select-none; }
+.legalWorkspace .normBrowser details>summary::-webkit-details-marker { display:none; }
+.legalWorkspace .normBrowser details>summary::before {
+  content:""; flex:none; width:7px; height:7px;
+  border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+  transform:rotate(-45deg); transition:transform .15s ease; opacity:.7;
+}
+.legalWorkspace .normBrowser details[open]>summary::before { transform:rotate(45deg); }
+
+/* Listado: rejilla que se adapta al ancho y tarjetas de altura pareja */
+.legalWorkspace .normBrowsing .normList { grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); @apply gap-3; }
+.legalWorkspace .normBrowser .normCard {
+  @apply flex h-full flex-col items-start gap-2 rounded-xl border border-line bg-panel p-4 text-left shadow-card transition-[border-color,box-shadow] duration-150;
+}
+.legalWorkspace .normBrowser .normCard:hover { @apply border-brand/40 bg-panel shadow-pop; }
+.legalWorkspace .normCardTop { @apply flex w-full items-center justify-between gap-2; }
+.legalWorkspace .normCardType { @apply rounded-md bg-brand-soft px-2 py-0.5 text-[11px] font-semibold uppercase leading-5 tracking-wide text-brand; }
+.legalWorkspace .normCardDate { @apply text-[12px] leading-5 text-muted tabular-nums; white-space:nowrap; }
+.legalWorkspace .normCardTitle {
+  @apply text-[15px] font-semibold leading-snug text-ink;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere;
+}
+.legalWorkspace .normCardMeta { @apply text-[12.5px] leading-5 text-muted; overflow-wrap:anywhere; }
+.legalWorkspace .normCardMeta:empty { display:none; }
+.legalWorkspace .normBrowser .normCardTags { @apply mt-auto flex flex-wrap items-center gap-1.5 pt-1; }
+.legalWorkspace .normBrowser .normCardTags:empty { display:none; }
+
+/* Carga: esqueletos con la forma de las tarjetas (no un spinner solo) */
+.legalWorkspace .normSkeletonLabel { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.legalWorkspace .normCardSkeleton { @apply grid content-start gap-2.5 rounded-xl border border-line bg-panel p-4; min-height:132px; }
+.legalWorkspace .normCardSkeleton i {
+  display:block; height:12px; border-radius:6px; background-size:200% 100%;
+  background-image:linear-gradient(90deg,var(--surface) 25%,color-mix(in srgb,var(--line) 65%,var(--surface)) 50%,var(--surface) 75%);
+  animation:normShimmer 1.3s linear infinite;
+}
+.legalWorkspace .normCardSkeleton i:nth-child(1) { width:34%; }
+.legalWorkspace .normCardSkeleton i:nth-child(2) { width:92%; height:16px; }
+.legalWorkspace .normCardSkeleton i:nth-child(3) { width:58%; }
+@keyframes normShimmer { to { background-position:-200% 0; } }
+@media (prefers-reduced-motion: reduce) { .legalWorkspace .normCardSkeleton i { animation:none; } }
+
+/* Lector */
+.legalWorkspace .normReaderToolbar { @apply mb-4; }
+.legalWorkspace .normDetail { @apply p-5; }
+.legalWorkspace .normDetailHeader { @apply items-start justify-between gap-4; }
+.legalWorkspace .normDetailHeader h3 { @apply my-1 text-[24px] font-semibold leading-8 tracking-tight text-ink; }
+.legalWorkspace .normHeaderActions { @apply flex flex-wrap items-center gap-2; }
+.legalWorkspace .normDocumentInfo { @apply mt-4 rounded-xl border border-line bg-surface/60 px-4 py-1; }
+.legalWorkspace .normDocumentInfo>summary { @apply min-h-11 text-[13px] font-semibold text-ink; }
+.legalWorkspace .normBrowser .articleReaderHeader strong { @apply block text-[22px] font-semibold leading-8 tracking-tight text-ink; }
+.legalWorkspace .normBrowser .articleText { @apply text-[17px]; line-height:1.85; max-width:72ch; }
+.legalWorkspace .normBrowser .articleNavCol { @apply rounded-xl border border-line bg-panel px-3 py-1; }
+.legalWorkspace .normBrowser .articleNavCol>summary { @apply min-h-11 text-[13px] font-semibold text-ink; }
+
+/* Con ancho suficiente (medido en el contenedor, no en la ventana, porque el menú lateral
+   se come espacio): índice fijo a la izquierda y texto a la derecha. */
+@container (min-width: 880px) {
+  .legalWorkspace .normBrowser .articleLayout { grid-template-columns:272px minmax(0,1fr); align-items:start; @apply gap-7; }
+  .legalWorkspace .normBrowser .articleNavCol { position:sticky; top:12px; max-height:calc(100vh - 28px); overflow:auto; }
+  .legalWorkspace .articleNavCol .normativeSectionIndex { max-height:calc(100vh - 360px); min-height:160px; }
+  .legalWorkspace .normDetail { @apply p-7; }
+}
+@container (max-width: 560px) {
+  .legalWorkspace .normDetailHeader h3 { @apply text-[20px] leading-7; }
+  .legalWorkspace .normHeaderActions { @apply w-full; }
+  .legalWorkspace .normHeaderActions>* { @apply flex-1; }
+  .legalWorkspace .normBrowser .articleText { @apply text-[16px]; }
+}
+.legalWorkspace .normCatalogueCount strong { @apply font-semibold text-ink; }
+.legalWorkspace .normCatalogueNote { @apply basis-full text-[12.5px] leading-5; }
+.legalWorkspace .normBrowser .articleReader .sourceActions { @apply mt-5 justify-start border-t border-line pt-4; }
+
+/* Móvil: categorías en una sola fila y filtros en dos columnas (antes eran 3 + 4 filas a ancho completo). */
+@container (max-width: 560px) {
+  .legalWorkspace .normBrowser .normCategoryTabs { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .legalWorkspace .normBrowser .normCategoryTabs button { @apply min-h-12 px-1.5 py-1.5 text-[12px] leading-tight; }
+  .legalWorkspace .normBrowser .normPrimaryFilters { grid-template-columns:repeat(2,minmax(0,1fr)); @apply gap-2.5; }
+  .legalWorkspace .normBrowser .normPrimaryFilters>label:first-child { grid-column:1/-1; }
+  .legalWorkspace .normBrowser .normPrimaryFilters>.secondaryButton { grid-column:1/-1; justify-self:end; @apply min-h-9; }
+}

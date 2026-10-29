@@ -6,6 +6,7 @@ import type { CaseContext } from "./chat-case-context";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { detectValidityTarget } from "./chat-vigencia";
 import { qualityBucket } from "./chat-recency";
+import { isRegimeComparison as isComparisonOfRegimes, isTemporalApplicabilityQuestion } from "./chat-regime";
 
 export type AuditSource = {
   documentTitle: string; excerpt: string; article?: string | null;
@@ -27,6 +28,9 @@ export function isRegimeComparison(question: string) {
   // \u00ab\u00bfSigue vigente la Ley 30225?\u00bb se responde con la norma que la deroga: hacen
   // falta las dos familias, y descartar una dejaba fuera la derogatoria.
   return detectValidityTarget(question) !== null
+    // «¿Qué ley se aplica a lo convocado en 2026?» y «¿qué cambió entre las dos leyes?» necesitan las
+    // dos familias: la que se pregunta y la que la sustituye.
+    || isTemporalApplicabilityQuestion(question) || isComparisonOfRegimes(question)
     || (/\b32069\b/.test(text) && /\b30225\b/.test(text))
     || /(?:compar|diferencia).{0,30}regimenes|regimen anterior.{0,30}nuevo|\b(?:compara|comparar|contrasta|diferencias?).{0,40}\b(?:normas|leyes|reglamentos|versiones|documentos|fuentes)\b/.test(text);
 }
@@ -161,7 +165,7 @@ export async function auditEvidence(answer: string, sources: AuditSource[], cont
     status: regimes.length > 1 ? "mixed" : regimes.length === 1 ? "conditional" : "unknown" };
   // En una pregunta de vigencia, mezclar la norma preguntada y la que la deroga es
   // justo lo que se pide; el aviso solo confundiría.
-  if (regimes.length > 1 && !detectValidityTarget(question)) review.warnings.push("Se recuperaron fuentes de distintos regímenes: no pueden aplicarse indistintamente al caso.");
+  if (regimes.length > 1 && !isRegimeComparison(question)) review.warnings.push("Se recuperaron fuentes de distintos regímenes: no pueden aplicarse indistintamente al caso.");
   if (sources.some(s => !s.regimeReviewed)) review.warnings.push("Hay fuentes cuyo régimen no ha sido revisado en el catálogo.");
   const allClaims = evidenceClaims(answer), claims=allClaims.slice(0,48);
   for (const marker of citedSourceNumbers(answer).filter(n => n < 1 || n > sources.length)) review.warnings.push(`La cita [F${marker}] no corresponde a una fuente recuperada y se retira de la respuesta.`);

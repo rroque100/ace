@@ -1,5 +1,8 @@
 import {activeValidityReview,reviewedValidity} from "./validity-review";
 import { equivalentReference, lexicalTopic, fuseSearchDocuments } from "./search-discovery";
+import { questionRegimeIntent } from "./chat-regime";
+import { getRegimeDocumentIds } from "./regime-documents";
+import { searchRankFactor } from "./search-ranking";
 import { stripPageMarkers } from "./page-markers";
 import { normalizeLiteralSearch } from "./document-search-query";
 import { missingSearchIndex } from "./document-search-index";
@@ -150,12 +153,26 @@ export async function searchDocuments(
   } else if (catalogue.length) {
     const { searchLegalSources } = await import("./legal-chat");
     const topic = lexicalTopic(input.query);
-    const [meaningResult, wordsResult] = await Promise.allSettled([
+    // Pasada dirigida al régimen que corresponde (el vigente salvo que la consulta pida otro): sin ella,
+    // el conjunto por significado podía no traer ni un artículo de la Ley 32069 para «qué pasa si el
+    // contratista se atrasa» y la ley derogada ganaba por falta de rival.
+    const regimeIntent = questionRegimeIntent(input.query);
+    const regimePass = (async () => {
+      if (regimeIntent.regime === "ambos") return [];
+      const ids = (await getRegimeDocumentIds())[regimeIntent.regime === "30225" ? "30225" : "32069"].filter(id => byId.has(id));
+      if (ids.length === 0) return [];
+      return (await searchLegalSources(
+        { query: input.query, topK: 8, filters: indexScope ? { article: input.filters.article?.split(".")[0] } : input.filters },
+        { diversifyDocuments: true, allowedDocumentIds: ids, indexedLexical: indexScope },
+      )).sources;
+    })();
+    const [meaningResult, wordsResult, regimeResult] = await Promise.allSettled([
       searchLegalSources(
         { query: input.query, topK: 20, filters: indexScope ? { article: input.filters.article?.split(".")[0] } : input.filters },
         { diversifyDocuments: true, allowedDocumentIds: catalogue.map(row => row.id), indexedLexical: indexScope },
       ),
       topic.length >= 2 ? searchDocuments({ ...input, query: topic, mode: /\d/.test(topic) ? "literal" : "all_words", page: 1, pageSize: 20 }) : Promise.resolve(null),
+      regimePass,
     ]);
     if (meaningResult.status === "rejected" && (wordsResult.status === "rejected" || !wordsResult.value)) throw new Error("No se pudo recuperar documentos por palabras ni significado.");
     const result = meaningResult.status === "fulfilled" ? meaningResult.value : { sources: [], semanticaCaida: true, retrieval: { semantic: "unavailable", lexical: "available", catalogue: "available" } };
@@ -166,12 +183,17 @@ export async function searchDocuments(
     if(result.retrieval?.lexical==="unavailable") warnings.push("La búsqueda por palabras no estuvo disponible. Los resultados por significado pueden ser incompletos.");
     if(result.retrieval?.catalogue==="unavailable") warnings.push("No se pudo completar la comprobación de las referencias documentales solicitadas. La recuperación puede ser incompleta.");
     const groups = new Map<string, typeof result.sources>();
-    for (const source of result.sources)
+    const regimeSources: typeof result.sources = regimeResult.status === "fulfilled" ? regimeResult.value : [];
+    const seenChunks = new Set<string>();
+    for (const source of [...result.sources, ...regimeSources]) {
+      if (seenChunks.has(source.chunkId)) continue;
+      seenChunks.add(source.chunkId);
       if (byId.has(source.documentId))
         groups.set(source.documentId, [
           ...(groups.get(source.documentId) ?? []),
           source,
         ]);
+    }
     documents = [...groups].map(([id, sources]) =>
       resultDocument(
         byId.get(id)!,
@@ -186,7 +208,11 @@ export async function searchDocuments(
         Math.max(...sources.map((source) => source.score)),
       ),
     );
-    documents = fuseSearchDocuments(wordDocuments, documents, input.query);
+    // La fusión (RRF) solo ve posiciones: una ley y un pronunciamiento pesan igual. Se multiplica por la
+    // jerarquía normativa y el régimen que pide la consulta (lib/search-ranking.ts).
+    documents = fuseSearchDocuments(wordDocuments, documents, input.query)
+      .map((document) => ({ ...document, rank: document.rank * searchRankFactor(byId.get(document.documentId) ?? { document_type: "", title: "" }, input.query) }))
+      .sort((a, b) => b.rank - a.rank || a.documentId.localeCompare(b.documentId));
     warnings.push("Se combinan hasta 20 documentos por palabras con hasta 20 pasajes por significado/referencias. El orden combina posiciones, no porcentajes de certeza jurídica.");
     warnings.push(
       "Este modo muestra documentos recuperados por relevancia; no cuenta todas las coincidencias del catálogo. Ordenar por fecha solo ordena los documentos recuperados; no busca los más recientes de toda la biblioteca. Puedes usar la frase exacta para una búsqueda documental completa del texto indexado.",

@@ -14,6 +14,21 @@ import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
+import {
+  comparisonInstruction,
+  isRegimeComparison as isComparisonOfRegimes,
+  isTemporalApplicabilityQuestion,
+  pickTemporalEvidence,
+  questionRegimeIntent,
+  regimeRankAdjustment,
+  sourceRegime,
+  temporalApplicationBlock,
+  temporalInstruction,
+  temporalRetrievalQueries,
+  type Regime,
+  type RegimeIntent,
+} from "./chat-regime";
+import { getRegimeDocumentIds } from "./regime-documents";
 import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
@@ -37,7 +52,7 @@ import {
   sourceMatchesRequirement,
   procedureTextIncludes,
 } from "./procedure-catalog";
-import { institutionalAuditDetails, supabaseRest, supabaseUserRest, writeAuditLog } from "./supabase-server";
+import { institutionalAuditDetails, supabaseRest, supabaseUserRest, tragarPeroRegistrar, writeAuditLog } from "./supabase-server";
 
 // Contexto del usuario autenticado para escribir/leer datos privados del chat
 // con su JWT (RLS). No proviene del body del cliente.
@@ -186,13 +201,27 @@ type ChatMessageInsertRecord = {
 };
 
 const answerDocumentTypes = new Set(CORPUS_ANSWER_TYPES);
+// Los tipos de criterio (acuerdo de Sala Plena, resolución, pronunciamiento) no figuraban: valían 0,
+// igual que las bases integradas. Un acuerdo de Sala Plena es precedente, por encima de una opinión;
+// una resolución del Tribunal y un pronunciamiento orientan, por debajo.
 const normativePriority: Record<string, number> = {
   ley: 4,
   reglamento: 3,
   directiva: 2,
+  acuerdo_sala_plena: 1.5,
   opinion: 1,
+  resolucion: 0.6,
+  pronunciamiento: 0.5,
   bases_integradas: 0,
 };
+
+// La intención de régimen depende solo de la consulta, y evidenceQualityScore se llama una vez por
+// fuente: se recuerda la última para no recalcularla cientos de veces.
+let lastRegimeIntent: { query: string; intent: RegimeIntent } | null = null;
+function regimeIntentFor(query: string): RegimeIntent {
+  if (lastRegimeIntent?.query !== query) lastRegimeIntent = { intent: questionRegimeIntent(query), query };
+  return lastRegimeIntent.intent;
+}
 
 function uniqueValues(values: Array<string | undefined>) {
   return Array.from(new Set(values.filter(Boolean))) as string[];
@@ -865,6 +894,8 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   }, input.question) : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
   answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
+  // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
+  if (prep.status === "generate") answer = (temporalApplicationBlock(input.question, prep.sources) ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
@@ -948,6 +979,10 @@ function evidenceQualityScore(source: LegalSource, query: string) {
   const basesPenalty = source.documentType === "bases_integradas" ? -0.22 : 0;
   const nonCurrentPenalty = isNotCurrentSource(source) ? -0.12 : 0;
   const oldOpinionPenalty = isOldOpinion(source) ? -0.08 : 0;
+  // Régimen que pide la pregunta (fecha de convocatoria, ley nombrada o, sin pista, la vigente):
+  // nombrar «Ley 30225» sube la coincidencia de palabras de la ley derogada, y sin este ajuste
+  // ganaba a los artículos de la vigente.
+  const regimeAdjustment = regimeRankAdjustment(regimeIntentFor(query), sourceRegime(source));
   const lexical = lexicalCoverage(query, `${source.documentTitle} ${source.topic ?? ""} ${source.excerpt}`);
   const semantic = Math.min(Math.max(source.semanticScore, source.rerankScore), 1);
 
@@ -968,7 +1003,8 @@ function evidenceQualityScore(source: LegalSource, query: string) {
         processMismatchPenalty +
         basesPenalty +
         nonCurrentPenalty +
-        oldOpinionPenalty,
+        oldOpinionPenalty +
+        regimeAdjustment,
     ),
   );
 }
@@ -1699,6 +1735,40 @@ async function prepareLegalAnswer(
     ? Promise.allSettled(validityRetrievalQueries(validityTarget.norms).map(query =>
         searchLegalSources({ filters: { ...chatFilters, processType: "" }, query, topK: 8 })))
     : Promise.resolve([]);
+
+  // Régimen. Tres necesidades que la recuperación abierta no cubre (ver lib/chat-regime.ts):
+  //  · una pasada dirigida a la Ley y el Reglamento del régimen que pide la pregunta (por fecha
+  //    de convocatoria, por ley nombrada o, sin pista, la vigente), para que sus artículos entren
+  //    al conjunto aunque la ley derogada gane en coincidencia de palabras;
+  //  · si pregunta qué ley se aplica en el tiempo: la regla de transición (DCT Cuarta) y la
+  //    fecha de vigencia dicha por una fuente;
+  //  · si compara las dos leyes: una recuperación por ley, para que ninguna tape a la otra.
+  const regimeIntent = questionRegimeIntent(contextualQuery);
+  const regimeGuided = !alternatives && !input.filters?.articleId && selectedIds.length === 0;
+  const temporal = regimeGuided && isTemporalApplicabilityQuestion(contextualQuery);
+  const comparison = regimeGuided && isComparisonOfRegimes(contextualQuery);
+  const regimeIdsTask = regimeGuided ? getRegimeDocumentIds() : Promise.resolve(null);
+  const searchInRegime = async (regime: Regime, query: string, topK: number): Promise<LegalSource[]> => {
+    const documentIds = (await regimeIdsTask)?.[regime] ?? [];
+    if (documentIds.length === 0) return [];
+    try {
+      return (await searchLegalSources({ filters: { ...chatFilters, processType: "", documentIds }, query, topK })).sources;
+    } catch (error) {
+      tragarPeroRegistrar("busqueda-por-regimen")(error);
+      return [];
+    }
+  };
+  const regimeTask = regimeGuided
+    ? Promise.all([
+        comparison ? Promise.resolve([]) : searchInRegime(regimeIntent.regime === "30225" ? "30225" : "32069", retrievalQuery, 6),
+        comparison ? searchInRegime("30225", retrievalQuery, 5) : Promise.resolve([]),
+        comparison ? searchInRegime("32069", retrievalQuery, 5) : Promise.resolve([]),
+        temporal ? searchInRegime("32069", temporalRetrievalQueries()[0], 6) : Promise.resolve([]),
+        temporal
+          ? searchLegalSources({ filters: { ...chatFilters, processType: "" }, query: temporalRetrievalQueries()[1], topK: 6 }).then(result => result.sources).catch((error) => { tragarPeroRegistrar("fecha-de-vigencia")(error); return [] as LegalSource[]; })
+          : Promise.resolve([]),
+      ])
+    : Promise.resolve([[], [], [], [], []] as LegalSource[][]);
   const selectedRecoveryTask=recoverSelectedSources(selectedIds,id=>searchLegalSources({filters:{documentId:id},query:contextualQuery,topK:2},{allowedDocumentIds:[id],indexedLexical:true}));
   let exactArticle:LegalSource[]=[];let articleFailed=false;
   if(input.filters?.articleId)try{exactArticle=await exactArticleEvidence(input.filters.articleId,input.filters.documentId,input.filters.bodyId);}catch{articleFailed=true;}
@@ -1781,6 +1851,10 @@ async function prepareLegalAnswer(
         validityTarget.norms,
       )
     : [];
+  const [regimeSources, previousRegimeSources, currentRegimeSources, temporalRuleSources, temporalDateSources] = await regimeTask;
+  const temporalEvidence = temporal ? pickTemporalEvidence([...temporalRuleSources, ...temporalDateSources]) : [];
+  // Comparación: tres de cada ley (no más) para que la tabla tenga con qué rellenar ambas columnas.
+  const comparisonEvidence = comparison ? [...previousRegimeSources.slice(0, 3), ...currentRegimeSources.slice(0, 3)] : [];
   const alternativeSources = alternativeResults.flatMap(result => result.status === "fulfilled" ? result.value.sources : []).filter(source=>sourceSupportsProcess(source,requestedProcessType));
   const processRelevantBroadSources = (broadSearchResult?.sources ?? []).filter((source) =>
     sourceSupportsProcess(source, requestedProcessType),
@@ -1795,6 +1869,7 @@ async function prepareLegalAnswer(
     [
       ...alternativeSources,
       ...searchResult.sources,
+      ...regimeSources,
       ...processRelevantBroadSources,
       ...processRelevantAnchoredSources,
       ...processRelevantScopedSources,
@@ -1814,9 +1889,18 @@ async function prepareLegalAnswer(
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
   const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
   const seeds = !alternatives ? alternativeResults.flatMap(result=>result.status==="fulfilled"?result.value.sources.slice(0,1):[]).filter(source=>sourceSupportsProcess(source,requestedProcessType)) : [];
-  const selected = alternatives ? alternativePool.slice(0,12) : [...validityEvidence,...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
+  const selected = alternatives ? alternativePool.slice(0,12) : [...validityEvidence,...temporalEvidence,...comparisonEvidence,...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
-  const beforeCoherence = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, alternatives || questionPlan.subqueries.length ? 12 : 8);
+  // Nombrar una ley («¿puedo aplicar la Ley 30225?») trae los primeros fragmentos de ESA ley como
+  // «documento solicitado» y los ponía delante de todo: artículos sueltos (51, 58, 6…) que no
+  // responden. En preguntas de vigencia, aplicación en el tiempo o comparación, la respuesta está en
+  // lo recuperado a propósito; el documento nombrado va detrás.
+  const answerFirst = Boolean(validityTarget) || temporal || comparison;
+  const unusedOriginals = originals.filter((original) => !selected.some((source) => source.chunkId === original.chunkId));
+  const beforeCoherence = (answerFirst
+    ? (selected.length >= 3 ? selected : [...selected, ...unusedOriginals])
+    : [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))]
+  ).slice(0, alternatives || questionPlan.subqueries.length ? 12 : 8);
   const coherent = originals.length ? beforeCoherence : selectCoherentEvidence(beforeCoherence, input.question, input.caseContext);
   const sources = input.filters?.articleId ? exactArticle : selectedIds.length ? preserveSelectedSources(selectedRecovery.sources, coherent, selectedIds, input.filters?.expandCorpus===true) : coherent;
   const assessment = assessSources(sources, {
@@ -1933,6 +2017,8 @@ async function prepareLegalAnswer(
         content: caseEvidenceInstruction + "\n" +
       (assessment.exactDocument && assessment.exactDocument.status !== "found" ? "El original solicitado NO se recuperó o su catálogo no pudo comprobarse. Comienza indicándolo explícitamente. Distingue referencias indirectas de contenido del original; no atribuyas al original una regla leída en otro documento. " : "") +
       (validityTarget && validityEvidence.length ? validityInstruction(validityTarget.norms) : "") +
+      (temporal ? temporalInstruction(regimeIntent) : "") +
+      (comparison ? comparisonInstruction() : "") +
       "Distingue la clase de evidencia indicada en cada fuente: norma, criterio u orientación. No atribuyas carácter general u obligatorio a una resolución, pronunciamiento, informe o acuerdo sin evidencia explícita. Las bases y guías son modelos u orientación, no sustituyen una norma. La vigencia desconocida y el régimen no determinado deben reconocerse; no mezcles regímenes por el año del documento. " +
       "Prioridad cronológica: las fuentes llegan ordenadas dentro de cada rango normativo de la más reciente a la más antigua (por el año de su número o, en las leyes, por su numeración). Si dos fuentes del MISMO rango dicen cosas distintas, da preferencia a la más reciente y menciona la anterior solo como antecedente; la jerarquía normativa (ley, reglamento, directiva) prevalece sobre la fecha y una fecha posterior NO prueba por sí sola que una norma derogue a otra. " +
       "Eres un asistente juridico experto y claro en contrataciones publicas peruanas. Tu objetivo es dar respuestas UTILES, completas y bien explicadas, usando los documentos indexados (ley, reglamento, directivas y opiniones) como tu banco de conocimiento. EXPLICA los conceptos, da contexto, relaciona las fuentes entre si y orienta de forma practica y accionable, como lo haria un buen asesor legal — no te limites a copiar el texto. PERO toda afirmacion juridica sustantiva debe estar respaldada por las Fuentes recuperadas y citarse con [F#]. Reglas de veracidad (criticas en materia legal): no inventes datos especificos (numeros de articulo, montos, UIT, plazos, porcentajes, numeros/nombres de norma) que no aparezcan LITERALMENTE en una Fuente; si un dato puntual no consta, dilo ('no consta en las fuentes'). El régimen aplicable debe contrastarse con el caso y las fuentes: no atribuyas contenido a ninguna norma que no aparezca en una Fuente recuperada. Si los documentos recuperados NO contienen NADA relevante para la pregunta, dilo con claridad: 'No encontre informacion sobre esto en los documentos indexados'. Mas vale explicar bien lo que SI consta (y señalar lo que falta) que inventar; un dato inventado es una falla grave.",

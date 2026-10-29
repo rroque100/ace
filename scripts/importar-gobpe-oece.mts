@@ -225,8 +225,8 @@ const toEnrich = already.filter((item) => {
 });
 const regimeOf = (item: Item) => {
   const text = `${item.title} ${item.summary}`;
-  if (/32069|Ley General de Contrataciones P[uú]blicas/i.test(text)) return "Ley 32069";
-  if (/30225|Ley de Contrataciones del Estado/i.test(text)) return "Ley 30225";
+  if (/\b32069\b|Ley General de Contrataciones P[uú]blicas/i.test(text)) return "Ley 32069";
+  if (/\b30225\b|Ley de Contrataciones del Estado/i.test(text)) return "Ley 30225";
   return "otro / sin relación explícita";
 };
 const wanted = (item: Item) => only.length === 0 || only.some((token) => item.number.toLowerCase().includes(token));
