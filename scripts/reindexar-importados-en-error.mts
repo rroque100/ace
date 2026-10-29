@@ -15,6 +15,7 @@
 
 import { downloadStorageObject, supabaseRest, type DocumentRecord } from "@/lib/supabase-server";
 import { processPdfForSearch } from "@/lib/pdf-processing";
+import { assertEmbeddingCredit, creditStopMessage, isEmbeddingCreditExhausted } from "@/lib/embedding-credit";
 
 const args = process.argv.slice(2);
 const flag = (name: string) => (args.includes(name) ? args[args.indexOf(name) + 1] : undefined);
@@ -37,12 +38,15 @@ if (!apply || rows.length === 0) {
   process.exit(0);
 }
 
+// Reindexar sin crédito dejaría todos los documentos otra vez en `error` y gastaría la descarga de cada uno.
+await assertEmbeddingCredit();
 let ok = 0;
 let failed = 0;
 let next = 0;
+let sinCredito = false;
 await Promise.all(
   Array.from({ length: concurrency }, async () => {
-    while (next < rows.length) {
+    while (!sinCredito && next < rows.length) {
       const document = rows[next++];
       try {
         const blob = await downloadStorageObject(document.storage_bucket, document.storage_path);
@@ -53,9 +57,14 @@ await Promise.all(
       } catch (error) {
         failed += 1;
         console.error(`${document.title} · ERROR: ${error instanceof Error ? error.message.replace(/\s+/g, " ").slice(0, 160) : String(error)}`);
+        if (isEmbeddingCreditExhausted(error)) sinCredito = true;
       }
     }
   }),
 );
 console.log(`\nTerminado: ${ok} reindexados, ${failed} con error.`);
+if (sinCredito) {
+  console.error(creditStopMessage(Math.max(0, rows.length - next), "Tras recargar, repite el mismo comando: solo toma los que siguen en error."));
+  process.exit(2);
+}
 process.exit(failed > 0 ? 1 : 0);

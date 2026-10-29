@@ -22,6 +22,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { supabaseRest, uploadPdfToStorage, type DocumentRecord } from "@/lib/supabase-server";
 import { processPdfForSearch } from "@/lib/pdf-processing";
+import { assertEmbeddingCredit, creditStopMessage, isEmbeddingCreditExhausted } from "@/lib/embedding-credit";
 
 const args = process.argv.slice(2);
 const apply = args.includes("--aplicar");
@@ -111,10 +112,14 @@ if (!apply) {
   process.exit(0);
 }
 
+// Sin crédito de embeddings cada PDF quedaría como fila en `error` (ver lib/embedding-credit.ts).
+await assertEmbeddingCredit();
 const batch = `lex-opiniones-${new Date().toISOString().slice(0, 10)}`;
 let imported = 0;
 let failed = 0;
+let sinCredito = false;
 for (const [index, candidate] of selected.entries()) {
+  if (sinCredito) break;
   const label = `[${index + 1}/${selected.length}] ${candidate.number}`;
   try {
     const body = readFileSync(join(dir, candidate.file));
@@ -156,8 +161,13 @@ for (const [index, candidate] of selected.entries()) {
     console.log(`${label} · importada e indexada`);
   } catch (error) {
     failed += 1;
-    console.error(`${label} · ERROR: ${error instanceof Error ? error.message : String(error)}`);
+    console.error(`${label} · ERROR: ${error instanceof Error ? error.message.replace(/\s+/g, " ").slice(0, 200) : String(error)}`);
+    if (isEmbeddingCreditExhausted(error)) sinCredito = true;
   }
 }
 console.log(`\nTerminado: ${imported} importadas, ${failed} con error.`);
+if (sinCredito) {
+  console.error(creditStopMessage(Math.max(0, selected.length - imported - failed), `Tras recargar: reindexar-importados-en-error.mts --lote ${batch} --aplicar para las que quedaron en error, y repite este mismo comando para el resto (lo ya importado se omite).`));
+  process.exit(2);
+}
 process.exit(failed > 0 ? 1 : 0);

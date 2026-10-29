@@ -26,6 +26,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import pdfParse from "pdf-parse/lib/pdf-parse";
 import { downloadOfficialPdf, validateOfficialUrl } from "@/lib/official-import/download";
 import { processPdfForSearch } from "@/lib/pdf-processing";
+import { assertEmbeddingCredit, creditStopMessage, isEmbeddingCreditExhausted } from "@/lib/embedding-credit";
 import { supabaseRest, uploadPdfToStorage, type DocumentRecord } from "@/lib/supabase-server";
 
 const args = process.argv.slice(2);
@@ -312,13 +313,16 @@ if (!apply) {
   process.exit(0);
 }
 
-// 4. Aplicar.
+// 4. Aplicar. Antes de descargar nada se comprueba que hay crédito de embeddings: sin él cada PDF
+// quedaría como fila en `error` (ver lib/embedding-credit.ts).
+await assertEmbeddingCredit();
 const batch = `gobpe-oece-${new Date().toISOString().slice(0, 10)}`;
 let imported = 0;
 let failed = 0;
 let enriched = 0;
 let skippedByRegime = 0;
 let next = 0;
+let sinCredito = false;
 
 for (const item of toEnrich) {
   const row = haveKey.get(item.key)!;
@@ -386,7 +390,7 @@ async function importOne(item: Item, label: string) {
 
 await Promise.all(
   Array.from({ length: concurrency }, async () => {
-    while (next < selected.length) {
+    while (!sinCredito && next < selected.length) {
       const index = next++;
       const item = selected[index];
       const label = `[${index + 1}/${selected.length}] ${item.number}`;
@@ -395,11 +399,17 @@ await Promise.all(
         imported += 1;
       } catch (error) {
         failed += 1;
-        console.error(`${label} · ERROR: ${error instanceof Error ? error.message : String(error)}`);
+        console.error(`${label} · ERROR: ${error instanceof Error ? error.message.replace(/\s+/g, " ").slice(0, 200) : String(error)}`);
+        if (isEmbeddingCreditExhausted(error)) sinCredito = true;
       }
       await sleep(250);
     }
   }),
 );
 console.log(`\nTerminado: ${imported} importadas, ${failed} con error${regimeFilter ? `, ${skippedByRegime} omitidas por régimen` : ""}.`);
+if (sinCredito) {
+  // Las filas que ya se crearon quedaron en `error`; el resto no se tocó y se retoma repitiendo el comando.
+  console.error(creditStopMessage(Math.max(0, selected.length - next), `Tras recargar: reindexar-importados-en-error.mts --lote ${batch} --aplicar para las que quedaron en error, y repite este mismo comando para el resto (lo ya importado se omite).`));
+  process.exit(2);
+}
 process.exit(failed > 0 ? 1 : 0);
