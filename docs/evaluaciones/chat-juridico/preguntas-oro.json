@@ -1,0 +1,126 @@
+{
+  "_lee": "Banco de regresión del chat jurídico. Cada caso fija lo que la respuesta DEBE cumplir (no un texto exacto: el modelo varía). Se ejecuta con `npx tsx --env-file=.env.local scripts/evaluar-chat-oro.mts`. Las expectativas se basan en conducta comprobable (qué ley rige por fecha, qué fuentes entran, cuándo se pide contexto), no en datos jurídicos que el corpus no confirme. 'contiene' = todos; 'contieneAlguno' = al menos uno; comparaciones sin tildes ni mayúsculas.",
+  "casos": [
+    {
+      "id": "fecha-junio-2026",
+      "grupo": "fecha-del-caso",
+      "pregunta": "Mi procedimiento se convocó en junio de 2026 y quiero saber si puedo aplicar la Ley 30225.",
+      "contiene": ["Aplicación a tu caso", "Ley 32069"],
+      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+    },
+    {
+      "id": "fecha-2024",
+      "grupo": "fecha-del-caso",
+      "pregunta": "Mi procedimiento se convocó en 2024, ¿qué ley le corresponde?",
+      "contiene": ["Aplicación a tu caso", "Ley 30225"],
+      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+    },
+    {
+      "id": "fecha-3-marzo-2025",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó el 3 de marzo de 2025. ¿Qué ley rige?",
+      "contiene": ["Ley 30225"],
+      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+    },
+    {
+      "id": "fecha-15-mayo-2025",
+      "grupo": "fecha-del-caso",
+      "pregunta": "El procedimiento se convocó el 15 de mayo de 2025. ¿Qué ley rige?",
+      "contiene": ["Ley 32069"],
+      "fuentes": [{ "documentType": "ley", "article": "DCT-4" }]
+    },
+    {
+      "id": "fecha-en-datos-del-caso",
+      "grupo": "fecha-del-caso",
+      "pregunta": "¿Puedo aplicar la Ley 30225?",
+      "contextoCaso": { "regime": "", "dates": "Convocado en junio de 2026", "facts": "" },
+      "contiene": ["Aplicación a tu caso", "Ley 32069"]
+    },
+    {
+      "id": "comparar-garantias",
+      "grupo": "comparar-regimenes",
+      "pregunta": "¿Qué cambió entre la Ley 30225 y la Ley 32069 respecto de las garantías?",
+      "contiene": ["30225", "32069", "|"],
+      "fuentes": [{ "documentType": "ley", "titleIncludes": "30225" }, { "documentType": "ley", "titleIncludes": "32069" }]
+    },
+    {
+      "id": "comparar-penalidades",
+      "grupo": "comparar-regimenes",
+      "pregunta": "Compara la Ley 30225 y la Ley 32069 en penalidades por mora.",
+      "contiene": ["30225", "32069", "|"]
+    },
+    {
+      "id": "vigencia-30225",
+      "grupo": "vigencia",
+      "pregunta": "¿La Ley 30225 sigue vigente?",
+      "contieneAlguno": ["derog", "ya no está vigente", "deja de estar vigente", "dejó de estar vigente"],
+      "fuentes": [{ "documentType": "ley", "article": "DCD" }]
+    },
+    {
+      "id": "garantia-fiel-cumplimiento",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué garantía se exige para el fiel cumplimiento del contrato?",
+      "contiene": ["garant"],
+      "fuentes": [{ "documentType": "reglamento", "titleIncludes": "32069" }]
+    },
+    {
+      "id": "atraso-en-la-entrega",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué pasa si el contratista se atrasa en la entrega?",
+      "contiene": ["penalidad"],
+      "fuentes": [{ "documentType": "reglamento", "article": "120" }]
+    },
+    {
+      "id": "ley-y-reglamento-vigentes",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Qué ley regula las contrataciones públicas y cuál es su reglamento vigente?",
+      "contiene": ["32069"]
+    },
+    {
+      "id": "vaga-mi-contrato",
+      "grupo": "preguntas-vagas",
+      "pregunta": "no sé qué hacer con mi contrato",
+      "contiene": ["Necesito un poco más de contexto"],
+      "sinFuentes": true
+    },
+    {
+      "id": "vaga-una-compra",
+      "grupo": "preguntas-vagas",
+      "pregunta": "necesito ayuda con una compra",
+      "contiene": ["Necesito un poco más de contexto"],
+      "sinFuentes": true
+    },
+    {
+      "id": "vaga-que-hago",
+      "grupo": "preguntas-vagas",
+      "pregunta": "¿Qué hago?",
+      "contiene": ["Necesito un poco más de contexto"],
+      "sinFuentes": true
+    },
+    {
+      "id": "no-vaga-con-tema",
+      "grupo": "preguntas-vagas",
+      "pregunta": "necesito ayuda con la penalidad por mora",
+      "contiene": ["penalidad"],
+      "noContiene": ["Necesito un poco más de contexto"]
+    },
+    {
+      "id": "no-vaga-definicion",
+      "grupo": "preguntas-vagas",
+      "pregunta": "¿Qué es un contrato?",
+      "noContiene": ["Necesito un poco más de contexto"]
+    },
+    {
+      "id": "trampa-monto-uit",
+      "grupo": "anti-alucinacion",
+      "pregunta": "¿Cuál es el monto máximo exacto en UIT para usar comparación de precios?",
+      "noContiene": ["8 uit"]
+    },
+    {
+      "id": "trampa-articulo-inexistente",
+      "grupo": "anti-alucinacion",
+      "pregunta": "¿Qué dice el artículo 9999 de la Ley 32069?",
+      "contieneAlguno": ["no encontr", "no consta", "no se encontr", "no existe", "no hay", "sin fuentes", "no se recuper"]
+    }
+  ]
+}

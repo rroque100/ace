@@ -2,6 +2,7 @@ import { answerLegalQuestion } from "@/lib/legal-chat";
 import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
 import { procedureEntries, procedureSourceRequirements } from "@/lib/procedure-catalog";
 import { supabaseUserRest } from "@/lib/supabase-server";
+import { detectGroundingViolations } from "@/lib/eval-grounding";
 
 // Evaluacion continua del RAG (Fase 4): corre un set de preguntas curadas contra el
 // pipeline real de respuesta del chat y mide cobertura de keywords, suficiencia de
@@ -17,50 +18,6 @@ export type EvalQuestion = {
   process_type: string | null;
   created_at: string;
 };
-
-// Normas del regimen DEROGADO: si aparecen en una respuesta (y no estan en el
-// corpus 32069), es una alucinacion grave. Se chequea en TODA respuesta evaluada.
-const derogatedNormPatterns = [
-  "30225",
-  "344-2018",
-  "320-2019",
-  "350-2015",
-  "ley de contrataciones del estado",
-];
-
-// Detecta fallas de grounding (criticas en materia legal): cita de normas
-// derogadas, terminos vetados por la pregunta, y marcadores [F#] fuera del rango
-// de fuentes recuperadas (cita inventada). Devuelve la lista de violaciones.
-function detectGroundingViolations(
-  answer: string,
-  sourcesCount: number,
-  mustNotContain: string[],
-): string[] {
-  const haystack = normalize(answer);
-  const violations: string[] = [];
-
-  for (const pattern of derogatedNormPatterns) {
-    if (haystack.includes(normalize(pattern))) {
-      violations.push(`Cita norma derogada/ajena al corpus: "${pattern}".`);
-    }
-  }
-
-  for (const term of mustNotContain) {
-    if (term.trim() && haystack.includes(normalize(term))) {
-      violations.push(`Contiene termino vetado: "${term}".`);
-    }
-  }
-
-  const citationNumbers = [...answer.matchAll(/\[F(\d+)\]/g)].map((match) => Number(match[1]));
-  const outOfRange = Array.from(
-    new Set(citationNumbers.filter((number) => number < 1 || number > sourcesCount)),
-  );
-  if (outOfRange.length > 0) {
-    violations.push(`Citas [F#] fuera de rango (inexistentes): ${outOfRange.map((n) => `F${n}`).join(", ")}.`);
-  }
-
-  return violations;
-}
 
 export type EvalResult = {
   id: string;
@@ -425,6 +382,8 @@ export async function runEvaluation(accessToken: string) {
         result.answer,
         result.sources.length,
         pregunta.expected_must_not_contain ?? [],
+        pregunta.question,
+        result.sources.map((source) => source.excerpt),
       );
       // Fidelidad de cita: datos especificos citados deben constar en el fragmento.
       const faithfulness = checkCitationFaithfulness(result.answer, result.sources);

@@ -37,6 +37,7 @@ import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } fr
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
+import { missingArticleNotice, missingRequestedArticles } from "./chat-article-check";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -906,7 +907,11 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
   answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
   // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
-  if (prep.status === "generate") answer = (temporalApplicationBlock(prep.followupQuestion ?? input.question, prep.sources) ?? "") + answer;
+  // La fecha de convocatoria puede venir de «Datos del caso» y no de la pregunta: se mira con ambas.
+  if (prep.status === "generate") answer = (temporalApplicationBlock(caseSearchQuery(prep.followupQuestion ?? input.question, input.caseContext), prep.sources) ?? "") + answer;
+  // Si se pidió un artículo por su número y ninguna fuente lo es, se dice antes que nada (ver chat-article-check.ts).
+  // Con un artículo elegido en los filtros no aplica: ahí la fuente es ese artículo por construcción.
+  if (prep.status === "generate" && !input.filters?.articleId && !input.filters?.article) answer = (missingArticleNotice(missingRequestedArticles(input.question, prep.sources)) ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
