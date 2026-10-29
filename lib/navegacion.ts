@@ -54,6 +54,10 @@ export const NAVEGACION = [
     label: "Centro Jurídico",
   },
   {
+    items: [{ href: "/simulador", icon: "BookOpenCheck", id: "simulador", label: "Simulador de examen", adminOnly: false }],
+    label: "Formación",
+  },
+  {
     items: [{ href: "/archivo", icon: "Archive", id: "archivo", label: "Archivo documental", adminOnly: false }],
     label: "Documentación",
   },
