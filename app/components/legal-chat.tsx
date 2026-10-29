@@ -145,6 +145,8 @@ type ConversationMessage = {
   confidence?: Confidence;
   citationWarnings?: string[];
   mode?: string;
+  /** Modelo que respondió; `needs-clarification` marca un pedido de aclaración (sin fuentes ni revisión). */
+  model?: string;
   note?: string;
   persistedId?: string | null;
   questionText?: string;
@@ -1370,7 +1372,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                     </div>
                   )}
 
-                  {!message.error && !message.streaming ? (
+                  {/* Un pedido de aclaración no tiene fuentes ni conclusión que valorar: la tarjeta de revisión no aplica. */}
+                  {!message.error && !message.streaming && message.model !== "needs-clarification" ? (
                     <AnswerUseCard
                       assessment={message.assessment}
                       confidence={message.confidence}

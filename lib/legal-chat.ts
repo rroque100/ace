@@ -35,7 +35,8 @@ import { z } from "zod";
 import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
-import { documentReferences, matchesDocumentReference, followupSearchQuestion } from "./legal-document-reference";
+import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
+import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -881,6 +882,16 @@ function applySystemConfidence(answer: string, _confidence: SourceAssessment["co
 
 /** Same publication gate for normal responses and streamed responses. */
 async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input: z.infer<typeof chatRequestSchema>) {
+  // Pedido de aclaración (ver chat-vague.ts): es una respuesta fija sin afirmaciones jurídicas. La puerta de
+  // publicación la reemplazaría por «No se recuperaron fuentes suficientes» y se perdería lo que se le pide al usuario.
+  if (prep.status === "final" && prep.model === "needs-clarification") {
+    const review = { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const, failureReason: "no_sources" as const };
+    prep.assessment.evidenceReview = review;
+    prep.assessment.confidence = "baja";
+    prep.assessment.reason = "Falta contexto para ubicar la norma aplicable.";
+    prep.assessment.evidenceWarnings = [];
+    return { answer, review };
+  }
   answer = applySystemConfidence(answer, "baja");
   const alternatives = parseAlternatives(input.question);
   if(alternatives && prep.status === "generate") answer=renderAlternativeDraft(answer,alternatives,prep.sources);
@@ -895,7 +906,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
   answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
   // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
-  if (prep.status === "generate") answer = (temporalApplicationBlock(input.question, prep.sources) ?? "") + answer;
+  if (prep.status === "generate") answer = (temporalApplicationBlock(prep.followupQuestion ?? input.question, prep.sources) ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
@@ -1674,6 +1685,8 @@ type PreparedAnswer =
       sources: LegalSource[];
       chatFilters: ChatFilters;
       caseDocuments: CaseAttachment[];
+      /** Solo si el seguimiento cambia la fecha de convocatoria: la pregunta ya resuelta, para el bloque «Aplicación a tu caso». */
+      followupQuestion?: string;
     };
 
 export type ChatStreamEvent =
@@ -1711,7 +1724,9 @@ async function prepareLegalAnswer(
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
   const [history, caseDocuments] = await Promise.all([getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds)]);
-  const contextualQuery = caseSearchQuery(followupSearchQuestion(input.question, history), input.caseContext);
+  // Un seguimiento («¿y si fue en 2024?») se busca con el tema de la conversación; ver resolveFollowUp.
+  const followup = resolveFollowUp(input.question, history);
+  const contextualQuery = caseSearchQuery(followup.query, input.caseContext);
   const alternatives = parseAlternatives(input.question);
   const questionPlan = planQuestion(input.question,input.caseContext);
   const retrievalQuery = alternatives ? caseSearchQuery(alternatives.stem, input.caseContext) : contextualQuery;
@@ -1724,6 +1739,13 @@ async function prepareLegalAnswer(
   };
   const requestedProcessType = chatFilters.processType || null;
   const selectedIds=[...new Set(input.filters?.selectedDocumentIds ?? ((input.filters?.documentIds?.length??0)<=8?input.filters?.documentIds??[]:[]))];
+  // Pedir ayuda sin decir sobre qué («no sé qué hacer con mi contrato») no tiene respuesta citable: se pide lo
+  // mínimo en vez de devolver un ensayo genérico. Solo en una conversación nueva y sin nada que acote (datos
+  // del caso, documentos, un documento o artículo elegidos): con historial, el modelo ya tiene de qué partir.
+  const hasCaseContent = Object.values(input.caseContext ?? {}).some((value) => typeof value === "string" && value.trim());
+  if (!followup.followUp && history.length === 0 && !caseDocuments.length && !hasCaseContent && !input.filters?.documentId && !input.filters?.articleId && selectedIds.length === 0 && isVagueQuestion(input.question)) {
+    return { status: "final", answer: vagueQuestionAnswer(), model: "needs-clarification", assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
+  }
   const focusedQueries = alternatives ? alternativeQueries(alternatives) : questionPlan.subqueries;
   const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
   // Pregunta de vigencia de una norma concreta: la respuesta está en las
@@ -2093,7 +2115,7 @@ No escribas el nivel de confianza; el sistema lo agregara despues con una evalua
     ];
     generationParams.max_output_tokens = 1800;
   }
-  return { status: "generate", generationParams, assessment, sources, chatFilters, caseDocuments };
+  return { status: "generate", generationParams, assessment, sources, chatFilters, caseDocuments, followupQuestion: followup.dateChanged ? followup.query : undefined };
 }
 
 export async function answerLegalQuestion(
