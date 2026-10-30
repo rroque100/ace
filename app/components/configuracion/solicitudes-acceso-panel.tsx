@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertTriangle, Check, CheckCircle2, Copy, Inbox, Link2, Loader, Mail, X } from "lucide-react";
-import { btnPrimary, btnSecondary, btnSecondarySm, fieldLabel, inputBase, inputSelect, statusBadge } from "./ui";
+import { AlertTriangle, Check, Inbox, Link2, Loader, X } from "lucide-react";
+import { btnPrimary, btnSecondary, btnSecondarySm, fieldLabel, inputBase, statusBadge } from "./ui";
+import { CuentaCreadaCard } from "./cuenta-creada-card";
 import { useToastHelpers } from "@/lib/toast";
 import { LISTA_MODULOS_EXTERNOS, MODULOS_EXTERNOS, type ModuloExterno } from "@/lib/modulos-acceso";
 
@@ -23,6 +24,10 @@ const FILTROS = [["pendiente", "Pendientes"], ["aprobada", "Aprobadas"], ["recha
 const fechaHora = (iso: string) => new Date(iso).toLocaleString("es-PE", { dateStyle: "short", timeStyle: "short" });
 const etiqueta = (modulo: string) => (modulo in MODULOS_EXTERNOS ? MODULOS_EXTERNOS[modulo as ModuloExterno].label : modulo);
 const hoyISO = () => new Date().toISOString().slice(0, 10);
+// Etiqueta de dato (DNI, Correo…): pequeña y en mayúsculas para que el valor, debajo, sea lo que se lea primero.
+const DT = "mb-0.5 text-xs font-semibold uppercase tracking-wide text-muted";
+// `inputSelect` lleva `w-full`: en una fila de controles se estiraba a todo el ancho y el botón de al lado caía debajo.
+const SELECT_COMPACTO = "min-h-[34px] rounded-lg border border-line bg-white px-2.5 text-sm font-semibold text-ink focus:border-brand focus:outline-none focus:shadow-focus";
 
 export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () => void }) {
   const { success, error: toastError } = useToastHelpers();
@@ -98,19 +103,19 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
 
   return (
     <section aria-labelledby="solicitudes-titulo" className="rounded-lg border border-line bg-panel p-4">
-      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-        <h3 id="solicitudes-titulo" className="flex items-center gap-2 text-base font-bold">
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <h3 id="solicitudes-titulo" className="m-0 flex items-center gap-2 text-base font-bold">
           <Inbox size={18} aria-hidden /> Solicitudes de acceso
           {bandeja && bandeja.pendientes > 0 ? <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white" aria-label={`${bandeja.pendientes} pendientes`}>{bandeja.pendientes}</span> : null}
         </h3>
         <div className="flex flex-wrap items-center gap-2">
-          <select className={`${inputSelect} w-auto`} value={filtro} onChange={(e) => setFiltro(e.target.value as typeof filtro)} aria-label="Filtrar solicitudes">
+          <select id="solicitudes-filtro" className={SELECT_COMPACTO} value={filtro} onChange={(e) => setFiltro(e.target.value as typeof filtro)} aria-label="Filtrar solicitudes por estado">
             {FILTROS.map(([valor, texto]) => <option key={valor} value={valor}>{texto}</option>)}
           </select>
           <button type="button" className={btnSecondarySm} onClick={() => copiar(enlaceSolicitud(), "Enlace copiado")}><Link2 size={14} aria-hidden /> Copiar enlace de solicitud</button>
         </div>
       </div>
-      <p className="mb-3 text-sm text-muted">
+      <p className="mb-4 text-sm text-muted">
         Quien aún no tiene cuenta la pide en <code className="font-mono">/acceso</code>. Nada se crea hasta que apruebes: tú decides los módulos, la vigencia y la cuota.
       </p>
 
@@ -123,16 +128,16 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
       {errorCarga ? <p role="alert" className="text-sm text-danger">{errorCarga}</p> : null}
 
       {resultado ? (
-        <div role="status" className="mb-4 rounded-md border border-brand/40 bg-brand-soft p-3.5">
-          <p className="mb-1 flex items-center gap-2 font-bold"><CheckCircle2 size={18} className="text-brand" aria-hidden /> Cuenta creada para {resultado.nombre}</p>
-          <p className="mb-2 text-sm text-muted">La contraseña temporal se muestra <strong>una sola vez</strong>. Entrega el mensaje de abajo: al entrar, la persona deberá elegir su propia contraseña.</p>
-          <textarea readOnly className={`${inputBase} min-h-[190px] font-mono text-sm`} value={resultado.mensaje} onFocus={(e) => e.currentTarget.select()} aria-label="Mensaje para la persona" />
-          <div className="mt-2.5 flex flex-wrap gap-2">
-            <button type="button" className={btnPrimary} onClick={() => copiar(resultado.mensaje, "Mensaje copiado")}><Copy size={16} aria-hidden /> Copiar mensaje</button>
-            <a className={btnSecondary} href={`mailto:${resultado.correo}?subject=${encodeURIComponent("Tu acceso a ACE IA Jurídica")}&body=${encodeURIComponent(resultado.mensaje)}`}><Mail size={16} aria-hidden /> Escribir correo a {resultado.correo}</a>
-            <button type="button" className={btnSecondary} onClick={() => setResultado(null)}>Ya lo entregué</button>
-          </div>
-          {resultado.celular ? <p className="mb-0 mt-2 text-sm text-muted">Celular de contacto: {resultado.celular}</p> : null}
+        <div className="mb-4">
+          <CuentaCreadaCard
+            nombre={resultado.nombre}
+            usuario={resultado.usuario}
+            passwordTemporal={resultado.passwordTemporal}
+            mensaje={resultado.mensaje}
+            correo={resultado.correo}
+            celular={resultado.celular}
+            onCerrar={() => setResultado(null)}
+          />
         </div>
       ) : null}
 
@@ -143,25 +148,32 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
 
       <ul className="m-0 flex list-none flex-col gap-3 p-0">
         {bandeja?.solicitudes.map((solicitud) => (
-          <li key={solicitud.id} className="rounded-md border border-line bg-white p-3.5">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <strong className="text-md">{solicitud.nombre}</strong>
-              <code className="rounded bg-surface px-1.5 py-0.5 font-mono text-xs text-muted">{solicitud.codigo}</code>
-              {solicitud.estado === "pendiente" ? <span className="inline-flex rounded-full bg-warning-soft px-2 py-0.5 text-xs font-medium text-warning">Pendiente</span> : <span className={statusBadge(solicitud.estado === "aprobada")}>{solicitud.estado === "aprobada" ? "Aprobada" : "Rechazada"}</span>}
-              <span className="text-sm text-muted">{fechaHora(solicitud.creadoEn)}</span>
+          <li key={solicitud.id} className={`rounded-lg border border-l-4 border-line bg-white p-4 shadow-card ${solicitud.estado === "pendiente" ? "border-l-warning" : solicitud.estado === "aprobada" ? "border-l-success" : "border-l-muted"}`}>
+            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+              <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1">
+                <strong className="text-md">{solicitud.nombre}</strong>
+                {solicitud.estado === "pendiente" ? <span className="inline-flex rounded-full bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning">Pendiente</span> : <span className={statusBadge(solicitud.estado === "aprobada")}>{solicitud.estado === "aprobada" ? "Aprobada" : "Rechazada"}</span>}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted">
+                <code className="rounded bg-surface px-1.5 py-0.5 font-mono text-xs">{solicitud.codigo}</code>
+                <time dateTime={solicitud.creadoEn}>{fechaHora(solicitud.creadoEn)}</time>
+              </div>
             </div>
-            <dl className="m-0 mt-2 grid gap-x-6 gap-y-1 text-sm sm:grid-cols-2">
-              <div className="flex gap-2"><dt className="text-muted">DNI</dt><dd className="m-0 font-semibold">{solicitud.dni}</dd></div>
-              <div className="flex gap-2"><dt className="text-muted">Correo</dt><dd className="m-0 break-all font-semibold">{solicitud.correo}</dd></div>
-              {solicitud.celular ? <div className="flex gap-2"><dt className="text-muted">Celular</dt><dd className="m-0 font-semibold">{solicitud.celular}</dd></div> : null}
-              {solicitud.institucion ? <div className="flex gap-2"><dt className="text-muted">Institución</dt><dd className="m-0 font-semibold">{solicitud.institucion}</dd></div> : null}
-              {solicitud.ip ? <div className="flex gap-2"><dt className="text-muted">IP</dt><dd className="m-0">{solicitud.ip}</dd></div> : null}
+            <dl className="m-0 mt-3 grid gap-x-6 gap-y-2.5 text-sm sm:grid-cols-2 lg:grid-cols-4">
+              <div><dt className={DT}>DNI</dt><dd className="m-0 font-semibold">{solicitud.dni}</dd></div>
+              <div className="min-w-0"><dt className={DT}>Correo</dt><dd className="m-0 break-all font-semibold">{solicitud.correo}</dd></div>
+              <div><dt className={DT}>Celular</dt><dd className="m-0 font-semibold">{solicitud.celular ?? "—"}</dd></div>
+              <div><dt className={DT}>Institución</dt><dd className="m-0 font-semibold">{solicitud.institucion ?? "—"}</dd></div>
             </dl>
-            <div className="mt-2 flex flex-wrap items-center gap-1.5 text-sm">
-              <span className="text-muted">Pide:</span>
+            <div className="mt-3 flex flex-wrap items-center gap-1.5 text-sm">
+              <span className={DT}>Pide</span>
               {solicitud.modulos.map((modulo) => <span key={modulo} className={statusBadge(true)}>{etiqueta(modulo)}</span>)}
             </div>
-            <blockquote className="m-0 mt-2 border-l-2 border-line pl-3 text-sm leading-[1.5] text-ink">{solicitud.motivo}</blockquote>
+            <div className="mt-3 rounded-md bg-surface px-3 py-2.5 text-sm leading-[1.5] text-ink">
+              <span className={`${DT} mb-0.5 block`}>Motivo</span>
+              {solicitud.motivo}
+            </div>
+            {solicitud.ip ? <p className="mb-0 mt-2! text-xs text-muted">Enviada desde la IP {solicitud.ip}</p> : null}
             {solicitud.estado === "rechazada" && solicitud.motivoRechazo ? <p className="mb-0 mt-2 text-sm text-muted">Motivo del rechazo: {solicitud.motivoRechazo}</p> : null}
 
             {solicitud.estado === "pendiente" && solicitud.cuentaExistente ? (
