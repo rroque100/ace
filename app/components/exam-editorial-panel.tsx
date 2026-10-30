@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import { ExamEditorialQueue } from "./exam-learning";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import {
   type ExamPreparation,
@@ -85,6 +86,9 @@ export function ExamEditorialPanel({
         clasificación propuesta. Las preguntas de marco general sin
         subcompetencia no cuentan para este perfil.
       </p>
+      {data && (
+        <ExamEditorialQueue coverage={data.coverage} onQuestion={onQuestion} />
+      )}
       {error && (
         <p
           role="alert"

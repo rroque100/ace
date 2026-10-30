@@ -19,6 +19,7 @@ export type ExamPreparation = {
     id: string;
     edition: string;
     slot: number;
+    created_at?: string;
     eligible: number;
   }>;
   reports: Array<{

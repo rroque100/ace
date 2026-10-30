@@ -5,7 +5,7 @@ import { examRpc, examError } from "@/lib/exam-server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export async function GET() {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
     return NextResponse.json(
@@ -15,6 +15,9 @@ export async function GET() {
           p_admin: a.user.isAdmin,
         })),
         isAdmin: a.user.isAdmin,
+        available: await examRpc("ace_exam_availability", {
+          p_admin: a.user.isAdmin,
+        }),
       },
       { headers: { "Cache-Control": "no-store" } },
     );
@@ -24,7 +27,7 @@ export async function GET() {
   }
 }
 export async function POST(request: Request) {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
     const p = examStartSchema.parse(await request.json());
@@ -33,17 +36,29 @@ export async function POST(request: Request) {
         { error: "Solo administración puede probar borradores." },
         { status: 403 },
       );
-    const id = await examRpc("ace_exam_start_prepared", {
-      p_profile: p.profile,
-      p_balotario: p.balotarioId ?? null,
-      p_actor: a.user.id,
-      p_mode: p.mode,
-      p_count: p.count,
-      p_minutes: p.minutes,
-      p_regime: p.regime,
-      p_topic: p.topic,
-      p_preview: p.preview,
-    });
+    const id =
+      p.profile === "custom" && p.competency
+        ? await examRpc("ace_exam_start_competency", {
+            p_actor: a.user.id,
+            p_code: p.competency,
+            p_mode: p.mode,
+            p_count: p.count,
+            p_minutes: p.minutes,
+            p_regime: p.regime,
+            p_topic: p.topic,
+            p_preview: p.preview,
+          })
+        : await examRpc("ace_exam_start_prepared", {
+            p_profile: p.profile,
+            p_balotario: p.balotarioId ?? null,
+            p_actor: a.user.id,
+            p_mode: p.mode,
+            p_count: p.count,
+            p_minutes: p.minutes,
+            p_regime: p.regime,
+            p_topic: p.topic,
+            p_preview: p.preview,
+          });
     return NextResponse.json({ id });
   } catch (e) {
     const x = examError(e);

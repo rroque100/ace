@@ -1,6 +1,17 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type SetAttempt,
+  ExamLearningDashboard,
+  ExamStudyReport,
+  ExamTutor,
+} from "./exam-learning";
+import {
+  resumeQuestionIndex,
+  recoverPendingAnswer,
+} from "@/lib/exam-learning-policy";
+import { COMPETENCIES } from "@/lib/exam-curriculum";
 import { ExamPreparationPanel } from "./exam-preparation";
 import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
@@ -11,6 +22,7 @@ type Dashboard = {
     topic: string;
     published: number;
     drafts: number;
+    competency?: string;
   }>;
   active: { id: string; mode: string; preview: boolean; count: number } | null;
   history: Array<{
@@ -32,7 +44,15 @@ async function read<T>(url: string, init?: RequestInit): Promise<T> {
   if (!r.ok) throw Error(x.error ?? "No se pudo completar la operación.");
   return x;
 }
-export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
+export function ExamWorkspace({
+  isAdmin,
+  storageScope,
+  centerEnabled,
+}: {
+  isAdmin: boolean;
+  storageScope: string;
+  centerEnabled: boolean;
+}) {
   const [dash, setDash] = useState<Dashboard | null>(null),
     [exam, setExam] = useState<PublicExam | null>(null),
     [error, setError] = useState(""),
@@ -41,6 +61,10 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
     [mode, setMode] = useState<"practice" | "exam">("practice"),
     [regime, setRegime] = useState("32069"),
     [topic, setTopic] = useState(""),
+    [competency, setCompetency] = useState(""),
+    [setAttempts, setSetAttempts] = useState<SetAttempt[]>([]),
+    [positionNotice, setPositionNotice] = useState(""),
+    [online, setOnline] = useState(true),
     [count, setCount] = useState(10),
     [minutes, setMinutes] = useState(120),
     [preview, setPreview] = useState(false),
@@ -62,6 +86,29 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
     setDash(x);
     return x;
   }, []);
+  const restoreLocal = useCallback(
+    (exam: PublicExam) => {
+      const key = "ace-exam-pending:" + storageScope + ":" + exam.attempt.id;
+      try {
+        const stored = sessionStorage.getItem(key);
+        if (stored && exam.attempt.state === "active") {
+          const p = recoverPendingAnswer(stored, exam);
+          if (p) {
+            setPending(p);
+            setError(
+              "Recuperamos una respuesta pendiente de esta pestaña. Confirma si deseas reintentar su guardado.",
+            );
+            return p.questionId;
+          }
+        } else if (exam.attempt.state !== "active")
+          sessionStorage.removeItem(key);
+      } catch {
+        /* Almacenamiento opcional: el servidor conserva las respuestas confirmadas. */
+      }
+    },
+    [storageScope],
+  );
+
   const accept = useCallback((x: PublicExam) => {
     setExam(x);
     setClockOffset(Date.parse(x.serverNow) - Date.now());
@@ -74,10 +121,17 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
       try {
         const x = await read<PublicExam>(`/api/exams/${id}`);
         accept(x);
-        setIndex(0);
+        const localQuestionId = restoreLocal(x);
+        setIndex(
+          resumeQuestionIndex(
+            x.attempt.questions,
+            "",
+            localQuestionId ?? x.attempt.last_question_id,
+          ),
+        );
         const u = new URL(location.href);
         u.searchParams.set("attempt", id);
-        u.hash = "";
+        u.hash = `q=${resumeQuestionIndex(x.attempt.questions, "", localQuestionId ?? x.attempt.last_question_id) + 1}`;
         history.replaceState(null, "", u);
       } catch (e) {
         setError((e as Error).message);
@@ -85,7 +139,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         setBusy(false);
       }
     },
-    [accept],
+    [accept, restoreLocal],
   );
   useEffect(() => {
     const controller = new AbortController();
@@ -100,11 +154,13 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         setDash(d);
         if (x) {
           accept(x);
-          const n = Number(location.hash.replace("#q=", ""));
+          const localQuestionId = restoreLocal(x);
           setIndex(
-            Number.isInteger(n) && n > 0
-              ? Math.min(n - 1, x.attempt.questions.length - 1)
-              : 0,
+            resumeQuestionIndex(
+              x.attempt.questions,
+              localQuestionId ? "" : location.hash,
+              localQuestionId ?? x.attempt.last_question_id,
+            ),
           );
         }
       })
@@ -112,12 +168,60 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         if (!controller.signal.aborted) setError(e.message);
       });
     return () => controller.abort();
-  }, [accept]);
+  }, [accept, restoreLocal]);
   useEffect(() => {
     if (exam?.attempt.state !== "active" || !exam.attempt.deadline_at) return;
     const t = setInterval(() => setTick(Date.now()), 1000);
     return () => clearInterval(t);
   }, [exam?.attempt.state, exam?.attempt.deadline_at]);
+  useEffect(() => {
+    const changed = () => setOnline(navigator.onLine);
+    changed();
+    window.addEventListener("online", changed);
+    window.addEventListener("offline", changed);
+    return () => {
+      window.removeEventListener("online", changed);
+      window.removeEventListener("offline", changed);
+    };
+  }, []);
+  const checkpointQuestionId = exam?.attempt.questions[index]?.id;
+  useEffect(() => {
+    const id = exam?.attempt.id;
+    if (!id || !checkpointQuestionId || exam?.attempt.state !== "active")
+      return;
+    const controller = new AbortController();
+    void fetch("/api/exams/learning", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "checkpoint",
+        attemptId: id,
+        questionId: checkpointQuestionId,
+      }),
+      signal: controller.signal,
+    })
+      .then((r) => {
+        if (!r.ok) throw Error();
+        setPositionNotice("");
+      })
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setPositionNotice(
+            "No se pudo guardar tu posición en el servidor. El enlace de esta pestaña conserva la pregunta.",
+          );
+      });
+    return () => controller.abort();
+  }, [exam?.attempt.id, exam?.attempt.state, checkpointQuestionId]);
+  useEffect(() => {
+    const handler = (event: BeforeUnloadEvent) => {
+      if (pending) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [pending]);
   const seconds = remainingSeconds(
     exam?.attempt.deadline_at ?? null,
     tick + clockOffset,
@@ -139,7 +243,12 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
   }, [confirmation]);
   const available =
     dash?.available
-      .filter((x) => x.regime === regime && (!topic || x.topic === topic))
+      .filter(
+        (x) =>
+          x.regime === regime &&
+          (!competency || x.competency === competency) &&
+          (!topic || x.topic === topic),
+      )
       .reduce(
         (n, x) => n + Number(x.published) + (preview ? Number(x.drafts) : 0),
         0,
@@ -176,7 +285,16 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   topic: "",
                   preview: false,
                 }
-              : { profile, mode, count, minutes, regime, topic, preview },
+              : {
+                  profile,
+                  mode,
+                  count,
+                  minutes,
+                  regime,
+                  topic,
+                  preview,
+                  competency,
+                },
         ),
       });
       await open(x.id);
@@ -196,6 +314,12 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
     setError("");
     setPending(p);
     try {
+      sessionStorage.setItem(
+        "ace-exam-pending:" + storageScope + ":" + exam.attempt.id,
+        JSON.stringify(p),
+      );
+    } catch {}
+    try {
       accept(
         await read<PublicExam>(`/api/exams/${exam.attempt.id}`, {
           method: "PATCH",
@@ -204,6 +328,11 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         }),
       );
       setPending(null);
+      try {
+        sessionStorage.removeItem(
+          "ace-exam-pending:" + storageScope + ":" + exam.attempt.id,
+        );
+      } catch {}
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -216,6 +345,11 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
     try {
       accept(await read<PublicExam>(`/api/exams/${exam.attempt.id}`));
       setPending(null);
+      try {
+        sessionStorage.removeItem(
+          "ace-exam-pending:" + storageScope + ":" + exam.attempt.id,
+        );
+      } catch {}
       setError("");
     } catch (e) {
       setError((e as Error).message);
@@ -237,6 +371,39 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
       );
       setConfirmation(null);
       await dashboard();
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  function studyTopic(topic: string) {
+    setExam(null);
+    setMode("practice");
+    setCount(10);
+    setCompetency("");
+    setTopic(topic);
+    setPreview(false);
+    const u = new URL(location.href);
+    u.searchParams.delete("attempt");
+    u.hash = "exam-custom";
+    history.replaceState(null, "", u);
+    requestAnimationFrame(() =>
+      document
+        .getElementById("exam-custom")
+        ?.scrollIntoView({ block: "start" }),
+    );
+  }
+  async function startScheduled(regime: string) {
+    setBusy(true);
+    setError("");
+    try {
+      const x = await read<{ id: string }>("/api/exams/learning", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "scheduled", regime }),
+      });
+      await open(x.id);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -307,6 +474,20 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
           )}
         </div>
       </div>
+      {!online && (
+        <p
+          role="status"
+          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm"
+        >
+          Sin conexión. Las respuestas confirmadas permanecen en el servidor;
+          espera a reconectarte para guardar cambios.
+        </p>
+      )}
+      {positionNotice && (
+        <p role="status" className="text-xs text-slate-600">
+          {positionNotice}
+        </p>
+      )}
       {error && (
         <div
           role="alert"
@@ -391,6 +572,9 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                 ))}
               </div>
             </section>
+          )}
+          {a.state === "submitted" && (
+            <ExamStudyReport exam={exam} onTopic={studyTopic} />
           )}
           {a.state === "cancelled" && (
             <p className="rounded-xl border p-4">
@@ -482,6 +666,13 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     </label>
                   ))}
                 </fieldset>
+                {q.correctOption && (
+                  <ExamTutor
+                    key={a.id + q.id}
+                    attemptId={a.id}
+                    questionId={q.id}
+                  />
+                )}
                 <ExamQuestionTools
                   key={q.id}
                   attemptId={a.id}
@@ -552,31 +743,35 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                         <div className="flex flex-wrap gap-2">
                           <a
                             className="secondaryButton"
-                            href={`/api/documents/${s.documentId}#page=${s.pageStart}`}
+                            href={`/api/exams/documents/${s.documentId}?attemptId=${a.id}#page=${s.pageStart}`}
                             target="_blank"
                             rel="noreferrer"
                           >
                             Leer PDF
                           </a>
-                          <Link
-                            className="secondaryButton"
-                            href={`/normas?documentId=${s.documentId}`}
-                          >
-                            Ver en Normativa
-                          </Link>
-                          <button
-                            className="secondaryButton"
-                            disabled={busy}
-                            onClick={() =>
-                              void askSource(
-                                s,
-                                q.prompt,
-                                q.sources?.map((x) => x.documentId) ?? [],
-                              )
-                            }
-                          >
-                            Estudiar en Chat
-                          </button>
+                          {centerEnabled && (
+                            <Link
+                              className="secondaryButton"
+                              href={`/normas?documentId=${s.documentId}`}
+                            >
+                              Ver en Normativa
+                            </Link>
+                          )}
+                          {centerEnabled && (
+                            <button
+                              className="secondaryButton"
+                              disabled={busy}
+                              onClick={() =>
+                                void askSource(
+                                  s,
+                                  q.prompt,
+                                  q.sources?.map((x) => x.documentId) ?? [],
+                                )
+                              }
+                            >
+                              Estudiar en Chat
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -705,7 +900,49 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                 </button>
               </div>
             )}
+            <nav
+              aria-label="Cómo quieres practicar"
+              className="grid gap-3 sm:grid-cols-3"
+            >
+              <button
+                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                disabled={busy}
+                onClick={() => studyTopic("")}
+              >
+                <strong>Estudiar</strong>
+                <span className="mt-2 block text-sm text-slate-600">
+                  Sesiones de 10 preguntas con explicación inmediata.
+                </span>
+              </button>
+              <a
+                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                href="#oece-preparation-title"
+              >
+                <strong>Rendir simulacro</strong>
+                <span className="mt-2 block text-sm text-slate-600">
+                  72 preguntas, 120 minutos y corrección al entregar.
+                </span>
+              </a>
+              <a
+                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                href="#exam-review"
+              >
+                <strong>Repasar errores</strong>
+                <span className="mt-2 block text-sm text-slate-600">
+                  Vuelve a los temas pendientes y a tu plan de repaso.
+                </span>
+              </a>
+            </nav>
+            <ExamLearningDashboard
+              key={dash.history.map((h) => h.id).join()}
+              busy={busy}
+              onSets={setSetAttempts}
+              onScheduled={(r) => void startScheduled(r)}
+              onOpen={(id) => void open(id)}
+              onTopic={studyTopic}
+            />
             <ExamPreparationPanel
+              setAttempts={setAttempts}
               busy={busy}
               isAdmin={isAdmin}
               onStart={(profile, id) => void start(profile, id)}
@@ -719,6 +956,11 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                 <h2 id="exam-custom-title" className="text-xl font-semibold">
                   Prepara tu práctica
                 </h2>
+                <p className="mt-2 text-sm text-slate-600">
+                  Elige una modalidad, competencia y tema. Las sesiones cortas
+                  comienzan con 10 preguntas; ajusta la cantidad a las
+                  disponibles.
+                </p>
                 <fieldset className="mt-5 grid gap-3 sm:grid-cols-2">
                   <legend className="sr-only">Modalidad</legend>
                   {[
@@ -771,6 +1013,24 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     </select>
                   </label>
                   <label className="text-sm font-medium">
+                    Competencia
+                    <select
+                      className={field}
+                      value={competency}
+                      onChange={(e) => {
+                        setCompetency(e.target.value);
+                        setTopic("");
+                      }}
+                    >
+                      <option value="">Todas las competencias</option>
+                      {Object.entries(COMPETENCIES).map(([code, label]) => (
+                        <option value={code} key={code}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-sm font-medium">
                     Tema
                     <select
                       className={field}
@@ -779,7 +1039,11 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     >
                       <option value="">Todos los temas disponibles</option>
                       {dash.available
-                        .filter((x) => x.regime === regime)
+                        .filter(
+                          (x) =>
+                            x.regime === regime &&
+                            (!competency || x.competency === competency),
+                        )
                         .map((x) => (
                           <option key={x.topic} value={x.topic}>
                             {x.topic}

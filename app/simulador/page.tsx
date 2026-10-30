@@ -14,7 +14,13 @@ export default async function Page() {
       title="Simulador de examen"
       showFiscalYear={false}
     >
-      <ExamWorkspace isAdmin={user.isAdmin} />
+      <ExamWorkspace
+        isAdmin={user.isAdmin}
+        storageScope={user.id}
+        centerEnabled={
+          !user.esExterno || user.modulosExternos.includes("centro_juridico")
+        }
+      />
     </AppShell>
   );
 }

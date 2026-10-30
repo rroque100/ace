@@ -63,7 +63,7 @@ export function moduloDeUso(pathname: string | null | undefined): string {
   const ruta = pathname ?? "";
   const es = (...prefijos: string[]) => prefijos.some((p) => ruta === p || ruta.startsWith(`${p}/`));
   if (es("/chat", "/busqueda", "/normas", "/api/chat", "/api/search", "/api/norms", "/api/normativa", "/api/facets")) return "centro_juridico";
-  if (es("/simulacro", "/api/simulacro")) return "simulacro";
+  if (es("/simulacro", "/simulador", "/api/simulacro", "/api/exams")) return "simulacro";
   if (es("/necesidades", "/api/necesidades")) return "necesidades";
   if (es("/expedientes-archivo", "/api/expedientes-archivo", "/archivo", "/api/archivo")) return "archivo";
   if (es("/expedientes", "/contratos", "/api/expedientes", "/api/processes", "/api/contracts", "/api/contratos-cp", "/api/contratos-sie")) return "expedientes";

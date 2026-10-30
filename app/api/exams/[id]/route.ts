@@ -9,7 +9,7 @@ type C = { params: Promise<{ id: string }> };
 async function actor(
   context: C,
 ): Promise<{ error: Response } | { id: string; user: SessionUser }> {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return { error: a.error };
   const p = z
     .string()

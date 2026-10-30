@@ -83,3 +83,5 @@ describe("cuota mensual de IA de una cuenta externa", () => {
     expect(String((console.error as unknown as { mock: { calls: string[][] } }).mock.calls[0][0])).toContain("usuarios-externos.sql");
   });
 });
+
+it('atribuye el tutor y las rutas actuales del simulador a su módulo',()=>{expect(moduloDeUso('/api/exams/tutor')).toBe('simulacro');expect(moduloDeUso('/simulador')).toBe('simulacro')});
