@@ -75,6 +75,7 @@
 @source "./components/configuracion/cuenta-creada-card.tsx";
 /* Pantallas de acceso: entrar, pedir acceso (público) y elegir la contraseña propia. */
 @source "./components/auth";
+@source "./components/externo";
 @source "./components/login-form.tsx";
 @source "./login/page.tsx";
 @source "./acceso/page.tsx";

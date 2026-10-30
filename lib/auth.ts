@@ -61,6 +61,8 @@ export type SessionUser = {
   modulosExternos: ModuloExterno[];
   // Cuenta externa cuyo acceso ya venció (fecha de fin pasada o ilegible).
   externoVencido: boolean;
+  // Fin del acceso de una cuenta externa (ms desde 1970); null si no caduca.
+  externoVigenteHasta: number | null;
   // Tokens de IA permitidos al mes a una cuenta externa; null = sin tope.
   cuotaIAMensual: number | null;
   // Cuenta externa que aún usa la contraseña temporal del administrador y debe elegir la suya.
@@ -176,6 +178,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     esExterno: credencialExterna.externo,
     modulosExternos: credencialExterna.modulos,
     externoVencido: credencialExterna.vencido,
+    externoVigenteHasta: credencialExterna.externo ? credencialExterna.vigenteHasta : null,
     cuotaIAMensual: credencialExterna.externo ? credencialExterna.cuotaIAMensual : null,
     debeCambiarPassword: credencialExterna.externo && credencialExterna.cambiarPassword,
   };
