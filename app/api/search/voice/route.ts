@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
-import { getProvider } from "@/lib/openai-server";
+import { getProvider, configuredTextProviders } from "@/lib/openai-server";
 import { voiceAvailable, voiceConfiguration, transcribeSearchAudio } from "@/lib/voice-transcription";
 import { VOICE_LIMITS, VOICE_MAX_BYTES, audioMimeFromBytes, isVoicePurpose } from "@/lib/voice-search";
 import { voiceFailure } from "@/lib/voice-failure";
@@ -11,7 +11,7 @@ export const maxDuration = 30;
 const headers = { "Cache-Control": "no-store" };
 export async function GET() {
   const auth = await requireUser(); if ("error" in auth) return auth.error;
-  return NextResponse.json({ available: voiceAvailable(), ...voiceConfiguration(), assistantProvider: getProvider(), maxSeconds: VOICE_LIMITS.search.maxMs / 1000, limits: VOICE_LIMITS }, { headers });
+  return NextResponse.json({ available: voiceAvailable(), ...voiceConfiguration(), assistantProvider: getProvider(), assistantProviders:configuredTextProviders(), maxSeconds: VOICE_LIMITS.search.maxMs / 1000, limits: VOICE_LIMITS }, { headers });
 }
 export async function POST(request: Request) {
   const auth = await requireUser(); if ("error" in auth) return auth.error;

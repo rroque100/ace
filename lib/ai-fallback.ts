@@ -12,9 +12,8 @@ export function providerQuotaError(error: unknown): boolean {
   // Billing can also be returned as FAILED_PRECONDITION, but never mask auth/validation errors.
   return (e.status === 400 || e.status === 403) && /insufficient[_ ]quota|credits? (?:are )?(?:depleted|exhausted)|billing.*(?:disabled|limit)|payment required|resource_exhausted/i.test(`${e.message??''} ${e.code??''} ${e.error?.code??''} ${e.error?.message??''}`);
 }
-export function createGeminiFallback(now:()=>number = Date.now) {
+export function createGeminiFallback(now:()=>number = Date.now, available:()=>boolean = openCodeAvailable) {
   let blockedUntil=0;
-  const available=()=>openCodeAvailable();
   const skip=()=>available() && now()<blockedUntil;
   const failed=(error:unknown)=>{
     if (!available() || !providerQuotaError(error)) return false;
@@ -37,3 +36,22 @@ export function createGeminiFallback(now:()=>number = Date.now) {
 }
 // Per warm server instance; retries Gemini after cooldown, never a permanent provider change.
 export const geminiFallback = createGeminiFallback();
+
+export function zaiFallbackAvailable(){return Boolean(process.env.ZAI_API_KEY?.trim()) && process.env.ZAI_FALLBACK_ENABLED !== 'false';}
+export const zaiFallbackModel=()=>process.env.ZAI_MODEL?.trim()||'glm-4.5-flash';
+export const zaiFallbackBase=()=>process.env.ZAI_BASE_URL?.trim()||'https://api.z.ai/api/paas/v4';
+/** Text-only third provider: do not silently send image/audio/file payloads to a text model. */
+export function canUseZaiText(params:Record<string,unknown>):boolean {
+ const input=params.input;
+ if(typeof input === 'string')return true;
+ if(!Array.isArray(input))return false;
+ return input.every(message=>{
+   if(!message || typeof message !== 'object')return false;
+   const content=(message as {content?:unknown}).content;
+   if(typeof content === 'string')return true;
+   return Array.isArray(content) && content.every(part=>part && typeof part === 'object' && ['input_text','text'].includes((part as {type:string}).type));
+ });
+}
+// Separate controls keep native multimedia on its compatible two-provider route.
+export const generationFallback=createGeminiFallback(Date.now,()=>openCodeAvailable()||zaiFallbackAvailable());
+export const openCodeTextFallback=createGeminiFallback(Date.now,zaiFallbackAvailable);

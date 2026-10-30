@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import {geminiFallback,openCodeAvailable,openCodeBase,openCodeModel} from "./ai-fallback";
+import {generationFallback,openCodeTextFallback,openCodeAvailable,openCodeBase,openCodeModel,zaiFallbackAvailable,zaiFallbackModel,zaiFallbackBase,canUseZaiText} from "./ai-fallback";
 import { withRetry } from "./retry";
 import { medirCliente } from "./uso-ia-medicion";
 import { exigirCuotaIA, registrarUsoIA } from "./uso-ia";
@@ -83,6 +83,7 @@ function toChatParams(params: Record<string, unknown>, provider: string): Record
   // endpoint compatible-OpenAI de Gemini.
   if (provider === "gemini") out.reasoning_effort = "none";
   if (provider === "opencode") out.reasoning_effort = "minimal";
+  if (provider === "zai") out.thinking = {type:"disabled"};
   if (rest.text && typeof rest.text === "object") {
     const format=(rest.text as {format?: {type?:string}}).format;
     if(format?.type === "json_object") out.response_format={type:"json_object"};
@@ -108,7 +109,7 @@ function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, opt
         const delta = chunk.choices?.[0]?.delta?.content;
         if (delta) yield { type: "response.output_text.delta", delta };
       }
-      yield { type: incomplete ? "response.incomplete" : "response.completed", response:{model:provider === "opencode" ? `opencode/${actualModel}` : actualModel,usage} };
+      yield { type: incomplete ? "response.incomplete" : "response.completed", response:{model:["opencode","zai"].includes(provider) ? `${provider}/${actualModel}` : actualModel,usage} };
     })();
   }
   return client.chat.completions
@@ -116,7 +117,7 @@ function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, opt
     .then((resp) => ({
       // La forma que consume el proyecto: `.output_text`.
       output_text: resp.choices?.[0]?.message?.content ?? "",
-      model: provider === "opencode" ? `opencode/${resp.model}` : resp.model,
+      model: ["opencode","zai"].includes(provider) ? `${provider}/${resp.model}` : resp.model,
       status:resp.choices?.[0]?.finish_reason === "length" ? "incomplete" : "completed",
       raw: resp,
     }));
@@ -134,29 +135,47 @@ function withChatShim(client: OpenAI, provider: string): OpenAI {
 }
 
 export function getOpenAIClient() {
-  const provider = getProvider();
-  const primary = medirCliente(crearClienteProveedor(), usage => registrarUsoIA(usage,usage.operacion,provider),()=>exigirCuotaIA());
-  if(provider !== "gemini" || !openCodeAvailable())return primary;
-  const backup=medirCliente(withChatShim(new OpenAI({apiKey:process.env.OPENCODE_API_KEY,baseURL:openCodeBase(),maxRetries:0}),"opencode"),usage=>registrarUsoIA(usage,usage.operacion,"opencode"),()=>exigirCuotaIA());
-  const fallbackParams=(params:Record<string,unknown>)=>({...params,model:openCodeModel()});
+  const provider=getProvider();
+  const measured=(client:OpenAI,name:string)=>medirCliente(client,usage=>registrarUsoIA(usage,usage.operacion,name),()=>exigirCuotaIA());
+  const primary=measured(crearClienteProveedor(),provider);
+  if(provider !== "gemini" || (!openCodeAvailable() && !zaiFallbackAvailable()))return primary;
+  const backup=openCodeAvailable()?measured(withChatShim(new OpenAI({apiKey:process.env.OPENCODE_API_KEY,baseURL:openCodeBase(),maxRetries:0}),"opencode"),"opencode"):null;
+  const third=zaiFallbackAvailable()?measured(withChatShim(new OpenAI({apiKey:process.env.ZAI_API_KEY,baseURL:zaiFallbackBase(),maxRetries:0}),"zai"),"zai"):null;
   return new Proxy(primary,{
     get(target,property,receiver){
       if(property !== "responses")return Reflect.get(target,property,receiver);
       return {create:(params:Record<string,unknown>,options?:OpenAI.RequestOptions)=>{
-        const runPrimary=()=>primary.responses.create(params as unknown as OpenAI.Responses.ResponseCreateParamsNonStreaming,options);
-        const runBackup=()=>backup.responses.create(fallbackParams(params) as unknown as OpenAI.Responses.ResponseCreateParamsNonStreaming,options);
-        if(params.stream)return geminiFallback.stream(
-          ()=>runPrimary() as unknown as Promise<AsyncIterable<unknown>>,
-          ()=>runBackup() as unknown as Promise<AsyncIterable<unknown>>,
-        );
-        return geminiFallback.run(runPrimary,runBackup);
+        const call=(client:OpenAI,model?:string)=>client.responses.create({...params,...(model?{model}:{})} as unknown as OpenAI.Responses.ResponseCreateParamsNonStreaming,options);
+        const runPrimary=()=>call(primary);
+        const runThird=()=>call(third!,zaiFallbackModel());
+        const runBackup=()=>call(backup!,openCodeModel());
+        const eligible=Boolean(third)&&canUseZaiText(params);
+        const unavailable=()=>{throw new Error("No hay un proveedor de respaldo compatible con este contenido");};
+        if(params.stream){
+          const asStream=(run:()=>unknown)=>()=>run() as AsyncIterable<unknown>;
+          const backups=backup
+            ? eligible?()=>openCodeTextFallback.stream(asStream(runBackup),asStream(runThird)):asStream(runBackup)
+            : eligible?asStream(runThird):unavailable;
+          return generationFallback.stream(asStream(runPrimary),backups);
+        }
+        const backups=backup
+          ? eligible?()=>openCodeTextFallback.run(runBackup,runThird):runBackup
+          : eligible?runThird:unavailable;
+        return generationFallback.run(runPrimary,backups);
       }};
     },
   }) as OpenAI;
 }
 
-/** Reports the gateway rather than attributing a fallback response to direct Google. */
-export function reportedProvider(model:string):string {return model.startsWith("opencode/")?"opencode":getProvider();}
+/** The actual generation route, including the third provider, is visible in Chat details. */
+export function reportedProvider(model:string):string {
+  if(model.startsWith("opencode/"))return "opencode";
+  if(model.startsWith("zai/"))return "zai";
+  return getProvider();
+}
+export function configuredTextProviders():string[]{
+ return getProvider()==="gemini"?["Google Gemini",...(openCodeAvailable()?["OpenCode"]:[]),...(zaiFallbackAvailable()?["Z.ai"]:[])]:[getProvider()==="zai"?"Z.ai":"OpenAI"];
+}
 
 function crearClienteProveedor() {
   const provider = getProvider();
