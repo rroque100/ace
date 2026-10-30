@@ -418,3 +418,14 @@
   .legalWorkspace .normBrowser .normPrimaryFilters>label:first-child { grid-column:1/-1; }
   .legalWorkspace .normBrowser .normPrimaryFilters>.secondaryButton { grid-column:1/-1; justify-self:end; @apply min-h-9; }
 }
+
+/* Visible provenance for every answer, including restored conversations. */
+.legalWorkspace .chatResponseAi { @apply mb-4 flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 rounded-lg border border-line bg-brand-soft px-3 py-2 text-[12px] leading-5 text-muted; }
+.legalWorkspace .chatResponseAi strong { @apply font-semibold text-ink; }
+.legalWorkspace .chatResponseAi>svg { flex-shrink:0;color:var(--brand); }
+.legalWorkspace .chatResponseAiModel { @apply rounded-md border border-line bg-panel px-1.5 py-0.5 text-[11px] text-ink; overflow-wrap:anywhere; }
+.legalWorkspace .chatResponseAi[data-state="pending"],.legalWorkspace .chatResponseAi[data-state="system"],.legalWorkspace .chatResponseAi[data-state="unknown"] { background:var(--panel); }
+.legalWorkspace .chatResponseAiNote { font-size:11px; }
+.chatResponseAiSpinner { animation:chatAiSpinner 1.2s linear infinite; }
+@keyframes chatAiSpinner { to {transform:rotate(360deg);} }
+@media(prefers-reduced-motion:reduce) { .chatResponseAiSpinner { animation:none; } }
