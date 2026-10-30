@@ -8,7 +8,7 @@ distinto de las cuentas del personal de la entidad, que siguen como siempre.
 | Módulo | Qué abre |
 |---|---|
 | **Centro Jurídico** (`centro_juridico`) | Chat jurídico, búsqueda documental y normativa, con la voz y el caso activo. |
-| **Simulacro de examen** (`simulacro`) | Reservado: la pantalla existe y dice que viene; el simulacro en sí **aún no está construido**. |
+| **Simulacro de examen** (`simulacro`) | El simulador de examen de certificación (`/simulador`, con su banco de preguntas y sus APIs `/api/exams`). `/simulacro` redirige ahí. |
 
 Una cuenta externa puede tener uno, otro o los dos. No ve nada más: ni Necesidades, ni Expedientes, ni Configuración, ni el
 asistente «Mi Yo». El menú solo muestra sus módulos, y **el proxy cierra todo lo demás** (páginas y APIs, con un 403):
@@ -24,6 +24,10 @@ ocultar enlaces no es seguridad.
 3. Revisar la lista de usuarios en *Configuración → Usuarios* por si hay cuentas que nadie creó.
 4. Ejecutar `docs/supabase/solicitudes-acceso.sql` (la tabla del formulario público de solicitud, ver más abajo). Sin él,
    `/acceso` responde que las solicitudes no están disponibles y la bandeja del administrador avisa de que falta.
+5. Ejecutar `docs/supabase/rls-bloquear-externos.sql`. **Es lo que de verdad aísla los datos del personal:** una cuenta externa
+   tiene su propio token y puede llamar a la API REST de Supabase sin pasar por la app, y el proxy no ve esas llamadas. Sin este
+   SQL, las políticas `using (true)` de Necesidades, Expedientes, el padrón de personal y otras le dejan leer todo (ver el
+   encabezado del fichero y la comprobación que simula una cuenta externa).
 
 ## Cómo entra una persona externa
 
