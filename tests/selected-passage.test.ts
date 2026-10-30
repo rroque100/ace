@@ -1,0 +1,11 @@
+import{beforeEach,it,expect,vi}from'vitest';
+const mocks=vi.hoisted(()=>({doc:vi.fn(),chunk:vi.fn(),eq:vi.fn()}));
+vi.mock('../lib/supabase-server',()=>({getSupabaseAdminClient:async()=>({from:(name:string)=>{const builder={select:()=>builder,eq:(key:string,value:unknown)=>{mocks.eq(name,key,value);return builder;},single:()=>name==='documents'?mocks.doc():mocks.chunk()};return builder;}})}));
+import{selectedPassage}from'../lib/selected-passage';
+const docId='11111111-1111-4111-8111-111111111111',chunkId='22222222-2222-4222-8222-222222222222';
+beforeEach(()=>{vi.clearAllMocks();mocks.doc.mockResolvedValue({data:{id:docId,title:'Original',document_type:'opinion',file_name:'original.docx',source_entity:'OECE',metadata:{sha256:'actual',indexedTextComplete:true,officialVersion:'Original'}},error:null});mocks.chunk.mockResolvedValue({data:{id:chunkId,content:'Pasaje exacto del original',chunk_index:0,page_start:null,page_end:null,metadata:{locator:'b2-abc',locatorLabel:'Párrafo 2'}},error:null});});
+it('retiene localizador real y no inventa páginas',async()=>{const sources=await selectedPassage(chunkId,docId,'actual');expect(sources[0]).toMatchObject({chunkId,documentId:docId,locator:'b2-abc',pageStart:null,excerpt:'Pasaje exacto del original',selectionOrigin:'selected'});expect(mocks.eq).toHaveBeenCalledWith('document_chunks','document_id',docId);});
+it('no sustituye una versión modificada por otra',async()=>{expect(await selectedPassage(chunkId,docId,'anterior')).toEqual([]);expect(mocks.chunk).not.toHaveBeenCalled();});
+it('no admite índices como fundamento de respuesta',async()=>{mocks.doc.mockResolvedValue({data:{id:docId,document_type:'indice_documental',metadata:{indexedTextComplete:true}},error:null});expect(await selectedPassage(chunkId,docId)).toEqual([]);});
+it('rechaza extracción incompleta',async()=>{mocks.doc.mockResolvedValue({data:{id:docId,document_type:'opinion',metadata:{indexedTextComplete:false}},error:null});expect(await selectedPassage(chunkId,docId)).toEqual([]);});
+it('distingue fallo de lectura de ausencia de evidencia',async()=>{mocks.chunk.mockResolvedValue({data:null,error:Error('Error temporal')});await expect(selectedPassage(chunkId,docId)).rejects.toThrow('temporal');});

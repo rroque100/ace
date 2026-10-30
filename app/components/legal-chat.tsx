@@ -877,6 +877,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const [sourceSelection, setSourceSelection] = useState<{selectedDocumentIds:string[];expandCorpus:boolean}>({selectedDocumentIds:[],expandCorpus:false});
   const [article, setArticle] = useState(initialArticle);
   const [articleIdentity,setArticleIdentity]=useState({articleId:searchParams.get("articleId")??"",bodyId:searchParams.get("bodyId")??""});
+  const [passageIdentity,setPassageIdentity]=useState<{chunkId?:string;sourceSha?:string}>({});
   const [processType, setProcessType] = useState(initialProcessType);
   const [sourceEntity, setSourceEntity] = useState(initialSourceEntity);
   const [topic, setTopic] = useState(initialTopic);
@@ -940,6 +941,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         setSourceSelection({selectedDocumentIds:Array.isArray(restoredFilters.selectedDocumentIds)?restoredFilters.selectedDocumentIds.filter((id):id is string=>typeof id==="string"):[],expandCorpus:restoredFilters.expandCorpus===true});
         setArticle(textFilter("article"));
         setArticleIdentity({articleId:textFilter("articleId"),bodyId:textFilter("bodyId")});
+        setPassageIdentity({chunkId:textFilter('chunkId')||undefined,sourceSha:textFilter('sourceSha')||undefined});
         setProcessType(textFilter("processType"));
         setSourceEntity(textFilter("sourceEntity"));
         setTopic(textFilter("topic"));
@@ -977,7 +979,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         }
       : null,
     documentIds.length ? { key: "documentIds", label: `Solo ${documentIds.length} documentos seleccionados`, clear: () => {setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});} } : null,
-    documentId ? { key: "documentId", label: "Documento exacto", clear: () => setDocumentId("") } : null,
+    documentId ? { key: "documentId", label: "Documento exacto", clear: () => {setDocumentId("");setPassageIdentity({});} } : null,
+    passageIdentity.chunkId ? {key:'selectedPassage',label:'Pasaje y versión seleccionados',clear:()=>setPassageIdentity({})}:null,
     article ? { key: "article", label: `Articulo: ${article}`, clear: () => {setArticle("");setArticleIdentity({articleId:"",bodyId:""});} } : null,
     articleIdentity.articleId&&!article ? {key:"articleIdentity",label:"Artículo exacto seleccionado",clear:()=>setArticleIdentity({articleId:"",bodyId:""})}:null,
     processType
@@ -1087,7 +1090,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         body: JSON.stringify({
           caseContext: userMessage.caseContext,
           attachmentIds,
-          filters: { ...extendedFilters, ...sourceSelection, articleId:articleIdentity.articleId||undefined,bodyId:articleIdentity.bodyId||undefined, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          filters: { ...extendedFilters, ...sourceSelection, ...passageIdentity, articleId:articleIdentity.articleId||undefined,bodyId:articleIdentity.bodyId||undefined, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
           tone,
           length,
           question: normalizedQuestion,
@@ -1194,7 +1197,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
   function clearFilters() {
     setExtendedFilters({});
-    setDocumentId(""); setDocumentIds([]);setSourceSelection({selectedDocumentIds:[],expandCorpus:false});
+    setDocumentId(""); setDocumentIds([]);setPassageIdentity({});setSourceSelection({selectedDocumentIds:[],expandCorpus:false});
     setArticle("");setArticleIdentity({articleId:"",bodyId:""});
     setDocumentType("");
     setProcessType("");

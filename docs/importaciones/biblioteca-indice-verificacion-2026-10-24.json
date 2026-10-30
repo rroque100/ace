@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-24T12:08:43.319Z",
+  "catalogueDocuments": 92,
+  "indexDocuments": 92,
+  "metadataMismatches": [],
+  "coverage": {
+    "failed": 2,
+    "indexed": 92,
+    "uploaded": 0,
+    "processing": 0,
+    "registered": 94,
+    "lastIndexUpdate": "2026-10-24T12:07:39.345566+00:00",
+    "textIndexDocuments": 92,
+    "publicationDatesKnown": 83
+  },
+  "types": {
+    "opinion": 22,
+    "resolucion": 11,
+    "guia_instructivo": 10,
+    "bases_estandar": 10,
+    "ley": 6,
+    "pronunciamiento": 10,
+    "directiva": 11,
+    "reglamento": 2,
+    "acuerdo_sala_plena": 10
+  },
+  "unconfirmedValidity": 85
+}

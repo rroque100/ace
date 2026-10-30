@@ -1,4 +1,7 @@
 "use client";
+import {EntityPicker} from './entity-picker';
+import {DocumentFacts} from './document-facts';
+import {FollowSource} from './follow-source';
 
 import Link from "next/link";
 import {LegalValidityBadge} from "./legal-validity-badge";
@@ -214,6 +217,7 @@ function DocumentCard({
       {document.versionNote ? <p className="documentSearchHint">{document.versionNote}</p> : null}
       {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
+        <DocumentFacts document={document}/>
         <LegalValidityBadge value={document.review?.validityRecord} review={document.review?.validity} />
         {objects.length || subjects.length ? (
           <span>
@@ -780,6 +784,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               : " · opcional"}
           </summary>
           <h3>Clasificación guiada</h3>
+          <EntityPicker onSelect={e=>changeFilters({contractingEntity:e.name,ruc:e.ruc_verified?e.ruc??'':''})}/>
           <p>
             Los números indican documentos disponibles en el catálogo, no
             resultados de esta consulta. Las sugerencias por título y tema son
@@ -1014,6 +1019,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
         >
           {result.partialRetrieval ? <div className="documentSearchHint" role="status"><strong>Búsqueda parcial.</strong> Una parte de la recuperación no estuvo disponible. Los resultados pueden estar incompletos. Reintenta o revisa «Alcance de esta búsqueda».</div> : null}
           <div className="documentResultsHeading">
+            {lastInput?<FollowSource search={lastInput} label={`Búsqueda: ${lastInput.query}`}/>:null}
             <div>
               <h2>
                 {result.totalDocuments}{" "}

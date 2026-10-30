@@ -9,6 +9,8 @@ import {
   ExternalHyperlink,
 } from "docx";
 import { requireUser } from "@/lib/auth";
+import {researchBriefSchema,briefText,type ResearchBrief} from '@/lib/research-brief';
+import {csvSafe} from '@/lib/source-dossier';
 import { supabaseUserRest, type DocumentRecord } from "@/lib/supabase-server";
 import {
   dossierCsv,
@@ -23,6 +25,7 @@ export async function POST(request: Request) {
     .object({
       ids: z.array(z.string().uuid()).min(1).max(100),
       format: z.enum(["preview", "csv", "docx"]),
+      folderId:z.string().uuid().optional(),
     })
     .safeParse(await request.json().catch(() => null));
   if (!parsed.success)
@@ -31,6 +34,8 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   try {
+    let brief:ResearchBrief|null=null;
+    if(parsed.data.folderId){const [folder]=await supabaseUserRest<Array<Record<string,unknown>>>(auth.user.accessToken,`carpetas?id=eq.${parsed.data.folderId}&owner_id=eq.${auth.user.id}&select=research_question,research_objective,research_notes,research_status&limit=1`);if(!folder)return NextResponse.json({error:'Investigación no disponible.'},{status:404});brief=researchBriefSchema.parse(folder);}
     const items = await supabaseUserRest<
       Array<{
         id: string;
@@ -38,11 +43,12 @@ export async function POST(request: Request) {
         document_id: string | null;
         message_id: string | null;
         note: string | null;
+        carpeta_id:string|null;
         metadata: Record<string, unknown>;
       }>
     >(
       auth.user.accessToken,
-      `guardados?id=in.(${[...new Set(parsed.data.ids)].join(",")})&owner_id=eq.${auth.user.id}&select=id,title,document_id,message_id,note,metadata&order=created_at`,
+      `guardados?id=in.(${[...new Set(parsed.data.ids)].join(",")})&owner_id=eq.${auth.user.id}&select=id,title,document_id,message_id,note,metadata,carpeta_id&order=created_at`,
     );
     if (items.length !== new Set(parsed.data.ids).size)
       return NextResponse.json(
@@ -50,6 +56,7 @@ export async function POST(request: Request) {
         { status: 404 },
       );
     const sources: DossierSource[] = [];
+    if(parsed.data.folderId&&items.some(i=>i.carpeta_id!==parsed.data.folderId))return NextResponse.json({error:'El informe debe contener fuentes de esta investigación. Revisa la selección.'},{status:409});
     const referenced: DossierSource[] = [];
     for (const item of items) {
       let snapshot = item.metadata?.snapshot as DossierSource | undefined;
@@ -144,11 +151,12 @@ export async function POST(request: Request) {
     if (parsed.data.format === "preview")
       return NextResponse.json({
         sources,
+        research:brief,
         notice:
           "Relación de apoyo: verifica versiones y aplicación. No equivale a una decisión jurídica aprobada.",
       });
     if (parsed.data.format === "csv")
-      return new Response(dossierCsv(sources), {
+      return new Response((brief?'\ufeff'+[['Investigación',briefText(brief)]].map(row=>row.map(csvSafe).join(',')).join('\r\n')+'\r\n':'')+dossierCsv(sources).replace(/^\ufeff/,brief?'':'\ufeff'), {
         headers: {
           "Content-Type": "text/csv;charset=UTF-8",
           "Content-Disposition": "attachment; filename=fuentes-ace.csv",
@@ -163,6 +171,7 @@ export async function POST(request: Request) {
         "Material de apoyo pendiente de revisión. Se distingue el texto original de las notas personales y respuestas asistidas.",
       ),
     ];
+    if(brief)children.push(new Paragraph({text:'Investigación · contexto de trabajo',heading:HeadingLevel.HEADING_1}),...briefText(brief).split('\n').map(text=>new Paragraph(text)),new Paragraph('Generado: '+new Date().toISOString()));
     for (const s of sources) {
       children.push(
         new Paragraph({ text: s.title, heading: HeadingLevel.HEADING_2 }),

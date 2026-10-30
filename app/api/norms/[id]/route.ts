@@ -145,7 +145,7 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       canCorrectReferences:auth.user.isAdmin||auth.user.isEditor||auth.user.isLegal,
       concordanciasByArticle,
       norm: {
-        id: document.id,
+        metadata:document.metadata, id: document.id,
         title: document.title,
         documentType: document.document_type,
         sourceEntity: canonicalSourceEntity(document.source_entity),

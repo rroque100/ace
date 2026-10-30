@@ -1,0 +1,948 @@
+{
+  "summary": {
+    "checkedAt": "2026-10-28T20:33:21.595Z",
+    "officialPagesRead": 9,
+    "officialOpinionsRelated32069": 133,
+    "pdfsReDownloadedAndMatched": 133,
+    "visibleInAce": 133,
+    "uniqueVisible": 133,
+    "newOecePublications": [],
+    "notVisible": [],
+    "failures": [],
+    "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion",
+    "scope": "Recomprobación del catálogo oficial y los 133 originales actuales; no acredita vigencia jurídica."
+  },
+  "checks": [
+    {
+      "identity": "124-2026-OECE",
+      "documentId": "35f27f9b-fd23-4d42-928f-6deae31773f5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10868045/8765541-opinion-d124-2026-oece-dtn.pdf",
+      "sha256": "117406bf8e6ddad03efb0c012045c093c80143822f6b244e39fb8c263e32f2b7",
+      "verified": true
+    },
+    {
+      "identity": "120-2026-OECE",
+      "documentId": "0d2ee09f-bbeb-4ad6-9b76-59b3a1b67ece",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867870/8765437-opinion-d120-2026-oece-dtn.pdf",
+      "sha256": "0fe6f0dbf99d4aff1fe031df62de1a70f2d15db976d76fc66414acb6623a7ac0",
+      "verified": true
+    },
+    {
+      "identity": "121-2026-OECE",
+      "documentId": "c25b021d-8fc6-46ca-b611-23048a999350",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867972/8765492-opinion-d121-2026-oece-dtn.pdf",
+      "sha256": "d5a41b11cfae5ac62786fc427d99a8647c39fff5c2e42d0200cff2c0ee06280e",
+      "verified": true
+    },
+    {
+      "identity": "119-2026-OECE",
+      "documentId": "b40904fd-4755-465b-85aa-b9d739a94923",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867842/8765430-opinion-d119-2026-oece-dtn.pdf",
+      "sha256": "1fd21ef87e4baadd9e5576bf70500126e1c7a0c10d3dd470d9d03b43f572dc1f",
+      "verified": true
+    },
+    {
+      "identity": "118-2026-OECE",
+      "documentId": "2c97c341-2cfd-4d90-b236-baab6923774e",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867822/8765421-opinion-d118-2026-oece-dtn.pdf",
+      "sha256": "afccce8c2fa22b56ed03e873b9636d5ab86ff55ed2352d57877ab14aa4578c27",
+      "verified": true
+    },
+    {
+      "identity": "115-2026-OECE",
+      "documentId": "a58ecacf-7b1d-4df5-8531-302808f1b672",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867346/8765135-opinion-d115-2026-oece-dtn.pdf",
+      "sha256": "12bb6e7a07cdbede283c4d181b24fa2aff227883bdde0f3af50e3d24242dc3f0",
+      "verified": true
+    },
+    {
+      "identity": "117-2026-OECE",
+      "documentId": "1ccf7c09-f206-4e40-b6a2-b9bafcec627a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867395/8765165-opinion-d117-2026-oece-dtn.pdf",
+      "sha256": "1c4b5cc55703c0116697d5eafe494adf983dc122c1ba544d9859eeaed1a00540",
+      "verified": true
+    },
+    {
+      "identity": "114-2026-OECE",
+      "documentId": "f210f907-bd45-4368-9bc5-71d30e1063d3",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867319/8765116-opinion-d114-2026-oece-dtn.pdf",
+      "sha256": "365900e0c06e878c6d6322dc1513ddabbffb2d4a300f728ea28a4fa380b192c0",
+      "verified": true
+    },
+    {
+      "identity": "113-2026-OECE",
+      "documentId": "c94e2a02-41a0-4674-96a3-8343c521fe54",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867280/8765096-opinion-d113-2026-oece-dtn.pdf",
+      "sha256": "725adf8e8b1a5d0cce9afeb50d81beba98e7b6fe26179326c38160554a094e55",
+      "verified": true
+    },
+    {
+      "identity": "112-2026-OECE",
+      "documentId": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10778571/8709968-opinion-d112-2026-oece-dtn.pdf",
+      "sha256": "dc7c4584f6ea879b05091697601bbd9dfd043b6a5ba3735208aabb1f371e7b6b",
+      "verified": true
+    },
+    {
+      "identity": "110-2026-OECE",
+      "documentId": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10761550/8698010-opinion-d110-2026-oece-dtn.pdf",
+      "sha256": "5e78049089090c80a0aca3acf926350342f3d6c9dd99f301ba83e3cd0463d1c8",
+      "verified": true
+    },
+    {
+      "identity": "106-2026-OECE",
+      "documentId": "d5f22ac3-d37e-48a1-a5e6-398dbcebe87d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10732107/8674912-opinion-d106-2026-oece-dtn.pdf",
+      "sha256": "47dae9c2b9b0c7573a86fc26f27de8c93656b59e271440d5e21f874cb3c61024",
+      "verified": true
+    },
+    {
+      "identity": "104-2026-OECE",
+      "documentId": "31263c9a-d039-46b6-8a00-0c88350ac2d5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10715915/8662982-opinion-d104-2026-oece-dtn.pdf",
+      "sha256": "b7cb66d61a39831c569bb6f3dd6a609b3cb4b74a1b5ba6752e2244a55883eb61",
+      "verified": true
+    },
+    {
+      "identity": "98-2026-OECE",
+      "documentId": "95137274-2438-4b4e-aac1-428432ef3fc3",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621143/8596068-opinion-d098-2026-oece-dtn.pdf",
+      "sha256": "b3cca6404679d74ebba4e1d0e22713c9b044d7e34c060256ee4b3dca39172ef2",
+      "verified": true
+    },
+    {
+      "identity": "99-2026-OECE",
+      "documentId": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10622011/8596615-opinion-d099-2026-oece-dtn.pdf",
+      "sha256": "f119d551f2b8c2bb40b982ee800b386442e437a66016c4b2cda8f8e866ca83ba",
+      "verified": true
+    },
+    {
+      "identity": "90-2026-OECE",
+      "documentId": "16804d7e-f0e9-465d-b4ae-ff64ba1ce37a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10491830/8507680-opinion-d090-2026-oece-dtn.pdf",
+      "sha256": "ca09c51230fb860beccc5cd2c2dd45843c9d7d84aceaec47914421118c7a5fdf",
+      "verified": true
+    },
+    {
+      "identity": "91-2026-OECE",
+      "documentId": "8031be6b-ca6a-4a99-ab16-0fa67590ec67",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621106/8596043-opinion-d091-2026-oece-dtn.pdf",
+      "sha256": "62d348cd3fec30f955cec485bfa365cb89a6e3e2dc15bd3697638acc7f14e6e2",
+      "verified": true
+    },
+    {
+      "identity": "92-2026-OECE",
+      "documentId": "decbfc2c-45f2-4240-8373-d968cef67a38",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621119/8596051-opinion-d092-2026-oece-dtn.pdf",
+      "sha256": "ba387f8733a82f17a84c11bd4de9957bb22f7def91746bb90e8cbd706b71521c",
+      "verified": true
+    },
+    {
+      "identity": "88-2026-OECE",
+      "documentId": "739f6e55-bba0-47ff-abdb-970b5d9301a1",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10467091/8489389-opinion-d088-2026-oece-dtn.pdf",
+      "sha256": "81f18e1484791aeaac77b6f07f4bab88cbd15e5a01bdf6b6ad7fd41dafea0e9f",
+      "verified": true
+    },
+    {
+      "identity": "87-2026-OECE",
+      "documentId": "d63c8513-7831-42dd-b266-ed5d8c3ec4f8",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10467073/8489376-opinion-d087-2026-oece-dtn.pdf",
+      "sha256": "c59fd0b1acde499a1de60d1f249324e5c2dfb5885436891a09a398e685ed8e0e",
+      "verified": true
+    },
+    {
+      "identity": "89-2026-OECE",
+      "documentId": "9c833b3b-a705-48cc-a2bb-4728f5075a09",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10468520/8490246-opinion-d089-2026-oece-dtn.pdf",
+      "sha256": "8c698ecf059cebfbf8a4a85a841d732e1ae8c3fcf2578007274afb6b5857b8b5",
+      "verified": true
+    },
+    {
+      "identity": "85-2026-OECE",
+      "documentId": "962ff360-b432-48b1-8344-e4c32ba8181a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10467035/8489357-opinion-d085-2026-oece-dtn.pdf",
+      "sha256": "a879c57be981cc8f773e6cf60a7bc5feb8d87b5178595cb4b7e49303ac0c3bf8",
+      "verified": true
+    },
+    {
+      "identity": "86-2026-OECE",
+      "documentId": "a6294684-4a18-474d-8b0c-b4c6dc72578f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10467050/8489368-opinion-d086-2026-oece-dtn.pdf",
+      "sha256": "f95c9125a8c7a8733f08304428b03a95fe0041f92f921c1f51a372beca80eaef",
+      "verified": true
+    },
+    {
+      "identity": "84-2026-OECE",
+      "documentId": "d1c236e2-593e-46fa-9536-7f5089e1d214",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10406688/8447104-opinion-d084-2026-oece-dtn.pdf",
+      "sha256": "da8cf966f296e21feb73d20c72e0bd9a4e4eaf635e4da608566eff1ab91970a9",
+      "verified": true
+    },
+    {
+      "identity": "82-2026-OECE",
+      "documentId": "5611bfcf-e021-48f5-9110-f6eb06460ad2",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10406294/8446837-opinion-d082-2026-oece-dtn.pdf",
+      "sha256": "c1fb4d2ee88a9b1c253a803b42cbca5d5b57ede60e81e1ebb2b42ee2874bc157",
+      "verified": true
+    },
+    {
+      "identity": "83-2026-OECE",
+      "documentId": "b88a228b-933c-488d-978d-e95dc8e69ded",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10406304/8446845-opinion-d083-2026-oece-dtn.pdf",
+      "sha256": "912492c4e6fae68f6d1c8268cd995d0c2e1f74e4f65094a4ced53cfd0c87f65a",
+      "verified": true
+    },
+    {
+      "identity": "78-2026-OECE",
+      "documentId": "d113d589-72cd-4cf9-b661-c026636a8cef",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10380886/8428754-opinion-d078-2026-oece-dtn.pdf",
+      "sha256": "66a1593f73b6fbc4b775ff09d0de02a74bf1f3c26770778907cc6955280c4ca8",
+      "verified": true
+    },
+    {
+      "identity": "77-2026-OECE",
+      "documentId": "99fe9764-8c75-46bc-acfc-7eccaaf5e51c",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10380850/8428725-opinion-d077-2026-oece-dtn.pdf",
+      "sha256": "82b0d77f8cad5a2304b6fd72865e2d33dee3bc28fffe6cdbbf048ce6c9acd94d",
+      "verified": true
+    },
+    {
+      "identity": "81-2026-OECE",
+      "documentId": "4723ddbd-4f96-4be9-850d-c6e02614ce47",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10406260/8446810-opinion-d081-2026-oece-dtn.pdf",
+      "sha256": "1552988298db42bcef811583ba495b8c7ac148e1da300392b4fab4fe39f0ccdc",
+      "verified": true
+    },
+    {
+      "identity": "76-2026-OECE",
+      "documentId": "10695a24-8753-469a-afca-f434e740049d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10380818/8428700-opinion-d076-2026-oece-dtn.pdf",
+      "sha256": "6ff4e785feb05b236014315b317f4ef18f9f16c36723953626c34b4ef6249b5c",
+      "verified": true
+    },
+    {
+      "identity": "75-2026-OECE",
+      "documentId": "c98436dd-6fb9-4e9d-95e0-24beab3117b8",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368145/8420974-opinion-d075-2026-oece-dtn.pdf",
+      "sha256": "f43ce602dba3a704fe3ba435c6091d1e1fb099617b4e3b9506763f6febec1a9e",
+      "verified": true
+    },
+    {
+      "identity": "74-2026-OECE",
+      "documentId": "283592f9-112c-442a-bbd1-f823841fff2a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368121/8420961-opinion-d074-2026-oece-dtn.pdf",
+      "sha256": "f324a04ae4c5896dfc39b1eef8ad6fe261618c0c864f1f4122a66f2884bff1b7",
+      "verified": true
+    },
+    {
+      "identity": "73-2026-OECE",
+      "documentId": "3a006b78-68ed-42fa-9c5f-55e44733a771",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368107/8420955-opinion-d073-2026-oece-dtn.pdf",
+      "sha256": "31ef892f643e33726833d38526240d3399a5b777f3a05a3bc88751eecf225e5c",
+      "verified": true
+    },
+    {
+      "identity": "71-2026-OECE",
+      "documentId": "ff2128ec-a028-48ec-b502-2cb9c1b02f1a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368043/8420934-opinion-d071-2026-oece-dtn.pdf",
+      "sha256": "4d4342566c2d1c80be9e35492f2533f0e741565207e9c57904e55e1564aeacae",
+      "verified": true
+    },
+    {
+      "identity": "72-2026-OECE",
+      "documentId": "01a2a399-9788-44d3-ad32-8d3856c386c1",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368076/8420944-opinion-d072-2026-oece-dtn.pdf",
+      "sha256": "e35c0f5bd66cfe14f0a4ff3c89274702e89ceb8621bc282c2b9d603517af297d",
+      "verified": true
+    },
+    {
+      "identity": "68-2026-OECE",
+      "documentId": "321be3db-424b-4efd-a3b7-7c90a3d9e63f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321767/8386347-opinion-d068-2026-oece-dtn.pdf",
+      "sha256": "85fca57011e3ebfa323fe5415ff55d175ce50e3cd48e2b9084d4ad9ac9472c86",
+      "verified": true
+    },
+    {
+      "identity": "67-2026-OECE",
+      "documentId": "1aaafe22-2e9a-4dda-8263-271881b7db35",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321713/8386293-opinion-d067-2026-oece-dtn.pdf",
+      "sha256": "57daecbc376e6643b0053a4719bdf01931c2c2e9bda98e8d2c03b4b9812f29de",
+      "verified": true
+    },
+    {
+      "identity": "69-2026-OECE",
+      "documentId": "6435f645-1aac-48dd-abff-15619a11ff52",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10326467/8393072-opinion-d069-2026-oece-dtn.pdf",
+      "sha256": "75f6b4979dc15da032f45f97e19b20a87187a0009a0f0de3d07b0ca065dedd55",
+      "verified": true
+    },
+    {
+      "identity": "66-2026-OECE",
+      "documentId": "03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321684/8386274-opinion-d066-2026-oece-dtn.pdf",
+      "sha256": "e2d4076c573b5111090b3ef59af26703dbe36212441df2a05f04f119abc6a914",
+      "verified": true
+    },
+    {
+      "identity": "65-2026-OECE",
+      "documentId": "2fb39ac2-124b-468e-adf6-b106892340a5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280347/8353929-opinion-d065-2026-oece-dtn.pdf",
+      "sha256": "4a8aaf35fb009933e10c83c85854e9edce9719ccbcfb63e478b0318cae71d164",
+      "verified": true
+    },
+    {
+      "identity": "64-2026-OECE",
+      "documentId": "3fc31c85-b3d3-4093-80bd-bca0f1bb9ab6",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280298/8353897-opinion-d064-2026-oece-dtn.pdf",
+      "sha256": "9c82d8679035779baa959bdb989aa9cf6225c58b1bf18743407731626767972c",
+      "verified": true
+    },
+    {
+      "identity": "63-2026-OECE",
+      "documentId": "20a271c5-c618-4842-97c2-f1d683adf608",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280227/8353852-opinion-d063-2026-oece-dtn.pdf",
+      "sha256": "c77ae5c1816949b6cbaee5d62f843e516be2ab9190316e511f195d493db69a6e",
+      "verified": true
+    },
+    {
+      "identity": "60-2026-OECE",
+      "documentId": "ba44c109-7d07-4f9e-8051-fb28dddf9c24",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186621/8286573-opinion-d060-2026-oece-dtn.pdf",
+      "sha256": "e087ff8d0ccc041083aef72c44ae669e720097b4f7fb56e98d8a8eba89777370",
+      "verified": true
+    },
+    {
+      "identity": "61-2026-OECE",
+      "documentId": "6621a31b-7b4c-409a-84e4-e53fe5c30208",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280170/8353810-opinion-d061-2026-oece-dtn.pdf",
+      "sha256": "7827d5e2a7e64c364c991c02b0ef8289e933e25a46afe0750b3ae83f0b61f4ad",
+      "verified": true
+    },
+    {
+      "identity": "62-2026-OECE",
+      "documentId": "bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280197/8353829-opinion-d062-2026-oece-dtn.pdf",
+      "sha256": "2679cd0b8e5775d065f4e5eac22e54bbdfcaa794ac449b583f50937f476e8cd6",
+      "verified": true
+    },
+    {
+      "identity": "59-2026-OECE",
+      "documentId": "15d2da82-ddcf-4ae1-9be3-c46d6f8f7da5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186610/8286566-opinion-d059-2026-oece-dtn.pdf",
+      "sha256": "4666ba98b4b6669635a089733c87759ead15f49e850591f58a368aefc62eaec8",
+      "verified": true
+    },
+    {
+      "identity": "57-2026-OECE",
+      "documentId": "8225a1a9-ecf3-44a9-8e52-ca721e5e5215",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176826/8279598-opinion-d057-2026-oece-dtn.pdf",
+      "sha256": "26c0e6b305779f66e7aa95c38ff66b54553da760e2d203cc5bc2bbb945db29a9",
+      "verified": true
+    },
+    {
+      "identity": "58-2026-OECE",
+      "documentId": "a0864f7b-d63a-4546-9018-935d0df66c27",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186591/8286555-opinion-d058-2026-oece-dtn.pdf",
+      "sha256": "be19bb66363adf9c71c586de8e46f848ea1118e0ffe3d323d05ba6d840ecd621",
+      "verified": true
+    },
+    {
+      "identity": "54-2026-OECE",
+      "documentId": "b62e5a84-09c5-4c3a-9334-7f49039560e7",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10160813/8269408-opinion-d054-2026-oece-dtn.pdf",
+      "sha256": "bbd279f46786ed0b611c0a4b479dd55800b744cb4a86d21689603c00e584f243",
+      "verified": true
+    },
+    {
+      "identity": "55-2026-OECE",
+      "documentId": "654382c3-6853-4303-8ac1-04ac903ac2f4",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176752/8279560-opinion-d055-2026-oece-dtn.pdf",
+      "sha256": "e875e5257109e7783fd3094f2bb7a37b0d078af57291dcff5cbf74f5c8164489",
+      "verified": true
+    },
+    {
+      "identity": "56-2026-OECE",
+      "documentId": "2c6df52c-6583-44a5-9830-91b0baf31f42",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176784/8279580-opinion-d056-2026-oece-dtn.pdf",
+      "sha256": "9d02082ceb9d0fc3a4ef11533a2eaa2854ac90628d3ed50993e9ca36148e3c61",
+      "verified": true
+    },
+    {
+      "identity": "52-2026-OECE",
+      "documentId": "9ffc02d6-355c-4ea6-81c9-61188a44e9b7",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10076139/8208505-opinion-d052-2026-oece-dtn.pdf",
+      "sha256": "447aec883a0cce7e749661d3860a54995c110fb40f7238e3472327c5fbab8073",
+      "verified": true
+    },
+    {
+      "identity": "53-2026-OECE",
+      "documentId": "2c27dea7-67e2-4bc9-8139-fa72c5014dd2",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10160804/8269404-opinion-d053-2026-oece-dtn.pdf",
+      "sha256": "fdc31f089d413c1f00c1568660f2d1ecbca0d66741a25b93c536d4fd139e71ca",
+      "verified": true
+    },
+    {
+      "identity": "50-2026-OECE",
+      "documentId": "9fede05c-3580-4b53-bb99-4be524891aab",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10061645/8198263-opinion-d050-2026-oece-dtn.pdf",
+      "sha256": "a62661b643cacd84d81dd70fdcac0c4bdf97a758cbb6ad5858f788f6da6aa074",
+      "verified": true
+    },
+    {
+      "identity": "46-2026-OECE",
+      "documentId": "71665d83-165e-4317-bd3e-af6f8427d89f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10004939/8159604-opinion-d046-2026-oece-dtn.pdf",
+      "sha256": "b11e465c54cff9c58f06ef337481de0938d7be136f1c448931cdbf6d467244aa",
+      "verified": true
+    },
+    {
+      "identity": "49-2026-OECE",
+      "documentId": "45825fca-9209-4c15-88ab-10ed99694150",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10058097/8195842-opinion-d049-2026-oece-dtn.pdf",
+      "sha256": "b0b125a5c22802a6f157590cf6306aca8c009177181dd391f7617d2c07718337",
+      "verified": true
+    },
+    {
+      "identity": "48-2026-OECE",
+      "documentId": "b765ffa3-ee93-4c24-9b42-f158a6e212f8",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10005005/8159643-opinion-d048-2026-oece-dtn.pdf",
+      "sha256": "15d54b1cdb26e9f44def71dfde5f0025650fb1bf67d6d45fbce6e4225fb2783a",
+      "verified": true
+    },
+    {
+      "identity": "41-2026-OECE",
+      "documentId": "7e47c5aa-3344-4491-a875-6f8179748a58",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9889916/8073940-opinion-d041-2026-oece-dtn.pdf",
+      "sha256": "ce16e44625a7560973e5e44026cf2e942842313ba7eefbf70f467ee635739f57",
+      "verified": true
+    },
+    {
+      "identity": "44-2026-OECE",
+      "documentId": "4c8880fe-ec9a-422b-a4db-3905683ffec5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9940144/8110760-opinion-d044-2026-oece-dtn.pdf",
+      "sha256": "2ea15cc4cc260b394ee4a0904362ef02e34b23c849669d469832b0363d8f12e0",
+      "verified": true
+    },
+    {
+      "identity": "40-2026-OECE",
+      "documentId": "20b53ab1-4a06-4f1a-90fb-0d6e5ced6afc",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9877286/8066010-opinion-d040-2026-oece-dtn.pdf",
+      "sha256": "bd773286ad592790abd5740276bb30df20492f8880988ad83f9202328bafdb47",
+      "verified": true
+    },
+    {
+      "identity": "38-2026-OECE",
+      "documentId": "fa4382ac-840a-4cac-bcea-cc8cdb9348c0",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9839209/8039407-opinion-d038-2026-oece-dtn.pdf",
+      "sha256": "1a0c0f6ac04d45af30ac34f2729c5bbb9da2bd7a624971ba170181e3c92294a4",
+      "verified": true
+    },
+    {
+      "identity": "37-2026-OECE",
+      "documentId": "91dc6c5e-fbad-4c1b-9f1a-27fec452df11",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9839163/8039397-opinion-d037-2026-oece-dtn.pdf",
+      "sha256": "6facb0e5001066ae57834f14ba1033e851047d8956d84f61950aa2826390ed45",
+      "verified": true
+    },
+    {
+      "identity": "39-2026-OECE",
+      "documentId": "c690bec8-9b6f-4269-9791-c6a6812a3842",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9840940/8040737-opinion-d039-2026-oece-dtn.pdf",
+      "sha256": "db1e2510bacc42c5591caec1aacca2ab38e14b70b58e47f7a18da7703d36de78",
+      "verified": true
+    },
+    {
+      "identity": "34-2026-OECE",
+      "documentId": "7b5bb519-f7d0-4605-92d7-228f9789d233",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9805347/8014617-opinion-d034-2026-oece-dtn.pdf",
+      "sha256": "03fb5b80e1a84dd8ec7290d44a400872f42bb761dfb2d867dbd6172946c3c624",
+      "verified": true
+    },
+    {
+      "identity": "33-2026-OECE",
+      "documentId": "ab06ba1e-29ad-4865-878a-13b6001ea141",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9805336/8014606-opinion-d033-2026-oece-dtn.pdf",
+      "sha256": "bdb8f98201be8844920bb61c16d5af7795faa0003e7eeb07ec17c4cc7eafff55",
+      "verified": true
+    },
+    {
+      "identity": "32-2026-OECE",
+      "documentId": "65aa28e0-9f30-4c50-8e86-94049a6aad04",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9805326/8014598-opinion-d032-2026-oece-dtn.pdf",
+      "sha256": "82f9ba52df177c870b04a50acf7a95858b87dee593b356ec7306c0581fed1554",
+      "verified": true
+    },
+    {
+      "identity": "31-2026-OECE",
+      "documentId": "30d785f7-d8d9-427d-bbb1-e295800e6b88",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9718819/7948935-opinion-d031-2026-oece-dtn.pdf",
+      "sha256": "cd98a9c6dae50fcf16e3d8528fba9dbd7603fd82d11753650fbef1a098f1830e",
+      "verified": true
+    },
+    {
+      "identity": "29-2026-OECE",
+      "documentId": "1e2ba13d-3fa3-4e72-920e-5558e5f5a054",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9706859/7940900-opinion-d029-2026-oece-dtn.pdf",
+      "sha256": "140189635d2a1d853ffc9aebb30e2ede51e576345f546721ee73678a3dca7fcd",
+      "verified": true
+    },
+    {
+      "identity": "27-2026-OECE",
+      "documentId": "535ffaa5-1a2d-47bb-bd14-3ed88986606f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9706827/7940887-opinion-d027-2026-oece-dtn.pdf",
+      "sha256": "4273a9c4c3f9c74d8c13253cc4706e20fa9bc374c516eb10560e25801d9007ea",
+      "verified": true
+    },
+    {
+      "identity": "28-2026-OECE",
+      "documentId": "498670f1-9d2e-4c29-a2ea-513fba388972",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9706849/7940895-opinion-d028-2026-oece-dtn.pdf",
+      "sha256": "874b030672b7dded6e7fafb8eab5feef0871ed39ecb15dca048bd9d250f0852a",
+      "verified": true
+    },
+    {
+      "identity": "26-2026-OECE",
+      "documentId": "4f9b41e4-f156-48d7-ac10-8cd3758157c4",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9706812/7940881-opinion-d026-2026-oece-dtn.pdf",
+      "sha256": "bddd8308b74c5d23d22b06b3280444942612ec03389b28104eeedccfbac8e0e5",
+      "verified": true
+    },
+    {
+      "identity": "23-2026-OECE",
+      "documentId": "39f4928a-65ab-431a-9013-ea0980c27587",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9562935/7825257-opinion-d023-2026-oece-dtn.pdf",
+      "sha256": "1d79406754feea506438dc4ce272ed393395fee0cffae8c201e350c22d8bb3e9",
+      "verified": true
+    },
+    {
+      "identity": "24-2026-OECE",
+      "documentId": "188ca126-eaea-49b3-9667-53aa9b6aa8a7",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9597632/7856376-opinion-d024-2026-oece-dtn.pdf",
+      "sha256": "db68eb64d8558d057fd93ac34616dddbbc65d254b6179a78910424520c789c43",
+      "verified": true
+    },
+    {
+      "identity": "22-2026-OECE",
+      "documentId": "e9b17a0c-97cc-41b5-abb3-9da3aa138e79",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9493558/7771661-opinion-d022-2026-oece-dtn.pdf",
+      "sha256": "7aa10840f42b79fc2776a8ecd1b2154dcede928dff4023ff1fb8f09c2c3cf84b",
+      "verified": true
+    },
+    {
+      "identity": "19-2026-OECE",
+      "documentId": "04d70d2c-2a74-4036-8407-b1083d69f8a1",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9478799/7760863-opinion-d019-2026-oece-dtn.pdf",
+      "sha256": "52944ceb9e27a78cd7f0a3864b017b1219837e5578a226bc1d56992351ca3852",
+      "verified": true
+    },
+    {
+      "identity": "18-2026-OECE",
+      "documentId": "53e19b50-b745-4dd6-be2a-b42e5b8ee77a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9459275/7746113-opinion-d018-2026-oece-dtn.pdf",
+      "sha256": "d94ed9581bfa4599cd0f6b5cf014281d035cef913b1dd636e10a072fb329a44c",
+      "verified": true
+    },
+    {
+      "identity": "16-2026-OECE",
+      "documentId": "d6d3fd1c-baee-472c-8cc7-d5c761d568fb",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9455904/7743584-opinion-d016-2026-oece-dtn.pdf",
+      "sha256": "c50abd7bb7399ca281a6756d73264166d0c306a85ffbcd9d8725f0d916a08aa4",
+      "verified": true
+    },
+    {
+      "identity": "17-2026-OECE",
+      "documentId": "86e10bfb-289f-494f-b448-13dccf0fa45d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9459111/7746102-opinion-d017-2026-oece-dtn.pdf",
+      "sha256": "903dc10163d170e8dd2663d1334e4855aec67368711ea6bbf57a9df542f5f96d",
+      "verified": true
+    },
+    {
+      "identity": "15-2026-OECE",
+      "documentId": "636a2537-cff0-4e7d-9e81-a17e16e70fa5",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9455866/7743559-opinion-d015-2026-oece-dtn.pdf",
+      "sha256": "73960af03d7cab1eb139ca81812c0421a9b5e6ed21b752f085f0295a54f73976",
+      "verified": true
+    },
+    {
+      "identity": "13-2026-OECE",
+      "documentId": "c7fb4962-0aa3-4035-8236-067ad6a98321",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9369446/7679492-opinion-d013-2026-oece-dtn.pdf",
+      "sha256": "22b9b46f2cb83e236ffa3be2c8c52eb39562df255f422c87dd7406360e3c8c8f",
+      "verified": true
+    },
+    {
+      "identity": "12-2026-OECE",
+      "documentId": "98b3fd57-b85e-48cc-8725-f6eb28d6a3fc",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9343437/7660623-opinion-d012-2026-oece-dtn.pdf",
+      "sha256": "23edd52dab6dbf21d49f71ccb2d993fc92b65d7929ac7ebd3d54ad7f81675214",
+      "verified": true
+    },
+    {
+      "identity": "11-2026-OECE",
+      "documentId": "3aad4da7-f13d-4b14-a4f6-61872e8ad6fb",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9333285/7653453-opinion-d011-2026-oece-dtn.pdf",
+      "sha256": "0a6d265506232f75b0f82330fd834e29294bd268d54e4bed2fb372851c48467a",
+      "verified": true
+    },
+    {
+      "identity": "10-2026-OECE",
+      "documentId": "7d8446d7-bd2d-4e60-a636-eb578984177d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9333262/7653443-opinion-d010-2026-oece-dtn.pdf",
+      "sha256": "656986c6067e1e519744c62a5fee204a7d284c46ff032c40def0dd4655c43639",
+      "verified": true
+    },
+    {
+      "identity": "8-2026-OECE",
+      "documentId": "0c6bef4f-c067-481d-a28d-382839688f7b",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301570/7631107-opinion-d008-2026-oece-dtn.pdf",
+      "sha256": "b059ed654a5dbf03e5a4524f8afb1ba0f57f01403ee5ca4ce59737452406f17d",
+      "verified": true
+    },
+    {
+      "identity": "9-2026-OECE",
+      "documentId": "8d553383-ad92-49bb-a4c2-478b04a9ac54",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301595/7631112-opinion-d009-2026-oece-dtn.pdf",
+      "sha256": "31a8fe1485b449823874df093f1dc1058d0237d9ea62fbfe423dc813647d295b",
+      "verified": true
+    },
+    {
+      "identity": "7-2026-OECE",
+      "documentId": "9be8f679-b61d-4506-a297-5b5645c82440",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301514/7631098-opinion-d007-2026-oece-dtn.pdf",
+      "sha256": "54345714c6ce8145f35164833a888af2535e293a60648eac5abb12e2e09f0940",
+      "verified": true
+    },
+    {
+      "identity": "6-2026-OECE",
+      "documentId": "a70c2fa7-f675-454e-a1f0-9c77979b2be3",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301513/7631060-opinion-d006-2026-oece-dtn.pdf",
+      "sha256": "0ee512c57588edb18639e61b8ced20f0a074f0c4d51e90e23e2d9c94556fca7f",
+      "verified": true
+    },
+    {
+      "identity": "5-2026-OECE",
+      "documentId": "c292e2cf-3e9c-4ca0-92e8-b8ed81f4a874",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301484/7631039-opinion-d005-2026-oece-dtn.pdf",
+      "sha256": "3c74335a15048c45cece7b49447eddc714caa321f7b8053fc72eb94c8c92b70a",
+      "verified": true
+    },
+    {
+      "identity": "3-2026-OECE",
+      "documentId": "c21149b6-1fe9-48c9-ba60-135e6a54a8b1",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301416/7631009-opinion-d003-2026-oece-dtn.pdf",
+      "sha256": "1abfd6d9cf4b4ffdf988011854c8de1b48501c7eb8284c5906d9a39a54bf1f91",
+      "verified": true
+    },
+    {
+      "identity": "67-2025-OECE",
+      "documentId": "4341959b-f270-4954-8e35-122b84bf5c08",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9224574/7570936-opinion-d067-2025-oece-dtn.pdf",
+      "sha256": "9928226ace3eabbe01bf3eb2628623bafd8141eead1f2473b8ee20a9de24b193",
+      "verified": true
+    },
+    {
+      "identity": "65-2025-OECE",
+      "documentId": "34a71adf-904e-4552-be95-e098bb4d7f09",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9111435/7479436-opinion-d065-2025-oece-dtn.pdf",
+      "sha256": "f329004a41a59d1a2e2c6f8b16fe35e280645de803b09141bfbc109fab1fab95",
+      "verified": true
+    },
+    {
+      "identity": "68-2025-OECE",
+      "documentId": "dd6ba6b2-edba-43c7-b746-fcd949546955",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9224594/7570946-opinion-d068-2025-oece-dtn.pdf",
+      "sha256": "f1a03fda1e1d98abeeb8c0e1e386357e8ee6eda45d2b1cd4d1999412e7117097",
+      "verified": true
+    },
+    {
+      "identity": "63-2025-OECE",
+      "documentId": "e691f3ff-8c3f-4434-8c21-bb606a1f3cad",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9111394/7479411-opinion-d063-2025-oece-dtn.pdf",
+      "sha256": "1afe540a1460f1c537008f524ad737bc2a00155dec331b196b26c692a839cbab",
+      "verified": true
+    },
+    {
+      "identity": "62-2025-OECE",
+      "documentId": "20f23592-b4dc-438e-a4b1-d6ec74579b66",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9094808/7467052-opinion-d062-2025-oece-dtn.pdf",
+      "sha256": "eb596be80f0fc0ccd2a69efe5a039513b42863ab1397dbd70ac8c794b01a4835",
+      "verified": true
+    },
+    {
+      "identity": "60-2025-OECE",
+      "documentId": "e9b32aba-cf79-4e41-b398-a95c5871d0fd",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9034939/7427135-opinion-d060-2025-oece-dtn.pdf",
+      "sha256": "3ca0d9d937a8c9d2d692903ecc81c98a9de3963c6ae7359db62958a03ae89518",
+      "verified": true
+    },
+    {
+      "identity": "59-2025-OECE",
+      "documentId": "3f7f925c-7729-435b-ac7d-7873a2bf539d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9012372/7411334-opinion-d059-2025-oece-dtn.pdf",
+      "sha256": "7640c636636ac8988842bbb04d6dfa64725dbd4fbf40090a00ce04c45f33aaea",
+      "verified": true
+    },
+    {
+      "identity": "58-2025-OECE",
+      "documentId": "7c7ecdeb-5d7f-4468-bc0f-d0fe4a118bac",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8983956/7391143-opinion-d058-2025-oece-dtn.pdf",
+      "sha256": "042a0edb59efd79553ebc56870b9b03179134b2d1d0896b978780297d36a72fc",
+      "verified": true
+    },
+    {
+      "identity": "57-2025-OECE",
+      "documentId": "ca8de867-2f8d-4f0c-b54e-ebe02136e9b1",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8983814/7391040-opinion-d057-2025-oece-dtn.pdf",
+      "sha256": "1a6d50ad53e948c52ffcc2da7da430bfd7cd34d64e0f4d78ee21b7297d69a273",
+      "verified": true
+    },
+    {
+      "identity": "53-2025-OECE",
+      "documentId": "0b2abacc-70ba-42cf-a865-01570f19e771",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8924538/7351389-opinion-d053-2025-oece-dtn.pdf",
+      "sha256": "3ddec88f0c9365cb77e13446a6ebd03b0da52c612b53483c0af054f448e64299",
+      "verified": true
+    },
+    {
+      "identity": "56-2025-OECE",
+      "documentId": "a8bd0c59-e811-450d-946b-18313ca56e5f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8983535/7390864-opinion-d056-2025-oece-dtn.pdf",
+      "sha256": "3abb6c88342f64777736541e2f8e5405ef0b97f4202be84a7ebbc08d3e3693e7",
+      "verified": true
+    },
+    {
+      "identity": "52-2025-OECE",
+      "documentId": "78c4953f-203e-4dc7-8988-d7921f3e5acf",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8924536/7351388-opinion-d052-2025-oece-dtn.pdf",
+      "sha256": "12c7a77f532d68a967ca1adb8a40c65f6cd152230a7ed4c89e14e8c2fe07350e",
+      "verified": true
+    },
+    {
+      "identity": "51-2025-OECE",
+      "documentId": "9e402fcd-1532-4b33-be11-67598a69d3f3",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8924535/7351387-opinion-d051-2025-oece-dtn.pdf",
+      "sha256": "c7f8751c4042e87d8646e67313840e844a5b6de1450d66f750b60c63b742022c",
+      "verified": true
+    },
+    {
+      "identity": "49-2025-OECE",
+      "documentId": "87172043-7ed0-493d-be9a-6052a09fa7c0",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8884631/7324523-opinion-d049-2025-oece-dtn.pdf",
+      "sha256": "02f6ff433f4264683e66c9542cf3e55389bfab8906c942f32365bfaaf5186ed6",
+      "verified": true
+    },
+    {
+      "identity": "48-2025-OECE",
+      "documentId": "6af140df-d2f9-4638-b63a-0f436b18709e",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8865524/7312290-opinion-d048-2025-oece-dtn.pdf",
+      "sha256": "d3703d08e589bf40773a255f4f9c1ad552a4032b9d05d862b60f1c9a24411263",
+      "verified": true
+    },
+    {
+      "identity": "46-2025-OECE",
+      "documentId": "0f58fbe5-c15c-43ea-b165-d2c853d6f103",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8843978/7298214-opinion-d046-2025-oece-dtn.pdf",
+      "sha256": "dfc9b20b93076f5a824b1df1ca63b3e2b72831983df6a37d3ecbb2590367fb16",
+      "verified": true
+    },
+    {
+      "identity": "45-2025-OECE",
+      "documentId": "8dddcafa-2a4c-47f2-a79b-961b581ffb2a",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8843945/7298187-opinion-d045-2025-oece-dtn.pdf",
+      "sha256": "c8bb1d0165262d4ad4a61e00b6373cb5475bb2548166021233e1a94ce7be4443",
+      "verified": true
+    },
+    {
+      "identity": "47-2025-OECE",
+      "documentId": "75d2d1be-d80f-4ef5-a69d-f8fb38f128c8",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8844193/7298276-opinion-d047-2025-oece-dtn.pdf",
+      "sha256": "277b8ecacc33a72f03b7211877148d45bcc37f40008691d261d7d778e5bb6843",
+      "verified": true
+    },
+    {
+      "identity": "43-2025-OECE",
+      "documentId": "0f78ce17-3c6a-4735-afc5-efb5834a3cdb",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8787127/7262504-opinion-d043-2025-oece-dtn.pdf",
+      "sha256": "62f75d3401d3fc32f2281818e8ec159b2f2b28c3cf62435afe15c4a0214ed191",
+      "verified": true
+    },
+    {
+      "identity": "42-2025-OECE",
+      "documentId": "9b5075ba-566f-4bf8-b4dc-08df89681fb8",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8787115/7262499-opinion-d042-2025-oece-dtn.pdf",
+      "sha256": "877d904e4ee3d785bd11df8fbf4466fd4192f9a5d52ef691517ed761c129c512",
+      "verified": true
+    },
+    {
+      "identity": "44-2025-OECE",
+      "documentId": "3ac1fc08-0142-46ca-a23d-e9e13f6ee1ec",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8788395/7263108-opinion-d044-2025-oece-dtn.pdf",
+      "sha256": "83d22d305f8e80222a25ad68e5f2ccc892801e844bc6ea3572ea661b4dbeff86",
+      "verified": true
+    },
+    {
+      "identity": "41-2025-OECE",
+      "documentId": "1eaa0c4e-9b6f-4625-b834-d404f8dee532",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8787051/7262462-opinion-d041-2025-oece-dtn.pdf",
+      "sha256": "a544ef353b2d7d572ea28503694f3d6a53a72ef6a94b43888c698f0effcdacf9",
+      "verified": true
+    },
+    {
+      "identity": "40-2025-OECE",
+      "documentId": "10b75119-7ec2-447c-9111-d9df107b8c6e",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8787017/7262440-opinion-d040-2025-oece-dtn.pdf",
+      "sha256": "d05397b2b20fd4225fa9e076c6c2d0939f9b5121b493abb144a447fd7de2d5a9",
+      "verified": true
+    },
+    {
+      "identity": "37-2025-OECE",
+      "documentId": "502c62d4-0f56-4283-a345-6c74608aa4bb",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8720477/7217387-opinion-d037-2025-oece-dtn.pdf",
+      "sha256": "1e99496a1c2e10827cf89b74c59565e96f529484661b5fceb11c95659788c0c7",
+      "verified": true
+    },
+    {
+      "identity": "36-2025-OECE",
+      "documentId": "6cf442be-5710-4ef3-89b7-4fc940ff6da6",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8708103/7203872-opinion-d036-2025-oece-dtn.pdf",
+      "sha256": "b37ca198cb5feebf33515d136e22f7a212781cb1a71b1491f73b09e2c43c2620",
+      "verified": true
+    },
+    {
+      "identity": "34-2025-OECE",
+      "documentId": "79cd07b5-93c2-47dc-9a8e-919c598ef084",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661908/7168951-opinion-d034-2025-oece-dtn.pdf",
+      "sha256": "91bb1d0e82e2d601a105a1a00f7d2f6ada6960ed5016de4d5130b3be622d6326",
+      "verified": true
+    },
+    {
+      "identity": "32-2025-OECE",
+      "documentId": "1352f7e7-d870-41c2-bfb7-0cce5978b74f",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661906/7168949-opinion-d032-2025-oece-dtn.pdf",
+      "sha256": "04195a1e002280d0ee8b6ced619d30fe17152ec6e24a93df8987464d446282e8",
+      "verified": true
+    },
+    {
+      "identity": "31-2025-OECE",
+      "documentId": "73243f45-2109-405d-8e55-f1fbd028eaea",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661904/7168947-opinion-d031-2025-oece-dtn.pdf",
+      "sha256": "bd80aacfd52809f7d255d632d75a5f545ac3e24e123071521e8d5d9d0acc2477",
+      "verified": true
+    },
+    {
+      "identity": "29-2025-OECE",
+      "documentId": "7b8b12ab-4b40-42cf-b745-07855b21ae45",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661896/7168944-opinion-d029-2025-oece-dtn.pdf",
+      "sha256": "36a163106ac13d21371a43b3e681615009aa73eeb11d455d723a2fa0b47a31fb",
+      "verified": true
+    },
+    {
+      "identity": "25-2025-OECE",
+      "documentId": "b491ea86-5aed-43a9-bb93-cf2de94d60f4",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661868/7168930-opinion-d025-2025-oece-dtn.pdf",
+      "sha256": "e7bcd9cc34af3eb69ee21bc365683f6593c19ac1a60c1c13d547a9737235480d",
+      "verified": true
+    },
+    {
+      "identity": "24-2025-OECE",
+      "documentId": "447fa811-1763-440f-8de4-bfcd494441a0",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8550972/7083068-opinion-d024-2025-oece-dtn.pdf",
+      "sha256": "6c275b19017ae65d9d635c97db3411e1098692d118528d939c98df440f5ef385",
+      "verified": true
+    },
+    {
+      "identity": "23-2025-OECE",
+      "documentId": "8f477acb-5e98-4b1d-9e09-2b7db0a3b20d",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8550845/7083042-opinion-d023-2025-oece-dtn.pdf",
+      "sha256": "cf86c7db440531ce6fe5dca9cb5a3f5a71476a84fcba45d860e8f601fdbfa890",
+      "verified": true
+    },
+    {
+      "identity": "28-2025-OECE",
+      "documentId": "7c0f8da1-09aa-4d7f-980e-4e2b4b8f5b63",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661895/7168943-opinion-d028-2025-oece-dtn.pdf",
+      "sha256": "a935fc58f4090cca34249bf32b2cc63e9029e5faebe296488d763903e88db4dd",
+      "verified": true
+    },
+    {
+      "identity": "22-2025-OECE",
+      "documentId": "34a94e4a-1a3e-454c-ab7d-a7d9957d487c",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8550834/7083022-opinion-d022-2025-oece-dtn.pdf",
+      "sha256": "b48bfa5783d33daefe3def96b11db95615c033d85da4d9721364350aafcdcaf5",
+      "verified": true
+    },
+    {
+      "identity": "20-2025-OECE",
+      "documentId": "749fea9f-2159-40ef-b40f-52c0af8b92f2",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8393024/6978513-opinion-d020-2025-oece-dtn.pdf",
+      "sha256": "bdb56587a6fa45006187c337a3304a3a80ef5cb488932f4157a368f5561938c9",
+      "verified": true
+    },
+    {
+      "identity": "21-2025-OECE",
+      "documentId": "088e6328-4bbe-4bbb-bf7a-db93a5bdaedf",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8550814/7082998-opinion-d021-2025-oece-dtn.pdf",
+      "sha256": "5b9fb68feb4cbf55fda8c23d88584a9dd37117ec1004e08666d8d394c855134e",
+      "verified": true
+    },
+    {
+      "identity": "17-2025-OECE",
+      "documentId": "5e8e3a88-3109-48b7-8a05-3b1bc5dd1505",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8330950/6939055-opinion-d017-2025-oece-dtn.pdf",
+      "sha256": "07472cc6cebe3814d2dc488523045c8463344ce0825cd0bcdfd4017ed0e70e48",
+      "verified": true
+    },
+    {
+      "identity": "14-2025-OECE",
+      "documentId": "3448123f-77e4-42e3-a1d2-712e18d583eb",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8330944/6939052-opinion-d014-2025-oece-dtn.pdf",
+      "sha256": "4f44d0fda4ac2cc2620c09de20aa250e877f7ea15d280e5ba18cb7b941e0dd90",
+      "verified": true
+    },
+    {
+      "identity": "16-2025-OECE",
+      "documentId": "349f0821-7880-4378-a78a-d05cdd05f8c7",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8330949/6939054-opinion-d016-2025-oece-dtn.pdf",
+      "sha256": "35668fe47de73b2be27b8ec666b1572bccb72cc641725494a66018ff1d6e8243",
+      "verified": true
+    },
+    {
+      "identity": "13-2025-OECE",
+      "documentId": "6fb01d40-db5d-4b2f-981c-6fcfe0ba5314",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8295764/6917598-opinion-d013-2025-oece-dtn.pdf",
+      "sha256": "61a4fd62823b2811445f5ef44ae1fd01701398e9c927b19cd664606134b6ee65",
+      "verified": true
+    },
+    {
+      "identity": "26-2025-OECE",
+      "documentId": "a31dac5c-5a2c-40de-8447-012f2c37af4b",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661874/7168935-opinion-d026-2025-oece-dtn.pdf",
+      "sha256": "b0d4d4efc6e57d0032a2d9e6939763580346aa9fdf23fdd59d3798c6fbb1add4",
+      "verified": true
+    },
+    {
+      "identity": "9-2025-OECE",
+      "documentId": "263a3aae-9fdd-46ff-83e3-4693d7bca05e",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8295703/6917561-opinion-d009-2025-oece-dtn.pdf",
+      "sha256": "03073b9e8a8aaaf358b6ad1999e7385d0a52dd8817b5f5674fdf4d04390b6b00",
+      "verified": true
+    },
+    {
+      "identity": "4-2025-OECE",
+      "documentId": "e2401270-46fd-4c71-b46f-19f83a4ce603",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131883/6812169-opinion-d004-2025-oece-dtn.pdf",
+      "sha256": "4cc16f912b339d366979232795a14604e40dc4ac58f4717d1bc89ffb972bb9ad",
+      "verified": true
+    },
+    {
+      "identity": "11-2025-OECE",
+      "documentId": "1d52085c-e424-449e-93f4-13e22aec8031",
+      "officialPdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8295734/6917576-opinion-d011-2025-oece-dtn.pdf",
+      "sha256": "1bb315d671a354f86b43e2066ee7d95a045b4cc0b46458e21d344b68e2a07192",
+      "verified": true
+    }
+  ]
+}

@@ -83,3 +83,6 @@ supabase/.temp/
 /.eval-out.json
 .vercel
 .env*
+
+# Archivos temporales de comprobación local
+/tmp/

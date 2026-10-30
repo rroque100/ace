@@ -1,0 +1,152 @@
+{
+  "checkedAt": "2026-10-29T13:11:33.167Z",
+  "result": {
+    "processed": 4,
+    "detected": 291,
+    "remainingContinuesNextCycle": true
+  },
+  "counts": {
+    "queued": 579,
+    "running": 0,
+    "blocked": 100,
+    "done": 0,
+    "review": 0
+  },
+  "sources": [
+    {
+      "label": "OECE · Opiniones de la DTN",
+      "lastChecked": "2026-10-29T13:11:03.789+00:00",
+      "error": "Novedades parcialmente revisadas: quedan páginas pendientes.",
+      "recentCursor": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion?filter%5Bstart_date%5D=2026-10-22&sheet=7",
+      "historyComplete": false
+    },
+    {
+      "label": "OECE · Acuerdos de Sala Plena",
+      "lastChecked": "2026-10-29T13:11:06.404+00:00",
+      "error": null,
+      "recentCursor": null,
+      "historyComplete": false
+    },
+    {
+      "label": "OECE · Leyes",
+      "lastChecked": "2026-10-29T13:10:44.585+00:00",
+      "error": null,
+      "recentCursor": null,
+      "historyComplete": true
+    },
+    {
+      "label": "OECE · Directivas",
+      "lastChecked": "2026-10-29T13:10:50.855+00:00",
+      "error": null,
+      "recentCursor": null,
+      "historyComplete": false
+    },
+    {
+      "label": "OECE · Resoluciones TCP por salas",
+      "lastChecked": "2026-10-29T13:10:56.105+00:00",
+      "error": null,
+      "recentCursor": null,
+      "historyComplete": false
+    }
+  ],
+  "events": [
+    {
+      "id": 14,
+      "job_id": "1d656461-c649-41df-9945-733bbbb62fb4",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:11:30.506332+00:00"
+    },
+    {
+      "id": 13,
+      "job_id": "4d25722d-4fb5-4786-878f-2d9438ced01b",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:11:25.583599+00:00"
+    },
+    {
+      "id": 12,
+      "job_id": "18a82658-f029-42e4-a1c0-8ae2850308a4",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:11:20.359855+00:00"
+    },
+    {
+      "id": 11,
+      "job_id": "731688b4-34cf-4c10-8c5f-f35da644fb12",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:11:14.772776+00:00"
+    },
+    {
+      "id": 10,
+      "job_id": "ab088270-5b76-4530-a672-6312a599c4e8",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:51.565587+00:00"
+    },
+    {
+      "id": 9,
+      "job_id": "448b88f9-629d-4f8c-bd67-150cc5bf7642",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:50.443265+00:00"
+    },
+    {
+      "id": 8,
+      "job_id": "731688b4-34cf-4c10-8c5f-f35da644fb12",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:49.317941+00:00"
+    },
+    {
+      "id": 7,
+      "job_id": "82f175ea-05b3-4489-9c6a-960cca3649d8",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:48.211021+00:00"
+    },
+    {
+      "id": 6,
+      "job_id": "95d3d319-d96b-4623-a2e3-2f04cc6fe70d",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:47.065309+00:00"
+    },
+    {
+      "id": 5,
+      "job_id": "1278f4c1-b795-4209-91b8-93aedcf9d3f8",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:45.965701+00:00"
+    },
+    {
+      "id": 4,
+      "job_id": "6550fb53-e62f-47c3-a678-ca9b35d037a1",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:44.818122+00:00"
+    },
+    {
+      "id": 3,
+      "job_id": "5bd50ef6-930c-49a8-8a56-9f6ee8a9120b",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:43.718773+00:00"
+    },
+    {
+      "id": 2,
+      "job_id": "1d656461-c649-41df-9945-733bbbb62fb4",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:42.583929+00:00"
+    },
+    {
+      "id": 1,
+      "job_id": "25a3b279-a502-4028-bee4-770011b45c6c",
+      "kind": "error",
+      "detail": "fetch failed",
+      "created_at": "2026-10-29T00:27:41.482353+00:00"
+    }
+  ]
+}

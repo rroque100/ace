@@ -1,0 +1,1 @@
+import fs from 'node:fs';async function main(){const {downloadOfficialPdf}=await import('../lib/official-import/download');const b=await downloadOfficialPdf('https://cdn.www.gob.pe/uploads/document/file/359624/Acuerdo_de_Sala_Plena_N__003-2015.pdf');fs.writeFileSync('.next/oece-agreements/repair-03-2015.pdf',b);}main();

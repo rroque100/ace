@@ -1,4 +1,5 @@
 ﻿"use client";
+import { archivoNeedsRecovery } from "@/lib/archivo-processing-policy";
 import { prepareArchivoUpload } from "@/lib/archivo-upload-client";
 
 import dynamic from "next/dynamic";
@@ -962,49 +963,59 @@ export function ExpedientesArchivoWorkspace({
   }
 
   async function reindexExpediente(id: string) {
+    if (reindexBusyRef.current) return false;
+    reindexBusyRef.current = true;
     setReindexingId(id);
     try {
       const res = await fetch(`/api/expedientes-archivo/${id}`, { method: "POST" });
       if (!res.ok) {
+        if (res.status === 429) {
+          reindexNextAttemptRef.current = Date.now() + Math.max(60, Number(res.headers.get("Retry-After")) || 60) * 1000;
+          return false;
+        }
         const payload = await res.json();
         showToast(payload.error ?? "No se pudo reindexar", "error");
-        return;
+        return false;
       }
       showToast("Reindexado iniciado en segundo plano.", "info");
       await Promise.all([loadExpedientes(), refreshRecentUploads()]);
+      return true;
     } catch {
       showToast("No se pudo conectar con el servidor.", "error");
+      return false;
     } finally {
+      reindexBusyRef.current = false;
+      reindexNextAttemptRef.current = Math.max(reindexNextAttemptRef.current, Date.now() + 15_000);
       setReindexingId(null);
     }
   }
 
-  // Reindexado AUTOMÁTICO de lo subido recientemente: antes había que hacer
-  // clic a mano en "Reindexar" para un expediente en error, o esperar al
-  // drainer programado —en Vercel Hobby corre una vez al día, no hay cron más
-  // frecuente— si se quedaba atascado en "uploaded"/"processing" (el `after()`
-  // de la subida murió a mitad, p. ej. por timeout). Ahora la pestaña Subir lo
-  // intenta sola, una vez por expediente (autoReindexedRef evita reintentar en
-  // bucle si vuelve a fallar — para eso sigue estando el botón manual).
-  //
-  // El umbral de 90s antes de tocar un "uploaded"/"processing" es a propósito
-  // más holgado que EXPEDIENTES_CLAIM_SECONDS (120s, el que usa el propio
-  // drainer del servidor): no queremos reindexar por encima de un
-  // procesamiento que todavía está genuinamente en curso.
+  // Una recuperación por versión, sin interferir con trabajos activos.
   const autoReindexedRef = useRef<Set<string>>(new Set());
+  const autoErrorRetriedRef = useRef<Set<string>>(new Set());
+  const reindexBusyRef = useRef(false);
+  const reindexNextAttemptRef = useRef(0);
   useEffect(() => {
-    for (const exp of recentUploads) {
-      if (autoReindexedRef.current.has(exp.id) || reindexingId === exp.id) continue;
-      const stuckMs = Date.now() - new Date(exp.created_at).getTime();
-      const enError = exp.status === "error";
-      const atascado = (exp.status === "uploaded" || exp.status === "processing") && stuckMs > 90_000;
-      if (enError || atascado) {
-        autoReindexedRef.current.add(exp.id);
-        void reindexExpediente(exp.id);
-      }
-    }
+    if (!canManage || tab !== "subir") return;
+    const timer = setInterval(() => {
+      if (reindexBusyRef.current || Date.now() < reindexNextAttemptRef.current) return;
+      const exp = recentUploads.find(row => archivoNeedsRecovery(row) &&
+        !(row.status === "error" && autoErrorRetriedRef.current.has(row.id)) &&
+        !autoReindexedRef.current.has(`${row.id}:${row.updated_at}`));
+      if (!exp) return;
+      const key = `${exp.id}:${exp.updated_at}`;
+      autoReindexedRef.current.add(key);
+      if (exp.status === "error") autoErrorRetriedRef.current.add(exp.id);
+      void reindexExpediente(exp.id).then(accepted => {
+        if (!accepted) {
+          autoReindexedRef.current.delete(key);
+          autoErrorRetriedRef.current.delete(exp.id);
+        }
+      });
+    }, 4000);
+    return () => clearInterval(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recentUploads, reindexingId]);
+  }, [canManage, tab, recentUploads]);
 
   async function deleteExpediente(exp: ExpedienteItem) {
     showConfirm({
@@ -1640,7 +1651,7 @@ export function ExpedientesArchivoWorkspace({
           canManage={canManage}
           reindexingId={reindexingId}
           deletingId={deletingId}
-          reindexExpediente={reindexExpediente}
+          reindexExpediente={async id => { await reindexExpediente(id); }}
           deleteExpediente={deleteExpediente}
           loadExpedientes={loadExpedientes}
           pagination={pagination}
@@ -1701,7 +1712,7 @@ export function ExpedientesArchivoWorkspace({
           refreshRecentUploads={refreshRecentUploads}
           reindexingId={reindexingId}
           deletingId={deletingId}
-          reindexExpediente={reindexExpediente}
+          reindexExpediente={async id => { await reindexExpediente(id); }}
           deleteExpediente={deleteExpediente}
           setOpenExp={setOpenExp}
           setTab={setTab}

@@ -1,0 +1,1340 @@
+{
+  "summary": {
+    "reviewedReferences": 78,
+    "uniqueDocuments": 78,
+    "existingReused": 15,
+    "newDocuments": 63,
+    "newIndexed": 15,
+    "newOriginalsPending": 23,
+    "newWebTextPending": 25,
+    "bytesAdded": 21414784,
+    "existingRecordsUnchanged": 119,
+    "finalInstitutionalRecords": 182,
+    "checkedAt": "2026-10-27T15:11:06.149Z"
+  },
+  "documents": [
+    {
+      "id": "96c04db1-39be-4896-a460-8a29b428bbaa",
+      "title": "Índice de directivas vigentes — archivo oficial actualizado al 17.07.2026",
+      "documentType": "otros",
+      "subtype": "indice_documental",
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/pdf",
+      "bytes": 339793,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/6736681",
+      "download": "https://ace-rormi.vercel.app/api/documents/96c04db1-39be-4896-a460-8a29b428bbaa",
+      "sha256": "1646b27cfd17f1d7f3a114f2a81bda99542d2f9b3c1243c4e4595208d9fe3f23",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "ecfacea3-78f3-46ac-874f-3bcbcb684ca0",
+      "title": "Directiva N.° 001-2026-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 462106,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7719040-001-2026-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/ecfacea3-78f3-46ac-874f-3bcbcb684ca0",
+      "sha256": "3388c09b0d5f76a788cd88386c6b8860a9d0e547d3ada735e72f24909597337f",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "63676ef5-5df7-424b-867f-5913b8a1fbc3",
+      "title": "Directiva N.° 001-2025-OECE-CD — Directiva de procedimientos y trámites ante el Registro Nacional de Proveedores",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 723183,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682380",
+      "download": "https://ace-rormi.vercel.app/api/documents/63676ef5-5df7-424b-867f-5913b8a1fbc3",
+      "sha256": "a1f62195f04cf69640b64b1f3478a27fa7f994852490a42913c40ff666890847",
+      "verification": {
+        "pages": 34,
+        "chunks": 32,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:17.596Z"
+      }
+    },
+    {
+      "id": "28187d8e-9555-4521-8210-af978791ca07",
+      "title": "Directiva N.° 010-2025-OECE-CD — Directiva de Bases estándar para los procedimientos especiales de selección a convocar en el marco de la Ley N° 31589 para la reactivación de obras públicas paralizadas",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 333379,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6850994",
+      "download": "https://ace-rormi.vercel.app/api/documents/28187d8e-9555-4521-8210-af978791ca07",
+      "sha256": "dd57fa46182e7c265d9073f4f26ec688763008c93b0d934213a26ded96150a03",
+      "verification": {
+        "pages": 6,
+        "chunks": 6,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:30.828Z"
+      }
+    },
+    {
+      "id": "e7b78b18-5e32-47eb-a0ab-5dec4df17cdb",
+      "title": "Directiva N.° 007-2025-OECE-CD — Directiva de disposiciones aplicables para el acceso y registro de información en el Sistema Electrónico de Contrataciones del Estado - SEACE",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 1876913,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682412",
+      "download": "https://ace-rormi.vercel.app/api/documents/e7b78b18-5e32-47eb-a0ab-5dec4df17cdb",
+      "sha256": "824ecb5822a761cea84541b77c597b1f5ea902e0ad755f7d7fc50269b5598689",
+      "verification": {
+        "pages": 70,
+        "chunks": 79,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:52.670Z"
+      }
+    },
+    {
+      "id": "d28b06eb-c530-4ea1-b47f-4aa78047c18d",
+      "title": "Directiva N.° 018-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 601798,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7472600-018-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/d28b06eb-c530-4ea1-b47f-4aa78047c18d",
+      "sha256": "6b20017ca2f2af0c8fa0bb104d173b2f4520e53df4bdcb8de3b10467786b5f06",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "9b15c93e-c453-4761-b1b4-691c92e644f0",
+      "title": "Directiva N.° 017-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 531513,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7281401-017-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/9b15c93e-c453-4761-b1b4-691c92e644f0",
+      "sha256": "cbb2e6737c9dd52ccc411291a0d19157306da45bfae2b7b51e20698cfe0020f9",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "bb218581-0df0-4393-85e1-6b6adf18cf44",
+      "title": "Directiva N.° 002-2025-OECE-CD — Directiva de Junta de Prevención y Resolución de Disputas",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 431712,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682391",
+      "download": "https://ace-rormi.vercel.app/api/documents/bb218581-0df0-4393-85e1-6b6adf18cf44",
+      "sha256": "3f85689a3c01efa1c67a7db35c45ef9c52bd547b4c1f9d8c99fa536f97b24ddf",
+      "verification": {
+        "pages": 29,
+        "chunks": 29,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:10.958Z"
+      }
+    },
+    {
+      "id": "2faac68b-f28b-4407-a81d-cbf83b602096",
+      "title": "Directiva N.° 004-2025-OECE-CD — Directiva del Registro de Instituciones Arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas (REGAJU)",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 320893,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682397",
+      "download": "https://ace-rormi.vercel.app/api/documents/2faac68b-f28b-4407-a81d-cbf83b602096",
+      "sha256": "3663b78f71570f4ee014fbb88c8341e4f5178016e438ea4482ba9543e2bc5d6b",
+      "verification": {
+        "pages": 10,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:13.778Z"
+      }
+    },
+    {
+      "id": "dab1ae4d-2dff-40aa-aeca-e1f54ac7446c",
+      "title": "Directiva N.° 008-2025-OECE-CD — Directiva de Tabla de Gastos Arbitrales aplicables a los arbitrajes ad hoc en materia de contrataciones públicas",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 270992,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682466",
+      "download": "https://ace-rormi.vercel.app/api/documents/dab1ae4d-2dff-40aa-aeca-e1f54ac7446c",
+      "sha256": "b10b326a16ea3e39900ca7ace9ac30d69f78c06fc0970a4d29952ed5bef239b1",
+      "verification": {
+        "pages": 5,
+        "chunks": 2,
+        "pineconeHits": 2,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:23.488Z"
+      }
+    },
+    {
+      "id": "b054cec4-a0c0-44cd-8d6c-cecab39eec65",
+      "title": "Directiva N.° 009-2025-OECE-CD — Directiva de servicios arbitrales de recusación y designación residual de árbitros en el marco del Sistema Nacional de Arbitraje",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 469458,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682472",
+      "download": "https://ace-rormi.vercel.app/api/documents/b054cec4-a0c0-44cd-8d6c-cecab39eec65",
+      "sha256": "5bde6f5450bb2dd4de88317ef36bc5b46caa84f9575b63ab599cee20f4f50eab",
+      "verification": {
+        "pages": 19,
+        "chunks": 18,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:37.862Z"
+      }
+    },
+    {
+      "id": "4042a6a3-856f-474d-851e-df2f30fbb105",
+      "title": "Directiva N.° 014-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 443840,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7262842-014-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/4042a6a3-856f-474d-851e-df2f30fbb105",
+      "sha256": "32cf12377c193f3db8cc491b5648306baad8ce2c4175b51e8d421ad93f8c0339",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "31c15860-c09f-4af2-aa7a-df95faccda1d",
+      "title": "Directiva N.° 003-2025-OECE-CD — Directiva de disposiciones para la presentación de la solicitud de elevación de cuestionamientos, emisión del pronunciamiento e integración definitiva de las bases",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 329853,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682396",
+      "download": "https://ace-rormi.vercel.app/api/documents/31c15860-c09f-4af2-aa7a-df95faccda1d",
+      "sha256": "b36579d682fa8b89b394d77debd1ec9e7227015179d05491b33058ab23206b89",
+      "verification": {
+        "pages": 7,
+        "chunks": 6,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:51.036Z"
+      }
+    },
+    {
+      "id": "39b4bddc-b510-4694-802b-e036caa25e3d",
+      "title": "Directiva N.° 005-2025-OECE-CD — Directiva de Asistencia técnica y orientación brindada por el OECE, a solicitud de las Entidades Contratantes",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 290503,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682409",
+      "download": "https://ace-rormi.vercel.app/api/documents/39b4bddc-b510-4694-802b-e036caa25e3d",
+      "sha256": "2d554c822fbc99d8842ee78d24ea18a69f94c84d174b3d54fb2465d34edd3981",
+      "verification": {
+        "pages": 9,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:02:03.352Z"
+      }
+    },
+    {
+      "id": "005381dc-7d79-4772-b950-f6e0696ce358",
+      "title": "Directiva N.° 006-2025-OECE-CD — Directiva de Acciones de supervisión a pedido de parte y de oficio",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 297356,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682410",
+      "download": "https://ace-rormi.vercel.app/api/documents/005381dc-7d79-4772-b950-f6e0696ce358",
+      "sha256": "d681e5aa4d670ca05a38c73f2cb3cad6b8e2b98d6b15071395a29a453cf254cb",
+      "verification": {
+        "pages": 9,
+        "chunks": 9,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:02:16.371Z"
+      }
+    },
+    {
+      "id": "7737adc4-86b3-4875-bf32-68229b6a8895",
+      "title": "Directiva N.° 016-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 598740,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7281157-016-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/7737adc4-86b3-4875-bf32-68229b6a8895",
+      "sha256": "494d923ce627ba8ff8035366d601d09ba66e2fc4c6a006b3899c0e0d8af5cca2",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "54d3956b-8c33-47bd-8c2f-6157a1202f51",
+      "title": "Directiva N.° 015-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 397193,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7262874-015-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/54d3956b-8c33-47bd-8c2f-6157a1202f51",
+      "sha256": "484812002237d8798bef52a4514df4b12a6d1503503c59b4453f1a38d7dc081c",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "86349dad-7782-4f0e-9057-7902c72f7fb3",
+      "title": "Directiva N.° 013-2025-OECE-CD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 563823,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7262796-013-2025-oece-cd",
+      "download": "https://ace-rormi.vercel.app/api/documents/86349dad-7782-4f0e-9057-7902c72f7fb3",
+      "sha256": "4165d833a2fc05e6a8b5f8ae32b7c3e93e2e6207f05201159099006855d01004",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "0b4c731c-e7a4-4265-a38b-2179089f8059",
+      "title": "Directiva N.° 012-2025-OECE-CD — Directiva del Procedimiento Administrativo Sancionador de Instituciones Arbitrales y Centros de Administración de JPRD",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 507515,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7165605",
+      "download": "https://ace-rormi.vercel.app/api/documents/0b4c731c-e7a4-4265-a38b-2179089f8059",
+      "sha256": "f422a81213dc629d7ed9f845a8462facb1d15e4500bf98f09cae61a78815e6f3",
+      "verification": {
+        "pages": 26,
+        "chunks": 24,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:29.012Z"
+      }
+    },
+    {
+      "id": "6fb98cd9-042e-4ad8-aabc-92e970b6cff6",
+      "title": "Directiva N.° 011-2025-OECE-CD — Directiva de Supervisión de Instituciones Arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas",
+      "documentType": "directiva",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 539193,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7155508",
+      "download": "https://ace-rormi.vercel.app/api/documents/6fb98cd9-042e-4ad8-aabc-92e970b6cff6",
+      "sha256": "988515e1797f0942b578c8a2a842b05bb0be2b85a9255d0407c410cbbd707447",
+      "verification": {
+        "pages": 22,
+        "chunks": 19,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:47.254Z"
+      }
+    },
+    {
+      "id": "36be1be1-96d2-44d6-91f6-4a49d06655cc",
+      "title": "Lineamientos de conducta de los compradores públicos para el desarrollo del proceso de contratación pública",
+      "documentType": "otros",
+      "subtype": "lineamiento",
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/pdf",
+      "bytes": 712861,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/7603870",
+      "download": "https://ace-rormi.vercel.app/api/documents/36be1be1-96d2-44d6-91f6-4a49d06655cc",
+      "sha256": "7639a924727a8d31a3eacb337466c3e1a01c1d567d61d2f916c573fa48ba496c",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "e080b4e0-1845-4e92-93e2-0a37cdb3a70a",
+      "title": "Lineamientos para la elaboración del Reglamento Interno a cargo de las Instituciones Arbitrales y Centros de Administración de JPRD",
+      "documentType": "otros",
+      "subtype": "lineamiento",
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/pdf",
+      "bytes": 297710,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682425",
+      "download": "https://ace-rormi.vercel.app/api/documents/e080b4e0-1845-4e92-93e2-0a37cdb3a70a",
+      "sha256": "45cf5b3c925706baec469a67cab85c365e40a7d576c500a18b652119dc0f5fed",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "6d68de25-3e3e-4970-be22-1029f8b656c1",
+      "title": "Código de Ética para el Arbitraje en Contrataciones Públicas",
+      "documentType": "otros",
+      "subtype": "codigo_etica",
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/pdf",
+      "bytes": 520302,
+      "source": "https://www.gob.pe/institucion/oece/normas-legales/6682458",
+      "download": "https://ace-rormi.vercel.app/api/documents/6d68de25-3e3e-4970-be22-1029f8b656c1",
+      "sha256": "553585eea22b7a70cc73ab941e936511fe978f941380f9c5f34fa080063247dd",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c885174e-c127-4556-9c6f-05aa44ea8fa6",
+      "title": "Resolución Directoral N.° 001-2026-EF/54.01 — modificación de bases estándar",
+      "documentType": "resolucion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 890867,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "download": "https://ace-rormi.vercel.app/api/documents/c885174e-c127-4556-9c6f-05aa44ea8fa6",
+      "sha256": "d85308b2931b73daab0a433c01a1e8712e08469c9dbdc772b12af4fdf6686525",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "697a6707-b32a-47d8-a4fb-2a01d2e707b4",
+      "title": "Bases estándar — Licitación Pública para Bienes",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 567471,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/697a6707-b32a-47d8-a4fb-2a01d2e707b4",
+      "sha256": "209b43600a59ce63f0a0f2634ec5bca5790723d3e3d14e2d0786fa6e5d634f25",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "89131716-0ccb-456b-8e87-00eeeaa0d4fc",
+      "title": "Bases estándar — Licitación Pública Abreviada para Bienes",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 536743,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/89131716-0ccb-456b-8e87-00eeeaa0d4fc",
+      "sha256": "1ea31a8417f22a316ad9936cd3c5c2e4bf283fd01bda4e09e1c4bbb384808c8d",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "480620cc-df0b-47a0-8f40-e60f11ebe43c",
+      "title": "Bases estándar — Licitación Pública para Bienes (Programa Vaso de Leche)",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 644851,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/480620cc-df0b-47a0-8f40-e60f11ebe43c",
+      "sha256": "db7cd7f785f605c917f6d1f5a8d6f923a910fb567347874836524a962283452b",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "48659258-8902-4015-bfaf-024720e72544",
+      "title": "Bases estándar — Licitación Pública Abreviada para Bienes (Programa Vaso de Leche)",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 623809,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/48659258-8902-4015-bfaf-024720e72544",
+      "sha256": "6a5e19eea59e3ed72feaac1800743aa2f022b175c796654f6c46fc6597b0ac74",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "d3867d78-cd2f-4c49-9e83-0a48e56a5575",
+      "title": "Bases estándar — Licitación Pública de Obras",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 601255,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/d3867d78-cd2f-4c49-9e83-0a48e56a5575",
+      "sha256": "0be52f3ff010343b87eb58dacbc37f4b6e102e0eea0bd0430d5bb02d3ec7634d",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "3f0eed26-00d1-4bb1-9bac-a212ef0bcc3a",
+      "title": "Bases estándar — Licitación Pública Abreviada de Obras",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 669713,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/3f0eed26-00d1-4bb1-9bac-a212ef0bcc3a",
+      "sha256": "73c7aa7857c44ebbdebea18d23a0a664528af0030910bfbc3ce5225bd5d46a69",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "d84d1873-e160-40b7-a024-3f15abe14db2",
+      "title": "Bases estándar — Concurso de Proyectos Arquitectónicos y Urbanísticos",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 665737,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/d84d1873-e160-40b7-a024-3f15abe14db2",
+      "sha256": "4c623617a28faa4a06b9f4f6caf9b63eec40a7c75f8bc56009d6a65cd56b269f",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "3a21681a-66af-4ce4-9255-35a6d2c0b8ea",
+      "title": "Bases estándar — Concurso Público de Servicios",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 594984,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/3a21681a-66af-4ce4-9255-35a6d2c0b8ea",
+      "sha256": "3fe82926751b63ae72b26333a94caa23c7ff35b434bf2b78f839f32cab257516",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "2ce74dcb-fe71-452b-97e1-f7ef215b03e2",
+      "title": "Bases estándar — Concurso Público Abreviado de Servicios",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 503631,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/2ce74dcb-fe71-452b-97e1-f7ef215b03e2",
+      "sha256": "b6d49e1ac82db5f67f567d15f2cfca70d5be1c1ca4ef29a8209d1995f12dd428",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "b19a9466-4b3b-4577-8252-a7ceec0fd5cd",
+      "title": "Bases estándar — Concurso Público para Consultoría en General",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 693766,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/b19a9466-4b3b-4577-8252-a7ceec0fd5cd",
+      "sha256": "c5f53b6c4183cf5245026aaef3c7e4bc06e927ca7c257a8692ab2e815f462415",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "8de8cf6b-b771-4103-8eaa-cbb321140563",
+      "title": "Bases estándar — Concurso Público Abreviado para Consultoría en General",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 659004,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/8de8cf6b-b771-4103-8eaa-cbb321140563",
+      "sha256": "cacb09078d37851d4e720a3801195f16d43207af658493bbab627303df8607d2",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "48902b35-3b34-450e-a4bc-ae418ed63c15",
+      "title": "Bases estándar — Concurso Público para Consultoría de Obra",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 781389,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/48902b35-3b34-450e-a4bc-ae418ed63c15",
+      "sha256": "3440513a2445f28570809161c6cf5c7bf9c175a2689827b814f7f4fbdcf885b7",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "b965b0c7-af4a-472e-a88c-6353fe223436",
+      "title": "Bases estándar — Concurso Público Abreviado para Consultoría de Obra",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 726677,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/b965b0c7-af4a-472e-a88c-6353fe223436",
+      "sha256": "c68e69934e7021eeb5200081c624a821e30fec6551ed12a5063b2128cdfed2ca",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "def12b29-a2be-4eed-8d97-d30fd85ddf52",
+      "title": "Bases estándar — Concurso Público para Servicio de Mantenimiento Vial",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 720908,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/def12b29-a2be-4eed-8d97-d30fd85ddf52",
+      "sha256": "6c719daa7b5594ade505be8d855e81d5bfdd1b0d906e352b1e9bf4c86aec6192",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "a001bb97-78c8-4674-9f6f-85cdc57268cd",
+      "title": "Bases estándar — Concurso Público Abreviado para Servicio de Mantenimiento Vial",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 668382,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/a001bb97-78c8-4674-9f6f-85cdc57268cd",
+      "sha256": "26a6309608e6de2b0504fbee28f0371f483ca334caa5bd2ca58681b276a2f3ba",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "e885c5b9-3417-4951-ad02-eadac0708652",
+      "title": "Bases estándar — Concurso Público Abreviado para Expertos y Gerentes de Proyectos",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 454884,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/e885c5b9-3417-4951-ad02-eadac0708652",
+      "sha256": "c3179023a99935f49bb0c2adf63ac3a233feede21d9f9c43c160f7b8d8399d2e",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "e0c246e5-fdcf-42b3-85e5-ecefb1af225a",
+      "title": "Bases estándar — Subasta Inversa Electrónica",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 336301,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/e0c246e5-fdcf-42b3-85e5-ecefb1af225a",
+      "sha256": "6753f2b0416b0c6e0e4a907c439e569247e095020d3d0864d6a66c5f82d6dfed",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "5801fdfc-1302-4db9-8407-f80a8e048a2b",
+      "title": "Bases estándar — Comparación de Precios",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 430884,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/5801fdfc-1302-4db9-8407-f80a8e048a2b",
+      "sha256": "0a039f2e651a908463773c1ffd679ac6165604437bd64785765413cac6b280a9",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "7004a1db-8af7-4a29-9ca0-c53a3b879102",
+      "title": "Bases estándar — Procedimiento de Selección No Competitivo",
+      "documentType": "bases_estandar",
+      "subtype": null,
+      "new": true,
+      "status": "original_stored_pending_index",
+      "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 635631,
+      "source": "https://www.gob.pe/institucion/mef/normas-legales/7614286",
+      "download": "https://ace-rormi.vercel.app/api/documents/7004a1db-8af7-4a29-9ca0-c53a3b879102",
+      "sha256": "08798af938edabca5caf2f725d636666660006bcdc1357d618a5cfc6eea90c11",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c0e29d3a-61bb-460d-9276-0a7ff5aadba5",
+      "title": "Opinión N.° D000094-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 590621,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596055-opinion-n-d000094-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/c0e29d3a-61bb-460d-9276-0a7ff5aadba5",
+      "sha256": "6282e2ba437c385d0f261be64c723bcc6c7449d7ff8bd891945360da03604476",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "a020625f-e196-4bc4-8476-a323d6d477b5",
+      "title": "Opinión N.° D000093-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 602856,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596053-opinion-n-d000093-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/a020625f-e196-4bc4-8476-a323d6d477b5",
+      "sha256": "d8aecdc9b8c30289af2b4888d59c623b2f4f4e9f7ee5b64d327e0e24ab8dd702",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "0970847f-c1ef-4565-afaf-df757132c6fa",
+      "title": "Opinión N.° D000101-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 490941,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629672-opinion-n-d000101-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/0970847f-c1ef-4565-afaf-df757132c6fa",
+      "sha256": "888ce51c87edaec07dc2344c243333472d7766a3dbc0844f892e802aeea0bece",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+      "title": "Opinión N° D000062-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 500647,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353829",
+      "download": "https://ace-rormi.vercel.app/api/documents/bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+      "sha256": "2679cd0b8e5775d065f4e5eac22e54bbdfcaa794ac449b583f50937f476e8cd6",
+      "verification": {
+        "pages": 6,
+        "chunks": 10,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:06:30.981Z"
+      }
+    },
+    {
+      "id": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+      "title": "Opinión N.° D000110-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 517636,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698010-opinion-n-d000110-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/bde05ce0-07c9-410a-a307-df5e7e1a6335",
+      "sha256": "5e78049089090c80a0aca3acf926350342f3d6c9dd99f301ba83e3cd0463d1c8",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+      "title": "Opinión N.° D000099-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 464940,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596615-opinion-n-d000099-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/93e3071e-a43a-4d6d-a2b7-212161baee50",
+      "sha256": "f119d551f2b8c2bb40b982ee800b386442e437a66016c4b2cda8f8e866ca83ba",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "fb423e15-231f-4b95-bba5-9d8f9e06d91c",
+      "title": "Opinión N.° D000096-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 534880,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596061-opinion-n-d000096-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/fb423e15-231f-4b95-bba5-9d8f9e06d91c",
+      "sha256": "b26791c6fe1abb69ed74c301f535c73b7394fecb84bf3628189a7b20ae07c054",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+      "title": "Opinión N° D000066-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 485506,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386274",
+      "download": "https://ace-rormi.vercel.app/api/documents/03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+      "sha256": "e2d4076c573b5111090b3ef59af26703dbe36212441df2a05f04f119abc6a914",
+      "verification": {
+        "pages": 6,
+        "chunks": 11,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:06:44.376Z"
+      }
+    },
+    {
+      "id": "20a271c5-c618-4842-97c2-f1d683adf608",
+      "title": "Opinión N° D000063-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": true,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 579213,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353852",
+      "download": "https://ace-rormi.vercel.app/api/documents/20a271c5-c618-4842-97c2-f1d683adf608",
+      "sha256": "c77ae5c1816949b6cbaee5d62f843e516be2ab9190316e511f195d493db69a6e",
+      "verification": {
+        "pages": 12,
+        "chunks": 23,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:07:00.636Z"
+      }
+    },
+    {
+      "id": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+      "title": "Opinión N.° D000112-2026-OECE-DTN",
+      "documentType": "opinion",
+      "subtype": null,
+      "new": false,
+      "status": "indexed",
+      "format": "application/pdf",
+      "bytes": 574331,
+      "source": "https://www.gob.pe/institucion/oece/informes-publicaciones/8709968-opinion-n-d000112-2026-oece-dtn",
+      "download": "https://ace-rormi.vercel.app/api/documents/a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+      "sha256": "dc7c4584f6ea879b05091697601bbd9dfd043b6a5ba3735208aabb1f371e7b6b",
+      "verification": {
+        "storageVerified": false
+      }
+    },
+    {
+      "id": "7058e0eb-4548-488b-a81f-874f49b52c3b",
+      "title": "Comunicado N.° 014-2026-OECE: Entidades que han incumplido con el registro de órdenes de compra u órdenes de servicio en el SEACE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3179,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1448769-comunicado-n-014-2026-oece-entidades-que-han-incumplido-con-el-registro-de-ordenes-de-compra-u-ordenes-de-servicio-en-el-seace",
+      "download": "https://ace-rormi.vercel.app/api/documents/7058e0eb-4548-488b-a81f-874f49b52c3b",
+      "sha256": "9c07073b55fbddd65a0433e12b8a47713cfdc0c267fb021fe8c05b835424cf0a",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "9c90d463-1da6-4594-8571-71e6be593fc1",
+      "title": "Comunicado N.° 013-2026-OECE: Listado de entidades que han incumplido con registrar en el SEACE la información sobre ejecución contractual",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3322,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1448759-comunicado-n-013-2026-oece-listado-de-entidades-que-han-incumplido-con-registrar-en-el-seace-la-informacion-sobre-ejecucion-contractual",
+      "download": "https://ace-rormi.vercel.app/api/documents/9c90d463-1da6-4594-8571-71e6be593fc1",
+      "sha256": "451776b25b63c95b59da7dcfe5fd0d960c1cec49315933ba5ab8a3ffec1e6693",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "4fb5df0d-79c3-48fe-a8cf-13daa687dc47",
+      "title": "Comunicado N.° 012-2026-OECE: OECE amplía de 30 a 180 días el plazo de adecuación de instituciones arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas, inscritos en el REGAJU.",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2134,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1430998-comunicado-n-012-2026-oece",
+      "download": "https://ace-rormi.vercel.app/api/documents/4fb5df0d-79c3-48fe-a8cf-13daa687dc47",
+      "sha256": "b17a8b2e391323e8881f23391bea1d177ede4663a75af33262a2aa19dabd8ee6",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "a398dde0-e7e3-4c60-a33e-d5f7f8ed79a2",
+      "title": "Comunicado N.° 011-2026-OECE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 1766,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1430157-comunicado-n-011-2026-oece",
+      "download": "https://ace-rormi.vercel.app/api/documents/a398dde0-e7e3-4c60-a33e-d5f7f8ed79a2",
+      "sha256": "af24a4a781fc3c9991146f9c497c012710ca7804b35656e049c623a79f1f9317",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "6accff5a-5019-404a-82c6-3d48f6cdffaf",
+      "title": "Comunicado N.° 010-2026-OECE: OECE fortalece sus canales de atención  virtual a nivel nacional",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 1490,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1427338-comunicado-n-010-2026-oece-oece-fortalece-sus-canales-de-atencion-virtual-a-nivel-nacional",
+      "download": "https://ace-rormi.vercel.app/api/documents/6accff5a-5019-404a-82c6-3d48f6cdffaf",
+      "sha256": "3e3998fc7ede85a1dbcbe560d938a0d6fe11553821f26a088969b678ea4c94f1",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "980984e6-a776-4244-8f8c-f0ae9f2e40c4",
+      "title": "Comunicado N.° 009-2026-OECE (DEJADO SIN EFECTO): OECE promueve la transparencia, la libre competencia y la igualdad de oportunidades en el arbitraje de las contrataciones públicas.",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2158,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1426267-comunicado-n-009-2026-oece-dejado-sin-efecto",
+      "download": "https://ace-rormi.vercel.app/api/documents/980984e6-a776-4244-8f8c-f0ae9f2e40c4",
+      "sha256": "4a645107e8eeac28d8cc3ac36a20e31681050a8be2c9bf7b8bab94644d41c0bd",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c81fe777-df48-47e1-8470-dbe3f3b47049",
+      "title": "Comunicado N° 008-2026-OECE: OECE reafirma su compromiso con la transparencia y la calidad del arbitraje (DEJADO SIN EFECTO): Presidencia Ejecutiva / Consejo Directivo",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3797,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1422684-comunicado-n-008-2026-oece-oece-reafirma-su-compromiso-con-la-transparencia-y-la-calidad-del-arbitraje-dejado-sin-efecto",
+      "download": "https://ace-rormi.vercel.app/api/documents/c81fe777-df48-47e1-8470-dbe3f3b47049",
+      "sha256": "1d1a9b39ed04bca78e80c96690ead7ed879e1bcea0ce9cdefc8e7b41c0bb4e14",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "75d7977d-628e-464a-87c3-6fd21a23aa1d",
+      "title": "Comunicado N.° 007-2026-OECE (DEJADO SIN EFECTO)",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3215,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1420290-comunicado-n-007-2026-oece-dejado-sin-efecto",
+      "download": "https://ace-rormi.vercel.app/api/documents/75d7977d-628e-464a-87c3-6fd21a23aa1d",
+      "sha256": "f748a29b693bd654e5f9dec954988f0169562f9a308e12bca2fcdba3165572be",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "fd84f506-ab2f-4684-b9b3-212ba37a12dc",
+      "title": "Comunicado N° 006-2026-OECE (DEJADO SIN EFECTO)",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 4538,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1399622-comunicado-n-006-2026-oece-dejado-sin-efecto",
+      "download": "https://ace-rormi.vercel.app/api/documents/fd84f506-ab2f-4684-b9b3-212ba37a12dc",
+      "sha256": "7913bfc4390908f09adc43309fa492782e10a1f14ac9699d3f1605280e9ac219",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "b12b5405-9bb8-47b5-83ba-c6625d2be45d",
+      "title": "Comunicado N° 005-2026-OECE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 561,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1392620-comunicado-n-005-2026-oece",
+      "download": "https://ace-rormi.vercel.app/api/documents/b12b5405-9bb8-47b5-83ba-c6625d2be45d",
+      "sha256": "dd706eff58ba30fa0963ac3f793c750e9d1976393bee4653bba37d026c7bf685",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c59f78f6-2219-4251-a8a5-6c9dd92aff29",
+      "title": "Comunicado N° 004-2026-OECE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2278,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1390433-comunicado-n-004-2026-oece",
+      "download": "https://ace-rormi.vercel.app/api/documents/c59f78f6-2219-4251-a8a5-6c9dd92aff29",
+      "sha256": "c06ce1e6a9a564bfceab5bcd5908fa0cfe858d381db20cbd0b6b471c0984113e",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "5c508461-b7bc-4ab6-8ac4-7fbefccd3f74",
+      "title": "Comunicado N° 003-2026-OECE: Registro de la información de las contrataciones de gobierno a gobierno en el SEACE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3063,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1364750-comunicado-n-003-2026-oece-registro-de-la-informacion-de-las-contrataciones-de-gobierno-a-gobierno-en-el-seace",
+      "download": "https://ace-rormi.vercel.app/api/documents/5c508461-b7bc-4ab6-8ac4-7fbefccd3f74",
+      "sha256": "3d540b43ab70c4c1526192d44e355e68cf67d549593e77a264c45795eaac0c37",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c777edad-2e99-4363-a75a-af1e7f10e663",
+      "title": "Comunicado N° 002-2026-OECE: Obligatoriedad del REGAJU, para la administración de arbitrajes y juntas de prevención y resolución de disputas (JPRD) por instituciones y centros registrados en el REGAJU",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2640,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1355568-comunicado-n-002-2026-oece",
+      "download": "https://ace-rormi.vercel.app/api/documents/c777edad-2e99-4363-a75a-af1e7f10e663",
+      "sha256": "d0977df8970738452850c562fa37c544dd97d4745465182b4ef2358716f19e79",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "c49dc8df-af0c-4abe-ada3-514a68ae8d42",
+      "title": "Comunicado N°001-2026-OECE: Asignación de especialidades y categorías de consultores de obra en el marco de la Ley N.° 32069 y su Reglamento",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 4664,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1336986-comunicado-n-001-2026-oece-asignacion-de-especialidades-y-categorias-de-consultores-de-obra-en-el-marco-de-la-ley-n-32069-y-su-reglamento",
+      "download": "https://ace-rormi.vercel.app/api/documents/c49dc8df-af0c-4abe-ada3-514a68ae8d42",
+      "sha256": "28dd6c0fff160320857b1dd290a7518dd9411d53331172971967fece22adf7d4",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "8c046873-3848-45f7-b09d-c8c355513c0c",
+      "title": "Comunicado N° 022-2025-OECE: Listado de entidades que han incumplido con registrar en el SEACE información sobre ejecución contractual",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2726,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1319935-comunicado-n-022-2025-oece-listado-de-entidades-que-han-incumplido-con-registrar-en-el-seace-informacion-sobre-ejecucion-contractual",
+      "download": "https://ace-rormi.vercel.app/api/documents/8c046873-3848-45f7-b09d-c8c355513c0c",
+      "sha256": "f677abb8f103e7374a05e6c35a3f4810adb41781648d31634043ce5a0a0b1633",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "3ff60cc9-6c43-47f6-a5c9-078ac94e2627",
+      "title": "Comunicado N° 021-2025-OECE: Sobre la subsanación de ofertas en los procedimientos de selección",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3269,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1319926-comunicado-n-021-2025-oece-sobre-la-subsanacion-de-ofertas-en-los-procedimientos-de-seleccion",
+      "download": "https://ace-rormi.vercel.app/api/documents/3ff60cc9-6c43-47f6-a5c9-078ac94e2627",
+      "sha256": "0274f6a9a10d756a60fe44461b2938980bedb25273b71bf48ead03e223142714",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "df6f42b0-aa37-4f7c-b5ce-0671fdead262",
+      "title": "Comunicado N° 020-2025-OECE: Incorporación obligatoria al REGAJU",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2890,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1319912-comunicado-n-020-2025-oece-incorporacion-obligatoria-al-regaju",
+      "download": "https://ace-rormi.vercel.app/api/documents/df6f42b0-aa37-4f7c-b5ce-0671fdead262",
+      "sha256": "864e9225f197f12d358b980fffbab4f9fcd78df5c130105c7c1a46b47eba4fc3",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "bfc6b653-646e-463c-997b-a4b3f27e11cb",
+      "title": "Comunicado N° 019-2025-OECE: Acreditación de experiencia en el RNP para sucursales en Perú de empresas extranjeras ejecutoras de obras",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3124,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1309787-comunicado-n-019-2025-oece-acreditacion-de-experiencia-en-el-rnp-para-sucursales-en-peru-de-empresas-extranjeras-ejecutoras-de-obras",
+      "download": "https://ace-rormi.vercel.app/api/documents/bfc6b653-646e-463c-997b-a4b3f27e11cb",
+      "sha256": "793f7f438e056c21fb8fc7d4fcb1f890601e256a926552edf849cf5963ae84ce",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "44a93073-d96a-4313-abbd-92ac98aa6087",
+      "title": "Comunicado N° 018-2025-OECE: Registro de la información de procesos de contratación en el SEACE",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3970,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1309419-comunicado-n-018-2025-oece-registro-de-la-informacion-de-procesos-de-contratacion-en-el-seace",
+      "download": "https://ace-rormi.vercel.app/api/documents/44a93073-d96a-4313-abbd-92ac98aa6087",
+      "sha256": "428f1ca27c52e693b72b75747471137eb1e750193addaafbd518bb3318e83c66",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "f347b471-5bcd-4778-8713-4943c8730862",
+      "title": "Comunicado N° 017-2025-OECE: Pago a proveedores del Estado",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3242,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1258163-comunicado-n-017-2025-oece-pago-a-proveedores-del-estado",
+      "download": "https://ace-rormi.vercel.app/api/documents/f347b471-5bcd-4778-8713-4943c8730862",
+      "sha256": "b3e2bf3f3da870fb68ed17fe41088171d0569dcc0cd91f7abe43ddac05adb315",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "8d4a3398-b98e-4733-b089-cc11d077e3fb",
+      "title": "Comunicado N°016-2025-OECE: Matriz de Gestión de riesgos en los procesos de contratación",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 3127,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1257254-comunicado-n-016-2025-oece-matriz-de-gestion-de-riesgos-en-los-procesos-de-contratacion",
+      "download": "https://ace-rormi.vercel.app/api/documents/8d4a3398-b98e-4733-b089-cc11d077e3fb",
+      "sha256": "983d9843cbf6c5379a44be1107bfe73bdab43137d3d62cfda575c9b64df6b9d7",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "6c4592cb-275f-4eb1-9cae-e327b36211cf",
+      "title": "Comunicado N°015-2025-OECE: Entidades que han incumplido con el registro de órdenes de compra u órdenes de servicio en el SEACE: Entidades que han incumplido con el registro de información de órdenes de compra u órdenes de servicio en el SEACE.",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2785,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1253385-comunicado-n-015-2025-oece-entidades-que-han-incumplido-con-el-registro-de-ordenes-de-compra-u-ordenes-de-servicio-en-el-seace",
+      "download": "https://ace-rormi.vercel.app/api/documents/6c4592cb-275f-4eb1-9cae-e327b36211cf",
+      "sha256": "d4d11942db6bd7fdbbcd92de6fe210b0f8cb9a791d08d4bee5c44ff1a4acc626",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "47cce15a-4f89-4489-869e-cda8d70f0926",
+      "title": "Comunicado N° 014-2025-OECE: Entidades que han incumplido con su obligación de registrar en el SEACE información sobre ejecución contractual",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2889,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1249492-comunicado-n-014-2025-oece-entidades-que-han-incumplido-con-su-obligacion-de-registrar-en-el-seace-informacion-sobre-ejecucion-contractual",
+      "download": "https://ace-rormi.vercel.app/api/documents/47cce15a-4f89-4489-869e-cda8d70f0926",
+      "sha256": "3f252e35c84b559b7a0655b8524a7644298eda71feb9bfdd2d66e518ae2045b9",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "3f1f07be-e6ca-40ed-b917-e87e47f32e5e",
+      "title": "Comunicado N° 013-2025-OECE: Entidades pueden solicitar asistencia técnica y orientación: Para fortalecer la gestión eficiente de sus procesos de contratación.",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2461,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1248716-comunicado-n-013-2025-oece-entidades-pueden-solicitar-asistencia-tecnica-y-orientacion",
+      "download": "https://ace-rormi.vercel.app/api/documents/3f1f07be-e6ca-40ed-b917-e87e47f32e5e",
+      "sha256": "959327adb2cad3f67aa79f4ab9797f3dcf5a5d1480376fffb13e73badb7c3036",
+      "verification": {
+        "storageVerified": true
+      }
+    },
+    {
+      "id": "815b4d77-3eb1-4e2d-bcfe-650e118e1565",
+      "title": "Comunicado N° 012-2025-OECE: Implementación de nuevo control de validación de identidad en el RNP",
+      "documentType": "otros",
+      "subtype": "comunicado",
+      "new": true,
+      "status": "web_text_stored_pending_index",
+      "format": "text/plain;charset=UTF-8",
+      "bytes": 2494,
+      "source": "https://www.gob.pe/institucion/oece/noticias/1244560-comunicado-n-012-2025-oece-implementacion-de-nuevo-control-de-validacion-de-identidad-en-el-rnp",
+      "download": "https://ace-rormi.vercel.app/api/documents/815b4d77-3eb1-4e2d-bcfe-650e118e1565",
+      "sha256": "fcf5e09df9493d0f1e8df90165fc3c02f4d10dae60920edabb53e491e1e6d211",
+      "verification": {
+        "storageVerified": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "documentId": "b541b956-000f-4723-a005-9b8847a7f221",
+  "status": "official-file-incomplete",
+  "physicalPages": 2,
+  "printedPages": [
+    "2 de 3",
+    "3 de 3"
+  ],
+  "missingPrintedPages": [
+    1
+  ],
+  "method": "independent-pdf-render-and-visual-inspection",
+  "checkedAt": "2026-10-28T20:40:58.915Z",
+  "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/359624/Acuerdo_de_Sala_Plena_N__003-2015.pdf",
+  "sha256": "b4432675756e2fc578e5681ada87cae83730d6938f8d4e36f58f4fc948324d52",
+  "notes": "Se conserva el original exacto de gob.pe. El archivo oficial contiene dos páginas físicas y su numeración impresa es 2/3 y 3/3. No se habilita como texto completo para Chat."
+}

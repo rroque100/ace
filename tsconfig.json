@@ -37,7 +37,11 @@
     ".next-medicion/types/**/*.ts",
     ".next-medicion/dev/types/**/*.ts",
     ".next-antes/types/**/*.ts",
-    ".next-antes/dev/types/**/*.ts"
+    ".next-antes/dev/types/**/*.ts",
+    ".next-library-dev/types/**/*.ts",
+    ".next-library-dev/dev/types/**/*.ts",
+    ".next-library-build/types/**/*.ts",
+    ".next-library-build/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -91,3 +91,6 @@ docs/
 tests/
 scripts/
 .codex/
+
+# Artefactos temporales de comprobación
+tmp/

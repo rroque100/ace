@@ -1,5 +1,5 @@
 "use client";
-import"./library-workspace.css";
+import "./library-workspace.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -8,15 +8,18 @@ import {
   LIBRARY_PROCEDURES,
   librarySourceNotice,
 } from "@/lib/library-workspace";
-import {
-  DOCUMENT_TYPES,
-  documentTypeLabel,
-} from "@/lib/legal-taxonomy";
+import { DOCUMENT_TYPES, documentTypeLabel } from "@/lib/legal-taxonomy";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { SaveButton } from "./save-button";
 import { SourceWorkLink } from "./source-work-link";
 import { LegalCenterNav } from "./legal-center-nav";
 import { NormativeBrowser } from "./normative-browser";
+import { EntityPicker } from "./entity-picker";
+import { EntityDirectoryWorkspace } from "./entity-directory-workspace";
+import { DocumentFacts } from "./document-facts";
+import { FollowSource } from "./follow-source";
+import { FollowWorkspace } from "./follow-workspace";
+import { OfficialUpdates } from "./official-updates";
 type Row = {
   id: string;
   title: string;
@@ -34,6 +37,7 @@ const views = [
   { id: "collections", label: "Por materia" },
   { id: "templates", label: "Bases editables" },
   { id: "news", label: "Novedades" },
+  { id: "entities", label: "Entidades" },
 ];
 export function LibraryLaunchBar() {
   return (
@@ -63,18 +67,61 @@ export function NormativeWorkspace() {
         aria-label="Formas de explorar Normativa"
         className="tw mb-4 flex flex-wrap gap-2"
       >
-        {views.map((v) => (
+        {[
+          { id: "catalogue", label: "Normas" },
+          { id: "criteria", label: "Opiniones y criterios" },
+          { id: "templates", label: "Bases editables" },
+          { id: "saved", label: "Mis fuentes" },
+        ].map((v) => (
           <Link
             key={v.id}
             aria-current={view === v.id ? "page" : undefined}
-            href={v.id === "catalogue" ? "/normas" : `/normas?library=${v.id}`}
+            href={
+              v.id === "saved"
+                ? "/guardado"
+                : v.id === "criteria"
+                  ? "/normas?documentType=opinion"
+                  : v.id === "catalogue"
+                    ? "/normas"
+                    : `/normas?library=${v.id}`
+            }
             className={`rounded-xl border px-4 py-3 text-sm font-semibold ${view === v.id ? "border-teal-700 bg-teal-800 text-white" : "border-slate-200 bg-white text-slate-700 hover:bg-teal-50"}`}
           >
             {v.label}
           </Link>
         ))}
       </nav>
-      {view === "catalogue" ? (
+      <nav
+        aria-label="Más herramientas jurídicas"
+        className="tw mb-4 flex flex-wrap gap-4 text-sm text-teal-800"
+      >
+        {views
+          .filter((v) => ["collections", "news", "entities"].includes(v.id))
+          .map((v) => (
+            <Link
+              key={v.id}
+              href={`/normas?library=${v.id}`}
+              className="min-h-11 py-2 underline"
+            >
+              {v.label}
+            </Link>
+          ))}
+        <Link
+          className="min-h-11 py-2 underline"
+          href="/normas?library=collections&documentType=laudo_arbitral"
+        >
+          Laudos arbitrales
+        </Link>
+      </nav>
+      {view === "news" ? (
+        <>
+          <FollowWorkspace />
+          <OfficialUpdates />
+        </>
+      ) : null}
+      {view === "entities" ? (
+        <EntityDirectoryWorkspace />
+      ) : view === "catalogue" ? (
         <NormativeBrowser />
       ) : (
         <LibraryWorkspace
@@ -100,6 +147,12 @@ export function LibraryWorkspace({
     [collection, setCollection] = useState(params.get("collection") ?? ""),
     [entity, setEntity] = useState(params.get("contractingEntity") ?? ""),
     [ruc, setRuc] = useState(params.get("ruc") ?? ""),
+    [arbitrator, setArbitrator] = useState(params.get("arbitrator") ?? ""),
+    [claimant, setClaimant] = useState(params.get("claimant") ?? ""),
+    [respondent, setRespondent] = useState(params.get("respondent") ?? ""),
+    [institution, setInstitution] = useState(
+      params.get("arbitralInstitution") ?? "",
+    ),
     [type, setType] = useState(params.get("documentType") ?? ""),
     [process, setProcess] = useState(params.get("processType") ?? ""),
     [object, setObject] = useState(params.get("object") ?? ""),
@@ -131,6 +184,10 @@ export function LibraryWorkspace({
           collection,
           contractingEntity: entity,
           ruc: ruc.length === 11 ? ruc : "",
+          arbitrator,
+          claimant,
+          respondent,
+          arbitralInstitution: institution,
           editableOnly: includePdf ? "false" : "true",
           publishedFrom: from,
           publishedTo: to,
@@ -150,7 +207,13 @@ export function LibraryWorkspace({
         if (d.page !== page) setPage(d.page);
         const nav = new URLSearchParams(search);
         nav.delete("view");
-        for(const[key,value]of [...nav])if(!value||(key==="page"&&value==="1")||(key==="editableOnly"&&value==="true"))nav.delete(key);
+        for (const [key, value] of [...nav])
+          if (
+            !value ||
+            (key === "page" && value === "1") ||
+            (key === "editableOnly" && value === "true")
+          )
+            nav.delete(key);
         nav.set("library", view);
         window.history.replaceState(window.history.state, "", `/normas?${nav}`);
         setTotal(d.total);
@@ -179,6 +242,10 @@ export function LibraryWorkspace({
     collection,
     entity,
     ruc,
+    arbitrator,
+    claimant,
+    respondent,
+    institution,
     type,
     process,
     object,
@@ -242,6 +309,42 @@ export function LibraryWorkspace({
         onSubmit={(e) => e.preventDefault()}
         className="rounded-2xl border border-slate-200 bg-white p-4"
       >
+        <EntityPicker
+          onSelect={(e) => {
+            setEntity(e.name);
+            setRuc(e.ruc_verified ? (e.ruc ?? "") : "");
+            setPage(1);
+          }}
+        />
+        {type === "laudo_arbitral" ? (
+          <fieldset className="my-4 grid gap-3 sm:grid-cols-2">
+            <legend className="text-sm font-semibold">
+              Datos del laudo registrados en ACE
+            </legend>
+            {[
+              ["Árbitro", arbitrator, setArbitrator],
+              ["Demandante", claimant, setClaimant],
+              ["Demandado", respondent, setRespondent],
+              ["Institución arbitral", institution, setInstitution],
+            ].map(([label, value, set]) => (
+              <label key={String(label)} className="text-sm">
+                {String(label)}
+                <input
+                  className="mt-1 w-full rounded-lg border p-3"
+                  value={String(value)}
+                  onChange={(e) => {
+                    (set as (s: string) => void)(e.target.value);
+                    setPage(1);
+                  }}
+                />
+              </label>
+            ))}
+            <p className="text-xs text-slate-600 sm:col-span-2">
+              Un laudo se consulta por sus circunstancias; no se presenta como
+              una norma general. Los datos ausentes no se infieren.
+            </p>
+          </fieldset>
+        ) : null}
         {view === "templates" ? (
           <label className="mb-4 flex min-h-11 items-center gap-3 text-sm">
             <input
@@ -404,6 +507,10 @@ export function LibraryWorkspace({
             setCollection("");
             setEntity("");
             setRuc("");
+            setArbitrator("");
+            setClaimant("");
+            setRespondent("");
+            setInstitution("");
             setType("");
             setProcess("");
             setObject("");
@@ -460,31 +567,13 @@ export function LibraryWorkspace({
                       : "PDF"}
                 </p>
                 <h3 className="mt-2 text-lg font-bold leading-6">{d.title}</h3>
-                <p className="mt-2 text-sm text-slate-600">
-                  Emisor: {d.sourceEntity ?? "Sin registrar"}
-                </p>
-                {d.metadata.contractingEntity || d.metadata.requestingEntity ? (
-                  <p className="text-sm text-slate-600">
-                    Entidad{" "}
-                    {d.metadata.entityReviewStatus === "confirmed"
-                      ? "revisada"
-                      : "detectada en la fuente"}
-                    :{" "}
-                    {String(
-                      d.metadata.contractingEntity ??
-                        d.metadata.requestingEntity,
-                    )}
-                  </p>
-                ) : null}
+                <DocumentFacts document={d} />
+                <FollowSource documentId={d.id} label={d.title} />
                 <p className="mt-2 text-xs text-slate-600">
-                  Publicación: {date(d.metadata.publicationDate)} · En ACE:{" "}
-                  {date(d.metadata.importedAt ?? d.createdAt)}
-                </p>
-                <p className="mt-2 text-xs text-slate-600">
-                  Versión:{" "}
-                  {String(
-                    d.metadata.officialVersion ?? "Sin etiqueta comprobada",
-                  )}
+                  En ACE: {date(d.metadata.importedAt ?? d.createdAt)}
+                  {!d.metadata.officialVersion
+                    ? " · Versión sin etiqueta comprobada"
+                    : ""}
                 </p>
                 <p className="mt-3 rounded-lg bg-slate-50 p-3 text-sm">
                   {librarySourceNotice(d.documentType)}

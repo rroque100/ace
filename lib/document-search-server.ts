@@ -44,6 +44,7 @@ function resultDocument(
   const publication = documentPublication(row);
   return {
     documentId: row.id,
+    metadata:row.metadata,
     review: documentReviewSummary(row.metadata),
     title: row.title,
     documentType: row.document_type,

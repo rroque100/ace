@@ -1,0 +1,1157 @@
+{
+  "summary": {
+    "checkedAt": "2026-10-28T20:42:42.459Z",
+    "officialTotal": 112,
+    "officialPages": 5,
+    "stored": 112,
+    "indexedComplete": 111,
+    "visibleInNormative": 111,
+    "imported": 14,
+    "existing": 98,
+    "importErrors": [],
+    "missing": [],
+    "pendingSource": [
+      {
+        "title": "Acuerdo de Sala Plena N.° 03-2015/TCE",
+        "reason": "Se conserva el original exacto de gob.pe. El archivo oficial contiene dos páginas físicas y su numeración impresa es 2/3 y 3/3. No se habilita como texto completo para Chat."
+      }
+    ]
+  },
+  "rows": [
+    {
+      "title": "Acuerdo de Sala Plena N.° 004-2026/TCP",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8757869-004-2026-tcp",
+      "documentId": "c6fe7697-412d-46a2-a37b-a1100b95fd24",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2025/TCP",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6876808-003-2025-tcp",
+      "documentId": "dc5506fb-7007-4b55-b768-feb76e484746",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2025/TCP",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6795753-002-2025-tcp",
+      "documentId": "9bbe223b-d92b-4591-a061-5582ce73e429",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2025/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6370497-001-2025-tce",
+      "documentId": "78fadaf7-5195-49c3-b134-f6664a901410",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2024/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/5386761-001-2024-tce",
+      "documentId": "ead2da12-26dd-46cf-963c-5f4b26211102",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2023/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916240-002-2023-tce",
+      "documentId": "afe14fdd-ac0f-4754-bd69-6d15810e5778",
+      "status": "indexed",
+      "complete": true,
+      "pages": 8,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004-2023/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916276-004-2023-tce",
+      "documentId": "d9fb337d-5238-4c91-a6b4-ac60b6ce0040",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2023/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916250-003-2023-tce",
+      "documentId": "d1601637-44a8-4c3a-ad21-f26dce3f5bfb",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2023/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4182249-001-2023-tce",
+      "documentId": "e6f02fd8-2845-4bb4-a163-26dca957980a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2022-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/3809629-003-2022-tce",
+      "documentId": "457b65cc-bcb5-490c-b3d3-33c28a41d05a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 7,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2022-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2965739-002-2022-tce",
+      "documentId": "976fa4fe-7dd5-4227-8ee0-eb4cef452bf7",
+      "status": "indexed",
+      "complete": true,
+      "pages": 7,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2022-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2965738-001-2022-tce",
+      "documentId": "c44f722f-398d-4071-ba97-e8681f0ba766",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2399887-008-2021-tce",
+      "documentId": "f103ae39-86c9-4ea3-b992-98d26e99a246",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2326026-007-2021-tce",
+      "documentId": "29ac82b8-891d-4a8f-8b05-17225114af25",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2023521-06-2021-tce",
+      "documentId": "738cb2c5-1b8a-4373-9300-84cdecd191ba",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2011931-05-2021-tce",
+      "documentId": "e26cfa88-f4b5-4e62-ad9d-d1db737c37d1",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835076-04-2021-tce",
+      "documentId": "337cb6f4-419e-4368-9200-000585553351",
+      "status": "indexed",
+      "complete": true,
+      "pages": 6,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835073-03-2021-tce",
+      "documentId": "ec6d94c4-7c6c-422a-822e-f6098baccc37",
+      "status": "indexed",
+      "complete": true,
+      "pages": 14,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835070-02-2021-tce",
+      "documentId": "7e9e8d14-fe28-43c0-a31d-74116ea4215f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2021-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1650534-01-2021-tce",
+      "documentId": "65a886b3-f36b-4216-b47d-45fe6ce1bc18",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 09-2020/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308666-09-2020-tce",
+      "documentId": "c96ccaf5-9804-40f3-808f-7188fadd362a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2020/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308693-08-2020-tce",
+      "documentId": "34558ddb-54ca-4e5d-967a-19792d92e6e2",
+      "status": "indexed",
+      "complete": true,
+      "pages": 6,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 07-2020/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308690-07-2020-tce",
+      "documentId": "c6ec7ea4-27d4-4a54-96ce-1e5f8afdc190",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2020/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/753167-06-2020-tce",
+      "documentId": "28058ac6-4f54-4f21-ac2b-4ea9134f49d1",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2020-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/633361-05-2020-tce",
+      "documentId": "4aa56d21-2a3c-443f-b07a-15c005215db4",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2020/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/753421-04-2020-tce",
+      "documentId": "2e424743-3c14-4abc-a084-2ecfb259020e",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2020-TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/633360-03-2020-tce",
+      "documentId": "db29e258-3813-4e7c-abd9-579145ba6f0a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2019/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/390629-04-2019-tce",
+      "documentId": "475beacc-4651-47d7-9973-09348fdc7944",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2019/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/368521-03-2019-tce",
+      "documentId": "e6b49ee9-1f13-4859-84b0-ece6a5fb7b1d",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2019/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/366800-02-2019-tce",
+      "documentId": "68c0971b-b981-418c-a0fa-36fef16ab70c",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2019/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292482-01-2019-tce",
+      "documentId": "b921f3c2-3dd8-4a08-8d00-c781fb14d845",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2018/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292851-03-2018-tce",
+      "documentId": "ec3df3e3-895b-42a5-99db-71fd91efd68c",
+      "status": "indexed",
+      "complete": true,
+      "pages": 8,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2018/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292850-02-2018-tce",
+      "documentId": "7bf508c3-ee50-4e07-94fd-3bc217aaad62",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2018/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292845-01-2018-tce",
+      "documentId": "85efea05-ffe5-4d4b-93c9-a69d9a625611",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2017/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292858-05-2017-tce",
+      "documentId": "6267f954-ebde-4d5f-ae73-c45476ccbd7e",
+      "status": "indexed",
+      "complete": true,
+      "pages": 7,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2017/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292856-04-2017-tce",
+      "documentId": "2449ff7b-d769-4bab-ac8f-cfe3f1af6207",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2017/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292854-03-2017-tce",
+      "documentId": "a9c3512d-056a-4027-a8d9-9b64aeeeb26f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2017/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292853-02-2017-tce",
+      "documentId": "2a381ef0-8d5e-4126-87f0-71a14c26eb41",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2017/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292852-01-2017-tce",
+      "documentId": "2b66ba56-c123-4598-9520-85fca48c36e4",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2016/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/293718-01-2016-tce",
+      "documentId": "bb0f7209-b46b-49a0-a7c1-f821565f74dc",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2015/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294010-03-2015-tce",
+      "documentId": "b541b956-000f-4723-a005-9b8847a7f221",
+      "status": "error",
+      "complete": false,
+      "pages": null,
+      "pineconeVerified": false,
+      "sourceCompleteness": {
+        "notes": "Se conserva el original exacto de gob.pe. El archivo oficial contiene dos páginas físicas y su numeración impresa es 2/3 y 3/3. No se habilita como texto completo para Chat.",
+        "method": "independent-pdf-render-and-visual-inspection",
+        "sha256": "b4432675756e2fc578e5681ada87cae83730d6938f8d4e36f58f4fc948324d52",
+        "status": "official-file-incomplete",
+        "checkedAt": "2026-10-28T20:40:58.915Z",
+        "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/359624/Acuerdo_de_Sala_Plena_N__003-2015.pdf",
+        "printedPages": [
+          "2 de 3",
+          "3 de 3"
+        ],
+        "physicalPages": 2,
+        "missingPrintedPages": [
+          1
+        ]
+      }
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2015/TCE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/293719-01-2015-tce",
+      "documentId": "34fc6a21-4f84-4ace-bfb1-312be8c3f75f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2014/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294016-08-2014-tc",
+      "documentId": "ca953ad2-a823-49af-8389-aa0868c28f5c",
+      "status": "indexed",
+      "complete": true,
+      "pages": 6,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2014/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294013-02-2014-tc",
+      "documentId": "67a9861a-fc3d-4df2-9950-ca60efe2426b",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017-2013/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294622-017-2013-tc",
+      "documentId": "8bc3f93f-e088-474a-a122-3441c2964859",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015-2013/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294618-015-2013-tc",
+      "documentId": "0f0a27bd-845d-42e3-bcc1-6d156eeb8c0b",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011-2013/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294616-011-2013-tc",
+      "documentId": "841d459a-7479-40a8-938e-79d527272055",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2013/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294615-04-2013-tc",
+      "documentId": "2d5cdeb1-18c6-459e-a082-9cbba35b73f1",
+      "status": "indexed",
+      "complete": true,
+      "pages": 6,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2012/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294644-08-2012-tc",
+      "documentId": "397b0375-2785-43d7-9c28-637e437f7ded",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 07-2012/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294643-07-2012-tc",
+      "documentId": "dcc58e17-8b0b-4825-9f04-70be8e81e022",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2012/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294640-06-2012-tc",
+      "documentId": "9660aca7-284b-4846-b75b-25ae23e40ffd",
+      "status": "indexed",
+      "complete": true,
+      "pages": 11,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2012/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307481-02-2012-tc",
+      "documentId": "38ab9e24-7d74-4181-8a3e-643bbb153b9a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2011/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307483-01-2011-tc",
+      "documentId": "fbe33fff-e16e-4a3f-8379-35ff955db96e",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2010/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307485-02-2010-tc",
+      "documentId": "1038739d-6094-4bfd-b97c-5dc11f5cc834",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 07-2009/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307487-07-2009-tc",
+      "documentId": "cbc82619-c7f9-4813-a5b2-7683ffc179ff",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2009/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307493-06-2009-tc",
+      "documentId": "9e4e3f51-76fe-49cb-ba0a-069e99881558",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2009/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307494-03-2009-tc",
+      "documentId": "e5d4fe9d-d99b-45be-b5f7-f9230b6c5410",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011-2008/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307495-011-2008-tc",
+      "documentId": "3f5c832b-5875-402a-ad21-f5807249b94a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010-2008/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307496-010-2008-tc",
+      "documentId": "9ea1c77c-008f-4e63-abc7-b6b5e6fef26a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2008/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307497-08-2008-tc",
+      "documentId": "bcace291-1fca-4e22-b24c-365ca3f66453",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2008/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307499-06-2008-tc",
+      "documentId": "f2d1a9f0-d654-4ffb-9f7d-84526482b368",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2008/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307501-04-2008-tc",
+      "documentId": "cbe2a94c-ba66-4a53-bdb6-b45ef38daeb2",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 016-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307502-016-2007-tc",
+      "documentId": "39a3f529-7eb3-46db-b343-8ed526f9ac4f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013-2007-TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307503-013-2007-tc",
+      "documentId": "c04c9aae-833f-4492-b256-4b9542a443a4",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307504-012-2007-tc",
+      "documentId": "3a26812f-6143-4e1e-a1ab-bd6ed5057556",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307507-05-2007-tc",
+      "documentId": "d1c1e4c5-2526-4aa5-b1f0-d6fcfbec0a11",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307508-04-2007-tc",
+      "documentId": "235af8c4-a8d6-4712-83d6-b7a187b8e64d",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307510-03-2007-tc",
+      "documentId": "6b8075d5-df5d-4f92-bbe7-bf20b762e123",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307511-02-2007-tc",
+      "documentId": "15a78fa5-120c-4833-a655-6ec2d4b565e5",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2007/TC",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307513-01-2007-tc",
+      "documentId": "886bf593-eaf3-41ad-ab67-004dbaef9dcc",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 014/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069527-014-2006",
+      "documentId": "30e1fb67-8d3c-458a-833e-d45b74510921",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069529-013-2006",
+      "documentId": "d85d6a9c-84d0-4927-a9c4-ac6916f3784d",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069531-012-2006",
+      "documentId": "af87084f-d59f-4053-a9ae-3505eb80b4f0",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069532-011-2006",
+      "documentId": "f9993d28-3fc1-4be2-a6c3-c5b9a5457804",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067552-008-2006",
+      "documentId": "6d970dfb-3fc1-4d4d-bf3e-35e3f54e4af2",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067554-004-2006",
+      "documentId": "50b1d71d-1ef0-4e53-ab5f-a70e97a642e6",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067555-003-2006",
+      "documentId": "8ad05148-9ded-4d4f-9a0b-5f5bdd4fe239",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067556-002-2006",
+      "documentId": "a02abd1c-777e-4c7f-a84f-31f5a295c646",
+      "status": "indexed",
+      "complete": true,
+      "pages": 4,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069182-001-2006",
+      "documentId": "e8b96d23-460b-4ea6-81c1-1155b7f4ad0b",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069397-012-2005",
+      "documentId": "047e910a-c865-4b77-9da8-3589aa888356",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069480-011-2005",
+      "documentId": "7afea7c3-c571-4a1f-93b0-7f690f88e88c",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069481-010-2005",
+      "documentId": "f37af448-1080-43cd-ba30-c66fa7372098",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 009/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069483-009-2005",
+      "documentId": "31638d01-3061-4386-8547-c0b37a966999",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069484-008-2005",
+      "documentId": "364699ae-48df-488a-b996-d9b15ff84c78",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069486-007-2005",
+      "documentId": "dad50b6a-b34e-43d5-89f0-616d8adf9142",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 006/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069487-006-2005",
+      "documentId": "cd720d7b-9b26-40e4-a974-ec374531b1f6",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069488-004-2005",
+      "documentId": "6789d9c5-8b3c-4a99-8219-8c2c923396c7",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069489-001-2005",
+      "documentId": "138080ef-50bc-45a6-8f40-dd118bc53fcc",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2004",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069498-004-2004",
+      "documentId": "c626a98d-8550-485b-a048-c9a696075f51",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003/2004",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069499-003-2004",
+      "documentId": "d40b1871-e26e-462a-94dd-d07199e6da15",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2004",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069501-001-2004",
+      "documentId": "cebde0dc-4f2f-4195-910f-3b9c94498e3f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017/013",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069503-017-013",
+      "documentId": "755983d0-babd-46ad-aa5f-79cc52b16e67",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 016/013",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069504-016-013",
+      "documentId": "52848cfa-aa1e-4349-b79b-9febbcc4a7ca",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015/013",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069505-015-013",
+      "documentId": "39d67515-e042-4dcf-925b-54a4f82c44b0",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/011",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069506-012-011",
+      "documentId": "931892d8-d987-4435-9b4e-47c9eaca9926",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007/006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069507-007-006",
+      "documentId": "71b1236a-804d-4483-889d-b0cde7406aca",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 006/005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069508-006-005",
+      "documentId": "9bc6b273-7778-49c2-9c8f-9d2ca3f81f93",
+      "status": "indexed",
+      "complete": true,
+      "pages": 3,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/003",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069509-004-003",
+      "documentId": "05281e5a-4cb9-4e44-bb61-4c3c25691cc2",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 025/016",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069512-025-016",
+      "documentId": "eeaec5fd-ea19-430a-b24b-f15e1da12f5b",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 023/015",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069513-023-015",
+      "documentId": "c33d9e66-1398-404d-a9a8-ba80e516a6b5",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 022/014",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069514-022-014",
+      "documentId": "4a3c3bec-89af-4e00-9b48-85cff32c8adf",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 018/10",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069516-018-10",
+      "documentId": "9d0bab79-aab5-4b29-b0ea-827906a88efc",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017/010",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069517-017-010",
+      "documentId": "0d48c2a6-2ef3-48e7-b02e-445000448083",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/007",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069518-011-007",
+      "documentId": "44195e7d-bde9-47be-8745-cc947668b915",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010/007",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069520-010-007",
+      "documentId": "fd3381bc-b3f8-42c5-8621-5e24cf0c17ef",
+      "status": "indexed",
+      "complete": true,
+      "pages": 2,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008/005",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069522-008-005",
+      "documentId": "4595c37b-67ef-4f40-9b69-0063939353ec",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 005/003",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069523-005-003",
+      "documentId": "0cc727c1-73e4-4a4f-a41a-cd17f99456b8",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04/03",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069525-04-03",
+      "documentId": "e8573e19-656d-493e-9aa3-5bab8c0f9373",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 019/009",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069533-019-009",
+      "documentId": "2f3577a5-09ab-4be0-9780-410781b8697f",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015/009",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069535-015-009",
+      "documentId": "3b81b5e8-f8f7-4565-8205-427b82e5a49a",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013/008",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069537-013-008",
+      "documentId": "8ddfcf61-f4de-482c-a87d-75b1f215d333",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/006",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069539-011-006",
+      "documentId": "0ad641e6-cdc8-4621-bc8e-c5777ddd482b",
+      "status": "indexed",
+      "complete": true,
+      "pages": 1,
+      "pineconeVerified": true,
+      "sourceCompleteness": null
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "createdAt": "2026-10-23T19:38:47.221Z",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash",
+  "kind": "synthetic-evidence-check",
+  "humanReview": "pending",
+  "legalAccuracy": null,
+  "results": [
+    {
+      "id": "respaldo-directo",
+      "expected": "checked",
+      "actual": "checked",
+      "passed": true,
+      "elapsedMs": 2193,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "checked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "supported",
+            "reason": "La afirmación indica que la comisión de evaluación es del 10% del importe de prueba en la versión Alfa del manual ficticio, lo cual es directamente respaldado por la cita.",
+            "evidence": [
+              {
+                "source": 1,
+                "quote": "En la versión Alfa del manual ficticio, la comisión de evaluación es del 10% del importe de prueba."
+              }
+            ]
+          }
+        ],
+        "warnings": [],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "misma-cifra-otro-concepto",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 1216,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "contradicted",
+            "reason": "La fuente indica que no se exige garantía, contradiciendo la afirmación de que se exige una garantía del 10%.",
+            "evidence": [
+              {
+                "source": 1,
+                "quote": "No se exige garantía."
+              }
+            ]
+          }
+        ],
+        "warnings": [
+          "Hay afirmaciones sin respaldo suficiente o contradichas; el borrador no se publica como respuesta confirmada."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "negación-invertida",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 968,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "contradicted",
+            "reason": "El manual ficticio de evaluación, versión Alfa, establece explícitamente que \"No se exige garantía\".",
+            "evidence": [
+              {
+                "source": 1,
+                "quote": "No se exige garantía."
+              }
+            ]
+          }
+        ],
+        "warnings": [
+          "Hay afirmaciones sin respaldo suficiente o contradichas; el borrador no se publica como respuesta confirmada."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "objeto-distinto",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 1050,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "insufficient",
+            "reason": "El objeto contractual mencionado no está respaldado por los pasajes citados.",
+            "evidence": [
+              {
+                "source": 1,
+                "quote": "En la versión Alfa del manual ficticio, la comisión de evaluación es del 10% del importe de prueba."
+              }
+            ]
+          }
+        ],
+        "warnings": [
+          "Hay afirmaciones sin respaldo suficiente o contradichas; el borrador no se publica como respuesta confirmada."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "versión-distinta",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 1080,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "contradicted",
+            "reason": "La fuente indica que la comisión del 10% corresponde a la versión Alfa del manual, no a la versión Beta.",
+            "evidence": [
+              {
+                "source": 1,
+                "quote": "En la versión Alfa del manual ficticio, la comisión de evaluación es del 10% del importe de prueba."
+              }
+            ]
+          }
+        ],
+        "warnings": [
+          "Hay afirmaciones sin respaldo suficiente o contradichas; el borrador no se publica como respuesta confirmada."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "afirmación-sin-cita",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 1058,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [
+          {
+            "id": 1,
+            "status": "insufficient",
+            "reason": "La afirmación carece de citas válidas o de un pasaje literal comprobable.",
+            "evidence": []
+          }
+        ],
+        "warnings": [
+          "Hay afirmaciones sin respaldo suficiente o contradichas; el borrador no se publica como respuesta confirmada."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [
+            "prueba A"
+          ],
+          "status": "conditional"
+        }
+      }
+    },
+    {
+      "id": "ausencia-de-fuentes",
+      "expected": "unchecked",
+      "actual": "unchecked",
+      "passed": true,
+      "elapsedMs": 0,
+      "review": {
+        "version": "evidence-v1",
+        "documentary": "unchecked",
+        "applicability": "pending",
+        "claims": [],
+        "warnings": [
+          "La respuesta no pudo comprobarse íntegramente dentro del límite de revisión."
+        ],
+        "missing": [
+          "régimen aplicable",
+          "fechas relevantes",
+          "objeto contractual",
+          "hechos del caso"
+        ],
+        "regimeFrame": {
+          "declared": null,
+          "documented": [],
+          "status": "unknown"
+        }
+      }
+    }
+  ]
+}

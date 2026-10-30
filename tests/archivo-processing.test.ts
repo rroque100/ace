@@ -15,7 +15,7 @@ const expediente = { id: "00000000-0000-4000-8000-000000000001", expediente_id: 
 const file = new File(["%PDF-prueba"], "prueba.pdf", { type: "application/pdf" });
 beforeEach(() => {
   vi.resetAllMocks();
-  mocks.rest.mockImplementation(async (path: string) => path === "rpc/archivo_publicar_indice" ? { oldVectorIds: ["old-vector"] } : []);
+  mocks.rest.mockImplementation(async (path: string) => path === "rpc/archivo_publicar_indice" ? { oldVectorIds: ["old-vector"] } : path.includes("select=*") ? [{ ...expediente, updated_at: "2026-09-23T00:00:00Z" }] : []);
   mocks.extract.mockResolvedValue({ text: "contenido ".repeat(40), pages: [{ pageNumber: 1, text: "contenido" }], pageCount: 1, ocrPartial: false, extractionMethod: "pdf-text" });
   mocks.ai.mockResolvedValue({ output_text: '{"resumen":"Resumen"}' });
   mocks.upsert.mockResolvedValue({ upserted: 1 });
@@ -49,6 +49,21 @@ describe("autocompletado honesto", () => {
   });
 });
 describe("reindexación segura", () => {
+  it("no ejecuta OCR ni marca error cuando pierde la reserva", async () => {
+    mocks.rest.mockResolvedValue([]);
+    await expect(processExpedienteDocument(expediente, file)).rejects.toThrow("ya está");
+    expect(mocks.extract).not.toHaveBeenCalled();
+    expect(mocks.rest).toHaveBeenCalledOnce();
+  });
+  it("conserva el PDF nuevo al reservar un reemplazo y reutiliza embeddings", async () => {
+    await processExpedienteDocument({ ...expediente, storage_path: "nuevo.pdf" }, file);
+    const [, init] = mocks.rest.mock.calls.find(([path]) => path === "rpc/archivo_publicar_indice")!;
+    const payload = JSON.parse(init.body);
+    expect(payload.p_patch.storage_path).toBe("nuevo.pdf");
+    expect(payload.p_base).toBe("2026-09-23T00:00:00Z");
+    expect(mocks.upsert.mock.calls[0][2]).toEqual([[0.1, 0.2, 0.3]]);
+    expect(mocks.embed).toHaveBeenCalledOnce();
+  });
   it("conserva el índice anterior cuando falla el OCR", async () => {
     mocks.extract.mockRejectedValue(new Error("worker missing"));
     await expect(processExpedienteDocument(expediente, file)).rejects.toThrow();
@@ -70,7 +85,7 @@ describe("reindexación segura", () => {
   it("no elimina vectores nuevos cuando el resultado del commit es incierto", async () => {
     mocks.rest.mockImplementation(async (path: string) => {
       if (path === "rpc/archivo_publicar_indice") throw new Error("connection reset after commit");
-      return [];
+      return path.includes("select=*") ? [{ ...expediente, updated_at: "2026-09-23T00:00:00Z" }] : [];
     });
     await expect(processExpedienteDocument(expediente, file)).rejects.toThrow();
     expect(mocks.remove).not.toHaveBeenCalled();

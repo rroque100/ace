@@ -1,0 +1,1527 @@
+{
+  "startedAt": "2026-10-28T20:01:20.527Z",
+  "scope": "Solo opiniones faltantes cuyo apartado de definición identifica la Ley 32069; no acredita vigencia ni aplicabilidad",
+  "entries": [
+    {
+      "title": "Opinión N° D000124-2026-OECE-DTN",
+      "number": "D000124-2026-OECE-DTN",
+      "identity": "124-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765541-opinion-n-d000124-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10868045/8765541-opinion-d124-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "La Jefa de la Oficina de Administración y Finanzas Superintendencia Nacional de Servicios de Saneamiento formula consultas sobre el procedimiento de pérdida de la buena pro por el no perfeccionamie...",
+      "existing": false,
+      "sha256": "117406bf8e6ddad03efb0c012045c093c80143822f6b244e39fb8c263e32f2b7",
+      "pageCount": 6,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10868045/8765541-opinion-d124-2026-oece-dtn.pdf?v=1793208974"
+        ],
+        "checkedAt": "2026-10-28T20:01:39.451Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias. • “Reglamento” al aprobado me diante el Decreto Supremo N° 009 - 20",
+        "sha256": "117406bf8e6ddad03efb0c012045c093c80143822f6b244e39fb8c263e32f2b7",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:01:39.591Z"
+      },
+      "candidateId": "75ef4a63-add9-4ae4-b88e-011716661c3f",
+      "documentId": "35f27f9b-fd23-4d42-928f-6deae31773f5",
+      "verification": {
+        "pages": 6,
+        "chunks": 9,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000123-2026-OECE-DTN",
+      "number": "D000123-2026-OECE-DTN",
+      "identity": "123-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765530-opinion-n-d000123-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10868034/8765530-opinion-d123-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "Sixto Felicisimo Camayo Paredes, Director General de la Oficina General de Administración del Ministerio de Cultura, formula consultas relacionadas con la posibilidad de aplicar la LPAG a actos de ...",
+      "existing": false,
+      "sha256": "144b7de13be85a22c4fb4987f996642cd59acf5395e07388eea24083ba4cbe08",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000122-2026-OECE-DTN",
+      "number": "D000122-2026-OECE-DTN",
+      "identity": "122-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765516-opinion-n-d000122-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10868007/8765516-opinion-d122-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "Kely Clarivel Rojas Acosta, representante de Don Eduardo H.J.S.A.C formula consultas relacionadas con la aplicación de penalidades en contratos de obra bajo el sistema diseño y construcción.",
+      "existing": false,
+      "sha256": "eae49297b1cf0f948cfdc29281a4b0edf31ab57144246275153b2ae9c8c13c5c",
+      "pageCount": 8,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000121-2026-OECE-DTN",
+      "number": "D000121-2026-OECE-DTN",
+      "identity": "121-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765492-opinion-n-d000121-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867972/8765492-opinion-d121-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, formula varias consultas relacionadas con los efectos de los menores metrados en las valorizaciones, la programación y el control del avance de obra en contra...",
+      "existing": false,
+      "sha256": "d5a41b11cfae5ac62786fc427d99a8647c39fff5c2e42d0200cff2c0ee06280e",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867972/8765492-opinion-d121-2026-oece-dtn.pdf?v=1793208654"
+        ],
+        "checkedAt": "2026-10-28T20:01:58.845Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. 1 Modificada por la Ley N",
+        "sha256": "d5a41b11cfae5ac62786fc427d99a8647c39fff5c2e42d0200cff2c0ee06280e",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:01:58.981Z"
+      },
+      "candidateId": "38231ca2-c087-49cc-a39e-6ed12612a17f",
+      "documentId": "c25b021d-8fc6-46ca-b611-23048a999350",
+      "verification": {
+        "pages": 7,
+        "chunks": 12,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000120-2026-OECE-DTN",
+      "number": "D000120-2026-OECE-DTN",
+      "identity": "120-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765437-opinion-n-d000120-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867870/8765437-opinion-d120-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, formula consultas relacionadas con los efectos económicos de la reducción de prestaciones en los contratos de ejecución de obra, en el marco de la normativa d...",
+      "existing": false,
+      "sha256": "0fe6f0dbf99d4aff1fe031df62de1a70f2d15db976d76fc66414acb6623a7ac0",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867870/8765437-opinion-d120-2026-oece-dtn.pdf?v=1793208226"
+        ],
+        "checkedAt": "2026-10-28T20:02:18.653Z"
+      },
+      "regimeEvidence": {
+        "page": 2,
+        "text": "“Ley” , a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. • “Reglamento” , al aprob",
+        "sha256": "0fe6f0dbf99d4aff1fe031df62de1a70f2d15db976d76fc66414acb6623a7ac0",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:02:18.709Z"
+      },
+      "candidateId": "8dfd4fbf-96af-49fc-9ce3-ec79bdbf0d1b",
+      "documentId": "0d2ee09f-bbeb-4ad6-9b76-59b3a1b67ece",
+      "verification": {
+        "pages": 4,
+        "chunks": 6,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000119-2026-OECE-DTN",
+      "number": "D000119-2026-OECE-DTN",
+      "identity": "119-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765430-opinion-n-d000119-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867842/8765430-opinion-d119-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-27",
+      "summary": "La señora Luz María Ramos Macavilca, jefa de la Oficina de Administración y Finanzas de la Superintendencia Nacional de Servicios de Saneamiento, formula diversas consultas referidas a la evaluació...",
+      "existing": false,
+      "sha256": "1fd21ef87e4baadd9e5576bf70500126e1c7a0c10d3dd470d9d03b43f572dc1f",
+      "pageCount": 9,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867842/8765430-opinion-d119-2026-oece-dtn.pdf?v=1793208139"
+        ],
+        "checkedAt": "2026-10-28T20:02:36.374Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. ● “Reglamento” , al aprob",
+        "sha256": "1fd21ef87e4baadd9e5576bf70500126e1c7a0c10d3dd470d9d03b43f572dc1f",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:02:36.519Z"
+      },
+      "candidateId": "1fc401bb-1f57-49ac-b40b-d27bc8b63193",
+      "documentId": "b40904fd-4755-465b-85aa-b9d739a94923",
+      "verification": {
+        "pages": 9,
+        "chunks": 17,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000118-2026-OECE-DTN",
+      "number": "D000118-2026-OECE-DTN",
+      "identity": "118-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765421-opinion-n-d000118-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867822/8765421-opinion-d118-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-26",
+      "summary": "El señor Pietro Dulio La Torre Zambrano formula una consulta vinculada a las prestaciones adicionales en contratos de bienes.",
+      "existing": false,
+      "sha256": "afccce8c2fa22b56ed03e873b9636d5ab86ff55ed2352d57877ab14aa4578c27",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867822/8765421-opinion-d118-2026-oece-dtn.pdf?v=1793208057"
+        ],
+        "checkedAt": "2026-10-28T20:02:54.872Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley Nº 32069. ● “Reglamento” al aprobado mediante el Decreto Supremo Nº 009 - 2025. 1 En atención a la competencia conferida a la Dirección Té",
+        "sha256": "afccce8c2fa22b56ed03e873b9636d5ab86ff55ed2352d57877ab14aa4578c27",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:02:54.971Z"
+      },
+      "candidateId": "a8c6d7e2-5cb1-42bd-8241-2bd0b15c9092",
+      "documentId": "2c97c341-2cfd-4d90-b236-baab6923774e",
+      "verification": {
+        "pages": 7,
+        "chunks": 12,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000117-2026-OECE-DTN",
+      "number": "D000117-2026-OECE-DTN",
+      "identity": "117-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765165-opinion-n-d000117-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867395/8765165-opinion-d117-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-20",
+      "summary": "El señor Iván Bardale Marena, alcalde de la Municipalidad Distrital del Tingo, formula diversas consultas relacionadas con la aplicación de los artículos 201 y 202 del Reglamento de la Ley N° 32069...",
+      "existing": false,
+      "sha256": "1c4b5cc55703c0116697d5eafe494adf983dc122c1ba544d9859eeaed1a00540",
+      "pageCount": 10,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867395/8765165-opinion-d117-2026-oece-dtn.pdf?v=1793206234"
+        ],
+        "checkedAt": "2026-10-28T20:03:13.289Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. ● “Reglamento” , al aprob",
+        "sha256": "1c4b5cc55703c0116697d5eafe494adf983dc122c1ba544d9859eeaed1a00540",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:03:13.371Z"
+      },
+      "candidateId": "a4229469-ad71-43a1-8747-8bc44dc47b3d",
+      "documentId": "1ccf7c09-f206-4e40-b6a2-b9bafcec627a",
+      "verification": {
+        "pages": 10,
+        "chunks": 18,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000116-2026-OECE-DTN",
+      "number": "D000116-2026-OECE-DTN",
+      "identity": "116-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765146-opinion-n-d000116-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867366/8765146-opinion-d116-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-15",
+      "summary": "El Representante Legal de Frael Contratistas y Consultores S.A.C, señor Horacio Yedin Mamani Quispe, formula consultas relativas al procedimiento de ampliación de plazo, en el marco de lo dispuesto...",
+      "existing": false,
+      "sha256": "3092685cf1cf3c537b78646c9ab586eda5d751661cb814d84cf6db50502c6b74",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000115-2026-OECE-DTN",
+      "number": "D000115-2026-OECE-DTN",
+      "identity": "115-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765135-opinion-n-d000115-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867346/8765135-opinion-d115-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-15",
+      "summary": "El señor Nelson Hancco Quispe, encargado de la Oficina de Logística y Patrimonio del Instituto de Manejo del Agua y Medio Ambiente - IMA, formula consultas sobre la ampliación de plazo y adicionale...",
+      "existing": false,
+      "sha256": "12bb6e7a07cdbede283c4d181b24fa2aff227883bdde0f3af50e3d24242dc3f0",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867346/8765135-opinion-d115-2026-oece-dtn.pdf?v=1793205988"
+        ],
+        "checkedAt": "2026-10-28T20:03:31.843Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias. • “ Reglamento” al aprobado mediante el Decreto Supremo N° 009 - 20",
+        "sha256": "12bb6e7a07cdbede283c4d181b24fa2aff227883bdde0f3af50e3d24242dc3f0",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:03:31.904Z"
+      },
+      "candidateId": "caf5cdb3-6b43-4003-8402-0681fc95f014",
+      "documentId": "a58ecacf-7b1d-4df5-8531-302808f1b672",
+      "verification": {
+        "pages": 5,
+        "chunks": 8,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000114-2026-OECE-DTN",
+      "number": "D000114-2026-OECE-DTN",
+      "identity": "114-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765116-opinion-n-d000114-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867319/8765116-opinion-d114-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-15",
+      "summary": "El Jefe del Departamento de Logística de Electronoroeste S.A. formula varias consultas sobre las excepciones a las garantías de fiel cumplimiento contempladas en el artículo 139 del Reglamento de l...",
+      "existing": false,
+      "sha256": "365900e0c06e878c6d6322dc1513ddabbffb2d4a300f728ea28a4fa380b192c0",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867319/8765116-opinion-d114-2026-oece-dtn.pdf?v=1793205863"
+        ],
+        "checkedAt": "2026-10-28T20:03:48.293Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley Nº 32069. ● “Reglamento” al aprobado mediante el Decreto Supremo N° 009 - 2025 - EF. Dicho lo anterior, las consultas formuladas son las s",
+        "sha256": "365900e0c06e878c6d6322dc1513ddabbffb2d4a300f728ea28a4fa380b192c0",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:03:48.361Z"
+      },
+      "candidateId": "48999e46-bf38-4530-96bc-192acef3fab5",
+      "documentId": "f210f907-bd45-4368-9bc5-71d30e1063d3",
+      "verification": {
+        "pages": 4,
+        "chunks": 7,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000113-2026-OECE-DTN",
+      "number": "D000113-2026-OECE-DTN",
+      "identity": "113-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765096-opinion-n-d000113-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10867280/8765096-opinion-d113-2026-oece-dtn.pdf",
+      "publicationDate": "2026-10-13",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, alcalde de la Municipalidad Distrital de San isidro del Maino, formula consultas relacionadas con la competencia de la Junta de Prevención y Resolución de Dis...",
+      "existing": false,
+      "sha256": "725adf8e8b1a5d0cce9afeb50d81beba98e7b6fe26179326c38160554a094e55",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10867280/8765096-opinion-d113-2026-oece-dtn.pdf?v=1793205712"
+        ],
+        "checkedAt": "2026-10-28T20:04:06.210Z"
+      },
+      "regimeEvidence": {
+        "page": 2,
+        "text": "“Ley” a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias 2 ; vigente a partir del 22 de abril de 2025. ● “Reglamento” al apro",
+        "sha256": "725adf8e8b1a5d0cce9afeb50d81beba98e7b6fe26179326c38160554a094e55",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:04:06.315Z"
+      },
+      "candidateId": "9e6b1ec5-99f8-4093-8554-7e72c56b17ef",
+      "documentId": "c94e2a02-41a0-4674-96a3-8343c521fe54",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000075-2026-OECE-DTN",
+      "number": "D000075-2026-OECE-DTN",
+      "identity": "75-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420974-opinion-n-d000075-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368145/8420974-opinion-d075-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-22",
+      "summary": "El señor Edizon Flores Ramos, Representante Legal de Andriw Ejecutora y Consultora E.I.R.L, formula consultas sobre el fideicomiso de adelantos en contratos de obra bajo el sistema de entrega de di...",
+      "existing": false,
+      "sha256": "f43ce602dba3a704fe3ba435c6091d1e1fb099617b4e3b9506763f6febec1a9e",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10368145/8420974-opinion-d075-2026-oece-dtn.pdf?v=1784932770"
+        ],
+        "checkedAt": "2026-10-28T20:04:23.443Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. • “Reglamento” , al aprob",
+        "sha256": "f43ce602dba3a704fe3ba435c6091d1e1fb099617b4e3b9506763f6febec1a9e",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:04:23.543Z"
+      },
+      "candidateId": "69fb95d7-7a7d-46d9-996f-2c404e616763",
+      "documentId": "c98436dd-6fb9-4e9d-95e0-24beab3117b8",
+      "verification": {
+        "pages": 7,
+        "chunks": 13,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000074-2026-OECE-DTN",
+      "number": "D000074-2026-OECE-DTN",
+      "identity": "74-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420961-opinion-n-d000074-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368121/8420961-opinion-d074-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-22",
+      "summary": "La señora(ita) Violeta Mercedes Rodríguez Arce, Jefa de Logística del Organismo Supervisor de la Inversión en Energía y Minería - OSINERGMIN, formula consultas sobre la presentación de documentos e...",
+      "existing": false,
+      "sha256": "f324a04ae4c5896dfc39b1eef8ad6fe261618c0c864f1f4122a66f2884bff1b7",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10368121/8420961-opinion-d074-2026-oece-dtn.pdf?v=1784932581"
+        ],
+        "checkedAt": "2026-10-28T20:04:41.507Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus 1 En atención a la competencia conferida a esta Dirección Técnico Normativa, se han",
+        "sha256": "f324a04ae4c5896dfc39b1eef8ad6fe261618c0c864f1f4122a66f2884bff1b7",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:04:41.603Z"
+      },
+      "candidateId": "7fea9c18-5b98-42b3-bd55-cee276fe8cd8",
+      "documentId": "283592f9-112c-442a-bbd1-f823841fff2a",
+      "verification": {
+        "pages": 4,
+        "chunks": 7,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000073-2026-OECE-DTN",
+      "number": "D000073-2026-OECE-DTN",
+      "identity": "73-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420955-opinion-n-d000073-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368107/8420955-opinion-d073-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-21",
+      "summary": "La señora (ita) Katty del Pilar Ramírez Carbajal, Jefa de la Oficina de Logística y Control Patrimonial de la Entidad solicitante, formula consultas sobre la metodología de evaluación de oferta eco...",
+      "existing": false,
+      "sha256": "31ef892f643e33726833d38526240d3399a5b777f3a05a3bc88751eecf225e5c",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10368107/8420955-opinion-d073-2026-oece-dtn.pdf?v=1784932443"
+        ],
+        "checkedAt": "2026-10-28T20:05:00.472Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. • “Reglamento” , al aprob",
+        "sha256": "31ef892f643e33726833d38526240d3399a5b777f3a05a3bc88751eecf225e5c",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:05:00.547Z"
+      },
+      "candidateId": "2841a73e-22c0-4723-ad8a-437de3bf21f2",
+      "documentId": "3a006b78-68ed-42fa-9c5f-55e44733a771",
+      "verification": {
+        "pages": 4,
+        "chunks": 6,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000072-2026-OECE-DTN",
+      "number": "D000072-2026-OECE-DTN",
+      "identity": "72-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420944-opinion-n-d000072-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368076/8420944-opinion-d072-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-16",
+      "summary": "El Representante Legal de la empresa JKM Cleaning Service S.A.C. formula consultas sobre la experiencia del postor adquirida en consorcio en el marco de la normativa de contrataciones públicas.",
+      "existing": false,
+      "sha256": "e35c0f5bd66cfe14f0a4ff3c89274702e89ceb8621bc282c2b9d603517af297d",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10368076/8420944-opinion-d072-2026-oece-dtn.pdf?v=1784932339"
+        ],
+        "checkedAt": "2026-10-28T20:05:18.468Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante la Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias. • “ Reglamento” , al aprobado mediante el Decreto Supremo N° 009 - ",
+        "sha256": "e35c0f5bd66cfe14f0a4ff3c89274702e89ceb8621bc282c2b9d603517af297d",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:05:18.536Z"
+      },
+      "candidateId": "2d963b3e-0481-45ea-9264-f205edc9a68b",
+      "documentId": "01a2a399-9788-44d3-ad32-8d3856c386c1",
+      "verification": {
+        "pages": 5,
+        "chunks": 8,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000071-2026-OECE-DTN",
+      "number": "D000071-2026-OECE-DTN",
+      "identity": "71-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420934-opinion-n-d000071-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10368043/8420934-opinion-d071-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-16",
+      "summary": "El Alcalde de la Municipalidad Distrital del Tingo formula una consulta sobre el procedimiento de resolución de contrato.",
+      "existing": false,
+      "sha256": "4d4342566c2d1c80be9e35492f2533f0e741565207e9c57904e55e1564aeacae",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10368043/8420934-opinion-d071-2026-oece-dtn.pdf?v=1784932300"
+        ],
+        "checkedAt": "2026-10-28T20:05:35.287Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley Nº 32069. ● “Reglamento” al aprobado mediante el Decreto Supremo N° 009 - 2025 - EF. Dicho lo anterior, las consultas formuladas son las s",
+        "sha256": "4d4342566c2d1c80be9e35492f2533f0e741565207e9c57904e55e1564aeacae",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:05:35.374Z"
+      },
+      "candidateId": "c30f4915-0887-4bce-8fcb-6d55ecba0a8e",
+      "documentId": "ff2128ec-a028-48ec-b502-2cb9c1b02f1a",
+      "verification": {
+        "pages": 5,
+        "chunks": 7,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000068-2026-OECE-DTN",
+      "number": "D000068-2026-OECE-DTN",
+      "identity": "68-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386347-opinion-n-d000068-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321767/8386347-opinion-d068-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-15",
+      "summary": "El señor Wilman Jorge Heredia Escobar, Director Ejecutivo de la Unidad Ejecutora de Inversión en Comercio Exterior y Turismo – UICET del Ministerio de Comercio Exterior y Turismo - MINCETUR, formul...",
+      "existing": false,
+      "sha256": "85fca57011e3ebfa323fe5415ff55d175ce50e3cd48e2b9084d4ad9ac9472c86",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10321767/8386347-opinion-d068-2026-oece-dtn.pdf?v=1784154732"
+        ],
+        "checkedAt": "2026-10-28T20:05:53.905Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias 2 ; vigente a partir del 22 de abril de 2025. ● “Reglamento” , al ap",
+        "sha256": "85fca57011e3ebfa323fe5415ff55d175ce50e3cd48e2b9084d4ad9ac9472c86",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:05:53.964Z"
+      },
+      "candidateId": "0bb62ba3-9e73-42a4-893a-9673647ef1fc",
+      "documentId": "321be3db-424b-4efd-a3b7-7c90a3d9e63f",
+      "verification": {
+        "pages": 3,
+        "chunks": 5,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000067-2026-OECE-DTN",
+      "number": "D000067-2026-OECE-DTN",
+      "identity": "67-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386293-opinion-n-d000067-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321713/8386293-opinion-d067-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-15",
+      "summary": "El señor Alfredo Lucio Gamez Coaila, Gerente Regional de Asesoría Jurídica del Gobierno Regional de Tacna, formula consultas sobre la posibilidad de otorgar el “adelanto por avance” –regulado en la...",
+      "existing": false,
+      "sha256": "57daecbc376e6643b0053a4719bdf01931c2c2e9bda98e8d2c03b4b9812f29de",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10321713/8386293-opinion-d067-2026-oece-dtn.pdf?v=1784154360"
+        ],
+        "checkedAt": "2026-10-28T20:06:12.439Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas; vigente a partir del 22 de abril de 2025. ● “Reglamento” al aprobado mediante D.S. N°009",
+        "sha256": "57daecbc376e6643b0053a4719bdf01931c2c2e9bda98e8d2c03b4b9812f29de",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:06:12.559Z"
+      },
+      "candidateId": "432d4cc6-23fb-4d39-b64a-641c904c2f5b",
+      "documentId": "1aaafe22-2e9a-4dda-8263-271881b7db35",
+      "verification": {
+        "pages": 5,
+        "chunks": 8,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000070-2026-OECE-DTN",
+      "number": "D000070-2026-OECE-DTN",
+      "identity": "70-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8393096-opinion-n-d000070-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10326505/8393096-opinion-d070-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-15",
+      "summary": "El Encargado de la Subgerencia de Asuntos Procesales del Banco de la Nación, formula varias consultas respecto del principio de presunción de veracidad en relación a la declaración de nulidad del c...",
+      "existing": false,
+      "sha256": "a4988337c64fa703b74efb639d49c802b4b0761c1c8eb483eb70557cfa2d811c",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000069-2026-OECE-DTN",
+      "number": "D000069-2026-OECE-DTN",
+      "identity": "69-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8393072-opinion-n-d000069-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10326467/8393072-opinion-d069-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-15",
+      "summary": "El Representante Legal del Estudio Echecopar S.R.L., señor Eduardo Ego Aguirre Olórtegui, formula consultas vinculadas con los plazos de respuesta a las comunicaciones realizadas durante la ejecuci...",
+      "existing": false,
+      "sha256": "75f6b4979dc15da032f45f97e19b20a87187a0009a0f0de3d07b0ca065dedd55",
+      "pageCount": 6,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10326467/8393072-opinion-d069-2026-oece-dtn.pdf?v=1784218954"
+        ],
+        "checkedAt": "2026-10-28T20:06:29.564Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. ● “Reglamento” , al aprob",
+        "sha256": "75f6b4979dc15da032f45f97e19b20a87187a0009a0f0de3d07b0ca065dedd55",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:06:29.650Z"
+      },
+      "candidateId": "2aaef6d2-0f04-426e-bb39-6b46f743fb04",
+      "documentId": "6435f645-1aac-48dd-abff-15619a11ff52",
+      "verification": {
+        "pages": 6,
+        "chunks": 9,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000065-2026-OECE-DTN",
+      "number": "D000065-2026-OECE-DTN",
+      "identity": "65-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353929-opinion-n-d000065-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280347/8353929-opinion-d065-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-08",
+      "summary": "El señor Wilman Jorge Heredia Escobar, Director Ejecutivo de la UICET del Ministerio de Comercio Exterior y Turismo, formula consultas referidas a la oportunidad para la solicitud de adelantos dire...",
+      "existing": false,
+      "sha256": "4a8aaf35fb009933e10c83c85854e9edce9719ccbcfb63e478b0318cae71d164",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10280347/8353929-opinion-d065-2026-oece-dtn.pdf?v=1783546244"
+        ],
+        "checkedAt": "2026-10-28T20:06:50.200Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” , a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y 1 Modificado por el D.S. N °001 - 2026 - EF .",
+        "sha256": "4a8aaf35fb009933e10c83c85854e9edce9719ccbcfb63e478b0318cae71d164",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:06:50.270Z"
+      },
+      "candidateId": "c2e83848-818a-4ec6-8e7a-065978d0610d",
+      "documentId": "2fb39ac2-124b-468e-adf6-b106892340a5",
+      "verification": {
+        "pages": 3,
+        "chunks": 5,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000064-2026-OECE-DTN",
+      "number": "D000064-2026-OECE-DTN",
+      "identity": "64-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353897-opinion-n-d000064-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280298/8353897-opinion-d064-2026-oece-dtn.pdf",
+      "publicationDate": "2026-07-06",
+      "summary": "El señor Norvil Coronel Olano, Jefe de la Oficina General de Administración y Finanzas de la Autoridad Nacional del Servicio Civil - SERVIR, formula tres (03) consultas referidas a la configuración...",
+      "existing": false,
+      "sha256": "9c82d8679035779baa959bdb989aa9cf6225c58b1bf18743407731626767972c",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10280298/8353897-opinion-d064-2026-oece-dtn.pdf?v=1783545982"
+        ],
+        "checkedAt": "2026-10-28T20:07:07.049Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley N° 32069, Ley de Contrataciones Públicas y sus modificatorias. ● “Reglamento” al aprobado mediante el Decreto Supremo N° 009 - 2025 - EF, ",
+        "sha256": "9c82d8679035779baa959bdb989aa9cf6225c58b1bf18743407731626767972c",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:07:07.122Z"
+      },
+      "candidateId": "f3025288-342b-48a1-a939-9d0efebdd9f4",
+      "documentId": "3fc31c85-b3d3-4093-80bd-bca0f1bb9ab6",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000061-2026-OECE-DTN",
+      "number": "D000061-2026-OECE-DTN",
+      "identity": "61-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353810-opinion-n-d000061-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280170/8353810-opinion-d061-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-22",
+      "summary": "El Jefe de la Oficina de Asesoría Jurídica de la Gerencia Regional de Transportes y Comunicaciones, señor Darwin Solon Esquive Las Heras del Gobierno Regional de Arequipa formula varias consultas s...",
+      "existing": false,
+      "sha256": "7827d5e2a7e64c364c991c02b0ef8289e933e25a46afe0750b3ae83f0b61f4ad",
+      "pageCount": 10,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10280170/8353810-opinion-d061-2026-oece-dtn.pdf?v=1783545244"
+        ],
+        "checkedAt": "2026-10-28T20:07:24.358Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley Nº 32069. 1 En atención a la competencia conferida a la Dirección Técnico Normativa, se ha revisado el documento de la referencia para ver",
+        "sha256": "7827d5e2a7e64c364c991c02b0ef8289e933e25a46afe0750b3ae83f0b61f4ad",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:07:24.479Z"
+      },
+      "candidateId": "1e4873fc-c214-4771-b3cd-333c408d28cb",
+      "documentId": "6621a31b-7b4c-409a-84e4-e53fe5c30208",
+      "verification": {
+        "pages": 10,
+        "chunks": 21,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000060-2026-OECE-DTN",
+      "number": "D000060-2026-OECE-DTN",
+      "identity": "60-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286573-opinion-n-d000060-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186621/8286573-opinion-d060-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-19",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, Alcalde la Municipalidad Distrital de San isidro del Maino, formula varias consultas relacionadas al monitoreo y control de obras reguladas en el artículo 207...",
+      "existing": false,
+      "sha256": "e087ff8d0ccc041083aef72c44ae669e720097b4f7fb56e98d8a8eba89777370",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10186621/8286573-opinion-d060-2026-oece-dtn.pdf?v=1781909082"
+        ],
+        "checkedAt": "2026-10-28T20:07:45.698Z"
+      },
+      "regimeEvidence": {
+        "page": 2,
+        "text": "“Ley” a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. ● “Reglamento” al aprobad",
+        "sha256": "e087ff8d0ccc041083aef72c44ae669e720097b4f7fb56e98d8a8eba89777370",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:07:45.806Z"
+      },
+      "candidateId": "86e7604d-8dd9-4fe3-8fac-33319814ef1c",
+      "documentId": "ba44c109-7d07-4f9e-8051-fb28dddf9c24",
+      "verification": {
+        "pages": 7,
+        "chunks": 13,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000059-2026-OECE-DTN",
+      "number": "D000059-2026-OECE-DTN",
+      "identity": "59-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286566-opinion-n-d000059-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186610/8286566-opinion-d059-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-18",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, Alcalde de la Municipalidad Distrital de San Isidro del Maino, formula consultas vinculadas con la formulación de valorizaciones y la aplicación de reajustes.",
+      "existing": false,
+      "sha256": "4666ba98b4b6669635a089733c87759ead15f49e850591f58a368aefc62eaec8",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10186610/8286566-opinion-d059-2026-oece-dtn.pdf?v=1781908955"
+        ],
+        "checkedAt": "2026-10-28T20:08:04.302Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias 2 ; vigente a partir del 22 de abril de 2025. ● “Reglamento” al apro",
+        "sha256": "4666ba98b4b6669635a089733c87759ead15f49e850591f58a368aefc62eaec8",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:08:04.388Z"
+      },
+      "candidateId": "aa0ffeb2-66c4-42a1-abbd-4ba6c92925a1",
+      "documentId": "15d2da82-ddcf-4ae1-9be3-c46d6f8f7da5",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000058-2026-OECE-DTN",
+      "number": "D000058-2026-OECE-DTN",
+      "identity": "58-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286555-opinion-n-d000058-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10186591/8286555-opinion-d058-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-18",
+      "summary": "El señor Jhenrry Gerald Salon Montoya, Alcalde de la Municipalidad Distrital de San Isidro del Maino, formula una consulta sobre la posibilidad de realizar trabajos propios de la obra antes del cum...",
+      "existing": false,
+      "sha256": "be19bb66363adf9c71c586de8e46f848ea1118e0ffe3d323d05ba6d840ecd621",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10186591/8286555-opinion-d058-2026-oece-dtn.pdf?v=1781908792"
+        ],
+        "checkedAt": "2026-10-28T20:08:22.163Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante Ley N°32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025.",
+        "sha256": "be19bb66363adf9c71c586de8e46f848ea1118e0ffe3d323d05ba6d840ecd621",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:08:22.244Z"
+      },
+      "candidateId": "0a4c5d29-d65b-4a67-99b9-3a675e5eb90a",
+      "documentId": "a0864f7b-d63a-4546-9018-935d0df66c27",
+      "verification": {
+        "pages": 4,
+        "chunks": 6,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000057-2026-OECE-DTN",
+      "number": "D000057-2026-OECE-DTN",
+      "identity": "57-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279598-opinion-n-d000057-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176826/8279598-opinion-d057-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-17",
+      "summary": "El señor Jhenrry Gerald Salón Montoya, Alcalde de la Municipalidad Distrital de San Isidro del Maino, formula consultas sobre la sustitución de integrantes del plantel técnico prevista en el artícu...",
+      "existing": false,
+      "sha256": "26c0e6b305779f66e7aa95c38ff66b54553da760e2d203cc5bc2bbb945db29a9",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10176826/8279598-opinion-d057-2026-oece-dtn.pdf?v=1781800833"
+        ],
+        "checkedAt": "2026-10-28T20:08:38.707Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatorias; vigente a partir del 22 de abril de 2025. • “Reglamento” al aprobad",
+        "sha256": "26c0e6b305779f66e7aa95c38ff66b54553da760e2d203cc5bc2bbb945db29a9",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:08:38.746Z"
+      },
+      "candidateId": "85e7041f-3dca-40d1-995f-91c9fa712110",
+      "documentId": "8225a1a9-ecf3-44a9-8e52-ca721e5e5215",
+      "verification": {
+        "pages": 4,
+        "chunks": 6,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000056-2026-OECE-DTN",
+      "number": "D000056-2026-OECE-DTN",
+      "identity": "56-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279580-opinion-n-d000056-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176784/8279580-opinion-d056-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-17",
+      "summary": "El señor Richard Napoleón Oscar Talavera Rodríguez, Gerente de Asesoría Jurídica de la Municipalidad Distrital de Yarabamba, formula una consulta sobre cuál es la autoridad encargada de aprobar una...",
+      "existing": false,
+      "sha256": "9d02082ceb9d0fc3a4ef11533a2eaa2854ac90628d3ed50993e9ca36148e3c61",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10176784/8279580-opinion-d056-2026-oece-dtn.pdf?v=1781800692"
+        ],
+        "checkedAt": "2026-10-28T20:08:53.709Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante Ley N° 32069, Ley General de Contrataciones Públicas y sus modificatoria s . ● “Reglamento” al aprobado mediante D.S. N°009 - 2025 - EF, Regla",
+        "sha256": "9d02082ceb9d0fc3a4ef11533a2eaa2854ac90628d3ed50993e9ca36148e3c61",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:08:53.748Z"
+      },
+      "candidateId": "325ddabd-1a74-46dd-bcb0-5f271694bb2e",
+      "documentId": "2c6df52c-6583-44a5-9830-91b0baf31f42",
+      "verification": {
+        "pages": 3,
+        "chunks": 6,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000055-2026-OECE-DTN",
+      "number": "D000055-2026-OECE-DTN",
+      "identity": "55-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279560-opinion-n-d000055-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10176752/8279560-opinion-d055-2026-oece-dtn.pdf",
+      "publicationDate": "2026-06-16",
+      "summary": "El Gerente Municipal de la Municipalidad Distrital de Mangas formula varias consultas sobre la normativa aplicable al contrato de supervisión de obra celebrado bajo la Ley Nº 30225, cuando el contr...",
+      "existing": false,
+      "sha256": "e875e5257109e7783fd3094f2bb7a37b0d078af57291dcff5cbf74f5c8164489",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "indexed",
+      "reason": "Definición expresa del régimen en el original",
+      "attachmentsChecked": {
+        "count": 1,
+        "urls": [
+          "https://cdn.www.gob.pe/uploads/document/file/10176752/8279560-opinion-d055-2026-oece-dtn.pdf?v=1781800569"
+        ],
+        "checkedAt": "2026-10-28T20:09:10.883Z"
+      },
+      "regimeEvidence": {
+        "page": 1,
+        "text": "“Ley” a la aprobada mediante la Ley Nº 32069. ● “Reglamento” al aprobado mediante el Decreto Supremo N° 009 - 2025 - EF. 1 En atención a la competencia conferida a la Direcci",
+        "sha256": "e875e5257109e7783fd3094f2bb7a37b0d078af57291dcff5cbf74f5c8164489",
+        "method": "explicit-original-definition",
+        "humanReviewed": false,
+        "checkedAt": "2026-10-28T20:09:10.946Z"
+      },
+      "candidateId": "b1aacb24-d80d-4293-ad65-e670d2b73c53",
+      "documentId": "654382c3-6853-4303-8ac1-04ac903ac2f4",
+      "verification": {
+        "pages": 5,
+        "chunks": 10,
+        "complete": true,
+        "storageSha256Verified": true,
+        "pineconeVerified": true
+      }
+    },
+    {
+      "title": "Opinión N° D000045-2026-OECE-DTN",
+      "number": "D000045-2026-OECE-DTN",
+      "identity": "45-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8159582-opinion-n-d000045-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10004903/8159582-opinion-d045-2026-oece-dtn.pdf",
+      "publicationDate": "2026-05-12",
+      "summary": "El Jefe de la Oficina General de Asesoría Jurídica de la Municipalidad Distrital de San Borja, señor Lino Delgado Villalobos, formula una consulta relacionada con la autorización previa de la Contr...",
+      "existing": false,
+      "sha256": "3adb98b3cf0ede8615e74bd679d1be4f6f9a15acee560a0d9922b519b5fffdca",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000042-2026-OECE-DTN",
+      "number": "D000042-2026-OECE-DTN",
+      "identity": "42-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8085096-opinion-n-d000042-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9907634/8085096-opinion-d042-2026-oece-dtn.pdf",
+      "publicationDate": "2026-05-04",
+      "summary": "El señor Jorge Mario Aquino Hernández, Gerente General de la Constructora Costa Andina S.A.C, formula una consulta vinculada al procedimiento de recepción de obra en el marco de la anterior normati...",
+      "existing": false,
+      "sha256": "a9e579ad3d9f66ad9162d85d9c161fb6e6b6523befc1f848a7e4d5b4ebff619f",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000036-2026-OECE-DTN",
+      "number": "D000036-2026-OECE-DTN",
+      "identity": "36-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8039386-opinion-n-d000036-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9839136/8039386-opinion-d036-2026-oece-dtn.pdf",
+      "publicationDate": "2026-04-15",
+      "summary": "El señor Ricardo Lenin Becerra Guevara formula consultas sobre la aplicación de penalidades por ausencia del personal en la obra, en el marco de lo dispuesto en la anterior normativa de contratacio...",
+      "existing": false,
+      "sha256": "10a8d39b6f5d3eeffa49b00d1a1dc6657fb27528f5af61871b3b63c80d9b7409",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000035-2026-OECE-DTN",
+      "number": "D000035-2026-OECE-DTN",
+      "identity": "35-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8014628-opinion-n-d000035-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9805360/8014628-opinion-d035-2026-oece-dtn.pdf",
+      "publicationDate": "2026-04-14",
+      "summary": "El señor Deivid Dante Heredia Obregón formula consultas sobre los impedimentos para contratar con el Estado, en el marco de lo establecido en la Ley Nº 30225, Ley de Contrataciones del Estado vigen...",
+      "existing": false,
+      "sha256": "65319c0572d272e271078cfcbc476a81684ed7d9182253a43b8d747461fba8cf",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000030-2026-OECE-DTN",
+      "number": "D000030-2026-OECE-DTN",
+      "identity": "30-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940906-opinion-n-d000030-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9706878/7940906-opinion-d030-2026-oece-dtn.pdf",
+      "publicationDate": "2026-03-26",
+      "summary": "El señor Carlos Alberto Fernández Gates, Representante Legal del Estudio Fernández Gates S.A.C., formula consultas referidas a los impedimentos para ser participante, postor o contratista previstos...",
+      "existing": false,
+      "sha256": "73abc2b973f73da00bfa381309e609ae4d2ebb63061e49e1701f38b9a3d12642",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000025-2026-OECE-DTN",
+      "number": "D000025-2026-OECE-DTN",
+      "identity": "25-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7858396-opinion-n-d000025-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9600778/7858396-opinion-d025-2026-oece-dtn.pdf",
+      "publicationDate": "2026-03-12",
+      "summary": "El señor Valentín Rodolfo Soto Llerena formula consultas vinculadas a la contratación directa por situación de emergencia, en el marco de lo regulado en la anterior normativa de contrataciones del ...",
+      "existing": false,
+      "sha256": "ee5ed3141fef97399911f541b0470e8ecb45d7c1a3e0b7b86ecc657b57cec647",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000021-2026-OECE-DTN",
+      "number": "D000021-2026-OECE-DTN",
+      "identity": "21-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7771270-opinion-n-d000021-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9492866/7771270-opinion-d021-2026-oece-dtn.pdf",
+      "publicationDate": "2026-02-23",
+      "summary": "El Gerente Municipal de la Municipalidad Distrital de El Algarrobal, formula una consulta sobre los sistemas de contratación, en el marco de lo regulado en la anterior normativa de contrataciones d...",
+      "existing": false,
+      "sha256": "b5601dd8fd91be9b8a15f9ae7abaab6c5818fa77da1e37605c2b5c1d565c7137",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000020-2026-OECE-DTN",
+      "number": "D000020-2026-OECE-DTN",
+      "identity": "20-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7771265-opinion-n-d000020-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9492857/7771265-opinion-d020-2026-oece-dtn.pdf",
+      "publicationDate": "2026-02-23",
+      "summary": "El señor Edgar Máximo Huaringa Basurto, Subgerente de Infraestructura de la Municipalidad Distrital de San Antonio - Cañete, formula consultas referidas a las modificaciones al contrato de supervis...",
+      "existing": false,
+      "sha256": "0ffecf7bcbe3275bd6a8ca30866c12c402257274d1df31519968f6dcde22f1b3",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000014-2026-OECE-DTN",
+      "number": "D000014-2026-OECE-DTN",
+      "identity": "14-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7743543-opinion-n-d000014-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9455847/7743543-opinion-d014-2026-oece-dtn.pdf",
+      "publicationDate": "2026-02-03",
+      "summary": "El Gerente Municipal de la Municipalidad Distrital de San Antonio - Cañete, formula una consulta sobre la supervisión de obras, en el marco de lo regulado en la anterior normativa de contrataciones...",
+      "existing": false,
+      "sha256": "9c8958fd106173f58d3cb0f3b5c5954d7af6f16ec6fd5daa706a32b32e894b0b",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000004-2026-OECE-DTN",
+      "number": "D000004-2026-OECE-DTN",
+      "identity": "4-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631028-opinion-n-d000004-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9301459/7631028-opinion-d004-2026-oece-dtn.pdf",
+      "publicationDate": "2026-01-13",
+      "summary": "El señor Hugo Alejandro Condor Santiago, Jefe de la Oficina de Administración de Proyectos de la Empresa Regional de Servicio Público de Electricidad del Centro S.A., formula varias consultas vincu...",
+      "existing": false,
+      "sha256": "a5ae540ebfe89db831ad2053b513f309364895b2112c353f19bf02ebd1382c9c",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000002-2026-OECE-DTN",
+      "number": "D000002-2026-OECE-DTN",
+      "identity": "2-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7626904-opinion-n-d000002-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9299696/7626904-opinion-d002-2026-oece-dtn.pdf",
+      "publicationDate": "2026-01-05",
+      "summary": "El señor Wilfredo Wenceslao Rondo Cuevas, Gerente General de la empresa Wilitor S.A.C., formula consulta relacionada con la ejecución y pago de mayores metrados en contratos de obra bajo el sistema...",
+      "existing": false,
+      "sha256": "6f1b093985739fa5febcb4aa03847ef74310efb2ccf1ebd5452e57fbb5e1c388",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000001-2026-OECE-DTN",
+      "number": "D000001-2026-OECE-DTN",
+      "identity": "1-2026-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7626891-opinion-n-d000001-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/9299678/7626891-opinion-d001-2026-oece-dtn.pdf",
+      "publicationDate": "2026-01-05",
+      "summary": "El señor Luis Alberto Huillca Bayona formula varias consultas relacionadas a las funciones y facultades del Órgano Encargado de las Contrataciones de acuerdo con lo que establecía la Ley Nº 30225, ...",
+      "existing": false,
+      "sha256": "59148bf7497e8c41965ef6ae7393cab6aca829247247960338acc2862e88957c",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000030-2025-OECE-DTN",
+      "number": "D000030-2025-OECE-DTN",
+      "identity": "30-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168946-opinion-n-d000030-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661898/7168946-opinion-d030-2025-oece-dtn.pdf",
+      "publicationDate": "2025-09-02",
+      "summary": "La señora Rosa Milagros Velásquez Liza realiza varias consultas referidas a las competencias del Comité Especial, en el marco de la anterior normativa de contrataciones del Estado.",
+      "existing": false,
+      "sha256": "ad7d7cc99ac0e86df5db94c24a1f9934e018acc24e340adfdb5a444bbcde6f29",
+      "pageCount": 7,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000027-2025-OECE-DTN",
+      "number": "D000027-2025-OECE-DTN",
+      "identity": "27-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168940-opinion-n-d000027-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8661886/7168940-opinion-d027-2025-oece-dtn.pdf",
+      "publicationDate": "2025-08-28",
+      "summary": "El señor Florentino Serván Serván, en representación de la Constructora San Jorge E.I.R.L, formula una consulta relacionada con la formulación de los presupuestos deductivos vinculados.",
+      "existing": false,
+      "sha256": "d7ede600d862c3226a71b4a9d1b67ba8810ee214191728f0aa0bf297d90675e5",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000019-2025-OECE-DTN",
+      "number": "D000019-2025-OECE-DTN",
+      "identity": "19-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6978501-opinion-n-d000019-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8393001/6978501-opinion-d019-2025-oece-dtn.pdf",
+      "publicationDate": "2025-07-17",
+      "summary": "El señor Plácido Stefano Sifuentes Villanueva formula consultas relacionadas a los gastos generales variables en el contexto de la reducción del plazo de ejecución de obra.",
+      "existing": false,
+      "sha256": "ab87f5c61261428b002391a7f080b4ca8f7f224dd4a6a826cbed6d923462c671",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000018-2025-OECE-DTN",
+      "number": "D000018-2025-OECE-DTN",
+      "identity": "18-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6978496-opinion-n-d000018-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8392993/6978496-opinion-d018-2025-oece-dtn.pdf",
+      "publicationDate": "2025-07-11",
+      "summary": "El señor Rafael Chafloque Castro, Jefe de la Oficina General de Administración del Fondo Nacional de Desarrollo Pesquero - Fondepes, formula una consulta relacionada con la obligación del contratis...",
+      "existing": false,
+      "sha256": "48773814e0d36873a52d8f1975497a06a800c1920f45525d30f86c3e2ac44744",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000015-2025-OECE-DTN",
+      "number": "D000015-2025-OECE-DTN",
+      "identity": "15-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6939053-opinion-n-d000015-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8330947/6939053-opinion-d015-2025-oece-dtn.pdf",
+      "publicationDate": "2025-07-02",
+      "summary": "El señor Valentín Rodolfo Soto Llerena formula una consulta relacionada con lo establecido en el numeral 64.6 del artículo 64 del Decreto Supremo N° 344-2018-EF.",
+      "existing": false,
+      "sha256": "26b679efe733bd84c77f425ecc2e13fbb865946bf45293aedf096d3e3f3bd8bd",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000012-2025-OECE-DTN",
+      "number": "D000012-2025-OECE-DTN",
+      "identity": "12-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917588-opinion-n-d000012-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8295748/6917588-opinion-d012-2025-oece-dtn.pdf",
+      "publicationDate": "2025-06-24",
+      "summary": "El Jefe de la Oficina de Infraestructura y Obras Públicas de la Municipalidad Distrital de Cahuacho, plantea una consulta relacionada al monto vigente del contrato y la aplicación de la penalidad p...",
+      "existing": false,
+      "sha256": "2df23b1e289e59f2cdcb41962fbe9467d51189e747077245b523746aa87e18de",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000010-2025-OECE-DTN",
+      "number": "D000010-2025-OECE-DTN",
+      "identity": "10-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917570-opinion-n-d000010-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8295719/6917570-opinion-d010-2025-oece-dtn.pdf",
+      "publicationDate": "2025-06-10",
+      "summary": "El Gerente Regional de Control de Arequipa de la Contraloría General de la República, formula varias consultas relacionadas a los impedimentos para contratar previstos en la anterior Ley de Contrat...",
+      "existing": false,
+      "sha256": "af7d514bc0b660340abf7323a23a6ed59bc739b79eecc8b204149534d5791158",
+      "pageCount": 10,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000008-2025-OECE-DTN",
+      "number": "D000008-2025-OECE-DTN",
+      "identity": "8-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812174-opinion-n-d000008-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131902/6812174-opinion-d008-2025-oece-dtn.pdf",
+      "publicationDate": "2025-05-27",
+      "summary": "El señor Iván Bardales Marena, Alcalde de la Municipalidad Distrital de El Tingo formula una consulta relacionada con la figura de intervención económica de la obra.",
+      "existing": false,
+      "sha256": "5022b997d03f675ecacb10c557063ae873f3e0d918ed159298e1b05405943f7e",
+      "pageCount": 3,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000007-2025-OECE-DTN",
+      "number": "D000007-2025-OECE-DTN",
+      "identity": "7-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812173-opinion-n-d000007-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131897/6812173-opinion-d007-2025-oece-dtn.pdf",
+      "publicationDate": "2025-05-22",
+      "summary": "El señor Johnny William Chambilla Chambi, Representante Legal, de la empresa Corporación Contratamás S.A.C., formula consultas referidas al procedimiento para la aprobación de ampliaciones del plazo.",
+      "existing": false,
+      "sha256": "2837bd40ca9f8c7d4d18cadc01d0e75843959e11b125fa01e47bdc979de61c2f",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000006-2025-OECE-DTN",
+      "number": "D000006-2025-OECE-DTN",
+      "identity": "6-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812171-opinion-n-d000006-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131891/6812171-opinion-d006-2025-oece-dtn.pdf",
+      "publicationDate": "2025-05-16",
+      "summary": "El Gerente Corporativo Legal del Fondo Nacional de Financiamiento de la Actividad Empresarial del Estado - FONAFE, plantea varias consultas relacionadas al procedimiento de conformidad, de acuerdo ...",
+      "existing": false,
+      "sha256": "cb27c0f40e973b1bfd98bbb872d831809ed56a4e7a8326dd2d7f72a7464354c1",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000005-2025-OECE-DTN",
+      "number": "D000005-2025-OECE-DTN",
+      "identity": "5-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812170-opinion-n-d000005-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131886/6812170-opinion-d005-2025-oece-dtn.pdf",
+      "publicationDate": "2025-05-14",
+      "summary": "El Jefe del Órgano de Control Institucional de la Municipalidad Distrital de la Victoria, formula consultas referidas a la acreditación de la experiencia del personal clave.",
+      "existing": false,
+      "sha256": "30b8e70b02d7a6e752d1d814d58ecbb24fff5f53de534ae0dfe4e85f8ef04da1",
+      "pageCount": 6,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000003-2025-OECE-DTN",
+      "number": "D000003-2025-OECE-DTN",
+      "identity": "3-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812168-opinion-n-d000003-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131881/6812168-opinion-d003-2025-oece-dtn.pdf",
+      "publicationDate": "2025-04-29",
+      "summary": "Alfredo Julio Llerena Pacheco, Gerente de Infraestructura, Desarrollo Urbano y Rural de la Municipalidad Provincial Sánchez Carrión, formula varias consultas relacionadas con la figura de ampliació...",
+      "existing": false,
+      "sha256": "1f9e88751117dbba6b3b36de57507428f60df60538c7f99ad9c59295dd60879e",
+      "pageCount": 5,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000002-2025-OECE-DTN",
+      "number": "D000002-2025-OECE-DTN",
+      "identity": "2-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812167-opinion-n-d000002-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8131873/6812167-opinion-d002-2025-oece-dtn.pdf",
+      "publicationDate": "2025-04-29",
+      "summary": "El señor Frank Marvin Müller Figueroa, Representante Legal de Asesores Técnicos Asociados S.A. formula una consulta relacionada con el pago de tarifas en contratos de supervisión durante la etapa d...",
+      "existing": false,
+      "sha256": "73dffa028ae8d36d453ebfe453af2ed6c71509cc8c575855731f2b6aeec52b07",
+      "pageCount": 6,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    },
+    {
+      "title": "Opinión N° D000001-2025-OECE-DTN",
+      "number": "D000001-2025-OECE-DTN",
+      "identity": "1-2025-OECE",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714686-opinion-n-d000001-2025-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7987511/6714686-opinion-d001-2025-oece-dtn.pdf",
+      "publicationDate": "2025-04-24",
+      "summary": "La Gerente Corporativa de Asuntos Legales del Fondo Nacional de Financiamiento de la Actividad Empresarial del Estado - FONAFE, plantea varias consultas relacionadas al pago en el caso de los contr...",
+      "existing": false,
+      "sha256": "d2ad2d4c7d6b35c4da793c12f04e13f811c60cf768ebf1724b58ab7ccb0d5b9a",
+      "pageCount": 4,
+      "ocrPartial": false,
+      "has32069": true,
+      "status": "excluded",
+      "reason": "La definición y el análisis corresponden a normativa anterior; la mención a 32069 identifica la competencia institucional"
+    }
+  ],
+  "finishedAt": "2026-10-28T20:09:28.864Z"
+}

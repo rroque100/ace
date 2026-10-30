@@ -1,0 +1,485 @@
+{
+  "startedAt": "2026-10-27T18:48:59.559Z",
+  "entries": [
+    {
+      "id": "96c04db1-39be-4896-a460-8a29b428bbaa",
+      "title": "Índice de directivas vigentes — archivo oficial actualizado al 17.07.2026",
+      "status": "indexed",
+      "type": "indice_documental",
+      "chunks": 2,
+      "blocks": null,
+      "pages": 3,
+      "verifiedAt": "2026-10-27T18:40:22.147Z"
+    },
+    {
+      "id": "36be1be1-96d2-44d6-91f6-4a49d06655cc",
+      "title": "Lineamientos de conducta de los compradores públicos para el desarrollo del proceso de contratación pública",
+      "status": "indexed",
+      "type": "lineamiento",
+      "chunks": 29,
+      "blocks": null,
+      "pages": 32,
+      "verifiedAt": "2026-10-27T18:40:36.014Z"
+    },
+    {
+      "id": "e080b4e0-1845-4e92-93e2-0a37cdb3a70a",
+      "title": "Lineamientos para la elaboración del Reglamento Interno a cargo de las Instituciones Arbitrales y Centros de Administración de JPRD",
+      "status": "indexed",
+      "type": "lineamiento",
+      "chunks": 4,
+      "blocks": null,
+      "pages": 5,
+      "verifiedAt": "2026-10-27T18:40:45.208Z"
+    },
+    {
+      "id": "6d68de25-3e3e-4970-be22-1029f8b656c1",
+      "title": "Código de Ética para el Arbitraje en Contrataciones Públicas",
+      "status": "indexed",
+      "type": "codigo_etica",
+      "chunks": 38,
+      "blocks": null,
+      "pages": 24,
+      "verifiedAt": "2026-10-27T18:40:59.982Z"
+    },
+    {
+      "id": "697a6707-b32a-47d8-a4fb-2a01d2e707b4",
+      "title": "Bases estándar — Licitación Pública para Bienes",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 83,
+      "blocks": 1603,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:49:11.748Z"
+    },
+    {
+      "id": "89131716-0ccb-456b-8e87-00eeeaa0d4fc",
+      "title": "Bases estándar — Licitación Pública Abreviada para Bienes",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 83,
+      "blocks": 1612,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:49:23.613Z"
+    },
+    {
+      "id": "480620cc-df0b-47a0-8f40-e60f11ebe43c",
+      "title": "Bases estándar — Licitación Pública para Bienes (Programa Vaso de Leche)",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 81,
+      "blocks": 1559,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:49:34.795Z"
+    },
+    {
+      "id": "48659258-8902-4015-bfaf-024720e72544",
+      "title": "Bases estándar — Licitación Pública Abreviada para Bienes (Programa Vaso de Leche)",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 80,
+      "blocks": 1563,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:49:45.846Z"
+    },
+    {
+      "id": "d3867d78-cd2f-4c49-9e83-0a48e56a5575",
+      "title": "Bases estándar — Licitación Pública de Obras",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 143,
+      "blocks": 3466,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:49:59.580Z"
+    },
+    {
+      "id": "3f0eed26-00d1-4bb1-9bac-a212ef0bcc3a",
+      "title": "Bases estándar — Licitación Pública Abreviada de Obras",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 144,
+      "blocks": 3483,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:50:14.847Z"
+    },
+    {
+      "id": "d84d1873-e160-40b7-a024-3f15abe14db2",
+      "title": "Bases estándar — Concurso de Proyectos Arquitectónicos y Urbanísticos",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 149,
+      "blocks": 3415,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:50:31.500Z"
+    },
+    {
+      "id": "3a21681a-66af-4ce4-9255-35a6d2c0b8ea",
+      "title": "Bases estándar — Concurso Público de Servicios",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 91,
+      "blocks": 1797,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:50:44.289Z"
+    },
+    {
+      "id": "2ce74dcb-fe71-452b-97e1-f7ef215b03e2",
+      "title": "Bases estándar — Concurso Público Abreviado de Servicios",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 91,
+      "blocks": 1800,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:50:56.189Z"
+    },
+    {
+      "id": "b19a9466-4b3b-4577-8252-a7ceec0fd5cd",
+      "title": "Bases estándar — Concurso Público para Consultoría en General",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 93,
+      "blocks": 1930,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:51:08.064Z"
+    },
+    {
+      "id": "8de8cf6b-b771-4103-8eaa-cbb321140563",
+      "title": "Bases estándar — Concurso Público Abreviado para Consultoría en General",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 93,
+      "blocks": 1942,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:51:19.644Z"
+    },
+    {
+      "id": "48902b35-3b34-450e-a4bc-ae418ed63c15",
+      "title": "Bases estándar — Concurso Público para Consultoría de Obra",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 107,
+      "blocks": 2309,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:51:33.948Z"
+    },
+    {
+      "id": "b965b0c7-af4a-472e-a88c-6353fe223436",
+      "title": "Bases estándar — Concurso Público Abreviado para Consultoría de Obra",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 107,
+      "blocks": 2310,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:51:47.423Z"
+    },
+    {
+      "id": "def12b29-a2be-4eed-8d97-d30fd85ddf52",
+      "title": "Bases estándar — Concurso Público para Servicio de Mantenimiento Vial",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 98,
+      "blocks": 2004,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:51:58.797Z"
+    },
+    {
+      "id": "a001bb97-78c8-4674-9f6f-85cdc57268cd",
+      "title": "Bases estándar — Concurso Público Abreviado para Servicio de Mantenimiento Vial",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 98,
+      "blocks": 2010,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:52:11.584Z"
+    },
+    {
+      "id": "e885c5b9-3417-4951-ad02-eadac0708652",
+      "title": "Bases estándar — Concurso Público Abreviado para Expertos y Gerentes de Proyectos",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 54,
+      "blocks": 1148,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:52:22.135Z"
+    },
+    {
+      "id": "e0c246e5-fdcf-42b3-85e5-ecefb1af225a",
+      "title": "Bases estándar — Subasta Inversa Electrónica",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 60,
+      "blocks": 1090,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:52:31.653Z"
+    },
+    {
+      "id": "5801fdfc-1302-4db9-8407-f80a8e048a2b",
+      "title": "Bases estándar — Comparación de Precios",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 53,
+      "blocks": 1012,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:52:42.942Z"
+    },
+    {
+      "id": "7004a1db-8af7-4a29-9ca0-c53a3b879102",
+      "title": "Bases estándar — Procedimiento de Selección No Competitivo",
+      "status": "indexed",
+      "type": "bases_estandar",
+      "chunks": 93,
+      "blocks": 2675,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:52:54.183Z"
+    },
+    {
+      "id": "7058e0eb-4548-488b-a81f-874f49b52c3b",
+      "title": "Comunicado N.° 014-2026-OECE: Entidades que han incumplido con el registro de órdenes de compra u órdenes de servicio en el SEACE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:45:41.171Z"
+    },
+    {
+      "id": "9c90d463-1da6-4594-8571-71e6be593fc1",
+      "title": "Comunicado N.° 013-2026-OECE: Listado de entidades que han incumplido con registrar en el SEACE la información sobre ejecución contractual",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:45:45.196Z"
+    },
+    {
+      "id": "4fb5df0d-79c3-48fe-a8cf-13daa687dc47",
+      "title": "Comunicado N.° 012-2026-OECE: OECE amplía de 30 a 180 días el plazo de adecuación de instituciones arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas, inscritos en el REGAJU.",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:45:49.152Z"
+    },
+    {
+      "id": "a398dde0-e7e3-4c60-a33e-d5f7f8ed79a2",
+      "title": "Comunicado N.° 011-2026-OECE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:45:53.103Z"
+    },
+    {
+      "id": "6accff5a-5019-404a-82c6-3d48f6cdffaf",
+      "title": "Comunicado N.° 010-2026-OECE: OECE fortalece sus canales de atención  virtual a nivel nacional",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 11,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:45:56.981Z"
+    },
+    {
+      "id": "980984e6-a776-4244-8f8c-f0ae9f2e40c4",
+      "title": "Comunicado N.° 009-2026-OECE (DEJADO SIN EFECTO): OECE promueve la transparencia, la libre competencia y la igualdad de oportunidades en el arbitraje de las contrataciones públicas.",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:00.756Z"
+    },
+    {
+      "id": "c81fe777-df48-47e1-8470-dbe3f3b47049",
+      "title": "Comunicado N° 008-2026-OECE: OECE reafirma su compromiso con la transparencia y la calidad del arbitraje (DEJADO SIN EFECTO): Presidencia Ejecutiva / Consejo Directivo",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 12,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:04.576Z"
+    },
+    {
+      "id": "75d7977d-628e-464a-87c3-6fd21a23aa1d",
+      "title": "Comunicado N.° 007-2026-OECE (DEJADO SIN EFECTO)",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 12,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:08.555Z"
+    },
+    {
+      "id": "fd84f506-ab2f-4684-b9b3-212ba37a12dc",
+      "title": "Comunicado N° 006-2026-OECE (DEJADO SIN EFECTO)",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 15,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:12.345Z"
+    },
+    {
+      "id": "b12b5405-9bb8-47b5-83ba-c6625d2be45d",
+      "title": "Comunicado N° 005-2026-OECE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 4,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:17.806Z"
+    },
+    {
+      "id": "c59f78f6-2219-4251-a8a5-6c9dd92aff29",
+      "title": "Comunicado N° 004-2026-OECE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:21.538Z"
+    },
+    {
+      "id": "5c508461-b7bc-4ab6-8ac4-7fbefccd3f74",
+      "title": "Comunicado N° 003-2026-OECE: Registro de la información de las contrataciones de gobierno a gobierno en el SEACE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:25.349Z"
+    },
+    {
+      "id": "c777edad-2e99-4363-a75a-af1e7f10e663",
+      "title": "Comunicado N° 002-2026-OECE: Obligatoriedad del REGAJU, para la administración de arbitrajes y juntas de prevención y resolución de disputas (JPRD) por instituciones y centros registrados en el REGAJU",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:29.148Z"
+    },
+    {
+      "id": "c49dc8df-af0c-4abe-ada3-514a68ae8d42",
+      "title": "Comunicado N°001-2026-OECE: Asignación de especialidades y categorías de consultores de obra en el marco de la Ley N.° 32069 y su Reglamento",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 4,
+      "blocks": 6,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:33.188Z"
+    },
+    {
+      "id": "8c046873-3848-45f7-b09d-c8c355513c0c",
+      "title": "Comunicado N° 022-2025-OECE: Listado de entidades que han incumplido con registrar en el SEACE información sobre ejecución contractual",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:36.932Z"
+    },
+    {
+      "id": "3ff60cc9-6c43-47f6-a5c9-078ac94e2627",
+      "title": "Comunicado N° 021-2025-OECE: Sobre la subsanación de ofertas en los procedimientos de selección",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 10,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:40.837Z"
+    },
+    {
+      "id": "df6f42b0-aa37-4f7c-b5ce-0671fdead262",
+      "title": "Comunicado N° 020-2025-OECE: Incorporación obligatoria al REGAJU",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:44.666Z"
+    },
+    {
+      "id": "bfc6b653-646e-463c-997b-a4b3f27e11cb",
+      "title": "Comunicado N° 019-2025-OECE: Acreditación de experiencia en el RNP para sucursales en Perú de empresas extranjeras ejecutoras de obras",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 10,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:48.532Z"
+    },
+    {
+      "id": "44a93073-d96a-4313-abbd-92ac98aa6087",
+      "title": "Comunicado N° 018-2025-OECE: Registro de la información de procesos de contratación en el SEACE",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 15,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:52.328Z"
+    },
+    {
+      "id": "f347b471-5bcd-4778-8713-4943c8730862",
+      "title": "Comunicado N° 017-2025-OECE: Pago a proveedores del Estado",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 10,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:46:56.348Z"
+    },
+    {
+      "id": "8d4a3398-b98e-4733-b089-cc11d077e3fb",
+      "title": "Comunicado N°016-2025-OECE: Matriz de Gestión de riesgos en los procesos de contratación",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 11,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:47:00.257Z"
+    },
+    {
+      "id": "6c4592cb-275f-4eb1-9cae-e327b36211cf",
+      "title": "Comunicado N°015-2025-OECE: Entidades que han incumplido con el registro de órdenes de compra u órdenes de servicio en el SEACE: Entidades que han incumplido con el registro de información de órdenes de compra u órdenes de servicio en el SEACE.",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:47:04.225Z"
+    },
+    {
+      "id": "47cce15a-4f89-4489-869e-cda8d70f0926",
+      "title": "Comunicado N° 014-2025-OECE: Entidades que han incumplido con su obligación de registrar en el SEACE información sobre ejecución contractual",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 2,
+      "blocks": 8,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:47:08.015Z"
+    },
+    {
+      "id": "3f1f07be-e6ca-40ed-b917-e87e47f32e5e",
+      "title": "Comunicado N° 013-2025-OECE: Entidades pueden solicitar asistencia técnica y orientación: Para fortalecer la gestión eficiente de sus procesos de contratación.",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 9,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:47:11.778Z"
+    },
+    {
+      "id": "815b4d77-3eb1-4e2d-bcfe-650e118e1565",
+      "title": "Comunicado N° 012-2025-OECE: Implementación de nuevo control de validación de identidad en el RNP",
+      "status": "indexed",
+      "type": "comunicado",
+      "chunks": 1,
+      "blocks": 13,
+      "pages": null,
+      "verifiedAt": "2026-10-27T18:47:15.650Z"
+    }
+  ]
+}

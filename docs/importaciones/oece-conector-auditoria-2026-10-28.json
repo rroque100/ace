@@ -1,0 +1,274 @@
+{
+  "checkedAt": "2026-10-28T18:26:45.763Z",
+  "source": {
+    "id": "ac655d33-dceb-459e-aae1-45a83959a09e",
+    "label": "OECE · Normas y documentos legales",
+    "url": "https://www.gob.pe/institucion/oece/normas-legales",
+    "cursor_url": "https://www.gob.pe/institucion/oece/normas-legales?sheet=2"
+  },
+  "candidates": [
+    {
+      "id": "d7aba2c2-5c23-45ed-bd69-0c3c99adfce1",
+      "title": "Resolución N.° 9410-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764468-9410-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "b8b57564-f149-4451-acae-292cf908d42e",
+      "title": "Resolución N.° 9411-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764492-9411-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "bb074197-daa4-40de-b6d4-326b476e9162",
+      "title": "Resolución N.° 9412-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764498-9412-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "80153ef3-6571-455a-b1fd-435e27be1a80",
+      "title": "Resolución N.° 9413-2026-TCP-S2",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764511-9413-2026-tcp-s2",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "2d71e791-2857-4da5-86f8-8fab8af08353",
+      "title": "Resolución N.° 9414-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764520-9414-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "532a74e2-d0fc-4356-bc48-a52e3e9d874b",
+      "title": "Resolución N.° 9415-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764530-9415-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "012e407c-e1ae-45ce-b8b6-048fa5ca108e",
+      "title": "Resolución N.° 9416-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764538-9416-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "1cf1788e-6585-49bd-a4d7-f785fc6228e8",
+      "title": "Resolución N.° 9418-2026-TCP-S6",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764547-9418-2026-tcp-s6",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "7790df15-a331-48aa-b0b0-edfa6a434e06",
+      "title": "Resolución N.° 9419-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764562-9419-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "c9362904-ee49-40ce-8336-85f40e37137d",
+      "title": "Resolución N.° 9420-2026-TCP-S6",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764572-9420-2026-tcp-s6",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "4ef8e512-7a46-46de-96b7-0f3d4e48374f",
+      "title": "Resolución N.° 9421-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764578-9421-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "983428a3-b61f-4365-b847-f72ecd522d57",
+      "title": "Resolución N.° 9423-2026-TCP-S2",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764598-9423-2026-tcp-s2",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "77c51c81-9931-4693-840c-eca9ca267694",
+      "title": "Resolución N.° 9424-2026-TCP-S6",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764608-9424-2026-tcp-s6",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "186a4ac1-0c37-436d-91eb-21eaa697091e",
+      "title": "Resolución N.° 9425-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764616-9425-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "bed65b1a-fd49-44f2-81a5-5be6bf438e9b",
+      "title": "Resolución N.° 9427-2026-TCP-S3",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764625-9427-2026-tcp-s3",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "c2e65b40-3e2a-4cb4-a241-a10fe35818c0",
+      "title": "Resolución N.° 9428-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764632-9428-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "9bfcf6d9-8c6b-45a2-84e6-6a9151ffa626",
+      "title": "Resolución N.° 9431-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764668-9431-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "3fb57120-a661-4bfd-9168-54498d059ec0",
+      "title": "Resolución N.° 9433-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764692-9433-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "dcd835d8-7dfe-4ca6-a0d0-9c629d35a929",
+      "title": "Resolución N.° 9434-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764702-9434-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "a8c1dafa-075f-4cf1-aeaa-b44675bd88a4",
+      "title": "Resolución N.° 9435-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764716-9435-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "560ccf00-cbf2-4fac-920e-ea655932f478",
+      "title": "Resolución N.° 9438-2026-TCP-S1",
+      "status": "accepted",
+      "document_id": "04dbedb9-c709-4d33-8d95-cd04a12e69e8",
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764779-9438-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "e6809682-0d0a-4a32-a970-c725ae48b262",
+      "title": "Resolución N.° 9429-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764836-9429-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "7ef4404e-af19-4d61-bd36-e61f82c0a965",
+      "title": "Resolución N.° 9437-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764920-9437-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "407326b7-7861-48d2-a1aa-36ab696884b1",
+      "title": "Resolución N.° 9422-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8764948-9422-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    },
+    {
+      "id": "8819cf13-a358-4aa8-92d2-2f808f8d2f2d",
+      "title": "Resolución N.° 9436-2026-TCP-S1",
+      "status": "pending",
+      "document_id": null,
+      "publication_url": "https://www.gob.pe/institucion/oece/normas-legales/8765024-9436-2026-tcp-s1",
+      "publication_date": "2026-10-27",
+      "detected_type": "resolucion",
+      "error": null
+    }
+  ],
+  "incorporated": [
+    {
+      "id": "04dbedb9-c709-4d33-8d95-cd04a12e69e8",
+      "status": "indexed",
+      "indexedTextComplete": true,
+      "sha256": "8632b3744c986163a71e371b80320dd40414f8bf72c53bf0cfb033ca095ae50a",
+      "pageCount": 20,
+      "chunkCount": 19,
+      "pineconeVerified": true,
+      "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10866751/8764779-resolucion-n-9438-2026-tcp-s1.pdf",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8764779-9438-2026-tcp-s1"
+    }
+  ]
+}

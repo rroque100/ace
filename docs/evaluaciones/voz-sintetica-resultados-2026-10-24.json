@@ -1,0 +1,32 @@
+{
+  "kind": "synthetic-desktop-voice-es-ES",
+  "humanReview": "pending",
+  "peruvianAccentValidated": false,
+  "runAt": "2026-10-24T14:38:45.189Z",
+  "results": [
+    {
+      "caseId": "opinion-year",
+      "model": "gpt-4o-mini-transcribe",
+      "elapsedMs": 2247,
+      "failed": true
+    },
+    {
+      "caseId": "article-numeral",
+      "model": "gpt-4o-mini-transcribe",
+      "elapsedMs": 1459,
+      "failed": true
+    },
+    {
+      "caseId": "opinion-year",
+      "model": "gpt-4o-transcribe",
+      "elapsedMs": 923,
+      "failed": true
+    },
+    {
+      "caseId": "article-numeral",
+      "model": "gpt-4o-transcribe",
+      "elapsedMs": 1400,
+      "failed": true
+    }
+  ]
+}

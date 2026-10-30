@@ -1,3 +1,4 @@
+import { containsExactNumber, searchArchivoExactNumbers } from "./archivo-exact-search";
 import { normalizeEntity } from "./entity-utils";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
@@ -121,7 +122,9 @@ function buildUbicacion(exp?: ExpRow): { ubicacion: ExpedienteUbicacion; resumen
 // idénticos en forma (mismo formato de comprobante, mismo módulo SIAF) que
 // solo cambian en el número.
 export function extractExactCodes(query: string): string[] {
-  return Array.from(new Set(query.match(/\d{3,}/g) ?? []));
+  // Un año expresamente indicado como fecha no es otro número de expediente.
+  const withoutYears = query.replace(/\b(?:año|ano|del|de|en)\s+(?:el\s+)?(?:año\s+)?(?:19|20|21)\d{2}\b/gi, " ");
+  return Array.from(new Set(withoutYears.match(/\d{3,}/g) ?? []));
 }
 
 // `uploadedBy` (scope "own"): limita los resultados a los expedientes subidos
@@ -151,7 +154,9 @@ export async function searchExpedientes(
   const oficinaFilter = input.oficina?.toLowerCase().trim() || null;
   const materiaFilter = input.materia?.toLowerCase().trim() || null;
 
-  const pgvectorHits = input.accessToken
+  const exactCodes = extractExactCodes(input.query);
+  const exactHits = await searchArchivoExactNumbers(input, exactCodes);
+  const pgvectorHits = exactHits === null && input.accessToken
     ? await buscarVecinosPgvector(input.accessToken, input.query, topK, {
         documentId: input.documentId,
         year: input.anio,
@@ -163,7 +168,7 @@ export async function searchExpedientes(
   // campos que solo vivían en metadata de Pinecone (document_number, title,
   // topic) quedan ausentes — el código de abajo ya prefiere el dato de
   // Supabase (`exp`) sobre el del hit en todos los casos que importan.
-  const hits: Array<Record<string, unknown>> = pgvectorHits
+  const hits: Array<Record<string, unknown>> = exactHits ?? (pgvectorHits
     ? pgvectorHits.map((hit) => ({
         _id: hit.chunkId,
         _score: hit.score,
@@ -173,7 +178,7 @@ export async function searchExpedientes(
         page_end: hit.pageEnd ?? undefined,
         page_start: hit.pageStart ?? undefined,
       }))
-    : await searchTextRecords(input.query, topK, filters, namespace);
+    : await searchTextRecords(input.query, topK, filters, namespace));
   if (hits.length === 0) {
     return [];
   }
@@ -189,12 +194,12 @@ export async function searchExpedientes(
     chunkIds.length > 0
       ? supabaseRest<ChunkRow[]>(
           `expedientes_archivo_chunks?id=in.(${chunkIds.map((id) => `"${id}"`).join(",")})&select=id,content`,
-        ).catch(() => [])
+        )
       : Promise.resolve([]),
     expedienteIds.length > 0
       ? supabaseRest<ExpRow[]>(
           `expedientes_archivo?id=in.(${expedienteIds.map((id) => `"${id}"`).join(",")})&select=${EXP_SELECT}`,
-        ).catch(() => [])
+        )
       : Promise.resolve([]),
   ]);
 
@@ -275,14 +280,13 @@ export async function searchExpedientes(
   // entre el 2955, 2966 y 2967. Solo actúa si hay al menos un match exacto:
   // una consulta sin código, o cuyo código no aparece en ningún resultado,
   // sigue el orden semántico normal sin tocar nada.
-  const exactCodes = extractExactCodes(input.query);
   if (exactCodes.length > 0) {
     const exactMatches = results.filter((r) =>
       exactCodes.some(
         (code) =>
-          (r.title ?? "").includes(code) ||
-          (r.serieDocumento ?? "").includes(code) ||
-          (r.sgdExpediente ?? "").includes(code),
+          containsExactNumber(r.title, code) ||
+          containsExactNumber(r.serieDocumento, code) ||
+          containsExactNumber(r.sgdExpediente, code),
       ),
     );
     if (exactMatches.length > 0) return exactMatches;

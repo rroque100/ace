@@ -21,7 +21,7 @@ const documentSelect =
 // Documentos pendientes (nunca arrancaron) o atascados (processing muerto).
 export async function findStuckDocuments(limit = 3): Promise<DocumentRecord[]> {
   const threshold = new Date(Date.now() - staleMinutes * 60 * 1000).toISOString();
-  const filter = `or=(status.eq.uploaded,and(status.eq.processing,updated_at.lt.${threshold}))`;
+  const filter = `and=(or(status.eq.uploaded,and(status.eq.processing,updated_at.lt.${threshold})),or(es_institucional.eq.false,and(metadata->>syncManaged.is.null,metadata->>proposedRegime.is.null)))`;
   return supabaseRest<DocumentRecord[]>(
     `documents?${filter}&select=${documentSelect}&order=created_at.asc&limit=${limit}`,
   );

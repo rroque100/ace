@@ -1,0 +1,71 @@
+{
+  "batch": "laudos-oficiales-piloto-2026-10-28",
+  "entries": [
+    {
+      "title": "laudo arbitral contenido en la resolucion n 11 de fecha 24 de julio de 2026",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.gob.pe/institucion/proinversion/informes-publicaciones/8689866-laudos-iii-trimestre-2026",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10749872/8689866-laudo-arbitral-contenido-en-la-resolucion-n-11-de-fecha-24-de-julio-de-2026.pdf?v=1791314380",
+      "sourceEntity": "ProInversión · publicador oficial",
+      "versionLabel": "Original publicado en Laudos III Trimestre 2026",
+      "selectionNote": "Piloto oficial: el laudo no es una norma general. Partes, árbitros, pretensiones y relaciones con otros pronunciamientos pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "excluded",
+      "sha256": "0bcbcc6c4650227f24929429ac7e09ede52db6c30d87fac291afea43140f9810",
+      "documentId": "128e964f-bd47-47ac-8bea-df003f77007d",
+      "verification": {
+        "pages": 120,
+        "chunks": 126,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-28T18:09:21.173Z"
+      },
+      "error": "Retirado reversiblemente del corpus: convenio de estabilidad jurídica y materia tributaria; no corresponde al corpus objetivo de contratación pública."
+    },
+    {
+      "title": "laudo arbitral contenido en la resolucion n 32 de fecha 14 de agosto de 2026",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.gob.pe/institucion/proinversion/informes-publicaciones/8689866-laudos-iii-trimestre-2026",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10749873/8689866-laudo-arbitral-contenido-en-la-resolucion-n-32-de-fecha-14-de-agosto-de-2026.pdf?v=1791314380",
+      "sourceEntity": "ProInversión · publicador oficial",
+      "versionLabel": "Original publicado en Laudos III Trimestre 2026",
+      "selectionNote": "Piloto oficial: el laudo no es una norma general. Partes, árbitros, pretensiones y relaciones con otros pronunciamientos pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "selected"
+    },
+    {
+      "title": "laudo arbitral de fecha 2 de setiembre de 2026",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.gob.pe/institucion/proinversion/informes-publicaciones/8689866-laudos-iii-trimestre-2026",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10749874/8689866-laudo-arbitral-de-fecha-2-de-setiembre-de-2026.pdf?v=1791314381",
+      "sourceEntity": "ProInversión · publicador oficial",
+      "versionLabel": "Original publicado en Laudos III Trimestre 2026",
+      "selectionNote": "Piloto oficial: el laudo no es una norma general. Partes, árbitros, pretensiones y relaciones con otros pronunciamientos pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "selected"
+    },
+    {
+      "title": "laudo arbitral complementario resolucion n 13 del 8 de setiembre de 2026",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.gob.pe/institucion/proinversion/informes-publicaciones/8689866-laudos-iii-trimestre-2026",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10749875/8689866-laudo-arbitral-complementario-resolucion-n-13-del-8-de-setiembre-de-2026.pdf?v=1791314381",
+      "sourceEntity": "ProInversión · publicador oficial",
+      "versionLabel": "Original publicado en Laudos III Trimestre 2026",
+      "selectionNote": "Piloto oficial: el laudo no es una norma general. Partes, árbitros, pretensiones y relaciones con otros pronunciamientos pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "selected"
+    },
+    {
+      "title": "laudo arbitral contenido en la resolucion n 33 del 21 de setiembre de 2026",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.gob.pe/institucion/proinversion/informes-publicaciones/8689866-laudos-iii-trimestre-2026",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10749876/8689866-laudo-arbitral-contenido-en-la-resolucion-n-33-del-21-de-setiembre-de-2026.pdf?v=1791314381",
+      "sourceEntity": "ProInversión · publicador oficial",
+      "versionLabel": "Original publicado en Laudos III Trimestre 2026",
+      "selectionNote": "Piloto oficial: el laudo no es una norma general. Partes, árbitros, pretensiones y relaciones con otros pronunciamientos pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "selected"
+    }
+  ]
+}

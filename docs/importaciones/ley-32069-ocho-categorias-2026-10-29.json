@@ -1,0 +1,1813 @@
+{
+  "checkedAt": "2026-10-29T14:28:13.327Z",
+  "totalInstitutional": 1704,
+  "rows": [
+    {
+      "type": "ley",
+      "totalAllRegimes": 25,
+      "storedAllRegimes": 25,
+      "indexedCompleteAllRegimes": 10,
+      "statuses": {
+        "uploaded": 15,
+        "indexed": 10
+      },
+      "confirmed32069": 1,
+      "indexedComplete32069": 1,
+      "visible32069": 1,
+      "catalogueError": null,
+      "pendingRegime": 23,
+      "uploadedAllRegimes": 15,
+      "pineconeVerified32069": 1,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [
+        {
+          "id": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/9295551/6444155-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-19-07-2026.pdf?v=1787002595"
+        }
+      ],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "reglamento",
+      "totalAllRegimes": 6,
+      "storedAllRegimes": 6,
+      "indexedCompleteAllRegimes": 4,
+      "statuses": {
+        "error": 2,
+        "indexed": 4
+      },
+      "confirmed32069": 2,
+      "indexedComplete32069": 2,
+      "visible32069": 2,
+      "catalogueError": null,
+      "pendingRegime": 4,
+      "uploadedAllRegimes": 0,
+      "pineconeVerified32069": 2,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [
+        {
+          "id": "43b7991a-0768-45c2-a1a0-7c4d0c62abef",
+          "title": "Reglamento de la ley general de contrataciones publicas 32069",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/7594705/6444155-reglamento-de-la-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-09-01-2026.pdf?v=1787002595"
+        }
+      ],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "opinion",
+      "totalAllRegimes": 163,
+      "storedAllRegimes": 163,
+      "indexedCompleteAllRegimes": 163,
+      "statuses": {
+        "indexed": 163
+      },
+      "confirmed32069": 133,
+      "indexedComplete32069": 133,
+      "visible32069": 133,
+      "catalogueError": null,
+      "pendingRegime": 30,
+      "uploadedAllRegimes": 0,
+      "pineconeVerified32069": 133,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [
+        {
+          "id": "01a2a399-9788-44d3-ad32-8d3856c386c1",
+          "title": "Opinión N° D000072-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420944-opinion-n-d000072-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10368076/8420944-opinion-d072-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+          "title": "Opinión N° D000066-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386274",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10321684/8386274-opinion-d066-2026-oece-dtn.pdf?v=1784154208"
+        },
+        {
+          "id": "04d70d2c-2a74-4036-8407-b1083d69f8a1",
+          "title": "Opinión N° D000019-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "088e6328-4bbe-4bbb-bf7a-db93a5bdaedf",
+          "title": "Opinión N° D000021-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "0b2abacc-70ba-42cf-a865-01570f19e771",
+          "title": "Opinión N° D000053-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "0c6bef4f-c067-481d-a28d-382839688f7b",
+          "title": "Opinión N° D000008-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "0d2ee09f-bbeb-4ad6-9b76-59b3a1b67ece",
+          "title": "Opinión N° D000120-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765437-opinion-n-d000120-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867870/8765437-opinion-d120-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "0f58fbe5-c15c-43ea-b165-d2c853d6f103",
+          "title": "Opinión N° D000046-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "0f78ce17-3c6a-4735-afc5-efb5834a3cdb",
+          "title": "Opinión N° D000043-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "10695a24-8753-469a-afca-f434e740049d",
+          "title": "Opinión N° D000076-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "10b75119-7ec2-447c-9111-d9df107b8c6e",
+          "title": "Opinión N° D000040-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "1352f7e7-d870-41c2-bfb7-0cce5978b74f",
+          "title": "Opinión N° D000032-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "15d2da82-ddcf-4ae1-9be3-c46d6f8f7da5",
+          "title": "Opinión N° D000059-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286566-opinion-n-d000059-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10186610/8286566-opinion-d059-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "16804d7e-f0e9-465d-b4ae-ff64ba1ce37a",
+          "title": "Opinión N° D000090-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "188ca126-eaea-49b3-9667-53aa9b6aa8a7",
+          "title": "Opinión N° D000024-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "1aaafe22-2e9a-4dda-8263-271881b7db35",
+          "title": "Opinión N° D000067-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386293-opinion-n-d000067-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10321713/8386293-opinion-d067-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "1ccf7c09-f206-4e40-b6a2-b9bafcec627a",
+          "title": "Opinión N° D000117-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765165-opinion-n-d000117-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867395/8765165-opinion-d117-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "1d52085c-e424-449e-93f4-13e22aec8031",
+          "title": "Opinión N° D000011-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "1e2ba13d-3fa3-4e72-920e-5558e5f5a054",
+          "title": "Opinión N° D000029-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "1eaa0c4e-9b6f-4625-b834-d404f8dee532",
+          "title": "Opinión N° D000041-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "20a271c5-c618-4842-97c2-f1d683adf608",
+          "title": "Opinión N° D000063-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353852",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10280227/8353852-opinion-d063-2026-oece-dtn.pdf?v=1783545606"
+        },
+        {
+          "id": "20b53ab1-4a06-4f1a-90fb-0d6e5ced6afc",
+          "title": "Opinión N° D000040-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "20f23592-b4dc-438e-a4b1-d6ec74579b66",
+          "title": "Opinión N° D000062-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "263a3aae-9fdd-46ff-83e3-4693d7bca05e",
+          "title": "Opinión N° D000009-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "283592f9-112c-442a-bbd1-f823841fff2a",
+          "title": "Opinión N° D000074-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420961-opinion-n-d000074-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10368121/8420961-opinion-d074-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "2c27dea7-67e2-4bc9-8139-fa72c5014dd2",
+          "title": "Opinión N° D000053-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "2c6df52c-6583-44a5-9830-91b0baf31f42",
+          "title": "Opinión N° D000056-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279580-opinion-n-d000056-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10176784/8279580-opinion-d056-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "2c97c341-2cfd-4d90-b236-baab6923774e",
+          "title": "Opinión N° D000118-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765421-opinion-n-d000118-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867822/8765421-opinion-d118-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "2fb39ac2-124b-468e-adf6-b106892340a5",
+          "title": "Opinión N° D000065-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353929-opinion-n-d000065-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10280347/8353929-opinion-d065-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "30d785f7-d8d9-427d-bbb1-e295800e6b88",
+          "title": "Opinión N° D000031-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "31263c9a-d039-46b6-8a00-0c88350ac2d5",
+          "title": "Opinión N.° D000104-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8662982-opinion-n-d000104-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10715915/8662982-opinion-d104-2026-oece-dtn.pdf?v=1790801507"
+        },
+        {
+          "id": "321be3db-424b-4efd-a3b7-7c90a3d9e63f",
+          "title": "Opinión N° D000068-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386347-opinion-n-d000068-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10321767/8386347-opinion-d068-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "3448123f-77e4-42e3-a1d2-712e18d583eb",
+          "title": "Opinión N° D000014-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "349f0821-7880-4378-a78a-d05cdd05f8c7",
+          "title": "Opinión N° D000016-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "34a71adf-904e-4552-be95-e098bb4d7f09",
+          "title": "Opinión N° D000065-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "34a94e4a-1a3e-454c-ab7d-a7d9957d487c",
+          "title": "Opinión N° D000022-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "35f27f9b-fd23-4d42-928f-6deae31773f5",
+          "title": "Opinión N° D000124-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765541-opinion-n-d000124-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10868045/8765541-opinion-d124-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "39f4928a-65ab-431a-9013-ea0980c27587",
+          "title": "Opinión N° D000023-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "3a006b78-68ed-42fa-9c5f-55e44733a771",
+          "title": "Opinión N° D000073-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420955-opinion-n-d000073-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10368107/8420955-opinion-d073-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "3aad4da7-f13d-4b14-a4f6-61872e8ad6fb",
+          "title": "Opinión N° D000011-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "3ac1fc08-0142-46ca-a23d-e9e13f6ee1ec",
+          "title": "Opinión N° D000044-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "3f7f925c-7729-435b-ac7d-7873a2bf539d",
+          "title": "Opinión N° D000059-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "3fc31c85-b3d3-4093-80bd-bca0f1bb9ab6",
+          "title": "Opinión N° D000064-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353897-opinion-n-d000064-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10280298/8353897-opinion-d064-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "4341959b-f270-4954-8e35-122b84bf5c08",
+          "title": "Opinión N° D000067-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "447fa811-1763-440f-8de4-bfcd494441a0",
+          "title": "Opinión N° D000024-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "45825fca-9209-4c15-88ab-10ed99694150",
+          "title": "Opinión N° D000049-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "4723ddbd-4f96-4be9-850d-c6e02614ce47",
+          "title": "Opinión N° D000081-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "498670f1-9d2e-4c29-a2ea-513fba388972",
+          "title": "Opinión N° D000028-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "4c8880fe-ec9a-422b-a4db-3905683ffec5",
+          "title": "Opinión N° D000044-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "4f9b41e4-f156-48d7-ac10-8cd3758157c4",
+          "title": "Opinión N° D000026-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "502c62d4-0f56-4283-a345-6c74608aa4bb",
+          "title": "Opinión N° D000037-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "535ffaa5-1a2d-47bb-bd14-3ed88986606f",
+          "title": "Opinión N° D000027-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "53e19b50-b745-4dd6-be2a-b42e5b8ee77a",
+          "title": "Opinión N° D000018-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "5611bfcf-e021-48f5-9110-f6eb06460ad2",
+          "title": "Opinión N° D000082-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "5e8e3a88-3109-48b7-8a05-3b1bc5dd1505",
+          "title": "Opinión N° D000017-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "636a2537-cff0-4e7d-9e81-a17e16e70fa5",
+          "title": "Opinión N° D000015-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "6435f645-1aac-48dd-abff-15619a11ff52",
+          "title": "Opinión N° D000069-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8393072-opinion-n-d000069-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10326467/8393072-opinion-d069-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "654382c3-6853-4303-8ac1-04ac903ac2f4",
+          "title": "Opinión N° D000055-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279560-opinion-n-d000055-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10176752/8279560-opinion-d055-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "65aa28e0-9f30-4c50-8e86-94049a6aad04",
+          "title": "Opinión N° D000032-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "6621a31b-7b4c-409a-84e4-e53fe5c30208",
+          "title": "Opinión N° D000061-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353810-opinion-n-d000061-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10280170/8353810-opinion-d061-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "6af140df-d2f9-4638-b63a-0f436b18709e",
+          "title": "Opinión N° D000048-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "6cf442be-5710-4ef3-89b7-4fc940ff6da6",
+          "title": "Opinión N° D000036-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "6fb01d40-db5d-4b2f-981c-6fcfe0ba5314",
+          "title": "Opinión N° D000013-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "71665d83-165e-4317-bd3e-af6f8427d89f",
+          "title": "Opinión N° D000046-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "73243f45-2109-405d-8e55-f1fbd028eaea",
+          "title": "Opinión N° D000031-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "739f6e55-bba0-47ff-abdb-970b5d9301a1",
+          "title": "Opinión N° D000088-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "749fea9f-2159-40ef-b40f-52c0af8b92f2",
+          "title": "Opinión N° D000020-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "75d2d1be-d80f-4ef5-a69d-f8fb38f128c8",
+          "title": "Opinión N° D000047-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "78c4953f-203e-4dc7-8988-d7921f3e5acf",
+          "title": "Opinión N° D000052-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "79cd07b5-93c2-47dc-9a8e-919c598ef084",
+          "title": "Opinión N° D000034-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7b5bb519-f7d0-4605-92d7-228f9789d233",
+          "title": "Opinión N° D000034-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7b8b12ab-4b40-42cf-b745-07855b21ae45",
+          "title": "Opinión N° D000029-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7c0f8da1-09aa-4d7f-980e-4e2b4b8f5b63",
+          "title": "Opinión N° D000028-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7c7ecdeb-5d7f-4468-bc0f-d0fe4a118bac",
+          "title": "Opinión N° D000058-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7d8446d7-bd2d-4e60-a636-eb578984177d",
+          "title": "Opinión N° D000010-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "7e47c5aa-3344-4491-a875-6f8179748a58",
+          "title": "Opinión N° D000041-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8031be6b-ca6a-4a99-ab16-0fa67590ec67",
+          "title": "Opinión N° D000091-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8225a1a9-ecf3-44a9-8e52-ca721e5e5215",
+          "title": "Opinión N° D000057-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279598-opinion-n-d000057-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10176826/8279598-opinion-d057-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "86e10bfb-289f-494f-b448-13dccf0fa45d",
+          "title": "Opinión N° D000017-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "87172043-7ed0-493d-be9a-6052a09fa7c0",
+          "title": "Opinión N° D000049-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8d553383-ad92-49bb-a4c2-478b04a9ac54",
+          "title": "Opinión N° D000009-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8dddcafa-2a4c-47f2-a79b-961b581ffb2a",
+          "title": "Opinión N° D000045-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "8f477acb-5e98-4b1d-9e09-2b7db0a3b20d",
+          "title": "Opinión N° D000023-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "91dc6c5e-fbad-4c1b-9f1a-27fec452df11",
+          "title": "Opinión N° D000037-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+          "title": "Opinión N.° D000099-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596615-opinion-n-d000099-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10622011/8596615-opinion-d099-2026-oece-dtn.pdf?v=1789481436"
+        },
+        {
+          "id": "95137274-2438-4b4e-aac1-428432ef3fc3",
+          "title": "Opinión N.° D000098-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596068-opinion-n-d000098-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10621143/8596068-opinion-d098-2026-oece-dtn.pdf?v=1789430666"
+        },
+        {
+          "id": "962ff360-b432-48b1-8344-e4c32ba8181a",
+          "title": "Opinión N° D000085-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "98b3fd57-b85e-48cc-8725-f6eb28d6a3fc",
+          "title": "Opinión N° D000012-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "99fe9764-8c75-46bc-acfc-7eccaaf5e51c",
+          "title": "Opinión N° D000077-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9b5075ba-566f-4bf8-b4dc-08df89681fb8",
+          "title": "Opinión N° D000042-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9be8f679-b61d-4506-a297-5b5645c82440",
+          "title": "Opinión N° D000007-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9c833b3b-a705-48cc-a2bb-4728f5075a09",
+          "title": "Opinión N° D000089-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9e402fcd-1532-4b33-be11-67598a69d3f3",
+          "title": "Opinión N° D000051-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9fede05c-3580-4b53-bb99-4be524891aab",
+          "title": "Opinión N° D000050-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "9ffc02d6-355c-4ea6-81c9-61188a44e9b7",
+          "title": "Opinión N° D000052-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "a0864f7b-d63a-4546-9018-935d0df66c27",
+          "title": "Opinión N° D000058-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286555-opinion-n-d000058-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10186591/8286555-opinion-d058-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "a31dac5c-5a2c-40de-8447-012f2c37af4b",
+          "title": "opinion-d026-2025-oece-dtn",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+          "title": "Opinión N.° D000112-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8709968-opinion-n-d000112-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10778571/8709968-opinion-d112-2026-oece-dtn.pdf?v=1791842393"
+        },
+        {
+          "id": "a58ecacf-7b1d-4df5-8531-302808f1b672",
+          "title": "Opinión N° D000115-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765135-opinion-n-d000115-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867346/8765135-opinion-d115-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "a6294684-4a18-474d-8b0c-b4c6dc72578f",
+          "title": "Opinión N° D000086-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "a70c2fa7-f675-454e-a1f0-9c77979b2be3",
+          "title": "Opinión N° D000006-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "a8bd0c59-e811-450d-946b-18313ca56e5f",
+          "title": "Opinión N° D000056-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "ab06ba1e-29ad-4865-878a-13b6001ea141",
+          "title": "Opinión N° D000033-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "b40904fd-4755-465b-85aa-b9d739a94923",
+          "title": "Opinión N° D000119-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765430-opinion-n-d000119-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867842/8765430-opinion-d119-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "b491ea86-5aed-43a9-bb93-cf2de94d60f4",
+          "title": "Opinión N° D000025-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "b62e5a84-09c5-4c3a-9334-7f49039560e7",
+          "title": "Opinión N° D000054-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "b765ffa3-ee93-4c24-9b42-f158a6e212f8",
+          "title": "Opinión N° D000048-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "b88a228b-933c-488d-978d-e95dc8e69ded",
+          "title": "Opinión N° D000083-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "ba44c109-7d07-4f9e-8051-fb28dddf9c24",
+          "title": "Opinión N° D000060-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286573-opinion-n-d000060-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10186621/8286573-opinion-d060-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+          "title": "Opinión N° D000062-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353829",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10280197/8353829-opinion-d062-2026-oece-dtn.pdf?v=1783545408"
+        },
+        {
+          "id": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+          "title": "Opinión N.° D000110-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698010-opinion-n-d000110-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10761550/8698010-opinion-d110-2026-oece-dtn.pdf?v=1791554008"
+        },
+        {
+          "id": "c21149b6-1fe9-48c9-ba60-135e6a54a8b1",
+          "title": "Opinión N° D000003-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "c25b021d-8fc6-46ca-b611-23048a999350",
+          "title": "Opinión N° D000121-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765492-opinion-n-d000121-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867972/8765492-opinion-d121-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "c292e2cf-3e9c-4ca0-92e8-b8ed81f4a874",
+          "title": "Opinión N° D000005-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "c690bec8-9b6f-4269-9791-c6a6812a3842",
+          "title": "Opinión N° D000039-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "c7fb4962-0aa3-4035-8236-067ad6a98321",
+          "title": "Opinión N° D000013-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "c94e2a02-41a0-4674-96a3-8343c521fe54",
+          "title": "Opinión N° D000113-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765096-opinion-n-d000113-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867280/8765096-opinion-d113-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "c98436dd-6fb9-4e9d-95e0-24beab3117b8",
+          "title": "Opinión N° D000075-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420974-opinion-n-d000075-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10368145/8420974-opinion-d075-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "ca8de867-2f8d-4f0c-b54e-ebe02136e9b1",
+          "title": "Opinión N° D000057-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "d113d589-72cd-4cf9-b661-c026636a8cef",
+          "title": "Opinión N° D000078-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "d1c236e2-593e-46fa-9536-7f5089e1d214",
+          "title": "Opinión N° D000084-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "d5f22ac3-d37e-48a1-a5e6-398dbcebe87d",
+          "title": "Opinión N.° D000106-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674912-opinion-n-d000106-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10732107/8674912-opinion-d106-2026-oece-dtn.pdf?v=1790973096"
+        },
+        {
+          "id": "d63c8513-7831-42dd-b266-ed5d8c3ec4f8",
+          "title": "Opinión N° D000087-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "d6d3fd1c-baee-472c-8cc7-d5c761d568fb",
+          "title": "Opinión N° D000016-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "dd6ba6b2-edba-43c7-b746-fcd949546955",
+          "title": "Opinión N° D000068-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "decbfc2c-45f2-4240-8373-d968cef67a38",
+          "title": "Opinión N° D000092-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "e2401270-46fd-4c71-b46f-19f83a4ce603",
+          "title": "Opinión N° D000004-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "30225",
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "e691f3ff-8c3f-4434-8c21-bb606a1f3cad",
+          "title": "Opinión N° D000063-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "e9b17a0c-97cc-41b5-abb3-9da3aa138e79",
+          "title": "Opinión N° D000022-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "e9b32aba-cf79-4e41-b398-a95c5871d0fd",
+          "title": "Opinión N° D000060-2025-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "f210f907-bd45-4368-9bc5-71d30e1063d3",
+          "title": "Opinión N° D000114-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765116-opinion-n-d000114-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10867319/8765116-opinion-d114-2026-oece-dtn.pdf"
+        },
+        {
+          "id": "fa4382ac-840a-4cac-bcea-cc8cdb9348c0",
+          "title": "Opinión N° D000038-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": null,
+          "sourceUrl": null
+        },
+        {
+          "id": "ff2128ec-a028-48ec-b502-2cb9c1b02f1a",
+          "title": "Opinión N° D000071-2026-OECE-DTN",
+          "status": "indexed",
+          "complete": true,
+          "pineconeVerified": true,
+          "regimes": [
+            "32069"
+          ],
+          "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420934-opinion-n-d000071-2026-oece-dtn",
+          "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/10368043/8420934-opinion-d071-2026-oece-dtn.pdf"
+        }
+      ],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "pronunciamiento",
+      "totalAllRegimes": 886,
+      "storedAllRegimes": 886,
+      "indexedCompleteAllRegimes": 669,
+      "statuses": {
+        "error": 217,
+        "indexed": 669
+      },
+      "confirmed32069": 0,
+      "indexedComplete32069": 0,
+      "visible32069": 0,
+      "catalogueError": null,
+      "pendingRegime": 886,
+      "uploadedAllRegimes": 0,
+      "pineconeVerified32069": 0,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "resolucion",
+      "totalAllRegimes": 351,
+      "storedAllRegimes": 351,
+      "indexedCompleteAllRegimes": 251,
+      "statuses": {
+        "indexed": 251,
+        "uploaded": 100
+      },
+      "confirmed32069": 0,
+      "indexedComplete32069": 0,
+      "visible32069": 0,
+      "catalogueError": null,
+      "pendingRegime": 351,
+      "uploadedAllRegimes": 100,
+      "pineconeVerified32069": 0,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "acuerdo_sala_plena",
+      "totalAllRegimes": 112,
+      "storedAllRegimes": 112,
+      "indexedCompleteAllRegimes": 111,
+      "statuses": {
+        "indexed": 111,
+        "error": 1
+      },
+      "confirmed32069": 0,
+      "indexedComplete32069": 0,
+      "visible32069": 0,
+      "catalogueError": null,
+      "pendingRegime": 112,
+      "uploadedAllRegimes": 0,
+      "pineconeVerified32069": 0,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "directiva",
+      "totalAllRegimes": 68,
+      "storedAllRegimes": 68,
+      "indexedCompleteAllRegimes": 23,
+      "statuses": {
+        "indexed": 23,
+        "uploaded": 45
+      },
+      "confirmed32069": 0,
+      "indexedComplete32069": 0,
+      "visible32069": 0,
+      "catalogueError": null,
+      "pendingRegime": 68,
+      "uploadedAllRegimes": 45,
+      "pineconeVerified32069": 0,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [],
+      "relatedByTitleNotReviewed": []
+    },
+    {
+      "type": "informe_vicio_nulidad",
+      "totalAllRegimes": 0,
+      "storedAllRegimes": 0,
+      "indexedCompleteAllRegimes": 0,
+      "statuses": {},
+      "confirmed32069": 0,
+      "indexedComplete32069": 0,
+      "visible32069": 0,
+      "catalogueError": null,
+      "pendingRegime": 0,
+      "uploadedAllRegimes": 0,
+      "pineconeVerified32069": 0,
+      "confirmedWithoutFile": [],
+      "confirmedDocuments": [],
+      "relatedByTitleNotReviewed": []
+    }
+  ]
+}

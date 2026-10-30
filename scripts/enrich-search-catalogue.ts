@@ -1,0 +1,44 @@
+import { canonicalSourceEntity } from "../lib/search-document-metadata";
+import { officialPublicationDate } from "../lib/official-import/publication-metadata";
+async function main() {
+  process.loadEnvFile(".env.local");
+  const { getSupabaseAdminClient, writeAuditLog } = await import("../lib/supabase-server");
+  const client=await getSupabaseAdminClient();
+  const rows:Array<{id:string;source_entity:string|null;metadata:Record<string,unknown>}> = [];
+  let cursor="";
+  for(let pageNumber=0;pageNumber<200;pageNumber++) {
+    let query=client.from("documents").select("id,source_entity,metadata").eq("es_institucional",true).eq("status","indexed").order("id").limit(500);
+    if(cursor) query=query.gt("id",cursor);
+    const {data:page,error}=await query;if(error) throw error;
+    rows.push(...page);
+    if(page.length<500) break;
+    const next=page[page.length-1].id;if(next<=cursor) throw Error("El catálogo no avanzó");cursor=next;
+    if(pageNumber===199) throw Error("Catálogo fuera del límite operativo; no se modificó información");
+  }
+  let changed=0, dated=0, failures=0;
+  for(const row of rows) {
+    const metadata={...(row.metadata ?? {})};
+    const source=canonicalSourceEntity(row.source_entity);
+    let update=source!==row.source_entity;
+    if(update) metadata.originalSourceEntity ??= row.source_entity;
+    const publication=metadata.officialPublicationUrl;
+    if(typeof publication === "string" && !metadata.publicationDate) {
+      const url=new URL(publication);
+      if(url.protocol==="https:" && ["www.gob.pe","gob.pe"].includes(url.hostname)) {
+        try {
+          const response=await fetch(url,{signal:AbortSignal.timeout(15000)});
+          if(!response.ok) throw Error("Publicación no disponible");
+          const date=officialPublicationDate(await response.text());
+          if(date) { metadata.publicationDate=date; metadata.publicationDateSource=publication; metadata.publicationDateCheckedAt=new Date().toISOString(); update=true;dated++; }
+        } catch { failures++; }
+      }
+    }
+    if(!update) continue;
+    const {error:saveError}=await client.from("documents").update({source_entity:source,metadata}).eq("id",row.id).eq("es_institucional",true).eq("status","indexed");
+    if(saveError) throw saveError;
+    changed++;
+    await writeAuditLog({action:"document.metadata.catalogue",entityType:"document",entityId:row.id,details:{publicationDate:metadata.publicationDate??null,canonicalEntity:source,provenance:metadata.publicationDateSource??null}});
+  }
+  console.log(JSON.stringify({reviewed:rows.length,changed,publicationDatesAdded:dated,officialPageFailures:failures}));
+}
+main().catch(error=>{console.error(error instanceof Error?error.message:"Error de catálogo");process.exitCode=1;});

@@ -1,0 +1,2579 @@
+{
+  "checkedAt": "2026-10-29T14:28:34.035Z",
+  "checks": [
+    {
+      "type": "opinion",
+      "url": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion",
+      "pagesRead": 20,
+      "complete": false,
+      "officialPdfEntries": 219,
+      "previouslyVerified32069StillPublished": 133,
+      "rows": [
+        {
+          "title": "Opinión N° D000124-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10868045/8765541-opinion-d124-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765541-opinion-n-d000124-2026-oece-dtn",
+          "documentId": "35f27f9b-fd23-4d42-928f-6deae31773f5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000123-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10868034/8765530-opinion-d123-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765530-opinion-n-d000123-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000122-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10868007/8765516-opinion-d122-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765516-opinion-n-d000122-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000121-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867972/8765492-opinion-d121-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765492-opinion-n-d000121-2026-oece-dtn",
+          "documentId": "c25b021d-8fc6-46ca-b611-23048a999350",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000120-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867870/8765437-opinion-d120-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765437-opinion-n-d000120-2026-oece-dtn",
+          "documentId": "0d2ee09f-bbeb-4ad6-9b76-59b3a1b67ece",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000119-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867842/8765430-opinion-d119-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765430-opinion-n-d000119-2026-oece-dtn",
+          "documentId": "b40904fd-4755-465b-85aa-b9d739a94923",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000118-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867822/8765421-opinion-d118-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765421-opinion-n-d000118-2026-oece-dtn",
+          "documentId": "2c97c341-2cfd-4d90-b236-baab6923774e",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000117-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867395/8765165-opinion-d117-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765165-opinion-n-d000117-2026-oece-dtn",
+          "documentId": "1ccf7c09-f206-4e40-b6a2-b9bafcec627a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000116-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867366/8765146-opinion-d116-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765146-opinion-n-d000116-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000115-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867346/8765135-opinion-d115-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765135-opinion-n-d000115-2026-oece-dtn",
+          "documentId": "a58ecacf-7b1d-4df5-8531-302808f1b672",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000114-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867319/8765116-opinion-d114-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765116-opinion-n-d000114-2026-oece-dtn",
+          "documentId": "f210f907-bd45-4368-9bc5-71d30e1063d3",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000113-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10867280/8765096-opinion-d113-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8765096-opinion-n-d000113-2026-oece-dtn",
+          "documentId": "c94e2a02-41a0-4674-96a3-8343c521fe54",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000112-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10778571/8709968-opinion-d112-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8709968-opinion-n-d000112-2026-oece-dtn",
+          "documentId": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000111-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10761573/8698026-opinion-d111-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698026-opinion-n-d000111-2026-oece-dtn",
+          "documentId": "52d26a46-0867-4d8f-b441-8b46ec8d39a7",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000110-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10761550/8698010-opinion-d110-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698010-opinion-n-d000110-2026-oece-dtn",
+          "documentId": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000109-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10761523/8697995-opinion-d109-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697995-opinion-n-d000109-2026-oece-dtn",
+          "documentId": "2a0376dc-371f-4f5a-9abf-9c4a171afcc3",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000108-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10761490/8697965-opinion-d108-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697965-opinion-n-d000108-2026-oece-dtn",
+          "documentId": "66bd590f-3a5f-433d-9824-30639121e4a7",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000107-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10732131/8674932-opinion-d107-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674932-opinion-n-d000107-2026-oece-dtn",
+          "documentId": "81d2fcd7-1c5b-4baa-9231-197082e9cd49",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000106-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10732107/8674912-opinion-d106-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674912-opinion-n-d000106-2026-oece-dtn",
+          "documentId": "d5f22ac3-d37e-48a1-a5e6-398dbcebe87d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000105-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10715940/8663005-opinion-d105-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8663005-opinion-n-d000105-2026-oece-dtn",
+          "documentId": "1495031f-63ca-49ab-996d-fa3d4dd36d17",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000104-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10715915/8662982-opinion-d104-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8662982-opinion-n-d000104-2026-oece-dtn",
+          "documentId": "31263c9a-d039-46b6-8a00-0c88350ac2d5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000103-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10690041/8646774-opinion-d103-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646774-opinion-n-d000103-2026-oece-dtn",
+          "documentId": "0958fb77-1ee7-4064-9768-b96f55a1d50a",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000102-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10690030/8646764-opinion-d102-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646764-opinion-n-d000102-2026-oece-dtn",
+          "documentId": "41002e8e-6897-4f68-b94c-3567574f1b3c",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000101-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10666429/8629672-opinion-d101-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629672-opinion-n-d000101-2026-oece-dtn",
+          "documentId": "0970847f-c1ef-4565-afaf-df757132c6fa",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000100-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10666402/8629660-opinion-d100-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629660-opinion-n-d000100-2026-oece-dtn",
+          "documentId": "766f056b-6e8e-4167-9ea0-313c0604584d",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000099-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10622011/8596615-opinion-d099-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596615-opinion-n-d000099-2026-oece-dtn",
+          "documentId": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000098-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621143/8596068-opinion-d098-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596068-opinion-n-d000098-2026-oece-dtn",
+          "documentId": "95137274-2438-4b4e-aac1-428432ef3fc3",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000097-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621140/8596066-opinion-d097-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596066-opinion-n-d000097-2026-oece-dtn",
+          "documentId": "12c3eafd-4b8f-48c8-9266-cee11ba8a0b6",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000096-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621133/8596061-opinion-d096-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596061-opinion-n-d000096-2026-oece-dtn",
+          "documentId": "fb423e15-231f-4b95-bba5-9d8f9e06d91c",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000095-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621128/8596057-opinion-d095-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596057-opinion-n-d000095-2026-oece-dtn",
+          "documentId": "f9741c67-183a-4be1-87dc-b2578fedcd73",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000094-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621125/8596055-opinion-d094-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596055-opinion-n-d000094-2026-oece-dtn",
+          "documentId": "c0e29d3a-61bb-460d-9276-0a7ff5aadba5",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000093-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621122/8596053-opinion-d093-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596053-opinion-n-d000093-2026-oece-dtn",
+          "documentId": "a020625f-e196-4bc4-8476-a323d6d477b5",
+          "status": "indexed",
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000092-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621119/8596051-opinion-d092-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596051-opinion-n-d000092-2026-oece-dtn",
+          "documentId": "decbfc2c-45f2-4240-8373-d968cef67a38",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000091-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10621106/8596043-opinion-d091-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596043-opinion-n-d000091-2026-oece-dtn",
+          "documentId": "8031be6b-ca6a-4a99-ab16-0fa67590ec67",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000090-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10491830/8507680-opinion-d090-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8507680-opinion-n-d000090-2026-oece-dtn",
+          "documentId": "16804d7e-f0e9-465d-b4ae-ff64ba1ce37a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000088-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10467091/8489389-opinion-d088-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8489389-opinion-n-d000088-2026-oece-dtn",
+          "documentId": "739f6e55-bba0-47ff-abdb-970b5d9301a1",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000087-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10467073/8489376-opinion-d087-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8489376-opinion-n-d000087-2026-oece-dtn",
+          "documentId": "d63c8513-7831-42dd-b266-ed5d8c3ec4f8",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000086-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10467050/8489368-opinion-d086-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8489368-opinion-n-d000086-2026-oece-dtn",
+          "documentId": "a6294684-4a18-474d-8b0c-b4c6dc72578f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000089-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10468520/8490246-opinion-d089-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8490246-opinion-n-d000089-2026-oece-dtn",
+          "documentId": "9c833b3b-a705-48cc-a2bb-4728f5075a09",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000085-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10467035/8489357-opinion-d085-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8489357-opinion-n-d000085-2026-oece-dtn",
+          "documentId": "962ff360-b432-48b1-8344-e4c32ba8181a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000084-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406688/8447104-opinion-d084-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8447104-opinion-n-d000084-2026-oece-dtn",
+          "documentId": "d1c236e2-593e-46fa-9536-7f5089e1d214",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000083-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406304/8446845-opinion-d083-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8446845-opinion-n-d000083-2026-oece-dtn",
+          "documentId": "b88a228b-933c-488d-978d-e95dc8e69ded",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000082-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406294/8446837-opinion-d082-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8446837-opinion-n-d000082-2026-oece-dtn",
+          "documentId": "5611bfcf-e021-48f5-9110-f6eb06460ad2",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000081-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406260/8446810-opinion-d081-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8446810-opinion-n-d000081-2026-oece-dtn",
+          "documentId": "4723ddbd-4f96-4be9-850d-c6e02614ce47",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000080-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10406239/8446791-opinion-d080-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8446791-opinion-n-d000080-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000079-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10380947/8428793-opinion-d079-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8428793-opinion-n-d000079-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000078-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10380886/8428754-opinion-d078-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8428754-opinion-n-d000078-2026-oece-dtn",
+          "documentId": "d113d589-72cd-4cf9-b661-c026636a8cef",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000077-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10380850/8428725-opinion-d077-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8428725-opinion-n-d000077-2026-oece-dtn",
+          "documentId": "99fe9764-8c75-46bc-acfc-7eccaaf5e51c",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000076-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10380818/8428700-opinion-d076-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8428700-opinion-n-d000076-2026-oece-dtn",
+          "documentId": "10695a24-8753-469a-afca-f434e740049d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000075-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10368145/8420974-opinion-d075-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420974-opinion-n-d000075-2026-oece-dtn",
+          "documentId": "c98436dd-6fb9-4e9d-95e0-24beab3117b8",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000074-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10368121/8420961-opinion-d074-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420961-opinion-n-d000074-2026-oece-dtn",
+          "documentId": "283592f9-112c-442a-bbd1-f823841fff2a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000073-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10368107/8420955-opinion-d073-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420955-opinion-n-d000073-2026-oece-dtn",
+          "documentId": "3a006b78-68ed-42fa-9c5f-55e44733a771",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000072-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10368076/8420944-opinion-d072-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420944-opinion-n-d000072-2026-oece-dtn",
+          "documentId": "01a2a399-9788-44d3-ad32-8d3856c386c1",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000071-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10368043/8420934-opinion-d071-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8420934-opinion-n-d000071-2026-oece-dtn",
+          "documentId": "ff2128ec-a028-48ec-b502-2cb9c1b02f1a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000068-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10321767/8386347-opinion-d068-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386347-opinion-n-d000068-2026-oece-dtn",
+          "documentId": "321be3db-424b-4efd-a3b7-7c90a3d9e63f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000067-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10321713/8386293-opinion-d067-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386293-opinion-n-d000067-2026-oece-dtn",
+          "documentId": "1aaafe22-2e9a-4dda-8263-271881b7db35",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000070-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10326505/8393096-opinion-d070-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8393096-opinion-n-d000070-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000069-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10326467/8393072-opinion-d069-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8393072-opinion-n-d000069-2026-oece-dtn",
+          "documentId": "6435f645-1aac-48dd-abff-15619a11ff52",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000066-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10321684/8386274-opinion-d066-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8386274-opinion-n-d000066-2026-oece-dtn",
+          "documentId": "03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000065-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10280347/8353929-opinion-d065-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353929-opinion-n-d000065-2026-oece-dtn",
+          "documentId": "2fb39ac2-124b-468e-adf6-b106892340a5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000064-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10280298/8353897-opinion-d064-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353897-opinion-n-d000064-2026-oece-dtn",
+          "documentId": "3fc31c85-b3d3-4093-80bd-bca0f1bb9ab6",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000063-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10280227/8353852-opinion-d063-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353852-opinion-n-d000063-2026-oece-dtn",
+          "documentId": "20a271c5-c618-4842-97c2-f1d683adf608",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000062-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10280197/8353829-opinion-d062-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353829-opinion-n-d000062-2026-oece-dtn",
+          "documentId": "bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000061-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10280170/8353810-opinion-d061-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8353810-opinion-n-d000061-2026-oece-dtn",
+          "documentId": "6621a31b-7b4c-409a-84e4-e53fe5c30208",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000060-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10186621/8286573-opinion-d060-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286573-opinion-n-d000060-2026-oece-dtn",
+          "documentId": "ba44c109-7d07-4f9e-8051-fb28dddf9c24",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000059-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10186610/8286566-opinion-d059-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286566-opinion-n-d000059-2026-oece-dtn",
+          "documentId": "15d2da82-ddcf-4ae1-9be3-c46d6f8f7da5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000058-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10186591/8286555-opinion-d058-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8286555-opinion-n-d000058-2026-oece-dtn",
+          "documentId": "a0864f7b-d63a-4546-9018-935d0df66c27",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000057-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10176826/8279598-opinion-d057-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279598-opinion-n-d000057-2026-oece-dtn",
+          "documentId": "8225a1a9-ecf3-44a9-8e52-ca721e5e5215",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000056-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10176784/8279580-opinion-d056-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279580-opinion-n-d000056-2026-oece-dtn",
+          "documentId": "2c6df52c-6583-44a5-9830-91b0baf31f42",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000055-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10176752/8279560-opinion-d055-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8279560-opinion-n-d000055-2026-oece-dtn",
+          "documentId": "654382c3-6853-4303-8ac1-04ac903ac2f4",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000054-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10160813/8269408-opinion-d054-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8269408-opinion-n-d000054-2026-oece-dtn",
+          "documentId": "b62e5a84-09c5-4c3a-9334-7f49039560e7",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000053-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10160804/8269404-opinion-d053-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8269404-opinion-n-d000053-2026-oece-dtn",
+          "documentId": "2c27dea7-67e2-4bc9-8139-fa72c5014dd2",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000052-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10076139/8208505-opinion-d052-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8208505-opinion-n-d000052-2026-oece-dtn",
+          "documentId": "9ffc02d6-355c-4ea6-81c9-61188a44e9b7",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000051-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10064533/8199953-opinion-d051-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8199953-opinion-n-d000051-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000050-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10061645/8198263-opinion-d050-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8198263-opinion-n-d000050-2026-oece-dtn",
+          "documentId": "9fede05c-3580-4b53-bb99-4be524891aab",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000049-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10058097/8195842-opinion-d049-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8195842-opinion-n-d000049-2026-oece-dtn",
+          "documentId": "45825fca-9209-4c15-88ab-10ed99694150",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000048-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10005005/8159643-opinion-d048-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8159643-opinion-n-d000048-2026-oece-dtn",
+          "documentId": "b765ffa3-ee93-4c24-9b42-f158a6e212f8",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000047-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10004964/8159621-opinion-d047-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8159621-opinion-n-d000047-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000046-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10004939/8159604-opinion-d046-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8159604-opinion-n-d000046-2026-oece-dtn",
+          "documentId": "71665d83-165e-4317-bd3e-af6f8427d89f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000045-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10004903/8159582-opinion-d045-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8159582-opinion-n-d000045-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000044-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9940144/8110760-opinion-d044-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8110760-opinion-n-d000044-2026-oece-dtn",
+          "documentId": "4c8880fe-ec9a-422b-a4db-3905683ffec5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000043-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9940128/8110750-opinion-d043-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8110750-opinion-n-d000043-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000042-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9907634/8085096-opinion-d042-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8085096-opinion-n-d000042-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000041-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9889916/8073940-opinion-d041-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8073940-opinion-n-d000041-2026-oece-dtn",
+          "documentId": "7e47c5aa-3344-4491-a875-6f8179748a58",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000040-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9877286/8066010-opinion-d040-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8066010-opinion-n-d000040-2026-oece-dtn",
+          "documentId": "20b53ab1-4a06-4f1a-90fb-0d6e5ced6afc",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000038-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9839209/8039407-opinion-d038-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8039407-opinion-n-d000038-2026-oece-dtn",
+          "documentId": "fa4382ac-840a-4cac-bcea-cc8cdb9348c0",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000037-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9839163/8039397-opinion-d037-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8039397-opinion-n-d000037-2026-oece-dtn",
+          "documentId": "91dc6c5e-fbad-4c1b-9f1a-27fec452df11",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000039-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9840940/8040737-opinion-d039-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8040737-opinion-n-d000039-2026-oece-dtn",
+          "documentId": "c690bec8-9b6f-4269-9791-c6a6812a3842",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000036-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9839136/8039386-opinion-d036-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8039386-opinion-n-d000036-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000035-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9805360/8014628-opinion-d035-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8014628-opinion-n-d000035-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000034-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9805347/8014617-opinion-d034-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8014617-opinion-n-d000034-2026-oece-dtn",
+          "documentId": "7b5bb519-f7d0-4605-92d7-228f9789d233",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000033-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9805336/8014606-opinion-d033-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8014606-opinion-n-d000033-2026-oece-dtn",
+          "documentId": "ab06ba1e-29ad-4865-878a-13b6001ea141",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000032-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9805326/8014598-opinion-d032-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8014598-opinion-n-d000032-2026-oece-dtn",
+          "documentId": "65aa28e0-9f30-4c50-8e86-94049a6aad04",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000031-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9718819/7948935-opinion-d031-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7948935-opinion-n-d000031-2026-oece-dtn",
+          "documentId": "30d785f7-d8d9-427d-bbb1-e295800e6b88",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000030-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9706878/7940906-opinion-d030-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940906-opinion-n-d000030-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000029-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9706859/7940900-opinion-d029-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940900-opinion-n-d000029-2026-oece-dtn",
+          "documentId": "1e2ba13d-3fa3-4e72-920e-5558e5f5a054",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000028-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9706849/7940895-opinion-d028-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940895-opinion-n-d000028-2026-oece-dtn",
+          "documentId": "498670f1-9d2e-4c29-a2ea-513fba388972",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000027-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9706827/7940887-opinion-d027-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940887-opinion-n-d000027-2026-oece-dtn",
+          "documentId": "535ffaa5-1a2d-47bb-bd14-3ed88986606f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000026-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9706812/7940881-opinion-d026-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7940881-opinion-n-d000026-2026-oece-dtn",
+          "documentId": "4f9b41e4-f156-48d7-ac10-8cd3758157c4",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000025-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9600778/7858396-opinion-d025-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7858396-opinion-n-d000025-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000024-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9597632/7856376-opinion-d024-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7856376-opinion-n-d000024-2026-oece-dtn",
+          "documentId": "188ca126-eaea-49b3-9667-53aa9b6aa8a7",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000023-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9562935/7825257-opinion-d023-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7825257-opinion-n-d000023-2026-oece-dtn",
+          "documentId": "39f4928a-65ab-431a-9013-ea0980c27587",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000021-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9492866/7771270-opinion-d021-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7771270-opinion-n-d000021-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000020-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9492857/7771265-opinion-d020-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7771265-opinion-n-d000020-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000022-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9493558/7771661-opinion-d022-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7771661-opinion-n-d000022-2026-oece-dtn",
+          "documentId": "e9b17a0c-97cc-41b5-abb3-9da3aa138e79",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000019-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9478799/7760863-opinion-d019-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7760863-opinion-n-d000019-2026-oece-dtn",
+          "documentId": "04d70d2c-2a74-4036-8407-b1083d69f8a1",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000018-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9459275/7746113-opinion-d018-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7746113-opinion-n-d000018-2026-oece-dtn",
+          "documentId": "53e19b50-b745-4dd6-be2a-b42e5b8ee77a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000017-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9459111/7746102-opinion-d017-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7746102-opinion-n-d000017-2026-oece-dtn",
+          "documentId": "86e10bfb-289f-494f-b448-13dccf0fa45d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000016-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9455904/7743584-opinion-d016-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7743584-opinion-n-d000016-2026-oece-dtn",
+          "documentId": "d6d3fd1c-baee-472c-8cc7-d5c761d568fb",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000015-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9455866/7743559-opinion-d015-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7743559-opinion-n-d000015-2026-oece-dtn",
+          "documentId": "636a2537-cff0-4e7d-9e81-a17e16e70fa5",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000014-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9455847/7743543-opinion-d014-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7743543-opinion-n-d000014-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000013-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9369446/7679492-opinion-d013-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7679492-opinion-n-d000013-2026-oece-dtn",
+          "documentId": "c7fb4962-0aa3-4035-8236-067ad6a98321",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000012-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9343437/7660623-opinion-d012-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7660623-opinion-n-d000012-2026-oece-dtn",
+          "documentId": "98b3fd57-b85e-48cc-8725-f6eb28d6a3fc",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000011-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9333285/7653453-opinion-d011-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7653453-opinion-n-d000011-2026-oece-dtn",
+          "documentId": "3aad4da7-f13d-4b14-a4f6-61872e8ad6fb",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000010-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9333262/7653443-opinion-d010-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7653443-opinion-n-d000010-2026-oece-dtn",
+          "documentId": "7d8446d7-bd2d-4e60-a636-eb578984177d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000009-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301595/7631112-opinion-d009-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631112-opinion-n-d000009-2026-oece-dtn",
+          "documentId": "8d553383-ad92-49bb-a4c2-478b04a9ac54",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000008-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301570/7631107-opinion-d008-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631107-opinion-n-d000008-2026-oece-dtn",
+          "documentId": "0c6bef4f-c067-481d-a28d-382839688f7b",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000007-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301514/7631098-opinion-d007-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631098-opinion-n-d000007-2026-oece-dtn",
+          "documentId": "9be8f679-b61d-4506-a297-5b5645c82440",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000006-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301513/7631060-opinion-d006-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631060-opinion-n-d000006-2026-oece-dtn",
+          "documentId": "a70c2fa7-f675-454e-a1f0-9c77979b2be3",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000005-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301484/7631039-opinion-d005-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631039-opinion-n-d000005-2026-oece-dtn",
+          "documentId": "c292e2cf-3e9c-4ca0-92e8-b8ed81f4a874",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000004-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301459/7631028-opinion-d004-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631028-opinion-n-d000004-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000003-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9301416/7631009-opinion-d003-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7631009-opinion-n-d000003-2026-oece-dtn",
+          "documentId": "c21149b6-1fe9-48c9-ba60-135e6a54a8b1",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000002-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9299696/7626904-opinion-d002-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7626904-opinion-n-d000002-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000001-2026-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9299678/7626891-opinion-d001-2026-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7626891-opinion-n-d000001-2026-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000068-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9224594/7570946-opinion-d068-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7570946-opinion-n-d000068-2025-oece-dtn",
+          "documentId": "dd6ba6b2-edba-43c7-b746-fcd949546955",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000067-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9224574/7570936-opinion-d067-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7570936-opinion-n-d000067-2025-oece-dtn",
+          "documentId": "4341959b-f270-4954-8e35-122b84bf5c08",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000066-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9147617/7504340-opinion-d066-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7504340-opinion-n-d000066-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000065-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9111435/7479436-opinion-d065-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7479436-opinion-n-d000065-2025-oece-dtn",
+          "documentId": "34a71adf-904e-4552-be95-e098bb4d7f09",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000064-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9111422/7479424-opinion-d064-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7479424-opinion-n-d000064-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000063-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9111394/7479411-opinion-d063-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7479411-opinion-n-d000063-2025-oece-dtn",
+          "documentId": "e691f3ff-8c3f-4434-8c21-bb606a1f3cad",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000062-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9094808/7467052-opinion-d062-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7467052-opinion-n-d000062-2025-oece-dtn",
+          "documentId": "20f23592-b4dc-438e-a4b1-d6ec74579b66",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000061-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9094791/7467037-opinion-d061-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7467037-opinion-n-d000061-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000060-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9034939/7427135-opinion-d060-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7427135-opinion-n-d000060-2025-oece-dtn",
+          "documentId": "e9b32aba-cf79-4e41-b398-a95c5871d0fd",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000059-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/9012372/7411334-opinion-d059-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7411334-opinion-n-d000059-2025-oece-dtn",
+          "documentId": "3f7f925c-7729-435b-ac7d-7873a2bf539d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000058-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8983956/7391143-opinion-d058-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7391143-opinion-n-d000058-2025-oece-dtn",
+          "documentId": "7c7ecdeb-5d7f-4468-bc0f-d0fe4a118bac",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000057-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8983814/7391040-opinion-d057-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7391040-opinion-n-d000057-2025-oece-dtn",
+          "documentId": "ca8de867-2f8d-4f0c-b54e-ebe02136e9b1",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000056-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8983535/7390864-opinion-d056-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7390864-opinion-n-d000056-2025-oece-dtn",
+          "documentId": "a8bd0c59-e811-450d-946b-18313ca56e5f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000055-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8983509/7390850-opinion-d055-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7390850-opinion-n-d000055-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000054-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8983452/7390825-opinion-d054-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7390825-opinion-n-d000054-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000053-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8924538/7351389-opinion-d053-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7351389-opinion-n-d000053-2025-oece-dtn",
+          "documentId": "0b2abacc-70ba-42cf-a865-01570f19e771",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000052-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8924536/7351388-opinion-d052-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7351388-opinion-n-d000052-2025-oece-dtn",
+          "documentId": "78c4953f-203e-4dc7-8988-d7921f3e5acf",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000051-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8924535/7351387-opinion-d051-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7351387-opinion-n-d000051-2025-oece-dtn",
+          "documentId": "9e402fcd-1532-4b33-be11-67598a69d3f3",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000050-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8899398/7334972-opinion-d050-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7334972-opinion-n-d000050-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000049-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8884631/7324523-opinion-d049-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7324523-opinion-n-d000049-2025-oece-dtn",
+          "documentId": "87172043-7ed0-493d-be9a-6052a09fa7c0",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000048-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8865524/7312290-opinion-d048-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7312290-opinion-n-d000048-2025-oece-dtn",
+          "documentId": "6af140df-d2f9-4638-b63a-0f436b18709e",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000047-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8844193/7298276-opinion-d047-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7298276-opinion-n-d000047-2025-oece-dtn",
+          "documentId": "75d2d1be-d80f-4ef5-a69d-f8fb38f128c8",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000046-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8843978/7298214-opinion-d046-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7298214-opinion-n-d000046-2025-oece-dtn",
+          "documentId": "0f58fbe5-c15c-43ea-b165-d2c853d6f103",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000045-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8843945/7298187-opinion-d045-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7298187-opinion-n-d000045-2025-oece-dtn",
+          "documentId": "8dddcafa-2a4c-47f2-a79b-961b581ffb2a",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000044-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8788395/7263108-opinion-d044-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7263108-opinion-n-d000044-2025-oece-dtn",
+          "documentId": "3ac1fc08-0142-46ca-a23d-e9e13f6ee1ec",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000043-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8787127/7262504-opinion-d043-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7262504-opinion-n-d000043-2025-oece-dtn",
+          "documentId": "0f78ce17-3c6a-4735-afc5-efb5834a3cdb",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000042-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8787115/7262499-opinion-d042-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7262499-opinion-n-d000042-2025-oece-dtn",
+          "documentId": "9b5075ba-566f-4bf8-b4dc-08df89681fb8",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000041-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8787051/7262462-opinion-d041-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7262462-opinion-n-d000041-2025-oece-dtn",
+          "documentId": "1eaa0c4e-9b6f-4625-b834-d404f8dee532",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000040-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8787017/7262440-opinion-d040-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7262440-opinion-n-d000040-2025-oece-dtn",
+          "documentId": "10b75119-7ec2-447c-9111-d9df107b8c6e",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000039-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8720643/7217604-opinion-d039-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7217604-opinion-n-d000039-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000038-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8720534/7217427-opinion-d038-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7217427-opinion-n-d000038-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000037-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8720477/7217387-opinion-d037-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7217387-opinion-n-d000037-2025-oece-dtn",
+          "documentId": "502c62d4-0f56-4283-a345-6c74608aa4bb",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000036-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8708103/7203872-opinion-d036-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7203872-opinion-n-d000036-2025-oece-dtn",
+          "documentId": "6cf442be-5710-4ef3-89b7-4fc940ff6da6",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000035-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8708078/7203854-opinion-d035-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7203854-opinion-n-d000035-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000034-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661908/7168951-opinion-d034-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168951-opinion-n-d000034-2025-oece-dtn",
+          "documentId": "79cd07b5-93c2-47dc-9a8e-919c598ef084",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000033-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661907/7168950-opinion-d033-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168950-opinion-n-d000033-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000032-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661906/7168949-opinion-d032-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168949-opinion-n-d000032-2025-oece-dtn",
+          "documentId": "1352f7e7-d870-41c2-bfb7-0cce5978b74f",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000031-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661904/7168947-opinion-d031-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168947-opinion-n-d000031-2025-oece-dtn",
+          "documentId": "73243f45-2109-405d-8e55-f1fbd028eaea",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000030-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661898/7168946-opinion-d030-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168946-opinion-n-d000030-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000029-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661896/7168944-opinion-d029-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168944-opinion-n-d000029-2025-oece-dtn",
+          "documentId": "7b8b12ab-4b40-42cf-b745-07855b21ae45",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000028-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661895/7168943-opinion-d028-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168943-opinion-n-d000028-2025-oece-dtn",
+          "documentId": "7c0f8da1-09aa-4d7f-980e-4e2b4b8f5b63",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000027-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661886/7168940-opinion-d027-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168940-opinion-n-d000027-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000026-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661874/7168935-opinion-d026-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168935-opinion-n-d000026-2025-oece-dtn",
+          "documentId": "a31dac5c-5a2c-40de-8447-012f2c37af4b",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000025-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8661868/7168930-opinion-d025-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7168930-opinion-n-d000025-2025-oece-dtn",
+          "documentId": "b491ea86-5aed-43a9-bb93-cf2de94d60f4",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000024-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8550972/7083068-opinion-d024-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7083068-opinion-n-d000024-2025-oece-dtn",
+          "documentId": "447fa811-1763-440f-8de4-bfcd494441a0",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000023-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8550845/7083042-opinion-d023-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7083042-opinion-n-d000023-2025-oece-dtn",
+          "documentId": "8f477acb-5e98-4b1d-9e09-2b7db0a3b20d",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000022-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8550834/7083022-opinion-d022-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7083022-opinion-n-d000022-2025-oece-dtn",
+          "documentId": "34a94e4a-1a3e-454c-ab7d-a7d9957d487c",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000021-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8550814/7082998-opinion-d021-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/7082998-opinion-n-d000021-2025-oece-dtn",
+          "documentId": "088e6328-4bbe-4bbb-bf7a-db93a5bdaedf",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000020-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8393024/6978513-opinion-d020-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6978513-opinion-n-d000020-2025-oece-dtn",
+          "documentId": "749fea9f-2159-40ef-b40f-52c0af8b92f2",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000019-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8393001/6978501-opinion-d019-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6978501-opinion-n-d000019-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000018-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8392993/6978496-opinion-d018-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6978496-opinion-n-d000018-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000017-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8330950/6939055-opinion-d017-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6939055-opinion-n-d000017-2025-oece-dtn",
+          "documentId": "5e8e3a88-3109-48b7-8a05-3b1bc5dd1505",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000016-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8330949/6939054-opinion-d016-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6939054-opinion-n-d000016-2025-oece-dtn",
+          "documentId": "349f0821-7880-4378-a78a-d05cdd05f8c7",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000015-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8330947/6939053-opinion-d015-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6939053-opinion-n-d000015-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000014-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8330944/6939052-opinion-d014-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6939052-opinion-n-d000014-2025-oece-dtn",
+          "documentId": "3448123f-77e4-42e3-a1d2-712e18d583eb",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000013-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8295764/6917598-opinion-d013-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917598-opinion-n-d000013-2025-oece-dtn",
+          "documentId": "6fb01d40-db5d-4b2f-981c-6fcfe0ba5314",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000012-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8295748/6917588-opinion-d012-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917588-opinion-n-d000012-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000011-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8295734/6917576-opinion-d011-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917576-opinion-n-d000011-2025-oece-dtn",
+          "documentId": "1d52085c-e424-449e-93f4-13e22aec8031",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000010-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8295719/6917570-opinion-d010-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917570-opinion-n-d000010-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000009-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8295703/6917561-opinion-d009-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6917561-opinion-n-d000009-2025-oece-dtn",
+          "documentId": "263a3aae-9fdd-46ff-83e3-4693d7bca05e",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000008-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131902/6812174-opinion-d008-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812174-opinion-n-d000008-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000007-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131897/6812173-opinion-d007-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812173-opinion-n-d000007-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000006-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131891/6812171-opinion-d006-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812171-opinion-n-d000006-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000005-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131886/6812170-opinion-d005-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812170-opinion-n-d000005-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000004-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131883/6812169-opinion-d004-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812169-opinion-n-d000004-2025-oece-dtn",
+          "documentId": "e2401270-46fd-4c71-b46f-19f83a4ce603",
+          "status": "indexed",
+          "previouslyVerified32069": true
+        },
+        {
+          "title": "Opinión N° D000003-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131881/6812168-opinion-d003-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812168-opinion-n-d000003-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000002-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8131873/6812167-opinion-d002-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6812167-opinion-n-d000002-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000001-2025-OECE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987511/6714686-opinion-d001-2025-oece-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714686-opinion-n-d000001-2025-oece-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000027-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987510/6714685-opinion-000027-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714685-opinion-n-d000027-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000026-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987509/6714684-opinion-000026-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714684-opinion-n-d000026-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000025-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987508/6714683-opinion-000025-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714683-opinion-n-d000025-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000024-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987507/6714682-opinion-000024-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714682-opinion-n-d000024-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000023-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987506/6714681-opinion-000023-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714681-opinion-n-d000023-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000022-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7987505/6714680-opinion-000022-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6714680-opinion-n-d000022-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000021-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7855067/6621351-opinion-000021-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6621351-opinion-n-d000021-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000020-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7855058/6621342-opinion-000020-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6621342-opinion-n-d000020-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000019-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7855050/6621335-opinion-000019-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6621335-opinion-n-d000019-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000018-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7855031/6621323-opinion-000018-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6621323-opinion-n-d000018-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000017-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7780039/6570970-opinion-000017-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6570970-opinion-n-d000017-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000016-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7780016/6570953-opinion-000016-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6570953-opinion-n-d000016-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000015-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7779981/6570930-opinion-000015-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6570930-opinion-n-d000015-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000014-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7779956/6570917-opinion-000014-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6570917-opinion-n-d000014-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000013-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7682844/6505569-opinion-000013-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6505569-opinion-n-d000013-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000012-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7682826/6505526-opinion-000012-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6505526-opinion-n-d000012-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000011-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7682804/6505482-opinion-000011-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6505482-opinion-n-d000011-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000010-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7649684/6483453-opinion-000010-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6483453-opinion-n-d000010-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000009-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7649661/6483436-opinion-000009-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6483436-opinion-n-d000009-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000008-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7567981/6426603-opinion-000008-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6426603-opinion-n-d000008-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000007-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7567962/6426599-opinion-000007-2025-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6426599-opinion-n-d000007-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000006-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7528378/6400223-opinion-n-d000006-2025-osce-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6400223-opinion-n-d000006-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000005-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7527524/6399582-opinion-n-d000005-2025-osce-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6399582-opinion-n-d000005-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000004-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7527492/6399565-opinion-n-d000004-2025-osce-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6399565-opinion-n-d000004-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000003-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7527481/6399555-opinion-n-d000003-2025-osce-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6399555-opinion-n-d000003-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000002-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7527462/6399548-opinion-n-d000002-2025-osce-dtn.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6399548-opinion-n-d000002-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        },
+        {
+          "title": "Opinión N° D000001-2025-OSCE-DTN",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7455766/6349011-opinion-d000001-2025-osce-dtn-a-pronied-ejecucion-de-obras-bajo-el-sistema-de-suma-alzada.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/6349011-opinion-n-d000001-2025-osce-dtn",
+          "documentId": null,
+          "status": null,
+          "previouslyVerified32069": false
+        }
+      ],
+      "scope": "Opiniones publicadas en 2025 y 2026; contraste de los 133 originales previamente verificados por contenido.",
+      "verified32069PresentInAce": 133,
+      "newPublicationsSincePreviousAudit": []
+    },
+    {
+      "type": "acuerdo_sala_plena",
+      "url": "https://www.gob.pe/institucion/oece/normas-legales/tipos/73-acuerdo-de-sala-plena",
+      "pagesRead": 5,
+      "complete": true,
+      "officialPdfEntries": 112,
+      "matched": 112,
+      "notMatched": [],
+      "previouslyVerified32069StillPublished": 0,
+      "rows": [
+        {
+          "title": "Acuerdo de Sala Plena N.° 004-2026/TCP",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/10853830/8757869-acuerdo-de-sala-plena-4-2026-tcp-26-10-2024.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8757869-004-2026-tcp",
+          "documentId": "c6fe7697-412d-46a2-a37b-a1100b95fd24",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 003-2025/TCP",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8233478/6876808-acuerdo-de-sala-plena-n-03-2025-tcp.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6876808-003-2025-tcp",
+          "documentId": "dc5506fb-7007-4b55-b768-feb76e484746",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 002-2025/TCP",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/8107113/6795753-acuerdo-de-sala-plena-n-002-2025-tcp.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6795753-002-2025-tcp",
+          "documentId": "9bbe223b-d92b-4591-a061-5582ce73e429",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001-2025/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/7486552/6370497-acuerdo-de-sala-plena-sobre-la-eleccion-de-presidente-del-tribunal-de-contrataciones-del-estado-para-el-periodo-2025-2026.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6370497-001-2025-tce",
+          "documentId": "78fadaf7-5195-49c3-b134-f6664a901410",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001-2024/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/6087444/5386761-acuerdo-de-sala-plena-n-001-2024-tce.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/5386761-001-2024-tce",
+          "documentId": "ead2da12-26dd-46cf-963c-5f4b26211102",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 002-2023/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/5523023/4916240-acuerdo-sala-plena-002-2023-tce.PDF",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916240-002-2023-tce",
+          "documentId": "afe14fdd-ac0f-4754-bd69-6d15810e5778",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 004-2023/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/5523085/4916276-acuerdo-sala-plena-004-2023-tce.PDF",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916276-004-2023-tce",
+          "documentId": "d9fb337d-5238-4c91-a6b4-ac60b6ce0040",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 003-2023/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/5523040/4916250-acuerdo-sala-plena-003-2023-tce.PDF",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916250-003-2023-tce",
+          "documentId": "d1601637-44a8-4c3a-ad21-f26dce3f5bfb",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001-2023/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/4502510/Acuerdo%20de%20Sala%20Plena%201%20-%20ELECCION%20PDTE%20TCE%5BF%5D%5BF%5D%5BF%5D%5BF%5D.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4182249-001-2023-tce",
+          "documentId": "e6f02fd8-2845-4bb4-a163-26dca957980a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 003-2022-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/4004874/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2003-2022-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/3809629-003-2022-tce",
+          "documentId": "457b65cc-bcb5-490c-b3d3-33c28a41d05a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 002-2022-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/3081841/Normas%20Legales%20-%20Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2002-2022-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2965739-002-2022-tce",
+          "documentId": "976fa4fe-7dd5-4227-8ee0-eb4cef452bf7",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001-2022-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/3081840/ACUERDO%20DE%20SALA%20PLENA%20N%C2%B0%20001-2022-TCE%20%281%29.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2965738-001-2022-tce",
+          "documentId": "c44f722f-398d-4071-ba97-e8681f0ba766",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 008-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/2463686/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%20008-2021-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2399887-008-2021-tce",
+          "documentId": "f103ae39-86c9-4ea3-b992-98d26e99a246",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 007-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/2382694/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%20006-2021-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2326026-007-2021-tce",
+          "documentId": "29ac82b8-891d-4a8f-8b05-17225114af25",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 06-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/2019066/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2006-2021-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2023521-06-2021-tce",
+          "documentId": "738cb2c5-1b8a-4373-9300-84cdecd191ba",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 05-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/2002336/ACUERDO%20DE%20SALA%20PLENA%20N%C2%B0%2005-2021.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2011931-05-2021-tce",
+          "documentId": "e26cfa88-f4b5-4e62-ad9d-d1db737c37d1",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1801786/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2004-2021.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835076-04-2021-tce",
+          "documentId": "337cb6f4-419e-4368-9200-000585553351",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1801782/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2003-2021.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835073-03-2021-tce",
+          "documentId": "ec6d94c4-7c6c-422a-822e-f6098baccc37",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1801779/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2002-2021.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1835070-02-2021-tce",
+          "documentId": "7e9e8d14-fe28-43c0-a31d-74116ea4215f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2021-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1662069/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2001-2021-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1650534-01-2021-tce",
+          "documentId": "65a886b3-f36b-4216-b47d-45fe6ce1bc18",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 09-2020/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1415096/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%20009-2020-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308666-09-2020-tce",
+          "documentId": "c96ccaf5-9804-40f3-808f-7188fadd362a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 08-2020/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1415180/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2008-2020-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308693-08-2020-tce",
+          "documentId": "34558ddb-54ca-4e5d-967a-19792d92e6e2",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 07-2020/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1415177/Acuerdo%20de%20Sala%20Plena%20N%C2%B0%2007-2020-TCE.pdf.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1308690-07-2020-tce",
+          "documentId": "c6ec7ea4-27d4-4a54-96ce-1e5f8afdc190",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 06-2020/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/910935/ACUERDO_S.P.__006-2020-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/753167-06-2020-tce",
+          "documentId": "28058ac6-4f54-4f21-ac2b-4ea9134f49d1",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 05-2020-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/788283/ACUERDO_SALA_PLENA_04-2020-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/633361-05-2020-tce",
+          "documentId": "4aa56d21-2a3c-443f-b07a-15c005215db4",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2020/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/911224/ACUERDO_DE_SALA_PLENA_004-2020-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/753421-04-2020-tce",
+          "documentId": "2e424743-3c14-4abc-a084-2ecfb259020e",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2020-TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/788282/ACUERDO_SALA_PLENA_03-2020-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/633360-03-2020-tce",
+          "documentId": "db29e258-3813-4e7c-abd9-579145ba6f0a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2019/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/459505/ACUERDO_DE_SALA_PLENA_04-2019.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/390629-04-2019-tce",
+          "documentId": "475beacc-4651-47d7-9973-09348fdc7944",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2019/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/441287/ACUERDO_DE_SALA_PLENA_03-2019.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/368521-03-2019-tce",
+          "documentId": "e6b49ee9-1f13-4859-84b0-ece6a5fb7b1d",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2019/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/439187/ACUERDO_DE_SALA_PLENA_02-2019.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/366800-02-2019-tce",
+          "documentId": "68c0971b-b981-418c-a0fa-36fef16ab70c",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2019/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357206/ACUERDO_DE_SALA_PLENA_01-2019.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292482-01-2019-tce",
+          "documentId": "b921f3c2-3dd8-4a08-8d00-c781fb14d845",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2018/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357713/ACUERDO_SALA_PLENA_03-2018.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292851-03-2018-tce",
+          "documentId": "ec3df3e3-895b-42a5-99db-71fd91efd68c",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2018/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357712/A.S.P_02-2018.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292850-02-2018-tce",
+          "documentId": "7bf508c3-ee50-4e07-94fd-3bc217aaad62",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2018/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357706/ACUERDO_DE_SP_No._1-2018.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292845-01-2018-tce",
+          "documentId": "85efea05-ffe5-4d4b-93c9-a69d9a625611",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 05-2017/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357722/ACUERDO_DE_SALA_PLENA_5-2017.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292858-05-2017-tce",
+          "documentId": "6267f954-ebde-4d5f-ae73-c45476ccbd7e",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2017/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357719/ACUERDO_SALA_PLENA_N__04-2017-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292856-04-2017-tce",
+          "documentId": "2449ff7b-d769-4bab-ac8f-cfe3f1af6207",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2017/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357716/ACUERDO_SALA_PLENA_N__03-2017-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292854-03-2017-tce",
+          "documentId": "a9c3512d-056a-4027-a8d9-9b64aeeeb26f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2017/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357715/ACUERDO_SALA_PLENA_N__02-2017-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292853-02-2017-tce",
+          "documentId": "2a381ef0-8d5e-4126-87f0-71a14c26eb41",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2017/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/357714/ACUERDO_SALA_PLENA_N__01-2017-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/292852-01-2017-tce",
+          "documentId": "2b66ba56-c123-4598-9520-85fca48c36e4",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2016/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/359156/Acuerdo_de_Sala_Plena_N__1-2016-TCE.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/293718-01-2016-tce",
+          "documentId": "bb0f7209-b46b-49a0-a7c1-f821565f74dc",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2015/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/359624/Acuerdo_de_Sala_Plena_N__003-2015.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294010-03-2015-tce",
+          "documentId": "b541b956-000f-4723-a005-9b8847a7f221",
+          "status": "error"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2015/TCE",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/359157/Acuerdo_de_Sala_Plena_N__1-2015.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/293719-01-2015-tce",
+          "documentId": "34fc6a21-4f84-4ace-bfb1-312be8c3f75f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 08-2014/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/359630/Acuerdo_de_Sala_Plena_N__8-2014.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294016-08-2014-tc",
+          "documentId": "ca953ad2-a823-49af-8389-aa0868c28f5c",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2014/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/359627/ACUERDO_SALA_PLENA_002_-_2014.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294013-02-2014-tc",
+          "documentId": "67a9861a-fc3d-4df2-9950-ca60efe2426b",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 017-2013/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360423/ACUERDO_DE_SALA_PLENA_N__017-2013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294622-017-2013-tc",
+          "documentId": "8bc3f93f-e088-474a-a122-3441c2964859",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 015-2013/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360418/Acuerdo_de_Sala_Plena_N__015-2013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294618-015-2013-tc",
+          "documentId": "0f0a27bd-845d-42e3-bcc1-6d156eeb8c0b",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011-2013/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360416/ACUERDO_DE_SALA_PLENA_011-2013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294616-011-2013-tc",
+          "documentId": "841d459a-7479-40a8-938e-79d527272055",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2013/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360414/ACUERDO_DE_SALA_PLENA_N__004-2013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294615-04-2013-tc",
+          "documentId": "2d5cdeb1-18c6-459e-a082-9cbba35b73f1",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 08-2012/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360494/ACUERDO_DE_SALA_PLENA_008-2012.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294644-08-2012-tc",
+          "documentId": "397b0375-2785-43d7-9c28-637e437f7ded",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 07-2012/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360491/ACUERDO_DE_SALA_PLENA_007-2012.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294643-07-2012-tc",
+          "documentId": "dcc58e17-8b0b-4825-9f04-70be8e81e022",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 06-2012/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/360487/ACUERDO_DE_SALA_PLENA_006-2012__Juris__Acta_de_20-Set-2012.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/294640-06-2012-tc",
+          "documentId": "9660aca7-284b-4846-b75b-25ae23e40ffd",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2012/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376077/ACUERDO_DE_SALA_PLENA_002-2012.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307481-02-2012-tc",
+          "documentId": "38ab9e24-7d74-4181-8a3e-643bbb153b9a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2011/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376079/ACUERDO_DE_SALA_PLENA_001-2011.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307483-01-2011-tc",
+          "documentId": "fbe33fff-e16e-4a3f-8379-35ff955db96e",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2010/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376082/ACUERDO_DE_SALA_PLENA_002-2010.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307485-02-2010-tc",
+          "documentId": "1038739d-6094-4bfd-b97c-5dc11f5cc834",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 07-2009/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376085/ACUERDO_DE_SALA_PLENA_007-2009.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307487-07-2009-tc",
+          "documentId": "cbc82619-c7f9-4813-a5b2-7683ffc179ff",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 06-2009/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376112/ACUERDO_DE_SALA_PLENA_006-2009.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307493-06-2009-tc",
+          "documentId": "9e4e3f51-76fe-49cb-ba0a-069e99881558",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2009/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376113/ACUERDO_DE_SALA_PLENA_003-2009.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307494-03-2009-tc",
+          "documentId": "e5d4fe9d-d99b-45be-b5f7-f9230b6c5410",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011-2008/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376114/ACUERDO_DE_SALA_PLENA_011-2008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307495-011-2008-tc",
+          "documentId": "3f5c832b-5875-402a-ad21-f5807249b94a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 010-2008/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376115/ACUERDO_DE_SALA_PLENA_010-2008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307496-010-2008-tc",
+          "documentId": "9ea1c77c-008f-4e63-abc7-b6b5e6fef26a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 08-2008/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376119/ACUERDO_DE_SALA_PLENA_008-2008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307497-08-2008-tc",
+          "documentId": "bcace291-1fca-4e22-b24c-365ca3f66453",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 06-2008/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376124/ACUERDO_DE_SALA_PLENA_006-2008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307499-06-2008-tc",
+          "documentId": "f2d1a9f0-d654-4ffb-9f7d-84526482b368",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2008/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376127/ACUERDO_DE_SALA_PLENA_004-2008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307501-04-2008-tc",
+          "documentId": "cbe2a94c-ba66-4a53-bdb6-b45ef38daeb2",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 016-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376128/ACUERDO_DE_SALA_PLENA_016-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307502-016-2007-tc",
+          "documentId": "39a3f529-7eb3-46db-b343-8ed526f9ac4f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 013-2007-TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376129/ACUERDO_DE_SALA_PLENA_013-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307503-013-2007-tc",
+          "documentId": "c04c9aae-833f-4492-b256-4b9542a443a4",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 012-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376130/ACUERDO_DE_SALA_PLENA_012-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307504-012-2007-tc",
+          "documentId": "3a26812f-6143-4e1e-a1ab-bd6ed5057556",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 05-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376133/ACUERDO_DE_SALA_PLENA_005-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307507-05-2007-tc",
+          "documentId": "d1c1e4c5-2526-4aa5-b1f0-d6fcfbec0a11",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376134/ACUERDO_DE_SALA_PLENA_004-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307508-04-2007-tc",
+          "documentId": "235af8c4-a8d6-4712-83d6-b7a187b8e64d",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 03-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376136/ACUERDO_DE_SALA_PLENA_003-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307510-03-2007-tc",
+          "documentId": "6b8075d5-df5d-4f92-bbe7-bf20b762e123",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 02-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376137/ACUERDO_DE_SALA_PLENA_002-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307511-02-2007-tc",
+          "documentId": "15a78fa5-120c-4833-a655-6ec2d4b565e5",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 01-2007/TC",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/376139/ACUERDO_DE_SALA_PLENA_001-2007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/307513-01-2007-tc",
+          "documentId": "886bf593-eaf3-41ad-ab67-004dbaef9dcc",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 014/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200938/ACUERDO_N__014-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069527-014-2006",
+          "documentId": "30e1fb67-8d3c-458a-833e-d45b74510921",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 013/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200941/ACUERDO_N__013-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069529-013-2006",
+          "documentId": "d85d6a9c-84d0-4927-a9c4-ac6916f3784d",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 012/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200944/ACUERDO_N__012-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069531-012-2006",
+          "documentId": "af87084f-d59f-4053-a9ae-3505eb80b4f0",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200945/ACUERDO_N__011-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069532-011-2006",
+          "documentId": "f9993d28-3fc1-4be2-a6c3-c5b9a5457804",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 008/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1198790/ACUERDO_N__008-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067552-008-2006",
+          "documentId": "6d970dfb-3fc1-4d4d-bf3e-35e3f54e4af2",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 004/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1198797/ACUERDO_N__004-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067554-004-2006",
+          "documentId": "50b1d71d-1ef0-4e53-ab5f-a70e97a642e6",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 003/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1198808/ACUERDO_N__003-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067555-003-2006",
+          "documentId": "8ad05148-9ded-4d4f-9a0b-5f5bdd4fe239",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 002/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1198816/ACUERDO_N__002-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1067556-002-2006",
+          "documentId": "a02abd1c-777e-4c7f-a84f-31f5a295c646",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001/2006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200574/ACUERDO_N__001-2006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069182-001-2006",
+          "documentId": "e8b96d23-460b-4ea6-81c1-1155b7f4ad0b",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 012/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200595/ACUERDO_N%C2%BA_012-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069397-012-2005",
+          "documentId": "047e910a-c865-4b77-9da8-3589aa888356",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200853/ACUERDO_N%C2%BA_011-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069480-011-2005",
+          "documentId": "7afea7c3-c571-4a1f-93b0-7f690f88e88c",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 010/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200873/ACUERDO_N%C2%BA_010-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069481-010-2005",
+          "documentId": "f37af448-1080-43cd-ba30-c66fa7372098",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 009/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200875/ACUERDO_N%C2%BA_009-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069483-009-2005",
+          "documentId": "31638d01-3061-4386-8547-c0b37a966999",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 008/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200876/ACUERDO_N%C2%BA_008-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069484-008-2005",
+          "documentId": "364699ae-48df-488a-b996-d9b15ff84c78",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 007/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200878/ACUERDO_N%C2%BA_007-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069486-007-2005",
+          "documentId": "dad50b6a-b34e-43d5-89f0-616d8adf9142",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 006/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200879/ACUERDO_N__006-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069487-006-2005",
+          "documentId": "cd720d7b-9b26-40e4-a974-ec374531b1f6",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 004/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200880/ACUERDO_N%C2%BA_004-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069488-004-2005",
+          "documentId": "6789d9c5-8b3c-4a99-8219-8c2c923396c7",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001/2005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200881/ACUERDO_N%C2%BA_001-2005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069489-001-2005",
+          "documentId": "138080ef-50bc-45a6-8f40-dd118bc53fcc",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 004/2004",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200893/Acuerdo_N__004-2004.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069498-004-2004",
+          "documentId": "c626a98d-8550-485b-a048-c9a696075f51",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 003/2004",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200894/Acuerdo_N__003-2004.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069499-003-2004",
+          "documentId": "d40b1871-e26e-462a-94dd-d07199e6da15",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 001/2004",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200897/Acuerdo_N__001-2004.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069501-001-2004",
+          "documentId": "cebde0dc-4f2f-4195-910f-3b9c94498e3f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 017/013",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200902/ACUERDO_N__017-013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069503-017-013",
+          "documentId": "755983d0-babd-46ad-aa5f-79cc52b16e67",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 016/013",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200904/ACUERDO_N__016-013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069504-016-013",
+          "documentId": "52848cfa-aa1e-4349-b79b-9febbcc4a7ca",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 015/013",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200905/ACUERDO_N__015-013.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069505-015-013",
+          "documentId": "39d67515-e042-4dcf-925b-54a4f82c44b0",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 012/011",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200906/ACUERDO_N__012-011.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069506-012-011",
+          "documentId": "931892d8-d987-4435-9b4e-47c9eaca9926",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 007/006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200907/ACUERDO_N__007-006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069507-007-006",
+          "documentId": "71b1236a-804d-4483-889d-b0cde7406aca",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 006/005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200908/ACUERDO_N__006-005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069508-006-005",
+          "documentId": "9bc6b273-7778-49c2-9c8f-9d2ca3f81f93",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 004/003",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200910/ACUERDO_N__004-003.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069509-004-003",
+          "documentId": "05281e5a-4cb9-4e44-bb61-4c3c25691cc2",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 025/016",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200914/Acuerdo_N__025-016.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069512-025-016",
+          "documentId": "eeaec5fd-ea19-430a-b24b-f15e1da12f5b",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 023/015",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200915/Acuerdo_N__023-015.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069513-023-015",
+          "documentId": "c33d9e66-1398-404d-a9a8-ba80e516a6b5",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 022/014",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200916/Acuerdo_N__022-014.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069514-022-014",
+          "documentId": "4a3c3bec-89af-4e00-9b48-85cff32c8adf",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 018/10",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200920/Acuerdo_N__018-010.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069516-018-10",
+          "documentId": "9d0bab79-aab5-4b29-b0ea-827906a88efc",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 017/010",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200921/Acuerdo_N__017-010.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069517-017-010",
+          "documentId": "0d48c2a6-2ef3-48e7-b02e-445000448083",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011/007",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200922/Acuerdo_N__011-007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069518-011-007",
+          "documentId": "44195e7d-bde9-47be-8745-cc947668b915",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 010/007",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200926/Acuerdo_N__010-007.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069520-010-007",
+          "documentId": "fd3381bc-b3f8-42c5-8621-5e24cf0c17ef",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 008/005",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200928/Acuerdo_N__008-005.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069522-008-005",
+          "documentId": "4595c37b-67ef-4f40-9b69-0063939353ec",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 005/003",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200929/Acuerdo_N__005-003.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069523-005-003",
+          "documentId": "0cc727c1-73e4-4a4f-a41a-cd17f99456b8",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 04/03",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200935/Acuerdo_N__004-003.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069525-04-03",
+          "documentId": "e8573e19-656d-493e-9aa3-5bab8c0f9373",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 019/009",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200952/Acuerdo_N%C2%BA_019-009.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069533-019-009",
+          "documentId": "2f3577a5-09ab-4be0-9780-410781b8697f",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 015/009",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200954/Acuerdo_N%C2%BA_015-009.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069535-015-009",
+          "documentId": "3b81b5e8-f8f7-4565-8205-427b82e5a49a",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 013/008",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200956/Acuerdo_N%C2%BA_013-008.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069537-013-008",
+          "documentId": "8ddfcf61-f4de-482c-a87d-75b1f215d333",
+          "status": "indexed"
+        },
+        {
+          "title": "Acuerdo de Sala Plena N.° 011/006",
+          "url": "https://cdn.www.gob.pe/uploads/document/file/1200962/Acuerdo_N%C2%BA_011-006.pdf",
+          "publicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/1069539-011-006",
+          "documentId": "0ad641e6-cdc8-4621-bc8e-c5777ddd482b",
+          "status": "indexed"
+        }
+      ]
+    }
+  ],
+  "officialLawCollection": {
+    "url": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de",
+    "pdfs": [
+      {
+        "url": "https://cdn.www.gob.pe/uploads/document/file/9295551/6444155-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-19-07-2026.pdf?v=1787002595",
+        "title": "Versión actualizada de la Ley N° 32069, Ley General de Contrataciones Públicas y modificatorias (al 19.07.2026), cuya elaboración tiene como fuente base la información del SPIJ"
+      },
+      {
+        "url": "https://cdn.www.gob.pe/uploads/document/file/7594705/6444155-reglamento-de-la-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-09-01-2026.pdf?v=1787002595",
+        "title": "Versión actualizada del Reglamento de la Ley N° 32069, Ley General de Contrataciones Públicas y modificatorias (al 09.01.2026), cuya elaboración tiene como fuente base la información del SPIJ"
+      }
+    ]
+  }
+}

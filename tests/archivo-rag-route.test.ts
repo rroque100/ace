@@ -13,11 +13,11 @@ it("no consulta registros sin sesión", async () => {
 it("siempre aplica propietario además del CP solicitado", async () => {
   await GET(new Request("http://localhost/api/rag?cp=2955"));
   const query = decodeURIComponent(mocks.rest.mock.calls[0][0]);
-  expect(query).toContain('uploaded_by=eq."alice"'); expect(query).toContain('metadata->rag->>cp=eq."CP2955"');
+  expect(query).toContain('uploaded_by=eq.alice'); expect(query).toContain('metadata->rag->>cp=eq.CP2955');
 });
 it("aplica el ID de oficina, sin permitir que el cliente lo sustituya", async () => {
   mocks.scope.mockReturnValue("oficina"); await GET(new Request("http://localhost/api/rag?oficina_id=other"));
-  expect(decodeURIComponent(mocks.rest.mock.calls[0][0])).toContain('oficina_id=eq."office"');
+  expect(decodeURIComponent(mocks.rest.mock.calls[0][0])).toContain('oficina_id=eq.office');
 });
 it("pagina usando una fila extra sin truncar el total silenciosamente", async () => {
   mocks.rest.mockResolvedValue(Array.from({ length: 21 }, (_, id) => ({ id })));

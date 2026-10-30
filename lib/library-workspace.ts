@@ -114,6 +114,10 @@ export const libraryFiltersSchema = z.object({
     .enum(["", "rnp", "seace", "obras", "garantias", "arbitraje", "sanciones"])
     .default(""),
   documentType: z.string().max(80).default(""),
+  arbitrator:z.string().trim().max(200).default(''),
+  claimant:z.string().trim().max(200).default(''),
+  respondent:z.string().trim().max(200).default(''),
+  arbitralInstitution:z.string().trim().max(200).default(''),
   processType: z.string().max(100).default(""),
   object: z.string().max(40).default(""),
   contractingEntity: z.string().trim().max(200).default(""),

@@ -1,0 +1,2 @@
+export {};
+async function main(){process.loadEnvFile('.env.local');const{getSupabaseAdminClient}=await import('../lib/supabase-server');const c=await getSupabaseAdminClient();const{data:d,error}=await c.from('documents').select('id,status,metadata').eq('id','b541b956-000f-4723-a005-9b8847a7f221').single();if(error)throw error;console.log(JSON.stringify({id:d.id,status:d.status,pageCount:d.metadata.pageCount,complete:d.metadata.indexedTextComplete,ocrPartial:d.metadata.ocrPartial,sha:d.metadata.sha256,source:d.metadata.sourceUrl}));}main();

@@ -43,6 +43,7 @@ export async function GET(
         title: d.title,
         blocks: [],
         originalUrl: `/api/documents/${d.id}`,
+        document:{metadata:d.metadata,documentType:d.document_type,sourceEntity:d.source_entity,sha256:d.metadata.sha256},
       });
     const original = await downloadStorageObject(
       d.storage_bucket,
@@ -62,6 +63,7 @@ export async function GET(
         originalUrl: `/api/documents/${d.id}`,
         notice:
           "Texto extraído del original. Las referencias corresponden a bloques, no a páginas.",
+        document:{metadata:d.metadata,documentType:d.document_type,sourceEntity:d.source_entity,sha256:d.metadata.sha256},
       },
       { headers: { "Cache-Control": "private, no-store" } },
     );

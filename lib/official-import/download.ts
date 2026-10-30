@@ -3,7 +3,8 @@ import { isIP } from "node:net";
 const hosts = new Set(["www.gob.pe", "cdn.www.gob.pe", "mef.gob.pe", "www.mef.gob.pe", "leyes.congreso.gob.pe", "www.leyes.congreso.gob.pe", "busquedas.elperuano.pe", "diariooficial.elperuano.pe"]);
 export function validateOfficialUrl(value: string): URL {
   const url = new URL(value);
-  if (url.protocol !== "https:" || url.username || url.password || (url.port && url.port !== "443") || !hosts.has(url.hostname) || isIP(url.hostname)) throw new Error("Destino no autorizado");
+  const archivedOsceLaudo=url.hostname==='www.osce.gob.pe'&&url.pathname.startsWith('/descarga/arbitraje/laudos/EXTERNO/')&&url.pathname.toLowerCase().endsWith('.pdf');
+  if (url.protocol !== "https:" || url.username || url.password || (url.port && url.port !== "443") || (!hosts.has(url.hostname)&&!archivedOsceLaudo) || isIP(url.hostname)) throw new Error("Destino no autorizado");
   return url;
 }
 function publicAddress(ip: string) {

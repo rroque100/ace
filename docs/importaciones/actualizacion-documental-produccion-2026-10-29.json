@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-29T13:17:03.160Z",
+  "anonymousStatus": 401,
+  "settings": {
+    "enabled": true,
+    "last_started_at": "2026-10-29T13:15:24.14722+00:00",
+    "last_finished_at": "2026-10-29T13:16:09.811+00:00"
+  },
+  "automaticDailyExecutionObserved": false,
+  "manualProductionTrigger": "Verified through authenticated administration UI; production secret intentionally not exported."
+}

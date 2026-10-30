@@ -3,6 +3,7 @@ export const OFFICIAL_CORPUS_TYPES = [
   { value: "reglamento", label: "Reglamento", group: "normas", kind: "norma" },
   { value: "directiva", label: "Directiva", group: "normas", kind: "norma" },
   { value: "opinion", label: "Opinión", group: "jurisprudencia", kind: "criterio" },
+  { value: "laudo_arbitral", label: "Laudo arbitral", group: "jurisprudencia", kind: "criterio" },
   { value: "resolucion", label: "Resolución", group: "jurisprudencia", kind: "criterio" },
   { value: "acuerdo_sala_plena", label: "Acuerdo de Sala Plena", group: "jurisprudencia", kind: "criterio" },
   { value: "pronunciamiento", label: "Pronunciamiento", group: "jurisprudencia", kind: "criterio" },

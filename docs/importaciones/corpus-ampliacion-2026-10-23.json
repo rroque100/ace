@@ -1,0 +1,225 @@
+{
+  "batch": "corpus-ampliacion-2026-10-23",
+  "entries": [
+    {
+      "title": "Opinión N.° D000102-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646764-opinion-n-d000102-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10690030/8646764-opinion-d102-2026-oece-dtn.pdf?v=1790295622",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000102-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "reused",
+      "documentId": "41002e8e-6897-4f68-b94c-3567574f1b3c",
+      "sha256": "7e403caca9454501dfe305da1999fd3fcbb076ab590742ed8632b8fb572fefcf",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:10:39.333Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000101-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629672-opinion-n-d000101-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10666429/8629672-opinion-d101-2026-oece-dtn.pdf?v=1790022195",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000101-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "0970847f-c1ef-4565-afaf-df757132c6fa",
+      "sha256": "888ce51c87edaec07dc2344c243333472d7766a3dbc0844f892e802aeea0bece",
+      "verification": {
+        "pages": 6,
+        "chunks": 11,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:07:42.396Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000100-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629660-opinion-n-d000100-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10666402/8629660-opinion-d100-2026-oece-dtn.pdf?v=1790022077",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000100-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "766f056b-6e8e-4167-9ea0-313c0604584d",
+      "sha256": "ce15194e8548813b52ddf5773326d68323b78c707dfa0cb50b671e5aa8e524fa",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:07:59.136Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000099-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596615-opinion-n-d000099-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10622011/8596615-opinion-d099-2026-oece-dtn.pdf?v=1789481436",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000099-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+      "sha256": "f119d551f2b8c2bb40b982ee800b386442e437a66016c4b2cda8f8e866ca83ba",
+      "verification": {
+        "pages": 3,
+        "chunks": 5,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:08:17.914Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000098-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596068-opinion-n-d000098-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621143/8596068-opinion-d098-2026-oece-dtn.pdf?v=1789430666",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000098-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "95137274-2438-4b4e-aac1-428432ef3fc3",
+      "sha256": "b3cca6404679d74ebba4e1d0e22713c9b044d7e34c060256ee4b3dca39172ef2",
+      "verification": {
+        "pages": 6,
+        "chunks": 12,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:08:35.776Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000097-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596066-opinion-n-d000097-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621140/8596066-opinion-d097-2026-oece-dtn.pdf?v=1789430582",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000097-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "12c3eafd-4b8f-48c8-9266-cee11ba8a0b6",
+      "sha256": "65a5d2974da79688724ed3b8a834f970b4ae2071091732a0790319436f8be0e9",
+      "verification": {
+        "pages": 5,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:08:52.984Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000096-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596061-opinion-n-d000096-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621133/8596061-opinion-d096-2026-oece-dtn.pdf?v=1789430481",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000096-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "fb423e15-231f-4b95-bba5-9d8f9e06d91c",
+      "sha256": "b26791c6fe1abb69ed74c301f535c73b7394fecb84bf3628189a7b20ae07c054",
+      "verification": {
+        "pages": 6,
+        "chunks": 11,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:09:10.229Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000095-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596057-opinion-n-d000095-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621128/8596057-opinion-d095-2026-oece-dtn.pdf?v=1789430390",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000095-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "f9741c67-183a-4be1-87dc-b2578fedcd73",
+      "sha256": "fbddc89ad7f3263896fb4a1e3a3a3bd68f69150a2c8871b5ca994a69c85372a5",
+      "verification": {
+        "pages": 7,
+        "chunks": 12,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:09:26.174Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000094-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596055-opinion-n-d000094-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621125/8596055-opinion-d094-2026-oece-dtn.pdf?v=1789430296",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000094-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "c0e29d3a-61bb-460d-9276-0a7ff5aadba5",
+      "sha256": "6282e2ba437c385d0f261be64c723bcc6c7449d7ff8bd891945360da03604476",
+      "verification": {
+        "pages": 4,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:09:43.773Z"
+      }
+    },
+    {
+      "title": "Opinión N.° D000093-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596053-opinion-n-d000093-2026-oece-dtn",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10621122/8596053-opinion-d093-2026-oece-dtn.pdf?v=1789430203",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000093-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Ampliación del catálogo oficial de opiniones; vigencia y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "documentId": "a020625f-e196-4bc4-8476-a323d6d477b5",
+      "sha256": "d8aecdc9b8c30289af2b4888d59c623b2f4f4e9f7ee5b64d327e0e24ab8dd702",
+      "verification": {
+        "pages": 5,
+        "chunks": 9,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-24T00:09:58.453Z"
+      }
+    }
+  ]
+}

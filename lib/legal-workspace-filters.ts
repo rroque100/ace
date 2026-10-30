@@ -56,6 +56,7 @@ export function matchesExtendedFilters(
   if (
     filters.regime &&
     regime !== filters.regime &&
+    !(source.regimeReviewed && Array.isArray(m.declaredRegimes) && m.declaredRegimes.includes(filters.regime)) &&
     !(filters.includeUnknownRegime && (!regime || regime === "no_determinado"))
   )
     return false;

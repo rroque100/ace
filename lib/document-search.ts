@@ -350,6 +350,7 @@ export type DocumentSearchMatch = {
   score: number | null;
 };
 export type DocumentSearchResult = {
+  metadata?:Record<string,unknown>;
   review?: ReturnType<typeof import("./document-review").documentReviewSummary>;
   foundBy?: Array<"words" | "meaning">;
   versionNote?: string;

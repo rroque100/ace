@@ -1,4 +1,5 @@
 import { advanceRagDocument } from "./archivo-rag-worker";
+import { ARCHIVO_LEASE_MS, ARCHIVO_PENDING_MS } from "./archivo-processing-policy";
 import {
   type ExpedienteArchivo,
 } from "@/lib/expedientes-archivo";
@@ -18,10 +19,10 @@ import type { DrainSummary } from "@/lib/indexing-queue";
 // usando el PDF ya guardado en Storage. El estado (status + updated_at) ES la cola.
 
 // Un 'processing' más viejo que esto se considera muerto y se re-encola.
-const staleMinutes = Number.parseInt(process.env.EXPEDIENTES_STALE_MINUTES ?? "10", 10);
+const staleMinutes = Math.max(ARCHIVO_LEASE_MS / 60_000, Number.parseInt(process.env.EXPEDIENTES_STALE_MINUTES ?? "10", 10) || 10);
 // Margen para que el `after()` de la subida reclame un 'uploaded' antes de que lo
 // haga el drainer (evita reprocesar en paralelo lo que ya se está procesando).
-const claimSeconds = Number.parseInt(process.env.EXPEDIENTES_CLAIM_SECONDS ?? "120", 10);
+const claimSeconds = Math.max(ARCHIVO_PENDING_MS / 1000, Number.parseInt(process.env.EXPEDIENTES_CLAIM_SECONDS ?? "120", 10) || 120);
 
 const EXP_SELECT =
   "id,sgd_expediente,serie_documento,anio,tipo_documento,asunto,materia,resumen,title,oficina,tipo_almacenamiento,nro_archivador,nro_paquete,empastado,color_archivador,nro_estante,nro_piso,nro_local,folio,observaciones,persona_tipo,persona_documento,persona_nombre,file_name,file_size,mime_type,storage_bucket,storage_path,status,error_message,metadata,uploaded_by,created_at,updated_at,expediente_id";
@@ -32,17 +33,14 @@ const EXP_SELECT =
 export async function findStuckExpedientes(limit = 20): Promise<ExpedienteArchivo[]> {
   const staleThreshold = new Date(Date.now() - staleMinutes * 60 * 1000).toISOString();
   const claimThreshold = new Date(Date.now() - claimSeconds * 1000).toISOString();
-  const filter = `or=(and(status.eq.uploaded,created_at.lt.${claimThreshold}),and(status.eq.processing,updated_at.lt.${staleThreshold}))`;
+  const filter = `or=(and(status.eq.uploaded,updated_at.lt.${claimThreshold}),and(status.eq.processing,updated_at.lt.${staleThreshold}))`;
   return supabaseRest<ExpedienteArchivo[]>(
     `expedientes_archivo?${filter}&select=${EXP_SELECT}&order=created_at.asc&limit=${limit}`,
   );
 }
 
-// Presupuesto de tiempo de una corrida del drainer, con margen bajo el tope real
-// de 60 s del plan Hobby de Vercel (aunque la ruta declare `maxDuration = 300`,
-// Hobby lo recorta igual). Sin este margen, una invocación que se pasa de rosca
-// muere a mitad de un PATCH y puede dejar una fila en 'processing' hasta que el
-// guard de `staleMinutes` la libere.
+// Presupuesto conservador entre bloques; cada invocación mantiene su límite
+// de plataforma. La reserva permite recuperar un trabajo que exceda ese límite.
 const drainTimeBudgetMs = 50_000;
 
 // Procesa expedientes atascados hasta agotar `limit` candidatos o el presupuesto
@@ -77,6 +75,8 @@ export async function drainStuckExpedientes(limit = 20): Promise<DrainSummary> {
           [current] = await supabaseRest<ExpedienteArchivo[]>(
             `expedientes_archivo?id=eq.${expediente.id}&select=${EXP_SELECT}`,
           );
+          // Otro proceso tiene una reserva activa: no consultar en bucle.
+          if (current?.status === "processing") break;
         }
         items.push({ id: expediente.id, ok: true, title: expediente.title });
         continue;

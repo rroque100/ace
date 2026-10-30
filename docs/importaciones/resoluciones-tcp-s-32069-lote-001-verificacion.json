@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-28T23:35:34.370Z",
+  "expected": 100,
+  "stored": 100,
+  "statuses": {
+    "uploaded": 100
+  },
+  "hashesMatch": true,
+  "allPendingIndex": true,
+  "regimeReviewPending": true,
+  "googleBlock": "HTTP402 credits depleted"
+}

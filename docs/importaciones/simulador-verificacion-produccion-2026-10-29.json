@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-29T18:51:49.522Z",
+  "sourcesVerified": 10,
+  "draftSaveVerified": true,
+  "questionRevision": 1,
+  "frozenAttemptRevision": 0,
+  "rejectsWrongSource": true,
+  "rejectsOtherOwner": true,
+  "practiceResult": {
+    "total": 3,
+    "topics": [
+      {
+        "topic": "Conceptos de contratación",
+        "total": 1,
+        "correct": 0
+      },
+      {
+        "topic": "Modalidades y procedimientos",
+        "total": 2,
+        "correct": 1
+      }
+    ],
+    "correct": 1,
+    "omitted": 2,
+    "answered": 1,
+    "incorrect": 0
+  },
+  "publishedQuestions": 0,
+  "anonymous": [
+    {
+      "path": "/api/exams",
+      "status": 401
+    },
+    {
+      "path": "/api/exams/bank",
+      "status": 401
+    },
+    {
+      "path": "/api/exams/d971bd85-4ddd-4921-a947-8916eb4af240",
+      "status": 401
+    }
+  ]
+}

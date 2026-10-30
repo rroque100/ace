@@ -16,9 +16,10 @@ export function parseRagPath(path: string): RagIdentity {
   return { path: parts.join("/"), type: parts.length >= 3 ? parts[0] : "", cabinet: parts.length >= 2 ? parts.at(-2)! : "", cp: cp ? `CP${cp}` : "", siaf, date, year: date.slice(0, 4) || parts.at(-2)?.replaceAll("_", " ").match(/\b(?:19|20)\d{2}\b/)?.[0] || "" };
 }
 
-/** Quote PostgREST literals before URL encoding; do not accept query operators. */
+/** Scalar eq values are URL encoded, not quoted: PostgREST keeps quotes literally.
+ * This is only for standalone eq filters, never in()/or() expressions. */
 export function restLiteral(value: string): string {
-  return encodeURIComponent(`"${value.replaceAll("\\", "\\\\").replaceAll('"', '\\"')}"`);
+  return encodeURIComponent(value);
 }
 
 export function ragRecordFilters(params: URLSearchParams): string {

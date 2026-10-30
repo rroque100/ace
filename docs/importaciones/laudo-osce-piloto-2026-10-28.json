@@ -1,0 +1,29 @@
+{
+  "batch": "laudo-osce-piloto-2026-10-28",
+  "entries": [
+    {
+      "title": "Laudo arbitral — Consorcio Hidro Reval y Gobierno Regional de Amazonas — expediente 1576-2015",
+      "type": "laudo_arbitral",
+      "publicationUrl": "https://www.osce.gob.pe/descarga/arbitraje/laudos/EXTERNO/2016/533.pdf",
+      "pdfUrl": "https://www.osce.gob.pe/descarga/arbitraje/laudos/EXTERNO/2016/533.pdf",
+      "sourceEntity": "OSCE · archivo oficial de laudos",
+      "number": "Expediente 1576-2015",
+      "year": 2016,
+      "processType": "licitacion_publica",
+      "versionLabel": "Original histórico — archivo oficial OSCE 533-2016",
+      "selectionNote": "La ficha del original identifica un contrato de ejecución de obra entre Consorcio Hidro Reval y Gobierno Regional de Amazonas. Criterio referido a ese caso; no es norma general. Régimen y aplicación actual pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "9be1888cb0ff336aa1c656455a1a61e57d69e7318d6885fed8954bc170bc3b31",
+      "documentId": "9b5d15aa-12e0-489a-8e3b-51d1c0e949d6",
+      "verification": {
+        "pages": 68,
+        "chunks": 67,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-28T18:13:34.226Z"
+      }
+    }
+  ]
+}

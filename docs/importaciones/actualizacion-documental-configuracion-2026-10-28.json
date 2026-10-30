@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-29T00:16:13.001Z",
+  "configured": [
+    {
+      "id": "8a8db0d9-636b-4dc0-96ec-2510a72efe21",
+      "label": "OECE · Leyes",
+      "listingRead": true,
+      "firstPage": 16
+    },
+    {
+      "id": "83781cc3-2763-4401-bb97-2be151c70b72",
+      "label": "OECE · Directivas",
+      "listingRead": true,
+      "firstPage": 100
+    },
+    {
+      "id": "677f19b5-5fff-43fa-8c81-e30699d42eff",
+      "label": "OECE · Resoluciones TCP por salas",
+      "listingRead": true,
+      "firstPage": 100
+    },
+    {
+      "id": "9b781a16-6da8-42b0-baa7-eabb6360fe0a",
+      "label": "OECE · Opiniones de la DTN",
+      "listingRead": true,
+      "firstPage": 25
+    },
+    {
+      "id": "0fd4cc93-08d2-4789-af90-47debc8764b4",
+      "label": "OECE · Acuerdos de Sala Plena",
+      "listingRead": true,
+      "firstPage": 25
+    }
+  ],
+  "adopted": 100,
+  "enabled": true,
+  "dailyLimit": 100,
+  "scheduleLima": "06:00",
+  "cronUtc": "0 11 * * *",
+  "indexingBlocked": true
+}

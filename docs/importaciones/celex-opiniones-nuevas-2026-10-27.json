@@ -1,0 +1,71 @@
+{
+  "batch": "celex-opiniones-nuevas-2026-10-27",
+  "entries": [
+    {
+      "title": "Opinión N° D000062-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/10280197/8353829-opinion-d062-2026-oece-dtn.pdf?v=1783545408",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280197/8353829-opinion-d062-2026-oece-dtn.pdf?v=1783545408",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000062-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Opinión oficial localizada en consulta de CELEX; régimen y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "2679cd0b8e5775d065f4e5eac22e54bbdfcaa794ac449b583f50937f476e8cd6",
+      "documentId": "bb831c66-64a0-4d54-9ee9-6e4ad4ad84fa",
+      "verification": {
+        "pages": 6,
+        "chunks": 10,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:06:30.981Z"
+      }
+    },
+    {
+      "title": "Opinión N° D000066-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/10321684/8386274-opinion-d066-2026-oece-dtn.pdf?v=1784154208",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10321684/8386274-opinion-d066-2026-oece-dtn.pdf?v=1784154208",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000066-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Opinión oficial localizada en consulta de CELEX; régimen y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "e2d4076c573b5111090b3ef59af26703dbe36212441df2a05f04f119abc6a914",
+      "documentId": "03f92bd5-e8d8-4fe7-9860-6ac1641a8f20",
+      "verification": {
+        "pages": 6,
+        "chunks": 11,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:06:44.376Z"
+      }
+    },
+    {
+      "title": "Opinión N° D000063-2026-OECE-DTN",
+      "type": "opinion",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/10280227/8353852-opinion-d063-2026-oece-dtn.pdf?v=1783545606",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/10280227/8353852-opinion-d063-2026-oece-dtn.pdf?v=1783545606",
+      "sourceEntity": "OECE - Dirección Técnico Normativa",
+      "number": "D000063-2026-OECE-DTN",
+      "year": 2026,
+      "selectionNote": "Opinión oficial localizada en consulta de CELEX; régimen y aplicación pendientes de revisión.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "c77ae5c1816949b6cbaee5d62f843e516be2ab9190316e511f195d493db69a6e",
+      "documentId": "20a271c5-c618-4842-97c2-f1d683adf608",
+      "verification": {
+        "pages": 12,
+        "chunks": 23,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:07:00.636Z"
+      }
+    }
+  ]
+}

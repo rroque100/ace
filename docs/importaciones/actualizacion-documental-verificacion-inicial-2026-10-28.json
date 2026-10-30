@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-29T13:25:10.698Z",
+  "enabled": true,
+  "sourcesEnabled": 5,
+  "counts": {
+    "queued": 831,
+    "running": 0,
+    "blocked": 100,
+    "done": 0,
+    "review": 0
+  },
+  "aiBlocked": true,
+  "queueSchemaVerified": true,
+  "genericQueueExcludedSync": true
+}

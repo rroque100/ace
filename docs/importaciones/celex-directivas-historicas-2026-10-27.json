@@ -1,0 +1,74 @@
+{
+  "batch": "celex-directivas-historicas-2026-10-27",
+  "entries": [
+    {
+      "title": "Directiva N.° 004-2025-OECE-CD — Directiva del Registro de Instituciones Arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas (REGAJU)",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7946987/6682397-directiva-de-registro-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas-regaju.pdf?v=1745198272",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7946987/6682397-directiva-de-registro-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas-regaju.pdf?v=1745198272",
+      "sourceEntity": "OECE",
+      "number": "004-2025-OECE-CD",
+      "year": 2025,
+      "versionLabel": "Archivo oficial 6682397-directiva-de-registro-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas-regaju.pdf",
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. Archivo diferente conservado sin sustituir las versiones existentes.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "3663b78f71570f4ee014fbb88c8341e4f5178016e438ea4482ba9543e2bc5d6b",
+      "documentId": "2faac68b-f28b-4407-a81d-cbf83b602096",
+      "verification": {
+        "pages": 10,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:13.778Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 012-2025-OECE-CD — Directiva del Procedimiento Administrativo Sancionador de Instituciones Arbitrales y Centros de Administración de JPRD",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/8656172/7165605-directiva-del-procedimiento-administrativo-sancionador-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf?v=1757949469",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8656172/7165605-directiva-del-procedimiento-administrativo-sancionador-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf?v=1757949469",
+      "sourceEntity": "OECE",
+      "number": "012-2025-OECE-CD",
+      "year": 2025,
+      "versionLabel": "Archivo oficial 7165605-directiva-del-procedimiento-administrativo-sancionador-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf",
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. Archivo diferente conservado sin sustituir las versiones existentes.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "f422a81213dc629d7ed9f845a8462facb1d15e4500bf98f09cae61a78815e6f3",
+      "documentId": "0b4c731c-e7a4-4265-a38b-2179089f8059",
+      "verification": {
+        "pages": 26,
+        "chunks": 24,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:29.012Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 011-2025-OECE-CD — Directiva de Supervisión de Instituciones Arbitrales y Centros de Administración de Juntas de Prevención y Resolución de Disputas",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/8640433/7155508-directiva-de-supervision-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf?v=1757602409",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8640433/7155508-directiva-de-supervision-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf?v=1757602409",
+      "sourceEntity": "OECE",
+      "number": "011-2025-OECE-CD",
+      "year": 2025,
+      "versionLabel": "Archivo oficial 7155508-directiva-de-supervision-de-instituciones-arbitrales-y-centros-de-administracion-de-juntas-de-prevencion-y-resolucion-de-disputas.pdf",
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. Archivo diferente conservado sin sustituir las versiones existentes.",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "988515e1797f0942b578c8a2a842b05bb0be2b85a9255d0407c410cbbd707447",
+      "documentId": "6fb98cd9-042e-4ad8-aabc-92e970b6cff6",
+      "verification": {
+        "pages": 22,
+        "chunks": 19,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:03:47.254Z"
+      }
+    }
+  ]
+}

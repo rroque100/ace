@@ -5,6 +5,7 @@ import { generationIncomplete, compactRetryParams } from "./chat-generation-comp
 import { planQuestion, adaptiveAnswerInstruction } from "./chat-question-plan";
 import { parseAlternatives, alternativeQueries, alternativeInstruction, prioritizeAlternativeSources, renderAlternativeDraft } from "./chat-alternatives";
 import {exactArticleEvidence} from "./normative-article-evidence";
+import {selectedPassage} from './selected-passage';
 import { recoverSelectedSources, preserveSelectedSources } from "./chat-source-selection";
 import { canonicalSourceEntity } from "./search-document-metadata";
 import { publishEvidence } from "./chat-evidence-publication";
@@ -54,6 +55,8 @@ export type ChatAuthContext = {
 const legalSearchFiltersSchema = extendedLegalFiltersSchema.extend({
   article: z.string().trim().optional().or(z.literal("")),
   articleId: z.string().uuid().optional(),
+  chunkId: z.string().uuid().optional(),
+  sourceSha: z.string().regex(/^[a-f0-9]{64}$/).optional(),
   bodyId: z.string().trim().max(200).optional(),
   documentId: z.string().trim().optional().or(z.literal("")),
   /** Varios documentos a la vez: un procedimiento puede tener varios modelos. */
@@ -1698,6 +1701,8 @@ async function prepareLegalAnswer(
   const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
   const selectedRecoveryTask=recoverSelectedSources(selectedIds,id=>searchLegalSources({filters:{documentId:id},query:contextualQuery,topK:2},{allowedDocumentIds:[id],indexedLexical:true}));
   let exactArticle:LegalSource[]=[];let articleFailed=false;
+  let exactPassage:LegalSource[]=[];let passageFailed=false;
+  if(input.filters?.chunkId&&input.filters.documentId)try{exactPassage=await selectedPassage(input.filters.chunkId,input.filters.documentId,input.filters.sourceSha);}catch{passageFailed=true;}
   if(input.filters?.articleId)try{exactArticle=await exactArticleEvidence(input.filters.articleId,input.filters.documentId,input.filters.bodyId);}catch{articleFailed=true;}
 
 
@@ -1809,7 +1814,8 @@ async function prepareLegalAnswer(
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
   const beforeCoherence = [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))].slice(0, alternatives || questionPlan.subqueries.length ? 12 : 8);
   const coherent = originals.length ? beforeCoherence : selectCoherentEvidence(beforeCoherence, input.question, input.caseContext);
-  const sources = input.filters?.articleId ? exactArticle : selectedIds.length ? preserveSelectedSources(selectedRecovery.sources, coherent, selectedIds, input.filters?.expandCorpus===true) : coherent;
+  const baseSources = input.filters?.articleId ? exactArticle : selectedIds.length ? preserveSelectedSources(selectedRecovery.sources, coherent, selectedIds, input.filters?.expandCorpus===true) : coherent;
+  const sources = input.filters?.chunkId ? exactPassage.length ? [...exactPassage,...baseSources.filter(s=>s.chunkId!==exactPassage[0].chunkId)].slice(0,16) : [] : baseSources;
   const assessment = assessSources(sources, {
     processType: requestedProcessType,
     queryUsed: searchResult.assessment.queryUsed,
@@ -1817,6 +1823,7 @@ async function prepareLegalAnswer(
   });
   if (sources.length < beforeCoherence.length) assessment.evidenceWarnings.push("Se separaron fuentes de familias normativas distintas para evitar una conclusión combinada. La selección documental no confirma el régimen aplicable al caso.");
   if(input.filters?.articleId && !exactArticle.length)assessment.evidenceWarnings.push(articleFailed?"Falló la lectura del artículo seleccionado; no se sustituyó por otro artículo.":"El artículo seleccionado no está disponible en ese documento y cuerpo; no se sustituyó por otro con el mismo número.");
+  if(input.filters?.chunkId&&!exactPassage.length)assessment.evidenceWarnings.push(passageFailed?'Falló la lectura del pasaje seleccionado; no se sustituyó por otro.':'El pasaje o su versión ya no están disponibles. Reabre el original antes de consultar.');
   if(selectedIds.length) {
     assessment.selection={requested:selectedIds.length,recovered:new Set(selectedRecovery.sources.map(source=>source.documentId)).size,missing:selectedRecovery.missing,failed:selectedRecovery.failed};
     assessment.evidenceWarnings.push(`Selección inicial: ${selectedIds.length} documentos; recuperados ${new Set(selectedRecovery.sources.map(source=>source.documentId)).size}. Las fuentes adicionales se identifican por separado; seleccionar un documento no confirma que respalde una conclusión.`);

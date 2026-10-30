@@ -86,6 +86,7 @@ export const NAVEGACION = [
   {
     items: [
       { href: "/documentos", icon: "UploadCloud", id: "documentos", label: "Biblioteca PDF", adminOnly: false },
+      { href: "/actualizacion-documental", icon: "Library", id: "actualizacion-documental", label: "Actualización documental", adminOnly: true, requiredRole: "Admin" },
       { href: "/evaluacion", icon: "BarChart3", id: "evaluacion", label: "Evaluación IA", adminOnly: true, requiredRole: "Admin" },
       { href: "/metricas", icon: "Activity", id: "metricas", label: "Monitoreo", adminOnly: true, requiredRole: "Admin" },
       { href: "/auditoria", icon: "ScrollText", id: "auditoria", label: "Auditoría", adminOnly: true, requiredRole: "Admin" },

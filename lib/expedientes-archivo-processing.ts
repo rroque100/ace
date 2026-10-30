@@ -1,4 +1,5 @@
 import { classifyPdfError } from "./pdf-read-error";
+import { ArchivoProcessingBusyError, claimArchivoProcessing } from "./archivo-processing-lease";
 import { createHash, randomUUID } from "node:crypto";
 import { normalizeEntity } from "./entity-utils";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -252,6 +253,16 @@ function buildExpedienteEmbeddingText(input: {
 // número/fecha/asunto, fragmenta por páginas, indexa en el namespace AISLADO de
 // expedientes en Pinecone y persiste chunks + metadata. Estado: processing -> indexed/error.
 export async function processExpedienteDocument(expediente: ExpedienteArchivo, file: File, prepared?: ExtractedPdfText) {
+  // El worker por bloques ya tiene su reserva. Los otros caminos (subida,
+  // reindexación, recuperación y reemplazo) compiten por el mismo CAS.
+  if (!prepared) {
+    const previousStatus = expediente.status;
+    const claimed = await claimArchivoProcessing(expediente);
+    // El reemplazo trae una ruta nueva todavía no publicada: conservarla.
+    expediente = { ...expediente, updated_at: claimed.updated_at, status: "processing" };
+    // Conserva un índice publicado si falla el intento de reemplazarlo.
+    if (previousStatus === "indexed") expediente = { ...expediente, status: "indexed" };
+  }
   const namespace = getExpedientesNamespace();
   let insertedVectorIds: string[] = [];
   let published = false;
@@ -395,7 +406,7 @@ export async function processExpedienteDocument(expediente: ExpedienteArchivo, f
       embedding: chunkEmbeddings[index] ?? null,
     }));
 
-    const upsert = await upsertTextRecords(records, namespace);
+    const upsert = await upsertTextRecords(records, namespace, chunkEmbeddings);
     const verification = await verifyDocumentIndexedInPinecone({
       documentId: expediente.id,
       indexGeneration: generation,
@@ -619,6 +630,7 @@ export async function extractExpedienteInventory(
 }
 
 export async function reportArchivoProcessingFailure(expediente: ExpedienteArchivo, error: unknown) {
+  if (error instanceof ArchivoProcessingBusyError) return;
   const message = error instanceof Error ? error.message : String(error);
   // CAS: un trabajo viejo no puede marcar como fallido un índice recién publicado.
   await supabaseRest(`expedientes_archivo?id=eq.${expediente.id}&updated_at=eq.${encodeURIComponent(expediente.updated_at)}`, {

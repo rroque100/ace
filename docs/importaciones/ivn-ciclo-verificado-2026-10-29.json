@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-29T14:22:50.956Z",
+  "result": {
+    "processed": 10,
+    "detected": 184,
+    "remainingContinuesNextCycle": true
+  },
+  "ivn": {
+    "source_id": "72721f14-8600-4b0e-abd5-680810fa3420",
+    "enabled": true,
+    "document_types": [
+      "informe_vicio_nulidad"
+    ],
+    "regimes": [],
+    "code_prefix": "",
+    "last_checked_at": "2026-10-29T14:21:49.317+00:00",
+    "last_complete_at": "2026-10-29T14:21:49.317+00:00",
+    "last_error": null,
+    "scan_cursor": null,
+    "updated_at": "2026-10-29T14:18:48.008872+00:00",
+    "recent_cursor": null,
+    "history_complete": true
+  },
+  "quota": {
+    "day": "2026-10-29",
+    "reserved": 100
+  },
+  "aiStillBlocked": true
+}

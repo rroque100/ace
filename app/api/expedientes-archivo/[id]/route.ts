@@ -1,4 +1,5 @@
 import { PdfReadError } from "@/lib/pdf-read-error";
+import { advanceRagDocument } from "@/lib/archivo-rag-worker";
 import { readArchivoFile } from "@/lib/archivo-upload-server";
 import { randomUUID } from "node:crypto";
 import { after, NextResponse } from "next/server";
@@ -146,7 +147,10 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
 
     after(async () => {
       try {
-
+        if (expediente.metadata?.uploadSource === "rag-folder" && expediente.status !== "indexed") {
+          await advanceRagDocument(expediente);
+          return;
+        }
         const blob = await downloadStorageObject(expediente.storage_bucket, expediente.storage_path);
         const file = new File([blob], expediente.file_name, {
           type: expediente.mime_type || "application/pdf",

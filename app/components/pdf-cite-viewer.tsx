@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import type { SourceBlock } from "@/lib/source-blocks";
 import { SaveButton } from "./save-button";
+import {GuidedReading} from './guided-reading';
+import {DocumentFacts} from './document-facts';
+import {FollowSource} from './follow-source';
 
 type PdfCiteButtonProps = {
   documentId: string;
@@ -90,6 +93,7 @@ export function PdfCiteButton({
 }: PdfCiteButtonProps) {
   const [blocks, setBlocks] = useState<SourceBlock[]>([]);
   const [sourceTitle, setSourceTitle] = useState("");
+  const [sourceInfo,setSourceInfo]=useState<{metadata:Record<string,unknown>;documentType?:string;sourceEntity?:string;sha256?:string}|null>(null);
   const [blockOffset, setBlockOffset] = useState(0);
   const [blockQuery, setBlockQuery] = useState("");
   const matchingBlocks = blockQuery.trim()
@@ -124,6 +128,8 @@ export function PdfCiteButton({
         );
         if (contentResponse.ok) {
           const content = await contentResponse.json();
+          if(!cancelled)setSourceTitle(content.title??'');
+          if(!cancelled)setSourceInfo(content.document??null);
           if (content.format !== "pdf" && Array.isArray(content.blocks)) {
             if (cancelled) return;
             setBlocks(content.blocks);
@@ -327,6 +333,7 @@ export function PdfCiteButton({
           </div>
 
           <div ref={stageRef} className="pdfViewerStage">
+            {sourceInfo?<div className="tw px-4"><DocumentFacts document={sourceInfo}/><FollowSource documentId={documentId} label={sourceTitle||'Documento consultado'}/><GuidedReading documentId={documentId} page={blocks.length?undefined:currentPage} sha256={sourceInfo.sha256}/></div>:null}
             {blocks.length ? (
               <section
                 className="tw sourceBlockReader space-y-4 p-4"
@@ -355,6 +362,7 @@ export function PdfCiteButton({
                       locator={b.id}
                       label="Guardar pasaje"
                     />
+                    <GuidedReading documentId={documentId} locator={b.id} sha256={sourceInfo?.sha256}/>
                   </article>
                 ))}
                 <div className="flex flex-wrap gap-3">

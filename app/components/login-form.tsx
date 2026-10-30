@@ -7,7 +7,6 @@ import { createClient } from "@/lib/supabase/client";
 import {
   credencialAIdentificador,
   esUsuarioValido,
-  normalizarUsuario,
   USUARIO_LONGITUD,
 } from "@/lib/usuario-credencial";
 
@@ -35,9 +34,8 @@ export function LoginForm({ next }: LoginFormProps) {
     }
     setLoading(true);
 
-    const supabase = createClient();
-
     try {
+      const supabase = createClient();
       // Auth solo entiende de correos: el usuario de ocho dígitos se traduce a su
       // correo interno aquí, en el único punto donde se habla con Supabase.
       const email = credencialAIdentificador(usuario);
@@ -64,7 +62,9 @@ export function LoginForm({ next }: LoginFormProps) {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo completar la autenticacion");
+      setError(err instanceof Error && err.message === "Invalid login credentials"
+        ? "El DNI o correo y la contraseña no coinciden con una cuenta. Revisa los datos; si olvidaste tu contraseña, solicita al administrador que la cambie."
+        : err instanceof Error ? err.message : "No se pudo completar la autenticacion");
     } finally {
       setLoading(false);
     }
@@ -95,23 +95,17 @@ export function LoginForm({ next }: LoginFormProps) {
       </div>
 
       <label className="authField">
-        <span>Usuario</span>
+        <span>DNI o correo</span>
         <input
           type="text"
           autoComplete="username"
-          inputMode={usuario.includes("@") ? "text" : "numeric"}
+          inputMode="text"
           required
           value={usuario}
-          onChange={(event) => {
-            // Se dejan pasar los correos tal cual: las cuentas anteriores a este
-            // cambio siguen entrando por aquí y filtrar a dígitos las borraría
-            // letra a letra mientras se escriben.
-            const v = event.target.value;
-            setUsuario(v.includes("@") ? v.trim() : normalizarUsuario(v));
-          }}
-          placeholder={`${USUARIO_LONGITUD} dígitos (tu DNI)`}
+          onChange={(event) => setUsuario(event.target.value)}
+          placeholder="DNI de 8 dígitos o correo"
         />
-        {usuario && !usuario.includes("@") && !esUsuarioValido(usuario) ? (
+        {/^\d{1,7}$/.test(usuario) ? (
           <small className="authHint">
             Faltan {USUARIO_LONGITUD - usuario.length} de {USUARIO_LONGITUD} dígitos.
           </small>

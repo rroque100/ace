@@ -1,0 +1,871 @@
+{
+  "runAt": "2026-10-24T23:57:03.035Z",
+  "applied": false,
+  "humanLegalReview": "pending",
+  "total": 93,
+  "changed": [],
+  "regimes": {
+    "30225": 1,
+    "32069": 13,
+    "especial": 0,
+    "no_determinado": 79
+  },
+  "documents": [
+    {
+      "id": "0958fb77-1ee7-4064-9768-b96f55a1d50a",
+      "title": "Opinión N.° D000103-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646774-opinion-n-d000103-2026-oece-dtn"
+    },
+    {
+      "id": "0970847f-c1ef-4565-afaf-df757132c6fa",
+      "title": "Opinión N.° D000101-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629672-opinion-n-d000101-2026-oece-dtn"
+    },
+    {
+      "id": "12c3eafd-4b8f-48c8-9266-cee11ba8a0b6",
+      "title": "Opinión N.° D000097-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596066-opinion-n-d000097-2026-oece-dtn"
+    },
+    {
+      "id": "1495031f-63ca-49ab-996d-fa3d4dd36d17",
+      "title": "Opinión N.° D000105-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8663005-opinion-n-d000105-2026-oece-dtn"
+    },
+    {
+      "id": "1794adf8-2c3f-4391-9603-9823edd68b87",
+      "title": "Resolucion-directoral-n-0006-2026-ef-5401",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "19b4a23a-4b3c-4186-8e72-b06b78cae6c4",
+      "title": "Resolución N.° 3852-2025-TCP-S1",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836781-3852-2025-tcp-s1"
+    },
+    {
+      "id": "1b0a4b11-46f5-4228-92b9-033aad00cac7",
+      "title": "Manual de usuario de Ejecución Contractual (Vigente)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8734709-manual-de-usuario-de-ejecucion-contractual-vigente"
+    },
+    {
+      "id": "1e2b0747-ac14-4b92-8aac-8edd90d86d60",
+      "title": "Resolución N.° 8093-2025-TCP- S2",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7840475-8093-2025-tcp-s2"
+    },
+    {
+      "id": "2011fb6c-d561-42e9-8c3f-9c1b6982f906",
+      "title": "Bases estándar de Subasta inversa electrónica — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:27.143Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "2a0376dc-371f-4f5a-9abf-9c4a171afcc3",
+      "title": "Opinión N.° D000109-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697995-opinion-n-d000109-2026-oece-dtn"
+    },
+    {
+      "id": "2a66bf6d-b77e-46e4-8813-79b379e53bb9",
+      "title": "Ley N.° 30225",
+      "type": "ley",
+      "regime": "30225",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "explicit-document-title",
+        "regime": "30225",
+        "source": "https://www.gob.pe/institucion/oece/normas-legales/118484-30225",
+        "evidence": "Ley N.° 30225",
+        "checkedAt": "2026-10-24T23:52:27.817Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/118484-30225"
+    },
+    {
+      "id": "2b34cb7c-7867-46f4-b5cb-7f873e14bf39",
+      "title": "Pronunciamiento Nº 653-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745179-pronunciamiento-n-653-2026-oece-dsat"
+    },
+    {
+      "id": "31263c9a-d039-46b6-8a00-0c88350ac2d5",
+      "title": "Opinión N.° D000104-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8662982-opinion-n-d000104-2026-oece-dtn"
+    },
+    {
+      "id": "342d9911-2338-4975-a82b-2b9d72d8ab92",
+      "title": "Ley N.° 32103",
+      "type": "ley",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/5820636-32103"
+    },
+    {
+      "id": "37fc34e7-2569-472a-9d4d-b5966aca0db8",
+      "title": "Pronunciamiento N° 650-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745414-pronunciamiento-n-650-2026-oece-dsat"
+    },
+    {
+      "id": "4042a6a3-856f-474d-851e-df2f30fbb105",
+      "title": "Directiva N.° 014-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7262842-014-2025-oece-cd"
+    },
+    {
+      "id": "41002e8e-6897-4f68-b94c-3567574f1b3c",
+      "title": "Opinión N.° D000102-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8646764-opinion-n-d000102-2026-oece-dtn"
+    },
+    {
+      "id": "43b7991a-0768-45c2-a1a0-7c4d0c62abef",
+      "title": "Reglamento de la ley general de contrataciones publicas 32069",
+      "type": "reglamento",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "explicit-document-title",
+        "regime": "32069",
+        "source": null,
+        "evidence": "Reglamento de la ley general de contrataciones publicas 32069",
+        "checkedAt": "2026-10-24T23:52:28.551Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "457b65cc-bcb5-490c-b3d3-33c28a41d05a",
+      "title": "Acuerdo de Sala Plena N.° 003-2022-TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/3809629-003-2022-tce"
+    },
+    {
+      "id": "4b7acb25-6c01-423e-b496-4da9129239ce",
+      "title": "Directiva-n-0001-2026-ef-5401",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "52d26a46-0867-4d8f-b441-8b46ec8d39a7",
+      "title": "Opinión N.° D000111-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698026-opinion-n-d000111-2026-oece-dtn"
+    },
+    {
+      "id": "54d3956b-8c33-47bd-8c2f-6157a1202f51",
+      "title": "Directiva N.° 015-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7262874-015-2025-oece-cd"
+    },
+    {
+      "id": "579f9edf-7e87-4e1f-87bf-6d142fffe5f4",
+      "title": "Resolución N.° 3850-2025-TCP-S6",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836773-3850-2025-tcp-s6"
+    },
+    {
+      "id": "5c43f7e9-e7ee-4a5d-9654-076614a06452",
+      "title": "Manual de usuario de Licitación Pública para Bienes para entidades del Estado (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599396-manual-de-usuario-de-licitacion-publica-para-bienes-para-entidades-del-estado-vigente"
+    },
+    {
+      "id": "5d335fbe-08f7-4dde-a227-51fc9a64cdc0",
+      "title": "Manual de usuario para comparación de precios (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599526-manual-de-usuario-para-comparacion-de-precios-vigente"
+    },
+    {
+      "id": "625894d5-cee2-4c1f-a6db-20227b582af0",
+      "title": "Bases estándar de Concurso público abreviado de servicios — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:29.728Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "66bd590f-3a5f-433d-9824-30639121e4a7",
+      "title": "Opinión N.° D000108-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8697965-opinion-n-d000108-2026-oece-dtn"
+    },
+    {
+      "id": "6b846c55-efe1-4cb0-ae77-5962870e60c9",
+      "title": "Ley general de procedimiento administrativo del Estado",
+      "type": "ley",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "6c2fa932-d3ff-45fc-b15d-7598012af1f4",
+      "title": "Manual de usuario de Régimen Especial - Ley 32416 - 55° Disposición Complementaria Final (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8706898-manual-de-usuario-de-regimen-especial-ley-32416-55-disposicion-complementaria-final-vigente"
+    },
+    {
+      "id": "6da9592d-1793-4edb-ba00-bc9d593f8e38",
+      "title": "Bases estándar de Procedimientos no competitivos — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:30.404Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "6fb826a6-8be3-40f6-891d-f6f81b24a73b",
+      "title": "Ley general de contrataciones publicas",
+      "type": "ley",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "71e12539-5476-48f1-b628-77bb2888f1a6",
+      "title": "Bases estándar de Licitación pública para bienes — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:31.085Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "75eba796-4b01-4ab8-be1b-5c4f8a2d7191",
+      "title": "Ley N.° 32187",
+      "type": "ley",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6280777-32187"
+    },
+    {
+      "id": "766f056b-6e8e-4167-9ea0-313c0604584d",
+      "title": "Opinión N.° D000100-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8629660-opinion-n-d000100-2026-oece-dtn"
+    },
+    {
+      "id": "7737adc4-86b3-4875-bf32-68229b6a8895",
+      "title": "Directiva N.° 016-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7281157-016-2025-oece-cd"
+    },
+    {
+      "id": "78fadaf7-5195-49c3-b134-f6664a901410",
+      "title": "Acuerdo de Sala Plena N.° 001-2025/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6370497-001-2025-tce"
+    },
+    {
+      "id": "79307e7c-d24a-4c28-9410-d352c36b4bc8",
+      "title": "Pronunciamiento N° 655-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745211-pronunciamiento-n-655-2026-oece-dsat"
+    },
+    {
+      "id": "7a31f8da-fc7b-490b-b07b-36b23cbda89b",
+      "title": "Bases estándar de Licitación pública de obras — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:31.745Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "7e2089e2-9823-4257-aafa-a522504a68f9",
+      "title": "Pronunciamiento Nº 648-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745269-pronunciamiento-n-648-2026-oece-dsat"
+    },
+    {
+      "id": "81d2fcd7-1c5b-4baa-9231-197082e9cd49",
+      "title": "Opinión N.° D000107-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674932-opinion-n-d000107-2026-oece-dtn"
+    },
+    {
+      "id": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+      "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+      "type": "reglamento",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "explicit-document-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de",
+        "evidence": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+        "checkedAt": "2026-10-24T23:52:32.562Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de"
+    },
+    {
+      "id": "86349dad-7782-4f0e-9057-7902c72f7fb3",
+      "title": "Directiva N.° 013-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7262796-013-2025-oece-cd"
+    },
+    {
+      "id": "867393f2-a5ad-41ec-aaa0-1c9e6eebc5f7",
+      "title": "Pronunciamiento Nº 647-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745131-pronunciamiento-n-647-2026-oece-dsat"
+    },
+    {
+      "id": "882bf31a-bccc-4b61-9cba-cfe1bf1a7170",
+      "title": "Pronunciamiento Nº 649-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745276-pronunciamiento-n-649-2026-oece-dsat"
+    },
+    {
+      "id": "8ae52a84-8f8f-4b9f-b0d7-5c14424e5f12",
+      "title": "Manual de usuario Concurso Público para Consultoría (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8598631-manual-de-usuario-concurso-publico-para-consultoria-vigente"
+    },
+    {
+      "id": "93e3071e-a43a-4d6d-a2b7-212161baee50",
+      "title": "Opinión N.° D000099-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596615-opinion-n-d000099-2026-oece-dtn"
+    },
+    {
+      "id": "95137274-2438-4b4e-aac1-428432ef3fc3",
+      "title": "Opinión N.° D000098-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596068-opinion-n-d000098-2026-oece-dtn"
+    },
+    {
+      "id": "969f7aee-418d-4b92-9014-b3bf18a594f2",
+      "title": "Pronunciamiento N° 654-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745188-pronunciamiento-n-654-2026-oece-dsat"
+    },
+    {
+      "id": "976fa4fe-7dd5-4227-8ee0-eb4cef452bf7",
+      "title": "Acuerdo de Sala Plena N.° 002-2022-TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/2965739-002-2022-tce"
+    },
+    {
+      "id": "9b15c93e-c453-4761-b1b4-691c92e644f0",
+      "title": "Directiva N.° 017-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7281401-017-2025-oece-cd"
+    },
+    {
+      "id": "9bbe223b-d92b-4591-a061-5582ce73e429",
+      "title": "Acuerdo de Sala Plena N.° 002-2025/TCP",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6795753-002-2025-tcp"
+    },
+    {
+      "id": "9bfff67d-a3f3-4308-9c3c-9405c3297d96",
+      "title": "Pronunciamiento N° 651-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745161-pronunciamiento-n-651-2026-oece-dsat"
+    },
+    {
+      "id": "9f2782ee-5ef1-4380-8f9c-2dfb44e5aac2",
+      "title": "Directiva N.° 004-2025-OECE-CD (v.2)",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8440896-004-2025-oece-cd-v-2"
+    },
+    {
+      "id": "a020625f-e196-4bc4-8476-a323d6d477b5",
+      "title": "Opinión N.° D000093-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596053-opinion-n-d000093-2026-oece-dtn"
+    },
+    {
+      "id": "a0e92d7e-e6d4-4f72-af9e-ecbfba913aa7",
+      "title": "Manual de usuario Concurso Público Abreviado (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599128-manual-de-usuario-concurso-publico-abreviado-vigente"
+    },
+    {
+      "id": "a31dac5c-5a2c-40de-8447-012f2c37af4b",
+      "title": "opinion-d026-2025-oece-dtn",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "a4b26ebe-f0bc-44e9-9f40-56caa346b9f4",
+      "title": "Opinión N.° D000112-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8709968-opinion-n-d000112-2026-oece-dtn"
+    },
+    {
+      "id": "a54df6c0-9bc8-48f4-a7d0-62ced4b6755b",
+      "title": "Resolución N.° 3848-2025-TCP-S6",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836769-3848-2025-tcp-s6"
+    },
+    {
+      "id": "a607d0af-d8b1-463f-a7ab-32502088a1de",
+      "title": "opinion-000027-2025-dtn",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": null
+    },
+    {
+      "id": "a64c8b58-a7c7-4472-a78e-b7bb1e45355d",
+      "title": "Manual de usuario de Licitación Pública abreviada de obras para entidades del Estado (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599460-manual-de-usuario-de-licitacion-publica-abreviada-de-obras-para-entidades-del-estado-vigente"
+    },
+    {
+      "id": "a69ab1dc-05b4-4f20-a852-3cc2bb2e65b7",
+      "title": "Manual de usuario de Licitación Pública abreviada para bienes para entidades del Estado (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599435-manual-de-usuario-de-licitacion-publica-abreviada-para-bienes-para-entidades-del-estado-vigente"
+    },
+    {
+      "id": "afcdc6a3-e0b0-4bf6-9334-80e33bde09ff",
+      "title": "Pronunciamiento N° 652-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745167-pronunciamiento-n-652-2026-oece-dsat"
+    },
+    {
+      "id": "afe14fdd-ac0f-4754-bd69-6d15810e5778",
+      "title": "Acuerdo de Sala Plena N.° 002-2023/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916240-002-2023-tce"
+    },
+    {
+      "id": "b02815b1-5d9a-40f3-a7fe-c7b66ea147b3",
+      "title": "Directiva N.° 011-2025-OECE-CD (v.2)",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8440994-011-2025-oece-cd-v-2"
+    },
+    {
+      "id": "b6ffab99-a611-442f-ac0d-e71c4bebcbfe",
+      "title": "Resolución N.° 3851-2025-TCP-S3",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836778-3851-2025-tcp-s3"
+    },
+    {
+      "id": "b8b6317b-0784-433e-81b5-587394728a79",
+      "title": "Pronunciamiento N° 656-2026/OECE-DSAT",
+      "type": "pronunciamiento",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8745220-pronunciamiento-n-656-2026-oece-dsat"
+    },
+    {
+      "id": "bde05ce0-07c9-410a-a307-df5e7e1a6335",
+      "title": "Opinión N.° D000110-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8698010-opinion-n-d000110-2026-oece-dtn"
+    },
+    {
+      "id": "c0e29d3a-61bb-460d-9276-0a7ff5aadba5",
+      "title": "Opinión N.° D000094-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596055-opinion-n-d000094-2026-oece-dtn"
+    },
+    {
+      "id": "c6b64e3e-dbd8-4aba-8670-f82face96d21",
+      "title": "Resolución N.° 3855-2025-TCP-S6",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836802-3855-2025-tcp-s6"
+    },
+    {
+      "id": "c885174e-c127-4556-9c6f-05aa44ea8fa6",
+      "title": "Resolución Directoral N.° 001-2026-EF/54.01 — modificación de bases estándar",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01"
+    },
+    {
+      "id": "d1601637-44a8-4c3a-ad21-f26dce3f5bfb",
+      "title": "Acuerdo de Sala Plena N.° 003-2023/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916250-003-2023-tce"
+    },
+    {
+      "id": "d1cae8df-f4df-49ed-894f-31e68858378b",
+      "title": "Bases estándar de Concurso público de servicios — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:34.009Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "d28b06eb-c530-4ea1-b47f-4aa78047c18d",
+      "title": "Directiva N.° 018-2025-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7472600-018-2025-oece-cd"
+    },
+    {
+      "id": "d29f021c-6b77-4d07-9ffd-d90c85be745d",
+      "title": "Resolución N.° 3857-2025-TCP-S1",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836812-3857-2025-tcp-s1"
+    },
+    {
+      "id": "d5f22ac3-d37e-48a1-a5e6-398dbcebe87d",
+      "title": "Opinión N.° D000106-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8674912-opinion-n-d000106-2026-oece-dtn"
+    },
+    {
+      "id": "d7fb69fe-5e12-475c-8240-407f30fc7352",
+      "title": "Manual de usuario de Licitación Pública de Obras para entidades del Estado (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599289-manual-de-usuario-de-licitacion-publica-de-obras-para-entidades-del-estado-vigente"
+    },
+    {
+      "id": "d9fb337d-5238-4c91-a6b4-ac60b6ce0040",
+      "title": "Acuerdo de Sala Plena N.° 004-2023/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4916276-004-2023-tce"
+    },
+    {
+      "id": "dc5506fb-7007-4b55-b768-feb76e484746",
+      "title": "Acuerdo de Sala Plena N.° 003-2025/TCP",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6876808-003-2025-tcp"
+    },
+    {
+      "id": "dc721f35-138c-41b8-8dca-16289f74d9df",
+      "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+      "type": "ley",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "explicit-document-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de",
+        "evidence": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "checkedAt": "2026-10-24T23:52:34.684Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/colecciones/45029-ley-n-32069-ley-general-de"
+    },
+    {
+      "id": "e1b8ac53-a162-4703-bdd8-f897f0c4311f",
+      "title": "Bases estándar de Licitación pública abreviada para bienes — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:35.399Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "e4a6fb07-6136-471c-b45a-80482d7269e1",
+      "title": "Manual de usuario para Concurso Proyecto Arquitectónico y Urbanístico - (VIGENTE)",
+      "type": "guia_instructivo",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8599114-manual-de-usuario-para-concurso-proyecto-arquitectonico-y-urbanistico-vigente"
+    },
+    {
+      "id": "e4b3fcfa-81b7-4214-8d74-9a0c18adf3af",
+      "title": "Resolución N.° 0515-2026-TCP-S6",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7827763-0515-2026-tcp-s6"
+    },
+    {
+      "id": "e6f02fd8-2845-4bb4-a163-26dca957980a",
+      "title": "Acuerdo de Sala Plena N.° 001-2023/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/4182249-001-2023-tce"
+    },
+    {
+      "id": "e9e0f347-13af-4ce6-b0d3-a8d24a857ae9",
+      "title": "Resolución N.° 3856-2025-TCP-S1",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836805-3856-2025-tcp-s1"
+    },
+    {
+      "id": "ead2da12-26dd-46cf-963c-5f4b26211102",
+      "title": "Acuerdo de Sala Plena N.° 001-2024/TCE",
+      "type": "acuerdo_sala_plena",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/5386761-001-2024-tce"
+    },
+    {
+      "id": "ecfacea3-78f3-46ac-874f-3bcbcb684ca0",
+      "title": "Directiva N.° 001-2026-OECE-CD",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/7719040-001-2026-oece-cd"
+    },
+    {
+      "id": "eeb24a99-b0f7-4c69-82d4-0a41fd4d26ce",
+      "title": "Bases estándar de Licitación pública abreviada de obras — Publicación original 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:36.090Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "eff13341-298c-4b06-b4a0-af39053f3a0c",
+      "title": "Bases estándar de Comparación de precios — Publicación oficial 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:36.947Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "f9741c67-183a-4be1-87dc-b2578fedcd73",
+      "title": "Opinión N.° D000095-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596057-opinion-n-d000095-2026-oece-dtn"
+    },
+    {
+      "id": "fb37186c-f9b6-4e3b-9a7b-fc6fc424fba7",
+      "title": "Bases estándar de Licitación pública abreviada de obras — Texto rectificado publicado en 2025",
+      "type": "bases_estandar",
+      "regime": "32069",
+      "review": {
+        "scope": "documentary-identification",
+        "method": "official-publication-title",
+        "regime": "32069",
+        "source": "https://www.gob.pe/institucion/mef/normas-legales/6683111",
+        "evidence": "Bases estándar en el marco de la Ley N.º 32069 · R.D. 0015-2025-EF/54.01 · publicación oficial 20.04.2025",
+        "checkedAt": "2026-10-24T23:52:37.530Z",
+        "humanReviewed": false
+      },
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/6683111"
+    },
+    {
+      "id": "fb423e15-231f-4b95-bba5-9d8f9e06d91c",
+      "title": "Opinión N.° D000096-2026-OECE-DTN",
+      "type": "opinion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/informes-publicaciones/8596061-opinion-n-d000096-2026-oece-dtn"
+    },
+    {
+      "id": "fc5d5f8d-fcdc-4ee4-b702-2f31f1145f43",
+      "title": "Resolución N.° 3854-2025-TCP-S1",
+      "type": "resolucion",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/6836798-3854-2025-tcp-s1"
+    },
+    {
+      "id": "fd068885-7b8f-4ba3-895f-a4e99d30abe3",
+      "title": "Directiva N.° 012-2025-OECE-CD (v.2)",
+      "type": "directiva",
+      "regime": "no_determinado",
+      "review": null,
+      "officialPublicationUrl": "https://www.gob.pe/institucion/oece/normas-legales/8442463-012-2025-oece-cd-v-2"
+    }
+  ]
+}

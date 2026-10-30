@@ -36,7 +36,7 @@ type BuscarVecinosRow = {
  */
 function esMigracionPendiente(error: unknown): boolean {
   const msg = error instanceof Error ? error.message : String(error);
-  return /expedientes_buscar_vecinos|PGRST202|Could not find the function|column .*embedding.* does not exist/i.test(
+  return /PGRST202|Could not find the function.*expedientes_buscar_vecinos|column .*embedding.* does not exist|PGRST204.*embedding/i.test(
     msg,
   );
 }
@@ -57,7 +57,12 @@ export async function buscarVecinosPgvector(
   topK: number,
   filters: { documentId?: string; year?: number },
 ): Promise<VectorChunkHit[] | null> {
+  // La existencia del RPC no demuestra que se hayan migrado los datos.
+  if (process.env.EXPEDIENTES_VECTOR_READ !== "pgvector") return null;
   try {
+    const pending = await supabaseUserRest<Array<{ id: string }>>(accessToken,
+      "expedientes_archivo_chunks?select=id&embedding=is.null&limit=1");
+    if (pending.length) return null;
     const [queryEmbedding] = await embedTexts([query]);
     if (!queryEmbedding) return null;
 

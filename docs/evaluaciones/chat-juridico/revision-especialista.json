@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "status": "pending_specialist_review",
+  "reviewer": null,
+  "reviewedAt": null,
+  "corpusVersion": null,
+  "modelVersion": null,
+  "promptVersion": "centro-juridico-evidencia-v3-2026-10-23",
+  "cases": [
+    { "id": "garantia-regla", "question": "¿Qué porcentaje del monto del contrato original debe tener la garantía de fiel cumplimiento?", "regime": null, "dates": null, "object": null, "facts": null, "expectedAnswer": null, "references": [], "status": "pending_specialist_review" },
+    { "id": "garantia-excepciones", "question": "¿En qué supuestos puede no exigirse garantía y qué condiciones deben acreditarse?", "regime": null, "dates": null, "object": null, "facts": null, "expectedAnswer": null, "references": [], "status": "pending_specialist_review" },
+    { "id": "transicion", "question": "¿Qué régimen corresponde a un procedimiento convocado antes de un cambio normativo y contratado después?", "regime": null, "dates": null, "object": null, "facts": null, "expectedAnswer": null, "references": [], "status": "pending_specialist_review" },
+    { "id": "criterio-versus-norma", "question": "¿Una opinión interpretativa basta para afirmar una obligación general?", "regime": null, "dates": null, "object": null, "facts": null, "expectedAnswer": null, "references": [], "status": "pending_specialist_review" },
+    { "id": "cobertura-insuficiente", "question": "¿Qué debe responder el chat si no dispone del artículo que regula el caso?", "regime": null, "dates": null, "object": null, "facts": null, "expectedAnswer": null, "references": [], "status": "pending_specialist_review" }
+  ]
+}

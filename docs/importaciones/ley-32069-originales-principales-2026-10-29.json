@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-29T14:30:34.252Z",
+  "checks": [
+    {
+      "id": "dc721f35-138c-41b8-8dca-16289f74d9df",
+      "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+      "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/9295551/6444155-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-19-07-2026.pdf?v=1787002595",
+      "officialMatchesStored": true
+    },
+    {
+      "id": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+      "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+      "sourceUrl": "https://cdn.www.gob.pe/uploads/document/file/7594705/6444155-reglamento-de-la-ley-general-de-contrataciones-publicas-con-modificaciones-posteriores-hasta-el-09-01-2026.pdf?v=1787002595",
+      "officialMatchesStored": true
+    }
+  ]
+}

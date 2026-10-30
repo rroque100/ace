@@ -1,4 +1,8 @@
 "use client";
+import {EntityPicker} from './entity-picker';
+import {DocumentFacts} from './document-facts';
+import {GuidedReading} from './guided-reading';
+import {FollowSource} from './follow-source';
 
 import "./normative-browser.css";
 import Link from "next/link";
@@ -48,6 +52,7 @@ import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-cata
 type Category = "normas" | "jurisprudencia" | "orientacion";
 
 type NormSummary = {
+  metadata?:Record<string,unknown>;
   review?: ReturnType<typeof documentReviewSummary>;
   sourceUrl?: string | null;
   dates?: {published:string|null;updated:string|null;imported:string|null;version:string|null};
@@ -570,6 +575,7 @@ export function NormativeBrowser() {
 
       <div className="normSearchEntry"><label htmlFor="norm-title-query">Encuentra un documento por título o número</label><div><Search size={18} aria-hidden="true"/><input id="norm-title-query" value={titleQuery} maxLength={200} onChange={event=>{setTitleQuery(event.target.value);setPage(1);}} placeholder="Por ejemplo: Reglamento de la Ley 32069" /></div></div>
       <div className="normFilters normPrimaryFilters">
+        <EntityPicker onSelect={e=>{setExtendedFilters({...extendedFilters,contractingEntity:e.name,ruc:e.ruc_verified?e.ruc??'':''});setPage(1);}}/>
         <label><span>Tipo</span><select value={documentTypeFilter} onChange={event=>{setDocumentTypeFilter(event.target.value);setPage(1);}}><option value="">Todos los tipos</option>{DOCUMENT_TYPES.filter(item=>corpusTypesForGroup(category).includes(item.value)).map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label><span>Régimen identificado</span><select value={extendedFilters.regime ?? ""} onChange={event=>{setExtendedFilters({...extendedFilters,regime:event.target.value as ExtendedLegalFilters["regime"]});setPage(1);}}><option value="">Todos</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Especial</option><option value="no_determinado">Sin identificar</option></select></label>
         <label><span>Año registrado</span><select value={yearFilter} onChange={event=>{setYearFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{facets.years.map(year=><option key={year} value={year}>{year}</option>)}</select></label>
@@ -612,6 +618,7 @@ export function NormativeBrowser() {
                 type="button"
               >
                 <strong>{norm.title}</strong>
+                <DocumentFacts document={norm}/>
                 <span className="normCardMeta">
                   {documentTypeLabel(norm.documentType)}
                   {norm.documentNumber ? ` · ${norm.documentNumber}` : ""}
@@ -651,6 +658,9 @@ export function NormativeBrowser() {
                       : ""}
                   </p>
                   <h3>{detail.norm.title}</h3>
+                  <DocumentFacts document={detail.norm}/>
+                  <FollowSource documentId={detail.norm.id} label={detail.norm.title}/>
+                  <GuidedReading documentId={detail.norm.id}/>
                   <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
                 <a

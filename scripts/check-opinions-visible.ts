@@ -1,0 +1,2 @@
+export {};
+async function main(){process.loadEnvFile('.env.local');const {getSupabaseAdminClient}=await import('../lib/supabase-server');const c=await getSupabaseAdminClient();const {data,error}=await c.rpc('ace_normative_catalogue_v1',{p_filters:{documentType:'opinion',regime:'32069'},p_types:['opinion'],p_query:'',p_page:1,p_page_size:20});if(error)throw error;console.log(JSON.stringify({total:data.total,titles:data.documents.map((d:any)=>d.title)}));}main().catch(e=>{console.error(e.message);process.exitCode=1;});

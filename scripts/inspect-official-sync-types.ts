@@ -1,0 +1,2 @@
+export {};
+import fs from'node:fs';const h=fs.readFileSync('.next/oece-tcp/listing.html','utf8');const select=h.match(/<select[^>]*id="filter_type"[^>]*>([\s\S]*?)<\/select>/)?.[1]??'';console.log([...select.matchAll(/<option[^>]*value="([^"]*)"[^>]*>([^<]+)<\/option>/g)].map(m=>({id:m[1],label:m[2]})).filter(x=>/ley|reglamento|directiva|resoluci[oó]n|pronunciamiento|acuerdo de sala plena/i.test(x.label)));

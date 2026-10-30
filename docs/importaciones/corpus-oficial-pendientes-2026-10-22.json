@@ -1,0 +1,79 @@
+{
+  "bases_estandar": [
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281716/7614342-1-bases-estandar-licitacion-publica-para-bienes.docx?v=1768319326",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281717/7614342-2-bases-estandar-licitacion-publica-abreviada-para-bienes.docx?v=1768319326",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281719/7614342-3-bases-estandar-licitacion-publica-para-la-contratacion-del-suministro-de-bienes-para-el-programa-del-vaso-de-leche.docx?v=1768319327",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281721/7614342-4-bases-estandar-licitacion-publica-abreviada-para-la-contratacion-del-suministro-de-bienes-para-el-programa-del-vaso-de-leche.docx?v=1768319327",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281723/7614342-5-bases-estandar-licitacion-publica-de-obras.docx?v=1768319328",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281725/7614342-6-bases-estandar-licitacion-publica-abreviada-de-obras.docx?v=1768319328",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281727/7614342-7-bases-estandar-concurso-de-proyectos-arquitectonicos-y-urbanisticos.docx?v=1768319329",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281730/7614342-8-bases-estandar-concurso-publico-de-servicios.docx?v=1768319329",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281732/7614342-9-bases-estandar-concurso-publico-abreviado-de-servicios.docx?v=1768319330",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    },
+    {
+      "sourceFileUrl": "https://cdn.www.gob.pe/uploads/document/file/9281734/7614342-10-bases-estandar-concurso-publico-para-consultoria-en-general.docx?v=1768319330",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7614342-001-2026-ef-54-01",
+      "format": "docx",
+      "status": "pending_format",
+      "reason": "Fuente primaria actual en Word; no convertir ni presentar como PDF oficial en este lote."
+    }
+  ],
+  "informe_vicio_nulidad": {
+    "target": 10,
+    "status": "pending_official_source",
+    "reason": "No se han identificado diez enlaces directos a originales oficiales verificables; no se sustituyen por resoluciones que solo citan informes IVN."
+  }
+}

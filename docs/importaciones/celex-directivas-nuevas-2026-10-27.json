@@ -1,0 +1,203 @@
+{
+  "batch": "celex-directivas-nuevas-2026-10-27",
+  "entries": [
+    {
+      "title": "Directiva N.° 001-2025-OECE-CD — Directiva de procedimientos y trámites ante el Registro Nacional de Proveedores",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7946960/6682380-directiva-de-procedimientos-y-tramites-ante-el-registro-nacional-de-proveedores.pdf?v=1745192527",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7946960/6682380-directiva-de-procedimientos-y-tramites-ante-el-registro-nacional-de-proveedores.pdf?v=1745192527",
+      "sourceEntity": "OECE",
+      "number": "001-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "a1f62195f04cf69640b64b1f3478a27fa7f994852490a42913c40ff666890847",
+      "documentId": "63676ef5-5df7-424b-867f-5913b8a1fbc3",
+      "verification": {
+        "pages": 34,
+        "chunks": 32,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:17.596Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 010-2025-OECE-CD — Directiva de Bases estándar para los procedimientos especiales de selección a convocar en el marco de la Ley N° 31589 para la reactivación de obras públicas paralizadas",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/8192973/6850994-directiva-n-010-2025-oece-cd.pdf?v=1749568787",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/8192973/6850994-directiva-n-010-2025-oece-cd.pdf?v=1749568787",
+      "sourceEntity": "OECE",
+      "number": "010-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "dd57fa46182e7c265d9073f4f26ec688763008c93b0d934213a26ded96150a03",
+      "documentId": "28187d8e-9555-4521-8210-af978791ca07",
+      "verification": {
+        "pages": 6,
+        "chunks": 6,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:30.828Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 007-2025-OECE-CD — Directiva de disposiciones aplicables para el acceso y registro de información en el Sistema Electrónico de Contrataciones del Estado - SEACE",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7947023/6682412-directiva-de-disposiciones-aplicables-para-el-acceso-y-registro-de-informacion-en-el-sistema-electronico-de-contrataciones-del-estado-seace.pdf?v=1745203485",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7947023/6682412-directiva-de-disposiciones-aplicables-para-el-acceso-y-registro-de-informacion-en-el-sistema-electronico-de-contrataciones-del-estado-seace.pdf?v=1745203485",
+      "sourceEntity": "OECE",
+      "number": "007-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "824ecb5822a761cea84541b77c597b1f5ea902e0ad755f7d7fc50269b5598689",
+      "documentId": "e7b78b18-5e32-47eb-a0ab-5dec4df17cdb",
+      "verification": {
+        "pages": 70,
+        "chunks": 79,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:00:52.670Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 002-2025-OECE-CD — Directiva de Junta de Prevención y Resolución de Disputas",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7946980/6682391-directiva-de-junta-de-prevencion-y-resolucion-de-disputas.pdf?v=1745195358",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7946980/6682391-directiva-de-junta-de-prevencion-y-resolucion-de-disputas.pdf?v=1745195358",
+      "sourceEntity": "OECE",
+      "number": "002-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "3f85689a3c01efa1c67a7db35c45ef9c52bd547b4c1f9d8c99fa536f97b24ddf",
+      "documentId": "bb218581-0df0-4393-85e1-6b6adf18cf44",
+      "verification": {
+        "pages": 29,
+        "chunks": 29,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:10.958Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 008-2025-OECE-CD — Directiva de Tabla de Gastos Arbitrales aplicables a los arbitrajes ad hoc en materia de contrataciones públicas",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7947096/6682466-directiva-de-tabla-de-gastos-arbitrales-aplicables-a-los-arbitrajes-ad-hoc-en-materia-de-contrataciones-publicas.pdf?v=1745212056",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7947096/6682466-directiva-de-tabla-de-gastos-arbitrales-aplicables-a-los-arbitrajes-ad-hoc-en-materia-de-contrataciones-publicas.pdf?v=1745212056",
+      "sourceEntity": "OECE",
+      "number": "008-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "b10b326a16ea3e39900ca7ace9ac30d69f78c06fc0970a4d29952ed5bef239b1",
+      "documentId": "dab1ae4d-2dff-40aa-aeca-e1f54ac7446c",
+      "verification": {
+        "pages": 5,
+        "chunks": 2,
+        "pineconeHits": 2,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:23.488Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 009-2025-OECE-CD — Directiva de servicios arbitrales de recusación y designación residual de árbitros en el marco del Sistema Nacional de Arbitraje",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7947102/6682472-directiva-de-servicios-arbitrales-de-recusacion-y-designacion-residual-de-arbitros-en-el-marco-de-procesos-arbitrales-organizados-y-administrados-bajo-el-sistema-nacional-de-arbitraje.pdf?v=1745212618",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7947102/6682472-directiva-de-servicios-arbitrales-de-recusacion-y-designacion-residual-de-arbitros-en-el-marco-de-procesos-arbitrales-organizados-y-administrados-bajo-el-sistema-nacional-de-arbitraje.pdf?v=1745212618",
+      "sourceEntity": "OECE",
+      "number": "009-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "5bde6f5450bb2dd4de88317ef36bc5b46caa84f9575b63ab599cee20f4f50eab",
+      "documentId": "b054cec4-a0c0-44cd-8d6c-cecab39eec65",
+      "verification": {
+        "pages": 19,
+        "chunks": 18,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:37.862Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 003-2025-OECE-CD — Directiva de disposiciones para la presentación de la solicitud de elevación de cuestionamientos, emisión del pronunciamiento e integración definitiva de las bases",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7946986/6682396-directiva-de-disposiciones-para-la-presentacion-de-la-solicitud-de-elevacion-de-cuestionamientos-emision-del-pronunciamiento-e-integracion-definitiva-de-las-bases.pdf?v=1745196368",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7946986/6682396-directiva-de-disposiciones-para-la-presentacion-de-la-solicitud-de-elevacion-de-cuestionamientos-emision-del-pronunciamiento-e-integracion-definitiva-de-las-bases.pdf?v=1745196368",
+      "sourceEntity": "OECE",
+      "number": "003-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "b36579d682fa8b89b394d77debd1ec9e7227015179d05491b33058ab23206b89",
+      "documentId": "31c15860-c09f-4af2-aa7a-df95faccda1d",
+      "verification": {
+        "pages": 7,
+        "chunks": 6,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:01:51.036Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 005-2025-OECE-CD — Directiva de Asistencia técnica y orientación brindada por el OECE, a solicitud de las Entidades Contratantes",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7947008/6682409-directiva-de-asistencia-tecnica-y-orientacion-brindada-por-el-oece-a-solicitud-de-las-entidades-contratantes.pdf?v=1745201720",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7947008/6682409-directiva-de-asistencia-tecnica-y-orientacion-brindada-por-el-oece-a-solicitud-de-las-entidades-contratantes.pdf?v=1745201720",
+      "sourceEntity": "OECE",
+      "number": "005-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "2d554c822fbc99d8842ee78d24ea18a69f94c84d174b3d54fb2465d34edd3981",
+      "documentId": "39b4bddc-b510-4694-802b-e036caa25e3d",
+      "verification": {
+        "pages": 9,
+        "chunks": 8,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:02:03.352Z"
+      }
+    },
+    {
+      "title": "Directiva N.° 006-2025-OECE-CD — Directiva de Acciones de supervisión a pedido de parte y de oficio",
+      "type": "directiva",
+      "publicationUrl": "https://cdn.www.gob.pe/uploads/document/file/7947021/6682410-directiva-de-acciones-de-supervision-a-pedido-de-parte-y-de-oficio.pdf?v=1745202564",
+      "pdfUrl": "https://cdn.www.gob.pe/uploads/document/file/7947021/6682410-directiva-de-acciones-de-supervision-a-pedido-de-parte-y-de-oficio.pdf?v=1745202564",
+      "sourceEntity": "OECE",
+      "number": "006-2025-OECE-CD",
+      "year": 2025,
+      "selectionNote": "Fuente oficial localizada en CELEX; vigencia y régimen pendientes de revisión. ",
+      "regime": "no_determinado",
+      "status": "indexed",
+      "sha256": "d681e5aa4d670ca05a38c73f2cb3cad6b8e2b98d6b15071395a29a453cf254cb",
+      "documentId": "005381dc-7d79-4772-b950-f6e0696ce358",
+      "verification": {
+        "pages": 9,
+        "chunks": 9,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-10-27T15:02:16.371Z"
+      }
+    }
+  ]
+}

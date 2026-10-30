@@ -1,0 +1,1 @@
+import fs from'node:fs';const h=fs.readFileSync('.next/oece-tcp/listing.html','utf8');console.log(h.match(/<select[^>]*id="filter_per_page"[^>]*>([\s\S]*?)<\/select>/)?.[1]);console.log(h.match(/<select[^>]*id="filter_order"[^>]*>([\s\S]*?)<\/select>/)?.[1]);

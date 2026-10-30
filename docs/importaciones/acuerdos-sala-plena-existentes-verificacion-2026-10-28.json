@@ -1,0 +1,602 @@
+{
+  "checkedAt": "2026-10-28T20:37:44.543Z",
+  "verified": 97,
+  "failures": [
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2015/TCE",
+      "documentId": "b541b956-000f-4723-a005-9b8847a7f221",
+      "verified": false,
+      "error": "No indexado completamente"
+    }
+  ],
+  "checks": [
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2025/TCP",
+      "documentId": "dc5506fb-7007-4b55-b768-feb76e484746",
+      "sha256": "6a2e636615aa118721005fdd29076047782de0b8869fb538716c3f6b46541f91",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004-2026/TCP",
+      "documentId": "c6fe7697-412d-46a2-a37b-a1100b95fd24",
+      "sha256": "7648f2559ff849620313045ed450c38e66e425b5760e1833a9a9593e3b3abb2e",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2025/TCE",
+      "documentId": "78fadaf7-5195-49c3-b134-f6664a901410",
+      "sha256": "aea1f1b4b57cb527676849a5fc1bea6fcf35694e5aa50c823bb566e4b9d7c261",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2024/TCE",
+      "documentId": "ead2da12-26dd-46cf-963c-5f4b26211102",
+      "sha256": "244f26a015b9bc3784316e1629aabbeafc3c17af1a4a34305cd7faf82c2ff20e",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2023/TCE",
+      "documentId": "afe14fdd-ac0f-4754-bd69-6d15810e5778",
+      "sha256": "29a0ace67fc93973fe5d91d78e388862b36a277ccc372ed84ee033b94634799a",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004-2023/TCE",
+      "documentId": "d9fb337d-5238-4c91-a6b4-ac60b6ce0040",
+      "sha256": "1146a7e3c1c78d3b617cfee739eb6b6f64d481bbde418bffd19feca195e50398",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2023/TCE",
+      "documentId": "d1601637-44a8-4c3a-ad21-f26dce3f5bfb",
+      "sha256": "94cfa2202ceecb8b5df542e1973c17aa4ce072d49dc85b8a00f460aaa9cc3060",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001-2023/TCE",
+      "documentId": "e6f02fd8-2845-4bb4-a163-26dca957980a",
+      "sha256": "40546a63f8d02e6831dda50ddca3c96c8a03e5cd10869d6016e869ee47b09679",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2022-TCE",
+      "documentId": "976fa4fe-7dd5-4227-8ee0-eb4cef452bf7",
+      "sha256": "635ca5dfabe24bdc86922893f98544b5cf2a01e8c662e3df68959f9b0d4403ed",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003-2022-TCE",
+      "documentId": "457b65cc-bcb5-490c-b3d3-33c28a41d05a",
+      "sha256": "d27f299053c636245d37f86d88474953f88ead6104692c0e817c5f3c562e3c40",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008-2021-TCE",
+      "documentId": "f103ae39-86c9-4ea3-b992-98d26e99a246",
+      "sha256": "a34d77c5eeeff9ae796e4ff9f4e4dab84c45b1f219415c3435646a7f1e57c76b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007-2021-TCE",
+      "documentId": "29ac82b8-891d-4a8f-8b05-17225114af25",
+      "sha256": "a30909bb21dea49b27442bb73cb99447b285fc85ce13ed8b28b6fc1a0b66d553",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2020-TCE",
+      "documentId": "4aa56d21-2a3c-443f-b07a-15c005215db4",
+      "sha256": "ea18a3b8044801cca5260046523476d8d7c2c9869f177a82334e4d14c2d18bdb",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2020/TCE",
+      "documentId": "28058ac6-4f54-4f21-ac2b-4ea9134f49d1",
+      "sha256": "eac398380f74e1972f88f6bf8533ec176825df1f5f1b93b9bde4001485f2274a",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2020-TCE",
+      "documentId": "db29e258-3813-4e7c-abd9-579145ba6f0a",
+      "sha256": "a34e7a10c316d0bb216887f8569da1330b6503ba5c63a30fb456cde4726e4382",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2020/TCE",
+      "documentId": "2e424743-3c14-4abc-a084-2ecfb259020e",
+      "sha256": "080cfc00729d44c202b6d2ce2a981594b0057d7f7f76ed4112483e9956735a02",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002-2025/TCP",
+      "documentId": "9bbe223b-d92b-4591-a061-5582ce73e429",
+      "sha256": "7b4ee6de7eaef0babbd0c8b4e7e8ed2a59bc72b2cbc84e92aa04ed371b7638fc",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2019/TCE",
+      "documentId": "475beacc-4651-47d7-9973-09348fdc7944",
+      "sha256": "73bc5a4f9423ae7ced298b5a07da9693717dc625b0757ad655483cb7c14bbbfc",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2019/TCE",
+      "documentId": "e6b49ee9-1f13-4859-84b0-ece6a5fb7b1d",
+      "sha256": "531de5a9bf9f778815ef8179e874955fe0f20eb3b9d61fb7491fd83a24edb1dc",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2018/TCE",
+      "documentId": "ec3df3e3-895b-42a5-99db-71fd91efd68c",
+      "sha256": "607309beaa7eebd6ac484f90c7a719c867730417031eaf922e68cf58485f95e0",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2018/TCE",
+      "documentId": "7bf508c3-ee50-4e07-94fd-3bc217aaad62",
+      "sha256": "5454b59f4b288868cfd9d1df23e297f3d4ab600056fb49c8e41408b0d27bb4e9",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2019/TCE",
+      "documentId": "68c0971b-b981-418c-a0fa-36fef16ab70c",
+      "sha256": "f7d8ae638770dedeef15b7e32bb621815cff708eed8c822d6ea38f667dbe46e7",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2018/TCE",
+      "documentId": "85efea05-ffe5-4d4b-93c9-a69d9a625611",
+      "sha256": "e5990e5c5650de0c86b24539be0a47a9414f06322d699d13479c0f3feb661ce0",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2019/TCE",
+      "documentId": "b921f3c2-3dd8-4a08-8d00-c781fb14d845",
+      "sha256": "2e2d1e7918d8c6a45d2098416d8990fcb97bf7ff4472eca07387f41bda2f3d3f",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2017/TCE",
+      "documentId": "2449ff7b-d769-4bab-ac8f-cfe3f1af6207",
+      "sha256": "7294c38478580d7796f3a191bd5d674eac9f858146086742543bf7ae7e66b814",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2017/TCE",
+      "documentId": "6267f954-ebde-4d5f-ae73-c45476ccbd7e",
+      "sha256": "368f00fb253571b5efef3e4a53a679c92d6e5bfd95e74beeb5257ea36942acfe",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2017/TCE",
+      "documentId": "2a381ef0-8d5e-4126-87f0-71a14c26eb41",
+      "sha256": "4d8a7df9e88c276765c46c5feacb1d3cd43e64a1f1a7521673b0177cbb651f78",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2017/TCE",
+      "documentId": "a9c3512d-056a-4027-a8d9-9b64aeeeb26f",
+      "sha256": "a2921e73c4cee944e7d7768d08277c34fe10c5f80435714b4497b4f33c53033b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2017/TCE",
+      "documentId": "2b66ba56-c123-4598-9520-85fca48c36e4",
+      "sha256": "e6d1d2403d8ecb6c756d7056e7a32f40629448bbc87ec52c4da1abb79dfc6376",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2015/TCE",
+      "documentId": "b541b956-000f-4723-a005-9b8847a7f221",
+      "verified": false,
+      "error": "No indexado completamente"
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2015/TCE",
+      "documentId": "34fc6a21-4f84-4ace-bfb1-312be8c3f75f",
+      "sha256": "69a3bed09478dc1532bee407e04b3c673a312d9177be804ed26991d803332acc",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2014/TC",
+      "documentId": "67a9861a-fc3d-4df2-9950-ca60efe2426b",
+      "sha256": "a6b90ab4faa381106da290d96858ae84fca6f4a8dd347af9b89dbef87963e5f6",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2014/TC",
+      "documentId": "ca953ad2-a823-49af-8389-aa0868c28f5c",
+      "sha256": "67675922d2875c31b6c015ef59c30e2ebaefb70636ed200fe7993dfa2f914df5",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017-2013/TC",
+      "documentId": "8bc3f93f-e088-474a-a122-3441c2964859",
+      "sha256": "cad9fae39a1960362e96bfefacc01e1556186d6a574e376762d3100cc0b1c1bf",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015-2013/TC",
+      "documentId": "0f0a27bd-845d-42e3-bcc1-6d156eeb8c0b",
+      "sha256": "a5b22c3d54c4f034875ca0f2f2282119bda6a36d5a83b45d6bfc0a57283d6ce5",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011-2013/TC",
+      "documentId": "841d459a-7479-40a8-938e-79d527272055",
+      "sha256": "2742a0f63bbbda9967014ecc6ea676a49343bed1f12ab4ac5a52bdbc7e109296",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2012/TC",
+      "documentId": "397b0375-2785-43d7-9c28-637e437f7ded",
+      "sha256": "1558b49724af217f936eefe43f22ae5b27c89da3019f9aab671994bd46820bb7",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2013/TC",
+      "documentId": "2d5cdeb1-18c6-459e-a082-9cbba35b73f1",
+      "sha256": "336df8d29a14e3d73d5cc6e511d82e2230fa1d6c2291c37adb629ce64a8a9356",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 07-2012/TC",
+      "documentId": "dcc58e17-8b0b-4825-9f04-70be8e81e022",
+      "sha256": "e393cf91b8f5d644e29c218bcb712441f4d009a9e326ecf73c889a70467ea807",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2012/TC",
+      "documentId": "9660aca7-284b-4846-b75b-25ae23e40ffd",
+      "sha256": "d7f4dd281d138655644362e6f0a01cbe25b360968ca91d5f4098c0e48a446ef7",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2011/TC",
+      "documentId": "fbe33fff-e16e-4a3f-8379-35ff955db96e",
+      "sha256": "10380203fcbb84c68441f9021ed5e1e7bf3ee51b19812b952fbfe08a11958301",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2012/TC",
+      "documentId": "38ab9e24-7d74-4181-8a3e-643bbb153b9a",
+      "sha256": "0efa41cb1ed2d56ddea02d2ae5ca568e96d4ebb80bea0ddcd1a6b0ad1864c490",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2010/TC",
+      "documentId": "1038739d-6094-4bfd-b97c-5dc11f5cc834",
+      "sha256": "929f3013784529ffc508573bc49bdbb4328b0fcf85377b22dda77ed925ce4d25",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 07-2009/TC",
+      "documentId": "cbc82619-c7f9-4813-a5b2-7683ffc179ff",
+      "sha256": "ed3002f4975edf71ec7c30111a91925b547c5b17a44132733ba3f951c5aab5ab",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2016/TCE",
+      "documentId": "bb0f7209-b46b-49a0-a7c1-f821565f74dc",
+      "sha256": "f11303f7b7f8188cca6f89b1f51cb02921729e0719cdaf9fa5812c746740f88f",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2009/TC",
+      "documentId": "9e4e3f51-76fe-49cb-ba0a-069e99881558",
+      "sha256": "2f7d463cf1bf90a9f08b71a4d8f308e6a7f3f97352df52387aa251ba9834420b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010-2008/TC",
+      "documentId": "9ea1c77c-008f-4e63-abc7-b6b5e6fef26a",
+      "sha256": "5764073ac50c1e69c2f225a2217b0f99eca824b281c9735a08d305fbe0a076ea",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2009/TC",
+      "documentId": "e5d4fe9d-d99b-45be-b5f7-f9230b6c5410",
+      "sha256": "85a23d276169afdb8e86462430af2dcf07d10402d1b64ca64420173500ff03fc",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 06-2008/TC",
+      "documentId": "f2d1a9f0-d654-4ffb-9f7d-84526482b368",
+      "sha256": "b4526849252deaa63856f4c4984b72543b99618e9464e50599c8223f3856e393",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 08-2008/TC",
+      "documentId": "bcace291-1fca-4e22-b24c-365ca3f66453",
+      "sha256": "6420d871351181ccca5014ed3d262f3be6fc63a1c414b4142252647a1c40122b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 016-2007/TC",
+      "documentId": "39a3f529-7eb3-46db-b343-8ed526f9ac4f",
+      "sha256": "6305cf03010cf1ba4d7462566d6b4657f6912c98c005ff569aeb757d934f84e7",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2008/TC",
+      "documentId": "cbe2a94c-ba66-4a53-bdb6-b45ef38daeb2",
+      "sha256": "1f22ff4e57279d969d7bf3a3b13e3558070ba6b25102f4fae219c361ff936e12",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013-2007-TC",
+      "documentId": "c04c9aae-833f-4492-b256-4b9542a443a4",
+      "sha256": "d51a51c59ce20a887cac74a382da1d6eac6a0c6de30b81f6ab91f63f93e4527b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012-2007/TC",
+      "documentId": "3a26812f-6143-4e1e-a1ab-bd6ed5057556",
+      "sha256": "0b1b9e984f8778dba04dd6af41a6bcbd2ebd56a835ace0dc8fafed2c891e4e34",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 05-2007/TC",
+      "documentId": "d1c1e4c5-2526-4aa5-b1f0-d6fcfbec0a11",
+      "sha256": "9632571ce75dd19f265897c08f1c712916f71f00188583792ab4aae888b602c5",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 04-2007/TC",
+      "documentId": "235af8c4-a8d6-4712-83d6-b7a187b8e64d",
+      "sha256": "f59188ba399f65c97522d46e6d1ac54c33386478a5297d1ede10b06b74411895",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011-2008/TC",
+      "documentId": "3f5c832b-5875-402a-ad21-f5807249b94a",
+      "sha256": "c9d12cff9eaaf7a7a13a94a7535bd4a430bbd240a53ffa258f2704e07ffd61a5",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 02-2007/TC",
+      "documentId": "15a78fa5-120c-4833-a655-6ec2d4b565e5",
+      "sha256": "d9448af8164a0192dcaf27aee2e7aa4c75140ad34a954ef37b0d2c1cf16a256f",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 03-2007/TC",
+      "documentId": "6b8075d5-df5d-4f92-bbe7-bf20b762e123",
+      "sha256": "0fd7cb1ed5984d3c600c450b2052d15141741cbc66e2932c575dd7c4760bef28",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 01-2007/TC",
+      "documentId": "886bf593-eaf3-41ad-ab67-004dbaef9dcc",
+      "sha256": "17296761c76c66a5f71e8b73311bcdb327577fba6c2ad30e5158c4add2e011af",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 014/2006",
+      "documentId": "30e1fb67-8d3c-458a-833e-d45b74510921",
+      "sha256": "c80d40064e95a5d42b50ae4fa0e64e3adc800a1aa2154051dea61cb415293b07",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013/2006",
+      "documentId": "d85d6a9c-84d0-4927-a9c4-ac6916f3784d",
+      "sha256": "4dc42bde76eb1c4a5d16a8499acf71d1722dbb058067a61dbb787de2dbe2582b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/2006",
+      "documentId": "f9993d28-3fc1-4be2-a6c3-c5b9a5457804",
+      "sha256": "0bfbdae2def1615efbcd697463d62109a1ea2a475771b3e87dd4a7c725e60e57",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/2006",
+      "documentId": "af87084f-d59f-4053-a9ae-3505eb80b4f0",
+      "sha256": "00bd7a22539c5782190c606e8271e1f2e98abb1d1d76f44a411a54b2412a0572",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008/2006",
+      "documentId": "6d970dfb-3fc1-4d4d-bf3e-35e3f54e4af2",
+      "sha256": "303e1361cb01ec12102243db63db0105750dfb021ed408be8e9b63f8a8e91977",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2006",
+      "documentId": "50b1d71d-1ef0-4e53-ab5f-a70e97a642e6",
+      "sha256": "047104ceafa932bc1e21f8891aaccc85f542cb28d1514427463fb03686c91274",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 002/2006",
+      "documentId": "a02abd1c-777e-4c7f-a84f-31f5a295c646",
+      "sha256": "3c915d48289bad0b75c0f72e4e00fc30ea38a3482739d793091932f9894f5549",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003/2006",
+      "documentId": "8ad05148-9ded-4d4f-9a0b-5f5bdd4fe239",
+      "sha256": "b3ba1578efe7cecd76f588fe50cf9cb9c96de5f7d7cab6370e844f53f9762f88",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2006",
+      "documentId": "e8b96d23-460b-4ea6-81c1-1155b7f4ad0b",
+      "sha256": "39811f7570ce07ffb18fca8009c46f58f221e8e1c9391d9c6c53451456664138",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/2005",
+      "documentId": "7afea7c3-c571-4a1f-93b0-7f690f88e88c",
+      "sha256": "9850bafd3ca9fbc923ba3956995b1b85a75b570bf5fb1f4d5b2b75275bd21bf7",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/2005",
+      "documentId": "047e910a-c865-4b77-9da8-3589aa888356",
+      "sha256": "8c8572ec652bda5044d33120011073bd51087585488521c3f904081401d1718b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010/2005",
+      "documentId": "f37af448-1080-43cd-ba30-c66fa7372098",
+      "sha256": "e397f664665309c083a9821ff499d424ebecf8439ffad45c988b7c9857650d61",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007/2005",
+      "documentId": "dad50b6a-b34e-43d5-89f0-616d8adf9142",
+      "sha256": "f296852565e5c57394c3c4dc60eca5fc918c0b5be6edd76ca74afc3263fe9c00",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 008/2005",
+      "documentId": "364699ae-48df-488a-b996-d9b15ff84c78",
+      "sha256": "396bdf4ac5bc1108280394811aad03027b412329fe108b021661219565c9bc42",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 009/2005",
+      "documentId": "31638d01-3061-4386-8547-c0b37a966999",
+      "sha256": "d0dc8b4eaf1f79a594bc5392f44086efc4f77bb1f1c65e611660d859462ba94a",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2005",
+      "documentId": "6789d9c5-8b3c-4a99-8219-8c2c923396c7",
+      "sha256": "af66bab3a58abc22bfe5e8ad376b7724540e2aef7461094d87ac6e1d40c2fec1",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 006/2005",
+      "documentId": "cd720d7b-9b26-40e4-a974-ec374531b1f6",
+      "sha256": "9e902d1bf80b7ff06ded44440fe8bae89717740f5dcd8b85c55704b53a108612",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2005",
+      "documentId": "138080ef-50bc-45a6-8f40-dd118bc53fcc",
+      "sha256": "72699de02674944624ddcd45525962f4ca174c380f88532463a3bbfc1f896224",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/2004",
+      "documentId": "c626a98d-8550-485b-a048-c9a696075f51",
+      "sha256": "400a7cb09719827b19717aa4ca33d470df6871a97392a923120b1265ea86c96e",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 001/2004",
+      "documentId": "cebde0dc-4f2f-4195-910f-3b9c94498e3f",
+      "sha256": "f18d2e8e48ce66c2bd71b81459090d6fe3a8d648655e89a580c49ce52cf8dfc8",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017/013",
+      "documentId": "755983d0-babd-46ad-aa5f-79cc52b16e67",
+      "sha256": "db48599ccbe9fda08b7427df3b224b256416faf2128c6ad1b56072a726b4795e",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 003/2004",
+      "documentId": "d40b1871-e26e-462a-94dd-d07199e6da15",
+      "sha256": "473642651f537871255fada01765beca0d412eb3003f524f38b8ddbd30276f8b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015/013",
+      "documentId": "39d67515-e042-4dcf-925b-54a4f82c44b0",
+      "sha256": "7ee2ecf84689bbace4ad912bae647b8dc85d309261f911556fe1f4309767616a",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 016/013",
+      "documentId": "52848cfa-aa1e-4349-b79b-9febbcc4a7ca",
+      "sha256": "bbe98bf6230e12f4b9a5d7cb71dfc2489930bb296a89397a688ab5506a79207a",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 012/011",
+      "documentId": "931892d8-d987-4435-9b4e-47c9eaca9926",
+      "sha256": "266bd72a40c8296ba3bfb6064eb5e29a763b5107f38f953f5f2011d4cdbc9973",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 007/006",
+      "documentId": "71b1236a-804d-4483-889d-b0cde7406aca",
+      "sha256": "95e7db1863e83c693a1d66e955f6e3b22bf39e6203988d36a0d17961ad44c05b",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 004/003",
+      "documentId": "05281e5a-4cb9-4e44-bb61-4c3c25691cc2",
+      "sha256": "63d3df7a6e5349b9e203d3c4dd8ee17b9aa929942a40b6bf0d4d1c5752f73514",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 025/016",
+      "documentId": "eeaec5fd-ea19-430a-b24b-f15e1da12f5b",
+      "sha256": "0da061e85b8c6b745e94b30c00d37cab05e52135744ea61936fa65bf74312412",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 023/015",
+      "documentId": "c33d9e66-1398-404d-a9a8-ba80e516a6b5",
+      "sha256": "634f6fcfc4669cb766988d62c137f46029cb4ba2df7d9b7d197ba1d3024d3001",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 022/014",
+      "documentId": "4a3c3bec-89af-4e00-9b48-85cff32c8adf",
+      "sha256": "a72ac8f29a83baba2206344028ab3891e8f208dccf1f44707504f08970b89c56",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 011/007",
+      "documentId": "44195e7d-bde9-47be-8745-cc947668b915",
+      "sha256": "2d70ec4f01765b838379341b22a0d0db3afce615235d51117c4dfd66f001c81f",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 010/007",
+      "documentId": "fd3381bc-b3f8-42c5-8621-5e24cf0c17ef",
+      "sha256": "9abcf4cef236e2907b5b8cede91e07c307c24168b4628f3331a52a603042fba2",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 005/003",
+      "documentId": "0cc727c1-73e4-4a4f-a41a-cd17f99456b8",
+      "sha256": "e2528414d92c674a29e5771750dced1fb88bac3646ad793d916bc0b9a0e69c28",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 019/009",
+      "documentId": "2f3577a5-09ab-4be0-9780-410781b8697f",
+      "sha256": "27a4854b6597c928739c603bd67bf978d42419ccdbfb0a65148d6e613e1697de",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 015/009",
+      "documentId": "3b81b5e8-f8f7-4565-8205-427b82e5a49a",
+      "sha256": "9d2b28055ef158cdd69f32be0e88d6efd35d0ecfe073539ab9cc00c7471bbba9",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 013/008",
+      "documentId": "8ddfcf61-f4de-482c-a87d-75b1f215d333",
+      "sha256": "c1a2a7ddd15378bc36d8bce32957c339b4f32c8935e5990bf00e46faf5308c28",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 018/10",
+      "documentId": "9d0bab79-aab5-4b29-b0ea-827906a88efc",
+      "sha256": "e69a39c97a13b8477393fb09fb2cff0b7c8fb7b0c6054a1a6065fe013dd40e92",
+      "verified": true
+    },
+    {
+      "title": "Acuerdo de Sala Plena N.° 017/010",
+      "documentId": "0d48c2a6-2ef3-48e7-b02e-445000448083",
+      "sha256": "965ec69fbe69b4c39257f18d0c989500bd3fc6af388ee85bbcd74bf9af5e7675",
+      "verified": true
+    }
+  ]
+}

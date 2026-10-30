@@ -2,8 +2,8 @@ import { expect, it } from "vitest";
 import { OFFICIAL_CORPUS_TYPES, CORPUS_ANSWER_TYPES, corpusGroupForType, corpusTypesForGroup, corpusSourceKind, corpusOwnArticle } from "../lib/official-corpus";
 import { assessProcedureSourceCoverage } from "../lib/procedure-catalog";
 import { normalizeDocumentType, resolveDocumentProcessType } from "../lib/documents";
-it("admite diez categorías distintas y conserva tipos anteriores", () => {
-  expect(new Set(OFFICIAL_CORPUS_TYPES.map(x => x.value)).size).toBe(14);
+it("admite categorías del corpus y laudos y conserva tipos anteriores", () => {
+  expect(new Set(OFFICIAL_CORPUS_TYPES.map(x => x.value)).size).toBe(15);
   for (const x of OFFICIAL_CORPUS_TYPES) expect(normalizeDocumentType(x.value)).toBe(x.value);
   expect(normalizeDocumentType("bases_integradas")).toBe("bases_integradas");
   expect(normalizeDocumentType("contrato")).toBe("contrato");

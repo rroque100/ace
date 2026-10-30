@@ -1,0 +1,217 @@
+{
+  "checkedAt": "2026-10-29T15:33:52.742Z",
+  "total": 10,
+  "humanReviewed": false,
+  "questions": [
+    {
+      "id": "4416d7b5-88c5-4401-88e7-c316d94de0b8",
+      "prompt": "Una entidad quiere conocer qué organiza el objeto de la Ley 32069. ¿Qué descripción corresponde a ese objeto?",
+      "correctOption": "A",
+      "correctText": "El marco para contratar oportunamente bienes, servicios y obras y regular la participación de los actores del proceso.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "768ffa4e-e941-401b-9295-3c5603a0e3d3",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "1",
+        "pageStart": 1,
+        "pageEnd": 2,
+        "quote": "Artículo 1 . Objeto de la Ley La presente ley tiene por objeto establecer el marco normativo para efectivizar la contratación oportuna de bienes, servicios y obras, así como regular, en el marco del Sistema Nacional de Abastecimiento, la participación de los actores involucrados en el proceso de contratación pública.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 0,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "ef1ce938-6b62-4d3e-8dac-9b854e8cfebe",
+      "prompt": "¿Qué orientación expresa la finalidad de la Ley 32069 respecto del uso de los recursos públicos?",
+      "correctOption": "B",
+      "correctText": "Maximizar su uso con eficacia, eficiencia y economía para atender fines públicos y mejorar las condiciones de vida.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "664511f5-1220-4ebe-b648-732f0c6da3d4",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "2",
+        "pageStart": 2,
+        "pageEnd": 2,
+        "quote": "Artículo 2 . Finalidad de la Ley La presente ley tiene como finalidad maximizar el uso de recursos públicos en las contrataciones de bienes, servicios y obras por parte del Estado, en términos de eficacia, eficiencia y economía, de tal manera que dichas contrataciones permitan el cumplimi ento oportuno de los fines públicos y mejoren las condiciones de vida de los ciudadanos.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 1,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "51338217-e209-41a6-81a2-d25abba9b73f",
+      "prompt": "Según la regla general de aplicación de la Ley 32069, ¿qué condición sobre el pago se señala para las contrataciones de bienes, servicios y obras?",
+      "correctOption": "C",
+      "correctText": "Que las entidades contratantes asuman el pago con fondos públicos.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "59edd543-658d-402c-9e50-ff67652615c0",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "3",
+        "pageStart": 2,
+        "pageEnd": 2,
+        "quote": "Artículo 3 . Ámbito de aplicación de la Ley 3.1. La presente ley es aplicable para la contratación de bienes, servicios y obras, siempre que las entidades contratantes asuman el pago con fondos públicos. Los contratos menores se rigen por esta ley. 3.2. Se encuentran comprendidos dentro de los alcances de la ley, bajo el término genérico de entidad contratante: a) El Poder Legislativo, de conformidad con el artículo 94 de la Constitución Política del Perú y el Reglamento del Congreso de la República, el Poder Judicial y los organismos constitucionalmente autónomos. b) Los ministerios, sus organismos públicos, programas y proyectos especiales. c) Los gobiernos regionales, sus programas y proyectos. d) Los gobiernos locales, sus programas y proyectos. e) Las universidades públicas. f) Las empresas del Estado pertenecientes a los tres niveles de gobierno. g) Los fondos constituidos total o parcialmente con recursos públicos, sean de derecho público o de derecho privado. h) El Seguro Social de Salud (ESSALUD). i) Las Fuerzas Armadas. j) La Policía Nacional del Perú. k) Los órganos desconcentrados. l) Las organizaciones creadas conforme al ordenamiento jurídico nacional con autonomía y capacidad para gestionar sus contrataciones.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 2,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "8f8fdeb6-315a-4437-80f6-72c7386759d6",
+      "prompt": "¿Qué afirma expresamente el numeral 3.1 de la Ley 32069 acerca de los contratos menores?",
+      "correctOption": "D",
+      "correctText": "Que los contratos menores se rigen por esta ley.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "59edd543-658d-402c-9e50-ff67652615c0",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "3",
+        "pageStart": 2,
+        "pageEnd": 2,
+        "quote": "Artículo 3 . Ámbito de aplicación de la Ley 3.1. La presente ley es aplicable para la contratación de bienes, servicios y obras, siempre que las entidades contratantes asuman el pago con fondos públicos. Los contratos menores se rigen por esta ley. 3.2. Se encuentran comprendidos dentro de los alcances de la ley, bajo el término genérico de entidad contratante: a) El Poder Legislativo, de conformidad con el artículo 94 de la Constitución Política del Perú y el Reglamento del Congreso de la República, el Poder Judicial y los organismos constitucionalmente autónomos. b) Los ministerios, sus organismos públicos, programas y proyectos especiales. c) Los gobiernos regionales, sus programas y proyectos. d) Los gobiernos locales, sus programas y proyectos. e) Las universidades públicas. f) Las empresas del Estado pertenecientes a los tres niveles de gobierno. g) Los fondos constituidos total o parcialmente con recursos públicos, sean de derecho público o de derecho privado. h) El Seguro Social de Salud (ESSALUD). i) Las Fuerzas Armadas. j) La Policía Nacional del Perú. k) Los órganos desconcentrados. l) Las organizaciones creadas conforme al ordenamiento jurídico nacional con autonomía y capacidad para gestionar sus contrataciones.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 2,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "a6f09611-1691-4bee-8d8e-cf497223fbe2",
+      "prompt": "¿Qué elemento caracteriza la definición de contrato incluida en el artículo 4 de la Ley 32069?",
+      "correctOption": "A",
+      "correctText": "Un acuerdo entre entidad contratante y proveedor que establece obligaciones recíprocas para abastecer bienes, servicios u obras.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "a) Contratos: son acuerdos celebrados entre una entidad contratante y un proveedor, con el fin de asumir obligaciones recíprocas para abastecer a la entidad contratante de bienes, servicios u obras.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "1717d728-aed1-44ef-8c1a-3a8087ba3283",
+      "prompt": "Al subcontratar determinadas prestaciones, ¿qué responsabilidad conserva el contratista frente a la entidad según la definición legal?",
+      "correctOption": "B",
+      "correctText": "La responsabilidad por la ejecución total del contrato frente a la entidad contratante.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "b) Subcontratación: es la relación contractual entre un contratista y un tercero, a fin de ejecutar determinadas prestaciones del contrato conforme a las disposiciones establecidas en el reglamento. El contratista mantiene la responsabilidad por la ejecución total del contrat o frente a la entidad contratante.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "131d805f-4e39-44f3-8e38-51ac8e821d6b",
+      "prompt": "Varias entidades agrupan su demanda para contratar conjuntamente bienes o servicios similares y obtener condiciones más ventajosas. ¿Qué concepto describe este supuesto?",
+      "correctOption": "C",
+      "correctText": "Compra corporativa.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "c) Compra corporativa: es una modalidad de contratación pública eficiente que agrupa la demanda de más de una entidad para contratar en forma conjunta bienes y servicios en general, de naturaleza similar, para alcanzar condiciones más ventajosas para el Estado.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "06203657-6d90-48a8-8797-b33d0ee349e1",
+      "prompt": "Según la definición de compra centralizada, ¿hasta dónde puede llegar el encargo de las fases del proceso a otra entidad?",
+      "correctOption": "D",
+      "correctText": "Hasta la liquidación o el pago total de los bienes, servicios u obras.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "d) Compra centralizada: es una modalidad de contratación pública eficiente por la cual una o más entidades contratantes, atendiendo a consideraciones de importancia estratégica, complejidad o necesidad de especialización, encargan a otra entidad todas las fases del proceso de contratación, hasta la liquidación o pago total, de bienes, s ervicios u obras.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "2496cff3-dd36-454f-873b-d180189743d6",
+      "prompt": "En la definición legal de comparación de precios, ¿cuál es el único factor de evaluación indicado?",
+      "correctOption": "A",
+      "correctText": "El precio, conforme a las condiciones que señala el Reglamento.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "f) Comparación de p recios: es un procedimiento de selección competitivo para la contratación de bienes y servicios en los que el único factor de evaluación es el precio, conforme a las condiciones que señala el reglamento.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    },
+    {
+      "id": "0ad61df8-d260-424e-8d3b-23816fae8f05",
+      "prompt": "¿Qué característica de los bienes y servicios identifica la definición legal de subasta inversa electrónica?",
+      "correctOption": "B",
+      "correctText": "Que sean comunes y cuenten con ficha técnica.",
+      "source": {
+        "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+        "chunkId": "24f688e5-10bc-4522-8e15-5303c66e441f",
+        "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+        "article": "4",
+        "pageStart": 2,
+        "pageEnd": 3,
+        "quote": "g) Subasta inversa electrónica: es un procedimiento de selección utilizado por las entidades contratantes para la contratación de bienes y servicios comunes que cuenten con ficha técnica. En este procedimiento, los proveedores pujan y el ganador es aquel que oferta el menor precio. Las especificaciones, excepciones y condiciones del uso de la subasta inversa electrónica se encuentran establecidas en el reglamento.",
+        "version": "Texto actualizado al 19.07.2026",
+        "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+      },
+      "chunkIndex": 3,
+      "verdict": "Confirma correspondencia textual del fundamento; revisión humana de la pregunta pendiente.",
+      "status": "draft",
+      "copiedFromLex": false
+    }
+  ]
+}

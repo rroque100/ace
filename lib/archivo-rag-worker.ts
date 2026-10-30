@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { ARCHIVO_LEASE_MS } from "./archivo-processing-policy";
 import type { ExpedienteArchivo } from "./expedientes-archivo";
 import { downloadStorageObject, supabaseRest } from "./supabase-server";
 import { extractPdfOcrBlock, type ExtractedPdfText } from "./pdf-processing";
@@ -7,7 +8,7 @@ import { processExpedienteDocument } from "./expedientes-archivo-processing";
 /** CAS lease + persistent block cache: retrying never discards completed OCR. */
 export async function advanceRagDocument(row: ExpedienteArchivo) {
   if (row.status === "indexed" && !row.metadata?.ocrPartial) return;
-  if (row.status === "processing" && Date.now() - Date.parse(row.updated_at ?? "") < 360_000) return;
+  if (row.status === "processing" && Date.now() - Date.parse(row.updated_at ?? "") < ARCHIVO_LEASE_MS) return;
   const [claimed] = await supabaseRest<ExpedienteArchivo[]>(`expedientes_archivo?id=eq.${row.id}&updated_at=eq.${encodeURIComponent(row.updated_at ?? "")}&select=*`, {
     method: "PATCH", body: JSON.stringify({ status: "processing", error_message: null, updated_at: new Date().toISOString() }),
   });

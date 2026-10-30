@@ -1,0 +1,353 @@
+{
+  "before": {
+    "checkedAt": "2026-10-29T13:26:30.925Z",
+    "settings": {
+      "id": true,
+      "enabled": true,
+      "daily_limit": 100,
+      "ai_blocked_until": "2026-10-30T00:15:25.777+00:00",
+      "ai_error": "Google AI Studio informó HTTP 402: créditos prepagados agotados. Restablece el servicio y pulsa Reintentar tras restablecer IA.",
+      "last_started_at": "2026-10-29T13:15:24.14722+00:00",
+      "last_finished_at": "2026-10-29T13:16:09.811+00:00",
+      "run_token": null,
+      "run_until": null,
+      "updated_at": "2026-10-29T13:25:33.952+00:00"
+    },
+    "counts": {
+      "queued": 831,
+      "running": 0,
+      "blocked": 100,
+      "done": 0,
+      "review": 0
+    },
+    "stages": {
+      "index": 0,
+      "classify": 114,
+      "download": 817
+    },
+    "usage": {
+      "day": "2026-10-29",
+      "reserved": 14
+    },
+    "sources": [
+      {
+        "id": "ac655d33-dceb-459e-aae1-45a83959a09e",
+        "label": "OECE · Normas y documentos legales",
+        "config": null
+      },
+      {
+        "id": "9b781a16-6da8-42b0-baa7-eabb6360fe0a",
+        "label": "OECE · Opiniones de la DTN",
+        "config": {
+          "source_id": "9b781a16-6da8-42b0-baa7-eabb6360fe0a",
+          "enabled": true,
+          "document_types": [
+            "opinion"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:15:45.009+00:00",
+          "last_complete_at": null,
+          "last_error": "Novedades parcialmente revisadas: quedan páginas pendientes.",
+          "scan_cursor": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion?sheet=4",
+          "updated_at": "2026-10-29T13:25:56.052+00:00",
+          "recent_cursor": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion?filter%5Bstart_date%5D=2026-10-22&sheet=10",
+          "history_complete": false
+        }
+      },
+      {
+        "id": "0fd4cc93-08d2-4789-af90-47debc8764b4",
+        "label": "OECE · Acuerdos de Sala Plena",
+        "config": {
+          "source_id": "0fd4cc93-08d2-4789-af90-47debc8764b4",
+          "enabled": true,
+          "document_types": [
+            "acuerdo_sala_plena"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:15:48.182+00:00",
+          "last_complete_at": "2026-10-29T13:15:48.182+00:00",
+          "last_error": null,
+          "scan_cursor": "https://www.gob.pe/institucion/oece/normas-legales/tipos/73-acuerdo-de-sala-plena?sheet=4",
+          "updated_at": "2026-10-29T00:15:25.90971+00:00",
+          "recent_cursor": null,
+          "history_complete": false
+        }
+      },
+      {
+        "id": "8a8db0d9-636b-4dc0-96ec-2510a72efe21",
+        "label": "OECE · Leyes",
+        "config": {
+          "source_id": "8a8db0d9-636b-4dc0-96ec-2510a72efe21",
+          "enabled": true,
+          "document_types": [
+            "ley"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:15:25.36+00:00",
+          "last_complete_at": "2026-10-29T13:15:25.36+00:00",
+          "last_error": null,
+          "scan_cursor": null,
+          "updated_at": "2026-10-29T00:15:15.533027+00:00",
+          "recent_cursor": null,
+          "history_complete": true
+        }
+      },
+      {
+        "id": "83781cc3-2763-4401-bb97-2be151c70b72",
+        "label": "OECE · Directivas",
+        "config": {
+          "source_id": "83781cc3-2763-4401-bb97-2be151c70b72",
+          "enabled": true,
+          "document_types": [
+            "directiva"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:15:28.525+00:00",
+          "last_complete_at": "2026-10-29T13:15:28.525+00:00",
+          "last_error": null,
+          "scan_cursor": null,
+          "updated_at": "2026-10-29T00:15:19.407855+00:00",
+          "recent_cursor": null,
+          "history_complete": true
+        }
+      },
+      {
+        "id": "677f19b5-5fff-43fa-8c81-e30699d42eff",
+        "label": "OECE · Resoluciones TCP por salas",
+        "config": {
+          "source_id": "677f19b5-5fff-43fa-8c81-e30699d42eff",
+          "enabled": true,
+          "document_types": [
+            "resolucion"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "TCP-S",
+          "last_checked_at": "2026-10-29T13:15:37.129+00:00",
+          "last_complete_at": "2026-10-29T13:15:37.129+00:00",
+          "last_error": null,
+          "scan_cursor": "https://www.gob.pe/institucion/oece/normas-legales?filter%5Border%5D=publication_desc&filter%5Bper_page%5D=100&filter%5Bterms%5D=TCP&sheet=4",
+          "updated_at": "2026-10-29T00:15:22.537463+00:00",
+          "recent_cursor": null,
+          "history_complete": false
+        }
+      }
+    ],
+    "latestEvent": {
+      "id": 24,
+      "job_id": "da0819c4-806b-4cb6-9dfa-eda19730b51a",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:16:09.799287+00:00"
+    }
+  },
+  "after": {
+    "checkedAt": "2026-10-29T13:29:31.919Z",
+    "settings": {
+      "id": true,
+      "enabled": true,
+      "daily_limit": 100,
+      "ai_blocked_until": "2026-10-30T00:15:25.777+00:00",
+      "ai_error": "Google AI Studio informó HTTP 402: créditos prepagados agotados. Restablece el servicio y pulsa Reintentar tras restablecer IA.",
+      "last_started_at": "2026-10-29T13:26:38.852504+00:00",
+      "last_finished_at": "2026-10-29T13:29:01.892+00:00",
+      "run_token": null,
+      "run_until": null,
+      "updated_at": "2026-10-29T13:25:33.952+00:00"
+    },
+    "counts": {
+      "queued": 995,
+      "running": 0,
+      "blocked": 100,
+      "done": 23,
+      "review": 12
+    },
+    "stages": {
+      "classify": 155,
+      "index": 0,
+      "download": 940
+    },
+    "usage": {
+      "day": "2026-10-29",
+      "reserved": 90
+    },
+    "sources": [
+      {
+        "id": "ac655d33-dceb-459e-aae1-45a83959a09e",
+        "label": "OECE · Normas y documentos legales",
+        "config": null
+      },
+      {
+        "id": "9b781a16-6da8-42b0-baa7-eabb6360fe0a",
+        "label": "OECE · Opiniones de la DTN",
+        "config": {
+          "source_id": "9b781a16-6da8-42b0-baa7-eabb6360fe0a",
+          "enabled": true,
+          "document_types": [
+            "opinion"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:26:54.523+00:00",
+          "last_complete_at": null,
+          "last_error": "Novedades parcialmente revisadas: quedan páginas pendientes.",
+          "scan_cursor": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion?sheet=5",
+          "updated_at": "2026-10-29T13:25:56.052+00:00",
+          "recent_cursor": "https://www.gob.pe/institucion/oece/informes-publicaciones/tipos/65-opinion?filter%5Bstart_date%5D=2026-10-22&sheet=13",
+          "history_complete": false
+        }
+      },
+      {
+        "id": "0fd4cc93-08d2-4789-af90-47debc8764b4",
+        "label": "OECE · Acuerdos de Sala Plena",
+        "config": {
+          "source_id": "0fd4cc93-08d2-4789-af90-47debc8764b4",
+          "enabled": true,
+          "document_types": [
+            "acuerdo_sala_plena"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:26:57.083+00:00",
+          "last_complete_at": "2026-10-29T13:26:57.083+00:00",
+          "last_error": null,
+          "scan_cursor": "https://www.gob.pe/institucion/oece/normas-legales/tipos/73-acuerdo-de-sala-plena?sheet=5",
+          "updated_at": "2026-10-29T00:15:25.90971+00:00",
+          "recent_cursor": null,
+          "history_complete": false
+        }
+      },
+      {
+        "id": "8a8db0d9-636b-4dc0-96ec-2510a72efe21",
+        "label": "OECE · Leyes",
+        "config": {
+          "source_id": "8a8db0d9-636b-4dc0-96ec-2510a72efe21",
+          "enabled": true,
+          "document_types": [
+            "ley"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:26:40.221+00:00",
+          "last_complete_at": "2026-10-29T13:26:40.221+00:00",
+          "last_error": null,
+          "scan_cursor": null,
+          "updated_at": "2026-10-29T00:15:15.533027+00:00",
+          "recent_cursor": null,
+          "history_complete": true
+        }
+      },
+      {
+        "id": "83781cc3-2763-4401-bb97-2be151c70b72",
+        "label": "OECE · Directivas",
+        "config": {
+          "source_id": "83781cc3-2763-4401-bb97-2be151c70b72",
+          "enabled": true,
+          "document_types": [
+            "directiva"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "",
+          "last_checked_at": "2026-10-29T13:26:40.907+00:00",
+          "last_complete_at": "2026-10-29T13:26:40.907+00:00",
+          "last_error": null,
+          "scan_cursor": null,
+          "updated_at": "2026-10-29T00:15:19.407855+00:00",
+          "recent_cursor": null,
+          "history_complete": true
+        }
+      },
+      {
+        "id": "677f19b5-5fff-43fa-8c81-e30699d42eff",
+        "label": "OECE · Resoluciones TCP por salas",
+        "config": {
+          "source_id": "677f19b5-5fff-43fa-8c81-e30699d42eff",
+          "enabled": true,
+          "document_types": [
+            "resolucion"
+          ],
+          "regimes": [
+            "32069",
+            "30225"
+          ],
+          "code_prefix": "TCP-S",
+          "last_checked_at": "2026-10-29T13:26:47.584+00:00",
+          "last_complete_at": "2026-10-29T13:26:47.584+00:00",
+          "last_error": null,
+          "scan_cursor": "https://www.gob.pe/institucion/oece/normas-legales?filter%5Border%5D=publication_desc&filter%5Bper_page%5D=100&filter%5Bterms%5D=TCP&sheet=5",
+          "updated_at": "2026-10-29T00:15:22.537463+00:00",
+          "recent_cursor": null,
+          "history_complete": false
+        }
+      }
+    ],
+    "latestEvent": {
+      "id": 65,
+      "job_id": "614dc944-3880-491d-b5fe-e09fb869c5bf",
+      "kind": "stored",
+      "detail": "Original almacenado y verificado; clasificación e indexación pendientes.",
+      "created_at": "2026-10-29T13:29:01.874135+00:00"
+    }
+  },
+  "newOriginals": 41,
+  "originalsVerified": [
+    {
+      "id": "7c093715-3e6c-4300-9f13-3d8984ac236b",
+      "title": "Directiva N.° 001-2020 -OSCE/PRE (v.01)",
+      "status": "uploaded",
+      "sha256Matches": true
+    },
+    {
+      "id": "b3121734-3785-4967-9446-1d63c948cd59",
+      "title": "Directiva N.° 003-2019-OSCE/SGE",
+      "status": "uploaded",
+      "sha256Matches": true
+    },
+    {
+      "id": "80db5368-45e0-435b-b7d9-4dfbb6b1cc61",
+      "title": "Directiva N.° 008-2020-OSCE/CD (v.01)",
+      "status": "uploaded",
+      "sha256Matches": true
+    }
+  ],
+  "productionEndpoints": [
+    {
+      "path": "/api/library/sync",
+      "status": 401
+    },
+    {
+      "path": "/api/library/sync/cron",
+      "status": 401
+    }
+  ]
+}

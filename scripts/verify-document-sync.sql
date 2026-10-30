@@ -1,0 +1,35 @@
+begin;
+do $$
+declare a uuid;b uuid;i uuid;s uuid;actor uuid;x jsonb;y jsonb;token uuid;
+begin
+ if has_function_privilege('anon','public.ace_sync_claim_v1()','execute') then raise exception 'Anon can claim jobs';end if;
+ if has_function_privilege('authenticated','public.ace_sync_begin_v1()','execute') then raise exception 'User can invoke service cron';end if;
+ if not public.ace_sync_regime_matches_v1('{"regimeReviewed":true,"regime":"30225","declaredRegimes":["30225","32069"]}','32069') then raise exception 'Mixed regime excluded';end if;
+ if public.ace_sync_regime_matches_v1('{"regimeReviewed":false,"declaredRegimes":["32069"]}','32069') then raise exception 'Unreviewed regime included';end if;
+ if not public.ace_sync_regime_matches_v1('{}','no_determinado') then raise exception 'Unknown regime excluded';end if;
+ update legal_sync_settings set enabled=true,daily_limit=1,ai_blocked_until=null,run_until=null where id=true;
+ token:=public.ace_sync_begin_v1();if token is null then raise exception 'Run lease unavailable';end if;
+ if public.ace_sync_begin_v1() is not null then raise exception 'Concurrent run acquired same lease';end if;
+ insert into legal_sync_daily_usage(day,reserved) values((now() at time zone 'America/Lima')::date,0) on conflict(day)do update set reserved=0;
+ insert into legal_sync_jobs(stage,created_at)values('download','1970-01-01')returning id into a;
+ insert into legal_sync_jobs(stage,created_at)values('download','1971-01-01')returning id into b;
+ x:=public.ace_sync_claim_v1();if (x->>'id')::uuid<>a then raise exception 'Wrong first job';end if;
+ if public.ace_sync_claim_v1() is not null then raise exception 'Daily quota exceeded';end if;
+ update legal_sync_jobs set lease_until=now()-interval '1 second' where id=a;
+ update legal_sync_settings set daily_limit=2 where id=true;
+ y:=public.ace_sync_claim_v1();if (y->>'id')::uuid<>a or y->>'lease_token'=x->>'lease_token' then raise exception 'Stale lease not recovered';end if;
+ update legal_sync_settings set ai_blocked_until=now()+interval '1 hour' where id=true;
+ insert into legal_sync_jobs(stage,created_at)values('index','1960-01-01')returning id into i;
+ if public.ace_sync_claim_v1() is not null then raise exception 'Credit circuit did not block AI stage';end if;
+ update legal_sync_settings set ai_blocked_until=null where id=true;
+ y:=public.ace_sync_claim_v1();if (y->>'id')::uuid<>i then raise exception 'AI stage not resumed';end if;
+ select created_by into actor from legal_official_sources limit 1;
+ insert into legal_official_sources(label,url,document_type,source_entity,created_by)values('Prueba transaccional','https://www.gob.pe/institucion/oece/normas-legales?sync-test=rollback','resolucion','OECE',actor)returning id into s;
+ insert into legal_sync_sources(source_id,enabled)values(s,false);
+ insert into legal_sync_jobs(source_id,stage,created_at)values(s,'classify','1950-01-01')returning id into b;
+ if public.ace_sync_claim_v1() is not null then raise exception 'Paused source was claimed';end if;
+ update legal_sync_sources set enabled=true where source_id=s;
+ y:=public.ace_sync_claim_v1();if (y->>'id')::uuid<>b then raise exception 'Source did not resume';end if;
+ raise notice 'PASS: permisos, cuota diaria, exclusión, arrendamiento, circuito, reanudación y regímenes mixtos';
+end $$;
+rollback;

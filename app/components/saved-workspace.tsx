@@ -14,8 +14,11 @@ import { useRouter } from "next/navigation";
 import type { DossierSource } from "@/lib/source-dossier";
 import { SourceWorkLink } from "./source-work-link";
 import{PdfCiteButton}from"./pdf-cite-viewer";
+import {ResearchBrief} from './research-brief';
+import type {ResearchBrief as Brief} from '@/lib/research-brief';
+import {FollowWorkspace} from './follow-workspace';
 
-type Folder = { id: string; name: string };
+type Folder = { id: string; name: string } & Brief;
 type SavedItem = {
   id: string;
   carpeta_id: string | null;
@@ -185,7 +188,7 @@ export function SavedWorkspace() {
       const r = await fetch("/api/saved/export", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: chosen, format }),
+        body: JSON.stringify({ ids: chosen, format,folderId:folders.some(f=>f.id===selected)?selected:undefined }),
       });
       if (!r.ok) {
         const d = await r.json();
@@ -373,6 +376,8 @@ export function SavedWorkspace() {
               </p>
             ) : null}
           </div>
+          <FollowWorkspace/>
+          {folders.find(f=>f.id===selected)?<ResearchBrief key={selected} folder={folders.find(f=>f.id===selected)!} onSaved={()=>void reload()}/>:null}
           {preview ? (
             <section
               className="mb-4 rounded-xl border border-teal-200 bg-teal-50 p-4"

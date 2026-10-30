@@ -33,7 +33,10 @@
 --
 -- Aplicar en el SQL Editor de Supabase.
 
-create extension if not exists vector;
+begin;
+create schema if not exists extensions;
+create extension if not exists vector with schema extensions;
+set local search_path = public, extensions;
 
 -- 1536 dimensiones: la misma que ya usan los embeddings de este proyecto
 -- (text-embedding-3-small de OpenAI, o Gemini a 1536 — ver embeddingDimensions
@@ -73,7 +76,7 @@ create or replace function public.expedientes_buscar_vecinos(
   metadata jsonb,
   score float
 )
-language sql stable security invoker set search_path = public
+language sql stable security invoker set search_path = public, extensions
 as $$
   select
     c.id as chunk_id,
@@ -85,9 +88,10 @@ as $$
     c.metadata,
     1 - (c.embedding <=> p_query_embedding) as score
   from public.expedientes_archivo_chunks c
+  join public.expedientes_archivo d on d.id = c.documento_id
   where c.embedding is not null
     and (p_document_id is null or c.documento_id = p_document_id)
-    and (p_year is null or c.year = p_year)
+    and (p_year is null or d.anio = p_year)
   order by c.embedding <=> p_query_embedding
   limit greatest(p_top_k, 1);
 $$;
@@ -106,7 +110,7 @@ grant execute on function public.expedientes_buscar_vecinos(vector, int, uuid, i
 create or replace function public.archivo_publicar_indice(
   p_id uuid, p_base timestamptz, p_chunks jsonb, p_patch jsonb
 ) returns jsonb
-language plpgsql security invoker set search_path = public
+language plpgsql security invoker set search_path = public, extensions
 as $$
 declare
   anterior public.expedientes_archivo;
@@ -130,8 +134,8 @@ begin
     select
       x.id, p_id, anterior.expediente_id, x.chunk_index, x.content, x.page_start, x.page_end, x.pinecone_vector_id, x.metadata,
       (
-        select array_agg(v::float4)::vector
-        from jsonb_array_elements_text(x.embedding) as v
+        select array_agg(v::float4 order by position)::vector
+        from jsonb_array_elements_text(x.embedding) with ordinality as elements(v, position)
       )
     from jsonb_to_recordset(p_chunks)
       as x(id uuid, chunk_index int, content text, page_start int, page_end int, pinecone_vector_id text, metadata jsonb, embedding jsonb);
@@ -149,3 +153,4 @@ $$;
 revoke all on function public.archivo_publicar_indice(uuid,timestamptz,jsonb,jsonb) from public, anon, authenticated;
 grant execute on function public.archivo_publicar_indice(uuid,timestamptz,jsonb,jsonb) to service_role;
 notify pgrst, 'reload schema';
+commit;

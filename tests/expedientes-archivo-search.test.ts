@@ -2,6 +2,11 @@ import { describe, expect, it } from "vitest";
 import { extractExactCodes } from "@/lib/expedientes-archivo-search";
 
 describe("extractExactCodes", () => {
+  it("no mezcla el número solicitado con el año documental", () => {
+    expect(extractExactCodes("comprobante nro 2956 del año 2022")).toEqual(["2956"]);
+    expect(extractExactCodes("documentos del año 2022")).toEqual([]);
+    expect(extractExactCodes("comprobante nro 2022")).toEqual(["2022"]);
+  });
   it("extrae un numero de 3+ cifras mencionado en la consulta", () => {
     expect(extractExactCodes("busca el pdf de comprobante de pago nro 2956")).toEqual(["2956"]);
   });

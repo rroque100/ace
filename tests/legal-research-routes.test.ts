@@ -1,0 +1,14 @@
+import {it,expect,vi,beforeEach} from 'vitest';
+const mocks=vi.hoisted(()=>({auth:vi.fn(),rest:vi.fn(),admin:vi.fn()}));
+vi.mock('@/lib/auth',()=>({requireUser:mocks.auth}));vi.mock('@/lib/supabase-server',()=>({supabaseRest:mocks.admin,supabaseUserRest:mocks.rest,getSupabaseAdminClient:vi.fn()}));
+import {GET as entities,PATCH as review} from '../app/api/library/entities/route';
+import {POST as follow,PATCH as pause,DELETE as remove} from '../app/api/library/follows/route';
+import {POST as update,PATCH as accept} from '../app/api/library/updates/route';
+import {PATCH as folder} from '../app/api/folders/route';
+const id='11111111-1111-4111-8111-111111111111';const req=(path:string,body:unknown)=>new Request('https://ace.test'+path,{method:'POST',body:JSON.stringify(body)});
+beforeEach(()=>{vi.clearAllMocks();mocks.auth.mockResolvedValue({user:{id,accessToken:'jwt',isAdmin:false}});});
+it('rechaza consultas sin sesión',async()=>{mocks.auth.mockResolvedValue({error:new Response('',{status:401})});expect((await entities(new Request('https://ace.test/api/library/entities'))).status).toBe(401);expect(mocks.admin).not.toHaveBeenCalled();});
+it('solo administración revisa entidades o ejecuta conectores',async()=>{expect((await review(req('/api/library/entities',{}))).status).toBe(403);expect((await update(req('/api/library/updates',{action:'run',sourceId:id}))).status).toBe(403);expect((await accept(req('/api/library/updates',{}))).status).toBe(403);expect(mocks.admin).not.toHaveBeenCalled();});
+it('no sigue documentos inaccesibles',async()=>{mocks.rest.mockResolvedValue([]);expect((await follow(req('/api/library/follows',{documentId:id,label:'Fuente'}))).status).toBe(404);expect(mocks.rest.mock.calls.every(c=>!c[2]?.method)).toBe(true);});
+it('no interpola identificadores malformados',async()=>{expect((await pause(req('/api/library/follows',{id:'a&owner_id=neq.b',action:'pause',paused:true}))).status).toBe(400);expect((await remove(new Request('https://ace.test/api/library/follows?id=invalid'))).status).toBe(400);expect(mocks.rest).not.toHaveBeenCalled();});
+it('solo actualiza investigación propia y campos permitidos',async()=>{mocks.rest.mockImplementation(async(_t:string,path:string,options:RequestInit)=>{expect(path).toContain(`owner_id=eq.${id}`);const body=JSON.parse(String(options.body));expect(body).toEqual({research_question:'Pregunta de trabajo'});return[];});expect((await folder(req('/api/folders',{id,research_question:'Pregunta de trabajo',owner_id:'ajeno'}))).status).toBe(404);});

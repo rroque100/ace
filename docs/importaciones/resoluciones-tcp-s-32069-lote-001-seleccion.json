@@ -1,0 +1,225 @@
+{
+  "checkedAt": "2026-10-28T23:28:52.135Z",
+  "batch": "tcp-s-32069-lote-001",
+  "limit": 100,
+  "reviewed": 43,
+  "selected": 0,
+  "entries": [],
+  "reviewResults": [
+    {
+      "identity": "9437-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9436-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9435-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9433-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9434-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9431-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9429-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9428-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9427-2026-TCP-S3",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9424-2026-TCP-S6",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9425-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9423-2026-TCP-S2",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9421-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9422-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9420-2026-TCP-S6",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9419-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9418-2026-TCP-S6",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9416-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9415-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9414-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9413-2026-TCP-S2",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9411-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9412-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9410-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9409-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9407-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9406-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9405-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9403-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9401-2026-TCP-S6",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9400-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9399-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9398-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9397-2026-TCP-S5",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9396-2026-TCP-S6",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9395-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9394-2026-TCP-S2",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9388-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9392-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9386-2026-TCP-S1",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9385-2026-TCP-S2",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9384-2026-TCP-S3",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    },
+    {
+      "identity": "9383-2026-TCP-S3",
+      "status": "pending_review",
+      "reason": "402 status code (no body)"
+    }
+  ]
+}

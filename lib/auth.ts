@@ -254,23 +254,6 @@ export async function requireDecOrAreaUsuaria(): Promise<AuthResult> {
   return result;
 }
 
-// Exige rol Legal o admin (revision de informes legales).
-export async function requireLegal(): Promise<AuthResult> {
-  const result = await requireUser();
-
-  if ("error" in result) {
-    return result;
-  }
-
-  if (!result.user.isLegal) {
-    return {
-      error: NextResponse.json({ error: "Requiere rol Legal o administrador" }, { status: 403 }),
-    };
-  }
-
-  return result;
-}
-
 // Devuelve la entity normalizada del usuario para filtrar por oficina,
 // o null si es admin (ve todo).
 export function getOfficeFilter(user: SessionUser): string | null {

@@ -1,0 +1,1 @@
+import fs from'node:fs';const r=JSON.parse(fs.readFileSync('docs/importaciones/resoluciones-tcp-s-inventario-2026-10-28.json','utf8'));console.log(JSON.stringify({last:r.entries.slice(-3).map((x:any)=>({title:x.title,date:x.publicationDate})),existing:r.existing,count:r.tcpSCount}));
