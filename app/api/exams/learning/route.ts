@@ -32,6 +32,22 @@ export async function GET(request: Request) {
           .limit(1000),
       ]);
       if (q.error || t.error) throw q.error ?? t.error;
+      const reviewerIds = [
+        ...new Set((t.data ?? []).map((task) => task.assigned_to)),
+      ];
+      const people = reviewerIds.length
+        ? await c
+            .from("profiles")
+            .select("id,nombre_completo")
+            .in("id", reviewerIds)
+        : { data: [], error: null };
+      if (people.error) throw people.error;
+      const names = new Map(
+        (people.data ?? []).map((person) => [
+          person.id,
+          person.nombre_completo,
+        ]),
+      );
       return NextResponse.json(
         {
           queue: q.data ?? [],
@@ -39,6 +55,9 @@ export async function GET(request: Request) {
           tasks: (t.data ?? []).map((task) => ({
             ...task,
             mine: task.assigned_to === auth.user.id,
+            assigned_name:
+              names.get(task.assigned_to) ||
+              `Administrador ${String(task.assigned_to).slice(0, 8)}`,
             assigned_to: undefined,
           })),
         },

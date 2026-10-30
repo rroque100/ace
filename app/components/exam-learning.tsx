@@ -24,6 +24,7 @@ type EditorialTask = {
   question_id: string;
   question_revision: number;
   mine: boolean;
+  assigned_name?: string;
   state: string;
   note: string;
   history: Array<{ state: string; note: string; at: string }>;
@@ -458,7 +459,7 @@ export function ExamEditorialTask({
       </summary>
       <p className="mt-3 text-sm">
         {task
-          ? `${task.mine ? "Asignada a ti" : "Asignada a otro administrador"} · ${task.state === "blocked" ? "Con observaciones" : task.state === "pending" ? "Pendiente" : "En revisión"}`
+          ? `${task.mine ? "Asignada a ti" : `Responsable: ${task.assigned_name ?? "otro administrador"}`} · ${task.state === "blocked" ? "Con observaciones" : task.state === "pending" ? "Pendiente" : "En revisión"}`
           : "Sin responsable registrado para esta versión."}
       </p>
       <label className="mt-3 block text-sm">
