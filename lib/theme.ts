@@ -1,9 +1,9 @@
-export type Theme = "light" | "dark" | "system";
+export type Theme = "light" | "dark";
 export type ResolvedTheme = "light" | "dark";
 export const THEME_KEY = "exp:theme";
 export const THEME_EVENT = "ace:theme";
 export function validTheme(value: unknown): Theme {
-  return value === "light" || value === "dark" ? value : "system";
+  return value === "dark" ? "dark" : "light";
 }
 // Constant trusted source; no account data or user text is interpolated.
-export const THEME_BOOTSTRAP = `(()=>{let t='system';try{t=localStorage.getItem('exp:theme')}catch{}const d=t==='dark'||(t!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'dark':'light'})()`;
+export const THEME_BOOTSTRAP = `(()=>{let t='light';try{t=localStorage.getItem('exp:theme')==='dark'?'dark':'light';localStorage.setItem('exp:theme',t)}catch{}document.documentElement.dataset.theme=t;const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t==='dark'?'#101923':'#f4f7fa'})()`;

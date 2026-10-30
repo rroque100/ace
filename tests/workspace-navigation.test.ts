@@ -37,6 +37,6 @@ describe("workspace permissions and client identity",()=>{
   it("rejects corrupted stored appearance values",()=>{
     expect(validTheme("dark")).toBe("dark");
     expect(validTheme("light")).toBe("light");
-    for(const value of ["red",null,{},"<script>"]) expect(validTheme(value)).toBe("system");
+    for(const value of ["system","red",null,{},"<script>"]) expect(validTheme(value)).toBe("light");
   });
 });
