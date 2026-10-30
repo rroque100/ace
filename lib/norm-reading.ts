@@ -15,7 +15,7 @@ export function legalReadingBlocks(content:string):string[] {
   for(const match of content.matchAll(/(^|\s)(?:([a-zñ])\)|([0-9]{1,3})\.([0-9]{1,2})\.?)\s+(?=[A-ZÁÉÍÓÚÜÑ¿¡])/gu)) {
     const start=match.index+match[1].length;
     if(/(?:art[íi]culo|numeral|literal|inciso|p[áa]gina)\s*$/iu.test(content.slice(Math.max(0,start-24),start)))continue;
-    markers.push({start,group:match[2]?"letters":match[3],order:match[2]?"abcdefghijklmnñopqrstuvwxyz".indexOf(match[2]):Number(match[4])});
+    markers.push({start,group:match[2]?"letters":match[3],order:match[2]?"abcdefghijklmnopqrstuvwxyzñ".indexOf(match[2]):Number(match[4])});
   }
   for(let i=1;i<markers.length;i++) {
     const previous=markers[i-1],current=markers[i];
@@ -24,3 +24,4 @@ export function legalReadingBlocks(content:string):string[] {
   const offsets=[...breaks].sort((a,b)=>a-b);
   return offsets.slice(0,-1).map((start,index)=>content.slice(start,offsets[index+1]));
 }
+

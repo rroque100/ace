@@ -11,3 +11,4 @@ describe('legal reading presentation',()=>{
  it('handles empty and nonenumerated text unchanged',()=>{expect(legalReadingBlocks('')).toEqual([]);expect(legalReadingBlocks('Texto original.')).toEqual(['Texto original.']);});
  it('validates stored preferences and bounds font size',()=>{expect(readingPreferences('{')).toEqual({size:18,font:'serif',spacing:'comfortable'});expect(readingPreferences('{"size":900,"font":"x"}').size).toBe(18);expect(readingPreferences('{"size":22,"font":"sans","spacing":"compact"}')).toEqual({size:22,font:'sans',spacing:'compact'});});
 });
+it('keeps the final n and o definitions separate',()=>{const text='Definiciones: m) Amonestación. n) Retiro. o) Exclusión.';expect(legalReadingBlocks(text)).toHaveLength(4);expect(legalReadingBlocks(text).join('')).toBe(text);});
