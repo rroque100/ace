@@ -12,7 +12,7 @@ const recordingTime = () => performance.now();
 const CONSENT_KEY = "ace-voice-consent";
 
 export type VoicePhase = "ready" | "permission" | "recording" | "processing" | "review" | "error";
-export type VoiceConfig = { available: boolean; provider: string; providerId: string; policyUrl: string; assistantProvider: string };
+export type VoiceConfig = { fallbackProvider?:string; fallbackPolicyUrl?:string; available: boolean; provider: string; providerId: string; policyUrl: string; assistantProvider: string };
 
 const noConfig: VoiceConfig = { available: false, provider: "", providerId: "", policyUrl: "", assistantProvider: "" };
 

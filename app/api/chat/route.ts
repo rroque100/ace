@@ -1,4 +1,4 @@
-import { getProvider } from "@/lib/openai-server";
+import { reportedProvider } from "@/lib/openai-server";
 import { legalResponseTelemetry } from "@/lib/legal-telemetry";
 import { supabaseUserRest } from "@/lib/supabase-server";
 import { NextResponse } from "next/server";
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
           for await (const event of events) {
             if (event.type === "meta") { retrievedAt = Date.now(); sourceCount = event.sources.length; warningCount = event.assessment.evidenceWarnings.length; }
             if (event.type === "done") {
-              const telemetry = legalResponseTelemetry({ startedAt,retrievedAt,finishedAt:Date.now(),provider:getProvider(),model:event.model,officialSources:sourceCount,caseDocuments:payload.data.attachmentIds?.length ?? 0,warnings:warningCount+(event.citationWarnings?.length ?? 0) });
+              const telemetry = legalResponseTelemetry({ startedAt,retrievedAt,finishedAt:Date.now(),provider:reportedProvider(event.model),model:event.model,officialSources:sourceCount,caseDocuments:payload.data.attachmentIds?.length ?? 0,warnings:warningCount+(event.citationWarnings?.length ?? 0) });
               if (event.messageId) {
                 // JWT + RLS: los detalles operativos se guardan junto al turno privado, no en un log general.
                 await (async () => { const [row] = await supabaseUserRest<Array<{metadata:Record<string,unknown>}>>(auth.user.accessToken,`chat_messages?id=eq.${event.messageId}&select=metadata`); if(row) await supabaseUserRest(auth.user.accessToken,`chat_messages?id=eq.${event.messageId}`,{method:"PATCH",body:JSON.stringify({metadata:{...row.metadata,telemetry}})}); })().catch(() => undefined);

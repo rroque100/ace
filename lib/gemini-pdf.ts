@@ -1,3 +1,5 @@
+import {generateGeminiContent} from "./gemini-native";
+import {exigirCuotaIA,registrarUsoIA} from "./uso-ia";
 // Lectura NATIVA de PDF con Gemini (multimodal). A diferencia del OCR local
 // (pdfjs + rasterización), Gemini lee el PDF entero —incluidos escaneos y
 // formatos que pdfjs no decodifica, como JBig2— y transcribe su texto RESPETANDO
@@ -31,8 +33,6 @@ export async function transcribirPdfConGemini(
   if (buffer.length > 15 * 1024 * 1024) return "";
 
   const model = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
-  const base = process.env.GEMINI_NATIVE_BASE_URL ?? "https://generativelanguage.googleapis.com/v1beta";
-  const url = `${base}/models/${model}:generateContent?key=${apiKey}`;
   const body = {
     contents: [
       {
@@ -47,16 +47,12 @@ export async function transcribirPdfConGemini(
     generationConfig: { maxOutputTokens: 32000, temperature: 0, thinkingConfig: { thinkingBudget: 0 } },
   };
 
+  await exigirCuotaIA();
   try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) return "";
-    const json = (await res.json()) as {
-      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
-    };
+    const json = await generateGeminiContent(body,{model,timeout:90_000});
+    if(json.candidates?.[0]?.finishReason === "MAX_TOKENS")return "";
+    const usage=json.usageMetadata;
+    registrarUsoIA({operacion:"ocr",modelo:json.model,tokensEntrada:usage?.promptTokenCount??0,tokensSalida:(usage?.candidatesTokenCount??0)+(usage?.thoughtsTokenCount??0),estimado:!usage},"ocr",json.provider);
     const text = (json.candidates?.[0]?.content?.parts ?? []).map((p) => p.text ?? "").join("");
     return typeof text === "string" ? text.trim() : "";
   } catch {
