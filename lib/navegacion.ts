@@ -55,7 +55,7 @@ export const NAVEGACION = [
   },
   {
     // Módulo de las cuentas EXTERNAS (ver lib/modulos-acceso.ts). Todavía no está construido: la página explica que viene.
-    items: [{ href: "/simulacro", icon: "BookOpenCheck", id: "simulacro", label: "Simulacro de examen", adminOnly: false, soloExterno: true }],
+    items: [{ href: "/simulador", icon: "BookOpenCheck", id: "simulador", label: "Simulador de examen", adminOnly: false }],
     label: "Simulacro",
   },
   {

@@ -81,7 +81,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
       const soloAbastecimiento = "soloAbastecimiento" in item && item.soloAbastecimiento;
       const soloExterno = "soloExterno" in item && item.soloExterno;
       // Una cuenta externa ve SOLO los módulos que tiene habilitados (el mismo criterio con el que el proxy le abre o cierra
-      // las rutas: ver lib/modulos-acceso.ts). El personal de la entidad no ve el menú del simulacro hasta que exista.
+      // las rutas: ver lib/modulos-acceso.ts). El simulador también está disponible para el personal de la entidad.
       if (user?.esExterno) return rutaPermitidaExterno(user.modulosExternos, item.href);
       if (soloExterno) return false;
       return (!item.adminOnly || isAdmin) && (!soloAbastecimiento || puedeProcesos);

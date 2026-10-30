@@ -26,8 +26,8 @@ export const MODULOS_EXTERNOS = {
     label: "Simulacro de examen",
     descripcion: "Práctica del examen de certificación con corrección y cita de la norma.",
     inicio: "/simulacro",
-    paginas: ["/simulacro"],
-    apis: ["/api/simulacro"],
+    paginas: ["/simulacro", "/simulador"],
+    apis: ["/api/simulacro", "/api/exams"],
   },
 } as const;
 

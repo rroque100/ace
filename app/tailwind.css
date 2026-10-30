@@ -244,3 +244,7 @@
     background: none;
   }
 }
+
+/* Simulador: generar también las utilidades de sus componentes. */
+@source "./components/exam-*.tsx";
+@source "./simulador/**/*.tsx";
