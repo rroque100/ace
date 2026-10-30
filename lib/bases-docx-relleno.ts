@@ -143,6 +143,9 @@ export function construirSustituciones(datos: DatosBases): Sustitucion[] {
   const plazoDias = t(hitos, "A3", "plazo_dias");
   const plazoUnidad = t(hitos, "A3", "plazo_unidad") === "habiles" ? "días hábiles" : "días calendario";
   const plazoTexto = plazoDias ? `${plazoDias} ${plazoUnidad}` : "";
+  const cui = t(hitos, "A4", "cui");
+  const formulaReajuste = t(hitos, "A3", "formula_reajuste");
+  const otrasPenalidades = t(hitos, "A3", "otras_penalidades");
   const modalidadPago = t(hitos, "A4", "var_h_modalidad_pago");
   const sistemaEntrega = t(hitos, "A4", "var_i_sistema_entrega");
 
@@ -191,6 +194,12 @@ export function construirSustituciones(datos: DatosBases): Sustitucion[] {
     /\[(?:CONSIGNAR|INDICAR) EL OBJETO DE LA CONTRATACIÓN\]/g,
     /\[DESCRIBIR:? [^\]]*A CONTRATAR[^\]]*\]/g,
     /\[CONSIGNAR (?:LA CONSULTORÍA DE OBRA|EL SERVICIO DE MANTENIMIENTO VIAL) A CONTRATAR\]/g,
+  );
+  // El marcador de obras pide el nombre de la obra, el proyecto Y el Código Único de Inversión: el CUI sale del paso A4
+  // (el formato lo pide solo cuando la contratación es una inversión; sin CUI, va solo el nombre y el resto queda por completar).
+  add(
+    "objeto",
+    cui ? `${denominacion} (CUI ${cui})` : denominacion,
     /\[CONSIGNAR NOMBRE DE LA OBRA A EJECUTAR[^\]]*\]/g,
   );
 
@@ -229,8 +238,55 @@ export function construirSustituciones(datos: DatosBases): Sustitucion[] {
     /sistema de entrega de \[(?:DE SER EL CASO, )?CONSIGNAR SISTEMA DE ENTREGA[^\]]*\]/g,
   );
 
+  // Condiciones de la contratación que el área usuaria propone en A3 y que el marcador pide tal cual. «No aplica» también es una
+  // respuesta válida en ambos: el marcador dice «DE SER EL CASO», y dejarlo sin tocar daría a entender que falta llenarlo.
+  add(
+    "formulaReajuste",
+    formulaReajuste,
+    /\[DE SER EL CASO, CONSIGNAR LAS F[ÓO]RMULAS DE REAJUSTE[^\]]*\]/g,
+    /\[DE SER EL CASO, CONSIGNAR LA F[ÓO]RMULA Y EL PROCEDIMIENTO PARA EL REAJUSTE[^\]]*\]/g,
+  );
+  add("otrasPenalidades", otrasPenalidades, /\[INCLUIR OTRAS PENALIDADES, DE SER EL CASO\]/g);
+
   return subs;
 }
+
+// --- qué campos de los pasos llegan al Word y cuáles no ------------------------
+
+/**
+ * Campo de paso («A3.formula_reajuste») → clave de la sustitución que lo lleva al Word oficial. Es el contrato que vigila
+ * tests/bases-docx-cobertura.test.ts: todo campo que una plantilla de `bases-plantillas.ts` enlaza con un paso tiene que estar
+ * aquí o en `CAMPOS_HITO_SIN_MARCADOR`; no puede quedar un dato resuelto que nadie sabe si llega al documento.
+ */
+export const CAMPOS_HITO_EN_WORD: Record<string, string> = {
+  "A3.finalidad_publica": "finalidad",
+  "A3.descripcion": "descripcion",
+  "A3.lugar_entrega": "lugar",
+  "A3.plazo_dias": "plazo",
+  "A3.formula_reajuste": "formulaReajuste",
+  "A3.otras_penalidades": "otrasPenalidades",
+  "A4.var_h_modalidad_pago": "modalidadPago",
+  "A4.var_i_sistema_entrega": "sistemaEntrega",
+  "A4.cui": "objeto",
+};
+
+/**
+ * Campos que `resolverBases` resuelve pero NO se vuelcan al Word oficial, y por qué. No es una lista de pendientes olvidados:
+ * cada motivo es una razón concreta por la que rellenarlo «a ojo» produciría un texto jurídico incorrecto. Quitar uno de aquí
+ * exige decidir antes cómo se mapea (ver docs/superpowers/plans/2026-09-01-a9-elaboracion-bases.md).
+ */
+export const CAMPOS_HITO_SIN_MARCADOR: Record<string, string> = {
+  "A3.penalidad_mora":
+    "El Word oficial trae la fórmula de la penalidad por mora como texto fijo (Art. 163 del Reglamento), sin marcador que completar; el dato de A3 es la propuesta del área usuaria y no sustituye al texto del OECE.",
+  "A3.subcontratacion":
+    "El marcador solo pide las prestaciones esenciales que NO se pueden subcontratar, dentro de un párrafo fijo que ya dice «el contratista puede subcontratar hasta el 40 %». El campo de A3 mezcla si se admite, el porcentaje y las prestaciones, y con «No aplica» el párrafo se contradiría.",
+  "A3.solucion_controversias":
+    "El Word separa el mecanismo («se resuelven mediante [...]»), la institución arbitral y los centros de la JPRD en marcadores distintos; el campo de A3 es un solo texto con medios e instituciones juntos y no se puede dividir sin interpretarlo.",
+  "A4.var_f_requisitos_calificacion":
+    "Los requisitos son un dato estructurado (habilitación, facturación, experiencia, personal clave, equipamiento) y el Word los reparte en decenas de marcadores por tipo de procedimiento, con montos que dependen de la cuantía; hace falta un mapeo propio por tipo.",
+  "A4.factores_items":
+    "Los factores de evaluación van en tablas con puntajes y criterios propios de cada factor en el Word oficial; mapear la lista de A4 a esas tablas requiere definir primero cómo se corresponden los factores.",
+};
 
 // --- relleno del documento ----------------------------------------------
 
