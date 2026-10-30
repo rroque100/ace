@@ -2,6 +2,7 @@
 //
 // La IP es un dato personal (Ley N.° 29733): no se guarda más de lo necesario. Por defecto SIMULA (cuenta lo que
 // borraría); con --aplicar borra. El consumo de IA (uso_ia) no se toca: no lleva IP y es contabilidad de costos.
+// También purga las solicitudes de acceso YA RESUELTAS (guardan nombre, DNI, correo e IP); las pendientes no se tocan.
 //
 //   npx tsx --env-file=.env.local scripts/purgar-auditoria-externos.mts [--meses 12] [--aplicar]
 
@@ -27,4 +28,14 @@ if (apply && viejos.length) {
   console.log(quedan.length ? "Quedan eventos antiguos: repite el comando." : "Hecho: no quedan eventos anteriores al corte.");
 } else if (!apply) {
   console.log("Simulación terminada. Repite con --aplicar para borrar.");
+}
+
+// Solicitudes de acceso resueltas hace más del plazo. Si el SQL aún no se ejecutó la tabla no existe: se dice y se sigue.
+const filtroSolicitudes = `estado=neq.pendiente&resuelta_en=lt.${encodeURIComponent(corte.toISOString())}`;
+try {
+  const resueltas = await supabaseRest<Array<{ id: string }>>(`solicitudes_acceso?${filtroSolicitudes}&select=id&limit=100000`);
+  console.log(`${apply ? "BORRANDO" : "SIMULACIÓN"} · solicitudes de acceso resueltas antes de ${corte.toISOString().slice(0, 10)}: ${resueltas.length}`);
+  if (apply && resueltas.length) await supabaseRest(`solicitudes_acceso?${filtroSolicitudes}`, { method: "DELETE" });
+} catch (error) {
+  console.log(`Solicitudes de acceso: se omiten (${error instanceof Error ? error.message.slice(0, 120) : error}). ¿Falta ejecutar docs/supabase/solicitudes-acceso.sql?`);
 }

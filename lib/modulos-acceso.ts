@@ -37,8 +37,12 @@ export const LISTA_MODULOS_EXTERNOS = Object.keys(MODULOS_EXTERNOS) as ModuloExt
 export const esModuloExterno = (valor: unknown): valor is ModuloExterno =>
   typeof valor === "string" && Object.hasOwn(MODULOS_EXTERNOS, valor);
 
-// Abiertas para cualquier cuenta, externa o no: entrar, salir y la comprobación de salud.
-const COMUNES = ["/login", "/auth", "/api/health", "/api/auth"];
+// Abiertas para cualquier cuenta, externa o no: entrar, salir, la comprobación de salud y elegir una contraseña propia.
+const COMUNES = ["/login", "/auth", "/api/health", "/api/auth", "/cambiar-password"];
+
+// Lo único que puede abrir una cuenta que aún tiene la contraseña temporal del administrador: la pantalla para elegir
+// la suya, la API que la guarda y salir. Cualquier otra ruta la devuelve ahí.
+const SOLO_CAMBIO_PASSWORD = ["/cambiar-password", "/api/auth", "/auth"];
 
 const coincide = (pathname: string, prefijo: string) => pathname === prefijo || pathname.startsWith(`${prefijo}/`);
 
@@ -73,9 +77,14 @@ export type CredencialExterna = {
   vencido: boolean;
   /** Tokens de IA permitidos por mes, o null si no hay tope. */
   cuotaIAMensual: number | null;
+  /**
+   * La contraseña actual es la temporal que le entregó el administrador: hasta que elija la suya no puede usar nada más.
+   * Se apaga solo cuando el servidor guarda la nueva (la persona no puede escribir `app_metadata`).
+   */
+  cambiarPassword: boolean;
 };
 
-const NO_EXTERNO: CredencialExterna = { externo: false, modulos: [], vigenteHasta: null, vencido: false, cuotaIAMensual: null };
+const NO_EXTERNO: CredencialExterna = { externo: false, modulos: [], vigenteHasta: null, vencido: false, cuotaIAMensual: null, cambiarPassword: false };
 
 /**
  * Lee las credenciales del `app_metadata` del token. Lo que no sea una cuenta externa bien formada se trata como
@@ -95,16 +104,22 @@ export function leerCredencialExterna(appMetadata: unknown, ahora: number): Cred
     // Una fecha de fin ilegible no se interpreta como «para siempre»: si viene un texto pero no es una fecha, vence.
     vencido: typeof datos.vigente_hasta === "string" && datos.vigente_hasta.trim() !== "" ? !Number.isFinite(hasta) || hasta <= ahora : false,
     cuotaIAMensual: cuota,
+    cambiarPassword: datos.cambiar_password === true,
   };
 }
 
-/** Lo que se guarda en `app_metadata` al dar de alta o editar a un externo. */
-export function credencialParaGuardar(entrada: { modulos: readonly string[]; vigenteHasta?: string | null; cuotaIAMensual?: number | null }) {
+/**
+ * Lo que se guarda en `app_metadata` al dar de alta o editar a un externo. `cambiarPassword` solo se escribe cuando se
+ * indica: al editar módulos o vigencia no se debe apagar —ni encender— el aviso de contraseña temporal (Auth fusiona las
+ * claves de `app_metadata`, así que lo que no se envía se conserva).
+ */
+export function credencialParaGuardar(entrada: { modulos: readonly string[]; vigenteHasta?: string | null; cuotaIAMensual?: number | null; cambiarPassword?: boolean }) {
   return {
     tipo: "externo" as const,
     modulos: [...new Set(entrada.modulos.filter(esModuloExterno))],
     vigente_hasta: entrada.vigenteHasta || null,
     cuota_ia_mensual: entrada.cuotaIAMensual ?? null,
+    ...(entrada.cambiarPassword === undefined ? {} : { cambiar_password: entrada.cambiarPassword }),
   };
 }
 
@@ -150,7 +165,7 @@ export type DecisionExterno =
   | { tipo: "permitir" }
   | {
       tipo: "denegar";
-      motivo: "vencido" | "sin_modulos" | "ruta";
+      motivo: "vencido" | "sin_modulos" | "ruta" | "cambiar_password";
       /** Adónde llevar a una PÁGINA denegada; una API recibe un 403 sin redirección. */
       destino: string;
       /** «/» es donde cae toda persona al entrar: llevarla a su inicio no es un intento de acceso indebido. */
@@ -166,6 +181,12 @@ export function decidirAccesoExterno(credencial: CredencialExterna, pathname: st
   if (soloComunes) {
     if (rutaPermitidaExterno([], pathname)) return { tipo: "permitir" };
     return { tipo: "denegar", motivo: credencial.vencido ? "vencido" : "sin_modulos", destino: `/login?acceso=${credencial.vencido ? "vencido" : "sin_modulos"}`, esperado: false };
+  }
+  // Con la contraseña temporal solo se puede elegir la propia. No es un intento indebido: es el camino normal tras el
+  // primer ingreso, así que no se anota como «acceso denegado».
+  if (credencial.cambiarPassword) {
+    if (SOLO_CAMBIO_PASSWORD.some((prefijo) => coincide(pathname, prefijo))) return { tipo: "permitir" };
+    return { tipo: "denegar", motivo: "cambiar_password", destino: "/cambiar-password", esperado: true };
   }
   if (rutaPermitidaExterno(credencial.modulos, pathname)) return { tipo: "permitir" };
   return { tipo: "denegar", motivo: "ruta", destino: inicioExterno(credencial.modulos), esperado: pathname === "/" };

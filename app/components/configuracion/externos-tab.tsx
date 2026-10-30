@@ -1,11 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Copy, Download, Loader, Power, Save, ShieldCheck, UserPlus } from "lucide-react";
+import { AlertTriangle, Copy, Download, KeyRound, Loader, Power, Save, ShieldCheck, UserPlus } from "lucide-react";
 import { btnPrimary, btnSecondary, btnSecondarySm, fieldLabel, inputBase, statusBadge } from "./ui";
 import { useToastHelpers } from "@/lib/toast";
 import { LISTA_MODULOS_EXTERNOS, MODULOS_EXTERNOS, type ModuloExterno } from "@/lib/modulos-acceso";
+import { mensajeBienvenida } from "@/lib/solicitud-acceso";
 import { USUARIO_LONGITUD } from "@/lib/usuario-credencial";
+import { ConfirmDialog } from "../confirm-dialog";
+import { SolicitudesAccesoPanel } from "./solicitudes-acceso-panel";
 
 // Usuarios externos: alta con módulos, vigencia y cuota de IA; consumo del mes; y auditoría (IP, acciones, consumo por
 // módulo). Todo lo decide el servidor: aquí solo se pide y se muestra. Ver docs/supabase/usuarios-externos.sql.
@@ -43,7 +46,10 @@ export function ExternosTab() {
   const [fin, setFin] = useState("");
   const [cuota, setCuota] = useState("");
   const [creando, setCreando] = useState(false);
-  const [creada, setCreada] = useState<{ usuario: string; password: string } | null>(null);
+  const [creada, setCreada] = useState<{ usuario: string; password: string; mensaje: string } | null>(null);
+
+  // Restablecer contraseña
+  const [aRestablecer, setARestablecer] = useState<Externo | null>(null);
 
   // Edición en línea
   const [editando, setEditando] = useState<string | null>(null);
@@ -130,7 +136,20 @@ export function ExternosTab() {
       });
       const datos = await respuesta.json();
       if (!respuesta.ok) throw new Error(datos.error ?? "No se pudo crear la cuenta");
-      if (datos.passwordTemporal) setCreada({ usuario: datos.usuario, password: datos.passwordTemporal });
+      if (datos.passwordTemporal) {
+        setCreada({
+          usuario: datos.usuario,
+          password: datos.passwordTemporal,
+          mensaje: mensajeBienvenida({
+            nombre: nombre || null,
+            usuario: datos.usuario,
+            passwordTemporal: datos.passwordTemporal,
+            urlLogin: `${window.location.origin}/login`,
+            modulos,
+            vigenteHasta: fin ? `${fin}T23:59:59-05:00` : null,
+          }),
+        });
+      }
       success("Cuenta externa creada");
       setUsuario(""); setNombre(""); setFin(""); setCuota(""); setModulos(["centro_juridico"]);
       await cargar();
@@ -181,6 +200,32 @@ export function ExternosTab() {
     }
   }
 
+  // La contraseña nueva es temporal: en su próximo ingreso la persona deberá elegir la suya (lo impone el servidor). Se muestra
+  // una sola vez, con el mismo mensaje de entrega que el alta.
+  async function restablecerPassword(externo: Externo) {
+    setARestablecer(null);
+    try {
+      const respuesta = await fetch(`/api/configuracion/users/${externo.id}/password`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      const datos = await respuesta.json().catch(() => ({}));
+      if (!respuesta.ok) throw new Error(datos.error ?? "No se pudo restablecer la contraseña");
+      setCreada({
+        usuario: externo.usuario ?? "",
+        password: datos.password,
+        mensaje: mensajeBienvenida({
+          nombre: externo.nombre,
+          usuario: externo.usuario ?? "",
+          passwordTemporal: datos.password,
+          urlLogin: `${window.location.origin}/login`,
+          modulos: externo.modulos,
+          vigenteHasta: externo.vigenteHasta,
+        }),
+      });
+      success("Contraseña restablecida: la anterior ya no funciona");
+    } catch (error) {
+      toastError(error instanceof Error ? error.message : "No se pudo restablecer la contraseña");
+    }
+  }
+
   const hoy = hoyISO();
 
   return (
@@ -192,6 +237,8 @@ export function ExternosTab() {
         </p>
       ) : null}
       {errorCarga ? <p role="alert" className="text-sm text-danger">{errorCarga}</p> : null}
+
+      <SolicitudesAccesoPanel onCuentaCreada={() => void cargar()} />
 
       <section aria-labelledby="externos-alta" className="rounded-lg border border-line bg-panel p-4">
         <h3 id="externos-alta" className="mb-1 flex items-center gap-2 text-base font-bold"><UserPlus size={18} aria-hidden /> Nueva cuenta externa</h3>
@@ -232,8 +279,9 @@ export function ExternosTab() {
         </form>
         {creada ? (
           <div role="status" className="mt-3 flex flex-wrap items-center gap-3 rounded-md border border-brand/40 bg-brand-soft px-3 py-2.5 text-sm">
-            <span>Contraseña temporal de <strong>{creada.usuario}</strong> (se muestra una sola vez): <code className="font-mono font-bold">{creada.password}</code></span>
+            <span>Contraseña temporal de <strong>{creada.usuario}</strong> (se muestra una sola vez): <code className="font-mono font-bold">{creada.password}</code>. Al entrar por primera vez, la persona deberá elegir la suya.</span>
             <button type="button" className={btnSecondarySm} onClick={() => void navigator.clipboard?.writeText(creada.password).then(() => success("Copiada"))}><Copy size={14} aria-hidden /> Copiar</button>
+            <button type="button" className={btnSecondarySm} onClick={() => void navigator.clipboard?.writeText(creada.mensaje).then(() => success("Mensaje copiado"))}><Copy size={14} aria-hidden /> Copiar mensaje completo</button>
           </div>
         ) : null}
       </section>
@@ -266,6 +314,7 @@ export function ExternosTab() {
                           ) : (
                             <><button type="button" className={btnSecondarySm} onClick={() => empezarEdicion(externo)}>Editar</button>
                             <button type="button" className={btnSecondarySm} onClick={() => { setFiltroUsuario(externo.id); void Promise.resolve().then(() => cargarAuditoria(0)); }}>Auditoría</button>
+                            <button type="button" className={btnSecondarySm} onClick={() => setARestablecer(externo)}><KeyRound size={14} aria-hidden /> Contraseña</button>
                             <button type="button" className={btnSecondarySm} onClick={() => void cambiarEstado(externo)}><Power size={14} aria-hidden /> {externo.activo ? "Desactivar" : "Activar"}</button></>
                           )}
                         </div>
@@ -327,6 +376,15 @@ export function ExternosTab() {
           </>
         ) : null}
       </section>
+      <ConfirmDialog
+        open={aRestablecer !== null}
+        title="Restablecer contraseña"
+        message={aRestablecer ? `Se generará una contraseña temporal para ${aRestablecer.nombre?.trim() || aRestablecer.usuario}. La actual dejará de funcionar, la nueva se muestra una sola vez y al entrar la persona deberá elegir una propia.` : ""}
+        tone="warning"
+        confirmLabel="Restablecer"
+        onConfirm={() => { if (aRestablecer) void restablecerPassword(aRestablecer); }}
+        onCancel={() => setARestablecer(null)}
+      />
     </div>
   );
 }

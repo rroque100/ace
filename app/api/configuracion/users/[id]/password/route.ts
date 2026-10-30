@@ -54,7 +54,15 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
 
     const supabase = await getSupabaseAdminClient();
     const password = elegida || temporaryPassword();
-    const { data, error } = await supabase.auth.admin.updateUserById(id, { password });
+    // Una cuenta EXTERNA a la que el administrador le fija o le genera la contraseña vuelve a quedar con una temporal: la conoce
+    // él, así que en su próximo ingreso se le obliga a elegir la suya (ver lib/modulos-acceso.ts). Auth fusiona `app_metadata`:
+    // solo se enciende este aviso, los módulos y la vigencia se conservan. Al personal de la entidad no se le toca.
+    const { data: existente } = await supabase.auth.admin.getUserById(id);
+    const esExterno = existente?.user?.app_metadata?.tipo === "externo";
+    const { data, error } = await supabase.auth.admin.updateUserById(id, {
+      password,
+      ...(esExterno ? { app_metadata: { cambiar_password: true } } : {}),
+    });
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
@@ -72,7 +80,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       module: "configuracion",
     });
 
-    return NextResponse.json({ ok: true, usuario, password });
+    return NextResponse.json({ ok: true, usuario, password, deberaCambiarla: esExterno });
   } catch (error) {
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "No se pudo restablecer la contraseña" },

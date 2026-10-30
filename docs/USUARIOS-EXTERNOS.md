@@ -22,6 +22,36 @@ ocultar enlaces no es seguridad.
    desactivado*. Hasta octubre de 2026 estaba activo (`disable_signup: false`): cualquiera con un correo podía crearse una
    cuenta. El formulario de entrada ya no ofrece «Registrarse», pero la API de Auth lo seguía aceptando.
 3. Revisar la lista de usuarios en *Configuración → Usuarios* por si hay cuentas que nadie creó.
+4. Ejecutar `docs/supabase/solicitudes-acceso.sql` (la tabla del formulario público de solicitud, ver más abajo). Sin él,
+   `/acceso` responde que las solicitudes no están disponibles y la bandeja del administrador avisa de que falta.
+
+## Cómo entra una persona externa
+
+```
+/acceso  →  solicitud pendiente  →  el administrador la aprueba  →  recibe usuario y contraseña temporal
+        →  /login  →  /cambiar-password (primer ingreso)  →  su módulo
+```
+
+- **Pedir acceso — `/acceso` (pública).** Nombre, DNI (será su usuario), correo, celular y entidad opcionales, módulos que
+  necesita, para qué los necesita y la aceptación del tratamiento de datos (Ley 29733). **No crea ninguna cuenta**: deja una
+  fila *pendiente* en `solicitudes_acceso`. El registro abierto de Supabase sigue desactivado.
+- **Aprobar — *Configuración → Usuarios externos → Solicitudes de acceso*.** El administrador decide los módulos (no tienen
+  que ser los que se pidieron), la vigencia y la cuota de IA. Al aprobar se crea la cuenta y se muestra **una sola vez** la
+  contraseña temporal junto con un mensaje listo para entregar (copiar o abrir el correo). **ACE no envía correos**: no hay
+  servicio de correo detrás, y la cuenta usa un correo interno (`DNI@ace.local`) que no recibe nada. Rechazar admite un motivo.
+- **Primer ingreso — `/cambiar-password`.** Toda cuenta creada por el administrador nace con el aviso `cambiar_password`: el
+  proxy no la deja abrir nada más hasta que elige su propia contraseña (mínimo 8, una letra y un número, sin su DNI, ni una
+  de las habituales, y distinta de la temporal). Lo guarda el servidor, que es quien puede quitar el aviso de `app_metadata`.
+- **Olvidó su contraseña.** No hay recuperación por correo: el administrador le asigna otra temporal y la persona vuelve a
+  elegir la suya.
+
+### Qué impide que `/acceso` se abuse
+
+Es lo único público. No concede nada, pero podría llenar la base o hostigar al administrador, así que la ruta
+(`app/api/acceso/solicitud`) valida con el mismo esquema que la pantalla y aplica: una trampa invisible para bots, un tiempo
+mínimo de relleno, **3 solicitudes por IP y hora**, **una pendiente por DNI** (la repetida responde igual que la nueva, para
+no revelar qué DNI están registrados) y un tope de **300 pendientes** en total. No sustituye a un captcha: si algún día el
+volumen lo pide, se añade ahí.
 
 ## Dar de alta una cuenta
 
@@ -60,7 +90,8 @@ npx tsx --env-file=.env.local scripts/purgar-auditoria-externos.mts            #
 npx tsx --env-file=.env.local scripts/purgar-auditoria-externos.mts --aplicar  # borra
 ```
 
-`uso_ia` no lleva IP y no se purga: es contabilidad de costos.
+`uso_ia` no lleva IP y no se purga: es contabilidad de costos. El mismo script purga las **solicitudes de acceso ya
+resueltas** (guardan nombre, DNI, correo e IP) pasados 12 meses; las pendientes no se tocan.
 
 ## Cómo funciona por dentro
 
@@ -70,3 +101,8 @@ npx tsx --env-file=.env.local scripts/purgar-auditoria-externos.mts --aplicar  #
   validada en cabeceras `x-ace-*` que **siempre sobrescribe** (el cliente no puede falsearlas).
 - Todo el consumo de modelos pasa por un único cliente (`lib/openai-server.ts`): ahí se mide y se aplica la cuota.
 - Una cuenta que llega sin `app_metadata.tipo` se trata como autoregistrada y no abre nada.
+- `app_metadata.cambiar_password: true` marca la contraseña temporal. Solo cuenta si es exactamente `true`, y solo lo apaga
+  `/api/auth/cambiar-password` con la clave de servicio.
+- Las pantallas de acceso (`/login`, `/acceso`, `/cambiar-password`) comparten `app/components/auth/auth-ui.tsx` y van con
+  Tailwind acotado a `.tw`. Ojo: `styles.css` fija `h1`/`h2` y `p { margin-top: 0 }` sin capa y le gana a las utilidades:
+  los títulos llevan `!` (`text-2xl!`) y un `<p>` con margen superior, `mt-*!`.

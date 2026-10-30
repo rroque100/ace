@@ -174,3 +174,48 @@ describe("entrar y salir no se duplican como acciones", () => {
     expect(accionAuditable({ metodo: "GET", pathname: "/api/health", esDocumento: false, esPrecarga: false })).toBeNull();
   });
 });
+
+describe("contraseña temporal: hasta elegir la propia no se abre nada más", () => {
+  const temporal = (modulos: string[], extra: Record<string, unknown> = {}) =>
+    leerCredencialExterna({ tipo: "externo", modulos, vigente_hasta: "2027-01-01T00:00:00Z", cambiar_password: true, ...extra }, AHORA);
+
+  it("solo cuenta el aviso cuando es exactamente `true`: un texto o un 1 no lo encienden ni lo apagan por error", () => {
+    expect(temporal(["centro_juridico"]).cambiarPassword).toBe(true);
+    for (const valor of [false, null, "true", 1, "si", undefined]) {
+      expect(leerCredencialExterna({ tipo: "externo", modulos: ["centro_juridico"], cambiar_password: valor }, AHORA).cambiarPassword, String(valor)).toBe(false);
+    }
+    expect(leerCredencialExterna({ tipo: "interno", cambiar_password: true }, AHORA).cambiarPassword).toBe(false);
+  });
+
+  it("solo puede abrir la pantalla de elegir contraseña, la API que la guarda y salir; todo lo demás la devuelve ahí", () => {
+    for (const modulos of [["centro_juridico"], ["simulacro"], ["centro_juridico", "simulacro"]]) {
+      const credencial = temporal(modulos);
+      for (const ruta of ["/cambiar-password", "/api/auth/cambiar-password", "/auth/signout"]) expect(decidirAccesoExterno(credencial, ruta), ruta).toEqual({ tipo: "permitir" });
+      for (const ruta of ["/chat", "/simulacro", "/api/chat", "/api/simulacro/x", "/", "/login", "/configuracion", "/api/configuracion/users"]) {
+        expect(decidirAccesoExterno(credencial, ruta), ruta).toEqual({ tipo: "denegar", motivo: "cambiar_password", destino: "/cambiar-password", esperado: true });
+      }
+    }
+  });
+
+  it("llevarla a elegir la contraseña no se cuenta como intento de acceso indebido", () => {
+    const decision = decidirAccesoExterno(temporal(["centro_juridico"]), "/chat");
+    expect(decision).toMatchObject({ tipo: "denegar", esperado: true });
+  });
+
+  it("un acceso vencido o sin módulos manda sobre el aviso: no hay nada que elegir si no se puede entrar", () => {
+    expect(decidirAccesoExterno(temporal(["centro_juridico"], { vigente_hasta: "2026-01-01T00:00:00Z" }), "/chat")).toMatchObject({ motivo: "vencido" });
+    expect(decidirAccesoExterno(temporal([]), "/chat")).toMatchObject({ motivo: "sin_modulos" });
+  });
+
+  it("una vez elegida (aviso apagado) vuelve a abrir sus módulos, y la pantalla de contraseña sigue accesible", () => {
+    const normal = leerCredencialExterna({ tipo: "externo", modulos: ["centro_juridico"], cambiar_password: false }, AHORA);
+    expect(decidirAccesoExterno(normal, "/chat")).toEqual({ tipo: "permitir" });
+    expect(decidirAccesoExterno(normal, "/cambiar-password")).toEqual({ tipo: "permitir" });
+  });
+
+  it("editar módulos, vigencia o cuota no enciende ni apaga el aviso: solo se escribe cuando se indica", () => {
+    expect(credencialParaGuardar({ modulos: ["simulacro"] })).not.toHaveProperty("cambiar_password");
+    expect(credencialParaGuardar({ modulos: ["simulacro"], cambiarPassword: true })).toMatchObject({ cambiar_password: true });
+    expect(credencialParaGuardar({ modulos: ["simulacro"], cambiarPassword: false })).toMatchObject({ cambiar_password: false });
+  });
+});
