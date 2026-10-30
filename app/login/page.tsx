@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { LoginForm } from "@/app/components/login-form";
+import { AuthAlert, AuthLayout, authBotonSecundario, authTitulo } from "@/app/components/auth/auth-ui";
 
 export const dynamic = "force-dynamic";
 
@@ -8,9 +9,9 @@ type LoginPageProps = {
   searchParams: Promise<{ next?: string; acceso?: string }>;
 };
 
-const AVISOS: Record<string, string> = {
-  vencido: "Tu acceso a ACE ha vencido. Contacta con el administrador para renovarlo.",
-  sin_modulos: "Tu cuenta aún no tiene ningún módulo habilitado. Contacta con el administrador.",
+const AVISOS: Record<string, { titulo: string; texto: string }> = {
+  vencido: { titulo: "Tu acceso ha vencido", texto: "Contacta con el administrador para renovarlo." },
+  sin_modulos: { titulo: "Tu cuenta aún no tiene módulos habilitados", texto: "Contacta con el administrador para que te asigne el acceso." },
 };
 
 function safeNext(value?: string) {
@@ -31,27 +32,23 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   }
 
   return (
-    <main className="authShell">
-      <section className="authCard">
-        <div className="authBrand">
-          <div className="brandMark">A</div>
-          <div>
-            <strong>ACE IA Juridica</strong>
-            <span>Contrataciones publicas - Peru</span>
-          </div>
+    <AuthLayout>
+      <h1 className={authTitulo}>Ingresa a ACE</h1>
+      <p className="mb-6 text-md text-muted">
+        {sinAcceso ? "Tu sesión está iniciada, pero esta cuenta no puede usar ACE por ahora." : "Entra con tu DNI y tu contraseña."}
+      </p>
+      {aviso ? (
+        <div className="mb-5">
+          <AuthAlert tono="aviso" titulo={aviso.titulo}>{aviso.texto}</AuthAlert>
         </div>
-        <p className="authLead">
-          Accede para consultar el corpus normativo y tu historial privado de consultas.
-        </p>
-        {aviso ? <p className="authError" role="alert">{aviso}</p> : null}
-        {sinAcceso ? (
-          <form action="/auth/signout" method="post">
-            <button className="secondaryButton" type="submit">Cerrar sesión</button>
-          </form>
-        ) : (
-          <LoginForm next={target} />
-        )}
-      </section>
-    </main>
+      ) : null}
+      {sinAcceso ? (
+        <form action="/auth/signout" method="post">
+          <button className={authBotonSecundario} type="submit">Cerrar sesión</button>
+        </form>
+      ) : (
+        <LoginForm next={target} />
+      )}
+    </AuthLayout>
   );
 }

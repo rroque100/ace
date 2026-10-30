@@ -9,6 +9,10 @@ import { usuarioDeCorreo } from "@/lib/usuario-credencial";
 function isPublicPath(pathname: string) {
   return (
     pathname === "/login" ||
+    // Solicitud de acceso de una persona externa: todavía no tiene cuenta, así que no puede haber sesión. Solo recibe el
+    // formulario (queda pendiente de aprobación; no crea ninguna cuenta), con sus propios límites en la ruta.
+    pathname === "/acceso" ||
+    pathname === "/api/acceso/solicitud" ||
     pathname.startsWith("/auth/") ||
     pathname === "/api/health" ||
     pathname.startsWith("/api/integrations/health")
@@ -125,8 +129,14 @@ export async function updateSession(request: NextRequest, waitUntil: (trabajo: P
       if (decision.tipo === "denegar") {
         if (!decision.esperado) registrar(`acceso denegado (${decision.motivo}): ${pathname}`, 403);
         if (pathname.startsWith("/api/")) {
+          const mensajes = {
+            vencido: "Tu acceso ha vencido. Contacta con el administrador.",
+            cambiar_password: "Antes de continuar, elige tu propia contraseña.",
+            sin_modulos: "Tu cuenta no tiene acceso a esta función.",
+            ruta: "Tu cuenta no tiene acceso a esta función.",
+          } as const;
           return NextResponse.json(
-            { error: decision.motivo === "vencido" ? "Tu acceso ha vencido. Contacta con el administrador." : "Tu cuenta no tiene acceso a esta función." },
+            { error: mensajes[decision.motivo], ...(decision.motivo === "cambiar_password" ? { codigo: "cambiar_password" } : {}) },
             { status: 403 },
           );
         }

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
-import { getSupabaseAdminClient, supabaseRest, writeAuditLog } from "@/lib/supabase-server";
-import { correoDeUsuario, esUsuarioValido, USUARIO_LONGITUD, usuarioDeCorreo } from "@/lib/usuario-credencial";
-import { LISTA_MODULOS_EXTERNOS, credencialParaGuardar } from "@/lib/modulos-acceso";
+import { supabaseRest, writeAuditLog } from "@/lib/supabase-server";
+import { esUsuarioValido, USUARIO_LONGITUD, usuarioDeCorreo } from "@/lib/usuario-credencial";
+import { LISTA_MODULOS_EXTERNOS } from "@/lib/modulos-acceso";
+import { crearCuentaExterna, esFaltaSql, SQL_PENDIENTE } from "@/lib/externos-cuenta";
 import { resumirConsumo, type FilaUsoIA } from "@/lib/auditoria-resumen";
 import { inicioDeMes } from "@/lib/uso-ia";
 
@@ -13,9 +14,6 @@ export const runtime = "nodejs";
 // Cuentas EXTERNAS (asesores, alumnos): las crea y administra solo el administrador. Entran únicamente a los módulos que
 // se les habilitan aquí, con una vigencia y una cuota mensual de IA, y su actividad queda auditada (ver
 // lib/modulos-acceso.ts y docs/supabase/usuarios-externos.sql).
-
-const SQL_PENDIENTE = "Falta ejecutar docs/supabase/usuarios-externos.sql en el SQL Editor de Supabase.";
-const esFaltaSql = (error: unknown) => /42703|42P01|PGRST20[45]|does not exist|Could not find|schema cache/i.test(error instanceof Error ? error.message : String(error));
 
 const moduloSchema = z.enum(LISTA_MODULOS_EXTERNOS as [string, ...string[]]);
 
@@ -34,10 +32,6 @@ const crearSchema = z.object({
   // Tokens de IA por mes (entrada + salida). Vacío = sin tope; 0 = sin IA.
   cuotaIAMensual: z.number().int().min(0).max(1_000_000_000).nullish(),
 });
-
-function contrasenaTemporal() {
-  return `Ace-${crypto.randomUUID().replace(/-/g, "").slice(0, 14)}!9`;
-}
 
 type PerfilExterno = {
   id: string;
@@ -102,58 +96,22 @@ export async function POST(request: Request) {
   if (!cuerpo.success) return NextResponse.json({ error: cuerpo.error.issues[0]?.message ?? "Datos no válidos" }, { status: 400 });
   const datos = cuerpo.data;
 
-  // Antes de crear nada en Auth se comprueba que las columnas del perfil existen: crear la cuenta y fallar al reflejarla en
-  // el perfil dejaría una cuenta huérfana que no aparece en la lista.
-  try {
-    await supabaseRest("profiles?select=tipo&limit=1");
-  } catch (error) {
-    if (esFaltaSql(error)) return NextResponse.json({ error: SQL_PENDIENTE, sqlPendiente: true }, { status: 409 });
-    throw error;
-  }
-
-  const correo = correoDeUsuario(datos.usuario);
-  const contrasena = datos.password || contrasenaTemporal();
-  const credencial = credencialParaGuardar({ modulos: datos.modulos, vigenteHasta: datos.vigenteHasta || null, cuotaIAMensual: datos.cuotaIAMensual ?? null });
-  const supabase = await getSupabaseAdminClient();
-  const { data, error } = await supabase.auth.admin.createUser({
-    email: correo,
-    email_confirm: true,
-    password: contrasena,
-    user_metadata: { role: "consulta" },
-    // `app_metadata` solo lo escribe el servidor: la persona no puede ampliarse los módulos ni la vigencia.
-    app_metadata: credencial,
+  const cuenta = await crearCuentaExterna({
+    usuario: datos.usuario,
+    nombreCompleto: datos.nombreCompleto,
+    password: datos.password,
+    modulos: datos.modulos,
+    vigenteHasta: datos.vigenteHasta,
+    cuotaIAMensual: datos.cuotaIAMensual,
   });
-  if (error || !data.user) {
-    const existe = /already|registered|exists/i.test(error?.message ?? "");
-    return NextResponse.json({ error: existe ? "Ya existe una cuenta con ese usuario." : (error?.message ?? "No se pudo crear la cuenta") }, { status: existe ? 409 : 500 });
-  }
-  try {
-    await supabaseRest(`profiles?id=eq.${data.user.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        role: "consulta",
-        tipo: "externo",
-        modulos: credencial.modulos,
-        vigente_hasta: credencial.vigente_hasta,
-        cuota_ia_mensual: credencial.cuota_ia_mensual,
-        nombre_completo: datos.nombreCompleto || null,
-        dni: datos.usuario,
-        entity: null,
-        activo: true,
-      }),
-    });
-  } catch (errorPerfil) {
-    // Sin reflejo en el perfil la cuenta no se vería ni se podría administrar: se deshace en vez de dejarla a medias.
-    await supabase.auth.admin.deleteUser(data.user.id).catch(() => undefined);
-    return NextResponse.json({ error: esFaltaSql(errorPerfil) ? SQL_PENDIENTE : "No se pudo registrar el perfil; la cuenta no se creó." }, { status: esFaltaSql(errorPerfil) ? 409 : 500 });
-  }
+  if (!cuenta.ok) return NextResponse.json({ error: cuenta.error, ...(cuenta.sqlPendiente ? { sqlPendiente: true } : {}) }, { status: cuenta.status });
   await writeAuditLog({
     action: "settings.externo.create",
-    details: { modulos: credencial.modulos, vigenteHasta: credencial.vigente_hasta, cuotaIAMensual: credencial.cuota_ia_mensual },
-    entityId: data.user.id,
+    details: { modulos: cuenta.credencial.modulos, vigenteHasta: cuenta.credencial.vigente_hasta, cuotaIAMensual: cuenta.credencial.cuota_ia_mensual },
+    entityId: cuenta.id,
     entityType: "user",
     user: { email: auth.user.email, id: auth.user.id, role: auth.user.role },
   });
   // La contraseña temporal se muestra UNA vez, aquí: no queda guardada en ninguna parte.
-  return NextResponse.json({ id: data.user.id, usuario: datos.usuario, passwordTemporal: datos.password ? null : contrasena }, { status: 201 });
+  return NextResponse.json({ id: cuenta.id, usuario: cuenta.usuario, passwordTemporal: cuenta.generada ? cuenta.contrasena : null }, { status: 201 });
 }

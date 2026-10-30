@@ -71,6 +71,13 @@
 @source "./components/configuracion/feriados-tab.tsx";
 @source "./components/configuracion/usuarios-tab.tsx";
 @source "./components/configuracion/externos-tab.tsx";
+@source "./components/configuracion/solicitudes-acceso-panel.tsx";
+/* Pantallas de acceso: entrar, pedir acceso (público) y elegir la contraseña propia. */
+@source "./components/auth";
+@source "./components/login-form.tsx";
+@source "./login/page.tsx";
+@source "./acceso/page.tsx";
+@source "./cambiar-password/page.tsx";
 @source "./components/oficinas/areas-tab.tsx";
 @source "./components/oficinas/numeracion-tab.tsx";
 @source "./components/oficinas/membrete-tab.tsx";

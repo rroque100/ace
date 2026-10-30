@@ -182,3 +182,57 @@ describe("proxy: el personal de la entidad no cambia", () => {
     expect(mocks.registrar).not.toHaveBeenCalled();
   });
 });
+
+describe("proxy: solicitud de acceso (pública) y contraseña temporal", () => {
+  const temporal = externo({ tipo: "externo", modulos: ["centro_juridico"], vigente_hasta: new Date(AHORA + 30 * DIA).toISOString(), cambiar_password: true });
+
+  it("sin sesión se puede abrir el formulario de solicitud y enviarlo; el resto sigue pidiendo sesión", async () => {
+    expect((await updateSession(solicitud("/acceso"), (t) => void t)).status).toBe(200);
+    const envio = await updateSession(solicitud("/api/acceso/solicitud", { metodo: "POST", cabeceras: { accept: "application/json" } }), (t) => void t);
+    expect(envio.status).toBe(200);
+    // Solo esas dos rutas exactas: nada «bajo» ellas queda abierto por accidente.
+    for (const ruta of ["/api/acceso", "/api/acceso/otra", "/acceso/x", "/api/configuracion/externos/solicitudes"]) {
+      const respuesta = await updateSession(solicitud(ruta, { cabeceras: { accept: "application/json" } }), (t) => void t);
+      expect(respuesta.status, ruta).not.toBe(200);
+    }
+  });
+
+  it("una cuenta externa ya con sesión no usa el formulario de solicitud: se le lleva a su módulo", async () => {
+    mocks.user = juridico;
+    const respuesta = await updateSession(solicitud("/acceso"), (t) => void t);
+    expect(new URL(respuesta.headers.get("location") ?? "").pathname).toBe("/chat");
+  });
+
+  it("con la contraseña temporal, cualquier página la lleva a elegir la suya, sin anotarlo como intento indebido", async () => {
+    mocks.user = temporal;
+    for (const ruta of ["/chat", "/busqueda", "/", "/configuracion"]) {
+      const respuesta = await updateSession(solicitud(ruta), (t) => void t);
+      expect(new URL(respuesta.headers.get("location") ?? "").pathname, ruta).toBe("/cambiar-password");
+    }
+    expect(mocks.registrar).not.toHaveBeenCalled();
+  });
+
+  it("con la contraseña temporal las APIs responden 403 con un código que la pantalla puede reconocer", async () => {
+    mocks.user = temporal;
+    const respuesta = await updateSession(solicitud("/api/chat", { metodo: "POST", cabeceras: { accept: "application/json" } }), (t) => void t);
+    expect(respuesta.status).toBe(403);
+    expect(await respuesta.json()).toMatchObject({ codigo: "cambiar_password" });
+  });
+
+  it("la pantalla de elegir contraseña, su API y salir siguen abiertas con la contraseña temporal", async () => {
+    mocks.user = temporal;
+    expect((await updateSession(solicitud("/cambiar-password"), (t) => void t)).status).toBe(200);
+    expect((await updateSession(solicitud("/api/auth/cambiar-password", { metodo: "POST", cabeceras: { accept: "application/json" } }), (t) => void t)).status).toBe(200);
+    expect((await updateSession(solicitud("/auth/signout", { metodo: "POST" }), (t) => void t)).status).toBe(200);
+  });
+
+  it("elegida la contraseña, la cuenta vuelve a su módulo", async () => {
+    mocks.user = externo({ tipo: "externo", modulos: ["centro_juridico"], vigente_hasta: new Date(AHORA + 30 * DIA).toISOString(), cambiar_password: false });
+    expect((await updateSession(solicitud("/chat"), (t) => void t)).status).toBe(200);
+  });
+
+  it("el personal de la entidad no se ve afectado por ninguna de las dos cosas", async () => {
+    mocks.user = { id: "int-2", email: "88888888@ace.local", app_metadata: { tipo: "interno", cambiar_password: true } };
+    expect((await updateSession(solicitud("/necesidades"), (t) => void t)).status).toBe(200);
+  });
+});

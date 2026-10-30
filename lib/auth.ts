@@ -63,6 +63,8 @@ export type SessionUser = {
   externoVencido: boolean;
   // Tokens de IA permitidos al mes a una cuenta externa; null = sin tope.
   cuotaIAMensual: number | null;
+  // Cuenta externa que aún usa la contraseña temporal del administrador y debe elegir la suya.
+  debeCambiarPassword: boolean;
 };
 
 function normalizeRole(raw: string | null | undefined): AppRole {
@@ -175,6 +177,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     modulosExternos: credencialExterna.modulos,
     externoVencido: credencialExterna.vencido,
     cuotaIAMensual: credencialExterna.externo ? credencialExterna.cuotaIAMensual : null,
+    debeCambiarPassword: credencialExterna.externo && credencialExterna.cambiarPassword,
   };
 }
 
