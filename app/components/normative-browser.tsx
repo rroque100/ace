@@ -455,7 +455,16 @@ export function NormativeBrowser() {
 
   const selectedPosition = visibleArticles.findIndex(article => article.id === selectedArticle?.id);
   const selectReadingArticle = (id: string) => {
+    const article = visibleArticles.find(item => item.id === id);
+    if (!detail || !article) return;
     setSelectedArticleId(id);
+    const params = new URLSearchParams(window.location.search);
+    params.set("documentId", detail.norm.id);
+    params.set("articleId", id);
+    params.set("article", article.articleNumber);
+    if (article.bodyId) params.set("bodyId", article.bodyId); else params.delete("bodyId");
+    openedTarget.current = detail.norm.id;
+    window.history.replaceState(null, "", `/normas?${params.toString()}`);
     requestAnimationFrame(() => {
       const heading = document.getElementById("norm-article-heading");
       heading?.focus({preventScroll:true});
@@ -874,7 +883,7 @@ export function NormativeBrowser() {
                         ))}
                       </div>
                     ) : null}
-                    <NormativeIndex articles={visibleArticles} selectedId={selectedArticle?.id} onSelect={setSelectedArticleId} />
+                    <NormativeIndex articles={visibleArticles} selectedId={selectedArticle?.id} onSelect={selectReadingArticle} />
                   </details>
 
                   <article className="articleReader">

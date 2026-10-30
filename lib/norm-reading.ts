@@ -24,4 +24,3 @@ export function legalReadingBlocks(content:string):string[] {
   const offsets=[...breaks].sort((a,b)=>a-b);
   return offsets.slice(0,-1).map((start,index)=>content.slice(start,offsets[index+1]));
 }
-
