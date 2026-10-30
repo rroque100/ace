@@ -127,3 +127,6 @@ button,a,input,select,textarea { -webkit-tap-highlight-color:transparent; }
 .workspaceShell .userRoleBadge { color:#c4d5df!important; }
 .workspaceShell .signoutButton { min-height:44px; border:1px solid #ffffff30; background:transparent; color:#dcebee; }
 .workspaceShell .signoutButton:hover { background:#ffffff12; }
+.documentSyncPanel { min-width:0; overflow-wrap:anywhere; }
+.documentSyncPanel :is(button,select,summary,input:not([type="checkbox"]):not([type="radio"])) { min-height:44px; }
+.documentSyncPanel input[type="checkbox"] { accent-color:var(--brand); }

@@ -28,6 +28,7 @@ export function matchesExtendedFilters(
     year: number | null;
     regime?: string | null;
     regimeReviewed?: boolean;
+    metadata?: Record<string, unknown>;
   },
   filters: ExtendedLegalFilters,
 ) {
@@ -47,6 +48,7 @@ export function matchesExtendedFilters(
   if (
     filters.regime &&
     regime !== filters.regime &&
+    !(source.regimeReviewed && Array.isArray(source.metadata?.declaredRegimes) && source.metadata.declaredRegimes.includes(filters.regime)) &&
     !(filters.includeUnknownRegime && (!regime || regime === "no_determinado"))
   )
     return false;

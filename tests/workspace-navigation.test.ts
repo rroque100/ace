@@ -26,6 +26,8 @@ describe("workspace permissions and client identity",()=>{
       .toEqual(["/","/simulador"]);
   });
   it("keeps admin and procurement links closed without their permissions",()=>{
+    expect(paths(actor())).not.toContain("/actualizacion-documental");
+    expect(paths(actor({isAdmin:true}))).toContain("/actualizacion-documental");
     expect(paths(actor())).not.toContain("/configuracion");
     expect(paths(actor())).not.toContain("/expedientes");
     expect(paths(actor(),true)).toContain("/expedientes");

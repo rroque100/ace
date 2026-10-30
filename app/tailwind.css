@@ -254,3 +254,6 @@
 @source "./components/appearance-control.tsx";
 @source "./components/sidebar.tsx";
 @source "./components/workspace-assistants.tsx";
+
+@source "./components/document-sync-panel.tsx";
+@source "./actualizacion-documental/page.tsx";

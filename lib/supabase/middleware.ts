@@ -95,7 +95,11 @@ export async function updateSession(request: NextRequest, waitUntil: (trabajo: P
   supabaseResponse = siguiente();
   for (const cookie of previa.cookies.getAll()) supabaseResponse.cookies.set(cookie);
 
-  if (!user && !isPublicPath(pathname)) {
+  // Only this scheduler endpoint can authenticate with its existing server secret.
+  // Invalid/missing secrets still hit the normal session guard; the route checks again.
+  const trustedSyncCron = pathname === "/api/library/sync/cron" && request.method === "GET" &&
+    Boolean(process.env.CRON_SECRET) && request.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`;
+  if (!user && !isPublicPath(pathname) && !trustedSyncCron) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }

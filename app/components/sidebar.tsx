@@ -30,6 +30,7 @@ import {
   UploadCloud,
   X,
   Menu,
+  RefreshCw,
 } from "lucide-react";
 import type { ActiveId, IconName, NavItem } from "@/lib/navegacion";
 import { BANDEJA_TOPE } from "@/lib/necesidades-bandeja";
@@ -47,6 +48,7 @@ const SIDEBAR_COLLAPSED_KEY = "ace-sidebar-collapsed";
 // Los iconos viven aquí (cliente): `NAVEGACION` solo trae el NOMBRE, para que la
 // estructura sea serializable al cruzar de AppShell (servidor) a este componente.
 const ICONOS: Record<IconName, LucideIcon> = {
+  RefreshCw,
   BookOpenCheck,
   Bot,
   FileSearch,

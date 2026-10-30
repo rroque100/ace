@@ -236,3 +236,18 @@ describe("proxy: solicitud de acceso (pública) y contraseña temporal", () => {
     expect((await updateSession(solicitud("/necesidades"), (t) => void t)).status).toBe(200);
   });
 });
+
+describe("cron documental autentica únicamente su ruta y método",()=>{
+  it("permite el secreto correcto y mantiene cerradas otras rutas y métodos",async()=>{
+    const old=process.env.CRON_SECRET;process.env.CRON_SECRET="test-scheduler-secret";
+    try {
+      const ok=await updateSession(solicitud("/api/library/sync/cron",{cabeceras:{authorization:"Bearer test-scheduler-secret"}}));
+      expect(ok.status).toBe(200);
+      for(const path of ["/api/library/sync","/api/configuracion/users","/api/library/sync/cron/extra"]){
+        expect((await updateSession(solicitud(path,{cabeceras:{authorization:"Bearer test-scheduler-secret"}}))).status).toBe(401);
+      }
+      expect((await updateSession(solicitud("/api/library/sync/cron",{metodo:"POST",cabeceras:{authorization:"Bearer test-scheduler-secret"}}))).status).toBe(401);
+      expect((await updateSession(solicitud("/api/library/sync/cron",{cabeceras:{authorization:"Bearer incorrect"}}))).status).toBe(401);
+    } finally {if(old===undefined)delete process.env.CRON_SECRET;else process.env.CRON_SECRET=old;}
+  });
+});

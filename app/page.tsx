@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Bot, BookOpenCheck, FileSearch, Library, ClipboardList, Briefcase, FileText, Bookmark, ShieldCheck, UploadCloud } from "lucide-react";
+import { ArrowRight, Bot, BookOpenCheck, FileSearch, Library, ClipboardList, Briefcase, FileText, Bookmark, ShieldCheck, UploadCloud, RefreshCw } from "lucide-react";
 import { redirect } from "next/navigation";
 import { AppShell } from "./components/app-shell";
 import { getSessionUser, puedeUsarProcesos } from "@/lib/auth";
@@ -13,6 +13,7 @@ const TASKS = [
   { href:"/simulador", title:"Prepara tu examen", description:"Practica y revisa el fundamento de cada respuesta. El banco indica qué está listo.", icon:BookOpenCheck, label:"Ver preparación", tag:"Aprender" },
 ];
 const WORK = [
+  {href:"/actualizacion-documental",title:"Actualizar biblioteca",description:"Revisa publicaciones del OECE y la cola de descargas oficiales.",icon:RefreshCw},
   {href:"/necesidades",title:"Necesidades",description:"Prepara y sigue los requerimientos de tu área.",icon:ClipboardList},
   {href:"/expedientes",title:"Expedientes",description:"Organiza las actuaciones de cada contratación.",icon:Briefcase},
   {href:"/contratos",title:"Contratos",description:"Prepara y revisa la documentación contractual.",icon:FileText},
