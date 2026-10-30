@@ -1,6 +1,7 @@
 "use client";
 
 import "./normative-browser.css";
+import { NormArticleReading } from "./norm-article-reading";
 import Link from "next/link";
 import {DocumentValidityReview} from "./document-validity-review";
 import type {ValidityRecord} from "@/lib/validity-review";
@@ -207,6 +208,17 @@ export function NormativeBrowser() {
   const [norms, setNorms] = useState<NormSummary[]>([]);
   const [loadingList, setLoadingList] = useState(false);
   const [reading, setReading] = useState(Boolean(targetDocumentId));
+  const [focusReading, setFocusReading] = useState(false);
+  useEffect(() => {
+    if (!focusReading) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || (event.target instanceof Element && event.target.closest("input,textarea,select,[role=dialog]"))) return;
+      setFocusReading(false);
+      requestAnimationFrame(() => document.getElementById("norm-reader-focus")?.focus());
+    };
+    window.addEventListener("keydown", escape);
+    return () => window.removeEventListener("keydown", escape);
+  }, [focusReading]);
   const readingRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(targetDocumentId);
   const [detail, setDetail] = useState<NormDetail | null>(null);
@@ -441,6 +453,20 @@ export function NormativeBrowser() {
     [visibleArticles, selectedArticleId],
   );
 
+  const selectedPosition = visibleArticles.findIndex(article => article.id === selectedArticle?.id);
+  const selectReadingArticle = (id: string) => {
+    setSelectedArticleId(id);
+    requestAnimationFrame(() => {
+      const heading = document.getElementById("norm-article-heading");
+      heading?.focus({preventScroll:true});
+      heading?.scrollIntoView({block:"start"});
+    });
+  };
+  const toggleReadingFocus = () => {
+    setFocusReading(value => !value);
+    setArticleNavChoice(focusReading ? null : false);
+    requestAnimationFrame(() => document.getElementById("norm-reader-focus")?.scrollIntoView({block:"start"}));
+  };
   const selectedArticleId2 = selectedArticle?.id ?? null;
 
   useEffect(() => {
@@ -563,7 +589,8 @@ export function NormativeBrowser() {
   }
 
   return (
-    <div className={`toolPanel normBrowser ${reading ? "normReading" : "normBrowsing"}`}>
+    <div className={`toolPanel normBrowser ${reading ? "normReading" : "normBrowsing"} ${reading && focusReading ? "normFocusReading" : ""}`}>
+      {reading && focusReading ? <h1 className="sr-only">Vista de lectura · {detail?.norm.title}</h1> : null}
       <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, articleId:selectedArticle?.id, bodyId:selectedArticle?.bodyId, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
 
       <div className="normCatalogueControls">
@@ -614,7 +641,7 @@ export function NormativeBrowser() {
       </div>
       {error ? <p className="formMessage errorText">{error}</p> : null}
       <div className="normReaderToolbar" ref={readingRef} tabIndex={-1}>
-        {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
+        {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);setFocusReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
         {reading ? <span>Lectura del documento · comprueba la versión y la página del PDF.</span> : null}
       </div>
       <div className="normGrid">
@@ -858,12 +885,12 @@ export function NormativeBrowser() {
                             {selectedArticle.sectionTitle ? (
                               <span className="articleSection">{selectedArticle.sectionTitle}</span>
                             ) : null}
-                            <strong>Articulo {selectedArticle.articleNumber}</strong><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
+                            <h2 id="norm-article-heading" className="normArticleHeading" tabIndex={-1}>Artículo {selectedArticle.articleNumber}</h2><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
                           </div>
                           <div className="articleBadges">
                             {selectedArticle.pageStart ? (
                               <span className="normTag">
-                                pag. {selectedArticle.pageStart}
+                                pág. {selectedArticle.pageStart}
                                 {selectedArticle.pageEnd && selectedArticle.pageEnd !== selectedArticle.pageStart
                                   ? `-${selectedArticle.pageEnd}`
                                   : ""}
@@ -883,8 +910,14 @@ export function NormativeBrowser() {
                           </div>
                         ) : null}
 
-                        <p className="normScopeNote">Texto extraído del documento · comprueba la página del PDF para citar.</p>
-                        <p className="articleText">{selectedArticle.content}</p>
+                        <NormArticleReading
+                          content={selectedArticle.content}
+                          documentTitle={detail.norm.title}
+                          focus={focusReading}
+                          onFocus={toggleReadingFocus}
+                          previous={selectedPosition > 0 ? {number:visibleArticles[selectedPosition-1].articleNumber,select:()=>selectReadingArticle(visibleArticles[selectedPosition-1].id)} : null}
+                          next={selectedPosition >= 0 && selectedPosition < visibleArticles.length-1 ? {number:visibleArticles[selectedPosition+1].articleNumber,select:()=>selectReadingArticle(visibleArticles[selectedPosition+1].id)} : null}
+                        />
                         {detail.canCorrectReferences ? <NormativeBodyReview key={selectedArticle.id} articleId={selectedArticle.id} title={selectedArticle.bodyReviewed?selectedArticle.bodyTitle:undefined} revision={selectedArticle.bodyRevision??0} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/> : null}
 
                         {selectedReading ? (

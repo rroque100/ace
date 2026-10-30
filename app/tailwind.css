@@ -257,3 +257,5 @@
 
 @source "./components/document-sync-panel.tsx";
 @source "./actualizacion-documental/page.tsx";
+
+@source "./components/norm-article-reading.tsx";
