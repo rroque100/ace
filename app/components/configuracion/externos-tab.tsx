@@ -1,13 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Copy, Download, KeyRound, Loader, Power, Save, ShieldCheck, UserPlus } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AlertTriangle, Download, KeyRound, Loader, Power, Save, ShieldCheck, UserPlus } from "lucide-react";
 import { btnPrimary, btnSecondary, btnSecondarySm, fieldLabel, inputBase, statusBadge } from "./ui";
 import { useToastHelpers } from "@/lib/toast";
 import { LISTA_MODULOS_EXTERNOS, MODULOS_EXTERNOS, type ModuloExterno } from "@/lib/modulos-acceso";
 import { mensajeBienvenida } from "@/lib/solicitud-acceso";
 import { USUARIO_LONGITUD } from "@/lib/usuario-credencial";
 import { ConfirmDialog } from "../confirm-dialog";
+import { CuentaCreadaCard } from "./cuenta-creada-card";
 import { SolicitudesAccesoPanel } from "./solicitudes-acceso-panel";
 
 // Usuarios externos: alta con módulos, vigencia y cuota de IA; consumo del mes; y auditoría (IP, acciones, consumo por
@@ -46,7 +47,8 @@ export function ExternosTab() {
   const [fin, setFin] = useState("");
   const [cuota, setCuota] = useState("");
   const [creando, setCreando] = useState(false);
-  const [creada, setCreada] = useState<{ usuario: string; password: string; mensaje: string } | null>(null);
+  const [creada, setCreada] = useState<{ nombre: string | null; usuario: string; password: string; mensaje: string } | null>(null);
+  const creadaRef = useRef<HTMLDivElement>(null);
 
   // Restablecer contraseña
   const [aRestablecer, setARestablecer] = useState<Externo | null>(null);
@@ -111,6 +113,8 @@ export function ExternosTab() {
   }, [consultaAuditoria, toastError]);
 
   useEffect(() => { void cargar(); }, [cargar]);
+  // Al aparecer la contraseña temporal (el alta está más abajo) se lleva a la vista.
+  useEffect(() => { if (creada) creadaRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }, [creada]);
   useEffect(() => { void cargarAuditoria(0); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -138,6 +142,7 @@ export function ExternosTab() {
       if (!respuesta.ok) throw new Error(datos.error ?? "No se pudo crear la cuenta");
       if (datos.passwordTemporal) {
         setCreada({
+          nombre: nombre || null,
           usuario: datos.usuario,
           password: datos.passwordTemporal,
           mensaje: mensajeBienvenida({
@@ -209,6 +214,7 @@ export function ExternosTab() {
       const datos = await respuesta.json().catch(() => ({}));
       if (!respuesta.ok) throw new Error(datos.error ?? "No se pudo restablecer la contraseña");
       setCreada({
+        nombre: externo.nombre,
         usuario: externo.usuario ?? "",
         password: datos.password,
         mensaje: mensajeBienvenida({
@@ -237,6 +243,13 @@ export function ExternosTab() {
         </p>
       ) : null}
       {errorCarga ? <p role="alert" className="text-sm text-danger">{errorCarga}</p> : null}
+
+      {/* Arriba del todo y a la vista: la contraseña temporal se muestra una sola vez, venga del alta, de una solicitud o de un restablecimiento. */}
+      {creada ? (
+        <div ref={creadaRef}>
+          <CuentaCreadaCard nombre={creada.nombre} usuario={creada.usuario} passwordTemporal={creada.password} mensaje={creada.mensaje} onCerrar={() => setCreada(null)} />
+        </div>
+      ) : null}
 
       <SolicitudesAccesoPanel onCuentaCreada={() => void cargar()} />
 
@@ -277,13 +290,6 @@ export function ExternosTab() {
             </button>
           </div>
         </form>
-        {creada ? (
-          <div role="status" className="mt-3 flex flex-wrap items-center gap-3 rounded-md border border-brand/40 bg-brand-soft px-3 py-2.5 text-sm">
-            <span>Contraseña temporal de <strong>{creada.usuario}</strong> (se muestra una sola vez): <code className="font-mono font-bold">{creada.password}</code>. Al entrar por primera vez, la persona deberá elegir la suya.</span>
-            <button type="button" className={btnSecondarySm} onClick={() => void navigator.clipboard?.writeText(creada.password).then(() => success("Copiada"))}><Copy size={14} aria-hidden /> Copiar</button>
-            <button type="button" className={btnSecondarySm} onClick={() => void navigator.clipboard?.writeText(creada.mensaje).then(() => success("Mensaje copiado"))}><Copy size={14} aria-hidden /> Copiar mensaje completo</button>
-          </div>
-        ) : null}
       </section>
 
       <section aria-labelledby="externos-lista">

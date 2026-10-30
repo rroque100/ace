@@ -2,6 +2,7 @@
 
 import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
 import {conversationUrl} from "@/lib/chat-continuity";
+import { esRespuestaFija } from "@/lib/chat-respuesta-fija";
 import {useChatContinuity} from "./use-chat-continuity";
 import {ChatWorkNote} from "./chat-work-note";
 import {ChatFeedback} from "./chat-feedback";
@@ -147,7 +148,7 @@ type ConversationMessage = {
   confidence?: Confidence;
   citationWarnings?: string[];
   mode?: string;
-  /** Modelo que respondió; `needs-clarification` marca un pedido de aclaración (sin fuentes ni revisión). */
+  /** Modelo que respondió; `needs-clarification` y `assistant-intro` marcan respuestas fijas (sin fuentes ni revisión). */
   model?: string;
   note?: string;
   persistedId?: string | null;
@@ -753,7 +754,7 @@ function MessageEvidence({
   const assessment = message.assessment;
 
   // Un pedido de aclaración no consultó ninguna norma: «0 fragmentos consultados» sobraría.
-  if (message.model === "needs-clarification" || (sources.length === 0 && !assessment)) {
+  if (esRespuestaFija(message.model) || (sources.length === 0 && !assessment)) {
     return null;
   }
 
@@ -1393,7 +1394,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   )}
 
                   {/* Un pedido de aclaración no tiene fuentes ni conclusión que valorar: la tarjeta de revisión no aplica. */}
-                  {!message.error && !message.streaming && message.model !== "needs-clarification" ? (
+                  {!message.error && !message.streaming && !esRespuestaFija(message.model) ? (
                     <AnswerUseCard
                       assessment={message.assessment}
                       confidence={message.confidence}
@@ -1450,7 +1451,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                     <MessageEvidence message={message} onOpenSources={(references) => setSelectedReferences(references)} />
                   ) : null}
 
-                  {!message.streaming && message.telemetry && message.model !== "needs-clarification" ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
+                  {!message.streaming && message.telemetry && !esRespuestaFija(message.model) ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
                   {!message.streaming && !message.error && message.content ? (
                     <div className="responseActions">
                       <small className="responseActionsHint">Acciones sobre esta respuesta</small>

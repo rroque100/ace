@@ -7,6 +7,9 @@ import { Sidebar } from "./sidebar";
 import { YearSelector } from "./year-selector";
 import { MiYoWidget } from "./asistente/mi-yo-widget";
 import { rutaPermitidaExterno } from "@/lib/modulos-acceso";
+import { consumoMensualTokens } from "@/lib/uso-ia";
+import { estadoCuentaExterna } from "@/lib/cuenta-externa-estado";
+import { AvisosExterno } from "./externo/avisos-externo";
 
 // Frase clara (para usuarios no tecnicos) de que puede ver cada usuario en el
 // archivo de expedientes, derivada del mismo modelo de scope de lib/auth.
@@ -56,12 +59,20 @@ async function countRecentNews() {
   }
 }
 
+// Fuera del componente: leer el reloj es impuro y el componente se vuelve a ejecutar; aquí es solo una consulta del servidor.
+async function estadoDeCuentaExterna(user: SessionUser) {
+  return estadoCuentaExterna({ cuota: user.cuotaIAMensual, usados: await consumoMensualTokens(user.id), vigenteHasta: user.externoVigenteHasta, ahora: Date.now() });
+}
+
 export async function AppShell({ active, action, children, eyebrow, title, showFiscalYear = true }: AppShellProps) {
   const [user, newsCount] = await Promise.all([getSessionUser(), countRecentNews()]);
   const officeName = user ? await getOfficeName(user.oficinaId) : null;
   // Bandeja de necesidades pendientes de la acción de este usuario: badge en el
   // menú, para que se entere sin abrir la sección (cierra el lazo del SLA).
   const bandejaNecesidades = user && !user.esExterno ? await contarNecesidadesPendientes(user) : 0;
+  // Una cuenta externa ve cuánta IA le queda y hasta cuándo tiene acceso, en la barra lateral y en avisos arriba. El consumo
+  // sale de la misma lectura (con caché de un minuto) que aplica la cuota; si no se puede leer cuenta como cero, sin romper la pantalla.
+  const estadoExterno = user?.esExterno ? await estadoDeCuentaExterna(user) : null;
   const isAdmin = Boolean(user?.isAdmin);
   const scopeText = user ? scopePhrase(user) : "";
   // Expedientes/Contratos son exclusivos de la oficina de Abastecimiento
@@ -103,6 +114,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
         bandejaNecesidades={bandejaNecesidades}
         officeName={officeName}
         scopeText={scopeText}
+        externo={user?.esExterno && estadoExterno ? { modulos: user.modulosExternos, estado: estadoExterno } : null}
       />
 
       <section className="content" id="contenido" tabIndex={-1}>
@@ -114,8 +126,12 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
               {showFiscalYear ? <YearSelector /> : null}
             </h1>
           </div>
-          <div className="topbarSearchActions">{user ? <SearchAssistant ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
+          {/* Sin «Buscar en ACE» para una cuenta externa: propone destinos que no puede abrir (Guardados, Historial, Archivo) y cada propuesta gasta
+              parte de su cuota de IA. Sus módulos ya están a la vista en el menú. */}
+          <div className="topbarSearchActions">{user && !user.esExterno ? <SearchAssistant ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
         </header>
+
+        {estadoExterno ? <AvisosExterno estado={estadoExterno} /> : null}
 
         {children}
       </section>

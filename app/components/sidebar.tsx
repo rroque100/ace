@@ -35,6 +35,9 @@ import type { SessionUser } from "@/lib/auth";
 import { BANDEJA_TOPE } from "@/lib/necesidades-bandeja";
 import { etiquetaDeCuenta } from "@/lib/usuario-credencial";
 import { appRoleLabel } from "@/lib/permisos-contratacion";
+import type { ModuloExterno } from "@/lib/modulos-acceso";
+import type { EstadoCuentaExterna } from "@/lib/cuenta-externa-estado";
+import { CuentaExternaCard } from "./externo/cuenta-externa-card";
 
 const SIDEBAR_COLLAPSED_KEY = "ace-sidebar-collapsed";
 
@@ -120,6 +123,7 @@ export function Sidebar({
   bandejaNecesidades,
   officeName,
   scopeText,
+  externo,
 }: {
   active: ActiveId;
   sections: readonly { label: string; items: readonly NavItem[] }[];
@@ -128,6 +132,8 @@ export function Sidebar({
   bandejaNecesidades: number;
   officeName: string | null;
   scopeText: string;
+  /** Solo para cuentas externas: sus módulos y el estado de su IA y su vigencia (ver lib/cuenta-externa-estado.ts). */
+  externo?: { modulos: readonly ModuloExterno[]; estado: EstadoCuentaExterna } | null;
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -289,24 +295,28 @@ export function Sidebar({
                   style={{ color: ROLE_ACCENT[user.role] ?? ROLE_ACCENT.consulta }}
                 >
                   <span className="userRoleDot" style={{ background: "currentColor" }} />
-                  {appRoleLabel(user.role)}
+                  {externo ? "Cuenta externa" : appRoleLabel(user.role)}
                 </span>
               </div>
             </div>
 
-            <div className="userContext">
-              <span className="userContextRow" title="Oficina a la que perteneces">
-                <Building2 size={13} aria-hidden />
-                {officeName ?? user.entity ?? "Sin oficina asignada"}
-              </span>
-              {user.esJefe ? (
-                <span className="userJefeTag" title="Jefe de oficina: administra todo lo de su oficina">
-                  <Crown size={12} aria-hidden />
-                  Jefe de oficina
+            {externo ? (
+              <CuentaExternaCard modulos={externo.modulos} estado={externo.estado} />
+            ) : (
+              <div className="userContext">
+                <span className="userContextRow" title="Oficina a la que perteneces">
+                  <Building2 size={13} aria-hidden />
+                  {officeName ?? user.entity ?? "Sin oficina asignada"}
                 </span>
-              ) : null}
-              <span className="userScopeHint">{scopeText}</span>
-            </div>
+                {user.esJefe ? (
+                  <span className="userJefeTag" title="Jefe de oficina: administra todo lo de su oficina">
+                    <Crown size={12} aria-hidden />
+                    Jefe de oficina
+                  </span>
+                ) : null}
+                <span className="userScopeHint">{scopeText}</span>
+              </div>
+            )}
 
             <form action="/auth/signout" method="post">
               <button className="signoutButton" type="submit">

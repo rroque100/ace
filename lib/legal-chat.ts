@@ -38,6 +38,8 @@ import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseA
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
+import { isMetaQuestion, metaQuestionAnswer } from "./chat-meta";
+import { esRespuestaFija, MODELO_ACLARACION, MODELO_GUIA } from "./chat-respuesta-fija";
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
 import { missingArticleNotice, missingNormNotice, missingRequestedArticles, missingRequestedNorms } from "./chat-article-check";
 import { withRetry } from "./retry";
@@ -890,13 +892,13 @@ function applySystemConfidence(answer: string, _confidence: SourceAssessment["co
 
 /** Same publication gate for normal responses and streamed responses. */
 async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input: z.infer<typeof chatRequestSchema>) {
-  // Pedido de aclaración (ver chat-vague.ts): es una respuesta fija sin afirmaciones jurídicas. La puerta de
-  // publicación la reemplazaría por «No se recuperaron fuentes suficientes» y se perdería lo que se le pide al usuario.
-  if (prep.status === "final" && prep.model === "needs-clarification") {
+  // Pedido de aclaración (chat-vague.ts) o guía de uso (chat-meta.ts): son respuestas fijas sin afirmaciones jurídicas. La puerta
+  // de publicación las reemplazaría por «No se recuperaron fuentes suficientes» y se perdería lo que se le dice al usuario.
+  if (prep.status === "final" && esRespuestaFija(prep.model)) {
     const review = { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const, failureReason: "no_sources" as const };
     prep.assessment.evidenceReview = review;
     prep.assessment.confidence = "baja";
-    prep.assessment.reason = "Falta contexto para ubicar la norma aplicable.";
+    prep.assessment.reason = prep.model === MODELO_GUIA ? "Guía de uso del asistente: no consulta normas." : "Falta contexto para ubicar la norma aplicable.";
     prep.assessment.evidenceWarnings = [];
     return { answer, review };
   }
@@ -1758,8 +1760,14 @@ async function prepareLegalAnswer(
   // mínimo en vez de devolver un ensayo genérico. Solo en una conversación nueva y sin nada que acote (datos
   // del caso, documentos, un documento o artículo elegidos): con historial, el modelo ya tiene de qué partir.
   const hasCaseContent = Object.values(input.caseContext ?? {}).some((value) => typeof value === "string" && value.trim());
-  if (!followup.followUp && history.length === 0 && !caseDocuments.length && !hasCaseContent && !input.filters?.documentId && !input.filters?.articleId && selectedIds.length === 0 && isVagueQuestion(input.question)) {
-    return { status: "final", answer: vagueQuestionAnswer(), model: "needs-clarification", assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
+  const conversacionNueva = !followup.followUp && history.length === 0 && !caseDocuments.length && !hasCaseContent && !input.filters?.documentId && !input.filters?.articleId && selectedIds.length === 0;
+  // Preguntar por el propio asistente («¿qué sabes hacer?», «hola») tampoco tiene respuesta en el corpus: se explica qué
+  // hace y cómo preguntar, sin consultar fuentes ni gastar IA. Va antes que la guarda anterior porque saludar no es una duda vaga.
+  if (conversacionNueva && isMetaQuestion(input.question)) {
+    return { status: "final", answer: metaQuestionAnswer(), model: MODELO_GUIA, assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
+  }
+  if (conversacionNueva && isVagueQuestion(input.question)) {
+    return { status: "final", answer: vagueQuestionAnswer(), model: MODELO_ACLARACION, assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
   }
   const focusedQueries = alternatives ? alternativeQueries(alternatives) : questionPlan.subqueries;
   const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
