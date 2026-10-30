@@ -11,8 +11,6 @@ import { AuthAlert, authAyuda, authBoton, authEnlace, authErrorCampo, authInput,
 // final no promete nada («recibirás acceso») sino lo que de verdad pasa («revisaremos tu solicitud»).
 
 const ICONOS: Record<ModuloExterno, typeof Scale> = { centro_juridico: Scale, simulacro: GraduationCap };
-// El simulacro tiene el permiso y la pantalla reservados, pero todavía no está construido: se dice de frente.
-const PROXIMAMENTE: Partial<Record<ModuloExterno, boolean>> = { simulacro: true };
 
 type Valores = { nombre: string; dni: string; correo: string; celular: string; institucion: string; motivo: string; modulos: ModuloExterno[]; consentimiento: boolean };
 type Campo = keyof Valores;
@@ -170,7 +168,7 @@ export function SolicitudAccesoForm() {
                 <label key={modulo} className="flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-white p-3.5 transition-colors duration-150 hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus-visible]:shadow-focus">
                   <input type="checkbox" className="mt-1 size-4 shrink-0 accent-brand" checked={valores.modulos.includes(modulo)} onChange={() => alternarModulo(modulo)} />
                   <span className="min-w-0 text-md leading-snug">
-                    <span className="flex flex-wrap items-center gap-2 font-semibold"><Icono size={16} className="text-brand" aria-hidden /> {MODULOS_EXTERNOS[modulo].label}{PROXIMAMENTE[modulo] ? <span className="rounded-full bg-surface px-2 py-0.5 text-xs font-medium text-muted">Próximamente</span> : null}</span>
+                    <span className="flex flex-wrap items-center gap-2 font-semibold"><Icono size={16} className="text-brand" aria-hidden /> {MODULOS_EXTERNOS[modulo].label}</span>
                     <span className="mt-0.5 block text-sm text-muted">{MODULOS_EXTERNOS[modulo].descripcion}</span>
                   </span>
                 </label>

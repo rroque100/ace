@@ -54,7 +54,7 @@ export const NAVEGACION = [
     label: "Centro Jurídico",
   },
   {
-    // Módulo de las cuentas EXTERNAS (ver lib/modulos-acceso.ts). Todavía no está construido: la página explica que viene.
+    // Módulo del simulacro de examen (ver lib/modulos-acceso.ts): lo usan las cuentas EXTERNAS con ese módulo y el personal de la entidad.
     items: [{ href: "/simulador", icon: "BookOpenCheck", id: "simulador", label: "Simulador de examen", adminOnly: false }],
     label: "Simulacro",
   },

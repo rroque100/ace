@@ -46,7 +46,7 @@ export function AuthAlert({ tono = "info", titulo, children }: { tono?: keyof ty
 const PUNTOS = [
   { Icono: Scale, titulo: "Chat jurídico con fuentes", texto: "Cada respuesta cita el artículo que la sustenta, para que puedas comprobarla." },
   { Icono: FileSearch, titulo: "Búsqueda en la norma", texto: "Ley 32069, su Reglamento, opiniones y resoluciones en un solo lugar." },
-  { Icono: GraduationCap, titulo: "Simulacro de examen", texto: "Practica con corrección y cita de la norma. Próximamente." },
+  { Icono: GraduationCap, titulo: "Simulacro de examen", texto: "Practica el examen de certificación con corrección y cita de la norma." },
 ] as const;
 
 /**
