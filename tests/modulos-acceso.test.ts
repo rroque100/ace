@@ -24,6 +24,11 @@ describe("rutas que abre cada módulo: todo lo demás está cerrado", () => {
     ]) expect(rutaPermitidaExterno(juridico, ruta), ruta).toBe(false);
   });
   it("el simulacro abre solo su página y su API", () => {
+    expect(rutaPermitidaExterno(simulacro, '/simulador')).toBe(true);
+    expect(rutaPermitidaExterno(simulacro, '/api/exams/preparation')).toBe(true);
+    expect(rutaPermitidaExterno(juridico, '/simulador')).toBe(false);
+    expect(rutaPermitidaExterno(juridico, '/api/exams')).toBe(false);
+    expect(moduloDeRuta('/api/exams/abc/activity')).toBe('simulacro');
     expect(rutaPermitidaExterno(simulacro, "/simulacro")).toBe(true);
     expect(rutaPermitidaExterno(simulacro, "/api/simulacro/intentos")).toBe(true);
     for (const ruta of ["/chat", "/api/chat", "/normas", "/configuracion"]) expect(rutaPermitidaExterno(simulacro, ruta), ruta).toBe(false);
