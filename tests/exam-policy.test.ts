@@ -46,7 +46,15 @@ describe("exámenes: aislamiento de claves", () => {
   it("no expone claves ni explicación antes de entregar, aunque haya respuesta", () => {
     const x = raw();
     x.answers = [{ question_id: "q", option: "A", flagged: false }];
+    x.attempt.questions[0].option_rationales = {
+      A: "Motivo privado del descarte A",
+      B: "Motivo privado del descarte B",
+      C: "Motivo privado de la clave C",
+      D: "Motivo privado del descarte D",
+    };
     const v = publicExam(x);
+    expect(JSON.stringify(v)).not.toContain("Motivo privado");
+    expect(JSON.stringify(v)).not.toContain("optionRationales");
     expect(JSON.stringify(v)).not.toContain("correctOption");
     expect(JSON.stringify(v)).not.toContain("Explicación privada");
     expect(JSON.stringify(v)).not.toContain("correct_option");
@@ -140,6 +148,26 @@ it("publicar exige confirmación y sustento de revisión", () => {
   };
   expect(examQuestionSchema.safeParse(question).success).toBe(false);
   expect(
-    examQuestionSchema.safeParse({ ...question, confirmReview: true }).success,
+    examQuestionSchema.safeParse({
+      ...question,
+      confirmReview: true,
+      curriculumVersion: "oece-2025-04-25",
+      competencyCode: "1",
+      subcompetencyCode: "1.1",
+      sourceCutoff: "2026-10-29",
+      optionRationales: {
+        A: "Fundamento suficiente para revisar esta alternativa A.",
+        B: "Fundamento suficiente para revisar esta alternativa B.",
+        C: "Fundamento suficiente para revisar esta alternativa C.",
+        D: "Fundamento suficiente para revisar esta alternativa D.",
+      },
+      reviewChecks: {
+        unambiguous: true,
+        distractors: true,
+        conditions: true,
+        exceptions: true,
+        sources: true,
+      },
+    }).success,
   ).toBe(true);
 });

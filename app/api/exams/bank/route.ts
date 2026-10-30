@@ -47,10 +47,20 @@ export async function GET(request: Request) {
       .min(1)
       .max(10000)
       .parse(params.get("page") ?? 1);
+    const status = z
+      .enum(["draft", "published", "retired", ""])
+      .parse(params.get("status") ?? "");
+    const code = z
+      .string()
+      .max(20)
+      .parse(params.get("subcompetency") ?? "");
+    let query = c.from("exam_questions").select("*", { count: "exact" });
+    const questionId = params.get("questionId");
+    if (questionId) query = query.eq("id", z.string().uuid().parse(questionId));
+    if (status) query = query.eq("status", status);
+    if (code) query = query.eq("subcompetency_code", code);
     const [q, docs] = await Promise.all([
-      c
-        .from("exam_questions")
-        .select("*", { count: "exact" })
+      query
         .order("created_at", { ascending: false })
         .range((page - 1) * 30, page * 30 - 1),
       c

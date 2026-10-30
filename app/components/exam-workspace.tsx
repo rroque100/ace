@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ExamPreparationPanel } from "./exam-preparation";
+import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
 import { remainingSeconds } from "@/lib/exam-policy";
 type Dashboard = {
@@ -142,14 +144,40 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         (n, x) => n + Number(x.published) + (preview ? Number(x.drafts) : 0),
         0,
       ) ?? 0;
-  async function start() {
+  async function start(
+    profile: "custom" | "oece" | "review" | "balotario" = "custom",
+    balotarioId?: string,
+  ) {
     setBusy(true);
     setError("");
     try {
       const x = await read<{ id: string }>("/api/exams", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode, count, minutes, regime, topic, preview }),
+        body: JSON.stringify(
+          profile === "oece" || profile === "balotario"
+            ? {
+                profile,
+                balotarioId,
+                mode: "exam",
+                count: 72,
+                minutes: 120,
+                regime: "32069",
+                topic: "",
+                preview: false,
+              }
+            : profile === "review"
+              ? {
+                  profile,
+                  mode: "practice",
+                  count: Math.min(72, Math.max(1, count)),
+                  minutes: 120,
+                  regime,
+                  topic: "",
+                  preview: false,
+                }
+              : { profile, mode, count, minutes, regime, topic, preview },
+        ),
       });
       await open(x.id);
     } catch (e) {
@@ -228,6 +256,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
   async function askSource(
     source: { documentId: string; quote: string },
     prompt: string,
+    relatedDocumentIds: string[],
   ) {
     setBusy(true);
     try {
@@ -235,10 +264,11 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: `Ayúdame a estudiar esta pregunta de práctica: ${prompt}. Explica el fundamento usando solo la fuente seleccionada y cita su página. Pasaje de referencia: ${source.quote}`,
+          question: `Ayúdame a estudiar esta pregunta de práctica: ${prompt}. Explica el fundamento usando solo las fuentes seleccionadas y cita documento y página. Si alguna afirmación requiere otra disposición, indica qué falta. Pasaje en el que quiero profundizar: ${source.quote}`,
           filters: {
-            documentId: source.documentId,
-            documentIds: [source.documentId],
+            documentIds: [
+              ...new Set([source.documentId, ...relatedDocumentIds]),
+            ],
           },
         }),
       });
@@ -325,6 +355,15 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
               · Ley {a.regime}
             </p>
           </div>
+          {a.profile === "review" && a.review_context && (
+            <p className="rounded-xl border border-teal-200 bg-teal-50 p-4 text-sm">
+              Repaso con versiones actuales: {a.review_context.updated}{" "}
+              preguntas actualizadas desde tu respuesta anterior ·{" "}
+              {a.review_context.unavailable} preguntas anteriores retiradas o
+              sin fuente actual disponible. Al responder correctamente y
+              finalizar, la pregunta deja de aparecer entre tus errores.
+            </p>
+          )}
           {a.result && a.state === "submitted" && (
             <section className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
               <h2 className="text-xl font-semibold">
@@ -420,7 +459,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                       />
                       <span>
                         <strong className="mr-2">{o.id}.</strong>
-                        {o.text}
+                        {o.text.replace(/^[A-D][).:\-]\s+/, "")}
                         {q.correctOption &&
                           (q.correctOption === o.id ||
                             answer?.option === o.id) && (
@@ -436,6 +475,12 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     </label>
                   ))}
                 </fieldset>
+                <ExamQuestionTools
+                  key={q.id}
+                  attemptId={a.id}
+                  questionId={q.id}
+                  active={a.state === "active"}
+                />
                 <p
                   role="status"
                   className="my-3 min-h-5 text-xs text-slate-600"
@@ -465,6 +510,22 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">
                       {q.explanation}
                     </p>
+                    {q.optionRationales && (
+                      <details className="mt-3">
+                        <summary className="cursor-pointer text-sm font-semibold">
+                          Por qué se acepta o descarta cada alternativa
+                        </summary>
+                        <ul className="mt-2 space-y-2 text-sm">
+                          {Object.entries(q.optionRationales).map(
+                            ([id, text]) => (
+                              <li key={id}>
+                                <strong>{id}.</strong> {text}
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </details>
+                    )}
                     {q.sources?.map((s, i) => (
                       <div
                         key={s.chunkId + i}
@@ -499,7 +560,13 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                           <button
                             className="secondaryButton"
                             disabled={busy}
-                            onClick={() => void askSource(s, q.prompt)}
+                            onClick={() =>
+                              void askSource(
+                                s,
+                                q.prompt,
+                                q.sources?.map((x) => x.documentId) ?? [],
+                              )
+                            }
                           >
                             Estudiar en Chat
                           </button>
@@ -631,10 +698,15 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                 </button>
               </div>
             )}
+            <ExamPreparationPanel
+              busy={busy}
+              isAdmin={isAdmin}
+              onStart={(profile, id) => void start(profile, id)}
+            />
             <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
               <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
                 <h2 className="text-xl font-semibold">
-                  Elige cómo quieres prepararte
+                  Práctica y simulacro personalizados
                 </h2>
                 <fieldset className="mt-5 grid gap-3 sm:grid-cols-2">
                   <legend className="sr-only">Modalidad</legend>
@@ -646,7 +718,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                     },
                     {
                       id: "exam",
-                      title: "Rendir simulacro",
+                      title: "Simulacro personalizado",
                       text: "Responde con tiempo y revisa al terminar.",
                     },
                   ].map((m) => (

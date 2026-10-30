@@ -33,7 +33,9 @@ export async function POST(request: Request) {
         { error: "Solo administración puede probar borradores." },
         { status: 403 },
       );
-    const id = await examRpc("ace_exam_start", {
+    const id = await examRpc("ace_exam_start_prepared", {
+      p_profile: p.profile,
+      p_balotario: p.balotarioId ?? null,
       p_actor: a.user.id,
       p_mode: p.mode,
       p_count: p.count,

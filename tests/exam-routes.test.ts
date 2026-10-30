@@ -71,7 +71,7 @@ it("el actor se toma de la sesión y no del cuerpo", async () => {
     ).status,
   ).toBe(200);
   expect(m.rpc).toHaveBeenCalledWith(
-    "ace_exam_start",
+    "ace_exam_start_prepared",
     expect.objectContaining({ p_actor: id }),
   );
 });

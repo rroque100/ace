@@ -1,7 +1,15 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { OPTION_IDS, type ExamQuestion } from "@/lib/exam-policy";
+import { useEffect, useState, useCallback, type SetStateAction } from "react";
+import { ExamBankFields } from "./exam-bank-fields";
+import { ExamEditorialPanel } from "./exam-editorial-panel";
+import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
+import {
+  OPTION_IDS,
+  examQuestionSchema,
+  examReviewFingerprint,
+  type ExamQuestion,
+} from "@/lib/exam-policy";
 type Document = {
   id: string;
   title: string;
@@ -10,7 +18,18 @@ type Document = {
 type Row = Omit<
   ExamQuestion,
   "correctOption" | "reviewBasis" | "confirmReview"
-> & { correct_option: "A" | "B" | "C" | "D"; review_basis: string | null };
+> & {
+  correct_option: "A" | "B" | "C" | "D";
+  review_basis: string | null;
+  curriculum_version?: string;
+  competency_code?: string;
+  subcompetency_code?: string;
+  cognitive_level?: ExamQuestion["cognitiveLevel"];
+  option_rationales?: ExamQuestion["optionRationales"];
+  review_checks?: ExamQuestion["reviewChecks"];
+  source_cutoff?: string;
+  origin?: string;
+};
 type Bank = {
   questions: Row[];
   documents: Document[];
@@ -37,6 +56,20 @@ const toDraft = (q: Row): ExamQuestion => ({
   topic: q.topic,
   competency: q.competency,
   difficulty: q.difficulty,
+  curriculumVersion: q.curriculum_version ?? "",
+  competencyCode: q.competency_code ?? "",
+  subcompetencyCode: q.subcompetency_code ?? "",
+  cognitiveLevel: q.cognitive_level ?? "understand",
+  optionRationales: q.option_rationales ?? { A: "", B: "", C: "", D: "" },
+  reviewChecks: q.review_checks ?? {
+    unambiguous: false,
+    distractors: false,
+    conditions: false,
+    exceptions: false,
+    sources: false,
+  },
+  sourceCutoff: q.source_cutoff ?? "",
+  origin: q.origin ?? "manual",
   sources: q.sources,
   status: q.status,
   reviewBasis: q.review_basis ?? "",
@@ -52,6 +85,20 @@ const blank = (): ExamQuestion => ({
   topic: "",
   competency: "",
   difficulty: "basic",
+  curriculumVersion: "",
+  competencyCode: "",
+  subcompetencyCode: "",
+  cognitiveLevel: "understand",
+  optionRationales: { A: "", B: "", C: "", D: "" },
+  reviewChecks: {
+    unambiguous: false,
+    distractors: false,
+    conditions: false,
+    exceptions: false,
+    sources: false,
+  },
+  sourceCutoff: "",
+  origin: "manual",
   sources: [],
   status: "draft",
   reviewBasis: "",
@@ -65,20 +112,51 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 }
 export function ExamBank() {
   const [bank, setBank] = useState<Bank | null>(null),
-    [draft, setDraft] = useState<ExamQuestion | null>(null),
+    [draft, setDraftBase] = useState<ExamQuestion | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [page, setPage] = useState(1),
+    [statusFilter, setStatusFilter] = useState(""),
+    [questionFilter, setQuestionFilter] = useState(""),
+    [subFilter, setSubFilter] = useState(""),
     [documentId, setDocumentId] = useState(""),
     [sourcePage, setSourcePage] = useState(2),
     [passages, setPassages] = useState<{
       document: Document;
       chunks: Passage[];
     } | null>(null);
+  const setDraft = useCallback(
+    (next: SetStateAction<ExamQuestion | null>) =>
+      setDraftBase((previous) => {
+        const proposed = typeof next === "function" ? next(previous) : next;
+        if (
+          previous &&
+          proposed &&
+          previous.id === proposed.id &&
+          examReviewFingerprint(previous) !== examReviewFingerprint(proposed)
+        )
+          return {
+            ...proposed,
+            confirmReview: false,
+            reviewChecks: {
+              unambiguous: false,
+              distractors: false,
+              conditions: false,
+              exceptions: false,
+              sources: false,
+            },
+          };
+        return proposed;
+      }),
+    [],
+  );
   useEffect(() => {
     const c = new AbortController();
-    api<Bank>(`/api/exams/bank?page=${page}`, { signal: c.signal })
+    api<Bank>(
+      `/api/exams/bank?page=${page}&status=${statusFilter}&subcompetency=${subFilter}&questionId=${questionFilter}`,
+      { signal: c.signal },
+    )
       .then((x) => {
         setBank(x);
         setDraft(
@@ -89,9 +167,11 @@ export function ExamBank() {
         if (!c.signal.aborted) setError(e.message);
       });
     return () => c.abort();
-  }, [page]);
+  }, [page, statusFilter, subFilter, questionFilter, setDraft]);
   async function reload() {
-    const x = await api<Bank>(`/api/exams/bank?page=${page}`);
+    const x = await api<Bank>(
+      `/api/exams/bank?page=${page}&status=${statusFilter}&subcompetency=${subFilter}&questionId=${questionFilter}`,
+    );
     setBank(x);
   }
   async function save(status: ExamQuestion["status"]) {
@@ -105,7 +185,9 @@ export function ExamBank() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...draft, status }),
       });
-      const x = await api<Bank>(`/api/exams/bank?page=${page}`);
+      const x = await api<Bank>(
+        `/api/exams/bank?page=${page}&status=${statusFilter}&subcompetency=${subFilter}&questionId=${questionFilter}`,
+      );
       setBank(x);
       const q = x.questions.find((q) => q.id === r.id);
       if (q) setDraft(toDraft(q));
@@ -188,6 +270,68 @@ export function ExamBank() {
           {notice}
         </p>
       )}
+      <ExamEditorialPanel
+        onDrafts={() => void reload().catch((e) => setError(e.message))}
+        onQuestion={(id) => {
+          setQuestionFilter(id);
+          setPage(1);
+          setStatusFilter("");
+          setSubFilter("");
+          setDraft(null);
+        }}
+      />
+      {questionFilter && (
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-white p-3 text-sm">
+          Pregunta seleccionada desde un reporte.
+          <button
+            className="secondaryButton"
+            onClick={() => {
+              setQuestionFilter("");
+              setDraft(null);
+            }}
+          >
+            Mostrar todo el banco
+          </button>
+        </div>
+      )}
+      <div className="grid gap-3 rounded-xl border bg-white p-4 sm:grid-cols-2">
+        <label className="text-sm">
+          Estado
+          <select
+            className={field}
+            value={statusFilter}
+            onChange={(e) => {
+              setStatusFilter(e.target.value);
+              setPage(1);
+              setDraft(null);
+            }}
+          >
+            <option value="">Todos</option>
+            <option value="draft">Borrador</option>
+            <option value="published">Publicada</option>
+            <option value="retired">Retirada</option>
+          </select>
+        </label>
+        <label className="text-sm">
+          Filtrar por subcompetencia
+          <select
+            className={field}
+            value={subFilter}
+            onChange={(e) => {
+              setSubFilter(e.target.value);
+              setPage(1);
+              setDraft(null);
+            }}
+          >
+            <option value="">Todas</option>
+            {EXAM_CURRICULUM.map((s) => (
+              <option key={s.code} value={s.code}>
+                {s.code} · {s.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       {!bank ? (
         <p>Cargando el banco…</p>
       ) : (
@@ -479,6 +623,7 @@ export function ExamBank() {
                     )}
                   </details>
                 </section>
+                <ExamBankFields value={draft} onChange={setDraft} />
                 <label className="block text-sm font-medium">
                   Sustento de tu revisión
                   <textarea
@@ -513,8 +658,10 @@ export function ExamBank() {
                   <button
                     className="primaryButton"
                     disabled={
-                      !draft.confirmReview ||
-                      draft.reviewBasis.trim().length < 20
+                      !examQuestionSchema.safeParse({
+                        ...draft,
+                        status: "published",
+                      }).success
                     }
                     onClick={() => void save("published")}
                   >

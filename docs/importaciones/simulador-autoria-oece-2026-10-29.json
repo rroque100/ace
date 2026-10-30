@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-29T23:56:54.454Z",
+  "report": [
+    {
+      "code": "1.1",
+      "error": "El proveedor de IA no tiene cuota disponible. No se publicaron preguntas; recarga el servicio o prepara borradores manualmente."
+    }
+  ]
+}

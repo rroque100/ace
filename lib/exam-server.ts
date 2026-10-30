@@ -74,6 +74,12 @@ export function examError(error: unknown) {
     issues?: Array<{ message: string }>;
   };
   if (e.issues?.length) return { status: 400, message: e.issues[0].message };
+  if (e.code === "23505")
+    return {
+      status: 409,
+      message:
+        "Ya existe una pregunta publicada con el mismo enunciado. Revisa el banco antes de publicar una copia.",
+    };
   if (e.code === "P0002")
     return { status: 404, message: "No se encontró este intento." };
   if (e.code === "40001")

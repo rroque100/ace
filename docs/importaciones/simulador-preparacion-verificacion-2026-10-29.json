@@ -1,0 +1,206 @@
+{
+  "checkedAt": "2026-10-30T00:01:59.317Z",
+  "catalog": 30,
+  "quotas": [
+    25,
+    22,
+    25
+  ],
+  "questions": 242,
+  "classifiedDrafts": 215,
+  "published": 0,
+  "sourceReferencesVerified": 220,
+  "editorialDataIsolated": true,
+  "difficulty": {
+    "basic": 97,
+    "advanced": 7,
+    "intermediate": 111
+  },
+  "cognitive": {
+    "understand": 84,
+    "analyze": 12,
+    "apply": 119
+  },
+  "coverage": [
+    {
+      "code": "1.1",
+      "target": 30,
+      "drafts": 9,
+      "published": 0
+    },
+    {
+      "code": "1.2",
+      "target": 65,
+      "drafts": 18,
+      "published": 0
+    },
+    {
+      "code": "1.3",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "1.4",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "1.5",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "1.6",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "1.7",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "1.8",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.1",
+      "target": 25,
+      "drafts": 12,
+      "published": 0
+    },
+    {
+      "code": "2.2",
+      "target": 40,
+      "drafts": 17,
+      "published": 0
+    },
+    {
+      "code": "2.3",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.4",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.5",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.6",
+      "target": 10,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.7",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.8",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "2.9",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "2.10",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "3.1",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "3.2",
+      "target": 30,
+      "drafts": 20,
+      "published": 0
+    },
+    {
+      "code": "3.3",
+      "target": 15,
+      "drafts": 15,
+      "published": 0
+    },
+    {
+      "code": "3.4",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "3.5",
+      "target": 15,
+      "drafts": 11,
+      "published": 0
+    },
+    {
+      "code": "3.6",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "3.7",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "3.8",
+      "target": 5,
+      "drafts": 5,
+      "published": 0
+    },
+    {
+      "code": "3.9",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "3.10",
+      "target": 25,
+      "drafts": 13,
+      "published": 0
+    },
+    {
+      "code": "3.11",
+      "target": 5,
+      "drafts": 4,
+      "published": 0
+    },
+    {
+      "code": "3.12",
+      "target": 5,
+      "drafts": 2,
+      "published": 0
+    }
+  ]
+}
