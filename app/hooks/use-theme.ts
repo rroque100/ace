@@ -1,77 +1,38 @@
 "use client";
-
-import { useEffect, useState, useCallback } from "react";
-
-export type Theme = "light" | "dark" | "system";
-export type ResolvedTheme = "light" | "dark";
-
-const STORAGE_KEY = "exp:theme";
-
-function getSystemTheme(): ResolvedTheme {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+import { useSyncExternalStore } from "react";
+import { THEME_EVENT, THEME_KEY, validTheme, type Theme } from "@/lib/theme";
+export type { Theme, ResolvedTheme } from "@/lib/theme";
+let memoryTheme: Theme | null = null;
+function readTheme(): Theme {
+  try { return memoryTheme ?? validTheme(localStorage.getItem(THEME_KEY)); } catch { return memoryTheme ?? "system"; }
 }
-
-function applyTheme(resolved: ResolvedTheme) {
-  if (typeof document === "undefined") return;
-  document.documentElement.setAttribute("data-theme", resolved);
+function readResolved() {
+  const theme = readTheme();
+  return theme === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : theme;
 }
-
+function apply() { document.documentElement.dataset.theme = readResolved(); }
+function subscribe(listener: () => void) {
+  const media = matchMedia("(prefers-color-scheme: dark)");
+  const update = () => { apply(); listener(); };
+  const storage = () => { memoryTheme = null; update(); };
+  window.addEventListener("storage", storage);
+  window.addEventListener(THEME_EVENT, update);
+  media.addEventListener("change", update);
+  apply();
+  return () => {
+    window.removeEventListener("storage", storage);
+    window.removeEventListener(THEME_EVENT, update);
+    media.removeEventListener("change", update);
+  };
+}
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>("system");
-  const [resolved, setResolved] = useState<ResolvedTheme>("light");
-
-  // Cargar tema inicial desde localStorage
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-      const initial: Theme = stored ?? "system";
-      // Lectura de localStorage post-montaje (evita mismatch de hidratación SSR).
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setThemeState(initial);
-      const r = initial === "system" ? getSystemTheme() : initial;
-      setResolved(r);
-      applyTheme(r);
-    } catch {
-      // Ignorar
-    }
-  }, []);
-
-  // Escuchar cambios en prefers-color-scheme si theme === "system"
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (theme !== "system") return;
-
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = () => {
-      const r = getSystemTheme();
-      setResolved(r);
-      applyTheme(r);
-    };
-    media.addEventListener("change", handler);
-    return () => media.removeEventListener("change", handler);
-  }, [theme]);
-
-  const setTheme = useCallback((next: Theme) => {
-    setThemeState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Ignorar
-    }
-    const r = next === "system" ? getSystemTheme() : next;
-    setResolved(r);
-    applyTheme(r);
-  }, []);
-
-  const toggle = useCallback(() => {
-    // Si es system, vamos a dark. Si es dark, a light. Si es light, a system.
-    const next: Theme = theme === "system" ? "dark" : theme === "dark" ? "light" : "system";
-    setTheme(next);
-  }, [theme, setTheme]);
-
-  return { theme, resolved, setTheme, toggle };
+  const theme = useSyncExternalStore(subscribe, readTheme, () => "system" as const);
+  const resolved = useSyncExternalStore(subscribe, readResolved, () => "light" as const);
+  function setTheme(next: Theme) {
+    memoryTheme = next;
+    try { localStorage.setItem(THEME_KEY, next); } catch { /* Keep the preference for this tab. */ }
+    apply();
+    window.dispatchEvent(new Event(THEME_EVENT));
+  }
+  return { theme, resolved, setTheme, toggle: () => setTheme(resolved === "dark" ? "light" : "dark") };
 }

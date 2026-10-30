@@ -250,3 +250,7 @@
 /* Simulador: generar también las utilidades de sus componentes. */
 @source "./components/exam-*.tsx";
 @source "./simulador/**/*.tsx";
+@source "./page.tsx";
+@source "./components/appearance-control.tsx";
+@source "./components/sidebar.tsx";
+@source "./components/workspace-assistants.tsx";

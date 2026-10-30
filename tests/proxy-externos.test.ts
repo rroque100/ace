@@ -81,11 +81,11 @@ describe("proxy: cuenta externa con un módulo", () => {
     expect(mocks.registrar).toHaveBeenCalledWith(expect.objectContaining({ accion: "acceso denegado (ruta): /configuracion", estado: 403 }));
   });
 
-  it("«/» la lleva a su inicio sin contarse como intento indebido", async () => {
+  it("«/» abre el inicio personal sin redirigir ni abrir APIs internas", async () => {
     mocks.user = juridico;
     const respuesta = await updateSession(solicitud("/"), (t) => void t);
-    expect(new URL(respuesta.headers.get("location") ?? "").pathname).toBe("/chat");
-    expect(mocks.registrar).not.toHaveBeenCalled();
+    expect(respuesta.status).toBe(200);
+    expect(respuesta.headers.get("location")).toBeNull();
   });
 
   it("una API que no es suya responde 403 (no una redirección) y queda anotada", async () => {

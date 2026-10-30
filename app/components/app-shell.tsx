@@ -1,12 +1,12 @@
-import { SearchAssistant } from "./search-assistant";
+import { WorkspaceSearch, WorkspaceAssistant } from "./workspace-assistants";
 import { getArchivoScopeLevel, getSessionUser, puedeUsarProcesos, type SessionUser } from "@/lib/auth";
 import { contarNecesidadesPendientes } from "@/lib/necesidades-bandeja";
-import { NAVEGACION, type ActiveId } from "@/lib/navegacion";
+import { type ActiveId } from "@/lib/navegacion";
 import { supabaseRest } from "@/lib/supabase-server";
 import { Sidebar } from "./sidebar";
 import { YearSelector } from "./year-selector";
-import { MiYoWidget } from "./asistente/mi-yo-widget";
-import { rutaPermitidaExterno } from "@/lib/modulos-acceso";
+import { sidebarIdentity, workspaceNavigation } from "@/lib/workspace-navigation";
+import { AppearanceControl } from "./appearance-control";
 import { consumoMensualTokens } from "@/lib/uso-ia";
 import { estadoCuentaExterna } from "@/lib/cuenta-externa-estado";
 import { AvisosExterno } from "./externo/avisos-externo";
@@ -65,15 +65,17 @@ async function estadoDeCuentaExterna(user: SessionUser) {
 }
 
 export async function AppShell({ active, action, children, eyebrow, title, showFiscalYear = true }: AppShellProps) {
-  const [user, newsCount] = await Promise.all([getSessionUser(), countRecentNews()]);
-  const officeName = user ? await getOfficeName(user.oficinaId) : null;
+  const user = await getSessionUser();
+  const [officeName, bandejaNecesidades, estadoExterno, newsCount] = await Promise.all([
+    user && !user.esExterno ? getOfficeName(user.oficinaId) : null,
+    user && !user.esExterno ? contarNecesidadesPendientes(user) : 0,
+    user?.esExterno ? estadoDeCuentaExterna(user) : null,
+    user && !user.esExterno ? countRecentNews() : 0,
+  ]);
   // Bandeja de necesidades pendientes de la acción de este usuario: badge en el
   // menú, para que se entere sin abrir la sección (cierra el lazo del SLA).
-  const bandejaNecesidades = user && !user.esExterno ? await contarNecesidadesPendientes(user) : 0;
   // Una cuenta externa ve cuánta IA le queda y hasta cuándo tiene acceso, en la barra lateral y en avisos arriba. El consumo
   // sale de la misma lectura (con caché de un minuto) que aplica la cuota; si no se puede leer cuenta como cero, sin romper la pantalla.
-  const estadoExterno = user?.esExterno ? await estadoDeCuentaExterna(user) : null;
-  const isAdmin = Boolean(user?.isAdmin);
   const scopeText = user ? scopePhrase(user) : "";
   // Expedientes/Contratos son exclusivos de la oficina de Abastecimiento
   // (ver lib/auth.ts): sin sesión, no se muestran.
@@ -83,24 +85,10 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
   // opciones exclusivas de administracion (menos ruido, mas facil de usar).
   // La decisión de qué se muestra queda en el servidor; el <Sidebar> solo
   // renderiza las secciones que recibe.
-  const sections = NAVEGACION.map((section) => ({
-    ...section,
-    items: section.items.filter((item) => {
-      // `as const satisfies` deja cada item con su tipo literal exacto: solo
-      // los tres de "Procesos" tienen la clave `soloAbastecimiento` en su
-      // tipo, así que el resto necesita el chequeo `in` antes de leerla.
-      const soloAbastecimiento = "soloAbastecimiento" in item && item.soloAbastecimiento;
-      const soloExterno = "soloExterno" in item && item.soloExterno;
-      // Una cuenta externa ve SOLO los módulos que tiene habilitados (el mismo criterio con el que el proxy le abre o cierra
-      // las rutas: ver lib/modulos-acceso.ts). El simulador también está disponible para el personal de la entidad.
-      if (user?.esExterno) return rutaPermitidaExterno(user.modulosExternos, item.href);
-      if (soloExterno) return false;
-      return (!item.adminOnly || isAdmin) && (!soloAbastecimiento || puedeProcesos);
-    }),
-  })).filter((section) => section.items.length > 0);
+  const sections = workspaceNavigation(user, puedeProcesos);
 
   return (
-    <main className={`shell${["chat", "busqueda", "normas"].includes(active) ? " legalShell" : ""}`}>
+    <main className={`shell workspaceShell${["chat", "busqueda", "normas"].includes(active) ? " legalShell" : ""}`}>
       {/* Primer elemento enfocable del documento: salta el menu lateral. */}
       <a className="skipLink" href="#contenido">
         Saltar al contenido
@@ -109,7 +97,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
       <Sidebar
         active={active}
         sections={sections}
-        user={user}
+        user={sidebarIdentity(user)}
         newsCount={newsCount}
         bandejaNecesidades={bandejaNecesidades}
         officeName={officeName}
@@ -128,7 +116,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
           </div>
           {/* Sin «Buscar en ACE» para una cuenta externa: propone destinos que no puede abrir (Guardados, Historial, Archivo) y cada propuesta gasta
               parte de su cuota de IA. Sus módulos ya están a la vista en el menú. */}
-          <div className="topbarSearchActions">{user && !user.esExterno ? <SearchAssistant ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
+          <div className="topbarSearchActions"><AppearanceControl />{user && !user.esExterno ? <WorkspaceSearch ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
         </header>
 
         {estadoExterno ? <AvisosExterno estado={estadoExterno} /> : null}
@@ -139,7 +127,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
       {/* Flota sobre cualquier módulo autenticado: un solo asistente, no uno
           por página (ver docs/superpowers/plans). Sin sesión no se renderiza. */}
       {/* El asistente atiende al personal de la entidad (expedientes, necesidades): una cuenta externa no lo tiene. */}
-      {user && !user.esExterno ? <MiYoWidget /> : null}
+      {user && !user.esExterno ? <WorkspaceAssistant /> : null}
     </main>
   );
 }

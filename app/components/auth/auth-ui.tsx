@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { AlertTriangle, CheckCircle2, FileSearch, GraduationCap, Info, Scale, ShieldCheck } from "lucide-react";
+import { AppearanceControl } from "../appearance-control";
 
 // Piezas compartidas por las pantallas de acceso: entrar (/login), pedir acceso (/acceso) y elegir la contraseña propia
 // (/cambiar-password). Van con Tailwind acotado al contenedor `.tw` (ver app/tailwind.css): sin Preflight global.
@@ -44,9 +45,9 @@ export function AuthAlert({ tono = "info", titulo, children }: { tono?: keyof ty
 }
 
 const PUNTOS = [
-  { Icono: Scale, titulo: "Chat jurídico con fuentes", texto: "Cada respuesta cita el artículo que la sustenta, para que puedas comprobarla." },
+  { Icono: Scale, titulo: "Comprende con fuentes", texto: "Consulta las respuestas junto a los documentos que las sustentan." },
   { Icono: FileSearch, titulo: "Búsqueda en la norma", texto: "Ley 32069, su Reglamento, opiniones y resoluciones en un solo lugar." },
-  { Icono: GraduationCap, titulo: "Simulacro de examen", texto: "Practica con corrección y cita de la norma. Próximamente." },
+  { Icono: GraduationCap, titulo: "Prepara tu examen", texto: "Practica con explicación y fuentes. Disponibilidad según revisión del banco." },
 ] as const;
 
 /**
@@ -55,7 +56,8 @@ const PUNTOS = [
  */
 export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: ReactNode; ancho?: string }) {
   return (
-    <main className="tw min-h-dvh bg-canvas text-ink lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+    <main className="tw authShell relative min-h-dvh bg-canvas text-ink lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <div className="authAppearance"><AppearanceControl /></div>
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-linear-to-br from-brand-dark to-brand p-12 text-white lg:sticky lg:top-0 lg:flex lg:h-dvh lg:self-start">
         <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-[420px] rounded-full bg-white/[0.06]" />
         <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-20 size-[360px] rounded-full bg-white/[0.05]" />
@@ -83,7 +85,7 @@ export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: Re
         </p>
       </aside>
 
-      <div className="flex min-h-dvh flex-col items-center justify-center px-5 py-10 sm:px-8">
+      <div className="flex min-h-dvh flex-col items-center justify-center px-5 py-20 sm:px-8">
         <div className="mb-8 flex items-center gap-3 lg:hidden">
           <span className="grid size-10 place-items-center rounded-xl bg-brand text-lg font-extrabold text-white">A</span>
           <div className="leading-tight">
@@ -91,7 +93,7 @@ export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: Re
             <span className="text-sm text-muted">Contrataciones públicas · Perú</span>
           </div>
         </div>
-        <div className={`w-full ${ancho}`}>{children}</div>
+        <div className={`authSurface w-full rounded-2xl border border-line p-6 shadow-card sm:p-8 ${ancho}`}>{children}</div>
       </div>
     </main>
   );

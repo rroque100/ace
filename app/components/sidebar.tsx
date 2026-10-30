@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Activity,
   Archive,
@@ -29,15 +29,18 @@ import {
   ShieldCheck,
   UploadCloud,
   X,
+  Menu,
 } from "lucide-react";
 import type { ActiveId, IconName, NavItem } from "@/lib/navegacion";
-import type { SessionUser } from "@/lib/auth";
 import { BANDEJA_TOPE } from "@/lib/necesidades-bandeja";
 import { etiquetaDeCuenta } from "@/lib/usuario-credencial";
 import { appRoleLabel } from "@/lib/permisos-contratacion";
 import type { ModuloExterno } from "@/lib/modulos-acceso";
 import type { EstadoCuentaExterna } from "@/lib/cuenta-externa-estado";
 import { CuentaExternaCard } from "./externo/cuenta-externa-card";
+import type { sidebarIdentity } from "@/lib/workspace-navigation";
+import { AppearanceControl } from "./appearance-control";
+type SidebarUser = NonNullable<ReturnType<typeof sidebarIdentity>>;
 
 const SIDEBAR_COLLAPSED_KEY = "ace-sidebar-collapsed";
 
@@ -81,7 +84,7 @@ const ROLE_ACCENT: Record<string, string> = {
   consulta: "#64748b",
 };
 
-function userInitials(user: SessionUser): string {
+function userInitials(user: SidebarUser): string {
   // Del NOMBRE cuando lo hay: con las cuentas identificadas por DNI, las
   // iniciales sacadas de la cuenta serían dos cifras ("12"), que no son las
   // iniciales de nadie.
@@ -127,7 +130,7 @@ export function Sidebar({
 }: {
   active: ActiveId;
   sections: readonly { label: string; items: readonly NavItem[] }[];
-  user: SessionUser | null;
+  user: SidebarUser | null;
   newsCount: number;
   bandejaNecesidades: number;
   officeName: string | null;
@@ -137,6 +140,29 @@ export function Sidebar({
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const drawer = useRef<HTMLElement>(null);
+  const mobileItems = ["panel", "chat", "busqueda", "normas", "simulador"]
+    .flatMap(id => sections.flatMap(s=>s.items).filter(i=>i.id===id)).slice(0,4);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const before = document.activeElement as HTMLElement | null;
+    const root = drawer.current;
+    const focusable = () => Array.from(root?.querySelectorAll<HTMLElement>('a[href],button,select,input,[tabindex="0"]') ?? []).filter(el=>el.getClientRects().length>0);
+    focusable()[0]?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { event.preventDefault(); setMobileOpen(false); }
+      if (event.key !== "Tab") return;
+      const items = focusable(), first=items[0], last=items.at(-1);
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    };
+    const media = matchMedia("(min-width:981px)");
+    const resize = () => { if (media.matches) setMobileOpen(false); };
+    window.addEventListener("keydown", onKey);
+    media.addEventListener("change", resize);
+    return () => { window.removeEventListener("keydown", onKey); media.removeEventListener("change", resize); before?.focus(); };
+  }, [mobileOpen]);
 
   useEffect(() => {
     // Lectura de localStorage post-montaje (evita mismatch de hidratación SSR).
@@ -190,17 +216,26 @@ export function Sidebar({
 
   return (
     <>
+      <div className="mobileAppHeader">
       <button
         type="button"
         className={`sidebarMobileToggle ${mobileOpen ? "isHidden" : ""}`}
         onClick={() => setMobileOpen((s) => !s)}
         aria-label="Mostrar menú"
         aria-expanded={mobileOpen}
+        aria-controls="workspace-menu"
       >
         <PanelLeftOpen size={18} />
       </button>
+      <Link className="mobileAppBrand" href="/" aria-label="ACE, ir al inicio">ACE<span>Contrataciones públicas</span></Link>
+      <AppearanceControl />
+      </div>
       {mobileOpen ? <div className="sidebarMobileScrim" onClick={() => setMobileOpen(false)} /> : null}
       <aside
+        ref={drawer}
+        id="workspace-menu"
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? true : undefined}
         className={`sidebar ${collapsed ? "collapsed" : ""} ${mobileOpen ? "mobileOpen" : ""}`}
         aria-label="Navegación principal"
         data-collapsed={collapsed}
@@ -327,6 +362,10 @@ export function Sidebar({
           </div>
         ) : null}
       </aside>
+      <nav className="mobileDock" aria-label="Accesos rápidos">
+        {mobileItems.map(item=>{ const Icon=ICONOS[item.icon]; return <Link key={item.id} href={item.href} aria-current={item.id===active ? "page" : undefined} onClick={()=>setMobileOpen(false)}><Icon size={21} aria-hidden/><span>{item.id==="panel" ? "Inicio" : item.id==="chat" ? "Chat" : item.id==="busqueda" ? "Buscar" : item.id==="normas" ? "Normativa" : "Simulador"}</span></Link>; })}
+        <button type="button" aria-label="Más opciones" aria-controls="workspace-menu" aria-expanded={mobileOpen} onClick={()=>setMobileOpen(true)}><Menu size={21} aria-hidden/><span>Más</span></button>
+      </nav>
     </>
   );
 }

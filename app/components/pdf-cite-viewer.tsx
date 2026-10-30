@@ -79,10 +79,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
       setStatus("loading");
       try {
         const pdfjs = await import("pdfjs-dist");
-        pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-          "pdfjs-dist/build/pdf.worker.min.mjs",
-          import.meta.url,
-        ).toString();
+        pdfjs.GlobalWorkerOptions.workerSrc = "/api/documents/pdf-worker?v=" + encodeURIComponent(pdfjs.version);
 
         const response = await fetch(`/api/documents/${documentId}`);
         if (!response.ok) {

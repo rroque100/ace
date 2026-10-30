@@ -8,9 +8,9 @@ import { assistantProposalSchema, type AssistantProposal } from "@/lib/search-as
 import { searchSessionKey } from "@/lib/document-search-session";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
 
-export function SearchAssistant({ownerId, onApply, destinations}: {ownerId:string; onApply?:(input:DocumentSearchInput)=>void; destinations?:{href:string;label:string}[]}) {
+export function SearchAssistant({ownerId, onApply, destinations, initialOpen=false}: {ownerId:string; onApply?:(input:DocumentSearchInput)=>void; destinations?:{href:string;label:string}[]; initialOpen?:boolean}) {
   const router=useRouter();
-  const [open,setOpen]=useState(false), [text,setText]=useState("");
+  const [open,setOpen]=useState(initialOpen), [text,setText]=useState("");
   const [proposal,setProposal]=useState<AssistantProposal|null>(null), [busy,setBusy]=useState(false), [error,setError]=useState("");
   async function suggest() {
     setBusy(true);setError("");setProposal(null);
