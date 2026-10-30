@@ -1,0 +1,208 @@
+@reference "../tailwind.css";
+
+/* Alcance exclusivo del simulador; evita interferencias del CSS histórico. */
+.examWorkspace {
+  @apply min-w-0 text-ink;
+  container-type: inline-size;
+}
+.examWorkspace :is(section, aside, fieldset, div) {
+  min-width: 0;
+}
+.examWorkspace :is(h2, h3, p) {
+  overflow-wrap: anywhere;
+}
+.examWorkspace :is(button, a, input, select, summary):focus-visible {
+  @apply outline-2 outline-offset-4 outline-brand;
+}
+.examWorkspace :is(h2, h3) {
+  @apply tracking-tight text-ink;
+}
+.examWorkspace h2 {
+  @apply text-xl font-semibold;
+}
+.examWorkspace .primaryButton {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand bg-brand px-5 py-3 text-sm font-semibold text-white shadow-none transition-colors;
+  background-image: none;
+}
+.examWorkspace .primaryButton:hover:not(:disabled) {
+  @apply bg-brand-dark;
+}
+.examWorkspace .secondaryButton {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold text-ink shadow-none transition-colors;
+  background-image: none;
+}
+.examWorkspace .secondaryButton:hover:not(:disabled) {
+  @apply border-brand bg-brand-soft text-brand;
+}
+.examWorkspace button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+.examWorkspace :is(input:not([type="radio"]):not([type="checkbox"]), select) {
+  @apply min-h-11 w-full max-w-full rounded-lg border border-line bg-white px-3 py-3 text-base text-ink shadow-none;
+}
+.examWorkspace :is(input[type="radio"], input[type="checkbox"]) {
+  @apply size-4 shrink-0 accent-brand;
+}
+.examWorkspace :is(progress) {
+  @apply block h-2 w-full overflow-hidden rounded-full accent-brand;
+}
+.examWorkspace :is(progress)::-webkit-progress-bar {
+  @apply rounded-full bg-slate-100;
+}
+.examWorkspace :is(progress)::-webkit-progress-value {
+  @apply rounded-full bg-brand;
+}
+.examWorkspace .examWelcome {
+  @apply flex flex-wrap items-center justify-between gap-5 border-b border-line pb-6;
+}
+.examWorkspace .examWelcomeActions {
+  @apply flex flex-wrap gap-2;
+}
+.examWorkspace .examResume {
+  @apply flex flex-wrap items-center justify-between gap-4 rounded-xl border border-brand/25 bg-brand-soft p-5;
+  border-left: 4px solid var(--brand);
+}
+.examWorkspace
+  :is(
+    .examPreparation,
+    .examCustomPanel,
+    .examHistory,
+    .examQuestionPanel,
+    .examJourney
+  ) {
+  @apply rounded-2xl border border-line bg-white shadow-card;
+}
+.examWorkspace
+  :is(.examPreparation, .examCustomPanel, .examHistory, .examQuestionPanel) {
+  @apply p-5 sm:p-7;
+}
+.examWorkspace .examCoverage {
+  @apply my-6;
+}
+.examWorkspace .examCoverageCard {
+  @apply rounded-xl border border-line bg-slate-50/70 p-4;
+}
+.examWorkspace .examCompetencyLabel {
+  @apply mb-3 text-xs font-semibold uppercase tracking-wider text-brand;
+}
+.examWorkspace .examPreparationActions {
+  @apply flex flex-wrap items-center gap-3 border-t border-line pt-5;
+}
+.examWorkspace .examStatus {
+  @apply inline-flex min-h-8 items-center rounded-full border border-line bg-slate-50 px-3 text-xs font-semibold text-slate-600;
+}
+.examWorkspace .examDisclosure {
+  @apply rounded-xl border border-line p-4;
+}
+.examWorkspace .examDisclosure summary {
+  @apply min-h-6 cursor-pointer text-sm font-semibold text-ink;
+}
+.examWorkspace .examDisclosure[open] {
+  @apply bg-slate-50/60;
+}
+.examWorkspace .examCustomLayout {
+  @apply grid items-start gap-5;
+  scroll-margin-top: 24px;
+}
+.examWorkspace .examMode {
+  @apply block min-h-28;
+}
+.examWorkspace .examMode:has(input:checked) {
+  @apply border-brand bg-brand-soft;
+  box-shadow: inset 0 0 0 1px var(--brand);
+}
+.examWorkspace .examMode:has(input:disabled) {
+  @apply cursor-default;
+}
+.examWorkspace .examStudyGuide {
+  @apply rounded-xl border border-line bg-slate-50 p-6 text-ink;
+}
+.examWorkspace .examStudyGuide p {
+  @apply text-sm leading-6 text-slate-600;
+}
+.examWorkspace .examStudyGuide > p:first-child {
+  @apply text-xs font-semibold uppercase tracking-wider text-brand;
+}
+.examWorkspace .examStudyGuide h2 {
+  @apply mt-3 text-xl leading-7 text-ink;
+}
+.examWorkspace .examStudyGuide ol {
+  @apply my-5 space-y-4 pl-0 text-sm leading-6 text-slate-600;
+  list-style: none;
+}
+.examWorkspace .examStudyGuide > p:last-child {
+  @apply border-line;
+}
+.examWorkspace .examHistory {
+  scroll-margin-top: 24px;
+}
+.examWorkspace .examAttemptLayout {
+  @apply grid items-start gap-5;
+}
+.examWorkspace .examQuestionPanel h2 {
+  @apply text-lg leading-8 sm:text-xl;
+}
+.examWorkspace .examAnswer {
+  @apply min-h-16;
+}
+.examWorkspace .examAnswer input {
+  @apply mt-1;
+}
+.examWorkspace .examAnswer:has(input:disabled) {
+  @apply cursor-default;
+}
+.examWorkspace .examJourney {
+  @apply p-5;
+}
+.examWorkspace .examQuestionGrid {
+  @apply grid gap-2;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.examWorkspace .examQuestionGrid button {
+  @apply min-h-11 min-w-0 rounded-lg text-sm;
+}
+.examWorkspace .examQuestionGrid button[aria-current="step"] {
+  @apply border-brand bg-brand-soft text-brand;
+}
+@media (min-width: 1100px) {
+  .examWorkspace .examCustomLayout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .examWorkspace .examAttemptLayout {
+    grid-template-columns: minmax(0, 1fr) 260px;
+  }
+  .examWorkspace .examJourney {
+    @apply sticky top-5;
+  }
+}
+@media (max-width: 639px) {
+  .examWorkspace .examWelcomeActions {
+    @apply w-full;
+  }
+  .examWorkspace .examWelcomeActions > * {
+    @apply flex-1;
+  }
+  .examWorkspace .examPreparationActions > button {
+    @apply w-full;
+  }
+  .examWorkspace .examResume > button {
+    @apply w-full;
+  }
+  .examWorkspace .examCoverage {
+    grid-template-columns: 1fr;
+  }
+  .examWorkspace .examCoverageCard {
+    @apply p-4;
+  }
+  .examWorkspace .examDisclosure {
+    @apply p-3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .examWorkspace *,
+  .examWorkspace *::before,
+  .examWorkspace *::after {
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

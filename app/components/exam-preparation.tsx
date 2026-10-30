@@ -53,7 +53,7 @@ export function ExamPreparationPanel({
     drafts = data.coverage.reduce((n, c) => n + c.drafts, 0);
   return (
     <section
-      className="space-y-4 rounded-2xl border border-teal-200 bg-white p-4 sm:p-6"
+      className="examPreparation space-y-4"
       aria-labelledby="oece-preparation-title"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -65,7 +65,7 @@ export function ExamPreparationPanel({
             id="oece-preparation-title"
             className="mt-2 text-xl font-semibold"
           >
-            Preparación por las tres fases
+            Simulacro de preparación OECE
           </h2>
           <p className="mt-2 text-sm text-slate-600">
             72 preguntas · 120 minutos · Ley 32069. Entrenamiento independiente;
@@ -81,7 +81,7 @@ export function ExamPreparationPanel({
           Ver temario oficial
         </a>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="examCoverage grid gap-3 sm:grid-cols-3">
         {["1", "2", "3"].map((code) => {
           const rows = data.coverage.filter((c) => c.competency === code),
             required = rows.reduce((n, c) => n + c.quota, 0),
@@ -90,13 +90,14 @@ export function ExamPreparationPanel({
               0,
             );
           return (
-            <div key={code} className="rounded-xl border border-slate-200 p-4">
+            <div key={code} className="examCoverageCard">
+              <p className="examCompetencyLabel">Competencia {code}</p>
               <p className="text-sm font-semibold">{COMPETENCIES[code]}</p>
               <p className="mt-2 text-2xl font-semibold tabular-nums text-teal-800">
                 {covered}
                 <span className="text-sm font-normal text-slate-500">
                   {" "}
-                  / {required} cupos cubiertos
+                  / {required} revisadas
                 </span>
               </p>
               <progress
@@ -109,7 +110,10 @@ export function ExamPreparationPanel({
           );
         })}
       </div>
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="examPreparationActions">
+        <span className="examStatus">
+          {missing.length ? "En preparación" : "Disponible"}
+        </span>
         <button
           disabled={busy || data.coverage.length !== 30 || missing.length > 0}
           className="primaryButton"
@@ -130,7 +134,7 @@ export function ExamPreparationPanel({
           ? `En preparación: faltan preguntas revisadas en ${missing.length} subcompetencias. No se completan cupos con repeticiones.`
           : "Las treinta cuotas están cubiertas con preguntas revisadas y fuentes actuales."}
       </p>
-      <details className="rounded-xl border border-slate-200 p-4">
+      <details className="examDisclosure">
         <summary className="cursor-pointer text-sm font-semibold">
           Cobertura y pendientes por subcompetencia
         </summary>
@@ -174,7 +178,7 @@ export function ExamPreparationPanel({
           <ul className="mt-3 space-y-2">
             {data.balotarios.map((b) => (
               <li
-                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3"
+                className="examSetRow flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3"
                 key={b.id}
               >
                 <span className="text-sm">

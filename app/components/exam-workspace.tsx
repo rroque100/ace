@@ -283,22 +283,29 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
     answer = exam?.answers.find((x) => x.question_id === q?.id),
     answered = exam?.answers.filter((x) => x.option).length ?? 0;
   return (
-    <div className="tw mx-auto max-w-7xl space-y-6 pb-8 text-slate-900">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-teal-200 bg-white p-5">
+    <div className="tw examWorkspace mx-auto max-w-7xl space-y-6 pb-8 text-slate-900">
+      <div className="examWelcome">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
-            Aprender · practicar · comprobar
+            Tu espacio de preparación
           </p>
           <p className="mt-2 max-w-2xl text-sm text-slate-600">
-            Preguntas propias de ACE, con fuentes oficiales. Entrenamiento
-            independiente de una certificación oficial.
+            Practica a tu ritmo, comprueba cada respuesta y vuelve a su fuente.
+            Entrenamiento independiente de la certificación oficial.
           </p>
         </div>
-        {isAdmin && (
-          <Link className="secondaryButton" href="/simulador/banco">
-            Revisar banco de preguntas
-          </Link>
-        )}
+        <div className="examWelcomeActions">
+          {!exam && (
+            <a className="secondaryButton" href="#exam-custom">
+              Preparar práctica
+            </a>
+          )}
+          {isAdmin && (
+            <Link className="secondaryButton" href="/simulador/banco">
+              Gestionar preguntas
+            </Link>
+          )}
+        </div>
       </div>
       {error && (
         <div
@@ -391,8 +398,8 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
             </p>
           )}
           {q && (
-            <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_260px]">
-              <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+            <div className="examAttemptLayout">
+              <section className="examQuestionPanel">
                 <div className="flex flex-wrap justify-between gap-2 text-sm text-slate-600">
                   <span>
                     Pregunta {index + 1} de {a.questions.length}
@@ -437,7 +444,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   {q.options.map((o) => (
                     <label
                       key={o.id}
-                      className={`flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-teal-700 ${q.correctOption === o.id ? "border-teal-600 bg-teal-50" : q.correctOption && answer?.option === o.id ? "border-amber-300 bg-amber-50" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-teal-600 bg-teal-50" : "border-slate-200 hover:bg-slate-50"}`}
+                      className={`examAnswer flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-teal-700 ${q.correctOption === o.id ? "border-teal-600 bg-teal-50" : q.correctOption && answer?.option === o.id ? "border-amber-300 bg-amber-50" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-teal-600 bg-teal-50" : "border-slate-200 hover:bg-slate-50"}`}
                     >
                       <input
                         className="mt-1 h-4 w-4 accent-teal-700"
@@ -611,7 +618,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   </button>
                 </div>
               </section>
-              <aside className="rounded-2xl border border-slate-200 bg-white p-4 lg:sticky lg:top-5">
+              <aside className="examJourney">
                 <h2 className="font-semibold">Tu recorrido</h2>
                 <p className="mt-2 text-sm text-slate-600">
                   {answered} de {a.questions.length} respondidas
@@ -626,7 +633,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   <summary className="cursor-pointer text-sm font-medium">
                     Navegar por preguntas
                   </summary>
-                  <div className="mt-3 grid grid-cols-5 gap-2">
+                  <div className="examQuestionGrid mt-3 grid grid-cols-5 gap-2">
                     {a.questions.map((item, n) => {
                       const ans = exam.answers.find(
                         (x) => x.question_id === item.id,
@@ -673,7 +680,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
         dash && (
           <>
             {dash.active && (
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-teal-300 bg-teal-50 p-5">
+              <div className="examResume">
                 <div>
                   <h2 className="font-semibold">
                     Tienes{" "}
@@ -703,10 +710,14 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
               isAdmin={isAdmin}
               onStart={(profile, id) => void start(profile, id)}
             />
-            <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-                <h2 className="text-xl font-semibold">
-                  Práctica y simulacro personalizados
+            <section
+              id="exam-custom"
+              aria-labelledby="exam-custom-title"
+              className="examCustomLayout"
+            >
+              <div className="examCustomPanel">
+                <h2 id="exam-custom-title" className="text-xl font-semibold">
+                  Prepara tu práctica
                 </h2>
                 <fieldset className="mt-5 grid gap-3 sm:grid-cols-2">
                   <legend className="sr-only">Modalidad</legend>
@@ -724,7 +735,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   ].map((m) => (
                     <label
                       key={m.id}
-                      className={`cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-teal-600 ${mode === m.id ? "border-teal-600 bg-teal-50" : "border-slate-200"}`}
+                      className={`examMode cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-teal-600 ${mode === m.id ? "border-teal-600 bg-teal-50" : "border-slate-200"}`}
                     >
                       <span className="flex items-center gap-2 font-semibold">
                         <input
@@ -855,7 +866,7 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                   </p>
                 )}
               </div>
-              <aside className="rounded-2xl bg-slate-900 p-6 text-white">
+              <aside className="examStudyGuide">
                 <p className="text-xs uppercase tracking-wider text-teal-200">
                   Aprendizaje con fundamento
                 </p>
@@ -873,8 +884,8 @@ export function ExamWorkspace({ isAdmin }: { isAdmin: boolean }) {
                 </p>
               </aside>
             </section>
-            <section className="rounded-2xl border border-slate-200 bg-white p-5">
-              <h2 className="text-xl font-semibold">Mi progreso</h2>
+            <section id="exam-history" className="examHistory">
+              <h2 className="text-xl font-semibold">Mis intentos</h2>
               <p className="mt-1 text-sm text-slate-600">
                 Últimos 20 intentos. Las revisiones de borradores se identifican
                 por separado.
