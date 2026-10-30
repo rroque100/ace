@@ -13,6 +13,8 @@ import { LISTA_MODULOS_EXTERNOS, MODULOS_EXTERNOS, type ModuloExterno } from "@/
 type Solicitud = {
   id: string; codigo: string; creadoEn: string; nombre: string; dni: string; correo: string; celular: string | null; institucion: string | null;
   modulos: string[]; motivo: string; estado: "pendiente" | "aprobada" | "rechazada"; resueltaEn: string | null; motivoRechazo: string | null; ip: string | null;
+  // Si ese DNI ya tiene cuenta (del personal o externa) no se puede crear otra: el usuario y el correo interno salen del DNI.
+  cuentaExistente: { tipo: "interno" | "externo"; activo: boolean; nombre: string | null } | null;
 };
 type Bandeja = { sqlPendiente: boolean; aviso?: string; pendientes: number; solicitudes: Solicitud[] };
 type Resultado = { usuario: string; nombre: string; passwordTemporal: string; mensaje: string; correo: string; celular: string | null };
@@ -162,10 +164,22 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
             <blockquote className="m-0 mt-2 border-l-2 border-line pl-3 text-sm leading-[1.5] text-ink">{solicitud.motivo}</blockquote>
             {solicitud.estado === "rechazada" && solicitud.motivoRechazo ? <p className="mb-0 mt-2 text-sm text-muted">Motivo del rechazo: {solicitud.motivoRechazo}</p> : null}
 
+            {solicitud.estado === "pendiente" && solicitud.cuentaExistente ? (
+              <p role="status" className="mb-0 mt-3 flex items-start gap-2 rounded-md border border-warning/50 bg-warning-soft px-3 py-2 text-sm leading-[1.45]">
+                <AlertTriangle size={16} className="mt-0.5 shrink-0" aria-hidden />
+                <span>
+                  Este DNI ya tiene {solicitud.cuentaExistente.tipo === "externo" ? "una cuenta externa" : "una cuenta del personal de la entidad"}
+                  {solicitud.cuentaExistente.nombre ? <> (<strong>{solicitud.cuentaExistente.nombre}</strong>)</> : null}
+                  {solicitud.cuentaExistente.activo ? "" : ", desactivada"}. No se puede crear otra con el mismo DNI
+                  {solicitud.cuentaExistente.tipo === "externo" ? ": cambia sus módulos o su vigencia en la lista de cuentas externas." : "."} Rechaza la solicitud si ya no hace falta.
+                </span>
+              </p>
+            ) : null}
+
             {solicitud.estado === "pendiente" && aprobando !== solicitud.id && rechazando !== solicitud.id ? (
               <div className="mt-3 flex flex-wrap gap-2">
-                <button type="button" className={btnPrimary} onClick={() => empezarAprobacion(solicitud)}><Check size={16} aria-hidden /> Aprobar…</button>
-                <button type="button" className={btnSecondary} onClick={() => { setAprobando(null); setRechazando(solicitud.id); setMotivo(""); }}><X size={16} aria-hidden /> Rechazar</button>
+                {solicitud.cuentaExistente ? null : <button type="button" className={btnPrimary} onClick={() => empezarAprobacion(solicitud)}><Check size={16} aria-hidden /> Aprobar…</button>}
+                <button type="button" className={solicitud.cuentaExistente ? btnPrimary : btnSecondary} onClick={() => { setAprobando(null); setRechazando(solicitud.id); setMotivo(solicitud.cuentaExistente ? "Ese DNI ya tiene una cuenta en ACE." : ""); }}><X size={16} aria-hidden /> Rechazar</button>
               </div>
             ) : null}
 

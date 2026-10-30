@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { idsDeRutaInvalidos, requireAdmin } from "@/lib/auth";
-import { crearCuentaExterna, esFaltaSql, SQL_SOLICITUDES_PENDIENTE } from "@/lib/externos-cuenta";
+import { crearCuentaExterna, cuentasPorDni, descripcionCuenta, esFaltaSql, SQL_SOLICITUDES_PENDIENTE } from "@/lib/externos-cuenta";
 import { LISTA_MODULOS_EXTERNOS } from "@/lib/modulos-acceso";
 import { mensajeBienvenida } from "@/lib/solicitud-acceso";
 import { supabaseRest, writeAuditLog } from "@/lib/supabase-server";
@@ -54,6 +54,17 @@ export async function POST(request: Request, contexto: { params: Promise<{ id: s
       if (!fila) return NextResponse.json({ error: "Esa solicitud ya fue resuelta o no existe." }, { status: 409 });
       await writeAuditLog({ action: "settings.externo.solicitud.rechazar", details: { dni: fila.dni, motivo: datos.motivo || null }, entityId: id, entityType: "solicitud_acceso", user: quien });
       return NextResponse.json({ ok: true });
+    }
+
+    // Antes de reclamarla: si el DNI ya tiene cuenta no hay nada que crear, y la solicitud debe seguir pendiente tal cual.
+    const [previa] = await supabaseRest<Array<{ dni: string; estado: string }>>(`solicitudes_acceso?id=eq.${id}&select=dni,estado`);
+    if (!previa || previa.estado !== "pendiente") return NextResponse.json({ error: "Esa solicitud ya fue resuelta o no existe." }, { status: 409 });
+    const existente = (await cuentasPorDni([previa.dni])).get(previa.dni);
+    if (existente) {
+      return NextResponse.json(
+        { error: `El DNI ${previa.dni} ya tiene ${descripcionCuenta(existente)}. No se puede crear otra cuenta con el mismo DNI: rechaza la solicitud o edita la cuenta existente.`, codigo: "dni_con_cuenta" },
+        { status: 409 },
+      );
     }
 
     const fila = await reclamar(id, "aprobada", auth.user.id);

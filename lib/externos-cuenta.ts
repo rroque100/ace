@@ -15,6 +15,33 @@ export const SQL_SOLICITUDES_PENDIENTE = "Falta ejecutar docs/supabase/solicitud
 export const esFaltaSql = (error: unknown) =>
   /42703|42P01|PGRST20[45]|does not exist|Could not find|schema cache/i.test(error instanceof Error ? error.message : String(error));
 
+export type CuentaExistente = { tipo: "interno" | "externo"; activo: boolean; nombre: string | null };
+
+/**
+ * Qué cuentas ya usan estos DNI, sean del personal de la entidad o externas. El usuario y el correo interno de una cuenta
+ * salen del DNI (`DNI@ace.local`), así que dos cuentas con el mismo DNI no pueden coexistir: antes de aprobar una solicitud
+ * hay que saber si ese DNI ya está tomado y por quién. Los DNI llegan de la base (la columna solo admite ocho dígitos) y se
+ * vuelven a validar aquí, así que se pueden interpolar en el filtro.
+ */
+export async function cuentasPorDni(dnis: readonly string[]): Promise<Map<string, CuentaExistente>> {
+  const encontradas = new Map<string, CuentaExistente>();
+  const validos = [...new Set(dnis.filter((dni) => /^\d{8}$/.test(dni)))];
+  if (!validos.length) return encontradas;
+  const perfiles = await supabaseRest<Array<{ dni: string | null; email: string | null; tipo: string | null; activo: boolean | null; nombre_completo: string | null }>>(
+    `profiles?or=(dni.in.(${validos.join(",")}),email.in.(${validos.map((dni) => `${dni}@ace.local`).join(",")}))&select=dni,email,tipo,activo,nombre_completo`,
+  );
+  for (const perfil of perfiles) {
+    const dni = perfil.dni && /^\d{8}$/.test(perfil.dni) ? perfil.dni : (perfil.email ?? "").replace(/@ace\.local$/i, "");
+    if (!validos.includes(dni)) continue;
+    encontradas.set(dni, { tipo: perfil.tipo === "externo" ? "externo" : "interno", activo: perfil.activo !== false, nombre: perfil.nombre_completo });
+  }
+  return encontradas;
+}
+
+/** La frase con la que se explica quién tiene ya ese DNI. */
+export const descripcionCuenta = (cuenta: CuentaExistente) =>
+  `${cuenta.tipo === "externo" ? "una cuenta externa" : "una cuenta del personal de la entidad"}${cuenta.nombre ? ` (${cuenta.nombre})` : ""}${cuenta.activo ? "" : ", desactivada"}`;
+
 export function contrasenaTemporal() {
   return `Ace-${crypto.randomUUID().replace(/-/g, "").slice(0, 14)}!9`;
 }

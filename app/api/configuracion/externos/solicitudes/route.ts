@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { esFaltaSql, SQL_SOLICITUDES_PENDIENTE } from "@/lib/externos-cuenta";
+import { cuentasPorDni, esFaltaSql, SQL_SOLICITUDES_PENDIENTE } from "@/lib/externos-cuenta";
 import { codigoDeSolicitud, ESTADOS_SOLICITUD, type EstadoSolicitud } from "@/lib/solicitud-acceso";
 import { supabaseRest } from "@/lib/supabase-server";
 
@@ -35,6 +35,8 @@ export async function GET(request: Request) {
       supabaseRest<Fila[]>(`solicitudes_acceso?select=id,creado_en,nombre,dni,correo,celular,institucion,modulos,motivo,estado,resuelta_en,motivo_rechazo,ip${filtro}&order=creado_en.desc&limit=200`),
       supabaseRest<Array<{ id: string }>>("solicitudes_acceso?estado=eq.pendiente&select=id&limit=1000"),
     ]);
+    // Si el DNI ya tiene cuenta no se puede aprobar: se le avisa al administrador en la propia tarjeta, no al pulsar el botón.
+    const cuentas = await cuentasPorDni(filas.map((fila) => fila.dni)).catch(() => new Map<string, never>());
     return NextResponse.json({
       sqlPendiente: false,
       pendientes: pendientes.length,
@@ -53,6 +55,7 @@ export async function GET(request: Request) {
         resueltaEn: fila.resuelta_en,
         motivoRechazo: fila.motivo_rechazo,
         ip: fila.ip,
+        cuentaExistente: cuentas.get(fila.dni) ?? null,
       })),
     });
   } catch (error) {
