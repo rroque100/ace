@@ -33,8 +33,6 @@ button,a,input,select,textarea { -webkit-tap-highlight-color:transparent; }
 .workspaceShell .navSectionLabel { color:#a7bdca; font-weight:600; letter-spacing:.06em; }
 .workspaceShell .userBox { border-color:#ffffff26; }
 .workspaceShell .topbarSearchActions { display:flex; align-items:center; flex-wrap:wrap; justify-content:flex-end; gap:10px; }
-.appearanceControl { display:inline-flex; align-items:center; gap:7px; padding:0 10px; min-height:44px; border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--ink); }
-.appearanceControl select { cursor:pointer; min-height:42px; max-width:110px; border:0; background:transparent; color:inherit; font-size:13px; }
 .mobileDock { display:none; }
 .mobileAppHeader { display:none; }
 .homeCard { position:relative; text-decoration:none; color:var(--ink); }
@@ -81,12 +79,9 @@ button,a,input,select,textarea { -webkit-tap-highlight-color:transparent; }
 @media(max-width:980px) {
   .workspaceShell .content { padding:calc(88px + env(safe-area-inset-top)) 20px calc(102px + env(safe-area-inset-bottom)); }
   .workspaceShell .topbar { padding-left:0; align-items:flex-start; margin-bottom:22px; }
-  .workspaceShell .topbar .appearanceControl { display:none; }
   .mobileAppHeader { position:fixed; inset:0 0 auto; z-index:50; display:flex; align-items:center; gap:10px; height:calc(68px + env(safe-area-inset-top)); padding:calc(10px + env(safe-area-inset-top)) 16px 10px; background:var(--panel); border-bottom:1px solid var(--line); }
   .mobileAppBrand { display:grid; gap:2px; margin-right:auto; font-size:16px; font-weight:750; line-height:1.2; text-decoration:none; color:var(--ink); }
   .mobileAppBrand span { font-size:10px; color:var(--muted); font-weight:500; }
-  .mobileAppHeader .appearanceControl { padding-inline:7px; gap:3px; }
-  .mobileAppHeader .appearanceControl select { max-width:85px; font-size:12px; }
   .workspaceShell .topbar h1 { font-size:24px; }
   .workspaceShell .sidebar { width:min(320px,88vw); height:100dvh; visibility:hidden; }
   .workspaceShell .sidebar.mobileOpen { visibility:visible; }
