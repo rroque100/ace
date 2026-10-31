@@ -235,9 +235,14 @@ export function Sidebar({
               <span>Juridica</span>
             </div>
           </Link>
+          {/* Colapsado, este botón se posiciona absoluto sobre la esquina inferior
+              del aside, que es justo donde está el pie (.border-t) con position
+              relative. Al ser el pie posterior en el DOM y también posicionado,
+              pintaba por encima y se comía los clics: el menú quedaba colapsado
+              sin forma de reabrirlo. El z-10 lo levanta por encima del pie. */}
           <button
             type="button"
-            className="hidden size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/15 bg-transparent text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-teal-200 lg:flex lg:group-data-[collapsed=true]/sidebar:absolute lg:group-data-[collapsed=true]/sidebar:bottom-5 lg:group-data-[collapsed=true]/sidebar:left-6"
+            className="hidden size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/15 bg-transparent text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-teal-200 lg:flex lg:group-data-[collapsed=true]/sidebar:absolute lg:group-data-[collapsed=true]/sidebar:bottom-5 lg:group-data-[collapsed=true]/sidebar:left-6 lg:group-data-[collapsed=true]/sidebar:z-10"
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expandir menú" : "Colapsar menú"}
             title={collapsed ? "Expandir menú (Ctrl+\\)" : "Colapsar menú (Ctrl+\\)"}
