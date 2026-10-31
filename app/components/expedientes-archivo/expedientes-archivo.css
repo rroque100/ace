@@ -79,79 +79,6 @@
   border-radius: var(--exp-radius) var(--exp-radius) 0 0;
 }
 
-.expTab.active .expTabBadge {
-  background: var(--exp-brand);
-  color: #fff;
-}
-
-/* --- Tab content con padding consistente --- */
-
-/* --- Form sections con headers claros --- */
-
-.expFormSectionCounter.complete {
-  background: var(--exp-success-soft);
-  color: var(--exp-success);
-}
-
-/* --- Input group con label claro y validación --- */
-
-/* --- File picker con drag & drop visual --- */
-
-.expFilePicker.dragging {
-  border-color: var(--exp-brand);
-  background: var(--exp-brand-soft);
-  transform: scale(1.01);
-  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.10);
-}
-
-.expFilePicker.hasFile {
-  border-style: solid;
-  border-color: var(--exp-success);
-  background: var(--exp-success-soft);
-  padding: 20px;
-}
-
-.expFilePicker.hasFile .expFilePickerIcon {
-  color: var(--exp-success);
-}
-
-/* --- Extract PDF section --- */
-
-/* --- Extracted data preview --- */
-
-/* --- Recent uploads list (tab Subir) --- */
-
-/* --- Indexing in progress banner --- */
-
-/* --- Editable extracted field --- */
-
-/* --- Wizard stepper horizontal --- */
-
-.expWizardStep.active .expWizardStepNumber {
-  background: var(--exp-brand);
-  border-color: var(--exp-brand);
-  color: #fff;
-  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.15);
-}
-
-.expWizardStep.done .expWizardStepNumber {
-  background: var(--exp-success);
-  border-color: var(--exp-success);
-  color: #fff;
-}
-
-.expWizardStep.active .expWizardStepLabel {
-  color: var(--exp-ink);
-}
-
-.expWizardStep.done .expWizardStepLabel {
-  color: var(--exp-success);
-}
-
-.expWizardStep.done + .expWizardStepConnector {
-  background: var(--exp-success);
-}
-
 /* --- Search bar mejorada --- */
 .expSearchBar {
   display: flex;
@@ -171,51 +98,6 @@
   box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.10);
 }
 
-/* --- Search mode toggle --- */
-
-.expModeToggle button.active {
-  background: var(--exp-brand);
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
-}
-
-/* --- Fila de checkbox (p. ej. incluir antecedentes en Responder) --- */
-
-/* --- Search modes: 2 opciones tipo tarjeta (Buscar / Preguntar a la IA) --- */
-
-.expSearchModeCard.active {
-  border-color: var(--exp-brand);
-  background: rgba(15, 118, 110, 0.06);
-  box-shadow: inset 0 0 0 1px var(--exp-brand);
-}
-
-.expSearchModeCard.active .expSearchModeIcon {
-  background: var(--exp-brand);
-  color: #fff;
-}
-
-/* --- Botón "Filtros" dentro de la barra de búsqueda --- */
-
-.expFilterToggle.active {
-  color: var(--exp-brand);
-  border-color: var(--exp-brand);
-  background: rgba(15, 118, 110, 0.06);
-}
-
-/* --- Fila de filtros (año / oficina / materia) --- */
-
-/* --- Results / answers --- */
-
-.expIconButton.danger:hover {
-  color: var(--exp-danger);
-  border-color: var(--exp-danger);
-  background: var(--exp-danger-soft);
-}
-
-/* --- AI Answer con formato --- */
-
-/* --- Citation chip --- */
-
 /* --- Stats dashboard --- */
 .expStats {
   display: grid;
@@ -223,12 +105,6 @@
   gap: 10px;
   margin: 0 0 20px;
 }
-
-.expStatCard.statBrand::before { background: var(--exp-brand); }
-.expStatCard.statSuccess::before { background: var(--exp-success); }
-.expStatCard.statWarning::before { background: var(--exp-warning); }
-.expStatCard.statDanger::before { background: var(--exp-danger); }
-.expStatCard.statInfo::before { background: var(--exp-info); }
 
 /* --- Lista / Tabla / Tarjetas con consistencia --- */
 .expListHeader {
@@ -241,39 +117,6 @@
   background: var(--exp-panel);
   border: 1px solid var(--exp-line);
   border-radius: var(--exp-radius);
-}
-
-.expViewToggle button.active {
-  background: var(--exp-panel);
-  color: var(--exp-brand);
-  box-shadow: var(--exp-shadow-sm);
-}
-
-/* --- Status pills --- */
-
-.expPill.active {
-  background: var(--exp-brand);
-  color: #fff;
-  border-color: var(--exp-brand);
-}
-
-.expPill.active .expPillCount {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-/* --- Advanced filters panel --- */
-
-/* --- Bulk action bar flotante --- */
-
-.expBulkBar button.primary {
-  background: #fff;
-  color: var(--exp-brand);
-  border-color: #fff;
-}
-
-.expBulkBar button.primary:hover {
-  background: var(--exp-brand-soft);
 }
 
 /* --- Table view --- */
@@ -350,18 +193,6 @@
   color: var(--exp-ink);
 }
 
-.expTableSortBtn.activeSort {
-  color: var(--exp-brand);
-}
-
-/* --- Status badge --- */
-
-/* --- Cards view --- */
-
-/* --- List view --- */
-
-/* --- Buttons --- */
-
 /* --- Slide-over modal (chat, detalle, help, replace) --- */
 
 .expSlideOver {
@@ -413,55 +244,10 @@
   animation: expSlideInRight 240ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.expChat-msg.user {
-  margin-left: auto;
-}
-
-.expChat-msg.user .expChat-avatar {
-  background: var(--exp-ink-soft);
-}
-
-.expChat-msg.ai .expChat-avatar {
-  background: var(--exp-brand);
-}
-
-.expChat-msg.user .expChat-bubble {
-  background: var(--exp-ink-soft);
-  color: #fff;
-  border-color: var(--exp-ink-soft);
-}
-
-.expChat-msg.ai .expChat-bubble {
-  background: var(--exp-panel);
-  border-color: var(--exp-line);
-}
-
 /* --- Command palette --- */
 
 /* Portada por Radix, la paleta deja de ser hija flex del overlay. Se ancla con
    márgenes automáticos y no con `transform`, que ya lo gasta `expPopIn`. */
-
-.expCmd-item.active {
-  background: var(--exp-brand-soft);
-  border-left-color: var(--exp-brand);
-}
-
-/* --- Help modal --- */
-
-/* --- Replace file modal --- */
-
-.expReplaceDropzone.dragging {
-  border-color: var(--exp-brand);
-  background: var(--exp-brand-soft);
-}
-
-/* --- Bulk move modal --- */
-
-/* --- Toast / Snackbar --- */
-
-/* --- Inline message --- */
-
-/* --- Empty state --- */
 
 /* --- Loading skeleton --- */
 
@@ -558,12 +344,6 @@
    Ahora los coloca Radix, que copia a su envoltorio el z-index calculado de la
    tarjeta: tiene que quedar por encima del foco de luz (200). */
 
-.expTourDot.active {
-  width: 18px;
-  background: var(--exp-brand);
-  border-radius: 999px;
-}
-
 /* --- Skeleton loaders --- */
 
 @keyframes expShimmer {
@@ -574,10 +354,6 @@
     background-position: -200% 0;
   }
 }
-
-/* --- Skip link (accesibilidad) --- */
-
-/* --- Live region para screen readers --- */
 
 /* --- Onboarding tour focus pulse --- */
 @keyframes expTourPulse {
@@ -594,30 +370,10 @@
   animation: expTourPulse 2s ease-in-out infinite;
 }
 
-/* --- Empty state con ilustración --- */
-
-/* --- Connection status indicator --- */
-
-.expStatusDot.error {
-  background: var(--exp-danger);
-}
-
-/* --- Quick action floating button (mobile) --- */
-
 /* --- Confirmation dialog (custom) --- */
 
 /* Igual que la paleta: portado por Radix pierde el centrado que le daba el
    overlay, y `expPopIn` ya usa `transform`. Márgenes automáticos, entonces. */
-
-.expConfirmIcon.danger {
-  background: var(--exp-danger-soft);
-  color: var(--exp-danger);
-}
-
-.expConfirmIcon.warning {
-  background: var(--exp-warning-soft);
-  color: var(--exp-warning);
-}
 
 /* --- Pulsing dot indicator --- */
 @keyframes expPing {
@@ -632,31 +388,11 @@
   }
 }
 
-/* --- Helper text inline --- */
-
-/* --- View mode segmented control --- */
-
-.expSegmented button.active {
-  background: var(--exp-panel);
-  color: var(--exp-brand);
-  box-shadow: var(--exp-shadow-sm);
-}
-
-/* --- Drag indicator --- */
-
-.expDragIndicator.visible {
-  opacity: 1;
-}
-
 /* --- Filter chip removable --- */
 
 /* ==========================================================================
    Mejoras finales — Paginación, Density, Dark mode, Hover refinado
    ========================================================================== */
-
-/* --- Paginación --- */
-
-/* --- Density modes --- */
 
 /* --- Dark mode --- */
 [data-theme="dark"] {
@@ -711,10 +447,4 @@
 [data-theme="dark"] .expSearchBar:focus-within {
   background: var(--exp-panel);
 }
-
-/* --- Hover refinado en lista con slide --- */
-
-/* --- Theme y density toggles en header --- */
-
-/* --- Suggested questions en modo preguntar --- */
 
