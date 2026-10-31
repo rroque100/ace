@@ -9,13 +9,13 @@ import { AppearanceControl } from "../appearance-control";
 // los títulos llevan el modificador `!` (`text-2xl!`); sin él, el tamaño que se ve no es el que se escribe.
 
 export const authInput =
-  "block w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-[16px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-muted/60 focus:border-brand focus:outline-none focus:shadow-focus disabled:cursor-not-allowed disabled:bg-surface sm:text-md";
+  "block w-full min-h-11 rounded-xl border border-line bg-panel px-3.5 py-2.5 text-[16px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-muted/60 focus:border-brand focus:outline-none focus:shadow-focus disabled:cursor-not-allowed disabled:bg-surface sm:text-md";
 export const authInputError = "border-danger focus:border-danger";
 export const authLabel = "mb-1.5 flex items-baseline justify-between gap-2 text-sm font-semibold text-ink";
 export const authBoton =
-  "inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 text-md font-bold text-white transition-[background,transform] duration-150 hover:bg-brand-dark focus-visible:outline-none focus-visible:shadow-focus disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 text-[14px] font-semibold text-[var(--on-brand)] transition-[background,transform] duration-150 hover:bg-brand-dark focus-visible:outline-none focus-visible:shadow-focus disabled:cursor-not-allowed disabled:opacity-60";
 export const authBotonSecundario =
-  "inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-line bg-white px-4 text-md font-semibold text-ink transition-colors duration-150 hover:border-brand/40 hover:bg-brand-soft hover:text-brand-dark focus-visible:outline-none focus-visible:shadow-focus";
+  "inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg border border-line bg-panel px-4 text-md font-semibold text-ink transition-colors duration-150 hover:border-brand/40 hover:bg-brand-soft hover:text-brand-dark focus-visible:outline-none focus-visible:shadow-focus";
 export const authEnlace = "font-semibold text-brand underline-offset-2 hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:shadow-focus";
 // styles.css también fija `p { margin-top: 0 }` sin capa: un `mt-*` sobre un <p> no se aplica. Los textos de ayuda y de
 // error que necesitan separación van con `mt-*!` o en un <div>/<small>.
@@ -56,13 +56,13 @@ const PUNTOS = [
  */
 export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: ReactNode; ancho?: string }) {
   return (
-    <main className="tw authShell relative min-h-dvh bg-canvas text-ink lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-      <div className="authAppearance"><AppearanceControl /></div>
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-linear-to-br from-brand-dark to-brand p-12 text-white lg:sticky lg:top-0 lg:flex lg:h-dvh lg:self-start">
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-[420px] rounded-full bg-white/[0.06]" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-20 size-[360px] rounded-full bg-white/[0.05]" />
+    <main className="tw relative min-h-dvh bg-canvas text-ink lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+      <div className="absolute right-5 top-5 z-10"><AppearanceControl /></div>
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-linear-to-br from-teal-950 to-teal-800 p-12 text-white lg:sticky lg:top-0 lg:flex lg:h-dvh lg:self-start">
+        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-[420px] rounded-full bg-panel/[0.06]" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-20 size-[360px] rounded-full bg-panel/[0.05]" />
         <div className="relative flex items-center gap-3">
-          <span className="grid size-11 place-items-center rounded-xl bg-white/15 text-lg font-extrabold">A</span>
+          <span className="grid size-11 place-items-center rounded-xl bg-panel/15 text-lg font-extrabold">A</span>
           <div className="leading-tight">
             <strong className="block text-lg">ACE IA Jurídica</strong>
             <span className="text-sm text-white/75">Contrataciones públicas · Perú</span>
@@ -73,7 +73,7 @@ export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: Re
           <ul className="m-0 mt-8 flex list-none flex-col gap-5 p-0">
             {PUNTOS.map(({ Icono, titulo, texto }) => (
               <li key={titulo} className="flex items-start gap-3.5">
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-white/12"><Icono size={18} aria-hidden /></span>
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-panel/12"><Icono size={18} aria-hidden /></span>
                 <span className="text-md leading-snug"><strong className="block">{titulo}</strong><span className="text-white/75">{texto}</span></span>
               </li>
             ))}
@@ -87,13 +87,13 @@ export function AuthLayout({ children, ancho = "max-w-[420px]" }: { children: Re
 
       <div className="flex min-h-dvh flex-col items-center justify-center px-5 py-20 sm:px-8">
         <div className="mb-8 flex items-center gap-3 lg:hidden">
-          <span className="grid size-10 place-items-center rounded-xl bg-brand text-lg font-extrabold text-white">A</span>
+          <span className="grid size-10 place-items-center rounded-xl bg-brand text-lg font-bold text-[var(--on-brand)]">A</span>
           <div className="leading-tight">
             <strong className="block text-md">ACE IA Jurídica</strong>
             <span className="text-sm text-muted">Contrataciones públicas · Perú</span>
           </div>
         </div>
-        <div className={`authSurface w-full rounded-2xl border border-line p-6 shadow-card sm:p-8 ${ancho}`}>{children}</div>
+        <div className={`w-full bg-panel rounded-2xl border border-line p-6 shadow-card sm:p-8 ${ancho}`}>{children}</div>
       </div>
     </main>
   );

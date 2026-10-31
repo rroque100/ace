@@ -88,9 +88,9 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
   const sections = workspaceNavigation(user, puedeProcesos);
 
   return (
-    <main className={`shell workspaceShell${["chat", "busqueda", "normas"].includes(active) ? " legalShell" : ""}`}>
+    <main className="workspaceShell aceAppShell group/workspace grid min-h-dvh grid-cols-[minmax(0,1fr)] bg-canvas text-ink lg:grid-cols-[264px_minmax(0,1fr)] lg:has-[.aceSidebar[data-collapsed=true]]:grid-cols-[88px_minmax(0,1fr)] has-[.normFocusReading]:grid-cols-[minmax(0,1fr)]!">
       {/* Primer elemento enfocable del documento: salta el menu lateral. */}
-      <a className="skipLink" href="#contenido">
+      <a className="sr-only fixed left-4 top-4 z-[100] rounded-xl border border-brand bg-panel px-4 py-3 text-sm font-semibold text-brand shadow-lg focus:not-sr-only" href="#contenido">
         Saltar al contenido
       </a>
 
@@ -105,18 +105,18 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
         externo={user?.esExterno && estadoExterno ? { modulos: user.modulosExternos, estado: estadoExterno } : null}
       />
 
-      <section className="content" id="contenido" tabIndex={-1}>
-        <header className="topbar">
+      <section className="aceContent min-w-0 px-4 pb-[calc(104px+env(safe-area-inset-bottom))] pt-[calc(92px+env(safe-area-inset-top))] sm:px-6 lg:px-8 lg:pb-10 lg:pt-8 xl:px-10 group-has-[.normFocusReading]/workspace:mx-auto group-has-[.normFocusReading]/workspace:w-full group-has-[.normFocusReading]/workspace:max-w-[1320px] group-has-[.normFocusReading]/workspace:p-4" id="contenido" tabIndex={-1}>
+        <header className="aceTopbar mb-7 flex flex-wrap items-start justify-between gap-4 group-has-[.normFocusReading]/workspace:hidden">
           <div>
-            <p className="eyebrow">{eyebrow}</p>
-            <h1 style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-brand">{eyebrow}</p>
+            <h1 className="m-0 flex flex-wrap items-center gap-3 text-[26px] font-bold leading-tight tracking-tight text-ink sm:text-[30px]">
               {title}
               {showFiscalYear ? <YearSelector /> : null}
             </h1>
           </div>
           {/* Sin «Buscar en ACE» para una cuenta externa: propone destinos que no puede abrir (Guardados, Historial, Archivo) y cada propuesta gasta
               parte de su cuota de IA. Sus módulos ya están a la vista en el menú. */}
-          <div className="topbarSearchActions"><AppearanceControl />{user && !user.esExterno ? <WorkspaceSearch ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
+          <div className="flex flex-wrap items-center justify-end gap-2 [&_.searchAssistantTrigger]:hidden sm:[&_.searchAssistantTrigger]:inline-flex"><span className="hidden lg:inline-flex"><AppearanceControl /></span>{user && !user.esExterno ? <WorkspaceSearch ownerId={user.id} destinations={sections.flatMap(section=>section.items.map(item=>({href:item.href,label:item.label})))} /> : null}{action}</div>
         </header>
 
         {estadoExterno ? <AvisosExterno estado={estadoExterno} /> : null}

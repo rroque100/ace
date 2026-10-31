@@ -17,7 +17,11 @@
    Cuando toda la app esté migrada, esto se puede sustituir por el import estándar.
    ════════════════════════════════════════════════════════════════════════════ */
 
-@layer theme, tw-base, components, utilities;
+@layer theme, legacy, tw-base, components, utilities;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Temporary isolated legacy layer: migrated utilities always have precedence. */
+@import "./styles.css" layer(legacy);
 
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
@@ -144,9 +148,9 @@
   /* Tipografía: escala definida para el módulo Configuración. Reemplaza
      progresivamente los `text-[12.5px]` y similares. */
   --text-xs: 11px;
-  --text-sm: 12.5px;
-  --text-base: 13.5px;
-  --text-md: 14.5px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 15px;
   --text-lg: 16px;
   --text-xl: 18px;
 
@@ -260,3 +264,6 @@
 
 @source "./components/norm-article-reading.tsx";
 @source "./components/response-ai-badge.tsx";
+@source "./components/app-shell.tsx";
+@source "./components/year-selector.tsx";
+@source "./loading.tsx";

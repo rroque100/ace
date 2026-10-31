@@ -1,0 +1,173 @@
+{
+  "date": "2026-10-31",
+  "routes": 29,
+  "stylesheets": [
+    {
+      "file": "app/components/exam-ui.css",
+      "lines": 209,
+      "bytes": 5970
+    },
+    {
+      "file": "app/components/expedientes-archivo/expedientes-archivo.css",
+      "lines": 721,
+      "bytes": 16655
+    },
+    {
+      "file": "app/components/legal-workspace.css",
+      "lines": 432,
+      "bytes": 35379
+    },
+    {
+      "file": "app/components/norm-article-reading.css",
+      "lines": 56,
+      "bytes": 5229
+    },
+    {
+      "file": "app/components/normative-browser.css",
+      "lines": 46,
+      "bytes": 4744
+    },
+    {
+      "file": "app/components/search-discovery.css",
+      "lines": 18,
+      "bytes": 1654
+    },
+    {
+      "file": "app/components/voice-search.css",
+      "lines": 21,
+      "bytes": 2340
+    },
+    {
+      "file": "app/styles.css",
+      "lines": 11341,
+      "bytes": 252692
+    },
+    {
+      "file": "app/tailwind.css",
+      "lines": 270,
+      "bytes": 12679
+    },
+    {
+      "file": "app/workspace.css",
+      "lines": 133,
+      "bytes": 11833
+    }
+  ],
+  "cssImports": [
+    {
+      "file": "app/actualizacion-documental/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/busqueda/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/chat/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/comparar/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/components/norm-article-reading.tsx",
+      "stylesheet": "./norm-article-reading.css"
+    },
+    {
+      "file": "app/components/normative-browser.tsx",
+      "stylesheet": "./normative-browser.css"
+    },
+    {
+      "file": "app/components/search-discovery.tsx",
+      "stylesheet": "./search-discovery.css"
+    },
+    {
+      "file": "app/components/voice-dictation.tsx",
+      "stylesheet": "./voice-search.css"
+    },
+    {
+      "file": "app/components/voice-search.tsx",
+      "stylesheet": "./voice-search.css"
+    },
+    {
+      "file": "app/layout.tsx",
+      "stylesheet": "./tailwind.css"
+    },
+    {
+      "file": "app/layout.tsx",
+      "stylesheet": "./components/expedientes-archivo/expedientes-archivo.css"
+    },
+    {
+      "file": "app/layout.tsx",
+      "stylesheet": "./workspace.css"
+    },
+    {
+      "file": "app/normas/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/simulador/banco/page.tsx",
+      "stylesheet": "../../components/legal-workspace.css"
+    },
+    {
+      "file": "app/simulador/banco/page.tsx",
+      "stylesheet": "../../components/exam-ui.css"
+    },
+    {
+      "file": "app/simulador/page.tsx",
+      "stylesheet": "../components/legal-workspace.css"
+    },
+    {
+      "file": "app/simulador/page.tsx",
+      "stylesheet": "../components/exam-ui.css"
+    }
+  ],
+  "inlineStyleComponents": [
+    "app/components/configuracion/entidad-tab.tsx",
+    "app/components/configuracion/usuarios-tab.tsx",
+    "app/components/configuracion-workspace.tsx",
+    "app/components/contrato-cp-form.tsx",
+    "app/components/contrato-cp-list.tsx",
+    "app/components/contrato-sie-form.tsx",
+    "app/components/contrato-sie-list.tsx",
+    "app/components/contrato-sie-section-badge.tsx",
+    "app/components/contratos-workspace.tsx",
+    "app/components/cronograma-roles-editor.tsx",
+    "app/components/document-search-workspace.tsx",
+    "app/components/error-boundary.tsx",
+    "app/components/evaluadores-preview-modal.tsx",
+    "app/components/expedientes-archivo/onboarding-tour.tsx",
+    "app/components/expedientes-archivo/subir-tab-content.tsx",
+    "app/components/expedientes-archivo-workspace.tsx",
+    "app/components/externo/cuenta-externa-card.tsx",
+    "app/components/fase-panel.tsx",
+    "app/components/fase-preparatoria/segmentacion-form.tsx",
+    "app/components/global-progress.tsx",
+    "app/components/hoja-preview.tsx",
+    "app/components/necesidad/ficha-progreso.tsx",
+    "app/components/necesidad/panel-adjuntos.tsx",
+    "app/components/necesidad/panel-derivacion.tsx",
+    "app/components/necesidad-eett-campo.tsx",
+    "app/components/necesidad-eett-tdr-modal.tsx",
+    "app/components/necesidad-list.tsx",
+    "app/components/norm-article-reading.tsx",
+    "app/components/pdf-cite-viewer.tsx",
+    "app/components/persona-picker.tsx",
+    "app/components/phase-tracker.tsx",
+    "app/components/process-list.tsx",
+    "app/components/segmentacion-preview-modal.tsx",
+    "app/components/ui/card.tsx",
+    "app/icon.tsx"
+  ],
+  "migratedSharedFiles": [
+    "app/components/app-shell.tsx",
+    "app/components/sidebar.tsx",
+    "app/components/appearance-control.tsx",
+    "app/components/year-selector.tsx",
+    "app/page.tsx",
+    "app/loading.tsx",
+    "app/components/auth/auth-ui.tsx"
+  ],
+  "violations": []
+}

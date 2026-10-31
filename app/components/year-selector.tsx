@@ -1,43 +1,12 @@
 "use client";
-
-import { Calendar } from "lucide-react";
-import { useYear } from "@/lib/year-context";
-
-export function YearSelector({ label = true }: { label?: boolean }) {
-  const { year, setYear, availableYears } = useYear();
-
-  return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-        fontSize: 13,
-        color: "var(--muted, #667)",
-      }}
-    >
-      {label ? <Calendar size={15} /> : null}
-      <select
-        value={year}
-        onChange={(e) => setYear(Number.parseInt(e.target.value, 10))}
-        aria-label="Seleccionar año fiscal"
-        style={{
-          background: "transparent",
-          border: "1px solid var(--line, #e2e4ea)",
-          borderRadius: 6,
-          padding: "2px 6px",
-          fontSize: 13,
-          fontWeight: 600,
-          color: "var(--brand, #0f766e)",
-          cursor: "pointer",
-        }}
-      >
-        {availableYears.map((y) => (
-          <option key={y} value={y}>
-            {y}
-          </option>
-        ))}
-      </select>
-    </span>
-  );
+import {Calendar} from 'lucide-react';
+import {useYear} from '@/lib/year-context';
+export function YearSelector({label=true}:{label?:boolean}){
+ const {year,setYear,availableYears}=useYear();
+ return <span className="inline-flex items-center gap-2 text-[13px] font-medium text-muted">
+  {label?<Calendar size={15} aria-hidden/>:null}
+  <select className="min-h-9 cursor-pointer rounded-lg border border-line bg-panel px-2.5 text-[13px] font-semibold text-brand outline-none focus-visible:ring-2 focus-visible:ring-brand/20" value={year} onChange={event=>setYear(Number.parseInt(event.target.value,10))} aria-label="Seleccionar año fiscal">
+   {availableYears.map(value=><option key={value} value={value}>{value}</option>)}
+  </select>
+ </span>;
 }

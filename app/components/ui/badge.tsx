@@ -16,7 +16,7 @@ const tones: Record<BadgeTone, string> = {
   exito: "bg-success-soft text-success ring-1 ring-inset ring-success/20",
   terminal: "bg-ink/[0.05] text-muted line-through decoration-muted/50 ring-1 ring-inset ring-ink/[0.08]",
   objeto: "bg-accent/10 text-accent ring-1 ring-inset ring-accent/20",
-  marca: "bg-brand text-white",
+  marca: "bg-brand text-[var(--on-brand)]",
   // Faltaba: sin un tono rojo no se puede expresar un riesgo alto ni un
   // incumplimiento, y esos casos acababan con su propia clase suelta.
   peligro: "bg-danger-soft text-danger ring-1 ring-inset ring-danger/25",

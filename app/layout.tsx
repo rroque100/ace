@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./styles.css";
 import "./tailwind.css";
 import "./components/expedientes-archivo/expedientes-archivo.css";
 import { YearProvider } from "@/lib/year-context";
