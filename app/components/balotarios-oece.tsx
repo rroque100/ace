@@ -1,35 +1,30 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Award,
   BarChart3,
   BookOpenCheck,
   ChevronDown,
-  ClipboardCheck,
+  Clock,
   Eye,
   EyeOff,
   FileText,
   History,
+  Play,
   RotateCcw,
   Shuffle,
   Trophy,
 } from "lucide-react";
 import raw from "./balotarios/balotarios-oece.json";
 
-// Cuestionario de estudio con los 5 balotarios OECE importados de LEX. Vive
-// aparte del banco gobernado (exam_questions): es material de repaso con su
-// clave de respuestas y un historial de evaluaciones local (por navegador),
-// no preguntas publicables para el simulacro oficial.
+// Cuestionario de los 5 balotarios OECE importados de LEX. Vive aparte del banco
+// gobernado (exam_questions): material de práctica y examen cronometrado con su
+// clave de respuestas y un historial local (por navegador), no preguntas
+// publicables para el simulacro oficial.
 
 type Opcion = { letra: string; texto: string };
-type Pregunta = {
-  n: number;
-  competencia: string;
-  pregunta: string;
-  opciones: Opcion[];
-  correcta: string;
-};
+type Pregunta = { n: number; competencia: string; pregunta: string; opciones: Opcion[]; correcta: string };
 type Balotario = { balotario: number; preguntas: Pregunta[] };
 type Intento = {
   balotario: number;
@@ -38,11 +33,13 @@ type Intento = {
   total: number;
   respuestas: Record<number, string>;
   orden: number[];
+  segundos?: number; // tiempo empleado en el examen
 };
 
 const BALOTARIOS = (raw as { balotarios: Balotario[] }).balotarios;
 const TOTAL_PREGUNTAS = BALOTARIOS.reduce((s, b) => s + b.preguntas.length, 0);
 const HIST_KEY = "ace:balotarios:historial";
+const DURACION = 120 * 60; // 2 horas, como el simulacro OECE
 
 const NIVELES = [
   { label: "Desaprobado", max: 29, pill: "bg-danger/15 text-danger", barra: "bg-danger" },
@@ -51,8 +48,8 @@ const NIVELES = [
   { label: "Avanzado", max: 72, pill: "bg-success/15 text-success", barra: "bg-success" },
 ] as const;
 
-function nivelDe(puntaje: number) {
-  return NIVELES.find((n) => puntaje <= n.max) ?? NIVELES[NIVELES.length - 1];
+function nivelDe(p: number) {
+  return NIVELES.find((n) => p <= n.max) ?? NIVELES[NIVELES.length - 1];
 }
 function barajar(n: number): number[] {
   const a = Array.from({ length: n }, (_, i) => i);
@@ -70,9 +67,7 @@ function fmtFecha(iso: string): string {
   }
 }
 function claveMes(iso: string): string {
-  // Mes en hora LOCAL (coincide con fmtFecha). Cortar el ISO daría el mes UTC y
-  // un intento de la noche en Perú (UTC-5) caería en el mes siguiente.
-  const d = new Date(iso);
+  const d = new Date(iso); // mes en hora local (coincide con fmtFecha)
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 function etiquetaMes(clave: string): string {
@@ -80,15 +75,16 @@ function etiquetaMes(clave: string): string {
   const s = new Date(y, m - 1, 1).toLocaleDateString("es-PE", { month: "long", year: "numeric" });
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+function fmtTiempo(seg: number): string {
+  const s = Math.max(0, seg);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const r = s % 60;
+  return [h, m, r].map((x) => String(x).padStart(2, "0")).join(":");
+}
 
 export function BalotariosOece() {
-  const [vista, setVista] = useState<"inicio" | "practicar" | "historial">("inicio");
-  const [activo, setActivo] = useState(1);
-  const [evaluando, setEvaluando] = useState(false);
-  const [verTodo, setVerTodo] = useState(false);
-  const [marcadas, setMarcadas] = useState<Record<string, string>>({});
-  const [finalizado, setFinalizado] = useState(false);
-  const [orden, setOrden] = useState<number[]>([]);
+  const [vista, setVista] = useState<"inicio" | "practicar" | "examen" | "historial">("inicio");
   const [historial, setHistorial] = useState<Intento[]>([]);
   const [revisando, setRevisando] = useState<Intento | null>(null);
 
@@ -99,7 +95,7 @@ export function BalotariosOece() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       if (r) setHistorial(JSON.parse(r) as Intento[]);
     } catch {
-      // localStorage no disponible: el historial no persiste en esta sesión.
+      /* localStorage no disponible */
     }
   }, []);
   function persistir(next: Intento[]) {
@@ -110,69 +106,11 @@ export function BalotariosOece() {
       /* se mantiene en memoria */
     }
   }
-
-  const balotario = BALOTARIOS.find((b) => b.balotario === activo) ?? BALOTARIOS[0];
-  const total = balotario.preguntas.length;
-
-  useEffect(() => {
-    // Mezcla las preguntas al entrar a un balotario: orden distinto cada vez.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setOrden(barajar(total));
-  }, [activo, total]);
-  const secuencia = orden.length === total ? orden : balotario.preguntas.map((_, i) => i);
-
-  const respondidas = useMemo(
-    () => balotario.preguntas.filter((q) => marcadas[`${activo}-${q.n}`] != null).length,
-    [balotario, marcadas, activo],
-  );
-  const aciertos = useMemo(
-    () => balotario.preguntas.filter((q) => marcadas[`${activo}-${q.n}`] === q.correcta).length,
-    [balotario, marcadas, activo],
-  );
   const mejor = useMemo(
     () => (historial.length ? historial.reduce((m, it) => (it.puntaje > m.puntaje ? it : m)) : null),
     [historial],
   );
 
-  function limpiarPractica() {
-    setMarcadas({});
-    setFinalizado(false);
-    setVerTodo(false);
-  }
-  function reiniciar() {
-    limpiarPractica();
-    setOrden(barajar(total));
-  }
-  function cambiarBalotario(n: number) {
-    setActivo(n);
-    limpiarPractica();
-    // el efecto de [activo] vuelve a mezclar
-  }
-  function entrarEvaluacion() {
-    setEvaluando(true);
-    setVerTodo(false);
-    setMarcadas({});
-    setFinalizado(false);
-    setOrden(barajar(total));
-  }
-  function salirEvaluacion() {
-    setEvaluando(false);
-    limpiarPractica();
-  }
-  function finalizar() {
-    const respuestas: Record<number, string> = {};
-    for (const q of balotario.preguntas) {
-      const r = marcadas[`${activo}-${q.n}`];
-      if (r != null) respuestas[q.n] = r;
-    }
-    persistir([
-      { balotario: activo, fecha: new Date().toISOString(), puntaje: aciertos, total, respuestas, orden: secuencia },
-      ...historial,
-    ]);
-    setFinalizado(true);
-  }
-
-  // Vista de revisión de un intento guardado ("Ver resultado").
   if (revisando) {
     return (
       <div className="tw min-w-0">
@@ -184,33 +122,19 @@ export function BalotariosOece() {
   return (
     <div className="tw min-w-0">
       <SubNav vista={vista} intentos={historial.length} onIr={setVista} />
-
       {vista === "inicio" ? (
         <Inicio
           mejor={mejor}
-          onRendir={() => setVista("practicar")}
+          onExamen={() => setVista("examen")}
+          onPracticar={() => setVista("practicar")}
           onHistorial={() => setVista("historial")}
         />
       ) : vista === "practicar" ? (
-        <Practicar
-          balotario={balotario}
-          activo={activo}
-          total={total}
-          secuencia={secuencia}
-          evaluando={evaluando}
-          verTodo={verTodo}
-          finalizado={finalizado}
-          marcadas={marcadas}
-          respondidas={respondidas}
-          aciertos={aciertos}
-          onBalotario={cambiarBalotario}
-          onEntrarEval={entrarEvaluacion}
-          onSalirEval={salirEvaluacion}
-          onToggleVerTodo={() => setVerTodo((v) => !v)}
-          onMezclar={() => setOrden(barajar(total))}
-          onMarcar={(clave, letra) => setMarcadas((m) => ({ ...m, [clave]: letra }))}
-          onFinalizar={finalizar}
-          onReiniciar={reiniciar}
+        <Practicar />
+      ) : vista === "examen" ? (
+        <Examen
+          onGuardar={(it) => persistir([it, ...historial])}
+          onHistorial={() => setVista("historial")}
         />
       ) : (
         <HistorialVista
@@ -224,24 +148,25 @@ export function BalotariosOece() {
   );
 }
 
-/* ---------- Navegación del módulo ---------- */
+/* ---------- Navegación ---------- */
 
 function SubNav({
   vista,
   intentos,
   onIr,
 }: {
-  vista: "inicio" | "practicar" | "historial";
+  vista: string;
   intentos: number;
-  onIr: (v: "inicio" | "practicar" | "historial") => void;
+  onIr: (v: "inicio" | "practicar" | "examen" | "historial") => void;
 }) {
   const items = [
     { id: "inicio" as const, label: "Inicio", icon: Award },
     { id: "practicar" as const, label: "Practicar", icon: BookOpenCheck },
+    { id: "examen" as const, label: "Examen", icon: Clock },
     { id: "historial" as const, label: `Historial${intentos ? ` · ${intentos}` : ""}`, icon: History },
   ];
   return (
-    <div role="tablist" aria-label="Secciones de balotarios" className="mb-5 inline-flex gap-1 rounded-xl border border-line bg-soft/60 p-1">
+    <div role="tablist" aria-label="Secciones de balotarios" className="mb-5 inline-flex flex-wrap gap-1 rounded-xl border border-line bg-soft/60 p-1">
       {items.map(({ id, label, icon: Icon }) => {
         const on = vista === id;
         return (
@@ -268,11 +193,13 @@ function SubNav({
 
 function Inicio({
   mejor,
-  onRendir,
+  onExamen,
+  onPracticar,
   onHistorial,
 }: {
   mejor: Intento | null;
-  onRendir: () => void;
+  onExamen: () => void;
+  onPracticar: () => void;
   onHistorial: () => void;
 }) {
   return (
@@ -280,46 +207,53 @@ function Inicio({
       <section className="overflow-hidden rounded-2xl bg-[linear-gradient(135deg,#0e716b,#09564f)] p-6 text-white sm:p-8">
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/70">Certificación OECE</p>
         <h2 className="mt-2 max-w-xl text-2xl font-bold leading-tight sm:text-[28px]">
-          Practica los balotarios y mide tu nivel
+          Prepárate con los balotarios y mide tu nivel
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/80">
-          Cinco balotarios con su clave de respuestas (Ley 32069 y su Reglamento). Repasa a tu
-          ritmo o evalúate como en el examen y sigue tu avance.
+          Cinco balotarios (Ley 32069 y su Reglamento). Repasa con la clave a la vista o rinde un
+          examen cronometrado como el oficial y sigue tu avance.
         </p>
         <dl className="mt-5 flex flex-wrap gap-6 text-white">
           <Dato valor={String(BALOTARIOS.length)} etiqueta="Balotarios" />
           <Dato valor={String(TOTAL_PREGUNTAS)} etiqueta="Preguntas" />
-          <Dato valor="4" etiqueta="Niveles OECE" />
+          <Dato valor="120 min" etiqueta="Por examen" />
         </dl>
       </section>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <AccionCard
-          icon={BookOpenCheck}
-          titulo="Rendir balotario"
-          desc="Elige uno de los 5 balotarios: marca tus respuestas, usa «Ver respuestas» para la clave o «Evaluarme» para medir tu puntaje."
-          cta="Rendir balotario"
-          onClick={onRendir}
+          icon={Clock}
+          titulo="Rendir examen"
+          desc="Simulacro cronometrado: 72 preguntas, 120 minutos y corrección al finalizar. La clave no se revela hasta entregar."
+          cta="Comenzar examen"
+          onClick={onExamen}
           primario
         />
         <AccionCard
-          icon={History}
-          titulo="Historial de evaluaciones"
-          desc="Revisa tus intentos, el puntaje y el nivel alcanzado en cada balotario."
-          cta={mejor ? "Ver historial" : "Aún sin evaluaciones"}
-          onClick={onHistorial}
+          icon={BookOpenCheck}
+          titulo="Practicar"
+          desc="Repaso sin tiempo: marca una opción para comprobarla al instante o muestra la clave completa."
+          cta="Practicar"
+          onClick={onPracticar}
         />
       </div>
 
-      {mejor ? (
-        <section className="rounded-2xl border border-line bg-panel p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink">
+      <section className="rounded-2xl border border-line bg-panel p-5 shadow-sm">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-ink">
             <Trophy size={16} className="text-brand" aria-hidden />
-            Tu mejor resultado · Balotario {mejor.balotario}
+            {mejor ? `Tu mejor resultado · Balotario ${mejor.balotario}` : "Historial de exámenes"}
           </div>
+          <button type="button" onClick={onHistorial} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-dark">
+            <History size={15} aria-hidden /> Ver historial
+          </button>
+        </div>
+        {mejor ? (
           <NivelMeter puntaje={mejor.puntaje} total={mejor.total} />
-        </section>
-      ) : null}
+        ) : (
+          <p className="text-sm text-muted">Aún no has rendido exámenes. Cuando termines uno, tu puntaje y nivel aparecerán aquí.</p>
+        )}
+      </section>
     </div>
   );
 }
@@ -341,7 +275,7 @@ function AccionCard({
   onClick,
   primario,
 }: {
-  icon: typeof BookOpenCheck;
+  icon: typeof Clock;
   titulo: string;
   desc: string;
   cta: string;
@@ -361,9 +295,7 @@ function AccionCard({
       <span className="mt-1 flex-1 text-sm leading-relaxed text-muted">{desc}</span>
       <span
         className={`mt-4 inline-flex w-fit items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold ${
-          primario
-            ? "bg-brand text-on-brand group-hover:bg-brand-dark"
-            : "border border-line text-ink group-hover:border-brand group-hover:text-brand"
+          primario ? "bg-brand text-on-brand group-hover:bg-brand-dark" : "border border-line text-ink group-hover:border-brand group-hover:text-brand"
         }`}
       >
         {cta}
@@ -394,11 +326,7 @@ function NivelMeter({ puntaje, total }: { puntaje: number; total: number }) {
             <div key={n.label} className={`${n.barra} opacity-25`} style={{ width: `${anchos[i]}%` }} />
           ))}
         </div>
-        <div
-          className="absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-panel bg-ink shadow"
-          style={{ left: `${pct}%` }}
-          aria-hidden
-        />
+        <div className="absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-panel bg-ink shadow" style={{ left: `${pct}%` }} aria-hidden />
       </div>
       <div className="mt-2 flex justify-between text-[10px] font-medium uppercase tracking-wide text-muted">
         {NIVELES.map((n) => (
@@ -411,170 +339,7 @@ function NivelMeter({ puntaje, total }: { puntaje: number; total: number }) {
   );
 }
 
-/* ---------- Practicar ---------- */
-
-function Practicar({
-  balotario,
-  activo,
-  total,
-  secuencia,
-  evaluando,
-  verTodo,
-  finalizado,
-  marcadas,
-  respondidas,
-  aciertos,
-  onBalotario,
-  onEntrarEval,
-  onSalirEval,
-  onToggleVerTodo,
-  onMezclar,
-  onMarcar,
-  onFinalizar,
-  onReiniciar,
-}: {
-  balotario: Balotario;
-  activo: number;
-  total: number;
-  secuencia: number[];
-  evaluando: boolean;
-  verTodo: boolean;
-  finalizado: boolean;
-  marcadas: Record<string, string>;
-  respondidas: number;
-  aciertos: number;
-  onBalotario: (n: number) => void;
-  onEntrarEval: () => void;
-  onSalirEval: () => void;
-  onToggleVerTodo: () => void;
-  onMezclar: () => void;
-  onMarcar: (clave: string, letra: string) => void;
-  onFinalizar: () => void;
-  onReiniciar: () => void;
-}) {
-  const progreso = evaluando ? Math.round((respondidas / total) * 100) : 0;
-  return (
-    <>
-      <div className="sticky top-2 z-10 rounded-2xl border border-line bg-panel/85 p-3 shadow-sm backdrop-blur">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex flex-wrap gap-1.5" role="group" aria-label="Elegir balotario">
-            {BALOTARIOS.map((b) => (
-              <button
-                key={b.balotario}
-                type="button"
-                onClick={() => onBalotario(b.balotario)}
-                aria-pressed={activo === b.balotario}
-                className={`size-9 rounded-lg text-sm font-bold transition-colors ${
-                  activo === b.balotario ? "bg-brand text-on-brand" : "bg-soft text-muted hover:text-ink"
-                }`}
-              >
-                {b.balotario}
-              </button>
-            ))}
-          </div>
-          <div className="ml-auto flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={onMezclar}
-              title="Mezclar el orden de las preguntas"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brand"
-            >
-              <Shuffle size={16} aria-hidden />
-              Mezclar
-            </button>
-            {!evaluando ? (
-              <button
-                type="button"
-                onClick={onToggleVerTodo}
-                aria-pressed={verTodo}
-                className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
-                  verTodo ? "border-brand bg-brand-soft text-brand-dark" : "border-line text-ink hover:border-brand hover:text-brand"
-                }`}
-              >
-                {verTodo ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />}
-                {verTodo ? "Ocultar respuestas" : "Ver respuestas"}
-              </button>
-            ) : null}
-            <button
-              type="button"
-              onClick={evaluando ? onSalirEval : onEntrarEval}
-              aria-pressed={evaluando}
-              className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
-                evaluando ? "border-line text-ink hover:border-brand hover:text-brand" : "border-brand bg-brand text-on-brand hover:bg-brand-dark"
-              }`}
-            >
-              <ClipboardCheck size={16} aria-hidden />
-              {evaluando ? "Salir" : "Evaluarme"}
-            </button>
-          </div>
-        </div>
-        {evaluando && !finalizado ? (
-          <div className="mt-3 flex items-center gap-3">
-            <div className="h-2 flex-1 overflow-hidden rounded-full bg-soft">
-              <div className="h-full rounded-full bg-brand transition-[width] duration-300 motion-reduce:transition-none" style={{ width: `${progreso}%` }} />
-            </div>
-            <span className="shrink-0 text-xs font-medium text-muted">{respondidas}/{total}</span>
-            <button
-              type="button"
-              onClick={onFinalizar}
-              disabled={respondidas === 0}
-              className="shrink-0 rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-on-brand transition-opacity hover:bg-brand-dark disabled:opacity-40"
-            >
-              Finalizar
-            </button>
-          </div>
-        ) : null}
-      </div>
-
-      {evaluando && finalizado ? (
-        <section className="mt-4 rounded-2xl border border-line bg-panel p-5 shadow-sm">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink">
-            <Award size={16} className="text-brand" aria-hidden />
-            Resultado · Balotario {activo}
-          </div>
-          <NivelMeter puntaje={aciertos} total={total} />
-          <button
-            type="button"
-            onClick={onReiniciar}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
-          >
-            <RotateCcw size={15} aria-hidden />
-            Intentar de nuevo
-          </button>
-        </section>
-      ) : (
-        <p className="mt-3 text-[13px] text-muted">
-          {evaluando
-            ? "Marca una respuesta por pregunta y pulsa Finalizar para ver tu puntaje."
-            : verTodo
-              ? "Respuestas correctas resaltadas en verde."
-              : "Marca una opción para comprobarla, o usa «Ver respuestas» / «Evaluarme»."}
-        </p>
-      )}
-
-      <ol className="mt-4 list-none space-y-4 p-0">
-        {secuencia.map((idx, pos) => {
-          const q = balotario.preguntas[idx];
-          const marcada = marcadas[`${activo}-${q.n}`];
-          const revelar = evaluando ? finalizado : verTodo || marcada != null;
-          const clickable = evaluando ? !finalizado : !verTodo && marcada == null;
-          return (
-            <PreguntaItem
-              key={q.n}
-              q={q}
-              pos={pos + 1}
-              total={total}
-              marcada={marcada}
-              revelar={revelar}
-              clickable={clickable}
-              onMarcar={(letra) => onMarcar(`${activo}-${q.n}`, letra)}
-            />
-          );
-        })}
-      </ol>
-    </>
-  );
-}
+/* ---------- Pregunta ---------- */
 
 function PreguntaItem({
   q,
@@ -597,9 +362,7 @@ function PreguntaItem({
     <li className="rounded-2xl border border-line bg-panel p-4 shadow-sm sm:p-5">
       <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted">
         <span className="rounded-md bg-soft px-2 py-0.5 text-ink">{pos}</span>
-        {q.competencia ? (
-          <span className="rounded-full bg-brand-soft px-2 py-0.5 text-brand-dark">{q.competencia}</span>
-        ) : null}
+        {q.competencia ? <span className="rounded-full bg-brand-soft px-2 py-0.5 text-brand-dark">{q.competencia}</span> : null}
         <span className="ml-auto normal-case text-muted">Pregunta {pos} de {total}</span>
       </div>
       <p className="m-0 mb-3 font-semibold leading-snug text-ink">{q.pregunta}</p>
@@ -625,13 +388,9 @@ function PreguntaItem({
                   : "bg-soft text-muted";
           const cuerpo = (
             <>
-              <span className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-extrabold ${circulo}`}>
-                {o.letra}
-              </span>
+              <span className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-extrabold ${circulo}`}>{o.letra}</span>
               <span className="text-ink">{o.texto}</span>
-              {revelar && esCorrecta ? (
-                <span className="ml-auto whitespace-nowrap text-xs font-bold text-success">✓ Correcta</span>
-              ) : null}
+              {revelar && esCorrecta ? <span className="ml-auto whitespace-nowrap text-xs font-bold text-success">✓ Correcta</span> : null}
             </>
           );
           const base = `flex w-full items-start gap-3 rounded-xl border px-3 py-2.5 text-left text-sm transition-colors ${estado}`;
@@ -651,38 +410,237 @@ function PreguntaItem({
           );
         })}
       </ul>
-      {revelar ? (
-        <p className="mt-2.5 text-[13px] font-semibold text-success">Respuesta correcta: {q.correcta}</p>
-      ) : null}
+      {revelar ? <p className="mt-2.5 text-[13px] font-semibold text-success">Respuesta correcta: {q.correcta}</p> : null}
     </li>
   );
 }
 
-/* ---------- Revisión de un intento guardado ---------- */
+/* ---------- Practicar (repaso, sin tiempo ni puntaje) ---------- */
 
-function RevisionIntento({ intento, onVolver }: { intento: Intento; onVolver: () => void }) {
-  const balotario = BALOTARIOS.find((b) => b.balotario === intento.balotario) ?? BALOTARIOS[0];
-  const seq = intento.orden?.length === balotario.preguntas.length
-    ? intento.orden
-    : balotario.preguntas.map((_, i) => i);
+function Practicar() {
+  const [activo, setActivo] = useState(1);
+  const [verTodo, setVerTodo] = useState(false);
+  const [marcadas, setMarcadas] = useState<Record<string, string>>({});
+  const [orden, setOrden] = useState<number[]>([]);
+  const balotario = BALOTARIOS.find((b) => b.balotario === activo) ?? BALOTARIOS[0];
+  const total = balotario.preguntas.length;
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOrden(barajar(total));
+  }, [activo, total]);
+  const secuencia = orden.length === total ? orden : balotario.preguntas.map((_, i) => i);
+
   return (
-    <div>
-      <button
-        type="button"
-        onClick={onVolver}
-        className="mb-3 inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-brand"
-      >
-        <ChevronDown size={16} className="rotate-90" aria-hidden />
-        Volver al historial
-      </button>
-      <section className="mb-4 rounded-2xl border border-line bg-panel p-5 shadow-sm">
-        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-ink">
-          <FileText size={16} className="text-brand" aria-hidden />
-          Resultado · Balotario {intento.balotario} · {fmtFecha(intento.fecha)}
+    <>
+      <div className="sticky top-2 z-10 flex flex-wrap items-center gap-2 rounded-2xl border border-line bg-panel/85 p-3 shadow-sm backdrop-blur">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Elegir balotario">
+          {BALOTARIOS.map((b) => (
+            <button
+              key={b.balotario}
+              type="button"
+              onClick={() => {
+                setActivo(b.balotario);
+                setMarcadas({});
+                setVerTodo(false);
+              }}
+              aria-pressed={activo === b.balotario}
+              className={`size-9 rounded-lg text-sm font-bold transition-colors ${activo === b.balotario ? "bg-brand text-on-brand" : "bg-soft text-muted hover:text-ink"}`}
+            >
+              {b.balotario}
+            </button>
+          ))}
         </div>
-        <NivelMeter puntaje={intento.puntaje} total={intento.total} />
-      </section>
-      <ol className="list-none space-y-4 p-0">
+        <div className="ml-auto flex flex-wrap gap-2">
+          <button type="button" onClick={() => setOrden(barajar(total))} title="Mezclar preguntas" className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand">
+            <Shuffle size={16} aria-hidden /> Mezclar
+          </button>
+          <button
+            type="button"
+            onClick={() => setVerTodo((v) => !v)}
+            aria-pressed={verTodo}
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${verTodo ? "border-brand bg-brand-soft text-brand-dark" : "border-line text-ink hover:border-brand hover:text-brand"}`}
+          >
+            {verTodo ? <EyeOff size={16} aria-hidden /> : <Eye size={16} aria-hidden />}
+            {verTodo ? "Ocultar respuestas" : "Ver respuestas"}
+          </button>
+        </div>
+      </div>
+      <p className="mt-3 text-[13px] text-muted">
+        {verTodo ? "Respuestas correctas resaltadas en verde." : "Marca una opción para comprobarla al instante, o usa «Ver respuestas»."}
+      </p>
+      <ol className="mt-4 list-none space-y-4 p-0">
+        {secuencia.map((idx, pos) => {
+          const q = balotario.preguntas[idx];
+          const marcada = marcadas[`${activo}-${q.n}`];
+          const revelar = verTodo || marcada != null;
+          return (
+            <PreguntaItem
+              key={q.n}
+              q={q}
+              pos={pos + 1}
+              total={total}
+              marcada={marcada}
+              revelar={revelar}
+              clickable={!verTodo && marcada == null}
+              onMarcar={(letra) => setMarcadas((m) => ({ ...m, [`${activo}-${q.n}`]: letra }))}
+            />
+          );
+        })}
+      </ol>
+    </>
+  );
+}
+
+/* ---------- Examen (cronometrado) ---------- */
+
+function Examen({ onGuardar, onHistorial }: { onGuardar: (it: Intento) => void; onHistorial: () => void }) {
+  const [estado, setEstado] = useState<"idle" | "curso" | "hecho">("idle");
+  const [bal, setBal] = useState(1);
+  const [orden, setOrden] = useState<number[]>([]);
+  const [marcadas, setMarcadas] = useState<Record<number, string>>({});
+  const [restante, setRestante] = useState(DURACION);
+  const guardadoRef = useRef(false);
+  const balotario = BALOTARIOS.find((b) => b.balotario === bal) ?? BALOTARIOS[0];
+  const total = balotario.preguntas.length;
+
+  const respondidas = Object.keys(marcadas).length;
+  const aciertos = balotario.preguntas.filter((q) => marcadas[q.n] === q.correcta).length;
+
+  function comenzar() {
+    setOrden(barajar(total));
+    setMarcadas({});
+    setRestante(DURACION);
+    guardadoRef.current = false;
+    setEstado("curso");
+  }
+  function finalizar() {
+    if (guardadoRef.current) return;
+    guardadoRef.current = true;
+    onGuardar({
+      balotario: bal,
+      fecha: new Date().toISOString(),
+      puntaje: aciertos,
+      total,
+      respuestas: { ...marcadas },
+      orden,
+      segundos: DURACION - restante,
+    });
+    setEstado("hecho");
+  }
+
+  // Cronómetro: tictac cada segundo; al llegar a 0, finaliza automáticamente.
+  useEffect(() => {
+    if (estado !== "curso") return;
+    if (restante <= 0) {
+      finalizar();
+      return;
+    }
+    const id = setTimeout(() => setRestante((r) => r - 1), 1000);
+    return () => clearTimeout(id);
+    // finalizar/aciertos se leen del render actual; el efecto re-corre cada segundo.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [estado, restante]);
+
+  if (estado === "idle") {
+    return (
+      <div className="mx-auto max-w-xl rounded-2xl border border-line bg-panel p-6 text-center shadow-sm sm:p-8">
+        <span className="mx-auto grid size-12 place-items-center rounded-xl bg-brand-soft text-brand-dark">
+          <Clock size={24} aria-hidden />
+        </span>
+        <h2 className="mt-4 text-xl font-bold text-ink">Rendir examen</h2>
+        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted">
+          72 preguntas y 120 minutos. El cronómetro corre hasta que finalices o se acabe el tiempo;
+          la clave no se revela hasta terminar. Elige el balotario:
+        </p>
+        <div className="mt-4 flex justify-center gap-1.5">
+          {BALOTARIOS.map((b) => (
+            <button
+              key={b.balotario}
+              type="button"
+              onClick={() => setBal(b.balotario)}
+              aria-pressed={bal === b.balotario}
+              className={`size-10 rounded-lg text-sm font-bold transition-colors ${bal === b.balotario ? "bg-brand text-on-brand" : "bg-soft text-muted hover:text-ink"}`}
+            >
+              {b.balotario}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={comenzar}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-bold text-on-brand transition-colors hover:bg-brand-dark"
+        >
+          <Play size={16} aria-hidden />
+          Comenzar Balotario {bal}
+        </button>
+      </div>
+    );
+  }
+
+  if (estado === "hecho") {
+    const seq = orden.length === total ? orden : balotario.preguntas.map((_, i) => i);
+    return (
+      <div>
+        <section className="mb-4 rounded-2xl border border-line bg-panel p-5 shadow-sm">
+          <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-ink">
+            <Award size={16} className="text-brand" aria-hidden />
+            Resultado del examen · Balotario {bal}
+            <span className="font-normal text-muted">· tiempo {fmtTiempo(DURACION - restante)}</span>
+          </div>
+          <NivelMeter puntaje={aciertos} total={total} />
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" onClick={() => setEstado("idle")} className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-on-brand hover:bg-brand-dark">
+              <RotateCcw size={15} aria-hidden /> Nuevo examen
+            </button>
+            <button type="button" onClick={onHistorial} className="inline-flex items-center gap-1.5 rounded-lg border border-line px-4 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand">
+              <History size={15} aria-hidden /> Ver historial
+            </button>
+          </div>
+        </section>
+        <p className="mb-3 text-[13px] font-semibold text-muted">Resolución del examen</p>
+        <ol className="list-none space-y-4 p-0">
+          {seq.map((idx, pos) => {
+            const q = balotario.preguntas[idx];
+            return <PreguntaItem key={q.n} q={q} pos={pos + 1} total={total} marcada={marcadas[q.n]} revelar clickable={false} onMarcar={() => {}} />;
+          })}
+        </ol>
+      </div>
+    );
+  }
+
+  // estado === "curso"
+  const seq = orden.length === total ? orden : balotario.preguntas.map((_, i) => i);
+  const progreso = Math.round((respondidas / total) * 100);
+  const apremio = restante <= 300; // últimos 5 min
+  return (
+    <>
+      <div className="sticky top-2 z-10 rounded-2xl border border-line bg-panel/90 p-3 shadow-sm backdrop-blur">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm font-bold text-ink">Balotario {bal}</span>
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-sm font-bold tabular-nums ${apremio ? "bg-danger/15 text-danger" : "bg-soft text-ink"}`}
+            role="timer"
+            aria-label="Tiempo restante"
+          >
+            <Clock size={15} aria-hidden />
+            {fmtTiempo(restante)}
+          </span>
+          <span className="text-xs font-medium text-muted">{respondidas}/{total} respondidas</span>
+          <button
+            type="button"
+            onClick={finalizar}
+            className="ml-auto rounded-lg bg-brand px-4 py-2 text-sm font-bold text-on-brand hover:bg-brand-dark"
+          >
+            Finalizar examen
+          </button>
+        </div>
+        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-soft">
+          <div className="h-full rounded-full bg-brand transition-[width] duration-300 motion-reduce:transition-none" style={{ width: `${progreso}%` }} />
+        </div>
+      </div>
+      <p className="mt-3 text-[13px] text-muted">Marca una respuesta por pregunta. La clave se revela al finalizar.</p>
+      <ol className="mt-4 list-none space-y-4 p-0">
         {seq.map((idx, pos) => {
           const q = balotario.preguntas[idx];
           return (
@@ -690,13 +648,41 @@ function RevisionIntento({ intento, onVolver }: { intento: Intento; onVolver: ()
               key={q.n}
               q={q}
               pos={pos + 1}
-              total={intento.total}
-              marcada={intento.respuestas?.[q.n]}
-              revelar
-              clickable={false}
-              onMarcar={() => {}}
+              total={total}
+              marcada={marcadas[q.n]}
+              revelar={false}
+              clickable
+              onMarcar={(letra) => setMarcadas((m) => ({ ...m, [q.n]: letra }))}
             />
           );
+        })}
+      </ol>
+    </>
+  );
+}
+
+/* ---------- Revisión de un intento ---------- */
+
+function RevisionIntento({ intento, onVolver }: { intento: Intento; onVolver: () => void }) {
+  const balotario = BALOTARIOS.find((b) => b.balotario === intento.balotario) ?? BALOTARIOS[0];
+  const seq = intento.orden?.length === balotario.preguntas.length ? intento.orden : balotario.preguntas.map((_, i) => i);
+  return (
+    <div>
+      <button type="button" onClick={onVolver} className="mb-3 inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-brand">
+        <ChevronDown size={16} className="rotate-90" aria-hidden /> Volver al historial
+      </button>
+      <section className="mb-4 rounded-2xl border border-line bg-panel p-5 shadow-sm">
+        <div className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold text-ink">
+          <FileText size={16} className="text-brand" aria-hidden />
+          Resultado · Balotario {intento.balotario} · {fmtFecha(intento.fecha)}
+          {intento.segundos != null ? <span className="font-normal text-muted">· tiempo {fmtTiempo(intento.segundos)}</span> : null}
+        </div>
+        <NivelMeter puntaje={intento.puntaje} total={intento.total} />
+      </section>
+      <ol className="list-none space-y-4 p-0">
+        {seq.map((idx, pos) => {
+          const q = balotario.preguntas[idx];
+          return <PreguntaItem key={q.n} q={q} pos={pos + 1} total={intento.total} marcada={intento.respuestas?.[q.n]} revelar clickable={false} onMarcar={() => {}} />;
         })}
       </ol>
     </div>
@@ -725,14 +711,8 @@ function HistorialVista({
   const [abiertos, setAbiertos] = useState<Record<number, boolean>>({});
 
   const mesActivo = mes || meses[0] || "";
-  const delMes = useMemo(
-    () => historial.filter((it) => claveMes(it.fecha) === mesActivo),
-    [historial, mesActivo],
-  );
-  const filtrados = useMemo(
-    () => (balFiltro ? delMes.filter((it) => it.balotario === balFiltro) : delMes),
-    [delMes, balFiltro],
-  );
+  const delMes = useMemo(() => historial.filter((it) => claveMes(it.fecha) === mesActivo), [historial, mesActivo]);
+  const filtrados = useMemo(() => (balFiltro ? delMes.filter((it) => it.balotario === balFiltro) : delMes), [delMes, balFiltro]);
   const porBalotario = useMemo(() => {
     const map = new Map<number, Intento[]>();
     for (const it of filtrados) {
@@ -750,15 +730,14 @@ function HistorialVista({
           <History size={22} aria-hidden />
         </span>
         <p className="mx-auto mt-3 max-w-sm text-sm text-muted">
-          Aún no has rendido ninguna evaluación. Ve a <b className="text-ink">Practicar</b>, pulsa{" "}
-          <b className="text-ink">Evaluarme</b> y finaliza: tu puntaje y nivel quedarán aquí.
+          Aún no has rendido exámenes. Ve a <b className="text-ink">Examen</b>, elige un balotario y
+          finaliza: tu puntaje y nivel quedarán aquí.
         </p>
       </div>
     );
   }
 
-  const selectCls =
-    "rounded-lg border border-line bg-panel px-3 py-2 text-sm font-medium text-ink outline-none focus:border-brand";
+  const selectCls = "rounded-lg border border-line bg-panel px-3 py-2 text-sm font-medium text-ink outline-none focus:border-brand";
 
   return (
     <div className="space-y-4">
@@ -767,13 +746,8 @@ function HistorialVista({
           <h2 className="m-0 text-xl font-bold text-ink">Historial de evaluaciones</h2>
           <p className="mt-1 text-sm text-muted">Revisa los exámenes que rendiste.</p>
         </div>
-        <button
-          type="button"
-          onClick={onInicio}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand"
-        >
-          <BarChart3 size={16} aria-hidden />
-          Ver mi progreso
+        <button type="button" onClick={onInicio} className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand">
+          <BarChart3 size={16} aria-hidden /> Ver mi progreso
         </button>
       </div>
 
@@ -793,11 +767,7 @@ function HistorialVista({
             </option>
           ))}
         </select>
-        <button
-          type="button"
-          onClick={onLimpiar}
-          className="ml-auto rounded-lg border border-line px-3 py-2 text-sm font-medium text-muted hover:border-danger hover:text-danger"
-        >
+        <button type="button" onClick={onLimpiar} className="ml-auto rounded-lg border border-line px-3 py-2 text-sm font-medium text-muted hover:border-danger hover:text-danger">
           Limpiar historial
         </button>
       </div>
@@ -808,9 +778,7 @@ function HistorialVista({
       </p>
 
       {porBalotario.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-line bg-panel px-4 py-8 text-center text-sm text-muted">
-          No hay evaluaciones en este periodo.
-        </p>
+        <p className="rounded-xl border border-dashed border-line bg-panel px-4 py-8 text-center text-sm text-muted">No hay evaluaciones en este periodo.</p>
       ) : (
         porBalotario.map(([bal, intentos]) => {
           const ordenados = [...intentos].sort((a, b) => b.fecha.localeCompare(a.fecha));
@@ -818,21 +786,12 @@ function HistorialVista({
           const abierto = abiertos[bal] ?? true;
           return (
             <section key={bal} className="overflow-hidden rounded-2xl border border-line bg-panel shadow-sm">
-              <button
-                type="button"
-                onClick={() => setAbiertos((s) => ({ ...s, [bal]: !abierto }))}
-                aria-expanded={abierto}
-                className="flex w-full items-center gap-3 px-4 py-3.5 text-left sm:px-5"
-              >
+              <button type="button" onClick={() => setAbiertos((s) => ({ ...s, [bal]: !abierto }))} aria-expanded={abierto} className="flex w-full items-center gap-3 px-4 py-3.5 text-left sm:px-5">
                 <h3 className="m-0 text-base font-bold text-ink">Balotario {bal}</h3>
                 <span className="rounded-full bg-warning/15 px-2.5 py-0.5 text-xs font-bold text-warning">
                   {ordenados.length} {ordenados.length === 1 ? "intento" : "intentos"}
                 </span>
-                <ChevronDown
-                  size={18}
-                  aria-hidden
-                  className={`ml-auto text-muted transition-transform ${abierto ? "rotate-180" : ""}`}
-                />
+                <ChevronDown size={18} aria-hidden className={`ml-auto text-muted transition-transform ${abierto ? "rotate-180" : ""}`} />
               </button>
               {abierto ? (
                 <div className="overflow-x-auto border-t border-line">
@@ -860,13 +819,8 @@ function HistorialVista({
                               <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${nv.pill}`}>{nv.label}</span>
                             </td>
                             <td className="px-4 py-3">
-                              <button
-                                type="button"
-                                onClick={() => onVerResultado(it)}
-                                className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-1.5 text-xs font-semibold text-ink hover:border-brand hover:text-brand"
-                              >
-                                <FileText size={13} aria-hidden />
-                                Ver resultado
+                              <button type="button" onClick={() => onVerResultado(it)} className="inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-1.5 text-xs font-semibold text-ink hover:border-brand hover:text-brand">
+                                <FileText size={13} aria-hidden /> Ver resultado
                               </button>
                             </td>
                           </tr>
