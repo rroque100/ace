@@ -253,6 +253,8 @@
 
 /* Simulador: generar también las utilidades de sus componentes. */
 @source "./components/exam-*.tsx";
+@source "./components/simulador-shell.tsx";
+@source "./components/balotarios-oece.tsx";
 @source "./simulador/**/*.tsx";
 @source "./page.tsx";
 @source "./components/appearance-control.tsx";
