@@ -3,6 +3,14 @@
   --bg:#f4f7fa; --surface:#f8fafc; --panel:#fff; --ink:#182b3a; --muted:#526577;
   --line:#dce5ec; --brand:#0e716b; --brand-dark:#09564f; --soft:#eaf5f2;
   --on-brand:#fff; --danger:#b42337; --success:#187451; --warning:#996219;
+  /* Faltaban a nivel global: info (azul neutro para avisos) y el acento ámbar
+     con su tono oscuro. Se definen aquí (ganan al legacy de styles.css) para
+     unificarlos y que tengan contraparte en modo oscuro. */
+  --info:#1d6fd6; --accent:#a56b14; --accent-dark:#7a4e0e;
+  /* Paleta categórica para gráficos (data viz): hues distintos y de luminosidad
+     perceptual pareja, empezando por el teal de marca. */
+  --chart-1:#0e8f86; --chart-2:#c9821a; --chart-3:#2f6fe0;
+  --chart-4:#7c5cd6; --chart-5:#c4457a; --chart-6:#2f9e5b;
   color-scheme:light;
 }
 :root[data-theme="dark"] {
@@ -10,6 +18,10 @@
   --line:#354856; --brand:#66d8c5; --brand-dark:#8de9d9; --soft:#203f40;
   --on-brand:#082c29; --danger:#ff9eac; --success:#83dcb3; --warning:#f2c479;
   --shadow-soft:0 10px 30px #0003;
+  /* En oscuro los tonos se aclaran (igual que brand-dark). */
+  --info:#7cb0ff; --accent:#e0a84a; --accent-dark:#f0c67e;
+  --chart-1:#5fd6c9; --chart-2:#f0b45a; --chart-3:#79a8ff;
+  --chart-4:#b3a0ef; --chart-5:#f08cb4; --chart-6:#74d79a;
   color-scheme:dark;
 }
 html { scroll-padding-top:90px; }
