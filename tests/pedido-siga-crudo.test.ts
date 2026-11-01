@@ -1,11 +1,15 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parsePedidoCompra } from "@/lib/pedido-compra-import";
 
 /** El pedido real del expediente: SIGA N° 001838 (ADQUISICIÓN DE SERVIDOR). */
-const buf = readFileSync("./actuaciones-preparatorias/4786.XLS");
+const RUTA = "./actuaciones-preparatorias/4786.XLS";
+// El .XLS es un expediente real: `actuaciones-preparatorias/` está en .gitignore (solo se versionan las bases),
+// así que en CI y en un clon limpio no existe. Sin el fichero la suite se omite en vez de fallar al importar.
+const hayFichero = existsSync(RUTA);
+const buf = hayFichero ? readFileSync(RUTA) : Buffer.alloc(0);
 
-describe("pedido de compra del SIGA", () => {
+describe.skipIf(!hayFichero)("pedido de compra del SIGA", () => {
   it("lee el .XLS antiguo del SIGA (BIFF2)", () => {
     // Es un Excel 2 BIFF2: exceljs no lo abre, xlsx sí.
     const items = parsePedidoCompra(buf);
