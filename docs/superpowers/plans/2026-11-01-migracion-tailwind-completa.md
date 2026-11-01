@@ -42,7 +42,7 @@
 
 ## Hallazgos que condicionan el plan
 
-1. **Tailwind escanea solo.** `app/tailwind.css` no usa `source(none)`: una clase `animate-[expSlideDown_200ms_ease]` que vive en un fichero que **no** está en la lista de `@source` sale en el CSS de producción. La nota del `CLAUDE.md` («no hay escaneo automático… añádelo a `@source`») es falsa hoy y las 74 entradas son redundantes. La Task 0.3 lo verifica y lo corrige.
+1. **Tailwind ya escaneaba solo, y las 74 líneas `@source` sobraban.** `app/tailwind.css` no usa `source(none)`: la detección automática recorría el repositorio entero (salvo lo ignorado por git). Prueba: el CSS de producción llevaba clases que solo existían en `docs/` (`mb-[7px]`, `gap-[8px_10px]`…), es decir, ruido de la documentación. La nota del `CLAUDE.md` («no hay escaneo automático… añádelo a `@source`») era falsa. La Task 0.3 (ejecutada) quita la lista, excluye lo que no es interfaz con `@source not` y corrige la guía.
 2. **Las utilidades ganan a `styles.css`.** `styles.css` se importa con `layer(legacy)` y el orden es `theme, legacy, tw-base, components, utilities`. Poner utilidades sobre un elemento que aún lleva su clase vieja funciona sin `!`; por eso la migración puede ser gradual. Lo que **no** está en capa (`workspace.css`) sí gana a las utilidades: ahí solo quedan tokens y reglas de modo oscuro.
 3. **Hay código muerto.** `app/components/semantic-search.tsx` (799 líneas), `lifecycle-map.tsx` (166) y `contract-form.tsx` (163) no los importa nadie (solo aparecen en documentación). Se borran en vez de migrarse.
 4. **El Centro Jurídico ya tiene una capa de compatibilidad.** `app/components/legal-workspace.css` (431 líneas, ~300 selectores `.legalWorkspace …`) estiliza las clases de `legal-chat.tsx` con `@apply`. Migrar ese componente implica quitar también esas reglas (Task 2.6).
@@ -79,7 +79,7 @@ Los primitivos ya existen en `app/components/ui` (`Button`, `buttonClasses`, `Ca
 
 ## Fase 0 — Guardas y herramientas
 
-### Task 0.1: Test «trinquete» de migración
+### Task 0.1: Test «trinquete» de migración — **hecha**
 
 **Files:**
 - Create: `tests/tailwind-migracion.test.ts`
@@ -151,7 +151,7 @@ describe("migración a Tailwind: el trinquete solo baja", () => {
 ```bash
 npx vitest run tests/tailwind-migracion.test.ts
 ```
-Esperado: 3 tests pasan (los topes son exactamente la medición actual).
+Esperado: 3 tests pasan (los topes son exactamente la medición actual). El test solo falla cuando una cifra **sube**; cuando baja, pasa, y por eso cada tarea debe **bajar el tope a mano** para fijar el avance. Tras la Fase 1 los topes valen `usosClasePropia: 1591`, `ficherosConClasePropia: 110`, `estilosEnLinea: 372`, `lineasStylesCss: 10358`.
 
 - [ ] **Step 3: Comprobar que muerde**: añade temporalmente `style={{ padding: 8 }}` en cualquier TSX, ejecuta el test (debe fallar en «estilos en línea») y revierte.
 
@@ -164,7 +164,7 @@ git commit -m "test(migracion): el CSS propio y los estilos en línea ya no pued
 
 ---
 
-### Task 0.2: Herramientas de migración (CSS huérfano y escáner de tema)
+### Task 0.2: Herramientas de migración (CSS huérfano y escáner de tema) — **hecha**
 
 **Files:**
 - Create: `scripts/css-huerfano.mjs`
@@ -206,7 +206,11 @@ function reglas(css) {
   for (let i = 0; i < css.length; i++) {
     const c = css[i];
     if (c === "{") {
-      pila.push({ sel: css.slice(inicio, i).trim(), pos: i });
+      // `pos` apunta al primer carácter del SELECTOR, no a la `{`: en una regla con el selector repartido en varias
+      // líneas, el rango debe empezar en la primera; si no, al borrarla quedan líneas sueltas pegadas a la regla
+      // siguiente (incluso a un `@media`) y el CSS queda inválido.
+      const bruto = css.slice(inicio, i);
+      pila.push({ sel: bruto.trim(), pos: inicio + (bruto.length - bruto.trimStart().length) });
       inicio = i + 1;
     } else if (c === "}") {
       const { sel, pos } = pila.pop();
@@ -270,7 +274,31 @@ const huerfanas = todas.filter((r) => {
 });
 const lineas = huerfanas.reduce((n, r) => n + (r.hasta - r.desde + 1), 0);
 console.log(`${huerfanas.length} reglas huérfanas de ${todas.length} (${lineas} líneas de ${css.split("\n").length})`);
-for (const r of huerfanas.slice(0, 400)) console.log(`${r.desde}-${r.hasta}  ${r.sel.replace(/\s+/g, " ").slice(0, 90)}`);
+// Una regla huérfana que comparte línea con una regla VIVA (típico de los `@media{…}` escritos en una sola línea)
+// no se puede borrar por líneas: se marca con `!!` y hay que quitarla a mano, solo ella.
+const vivas = todas.filter((r) => !huerfanas.includes(r));
+const comparte = (r) => vivas.some((v) => v.desde <= r.hasta && v.hasta >= r.desde);
+
+// Una clase armada en ejecución (`faseToast-${tipo}`) no aparece entera en el código y parece huérfana: se detecta
+// si algún prefijo suyo va seguido de `${` o de `" +`. Se marca con `??` y se conserva.
+const todoElCodigo = Object.values(textos).join("\n");
+const escapar = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const dinamica = (r) =>
+  [...r.sel.matchAll(/\.([A-Za-z_][\w-]*)/g)].some((m) => {
+    const partes = m[1].match(/[A-Za-z][a-z0-9]*|\d+|-/g) ?? [];
+    let prefijo = "";
+    return partes.slice(0, -1).some((p) => {
+      prefijo += p;
+      return prefijo.length >= 3 && new RegExp(`[\`"'\\s(]${escapar(prefijo)}(\\$\\{|["']\\s*\\+)`).test(todoElCodigo);
+    });
+  });
+
+for (const r of huerfanas.slice(0, 400)) {
+  const marca = comparte(r) ? "!!" : dinamica(r) ? "??" : "  ";
+  console.log(`${marca} ${r.desde}-${r.hasta}  ${r.sel.replace(/\s+/g, " ").slice(0, 90)}`);
+}
+if (huerfanas.some(comparte)) console.log("\n!! = comparte línea con una regla que sí se usa: no borrar la línea entera.");
+if (huerfanas.some(dinamica)) console.log("?? = su nombre se arma en tiempo de ejecución: no es huérfana, se conserva.");
 ```
 
 - [ ] **Step 2: Crear `docs/qa/escaneo-tema.js`** (se pega en `javascript_tool` con el tema oscuro puesto; devuelve los elementos con fondo casi blanco y el texto bajo 3,5:1 sobre su fondo real)
@@ -318,6 +346,8 @@ node scripts/css-huerfano.mjs --clase=secondaryButton | head -1
 ```
 Esperado: `123 reglas huérfanas de 1877 (657 líneas de 11344)` y `secondaryButton: 77 fichero(s)`.
 
+El informe marca con `!!` las huérfanas que **comparten línea con una regla viva** (típico de un `@media{…}` en una sola línea: no se borra la línea entera) y con `??` las que tienen un nombre armado en ejecución (`faseToast-${tipo}`: se conservan).
+
 - [ ] **Step 4: Commit** (cuando el usuario lo pida)
 
 ```bash
@@ -327,45 +357,47 @@ git commit -m "chore(migracion): herramientas para ver qué CSS ya no usa nadie 
 
 ---
 
-### Task 0.3: Corregir el `CLAUDE.md` y podar `@source`
+### Task 0.3: Corregir el `CLAUDE.md` y podar `@source` — **hecha**
 
 **Files:**
-- Modify: `app/tailwind.css` (quitar las 74 líneas `@source`, dejar su explicación)
+- Create: `scripts/utilidades-css.mjs` (lista las clases del CSS final; un `grep` simple corta los selectores con escapes)
+- Modify: `app/tailwind.css` (quitar las 74 líneas `@source` y sus comentarios; añadir `@source not` para lo que no es interfaz)
 - Modify: `CLAUDE.md` (sección «Tailwind: activación acotada»)
 
-**Interfaces:**
-- Produce: un CSS generado idéntico y una guía que ya no manda a mantener una lista que no hace falta.
+**Resultado medido:** el CSS final pasa de 3.118 a 3.127 clases. Pierde 20 que solo venían de `docs/` (ruido) y gana 29 formas sin variante (`ring-accent`, `bg-black`, `border-muted`…) que ningún elemento de la app usa tal cual (el código usa `ring-accent/20`, `bg-black/30`…), así que ninguna pantalla cambia. Con `.claude`, `docs`, `scripts`, `tests` y `actuaciones-preparatorias` excluidos no se cuela ningún texto ajeno.
 
-- [ ] **Step 1: Guardar el conjunto de utilidades actual**
-
-```bash
-npm run build
-cat .next/static/chunks/*.css | grep -oE '\.[A-Za-z0-9_\\:\[\]/.%-]+' | sort -u > /tmp/utilidades-antes.txt
-wc -l /tmp/utilidades-antes.txt
-```
-
-- [ ] **Step 2: Quitar las líneas `@source`**
-
-```bash
-grep -v '^@source' app/tailwind.css > /tmp/tailwind.css && cp /tmp/tailwind.css app/tailwind.css
-```
-Deja un comentario donde estaba la lista: «Tailwind detecta las fuentes solo (no usamos `source(none)`); no hace falta registrar cada componente».
-
-- [ ] **Step 3: Reconstruir y comparar**
+- [x] **Step 1: Guardar las clases de antes**
 
 ```bash
 npm run build
-cat .next/static/chunks/*.css | grep -oE '\.[A-Za-z0-9_\\:\[\]/.%-]+' | sort -u > /tmp/utilidades-despues.txt
-diff /tmp/utilidades-antes.txt /tmp/utilidades-despues.txt && echo IGUAL
+node scripts/utilidades-css.mjs .scratch-tw/antes.txt
 ```
-Esperado: `IGUAL`. Si hay diferencias, restaura `app/tailwind.css` (`git checkout app/tailwind.css`) y deja solo las entradas `@source` de los ficheros que aparezcan en el diff.
 
-- [ ] **Step 4: Actualizar `CLAUDE.md`**: sustituir el punto «No hay escaneo automático…» por «Tailwind detecta las clases solo; no hay lista que mantener», y la línea de «Migrado hasta ahora» por el estado real (ver Task 6.3).
+- [x] **Step 2: Quitar las líneas `@source` y poner las exclusiones**: las 74 entradas y sus comentarios salen de `app/tailwind.css`; en su lugar un comentario que explica la decisión y
+
+```css
+@source not "../.claude";
+@source not "../docs";
+@source not "../scripts";
+@source not "../tests";
+@source not "../actuaciones-preparatorias";
+```
+
+- [x] **Step 3: Reconstruir y comparar**
+
+```bash
+npm run build
+node scripts/utilidades-css.mjs .scratch-tw/despues.txt
+diff .scratch-tw/antes.txt .scratch-tw/despues.txt
+```
+Criterio: no se pierde ninguna clase que use el código de `app/` o `lib/`. Cada línea `<` debe poder explicarse por un texto de `docs/`; cada línea `>` es una forma sin variante de una clase que sí existe con variante. Borrar `.scratch-tw/` al terminar.
+
+- [x] **Step 4: Actualizar `CLAUDE.md`**: la nota «no hay escaneo automático… `@source`» pasa a «Tailwind detecta las clases solo; no hay lista que mantener», y la línea de «Migrado hasta ahora» al estado real (se termina de reescribir en la Task 6.3).
 
 - [ ] **Step 5: Commit** (cuando el usuario lo pida)
 
 ```bash
-git add app/tailwind.css CLAUDE.md
+git add app/tailwind.css scripts/utilidades-css.mjs CLAUDE.md
 git commit -m "docs(tailwind): quitar la lista de @source que ya no hace falta y corregir la guía"
 ```
 
@@ -373,45 +405,51 @@ git commit -m "docs(tailwind): quitar la lista de @source que ya no hace falta y
 
 ## Fase 1 — Retirar lo que sobra
 
-### Task 1.1: Borrar componentes huérfanos y CSS muerto
+### Task 1.1: Borrar componentes huérfanos y CSS muerto — **hecha**
 
 **Files:**
 - Delete: `app/components/semantic-search.tsx`, `app/components/lifecycle-map.tsx`, `app/components/contract-form.tsx`
-- Modify: `app/styles.css` (rangos que imprime `node scripts/css-huerfano.mjs`)
-- Modify: `docs/SDD-ACE.md` (líneas 307, 350 y 775 citan `semantic-search.tsx`)
+- Modify: `app/styles.css` (155 reglas huérfanas)
+- Modify: `docs/SDD-ACE.md` (citaba los tres componentes)
+- Modify: `scripts/css-huerfano.mjs` (mejoras que salieron al ejecutar, ver abajo)
 
-**Interfaces:**
-- Produce: ~1.130 líneas de TSX y las reglas que solo ellos usaban fuera del proyecto.
+**Resultado medido:** `styles.css` pasa de 11.344 a 10.358 líneas y de 1.877 a 1.722 reglas; quedan 7 «huérfanas» a propósito (clases dinámicas: `faseToast-success/error`, `flujoRama-anulada`, `cohNecCard-stop`). Usos de clase propia 1.667 → 1.591 y ficheros 113 → 110.
 
-- [ ] **Step 1: Confirmar que siguen sin importadores**
+**Dos fallos del primer intento, que ya corrige el script:**
+1. El rango de una regla empezaba en la línea de la `{`, no en la de su primer selector. Con el selector repartido en varias líneas quedaban líneas sueltas pegadas a la regla siguiente: una cabecera `.a, .b,` junto a un `@media` es CSS inválido y el navegador puede descartar el bloque entero. Ahora el rango empieza en el primer selector.
+2. Una regla huérfana compartía línea con tres reglas vivas (`@media(max-width:640px){.topbarSearchActions{…}.searchAssistantTrigger{…}.searchAssistantBody{…}}`): borrar la línea quitaba también el diálogo «Ayúdame a buscar». Ahora el informe lo marca con `!!` y la regla se quita a mano, sola.
+
+- [x] **Step 1: Confirmar que siguen sin importadores**
 
 ```bash
 grep -rnE "semantic-search|SemanticSearch\b|lifecycle-map|LifecycleMap|contract-form|ContractForm\b" app lib tests --include=*.ts --include=*.tsx | grep -v "^app/components/\(semantic-search\|lifecycle-map\|contract-form\).tsx"
 ```
-Esperado: sin salida (solo `runSemanticSearch` de `normative-browser.tsx` puede aparecer: es otra cosa). Si aparece un importador, **no se borra**: se pasa a la Fase 3 como un componente más.
+Esperado: solo `runSemanticSearch` de `normative-browser.tsx` (es otra cosa).
 
-- [ ] **Step 2: Borrar**
+- [x] **Step 2: Borrar**
 
 ```bash
 git rm app/components/semantic-search.tsx app/components/lifecycle-map.tsx app/components/contract-form.tsx
 ```
 
-- [ ] **Step 3: Retirar el CSS huérfano.** Ejecuta `node scripts/css-huerfano.mjs`. Para cada rango, comprueba que la clase no se arma en ejecución (`grep -rn "<raíz de la clase>" app lib`) y bórralo de abajo hacia arriba con `sed -i 'DESDE,HASTAd' app/styles.css`. Conserva cualquier regla cuyo comentario diga que la usa algo externo (p. ej. `.skipLink` si lo referencia el HTML de `layout.tsx` con otra grafía).
+- [x] **Step 3: Retirar el CSS huérfano.** `node scripts/css-huerfano.mjs`: las reglas sin marca (`  `) se borran por rango, de abajo hacia arriba; las `??` se conservan; las `!!` se editan a mano quitando solo la regla huérfana de esa línea. Después se eliminan los `@media`/`@supports` que queden vacíos.
 
-- [ ] **Step 4: Verificar**
+- [x] **Step 4: Validar que el CSS sigue siendo válido y no se perdió ninguna regla viva.** Con PostCSS se cuentan las reglas antes (`git show HEAD:app/styles.css`) y después: la diferencia debe ser exactamente el número de huérfanas borradas (1.877 − 1.722 = 155), sin reglas vacías ni selectores con `@`.
+
+- [x] **Step 5: Verificar**
 
 ```bash
 npm run typecheck && npm run lint && npx vitest run tests/paleta-colores.test.ts tests/tailwind-migracion.test.ts && npm run build
 ```
-Esperado: verde; el test de migración falla indicando cifras menores: bájalas (`lineasStylesCss`, `usosClasePropia`, `ficherosConClasePropia`).
+Esperado: verde. Bajar los topes del trinquete a las cifras nuevas (ver Task 0.1).
 
-- [ ] **Step 5: Comprobar a ojo** `/chat`, `/busqueda`, `/normas`, `/validar` en claro y oscuro: nada cambia.
+- [x] **Step 6: Comprobar a ojo** `/chat`, `/busqueda` (incluido el diálogo «Ayúdame a buscar»), `/normas` y `/simulador` en claro y oscuro, en local con la cuenta externa: sin elementos blancos en oscuro y sin desbordamiento horizontal. `/validar` y el resto de pantallas internas requieren sesión de una cuenta interna y quedan por revisar.
 
-- [ ] **Step 6: Commit** (cuando el usuario lo pida)
+- [ ] **Step 7: Commit** (cuando el usuario lo pida)
 
 ```bash
-git add -A app docs tests
-git commit -m "chore(limpieza): tres componentes sin uso y más de 600 líneas de CSS que nadie referenciaba"
+git add -A app docs scripts tests
+git commit -m "chore(limpieza): tres componentes sin uso y casi mil líneas de CSS que nadie referenciaba"
 ```
 
 ---

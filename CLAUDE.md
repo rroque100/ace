@@ -113,21 +113,33 @@ mano en el SQL Editor de Supabase. Consecuencias:
 
 ## Tailwind: activación acotada, no global
 
-`app/styles.css` son ~21 000 líneas de CSS propio del que dependen más de veinte
+`app/styles.css` son ~11 300 líneas de CSS propio del que dependen decenas de
 páginas. Encender Tailwind entero inyectaría Preflight y las rompería todas. Por
 eso `app/tailwind.css`:
 
 - Carga solo las capas `theme` y `utilities`. **Sin Preflight global.**
-- El reset mínimo vive acotado al contenedor `.tw`.
+- El reset mínimo vive acotado al contenedor `.tw`: un componente que use
+  utilidades debe quedar dentro de uno.
+- `styles.css` entra en la capa `legacy`, por debajo de las utilidades: una
+  utilidad gana a la clase vieja sin necesitar `!`. Lo que no está en capa
+  (`workspace.css`: tokens y reglas de modo oscuro) sí gana a las utilidades.
 - Los tokens `@theme` referencian las variables CSS de `styles.css`, no valores
   fijos, para que la identidad visual sea la misma.
-- **No hay escaneo automático**: si migras un componente nuevo, añádelo a la
-  lista de `@source` o sus clases no se generan y saldrá sin estilos.
+- **Hay escaneo automático**: Tailwind recorre el repositorio (salvo lo ignorado
+  por git y lo que `app/tailwind.css` excluye con `@source not`), así que un
+  componente nuevo no hay que registrarlo en ninguna lista.
+- **Colores solo con tokens** (`bg-panel`, `text-muted`, `border-line-strong`…):
+  nada de hex ni de la paleta por defecto. `tests/paleta-colores.test.ts` lo
+  impide y comprueba el contraste de los tokens en claro y oscuro.
 
-Migrado hasta ahora: los primitivos de `app/components/ui/`, la lista de
-Necesidades, y la ficha **a medias** (shell y núcleo del formulario sí; wizard,
-modo lectura, columna lateral y subcomponentes todavía no, aunque ya figuren en
-`@source`). Convive CSS viejo y nuevo dentro del mismo componente a propósito.
+Estado de la migración (medido el 2026-11-01): de 232 `.tsx`, 89 usan solo
+Tailwind, 30 mezclan y 86 siguen con CSS propio (el Centro Jurídico, los
+validadores y paneles de análisis, y Contratos con estilos en línea). El plan
+para terminarla, con el orden y las cifras por componente, está en
+`docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md`;
+`tests/tailwind-migracion.test.ts` impide que el CSS propio y los `style` en
+línea vuelvan a crecer. Todo componente nuevo se escribe con utilidades y
+tokens, sin crear clases en CSS.
 
 ## Tests
 
