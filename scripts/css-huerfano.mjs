@@ -9,7 +9,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const RAIZ = process.cwd();
-const CSS = "app/styles.css";
+const CSS = process.argv.find((a) => a.startsWith("--css="))?.slice(6) ?? "app/styles.css";
 
 function ficheros(dir, ext) {
   return readdirSync(join(RAIZ, dir)).flatMap((n) => {

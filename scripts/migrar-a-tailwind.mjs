@@ -29,7 +29,23 @@ const excluirClases = (args.find((a) => a.startsWith("--excluir="))?.slice(10) ?
 // Clases cuyas utilidades deben ir con `!`: mientras convivan, una regla SIN capa de los CSS de compatibilidad (por
 // ejemplo `.legalWorkspace .secondaryButton`) gana a las utilidades, que están en una capa. Se marcan a mano tras ver en
 // la comparación de estilos qué clase pierde frente a una de esas reglas.
-const importantes = new Set((args.find((a) => a.startsWith("--importante=")) ?? "").slice(13).split(",").filter(Boolean));
+// Formato: `--importante=clase` (todas sus utilidades) o `--importante=clase=utilidad` (solo esa; las utilidades llevan
+// `:` por las variantes, de ahí el segundo `=`). Se pueden separar varios con `;`.
+const importantes = new Map(
+  (args.find((a) => a.startsWith("--importante=")) ?? "")
+    .slice(13)
+    .split(";")
+    .filter(Boolean)
+    .map((e) => {
+      const i = e.indexOf("=");
+      return i < 0 ? [e, null] : [e.slice(0, i), e.slice(i + 1)];
+    }),
+);
+const marcarImportante = (clase, tokens) => {
+  if (!importantes.has(clase)) return tokens;
+  const solo = importantes.get(clase);
+  return tokens.map((t) => (t.endsWith("!") || (solo !== null && t !== solo) ? t : t + "!"));
+};
 if (!fichero) {
   console.error("Falta el componente: node scripts/migrar-a-tailwind.mjs app/components/x.tsx [--aplicar]");
   process.exit(1);
@@ -820,7 +836,21 @@ const resultado = new Map();
 for (const c of [...objetivo].sort()) {
   const reglas = porDueña.get(c) ?? [];
   const cl = reglas.length ? resolver(reglas) : [];
-  resultado.set(c, importantes.has(c) ? cl.map((t) => (t.endsWith("!") ? t : t + "!")) : cl);
+  resultado.set(c, marcarImportante(c, cl));
+}
+
+// Elementos con VARIAS clases migradas (`className="a b"`): en el CSS original qué regla gana entre ellas se decidía por
+// precedencia (capa, especificidad, orden). Migradas por separado esa decisión se perdería (gana la que el CSS final ponga
+// al último), así que se resuelven juntas y se escriben como una sola entrada `a_b`.
+const combos = new Map();
+for (const m of fuente.matchAll(/className=(?:"([^"]*)"|\{`([^`]*)`\}|\{"([^"]*)"\})/g)) {
+  const txt = (m[1] ?? m[2] ?? m[3] ?? "").replace(/\$\{[^}]*\}/g, " ");
+  const miembros = [...new Set(txt.split(/\s+/).filter((t) => objetivo.has(t) && resultado.get(t).length))];
+  if (miembros.length > 1) combos.set(miembros.join("_"), miembros);
+}
+for (const [clave, miembros] of combos) {
+  const cl = resolver(miembros.flatMap((k) => porDueña.get(k) ?? []));
+  resultado.set(clave, miembros.reduce((acc, k) => marcarImportante(k, acc), cl));
 }
 
 const stem = basename(fichero).replace(/\.tsx$/, "");
@@ -847,7 +877,19 @@ function reescribir(src) {
     if (a !== undefined || c3 !== undefined) {
       const toks = txt.split(/\s+/).filter(Boolean);
       if (!toks.some((t) => objetivo.has(t))) return todo;
-      const partes = toks.map((t) => (objetivo.has(t) && resultado.get(t).length ? refer(t) : objetivo.has(t) ? null : JSON.stringify(t))).filter(Boolean);
+      const miembros = [...new Set(toks.filter((t) => objetivo.has(t) && resultado.get(t).length))];
+      const clave = miembros.length > 1 ? miembros.join("_") : null;
+      let puesto = false;
+      const partes = toks
+        .map((t) => {
+          if (!objetivo.has(t)) return JSON.stringify(t);
+          if (!resultado.get(t).length) return null;
+          if (!clave) return refer(t);
+          if (puesto) return null;
+          puesto = true;
+          return refer(clave);
+        })
+        .filter(Boolean);
       if (!partes.length) return "";
       if (partes.length === 1 && partes[0].startsWith("S.")) return `className={${partes[0]}}`;
       usaCn.v = true;
@@ -857,6 +899,9 @@ function reescribir(src) {
     if (!/\S/.test(txt)) return todo;
     const trozos = txt.split(/(\$\{(?:[^{}]|\{[^{}]*\})*\})/);
     let tocado = false;
+    const miembrosT = [...new Set(trozos.filter((t) => !t.startsWith("${")).flatMap((t) => t.match(/[A-Za-z_][\w-]*/g) ?? []).filter((w) => objetivo.has(w) && resultado.get(w).length))];
+    const claveT = miembrosT.length > 1 ? miembrosT.join("_") : null;
+    let puestoT = false;
     const nuevo = trozos
       .map((t) => {
         if (t.startsWith("${")) {
@@ -866,7 +911,11 @@ function reescribir(src) {
         return t.replace(/[A-Za-z_][\w-]*/g, (w) => {
           if (objetivo.has(w)) {
             tocado = true;
-            return resultado.get(w).length ? `\${${refer(w)}}` : "";
+            if (!resultado.get(w).length) return "";
+            if (!claveT) return `\${${refer(w)}}`;
+            if (puestoT) return "";
+            puestoT = true;
+            return `\${${refer(claveT)}}`;
           }
           return w;
         });
