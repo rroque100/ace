@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Award, BookOpenCheck, ClipboardCheck, History, RotateCcw, Trophy } from "lucide-react";
+import { Award, BookOpenCheck, ClipboardCheck, History, RotateCcw, Shuffle, Trophy } from "lucide-react";
 import raw from "./balotarios/balotarios-oece.json";
 
 // Cuestionario de estudio con los 5 balotarios OECE importados de LEX. Vive
@@ -49,6 +49,16 @@ function fmtFecha(iso: string): string {
   }
 }
 
+// Orden aleatorio de 0..n-1 (Fisher-Yates). Se recalcula en cada arranque.
+function barajar(n: number): number[] {
+  const a = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export function BalotariosOece() {
   const [vista, setVista] = useState<"inicio" | "practicar" | "historial">("inicio");
   const [activo, setActivo] = useState(1);
@@ -56,6 +66,7 @@ export function BalotariosOece() {
   const [marcadas, setMarcadas] = useState<Record<string, string>>({});
   const [finalizado, setFinalizado] = useState(false);
   const [historial, setHistorial] = useState<Intento[]>([]);
+  const [orden, setOrden] = useState<number[]>([]);
 
   // El historial persiste solo en este navegador (sin servidor).
   useEffect(() => {
@@ -81,6 +92,13 @@ export function BalotariosOece() {
   const balotario = BALOTARIOS.find((b) => b.balotario === activo) ?? BALOTARIOS[0];
   const total = balotario.preguntas.length;
 
+  // Mezcla las preguntas al entrar a un balotario: orden distinto cada vez.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOrden(barajar(total));
+  }, [activo, total]);
+  const secuencia = orden.length === total ? orden : balotario.preguntas.map((_, i) => i);
+
   const respondidas = useMemo(
     () => balotario.preguntas.filter((q) => marcadas[`${activo}-${q.n}`] != null).length,
     [balotario, marcadas, activo],
@@ -97,13 +115,19 @@ export function BalotariosOece() {
   function reiniciar() {
     setMarcadas({});
     setFinalizado(false);
+    setOrden(barajar(total));
+  }
+  function mezclar() {
+    setOrden(barajar(total));
   }
   function irA(v: "inicio" | "practicar" | "historial") {
     setVista(v);
   }
   function cambiarBalotario(n: number) {
     setActivo(n);
-    reiniciar();
+    setMarcadas({});
+    setFinalizado(false);
+    // el efecto de [activo] vuelve a mezclar al cambiar de balotario
   }
   function alternarEvaluacion() {
     setEvaluando((v) => !v);
@@ -132,6 +156,7 @@ export function BalotariosOece() {
           balotario={balotario}
           activo={activo}
           total={total}
+          secuencia={secuencia}
           evaluando={evaluando}
           finalizado={finalizado}
           marcadas={marcadas}
@@ -139,6 +164,7 @@ export function BalotariosOece() {
           aciertos={aciertos}
           onBalotario={cambiarBalotario}
           onToggleEval={alternarEvaluacion}
+          onMezclar={mezclar}
           onMarcar={(clave, letra) => setMarcadas((m) => ({ ...m, [clave]: letra }))}
           onFinalizar={finalizar}
           onReiniciar={reiniciar}
@@ -357,6 +383,7 @@ function Practicar({
   balotario,
   activo,
   total,
+  secuencia,
   evaluando,
   finalizado,
   marcadas,
@@ -364,6 +391,7 @@ function Practicar({
   aciertos,
   onBalotario,
   onToggleEval,
+  onMezclar,
   onMarcar,
   onFinalizar,
   onReiniciar,
@@ -371,6 +399,7 @@ function Practicar({
   balotario: Balotario;
   activo: number;
   total: number;
+  secuencia: number[];
   evaluando: boolean;
   finalizado: boolean;
   marcadas: Record<string, string>;
@@ -378,6 +407,7 @@ function Practicar({
   aciertos: number;
   onBalotario: (n: number) => void;
   onToggleEval: () => void;
+  onMezclar: () => void;
   onMarcar: (clave: string, letra: string) => void;
   onFinalizar: () => void;
   onReiniciar: () => void;
@@ -406,9 +436,18 @@ function Practicar({
           </div>
           <button
             type="button"
+            onClick={onMezclar}
+            title="Mezclar el orden de las preguntas"
+            className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brand"
+          >
+            <Shuffle size={16} aria-hidden />
+            Mezclar
+          </button>
+          <button
+            type="button"
             onClick={onToggleEval}
             aria-pressed={evaluando}
-            className={`ml-auto inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${
               evaluando
                 ? "border-brand bg-brand-soft text-brand-dark"
                 : "border-line text-ink hover:border-brand hover:text-brand"
@@ -465,18 +504,22 @@ function Practicar({
         </p>
       )}
 
-      <ol className="mt-4 space-y-4">
-        {balotario.preguntas.map((q) => (
-          <PreguntaItem
-            key={q.n}
-            q={q}
-            total={total}
-            evaluando={evaluando}
-            finalizado={finalizado}
-            marcada={marcadas[`${activo}-${q.n}`]}
-            onMarcar={(letra) => onMarcar(`${activo}-${q.n}`, letra)}
-          />
-        ))}
+      <ol className="mt-4 list-none space-y-4 p-0">
+        {secuencia.map((idx, pos) => {
+          const q = balotario.preguntas[idx];
+          return (
+            <PreguntaItem
+              key={q.n}
+              q={q}
+              pos={pos + 1}
+              total={total}
+              evaluando={evaluando}
+              finalizado={finalizado}
+              marcada={marcadas[`${activo}-${q.n}`]}
+              onMarcar={(letra) => onMarcar(`${activo}-${q.n}`, letra)}
+            />
+          );
+        })}
       </ol>
     </>
   );
@@ -484,6 +527,7 @@ function Practicar({
 
 function PreguntaItem({
   q,
+  pos,
   total,
   evaluando,
   finalizado,
@@ -491,6 +535,7 @@ function PreguntaItem({
   onMarcar,
 }: {
   q: Pregunta;
+  pos: number;
   total: number;
   evaluando: boolean;
   finalizado: boolean;
@@ -501,13 +546,13 @@ function PreguntaItem({
   return (
     <li className="rounded-2xl border border-line bg-panel p-4 shadow-sm sm:p-5">
       <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted">
-        <span className="rounded-md bg-soft px-2 py-0.5 text-ink">{q.n}</span>
+        <span className="rounded-md bg-soft px-2 py-0.5 text-ink">{pos}</span>
         {q.competencia ? (
           <span className="rounded-full bg-brand-soft px-2 py-0.5 text-brand-dark">
             {q.competencia}
           </span>
         ) : null}
-        <span className="ml-auto normal-case text-muted">Pregunta {q.n} de {total}</span>
+        <span className="ml-auto normal-case text-muted">Pregunta {pos} de {total}</span>
       </div>
       <p className="m-0 mb-3 font-semibold leading-snug text-ink">{q.pregunta}</p>
       <ul className="space-y-2">
