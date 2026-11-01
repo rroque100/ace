@@ -1028,7 +1028,8 @@ describe("II) ¿la cuantía es punto de referencia? (Art. 48.2 Ley · 165 · 166
         expect(c(SI_NO_ESTRATEGIA.cuantia_referencia.si), sistema).toBe("");
       }
     },
-    15000,
+    // Genera tres .xlsx seguidos: en el runner del CI superaba los 15 s con carga normal.
+    60_000,
   );
 
   it("si la DEC ya respondió, manda su respuesta (no la deriva)", async () => {
