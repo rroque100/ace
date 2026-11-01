@@ -37,7 +37,7 @@ function reglas(css) {
     } else if (c === "}") {
       const { sel, pos } = pila.pop();
       if (!sel.startsWith("@")) {
-        out.push({ sel, desde: css.slice(0, pos).split("\n").length, hasta: css.slice(0, i).split("\n").length });
+        out.push({ sel, desde: css.slice(0, pos).split("\n").length, hasta: css.slice(0, i).split("\n").length, ini: pos, fin: i });
       }
       inicio = i + 1;
     } else if (c === ";" && pila.length === 0) {
@@ -96,7 +96,8 @@ for (const t of Object.values(textos)) {
 
 const todas = reglas(css);
 const huerfanas = todas.filter((r) => {
-  const cl = [...r.sel.matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1]);
+  // Los envoltorios (`.legalWorkspace .x`) están siempre presentes: no cuentan para decidir si la regla está muerta.
+  const cl = [...r.sel.matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1]).filter((c) => !["legalWorkspace", "legalShell", "tw"].includes(c));
   return cl.length > 0 && cl.every((c) => !usadas.has(c));
 });
 const lineas = huerfanas.reduce((n, r) => n + (r.hasta - r.desde + 1), 0);
@@ -104,7 +105,15 @@ console.log(`${huerfanas.length} reglas huérfanas de ${todas.length} (${lineas}
 // Una regla huérfana que comparte línea con una regla VIVA (típico de los `@media{…}` escritos en una sola línea)
 // no se puede borrar por líneas: se marca con `!!` y hay que quitarla a mano, solo ella.
 const vivas = todas.filter((r) => !huerfanas.includes(r));
-const comparte = (r) => vivas.some((v) => v.desde <= r.hasta && v.hasta >= r.desde);
+const comparteConRegla = (r) => vivas.some((v) => v.desde <= r.hasta && v.hasta >= r.desde);
+// También comparte línea si antes de su selector o tras su `}` queda algo (la cabecera de un `@media {`, el cierre del
+// bloque…): borrar la línea entera se llevaría eso por delante y dejaría el CSS descuadrado.
+const comparteTexto = (r) => {
+  const iniLinea = css.lastIndexOf("\n", r.ini - 1) + 1;
+  const finLinea = css.indexOf("\n", r.fin);
+  return css.slice(iniLinea, r.ini).trim() !== "" || css.slice(r.fin + 1, finLinea < 0 ? css.length : finLinea).trim() !== "";
+};
+const comparte = (r) => comparteConRegla(r) || comparteTexto(r);
 
 // Una clase armada en ejecución (`faseToast-${tipo}`) no aparece entera en el código y parece huérfana: se detecta
 // si algún prefijo suyo va seguido de `${` o de `" +`. Se marca con `??` y se conserva.

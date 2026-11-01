@@ -55,6 +55,8 @@ import {
 import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
 
+import { S } from "./legal-chat-estilos";
+import { cn } from "@/lib/utils";
 const chatWideQuery = "(min-width: 1101px)";
 function subscribeChatViewport(callback: () => void) {
   const query = window.matchMedia(chatWideQuery);
@@ -476,12 +478,12 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         {reference.source.sectionTitle ? <span>{reference.source.sectionTitle}</span> : null}
 
       </div>
-      <div className="sourceExactBox">
+      <div className={S.sourceExactBox}>
         <strong>{reference.source.pageCount ? "Ubicación con rango comprobado" : "Ubicación registrada"}</strong>
         {reference.source.requestedOriginal !== undefined ? <span>{reference.source.requestedOriginal ? "Original solicitado identificado" : reference.source.referenceRelation === "cites_requested" ? "Menciona al documento solicitado; evidencia indirecta" : "Material relacionado; no sustituye al original solicitado"}</span> : null}
         <span>{sourcePrecisionLabel(reference.source)}</span>
         <small>La ubicación del fragmento no acredita por sí sola vigencia ni aplicabilidad jurídica.</small>
-        <details className="chatTechnicalDetails"><summary>Detalles de coincidencia</summary><small>
+        <details className={S.chatTechnicalDetails}><summary>Detalles de coincidencia</summary><small>
           Fragmento {reference.source.chunkIndex + 1} · {reference.source.matchType} · semántico{" "}
           {reference.source.semanticScore.toFixed(3)} · literal{" "}
           {(reference.source.lexicalScore * 100).toFixed(0)}%
@@ -495,14 +497,14 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
         <div className="sourceQuote">
           <Quote size={17} />
           <div>
-            <small className="sourceQuoteLabel">Relacionado con esta afirmación</small>
+            <small className={S.sourceQuoteLabel}>Relacionado con esta afirmación</small>
             <p>
               <HighlightedSnippet text={snippet} matched={matched} />
             </p>
           </div>
         </div>
       ) : (
-        <div className="sourceQuote sourceQuoteWeak">
+        <div className={cn("sourceQuote", S.sourceQuoteWeak)}>
           <AlertTriangle size={16} />
           <p>
             Esta fuente no contiene texto directamente relacionado con esta afirmación. Revisa el
@@ -512,7 +514,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
       )}
 
       {showFullExcerpt ? (
-        <details className="sourceFullExcerpt">
+        <details className={S.sourceFullExcerpt}>
           <summary>Ver fragmento completo de la fuente</summary>
           <p>{cleanExcerpt}</p>
         </details>
@@ -564,8 +566,8 @@ function AnswerContent({
       }
 
       nodes.push(
-        <div className="answerTableWrap" key={`table-${i}`}>
-          <table className="answerTable">
+        <div className={S.answerTableWrap} key={`table-${i}`}>
+          <table className={S.answerTable}>
             <thead>
               <tr>
                 {header.map((cell, k) => (
@@ -610,7 +612,7 @@ function AnswerContent({
     if (/^\d+\.\s+/.test(line)) {
       const [, number = "", text = line] = line.match(/^(\d+)\.\s+(.+)$/) ?? [];
       nodes.push(
-        <div className="answerNumbered" key={`n-${i}`}>
+        <div className={S.answerNumbered} key={`n-${i}`}>
           <span>{number}</span>
           <p>{renderInlineWithSources(text, sources, onOpenSources)}</p>
         </div>,
@@ -633,7 +635,7 @@ function ReviewedAnswerContent({ content, review, sources, onOpenSources }: {
   const sections = chatAnswerSections(content, review);
   return <>
     <AnswerContent content={sections.main} sources={sources} onOpenSources={onOpenSources} />
-    {sections.detail ? <details className="chatTechnicalDetails"><summary>Ver fundamento y fuentes</summary>
+    {sections.detail ? <details className={S.chatTechnicalDetails}><summary>Ver fundamento y fuentes</summary>
       <AnswerContent content={sections.detail} sources={sources} onOpenSources={onOpenSources} />
     </details> : null}
   </>;
@@ -649,7 +651,7 @@ function CoverageGrid({ coverage }: { coverage?: ChatAssessment["coverage"] }) {
   ];
 
   return (
-    <div className="coverageGrid" aria-label="Cobertura de fuentes">
+    <div className={S.coverageGrid} aria-label="Cobertura de fuentes">
       {items.map((item) => (
         <span data-found={item.value ? "true" : "false"} key={item.label}>
           <strong>{item.label}</strong>
@@ -691,16 +693,16 @@ function AnswerUseCard({
       : "";
 
   return (
-    <div className={`answerUseCard${review?.presentation ? " reviewSummaryCard" : ""}`} data-tone={status.tone}>
+    <div className={`${S.answerUseCard}${review?.presentation ? " reviewSummaryCard" : ""}`} data-tone={status.tone}>
       <div>
         <strong>{status.label}</strong>
         {!review?.presentation ? <span>{status.detail}</span> : null}
       </div>
       {assessment?.selection ? <p role="status">Fuentes iniciales recuperadas: {assessment.selection.recovered} de {assessment.selection.requested}.{assessment.selection.missing.length?` ${assessment.selection.missing.length} sin pasajes recuperados.`:""}{assessment.selection.failed.length?` Falló la consulta de ${assessment.selection.failed.length}; reintenta antes de concluir que falta evidencia.`:""}</p> : null}
       {review?.presentation ? <p className="reviewApplicability">{reviewApplicability(review)}</p> : null}
-      {signalWarnings.length ? <ul className="answerUseWarnings" aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
-      {!review?.presentation ? <p className="chatPlainEvidence">Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
-      {review && (review.claims.length > 0 || technicalNotes.length > 0 || Boolean(assessment)) ? <details className="chatTechnicalDetails">
+      {signalWarnings.length ? <ul className={S.answerUseWarnings} aria-label="Qué falta en esta respuesta">{signalWarnings.map(warning => <li key={warning}>{warning}</li>)}</ul> : null}
+      {!review?.presentation ? <p className={S.chatPlainEvidence}>Comprueba la versión de las normas y su aplicación temporal al caso.</p> : null}
+      {review && (review.claims.length > 0 || technicalNotes.length > 0 || Boolean(assessment)) ? <details className={S.chatTechnicalDetails}>
         <summary>Qué comprobó ACE</summary>
         <p>Revisión automática de afirmaciones; no sustituye la revisión de un especialista.</p>
         {technicalNotes.length ? <ul>{technicalNotes.map(note => <li key={note}>{note}</li>)}</ul> : null}
@@ -720,13 +722,13 @@ function AnswerUseCard({
           <small>Estas medidas no indican exactitud jurídica.</small>
         </div> : null}
       </details> : null}
-      {assessment && !review?.presentation ? <details className="chatTechnicalDetails"><summary>Detalles de la búsqueda</summary>
+      {assessment && !review?.presentation ? <details className={S.chatTechnicalDetails}><summary>Detalles de la búsqueda</summary>
         <p>{assessment.uniqueDocuments} documento(s) · relevancia {assessment.topScore.toFixed(3)} · calidad de extracción {assessment.evidenceQuality.toFixed(2)} · coincidencia literal {(assessment.lexicalScore * 100).toFixed(0)}%</p>
         {interpretedQuery ? <p>Consulta utilizada: {interpretedQuery}</p> : null}
         {assessment.reason ? <p>{assessment.reason}</p> : null}
         <small>Estas medidas no indican exactitud jurídica.</small>
       </details> : null}
-      <div className="answerUseActions">
+      <div className={S.answerUseActions}>
         <Link className="secondaryButton compactButton" href={buildSearchUrl(message, filters)}>
           <Search size={14} />
           Buscar más información
@@ -760,17 +762,17 @@ function MessageEvidence({
   }
 
   return (
-    <details className="msgEvidence">
+    <details className={S.msgEvidence}>
       <summary>
         <FileText size={14} />
         Normas consultadas
-        <span className="msgEvidenceCount">{consultedFragments(sources.length)}</span>
+        <span className={S.msgEvidenceCount}>{consultedFragments(sources.length)}</span>
       </summary>
 
       {assessment ? (
-        <details className="msgEvidenceMeta"><summary>Cómo se seleccionaron estas normas</summary>
+        <details className={S.msgEvidenceMeta}><summary>Cómo se seleccionaron estas normas</summary>
           {message.confidence ? (
-            <p className="confidenceMeaning">{confidenceMeaning(message.confidence)}</p>
+            <p className={S.confidenceMeaning}>{confidenceMeaning(message.confidence)}</p>
           ) : null}
           <small>
             {assessment.uniqueDocuments} documento(s) · score {assessment.topScore.toFixed(3)} ·
@@ -806,9 +808,9 @@ function MessageEvidence({
                 <summary>
                   {source.citation || `Fragmento ${source.chunkIndex + 1}`}
                 </summary>
-                <strong className="precisionLine">{sourcePrecisionLabel(source)}</strong>
+                <strong className={S.precisionLine}>{sourcePrecisionLabel(source)}</strong>
                 <p>{stripPageMarkers(source.excerpt)}</p>
-                <div className="evidenceCardActions">
+                <div className={S.evidenceCardActions}>
                   <button
                     className="secondaryButton compactButton"
                     onClick={() => onOpenSources([reference])}
@@ -1340,11 +1342,11 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
 
   const conversation = (
-<div className="chatConversation">
+<div className={S.chatConversation}>
         {!hasConversation ? (
-          <div className="chatEmptyRedesign">
-            <div className="chatEmptyIntro">
-              <div className="chatEmptyIcon">
+          <div className={S.chatEmptyRedesign}>
+            <div className={S.chatEmptyIntro}>
+              <div className={S.chatEmptyIcon}>
                 <Bot size={28} />
               </div>
               <strong>¿Qué necesitas resolver?</strong>
@@ -1353,9 +1355,9 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               </span>
             </div>
 
-            <div className="chatEmptyExamples">
+            <div className={S.chatEmptyExamples}>
               <p>¿No sabes cómo empezar?</p>
-              <div className="exampleCards">
+              <div className={S.exampleCards}>
                 {exampleQuestions.map((item) => (
                   <button key={item} onClick={() => { setQuestion(item); composerRef.current?.focus(); }} type="button">
                     {item}
@@ -1367,32 +1369,32 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         ) : null}
 
         {messages.map((message) => (
-          <div className={`msgRow ${message.role}`} key={message.id}>
-            <div className="msgAvatar">{message.role === "user" ? <User size={16} /> : <Bot size={16} />}</div>
-            <div className="msgBubble">
+          <div className={`${S.msgRow} ${message.role}`} key={message.id}>
+            <div className={S.msgAvatar}>{message.role === "user" ? <User size={16} /> : <Bot size={16} />}</div>
+            <div className={S.msgBubble}>
               {message.role === "assistant" ? (
                 <>
-                  <div className="msgBubbleTop">
+                  <div className={S.msgBubbleTop}>
                     <strong>Respuesta</strong>
-                    <span className="chatAiLabel">Asistente de ACE</span>
+                    <span className={S.chatAiLabel}>Asistente de ACE</span>
                   </div>
 
                   <ResponseAiBadge model={message.model} provider={message.telemetry?.provider} streaming={message.streaming} error={message.error}/>
 
                   {message.streaming && !message.content ? (
-                    <span className="loadingInline" role="status" aria-live="polite">
+                    <span className={S.loadingInline} role="status" aria-live="polite">
                       <LoaderCircle size={16} />
                       {message.progress === "checking" ? "Comprobando afirmaciones y citas…" : message.progress === "drafting" ? "Preparando una respuesta con las fuentes…" : "Buscando fuentes…"}
                     </span>
                   ) : (
-                    <div className="msgBubbleBody">
+                    <div className={S.msgBubbleBody}>
                       <ReviewedAnswerContent
                         content={message.content}
                         review={message.assessment?.evidenceReview}
                         onOpenSources={(references) => setSelectedReferences(references)}
                         sources={message.sources ?? []}
                       />
-                      {message.streaming ? <span className="streamCursor" aria-hidden="true" /> : null}
+                      {message.streaming ? <span className={S.streamCursor} aria-hidden="true" /> : null}
                     </div>
                   )}
 
@@ -1407,7 +1409,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   ) : null}
 
                   {!message.streaming && !message.assessment?.evidenceReview?.presentation && message.citationWarnings?.length ? (
-                    <div className="msgCitationWarning">
+                    <div className={S.msgCitationWarning}>
                       <AlertTriangle size={15} />
                       <div>
                         <strong>Verificación de citas</strong>
@@ -1425,7 +1427,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   ) : null}
 
                   {message.error ? (
-                    <div className="msgError">
+                    <div className={S.msgError}>
                       <AlertTriangle size={15} />
                       <span>{message.error}</span>
                       {message.questionText ? (
@@ -1438,9 +1440,9 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   ) : null}
 
                   {!message.streaming && !message.error && message.sources?.length ? (
-                    <div className="msgSourceChips">
+                    <div className={S.msgSourceChips}>
                       {groupSourcesByDocument(message.sources).map(({ document, sources: docSources }) => (
-                        <button type="button" className="sourceChip" key={document.documentId} title={`Revisar ${document.documentTitle}`} data-origin={document.selectionOrigin} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
+                        <button type="button" className={S.sourceChip} key={document.documentId} title={`Revisar ${document.documentTitle}`} data-origin={document.selectionOrigin} onClick={() => setSelectedReferences(docSources.map(source => ({ number: (message.sources ?? []).indexOf(source) + 1, source, paragraphText: message.questionText ?? "" })))}>
                           <FileText size={13} />
                           {document.selectionOrigin ? <span>{document.selectionOrigin==="selected"?"Selección inicial · ":"Fuente añadida · "}</span> : null}{document.documentTitle}
                           <em>{consultedFragments(docSources.length)}</em>
@@ -1456,8 +1458,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
                   {!message.streaming && message.telemetry && !esRespuestaFija(message.model) ? <details className="legalWorkspacePanel"><summary>Detalles de esta respuesta</summary><p>Proveedor: {message.telemetry.provider} · Modelo: {message.telemetry.model}</p><p>Recuperación: {(message.telemetry.retrievalMs/1000).toFixed(1)} s · Respuesta: {(message.telemetry.totalMs/1000).toFixed(1)} s · {message.telemetry.officialSources} fuentes oficiales · {message.telemetry.caseDocuments} documentos del caso</p><small>{message.telemetry.promptVersion} · Coste no disponible. Estos datos no miden exactitud jurídica.</small></details> : null}
                   {!message.streaming && !message.error && message.content ? (
-                    <div className="responseActions">
-                      <small className="responseActionsHint">Acciones sobre esta respuesta</small>
+                    <div className={S.responseActions}>
+                      <small className={S.responseActionsHint}>Acciones sobre esta respuesta</small>
                       <button
                         className="responseActionButton compactAction"
                         onClick={() => void copyMessage(message)}
@@ -1467,7 +1469,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                         {copiedId === message.id ? <Check size={16} /> : <Clipboard size={16} />}
                         {copiedId === message.id ? "Copiado" : "Copiar"}
                       </button>
-                      <details className="chatMoreActions"><summary>Más acciones</summary><div className="chatMoreActionsBody">
+                      <details className={S.chatMoreActions}><summary>Más acciones</summary><div className={S.chatMoreActionsBody}>
                       <button
                         className="responseActionButton"
                         onClick={() => void updateAssistantMessage(message, "save_note", buildAutomaticNote(message))}
@@ -1509,7 +1511,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
                   {!message.streaming && !message.error && message.id === lastAssistantId ? <ChatClarification review={message.assessment?.evidenceReview} context={message.caseContext??caseContext} disabled={isStreaming} onApply={context=>{setCaseContext(context);void submitQuestion(undefined,message.questionText,context);}}/>:null}
                   {!message.streaming && !message.error && message.id === lastAssistantId ? (
-                    <div className="followChips">
+                    <div className={S.followChips}>
                       {followUpsFor(message).map((prompt) => (
                         <button disabled={isStreaming} key={prompt} onClick={() => void submitQuestion(undefined, prompt)} type="button">
                           {prompt}
@@ -1522,7 +1524,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 <>
                   <p>{message.content}</p>
                   {message.caseContext && Object.values(message.caseContext).some(Boolean) ? (
-                    <details className="chatTurnContext">
+                    <details className={S.chatTurnContext}>
                       <summary>Contexto utilizado</summary>
                       <p>Régimen: {message.caseContext.regime || "No indicado"}</p>
                       <p>Objeto: {message.caseContext.object || "No indicado"}</p>
@@ -1542,15 +1544,15 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   );
 
   return (
-    <div className="legalTool chatRedesign chatAccessible">
+    <div className={cn(S.legalTool, "chatRedesign", "chatAccessible")}>
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
       {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className="secondaryButton compactButton" onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
       {continuity.notice?<p className="normScopeNote" role="status">{continuity.notice}</p>:null}
-      <div className="chatReadingLayout"><div className="chatMainColumn">
+      <div className={S.chatReadingLayout}><div className={S.chatMainColumn}>
       <header className="chatHeader">
         <div className="chatHeaderTitle">
-          <div className="legalToolIcon">
+          <div className={S.legalToolIcon}>
             <ShieldCheck size={22} />
           </div>
           <div>
@@ -1565,15 +1567,15 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         </button>
       </header>
 
-      <div className="chatContextBar">
-        <details className="chatStyleDisclosure"><summary>Personalizar respuesta</summary><div className="styleSelectors">
+      <div className={S.chatContextBar}>
+        <details className={S.chatStyleDisclosure}><summary>Personalizar respuesta</summary><div className="styleSelectors">
           <span className="styleSelectorsTitle" title="Cómo quieres que te responda (opcional)">
             Estilo de respuesta
           </span>
           {/* Ajustes de la respuesta, no pestañas: no cambian de panel, cambian
               cómo responde el modelo. */}
-          <div className="modeSelector" role="group" aria-label="Tono de respuesta">
-            <span className="styleSelectorLabel">Tono</span>
+          <div className={S.modeSelector} role="group" aria-label="Tono de respuesta">
+            <span className={S.styleSelectorLabel}>Tono</span>
             {toneOptions.map((item) => (
               <button
                 aria-pressed={tone === item.value}
@@ -1586,8 +1588,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               </button>
             ))}
           </div>
-          <div className="modeSelector" role="group" aria-label="Longitud de respuesta">
-            <span className="styleSelectorLabel">Longitud</span>
+          <div className={S.modeSelector} role="group" aria-label="Longitud de respuesta">
+            <span className={S.styleSelectorLabel}>Longitud</span>
             {lengthOptions.map((item) => (
               <button
                 aria-pressed={length === item.value}
@@ -1602,16 +1604,16 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           </div>
         </div>
 
-        </details><div className="filterArea">
+        </details><div className={S.filterArea}>
           {activeFilters.map((filter) => (
-            <button className="filterChip" key={filter.key} onClick={filter.clear} type="button">
+            <button className={S.filterChip} key={filter.key} onClick={filter.clear} type="button">
               {filter.label}
               <X size={13} />
             </button>
           ))}
           <button
             aria-expanded={showFilters}
-            className="filterToggleButton"
+            className={S.filterToggleButton}
             onClick={() => setShowFilters((current) => !current)}
             type="button"
           >
@@ -1620,10 +1622,10 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           </button>
 
           {showFilters ? (
-            <div className="filterPopover">
+            <div className={S.filterPopover} data-filter-popover>
               <p>Opcional. Limita los documentos que se consultarán; puedes preguntar sin completar estos campos.</p>
               <ExtendedLegalFilterControls value={extendedFilters} onChange={value => { setExtendedFilters(value); if(value.documentTypes?.length) setDocumentType(""); if(value.years?.length) setYear(""); }} />
-              <div className="filterPopoverGrid">
+              <div className={S.filterPopoverGrid}>
                 <label>
                   <span>Tipo</span>
                   <select onChange={(event) => setDocumentType(event.target.value)} value={documentType}>
@@ -1661,7 +1663,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   <input inputMode="numeric" onChange={(event) => setYear(event.target.value)} placeholder="2024" value={year} />
                 </label>
               </div>
-              <div className="filterPopoverActions">
+              <div className={S.filterPopoverActions}>
                 <button className="secondaryButton compactButton" onClick={clearFilters} type="button">
                   <RotateCcw size={14} />
                   Limpiar
@@ -1677,8 +1679,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
       {hasConversation ? conversation : null}
 
-      <form ref={composerDockRef} className={`chatComposerBar${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
-        <label className="chatQuestionLabel" htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
+      <form ref={composerDockRef} className={`${S.chatComposerBar}${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
+        <label className={S.chatQuestionLabel} htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
         <textarea
           id="legal-chat-question"
           aria-describedby="chat-question-help"
@@ -1699,27 +1701,27 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           rows={1}
           value={question}
         />
-        <div className="chatComposerActions">
+        <div className={S.chatComposerActions}>
           <VoiceDictation onInsert={insertDictation} onAfterInsert={focusComposer} disabled={isStreaming || loadingSession} />
           {isStreaming ? (
-            <button className="secondaryButton stopButton" onClick={stopStreaming} type="button">
+            <button className={cn("secondaryButton", S.stopButton)} onClick={stopStreaming} type="button">
               <Square size={16} />
               Detener
             </button>
           ) : (
-            <button className="primaryButton sendButton" disabled={!canSubmit} type="submit">
+            <button className={cn("primaryButton", S.sendButton)} disabled={!canSubmit} type="submit">
               <Send size={18} />
               Enviar consulta
             </button>
           )}
         </div>
-        <small id="chat-question-help" className="chatQuestionHelp">Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
+        <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className="chatComposeTools">
       <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
-      <section className="chatCaseContext" aria-label="Contexto del caso">
+      <section className={S.chatCaseContext} aria-label="Contexto del caso">
         {caseProfile ? (
-          <div className="caseProfileChip" role="status" data-stale={isStaleProfile(caseProfile, profileNow) ? "true" : undefined}>
+          <div className={S.caseProfileChip} role="status" data-stale={isStaleProfile(caseProfile, profileNow) ? "true" : undefined}>
             <div>
               <strong>Caso activo</strong>
               <span>{describeProfile(caseProfile)}</span>
@@ -1732,34 +1734,34 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
           <fieldset disabled={isStreaming || loadingSession}>
-            <div className="caseField">
-              <div className="caseFieldHead"><label htmlFor="case-regime">Régimen aplicable</label>
+            <div className={S.caseField}>
+              <div className={S.caseFieldHead}><label htmlFor="case-regime">Régimen aplicable</label>
                 <VoiceDictation compact title="Dictar el régimen aplicable" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("regime")} onInsert={(text) => appendCaseField("regime", text)} onAfterInsert={() => focusCaseField("regime")} /></div>
               <input id="case-regime" maxLength={caseFieldLimits.regime} placeholder="Indica el régimen o escribe No determinado" value={caseContext.regime}
                 onChange={(event) => setCaseContext((current) => ({ ...current, regime: event.target.value }))} />
             </div>
             {/* El nombre va en un <label htmlFor> aparte del botón Dictar: dentro del label, el texto del botón
                 pasaría a formar parte del nombre accesible del campo. */}
-            <div className="caseField">
-              <div className="caseFieldHead"><label htmlFor="case-object">Objeto contractual</label>
+            <div className={S.caseField}>
+              <div className={S.caseFieldHead}><label htmlFor="case-object">Objeto contractual</label>
                 <VoiceDictation compact title="Dictar el objeto contractual" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("object")} onInsert={(text) => appendCaseField("object", text)} onAfterInsert={() => focusCaseField("object")} /></div>
               <input id="case-object" maxLength={caseFieldLimits.object} placeholder="Bienes, servicios, obra o consultoría; describe qué se contrata" value={caseContext.object ?? ""}
                 onChange={event => setCaseContext(current => ({ ...current, object: event.target.value }))} />
             </div>
-            <div className="caseField">
-              <div className="caseFieldHead"><label htmlFor="case-dates">Fechas relevantes</label>
+            <div className={S.caseField}>
+              <div className={S.caseFieldHead}><label htmlFor="case-dates">Fechas relevantes</label>
                 <VoiceDictation compact title="Dictar las fechas relevantes" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("dates")} onInsert={(text) => appendCaseField("dates", text)} onAfterInsert={() => focusCaseField("dates")} /></div>
               <textarea id="case-dates" rows={2} maxLength={caseFieldLimits.dates} placeholder="Fecha de convocatoria, contrato u otros hitos del caso" value={caseContext.dates}
                 onChange={(event) => setCaseContext((current) => ({ ...current, dates: event.target.value }))} />
             </div>
-            <div className="caseField">
-              <div className="caseFieldHead"><label htmlFor="case-facts">Hechos del caso</label>
+            <div className={S.caseField}>
+              <div className={S.caseFieldHead}><label htmlFor="case-facts">Hechos del caso</label>
                 <VoiceDictation compact title="Dictar los hechos del caso" description="Habla, revisa el texto y se añadirá a este campo." insertLabel="Insertar en el campo" maxChars={caseFieldRoom("facts")} onInsert={(text) => appendCaseField("facts", text)} onAfterInsert={() => focusCaseField("facts")} /></div>
               <textarea id="case-facts" rows={3} maxLength={caseFieldLimits.facts} placeholder="Describe qué ocurrió y qué necesitas resolver. Evita datos personales innecesarios." value={caseContext.facts}
                 onChange={(event) => setCaseContext((current) => ({ ...current, facts: event.target.value }))} />
             </div>
           </fieldset>
-          <div className="caseProfileActions">
+          <div className={S.caseProfileActions}>
             <button className="secondaryButton compactButton" type="button" onClick={() => saveCaseProfile(caseContext)}
               disabled={isStreaming || loadingSession || isEmptyCommonContext(caseContext) || Boolean(caseProfile && matchesProfile(caseContext, caseProfile))}>
               {caseProfile && matchesProfile(caseContext, caseProfile) ? "Caso activo guardado" : "Guardar como caso activo"}
@@ -1767,31 +1769,31 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             <small>Recuerda régimen, fechas y objeto en este navegador para tus próximas consultas. Los hechos no se guardan.</small>
           </div>
         </details>
-        <p className="chatEvidenceRule">Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
+        <p className={S.chatEvidenceRule}>Solo fuentes disponibles · citas de documento y página · información faltante explícita.</p>
         {loadingSession ? <p role="status">Recuperando conversación…</p> : null}
       </section>
       </div>
       {!hasConversation ? conversation : null}
       </div>
-      <aside className="chatNormsRail" aria-label="Normas de la última respuesta">
+      <aside className={S.chatNormsRail} aria-label="Normas de la última respuesta">
         <details open={wideChat || undefined}><summary><FileText size={18} /> Normas de la respuesta</summary>
           <p>Abre una norma para comprobar el fragmento y acceder al PDF.</p>
-          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className="chatNormCard" key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{consultedFragments(related.length)} · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
-          <p className="chatRailNote">Los archivos que adjuntas son documentos del caso; no acreditan una regla jurídica.</p>
+          {(() => { const latest = [...messages].reverse().find(item => item.role === "assistant" && !item.streaming); const sources = latest?.sources ?? []; return sources.length ? groupSourcesByDocument(sources).map(({document, sources: related}) => <button type="button" className={S.chatNormCard} key={document.documentId} onClick={() => setSelectedReferences(related.map(source => ({number:sources.indexOf(source)+1,source,paragraphText:latest?.questionText ?? ""})))}><FileText size={18} /><span><strong>{document.documentTitle}</strong><small>{consultedFragments(related.length)} · Revisar norma</small></span></button>) : <div className="chatNormsEmpty"><ShieldCheck size={26} /><strong>Aquí podrás comprobar las normas</strong><span>Después de consultar, verás los documentos encontrados. Si no hay evidencia suficiente, ACE debe indicarlo.</span></div>; })()}
+          <p className={S.chatRailNote}>Los archivos que adjuntas son documentos del caso; no acreditan una regla jurídica.</p>
         </details>
       </aside></div>
 
       <Dialog.Root open={Boolean(selectedReferences)} onOpenChange={(open) => !open && setSelectedReferences(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="sourceModal chatSourceSheet">
+          <Dialog.Content className={cn("sourceModal", S.chatSourceSheet)}>
             <Dialog.Title>
               {selectedReferences && selectedReferences.length > 1
                 ? `Fuentes ${selectedReferences.map((reference) => reference.number).join(", ")}`
                 : `Fuente ${selectedReferences?.[0]?.number ?? ""}`}
             </Dialog.Title>
             <Dialog.Description>Revisa el texto original, su ubicación y el PDF antes de usar esta información.</Dialog.Description>
-            <Dialog.Close className="chatSourceClose" aria-label="Cerrar normas y volver al chat"><X size={20} /></Dialog.Close>
+            <Dialog.Close className={S.chatSourceClose} aria-label="Cerrar normas y volver al chat"><X size={20} /></Dialog.Close>
             {selectedReferences ? (
               <div className="sourceModalBody">
                 {selectedReferences.map((reference) => (

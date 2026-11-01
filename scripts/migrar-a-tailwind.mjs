@@ -31,20 +31,18 @@ const excluirClases = (args.find((a) => a.startsWith("--excluir="))?.slice(10) ?
 // la comparación de estilos qué clase pierde frente a una de esas reglas.
 // Formato: `--importante=clase` (todas sus utilidades) o `--importante=clase=utilidad` (solo esa; las utilidades llevan
 // `:` por las variantes, de ahí el segundo `=`). Se pueden separar varios con `;`.
-const importantes = new Map(
-  (args.find((a) => a.startsWith("--importante=")) ?? "")
-    .slice(13)
-    .split(";")
-    .filter(Boolean)
-    .map((e) => {
-      const i = e.indexOf("=");
-      return i < 0 ? [e, null] : [e.slice(0, i), e.slice(i + 1)];
-    }),
-);
+const sinFuente = new Set((args.find((a) => a.startsWith("--sin-fuente=")) ?? "").slice(13).split(",").filter(Boolean));
+const importantes = new Map();
+for (const e of (args.find((a) => a.startsWith("--importante=")) ?? "").slice(13).split(";").filter(Boolean)) {
+  const i = e.indexOf("=");
+  const clase = i < 0 ? e : e.slice(0, i);
+  if (i < 0) importantes.set(clase, null);
+  else if (importantes.get(clase) !== null) importantes.set(clase, [...(importantes.get(clase) ?? []), e.slice(i + 1)]);
+}
 const marcarImportante = (clase, tokens) => {
   if (!importantes.has(clase)) return tokens;
   const solo = importantes.get(clase);
-  return tokens.map((t) => (t.endsWith("!") || (solo !== null && t !== solo) ? t : t + "!"));
+  return tokens.map((t) => (t.endsWith("!") || (solo !== null && !solo.includes(t)) ? t : t + "!"));
 };
 if (!fichero) {
   console.error("Falta el componente: node scripts/migrar-a-tailwind.mjs app/components/x.tsx [--aplicar]");
@@ -53,7 +51,9 @@ if (!fichero) {
 
 // Contenedores que están siempre presentes donde vive el componente: su especificidad cuenta, pero no hace falta
 // condicionar por ellos (las páginas del Centro Jurídico los llevan todos).
-const ENVOLTORIOS = new Set(["legalWorkspace", "legalShell", "tw"]);
+// `--envoltorios=a,b` añade clases que el componente SIEMPRE lleva en su raíz o antecesores (por ejemplo `chatAccessible`):
+// sus reglas se funden con las base y la cascada se resuelve exacta, en vez de quedar como condiciones sueltas.
+const ENVOLTORIOS = new Set(["legalWorkspace", "legalShell", "tw", ...(args.find((a) => a.startsWith("--envoltorios=")) ?? "").slice(14).split(",").filter(Boolean)]);
 
 // ───────────────────────── lectura de CSS ─────────────────────────
 
@@ -590,12 +590,17 @@ function asignar() {
       }
 
       // Estado del propio elemento (`:hover`, `[open]`, `:has(…)`) y, si lo hay, camino a un descendiente.
-      const propio = dueño.txt.replace(new RegExp(`\\.${nombre}(?![\\w-])`), "");
+      const propioBruto = dueño.txt.replace(new RegExp(`\\.${nombre}(?![\\w-])`), "");
+      // `button.clase`: la etiqueta va pegada a la clase y se expresa como `[button&…]`.
+      const etiqueta = propioBruto.match(/^[a-z][a-z0-9-]*/i)?.[0] ?? "";
+      const propio = etiqueta ? propioBruto.slice(etiqueta.length) : propioBruto;
       const cola = resto.length ? sep(dueño.comb) + resto.map((c, i) => c.txt + (i < resto.length - 1 ? sep(c.comb) : "")).join("") : "";
       const sinComillas = (t) => t.replace(/["']/g, "");
       const varPropio = [];
       if (cola) {
-        varPropio.push(`[&${esc(sinComillas(propio))}${esc(sinComillas(cola)).replace(/^_(?=[>+~])/, "")}]`);
+        varPropio.push(`[${etiqueta}&${esc(sinComillas(propio))}${esc(sinComillas(cola)).replace(/^_(?=[>+~])/, "")}]`);
+      } else if (etiqueta) {
+        varPropio.push(`[${etiqueta}&${esc(sinComillas(propio))}]`);
       } else if (propio) {
         const nombrada = PSEUDO[propio];
         if (nombrada) varPropio.push(nombrada);
@@ -616,7 +621,12 @@ function asignar() {
       // declara styles.css no se ven hoy. Se descartan para que migrar no los resucite (usa --sin-tw si el componente
       // no está dentro de un contenedor `.tw`).
       const BORDES = /^border(-(top|right|bottom|left))?(-(width|style|color))?$/;
-      const declVisibles = rango === 0 && !args.includes("--sin-tw") ? decl.filter((d) => !BORDES.test(d.prop)) : decl;
+      // Igual con la fuente: `.tw button { font: inherit }` (capa `tw-base`) gana a lo que styles.css diga de font-* y
+      // line-height en un botón o campo. Se indica por clase (`--sin-fuente=a,b`) porque desde el CSS no se sabe qué
+      // elemento lleva cada clase.
+      const FUENTE = /^(font(-size|-weight|-style|-family)?|line-height)$/;
+      let declVisibles = rango === 0 && !args.includes("--sin-tw") ? decl.filter((d) => !BORDES.test(d.prop)) : decl;
+      if (rango === 0 && sinFuente.has(nombre)) declVisibles = declVisibles.filter((d) => !FUENTE.test(d.prop));
       porDueña.get(nombre).push({ variantes, decl: declVisibles, apply, spec: especificidad(sel), orden: r.orden, rango, sel, archivo: r.archivo });
     }
   }
@@ -813,7 +823,7 @@ function resolver(reglas) {
       const prefijo = [...r.variantes, ...trocearVariantes(pv)].map((v) => v + ":").join("");
       // `objetivo` = la variante que cambia el elemento al que se aplica (`[&_label]`, `[&>span]`): dos utilidades solo
       // compiten si van al mismo elemento. El resto de variantes son condiciones sobre ese elemento.
-      const objetivoVar = [...vars].find((v) => /^\[&/.test(v) && /[_>+~]/.test(v.replace(/\([^)]*\)/g, "").slice(2))) ?? "";
+      const objetivoVar = [...vars].find((v) => /^\[[a-z]*&/.test(v) && /[_>+~]/.test(v.replace(/\([^)]*\)/g, "").replace(/^\[[a-z]*&/, ""))) ?? "";
       const conds = new Set([...vars].filter((v) => v !== objetivoVar));
       tokens.push({ cls: prefijo + util, conds, objetivoVar, slots: ranuras(util), prec });
     }
@@ -821,12 +831,14 @@ function resolver(reglas) {
   // Una utilidad queda anulada si otra de mayor precedencia, que se aplica SIEMPRE que ella (sus condiciones son un
   // subconjunto de las de la primera), fija todas sus propiedades. Así una regla de `@media` con poca especificidad
   // no pisa a una base más específica, que era lo que ocurría en el CSS original.
-  const vivos = tokens.filter(
-    (t) =>
-      !tokens.some(
-        (u) => u.prec > t.prec && u.objetivoVar === t.objetivoVar && [...u.conds].every((v) => t.conds.has(v)) && t.slots.every((s) => u.slots.includes(s)),
-      ),
-  );
+  const vivos = tokens.filter((t) => {
+    // Las propiedades de `t` que ya fijan, entre todas, utilidades de mayor precedencia que se aplican siempre que `t`.
+    const cubiertas = new Set();
+    for (const u of tokens) {
+      if (u.prec > t.prec && u.objetivoVar === t.objetivoVar && [...u.conds].every((v) => t.conds.has(v))) for (const sl of u.slots) cubiertas.add(sl);
+    }
+    return !t.slots.every((sl) => cubiertas.has(sl));
+  });
   return [...new Set(vivos.map((t) => t.cls))];
 }
 
