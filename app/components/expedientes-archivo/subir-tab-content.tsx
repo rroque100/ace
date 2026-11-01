@@ -636,7 +636,7 @@ export function SubirTabContent({
                   por ti, así que se trata distinto del resto del formulario
                   (barra superior en degradado, ícono con halo). */}
               {extractedData?.warnings?.length ? (
-                <div role="status" className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                <div role="status" className="mt-3 rounded-lg border border-warning/40 bg-warning-soft p-3 text-sm text-warning">
                   {extractedData.warnings.map((warning) => <p key={warning}>{warning}</p>)}
                 </div>
               ) : null}

@@ -69,7 +69,7 @@ export function ExamLearningDashboard({
       aria-labelledby="review-title"
     >
       <h2 id="review-title">Qué estudiar después</h2>
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-muted">
         Repasos de 1, 3, 7, 14 y 30 días según tus respuestas. Repetir varias
         veces el mismo día no demuestra retención.
       </p>
@@ -85,7 +85,7 @@ export function ExamLearningDashboard({
             </p>
           )}
           {!data.reviews.length ? (
-            <p className="rounded-lg bg-slate-50 p-4 text-sm">
+            <p className="rounded-lg bg-surface p-4 text-sm">
               Al terminar una práctica con preguntas publicadas, tus errores y
               omisiones aparecerán aquí. Los borradores administrativos no
               cuentan.
@@ -109,7 +109,7 @@ export function ExamLearningDashboard({
                   );
                 })}
               </div>
-              <ul className="divide-y divide-slate-100">
+              <ul className="divide-y divide-line">
                 {data.reviews.slice(0, 12).map((r) => (
                   <li
                     key={r.questionId}
@@ -117,7 +117,7 @@ export function ExamLearningDashboard({
                   >
                     <div>
                       <p className="font-semibold">{r.topic}</p>
-                      <p className="text-xs text-slate-600">
+                      <p className="text-xs text-muted">
                         {r.status} ·{" "}
                         {r.due
                           ? "Repaso pendiente"
@@ -210,7 +210,7 @@ export function ExamStudyReport({
   return (
     <section className="examHistory space-y-4" aria-labelledby="study-report">
       <h2 id="study-report">Tu informe de estudio</h2>
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-muted">
         {exam.attempt.preview
           ? "Revisión de borradores: resultado excluido de tus métricas de preparación."
           : "Recomendaciones basadas en este intento; no son una predicción de aprobación."}
@@ -224,7 +224,7 @@ export function ExamStudyReport({
               ? `Tiempo activo observado: ${Math.floor(observed / 60)} min ${observed % 60} s. Es una medición parcial de actividad visible, no el tiempo total del examen.`
               : "Sin medición suficiente de tiempo activo."}
       </p>
-      <ul className="divide-y divide-slate-100">
+      <ul className="divide-y divide-line">
         {rows.map((row) => (
           <li key={row.topic} className="space-y-3 py-4">
             <div className="flex flex-wrap justify-between gap-3">
@@ -309,7 +309,7 @@ export function ExamTutor({
   return (
     <details className="examDisclosure mt-5">
       <summary>Tutor de estudio con IA</summary>
-      <p className="mt-3 text-xs text-slate-600">
+      <p className="mt-3 text-xs text-muted">
         Explicación asistida a partir de las fuentes de esta pregunta. La clave
         y la nota conservan su revisión editorial.
       </p>
@@ -453,7 +453,7 @@ export function ExamEditorialTask({
     }
   }
   return (
-    <details className="rounded-xl border border-slate-200 p-4">
+    <details className="rounded-xl border border-line p-4">
       <summary className="cursor-pointer font-semibold">
         Seguimiento de la revisión · versión {revision}
       </summary>
@@ -565,11 +565,11 @@ export function ExamEditorialQueue({
       (a, b) => priority(b.subcompetency_code) - priority(a.subcompetency_code),
     );
   return (
-    <details className="rounded-xl border border-slate-200 p-4">
+    <details className="rounded-xl border border-line p-4">
       <summary className="cursor-pointer font-semibold">
         Cola de revisión jurídica · {data?.total ?? "…"} borradores
       </summary>
-      <p className="mt-3 text-sm text-slate-600">
+      <p className="mt-3 text-sm text-muted">
         Prioridad por faltantes para habilitar el primer simulacro. Asignar una
         revisión no aprueba ni publica la pregunta.
       </p>
@@ -587,7 +587,7 @@ export function ExamEditorialQueue({
         </select>
       </label>
       {error && <p role="alert">No se pudo consultar la cola: {error}</p>}
-      <ul className="mt-3 max-h-96 divide-y divide-slate-100 overflow-y-auto">
+      <ul className="mt-3 max-h-96 divide-y divide-line overflow-y-auto">
         {rows.map((q) => {
           const task = data?.tasks.find(
             (t) => t.question_id === q.id && t.question_revision === q.revision,
@@ -595,7 +595,7 @@ export function ExamEditorialQueue({
           return (
             <li className="space-y-2 py-4 text-sm" key={q.id}>
               <p className="font-semibold">{q.prompt}</p>
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-muted">
                 {q.subcompetency_code
                   ? `${q.subcompetency_code} · ${EXAM_CURRICULUM.find((s) => s.code === q.subcompetency_code)?.label ?? "Clasificación por revisar"}`
                   : "Sin clasificación"}{" "}

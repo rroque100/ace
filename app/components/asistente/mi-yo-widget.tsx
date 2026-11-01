@@ -142,7 +142,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
     <div className="aceAssistantWidget tw fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
       {open ? (
         <div className="flex h-[min(600px,80vh)] w-[min(380px,92vw)] flex-col overflow-hidden rounded-xl border border-line bg-canvas shadow-pop">
-          <header className="flex shrink-0 items-center justify-between gap-2 bg-brand px-4 py-3 text-white">
+          <header className="flex shrink-0 items-center justify-between gap-2 bg-brand px-4 py-3 text-on-brand">
             <div className="flex items-center gap-2">
               <Sparkles size={16} />
               <div>
@@ -180,7 +180,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
                 <p
                   className={cn(
                     "max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 text-sm",
-                    m.role === "user" ? "bg-brand text-white" : "border border-line bg-panel text-ink",
+                    m.role === "user" ? "bg-brand text-on-brand" : "border border-line bg-panel text-ink",
                   )}
                 >
                   {m.content}
@@ -200,7 +200,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
                       type="button"
                       disabled={confirmando}
                       onClick={() => void confirmarAccion(i, m.accionPropuesta!)}
-                      className="flex items-center gap-1 rounded-md bg-brand px-2.5 py-1.5 text-xs font-semibold text-white transition-opacity disabled:opacity-40"
+                      className="flex items-center gap-1 rounded-md bg-brand px-2.5 py-1.5 text-xs font-semibold text-on-brand transition-opacity disabled:opacity-40"
                     >
                       <Check size={12} /> Confirmar
                     </button>
@@ -242,7 +242,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
               type="submit"
               disabled={enviando || !input.trim()}
               aria-label="Enviar"
-              className="flex shrink-0 items-center justify-center rounded-md bg-brand px-3 text-white transition-opacity disabled:opacity-40"
+              className="flex shrink-0 items-center justify-center rounded-md bg-brand px-3 text-on-brand transition-opacity disabled:opacity-40"
             >
               <Send size={15} />
             </button>
@@ -254,7 +254,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Cerrar Mi Yo" : "Abrir Mi Yo"}
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white shadow-pop transition-transform hover:scale-105"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-on-brand shadow-pop transition-transform hover:scale-105"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>

@@ -424,3 +424,18 @@ Confirmado con una auditoría de cobertura (cruzando cada `pdfBasesEstandar` del
 - Compra Pública Precomercial
 - Asociación para la Innovación
 - Concurso de Proyectos Arquitectónicos y Urbanísticos
+
+### Cobertura sobre el Word oficial (2026-10-30)
+
+La ruta `fase1/bases-docx` rellena el .docx oficial del OECE con `construirSustituciones` (`lib/bases-docx-relleno.ts`), no con
+`resolverBases`: solo llega al documento lo que esa lista sustituye. Una revisión con A3/A4 completos encontró que
+`resolverBases` resolvía 16 de 16 campos pero el Word recibía 11. Ahora:
+
+- **Llegan al Word** (`CAMPOS_HITO_EN_WORD`): finalidad, descripción, lugar, plazo, modalidad de pago, sistema de entrega y, desde
+  esta fecha, la **fórmula de reajuste** (8 de los 15 Word), **otras penalidades** (obras) y el **CUI** sumado al nombre de la obra.
+- **No llegan, con motivo escrito** (`CAMPOS_HITO_SIN_MARCADOR`): penalidad por mora, subcontratación, solución de controversias,
+  requisitos de calificación y factores de evaluación. Cada uno exige primero una decisión de mapeo (ver el motivo en el código).
+- `tests/bases-docx-cobertura.test.ts` obliga a que todo campo que una plantilla enlace esté en uno de los dos registros, y prueba
+  cada expresión contra los 15 Word reales.
+
+Lo que sigue sin tocar son los marcadores de adelantos, garantías y área de conformidad, que no tienen campo propio en A3/A4.

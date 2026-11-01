@@ -21,14 +21,14 @@
   @apply text-xl font-semibold;
 }
 .examWorkspace .primaryButton {
-  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand bg-brand px-5 py-3 text-sm font-semibold text-white shadow-none transition-colors;
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-brand bg-brand px-5 py-3 text-sm font-semibold text-on-brand shadow-none transition-colors;
   background-image: none;
 }
 .examWorkspace .primaryButton:hover:not(:disabled) {
   @apply bg-brand-dark;
 }
 .examWorkspace .secondaryButton {
-  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold text-ink shadow-none transition-colors;
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-line bg-panel px-4 py-2 text-sm font-semibold text-ink shadow-none transition-colors;
   background-image: none;
 }
 .examWorkspace .secondaryButton:hover:not(:disabled) {
@@ -38,7 +38,7 @@
   @apply cursor-not-allowed opacity-50;
 }
 .examWorkspace :is(input:not([type="radio"]):not([type="checkbox"]), select) {
-  @apply min-h-11 w-full max-w-full rounded-lg border border-line bg-white px-3 py-3 text-base text-ink shadow-none;
+  @apply min-h-11 w-full max-w-full rounded-lg border border-line bg-panel px-3 py-3 text-base text-ink shadow-none;
 }
 .examWorkspace :is(input[type="radio"], input[type="checkbox"]) {
   @apply size-4 shrink-0 accent-brand;
@@ -47,7 +47,7 @@
   @apply block h-2 w-full overflow-hidden rounded-full accent-brand;
 }
 .examWorkspace :is(progress)::-webkit-progress-bar {
-  @apply rounded-full bg-slate-100;
+  @apply rounded-full bg-line;
 }
 .examWorkspace :is(progress)::-webkit-progress-value {
   @apply rounded-full bg-brand;
@@ -70,7 +70,7 @@
     .examQuestionPanel,
     .examJourney
   ) {
-  @apply rounded-2xl border border-line bg-white shadow-card;
+  @apply rounded-2xl border border-line bg-panel shadow-card;
 }
 .examWorkspace
   :is(.examPreparation, .examCustomPanel, .examHistory, .examQuestionPanel) {
@@ -80,7 +80,7 @@
   @apply my-6;
 }
 .examWorkspace .examCoverageCard {
-  @apply rounded-xl border border-line bg-slate-50/70 p-4;
+  @apply rounded-xl border border-line bg-surface/70 p-4;
 }
 .examWorkspace .examCompetencyLabel {
   @apply mb-3 text-xs font-semibold uppercase tracking-wider text-brand;
@@ -89,7 +89,7 @@
   @apply flex flex-wrap items-center gap-3 border-t border-line pt-5;
 }
 .examWorkspace .examStatus {
-  @apply inline-flex min-h-8 items-center rounded-full border border-line bg-slate-50 px-3 text-xs font-semibold text-slate-600;
+  @apply inline-flex min-h-8 items-center rounded-full border border-line bg-surface px-3 text-xs font-semibold text-muted;
 }
 .examWorkspace .examDisclosure {
   @apply rounded-xl border border-line p-4;
@@ -98,7 +98,7 @@
   @apply min-h-6 cursor-pointer text-sm font-semibold text-ink;
 }
 .examWorkspace .examDisclosure[open] {
-  @apply bg-slate-50/60;
+  @apply bg-surface/60;
 }
 .examWorkspace .examCustomLayout {
   @apply grid items-start gap-5;
@@ -115,10 +115,10 @@
   @apply cursor-default;
 }
 .examWorkspace .examStudyGuide {
-  @apply rounded-xl border border-line bg-slate-50 p-6 text-ink;
+  @apply rounded-xl border border-line bg-surface p-6 text-ink;
 }
 .examWorkspace .examStudyGuide p {
-  @apply text-sm leading-6 text-slate-600;
+  @apply text-sm leading-6 text-muted;
 }
 .examWorkspace .examStudyGuide > p:first-child {
   @apply text-xs font-semibold uppercase tracking-wider text-brand;
@@ -127,7 +127,7 @@
   @apply mt-3 text-xl leading-7 text-ink;
 }
 .examWorkspace .examStudyGuide ol {
-  @apply my-5 space-y-4 pl-0 text-sm leading-6 text-slate-600;
+  @apply my-5 space-y-4 pl-0 text-sm leading-6 text-muted;
   list-style: none;
 }
 .examWorkspace .examStudyGuide > p:last-child {

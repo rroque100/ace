@@ -110,7 +110,7 @@ export function NumeracionTab({
           <Search size={15} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
           <input
             type="search"
-            className="w-full rounded-md border border-line bg-white py-2 pl-8 pr-8 text-base outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
+            className="w-full rounded-md border border-line bg-panel py-2 pl-8 pr-8 text-base outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar oficina… (ej. logística)"
@@ -142,10 +142,10 @@ export function NumeracionTab({
       </div>
 
       {visibles.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-xl bg-[#f8fafc] px-5 py-10 text-center text-slate-600">
+        <div className="flex flex-col items-center gap-2 rounded-xl bg-[#f8fafc] px-5 py-10 text-center text-muted">
           <Search size={26} />
           <strong className="text-lg">Sin resultados</strong>
-          <p className="m-0 max-w-[400px] text-base leading-normal text-slate-500">{query.trim()
+          <p className="m-0 max-w-[400px] text-base leading-normal text-muted">{query.trim()
               ? `Ninguna oficina coincide con "${query.trim()}". Revisa la ortografía o activa "Mostrar oficinas inactivas".`
               : "No hay oficinas activas. Activa alguna en la pestaña Áreas o marca \"Mostrar oficinas inactivas\"."}</p>
         </div>
@@ -217,7 +217,7 @@ function NumeracionCard({
     return (
       <div
         key={tipo}
-        className={`flex flex-col gap-2.5 rounded-lg p-3 transition-[border-color,background,box-shadow] duration-150 ease ${enabled ? "border-[1.5px] border-brand bg-[rgba(15,118,110,0.04)] shadow-[0_1px_4px_rgba(15,118,110,0.06)]" : "border border-dashed border-line bg-transparent hover:bg-[#f8fafc] hover:border-slate-300"}`}
+        className={`flex flex-col gap-2.5 rounded-lg p-3 transition-[border-color,background,box-shadow] duration-150 ease ${enabled ? "border-[1.5px] border-brand bg-[rgba(15,118,110,0.04)] shadow-[0_1px_4px_rgba(15,118,110,0.06)]" : "border border-dashed border-line bg-transparent hover:bg-[#f8fafc] hover:border-line-strong"}`}
       >
         <label className={`flex items-center gap-2 cursor-pointer select-none text-base font-semibold ${enabled ? "text-ink" : "text-muted"}`}>
           <input
@@ -239,7 +239,7 @@ function NumeracionCard({
           <>
             <div className="grid grid-cols-2 gap-2">
               <label className="flex flex-col gap-1">
-                <span className="text-xs font-semibold text-slate-500">Empieza en</span>
+                <span className="text-xs font-semibold text-muted">Empieza en</span>
                 <input
                   type="number"
                   min={1}
@@ -254,7 +254,7 @@ function NumeracionCard({
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-xs font-semibold text-slate-500">Sigla propia</span>
+                <span className="text-xs font-semibold text-muted">Sigla propia</span>
                 <input
                   type="text"
                   className="w-full min-w-0 rounded-md border border-line px-2 py-1.5 text-sm font-mono outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)] box-border"
@@ -270,7 +270,7 @@ function NumeracionCard({
               <span className="overflow-wrap-anywhere rounded-sm bg-[rgba(15,118,110,0.06)] px-2 py-1 text-xs font-medium font-mono text-brand" title="Así saldrá el próximo documento">
                 {preview}
               </span>
-              <div className="relative w-48 h-64 bg-white border border-line rounded-xl shadow-pop overflow-hidden shrink-0 flex flex-col">
+              <div className="relative w-48 h-64 bg-panel border border-line rounded-xl shadow-pop overflow-hidden shrink-0 flex flex-col">
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-10">
                   <span className="text-[48px] font-black text-[rgba(0,0,0,0.04)] rotate-[-25deg] tracking-[-0.05em]">EJEMPLO</span>
                 </div>
@@ -297,7 +297,7 @@ function NumeracionCard({
             </div>
           </>
         ) : willLoseNumber ? (
-          <span className="text-xs leading-snug text-amber-700">
+          <span className="text-xs leading-snug text-warning">
             Al guardar se quitará este tipo y su numeración volverá a empezar en 1 si lo vuelves a
             activar.
           </span>
@@ -369,7 +369,7 @@ function NumeracionCard({
       </div>
 
       <div className="rounded-lg bg-[#f8fafc] p-3">
-        <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+        <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
           <CheckCircle2 size={14} /> Documentos que emite esta oficina
         </div>
         <p className="m-0 mb-3 max-w-none text-base leading-snug text-muted">

@@ -41,7 +41,7 @@ const variants: Record<Variant, string> = {
 };
 
 const danger: Record<Variant, string> = {
-  primary: "bg-danger text-white shadow-card hover:bg-danger/90",
+  primary: "bg-danger text-on-brand shadow-card hover:bg-danger/90",
   secondary:
     "border border-danger/30 bg-panel text-danger shadow-card hover:bg-danger-soft",
   ghost: "text-danger hover:bg-danger-soft",

@@ -228,8 +228,8 @@ export function Sidebar({
         data-collapsed={collapsed}
       >
         <div className="flex min-h-20 shrink-0 items-center gap-2 border-b border-white/10 px-3 py-4">
-          <Link className="flex min-w-0 flex-1 items-center gap-3 rounded-xl text-white outline-offset-4 focus-visible:outline-2 focus-visible:outline-teal-200 lg:group-data-[collapsed=true]/sidebar:justify-center" href="/" onClick={() => setMobileOpen(false)}>
-            <div className="grid size-11 shrink-0 place-items-center rounded-xl bg-teal-500 font-bold text-white shadow-sm">A</div>
+          <Link className="flex min-w-0 flex-1 items-center gap-3 rounded-xl text-white outline-offset-4 focus-visible:outline-2 focus-visible:outline-brand/30 lg:group-data-[collapsed=true]/sidebar:justify-center" href="/" onClick={() => setMobileOpen(false)}>
+            <div className="grid size-11 shrink-0 place-items-center rounded-xl bg-teal-500 font-bold text-on-brand shadow-sm">A</div>
             <div className="min-w-0 [&>strong]:block [&>strong]:text-[15px] [&>strong]:font-bold [&>span]:block [&>span]:text-[11px] [&>span]:text-slate-300 lg:group-data-[collapsed=true]/sidebar:hidden">
               <strong>ACE IA</strong>
               <span>Juridica</span>
@@ -242,7 +242,7 @@ export function Sidebar({
               sin forma de reabrirlo. El z-10 lo levanta por encima del pie. */}
           <button
             type="button"
-            className="hidden size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/15 bg-transparent text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-teal-200 lg:flex lg:group-data-[collapsed=true]/sidebar:absolute lg:group-data-[collapsed=true]/sidebar:bottom-5 lg:group-data-[collapsed=true]/sidebar:left-6 lg:group-data-[collapsed=true]/sidebar:z-10"
+            className="hidden size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-white/15 bg-transparent text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-brand/30 lg:flex lg:group-data-[collapsed=true]/sidebar:absolute lg:group-data-[collapsed=true]/sidebar:bottom-5 lg:group-data-[collapsed=true]/sidebar:left-6 lg:group-data-[collapsed=true]/sidebar:z-10"
             onClick={toggleCollapsed}
             aria-label={collapsed ? "Expandir menú" : "Colapsar menú"}
             title={collapsed ? "Expandir menú (Ctrl+\\)" : "Colapsar menú (Ctrl+\\)"}
@@ -264,14 +264,14 @@ export function Sidebar({
             const foldAdmin = ["chat", "busqueda", "normas"].includes(active) && section.label.toLowerCase() === "administrar" && !collapsed;
             const SectionTag = foldAdmin ? "details" : "div";
             return <SectionTag className={`mb-5 last:mb-0 ${foldAdmin ? "[&>summary]:cursor-pointer [&>summary]:list-none [&>summary]:after:ml-auto [&>summary]:after:content-['+'] open:[&>summary]:after:content-['−']" : ""}`} key={section.label}>
-              {foldAdmin ? <summary className="mb-2 flex min-h-8 cursor-default items-center px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 lg:group-data-[collapsed=true]/sidebar:sr-only">Administración</summary> : <span className="mb-2 flex min-h-8 cursor-default items-center px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-slate-400 lg:group-data-[collapsed=true]/sidebar:sr-only">{section.label}</span>}
+              {foldAdmin ? <summary className="mb-2 flex min-h-8 cursor-default items-center px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted lg:group-data-[collapsed=true]/sidebar:sr-only">Administración</summary> : <span className="mb-2 flex min-h-8 cursor-default items-center px-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted lg:group-data-[collapsed=true]/sidebar:sr-only">{section.label}</span>}
               <div className="grid gap-1">
                 {section.items.map((item) => {
                   const Icon = ICONOS[item.icon];
                   return (
                     <Link
                       aria-current={active === item.id ? "page" : undefined}
-                      className={`flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-200 lg:group-data-[collapsed=true]/sidebar:justify-center lg:group-data-[collapsed=true]/sidebar:px-2 ${active === item.id ? "bg-teal-100 text-teal-950 shadow-sm" : "text-slate-300 hover:bg-white/8 hover:text-white"}`}
+                      className={`flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 text-[13px] font-medium no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand/30 lg:group-data-[collapsed=true]/sidebar:justify-center lg:group-data-[collapsed=true]/sidebar:px-2 ${active === item.id ? "bg-brand-soft text-brand-dark shadow-sm" : "text-slate-300 hover:bg-white/8 hover:text-white"}`}
                       href={item.href}
                       key={item.id}
                       title={collapsed ? item.label : undefined}
@@ -280,10 +280,10 @@ export function Sidebar({
                       <Icon size={18} />
                       <span className="min-w-0 flex-1 leading-5 lg:group-data-[collapsed=true]/sidebar:hidden">{item.label}</span>
                       {item.id === "alertas" && newsCount > 0 ? (
-                        <span className="ml-auto grid min-w-5 shrink-0 place-items-center rounded-full bg-amber-300 px-1.5 py-0.5 text-[10px] font-bold leading-4 text-slate-900 lg:group-data-[collapsed=true]/sidebar:hidden">{newsCount}</span>
+                        <span className="ml-auto grid min-w-5 shrink-0 place-items-center rounded-full bg-amber-300 px-1.5 py-0.5 text-[10px] font-bold leading-4 text-ink lg:group-data-[collapsed=true]/sidebar:hidden">{newsCount}</span>
                       ) : null}
                       {item.id === "necesidades" && bandejaNecesidades > 0 ? (
-                        <span className="ml-auto grid min-w-5 shrink-0 place-items-center rounded-full bg-amber-300 px-1.5 py-0.5 text-[10px] font-bold leading-4 text-slate-900 lg:group-data-[collapsed=true]/sidebar:hidden" title="Necesidades que esperan tu acción">
+                        <span className="ml-auto grid min-w-5 shrink-0 place-items-center rounded-full bg-amber-300 px-1.5 py-0.5 text-[10px] font-bold leading-4 text-ink lg:group-data-[collapsed=true]/sidebar:hidden" title="Necesidades que esperan tu acción">
                           {bandejaNecesidades >= BANDEJA_TOPE ? `${BANDEJA_TOPE}+` : bandejaNecesidades}
                         </span>
                       ) : null}
@@ -339,7 +339,7 @@ export function Sidebar({
                     Jefe de oficina
                   </span>
                 ) : null}
-                <span className="block text-[10px] leading-4 text-slate-400">{scopeText}</span>
+                <span className="block text-[10px] leading-4 text-muted">{scopeText}</span>
               </div>
             )}
 

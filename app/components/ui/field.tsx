@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
  */
 
 const controlBase =
-  "w-full rounded-[10px] border border-line bg-panel px-3 text-[16px] text-ink sm:text-[14px] shadow-[inset_0_1px_1px_rgba(15,23,42,0.02)] " +
+  "w-full rounded-[10px] border border-line-strong bg-panel px-3 text-[16px] text-ink sm:text-[14px] shadow-[inset_0_1px_1px_rgba(15,23,42,0.02)] " +
   "transition-[border-color,box-shadow] duration-150 outline-none " +
-  "placeholder:text-muted/60 " +
+  "placeholder:text-placeholder " +
   "focus:border-brand focus:shadow-[var(--shadow-focus)] " +
   "disabled:cursor-not-allowed disabled:bg-surface disabled:opacity-70";
 

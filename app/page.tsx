@@ -38,7 +38,7 @@ export default async function Home() {
           <p className="mb-3! text-[11px] font-semibold uppercase tracking-[0.12em] text-white/75">Contrataciones públicas · Perú</p>
           <h2 className="m-0! text-white! text-[28px]! font-semibold! leading-[1.2]! tracking-tight sm:text-[36px]!">Consulta con claridad.<br/>Trabaja con respaldo.</h2>
           <p className="mt-4! max-w-[540px] text-[15px] leading-relaxed text-white/85!">Encuentra documentos, revisa sus fuentes y continúa tu trabajo.</p>
-          {tasks[0] ? <Link href={tasks[0].href} className="mt-5 inline-flex bg-teal-100 text-teal-950 shadow-sm transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white min-h-12 items-center gap-3 rounded-xl px-5 py-3 text-[14px] font-semibold no-underline">{tasks[0].label}<ArrowRight size={17} aria-hidden/></Link> : null}
+          {tasks[0] ? <Link href={tasks[0].href} className="mt-5 inline-flex bg-brand-soft text-brand-dark shadow-sm transition-colors hover:bg-panel focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white min-h-12 items-center gap-3 rounded-xl px-5 py-3 text-[14px] font-semibold no-underline">{tasks[0].label}<ArrowRight size={17} aria-hidden/></Link> : null}
         </div>
         <Library aria-hidden className="pointer-events-none absolute -right-6 bottom-6 hidden size-48 -rotate-12 text-white/10 md:block" strokeWidth={1}/>
       </section>

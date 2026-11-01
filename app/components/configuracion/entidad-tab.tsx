@@ -176,7 +176,7 @@ export function EntidadTab({
                     aria-checked={selected}
                     onClick={() => handleChange("governmentLevel", level.value)}
                     className={`flex flex-col gap-0.5 p-3 rounded-lg border text-left cursor-pointer font-inherit transition-colors ${
-                      selected ? "border-brand/35 bg-brand-soft" : "border-line bg-white hover:border-brand/20"
+                      selected ? "border-brand/35 bg-brand-soft" : "border-line bg-panel hover:border-brand/20"
                     }`}
                   >
                     <strong className={`text-sm font-semibold ${selected ? "text-brand-dark" : "text-ink"}`}>
@@ -188,7 +188,7 @@ export function EntidadTab({
               })}
             </div>
             {hasFieldError("governmentLevel") ? (
-              <small className="text-xs font-semibold text-red-600 block mt-2" role="alert">
+              <small className="text-xs font-semibold text-danger block mt-2" role="alert">
                 {errors.governmentLevel}
               </small>
             ) : (
@@ -207,7 +207,7 @@ export function EntidadTab({
               <label className="flex flex-col gap-1">
                 <span className="text-xs font-semibold text-muted">Grado / Título profesional</span>
                 <select
-                  className="w-full px-2.5 py-2 rounded-md border border-line text-sm bg-white outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                  className="w-full px-2.5 py-2 rounded-md border border-line text-sm bg-panel outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                   value={degreeIsPreset ? formData.managerDegree : formData.managerDegree ? "__otro__" : ""}
                   onChange={(e) => {
                     const val = e.target.value;
@@ -230,7 +230,7 @@ export function EntidadTab({
                     value={formData.managerDegree.trim()}
                     onChange={(e) => handleChange("managerDegree", e.target.value)}
                     onBlur={() => handleBlur("managerDegree")}
-                    className="w-full px-2.5 py-2 rounded-md border border-line text-sm bg-white outline-none placeholder:text-slate-400 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                    className="w-full px-2.5 py-2 rounded-md border border-line-strong text-sm bg-panel outline-none placeholder:text-placeholder focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                   />
                 ) : null}
               </label>

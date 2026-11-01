@@ -59,9 +59,9 @@ export function ExamQuestionTools({
   return (
     <details
       key={questionId}
-      className="mt-5 rounded-xl border border-slate-200 p-3"
+      className="mt-5 rounded-xl border border-line p-3"
     >
-      <summary className="cursor-pointer text-sm text-slate-600">
+      <summary className="cursor-pointer text-sm text-muted">
         ¿Hay un problema con esta pregunta?
       </summary>
       <label className="mt-3 block text-sm">

@@ -119,6 +119,9 @@
   --color-ink: var(--ink);         /* texto principal */
   --color-muted: var(--muted);     /* texto secundario */
   --color-line: var(--line);       /* bordes y separadores */
+  --color-line-strong: var(--line-strong); /* borde de controles (≥3:1, WCAG 1.4.11) */
+  --color-placeholder: var(--placeholder); /* texto de ayuda dentro de campos (≥4,5:1) */
+  --color-on-brand: var(--on-brand);       /* texto sobre bg-brand (blanco en claro, oscuro en oscuro) */
   --color-panel: var(--panel);     /* tarjetas/paneles */
   --color-surface: var(--surface); /* superficie sutil */
 
@@ -131,17 +134,17 @@
   /* Semánticos de estado. Los tonos (progreso/atención/éxito) siguen la misma
      lógica que las tarjetas del sistema; los *-soft son mezclas sobre surface. */
   --color-danger: var(--danger);
-  --color-danger-soft: color-mix(in srgb, var(--danger) 11%, var(--surface));
+  --color-danger-soft: var(--danger-soft);
   --color-warning: var(--warning);
-  --color-warning-soft: color-mix(in srgb, var(--warning) 14%, var(--surface));
+  --color-warning-soft: var(--warning-soft);
   --color-success: var(--success);
-  --color-success-soft: color-mix(in srgb, var(--success) 13%, var(--surface));
+  --color-success-soft: var(--success-soft);
   --color-info: var(--info);
-  --color-info-soft: color-mix(in srgb, var(--info) 12%, var(--surface));
+  --color-info-soft: var(--info-soft);
 
   /* Acento ámbar: tono oscuro para texto/hover y variante suave de fondo. */
   --color-accent-dark: var(--accent-dark);
-  --color-accent-soft: color-mix(in srgb, var(--accent) 14%, var(--surface));
+  --color-accent-soft: var(--accent-soft);
 
   /* Paleta categórica para gráficos/dashboards (utilidades bg/text/fill/stroke-chart-N). */
   --color-chart-1: var(--chart-1);

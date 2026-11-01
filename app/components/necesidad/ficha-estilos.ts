@@ -9,8 +9,8 @@
 
 /** Control base. `FICHA_CTRL_ERR` se añade encima cuando el campo tiene error. */
 export const FICHA_CTRL =
-  "w-full rounded-[10px] border border-line bg-panel px-3 text-sm text-ink outline-none " +
-  "transition-[border-color,box-shadow] duration-150 placeholder:text-muted/55 " +
+  "w-full rounded-[10px] border border-line-strong bg-panel px-3 text-sm text-ink outline-none " +
+  "transition-[border-color,box-shadow] duration-150 placeholder:text-placeholder " +
   "focus:border-brand focus:shadow-[var(--shadow-focus)] disabled:bg-surface disabled:opacity-70";
 
 export const FICHA_CTRL_H = "h-10";

@@ -1,4 +1,6 @@
 name: CI
+# Node 22: con Node 20 el test de markdown-seguro no arranca (jsdom → undici pide una API que Node 20 no trae:
+# «webidl.util.markAsUncloneable is not a function»). En local ya se corre con Node 24.
 
 on:
   push:
@@ -14,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm run lint
@@ -26,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm run typecheck
@@ -38,7 +40,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm run test
@@ -72,7 +74,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
       - run: npm run build

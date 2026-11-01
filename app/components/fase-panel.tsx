@@ -2091,7 +2091,7 @@ function PasoCard({
         onClick={onToggle}
         type="button"
       >
-        <span className="min-w-[34px] shrink-0 rounded-[6px] bg-brand px-[7px] py-0.5 text-center text-[12px] font-bold text-white" title={`${code} · ${label}`}>
+        <span className="min-w-[34px] shrink-0 rounded-[6px] bg-brand px-[7px] py-0.5 text-center text-[12px] font-bold text-on-brand" title={`${code} · ${label}`}>
           {code.replace(/^[A-Z]/, "")}
         </span>
         <span className="flex flex-[1_1_55%] min-w-[11ch] flex-col gap-0.5 text-left">
@@ -2268,7 +2268,7 @@ function PasoCard({
           {(code === "A2" || code === "A3" || code === "A4") && canManage ? (
             <div className="mt-1 mb-2.5 flex flex-wrap items-center gap-x-3 gap-y-2.5">
               <button
-                className="inline-flex flex-none items-center gap-1.5 rounded-[8px] border border-brand bg-brand px-3 py-1.5 !text-[12.5px] !font-semibold text-white hover:enabled:brightness-[1.07] disabled:cursor-default disabled:opacity-60"
+                className="inline-flex flex-none items-center gap-1.5 rounded-[8px] border border-brand bg-brand px-3 py-1.5 !text-[12.5px] !font-semibold text-on-brand hover:enabled:brightness-[1.07] disabled:cursor-default disabled:opacity-60"
                 disabled={redactandoIA}
                 onClick={() => void redactarConIA()}
                 type="button"
@@ -4025,7 +4025,7 @@ export function FasePanel({
               value={chatPregunta}
             />
             <button
-              className="inline-flex flex-none items-center gap-[5px] rounded-[7px] border border-brand bg-brand px-3.5 py-[7px] !text-[12.5px] !font-semibold text-white disabled:cursor-default disabled:opacity-[.55]"
+              className="inline-flex flex-none items-center gap-[5px] rounded-[7px] border border-brand bg-brand px-3.5 py-[7px] !text-[12.5px] !font-semibold text-on-brand disabled:cursor-default disabled:opacity-[.55]"
               disabled={chatCargando || chatPregunta.trim().length < 2}
               type="submit"
             >

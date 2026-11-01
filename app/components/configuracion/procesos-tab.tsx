@@ -220,10 +220,10 @@ export function ProcesosTab({
           <div className="flex flex-col gap-6">
             {umbralResumen !== null ? (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-sm font-medium text-blue-800">
+                <p className="text-sm font-medium text-info">
                   Umbral del contrato menor: <strong>{umbralResumen}</strong>
                 </p>
-                <p className="text-xs text-blue-600 mt-1">
+                <p className="text-xs text-info mt-1">
                   Contrataciones cuya cuantía de la contratación no supere este monto pueden agruparse por ítems (8 UIT - Ley 32069, Art. 34.1).
                 </p>
               </div>

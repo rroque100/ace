@@ -308,7 +308,7 @@ export function DatosDocumento({
       ) : null}
 
       {showPreview && cuerpo ? (
-        <div className="mt-3 max-h-[500px] overflow-y-auto rounded-lg border border-[#e2e8f0] bg-white px-10 py-8 font-['Times_New_Roman',serif] text-[13px] leading-relaxed text-[#1a202c]">
+        <div className="mt-3 max-h-[500px] overflow-y-auto rounded-lg border border-[#e2e8f0] bg-panel px-10 py-8 font-['Times_New_Roman',serif] text-[13px] leading-relaxed text-[#1a202c]">
           {oficina?.entidad ? (
             <div className="mb-4 text-center text-sm font-bold uppercase">
               {oficina.entidad}

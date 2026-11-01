@@ -380,9 +380,9 @@ function PreguntaItem({
                   : "border-line";
           const circulo =
             revelar && esCorrecta
-              ? "bg-success text-white"
+              ? "bg-success text-on-brand"
               : revelar && marcadaEsta && !esCorrecta
-                ? "bg-danger text-white"
+                ? "bg-danger text-on-brand"
                 : marcadaEsta
                   ? "bg-brand text-on-brand"
                   : "bg-soft text-muted";

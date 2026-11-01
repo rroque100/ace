@@ -12,7 +12,7 @@ export default async function ConfiguracionPage() {
     <AppShell
       active="configuracion"
       action={
-        <Link className="inline-flex items-center gap-1.5 min-h-10 rounded-lg border border-line bg-white px-3 py-2 text-sm text-ink font-[740] no-underline transition-colors hover:border-[rgba(15,118,110,0.28)] hover:bg-brand-soft hover:text-brand-dark" href="/metricas">
+        <Link className="inline-flex items-center gap-1.5 min-h-10 rounded-lg border border-line bg-panel px-3 py-2 text-sm text-ink font-[740] no-underline transition-colors hover:border-[rgba(15,118,110,0.28)] hover:bg-brand-soft hover:text-brand-dark" href="/metricas">
           <BarChart3 size={17} />
           Monitoreo
         </Link>
@@ -31,7 +31,7 @@ export default async function ConfiguracionPage() {
               administradores.
             </p>
             <Link
-              className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 font-bold text-white bg-brand border-0 rounded-lg cursor-pointer hover:bg-brand-dark"
+              className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 font-bold text-on-brand bg-brand border-0 rounded-lg cursor-pointer hover:bg-brand-dark"
               href="/chat"
             >
               Ir al chat

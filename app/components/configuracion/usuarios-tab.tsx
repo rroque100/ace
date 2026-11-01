@@ -359,7 +359,7 @@ export function UsuariosTab({
       </div>
 
       <div className="rounded-xl border border-line bg-panel p-5 shadow-card">
-        <div className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+        <div className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
           <ShieldCheck size={14} /> Perfiles configurados
         </div>
         <div className="grid grid-cols-2 gap-2.5">
@@ -372,7 +372,7 @@ export function UsuariosTab({
             >
               <div className="flex items-center justify-between gap-2">
                 <strong className="text-sm text-ink">{role.label}</strong>
-                <span className="grid min-w-[25px] h-[25px] place-items-center rounded-full bg-white text-xs font-[950] text-brand-dark">
+                <span className="grid min-w-[25px] h-[25px] place-items-center rounded-full bg-panel text-xs font-[950] text-brand-dark">
                   {role.count}
                 </span>
               </div>
@@ -396,7 +396,7 @@ export function UsuariosTab({
 
       {visibleCredentials.length > 0 ? (
         <div className="rounded-xl border border-line bg-panel p-5 shadow-card">
-          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+          <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
             <KeyRound size={14} /> Credenciales temporales creadas
           </div>
           <div className="mb-2 flex flex-wrap items-start justify-between gap-2.5">
@@ -449,7 +449,7 @@ export function UsuariosTab({
                 <code className="min-w-0 flex-1 text-base" style={{ flex: "1 1 220px" }}>{line}</code>
                 <button
                   type="button"
-                  className="shrink-0 inline-flex items-center gap-1.5 min-h-[32px] rounded-md border border-line bg-white px-2.5 text-xs font-medium text-[#243145] cursor-pointer transition-[background,border-color,color] duration-150 ease hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-ink"
+                  className="shrink-0 inline-flex items-center gap-1.5 min-h-[32px] rounded-md border border-line bg-panel px-2.5 text-xs font-medium text-[#243145] cursor-pointer transition-[background,border-color,color] duration-150 ease hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-ink"
                   aria-label={`Copiar credenciales de ${credential.usuario}`}
                   title="Copiar usuario y contraseña"
                   onClick={() => copyText(key, line)}
@@ -487,7 +487,7 @@ export function UsuariosTab({
       ) : null}
       {linkedUsers.length > 0 ? (
         <div className="rounded-xl border border-line bg-panel p-5 shadow-card">
-          <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600">
+          <div className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-muted">
             <CheckCircle2 size={14} /> Usuarios existentes vinculados
           </div>
           <p className="m-0 mb-2 text-sm text-muted">
@@ -529,7 +529,7 @@ export function UsuariosTab({
 
         {users.length > 0 ? (
           <div className="flex flex-wrap items-center gap-3 pb-3">
-            <label className="flex flex-1 min-w-[200px] items-center gap-2 rounded-lg border border-line bg-white px-3 text-muted focus-within:border-[rgba(15,118,110,0.45)] focus-within:shadow-[0_0_0_3px_rgba(15,118,110,0.1)]">
+            <label className="flex flex-1 min-w-[200px] items-center gap-2 rounded-lg border border-line bg-panel px-3 text-muted focus-within:border-[rgba(15,118,110,0.45)] focus-within:shadow-[0_0_0_3px_rgba(15,118,110,0.1)]">
               <Search size={15} />
               <input
                 className="w-full border-0 bg-transparent py-2.5 text-ink outline-none"
@@ -543,7 +543,7 @@ export function UsuariosTab({
                 aria-pressed={userRoleFilter === "todos"}
                 onClick={() => setUserRoleFilter("todos")}
                 type="button"
-                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1.5 text-xs font-[850] text-muted cursor-pointer transition-[border-color,color,background] duration-150 ease hover:border-[rgba(15,118,110,0.4)] hover:text-ink aria-pressed:border-transparent aria-pressed:bg-brand aria-pressed:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 py-1.5 text-xs font-[850] text-muted cursor-pointer transition-[border-color,color,background] duration-150 ease hover:border-[rgba(15,118,110,0.4)] hover:text-ink aria-pressed:border-transparent aria-pressed:bg-brand aria-pressed:text-on-brand"
               >
                 Todos
                 <span className="rounded-full bg-ink/[0.06] px-1.5 py-[1px] text-xs font-[900]">{users.length}</span>
@@ -555,7 +555,7 @@ export function UsuariosTab({
                   key={role.value}
                   onClick={() => setUserRoleFilter(role.value)}
                   type="button"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1.5 text-xs font-[850] text-muted cursor-pointer transition-[border-color,color,background] duration-150 ease hover:border-[rgba(15,118,110,0.4)] hover:text-ink aria-pressed:border-transparent aria-pressed:bg-brand aria-pressed:text-white"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-panel px-2.5 py-1.5 text-xs font-[850] text-muted cursor-pointer transition-[border-color,color,background] duration-150 ease hover:border-[rgba(15,118,110,0.4)] hover:text-ink aria-pressed:border-transparent aria-pressed:bg-brand aria-pressed:text-on-brand"
                 >
                   {role.label}
                   <span className="rounded-full bg-ink/[0.06] px-1.5 py-[1px] text-xs font-[900]">{role.count}</span>
@@ -591,7 +591,7 @@ export function UsuariosTab({
             {pageUsers.map(({ user }) => {
               const roleColor = ROLE_COLORS[user.role] ?? ROLE_COLORS.consulta;
               return (
-                <div className="overflow-hidden rounded-lg border border-line bg-white" key={user.id}>
+                <div className="overflow-hidden rounded-lg border border-line bg-panel" key={user.id}>
                   <button
                     className="flex w-full items-center gap-3 border-0 bg-transparent px-3.5 py-2.5 text-left font-inherit cursor-pointer hover:bg-[#f8fafc]"
                     type="button"
@@ -705,11 +705,11 @@ export function UsuariosTab({
         )}
       </div>
 
-      <details className="rounded-xl border border-line bg-panel p-5 shadow-card [&>summary]:flex [&>summary]:items-center [&>summary]:gap-2 [&>summary]:cursor-pointer [&>summary]:text-xs [&>summary]:font-semibold [&>summary]:uppercase [&>summary]:tracking-wide [&>summary]:text-slate-600 [&>summary]:list-none">
+      <details className="rounded-xl border border-line bg-panel p-5 shadow-card [&>summary]:flex [&>summary]:items-center [&>summary]:gap-2 [&>summary]:cursor-pointer [&>summary]:text-xs [&>summary]:font-semibold [&>summary]:uppercase [&>summary]:tracking-wide [&>summary]:text-muted [&>summary]:list-none">
         <summary>
           <ShieldCheck size={14} /> Ver matriz de permisos por rol
         </summary>
-        <div className="mt-3 overflow-auto rounded-xl border border-line bg-white" role="table" aria-label="Matriz de permisos">
+        <div className="mt-3 overflow-auto rounded-xl border border-line bg-panel" role="table" aria-label="Matriz de permisos">
           <div className="grid sticky top-0 z-[1] min-w-[850px] grid-cols-[minmax(220px,1.4fr)_repeat(5,minmax(105px,0.7fr))] border-b border-line bg-brand-soft text-xs font-[950] uppercase text-brand-dark" role="row">
             <span className="grid content-center min-h-[54px] border-r border-line px-3 py-2.5">Módulo</span>
             {roles.map((role) => (
@@ -720,7 +720,7 @@ export function UsuariosTab({
           </div>
           {rolePermissions.map((item, index) => (
             <div
-              className={`grid min-w-[850px] grid-cols-[minmax(220px,1.4fr)_repeat(5,minmax(105px,0.7fr))] border-b border-line last:border-b-0 ${index % 2 === 0 ? "bg-white" : "bg-surface"}`}
+              className={`grid min-w-[850px] grid-cols-[minmax(220px,1.4fr)_repeat(5,minmax(105px,0.7fr))] border-b border-line last:border-b-0 ${index % 2 === 0 ? "bg-panel" : "bg-surface"}`}
               key={item.area}
               role="row"
             >
@@ -732,7 +732,7 @@ export function UsuariosTab({
                 const permite = item.permissions[role.value];
                 return (
                   <span
-                    className={`grid content-center justify-items-center min-h-[54px] border-r border-line px-3 py-2.5 last:border-r-0 ${permite ? "text-emerald-700" : "text-red-700"}`}
+                    className={`grid content-center justify-items-center min-h-[54px] border-r border-line px-3 py-2.5 last:border-r-0 ${permite ? "text-success" : "text-danger"}`}
                     key={role.value}
                     title={permite ? `Permite ${role.label}` : `No permite ${role.label}`}
                   >
@@ -783,7 +783,7 @@ export function UsuariosTab({
               </Dialog.Description>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <label className={`${formLabel} col-span-full`}>
-                  <span className="text-sm font-semibold text-slate-700">Usuario <span className="text-xs font-normal text-muted">obligatorio</span></span>
+                  <span className="text-sm font-semibold text-ink">Usuario <span className="text-xs font-normal text-muted">obligatorio</span></span>
                   <input
                     ref={usuarioInputRef}
                     className={inputBase}
@@ -801,7 +801,7 @@ export function UsuariosTab({
                   ) : null}
                 </label>
                 <label className={`${formLabel} col-span-full`}>
-                  <span className="text-sm font-semibold text-slate-700">Nombre completo</span>
+                  <span className="text-sm font-semibold text-ink">Nombre completo</span>
                   <input
                     className={inputBase}
                     onChange={(event) => setNewUserNombre(event.target.value)}
@@ -810,7 +810,7 @@ export function UsuariosTab({
                   />
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Cargo</span>
+                  <span className="text-sm font-semibold text-ink">Cargo</span>
                   <input
                     className={inputBase}
                     onChange={(event) => setNewUserCargo(event.target.value)}
@@ -819,7 +819,7 @@ export function UsuariosTab({
                   />
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Grado académico</span>
+                  <span className="text-sm font-semibold text-ink">Grado académico</span>
                   <input
                     className={inputBase}
                     onChange={(event) => setNewUserGrado(event.target.value)}
@@ -828,7 +828,7 @@ export function UsuariosTab({
                   />
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Perfil</span>
+                  <span className="text-sm font-semibold text-ink">Perfil</span>
                   <select className={inputSelect} onChange={(event) => setNewUserRole(event.target.value)} value={newUserRole}>
                     {roles.map((role) => (
                       <option key={role.value} value={role.value}>
@@ -838,7 +838,7 @@ export function UsuariosTab({
                   </select>
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Oficina asignada</span>
+                  <span className="text-sm font-semibold text-ink">Oficina asignada</span>
                   <select
                     className={inputSelect}
                     onChange={(event) => setNewUserOficinaId(event.target.value)}
@@ -853,7 +853,7 @@ export function UsuariosTab({
                   </select>
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Contraseña <span className="text-xs font-normal text-muted">obligatorio</span></span>
+                  <span className="text-sm font-semibold text-ink">Contraseña <span className="text-xs font-normal text-muted">obligatorio</span></span>
                   <input
                     className={inputBase}
                     autoComplete="new-password"
@@ -870,7 +870,7 @@ export function UsuariosTab({
                   ) : null}
                 </label>
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Repetir contraseña <span className="text-xs font-normal text-muted">obligatorio</span></span>
+                  <span className="text-sm font-semibold text-ink">Repetir contraseña <span className="text-xs font-normal text-muted">obligatorio</span></span>
                   <input
                     className={inputBase}
                     autoComplete="new-password"
@@ -907,7 +907,7 @@ export function UsuariosTab({
                 </div>
                 {!newUserOficinaId ? (
                   <label className={`${formLabel} col-span-full`}>
-                    <span className="text-sm font-semibold text-slate-700">Entidad o unidad</span>
+                    <span className="text-sm font-semibold text-ink">Entidad o unidad</span>
                     <input
                       className={inputBase}
                       onChange={(event) => setNewUserEntity(event.target.value)}
@@ -1003,7 +1003,7 @@ export function UsuariosTab({
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <label className={`${formLabel} col-span-full`}>
-                <span className="text-sm font-semibold text-slate-700">Nombre completo</span>
+                <span className="text-sm font-semibold text-ink">Nombre completo</span>
                 <input
                   className={inputBase}
                   onChange={(event) => updateUser(editingIndex, { nombreCompleto: event.target.value })}
@@ -1012,7 +1012,7 @@ export function UsuariosTab({
                 />
               </label>
               <label className={formLabel}>
-                <span className="text-sm font-semibold text-slate-700">DNI</span>
+                <span className="text-sm font-semibold text-ink">DNI</span>
                 <input
                   className={inputBase}
                   inputMode="numeric"
@@ -1022,7 +1022,7 @@ export function UsuariosTab({
                 />
               </label>
               <label className={formLabel}>
-                <span className="text-sm font-semibold text-slate-700">Cargo</span>
+                <span className="text-sm font-semibold text-ink">Cargo</span>
                 <input
                   className={inputBase}
                   onChange={(event) => updateUser(editingIndex, { cargo: event.target.value })}
@@ -1031,7 +1031,7 @@ export function UsuariosTab({
                 />
               </label>
               <label className={`${formLabel} col-span-full`}>
-                <span className="text-sm font-semibold text-slate-700">Grado académico</span>
+                <span className="text-sm font-semibold text-ink">Grado académico</span>
                 <input
                   className={inputBase}
                   onChange={(event) => updateUser(editingIndex, { gradoAcademico: event.target.value })}
@@ -1040,7 +1040,7 @@ export function UsuariosTab({
                 />
               </label>
               <label className={formLabel}>
-                <span className="text-sm font-semibold text-slate-700">Rol</span>
+                <span className="text-sm font-semibold text-ink">Rol</span>
                 <select
                   className={inputSelect}
                   onChange={(event) => updateUser(editingIndex, { role: event.target.value })}
@@ -1054,7 +1054,7 @@ export function UsuariosTab({
                 </select>
               </label>
               <label className={formLabel}>
-                <span className="text-sm font-semibold text-slate-700">Oficina</span>
+                <span className="text-sm font-semibold text-ink">Oficina</span>
                 <select
                   className={inputSelect}
                   onChange={(event) => updateUser(editingIndex, { oficinaId: event.target.value || null })}
@@ -1070,7 +1070,7 @@ export function UsuariosTab({
               </label>
               {!editingUser.oficinaId ? (
                 <label className={formLabel}>
-                  <span className="text-sm font-semibold text-slate-700">Entidad asociada</span>
+                  <span className="text-sm font-semibold text-ink">Entidad asociada</span>
                   <input
                     className={inputBase}
                     onChange={(event) => updateUser(editingIndex, { entity: event.target.value })}
@@ -1080,7 +1080,7 @@ export function UsuariosTab({
                 </label>
               ) : null}
               <label
-                className="flex flex-row items-center gap-2 rounded-lg border border-line bg-white px-3 py-2 cursor-pointer select-none transition-[border-color,background] duration-150 ease hover:border-[rgba(15,118,110,0.35)] has-[input:checked]:border-[rgba(15,118,110,0.45)] has-[input:checked]:bg-[#f0fdfa] self-end col-span-full"
+                className="flex flex-row items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 cursor-pointer select-none transition-[border-color,background] duration-150 ease hover:border-[rgba(15,118,110,0.35)] has-[input:checked]:border-[rgba(15,118,110,0.45)] has-[input:checked]:bg-[#f0fdfa] self-end col-span-full"
                 title="Jefe de oficina: ve y administra todo lo de su oficina"
               >
                 <span className="inline-flex items-center gap-1.5 text-sm text-muted">
@@ -1093,13 +1093,13 @@ export function UsuariosTab({
                     onChange={(event) => updateUser(editingIndex, { esJefe: event.target.checked })}
                     type="checkbox"
                   />
-                  <div className="h-5 w-[34px] rounded-full bg-[#d5dedb] transition-colors duration-150 peer-checked:bg-brand after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:shadow-[0_1px_3px_rgba(15,23,42,0.3)] after:transition-all after:duration-150 peer-checked:after:left-[16px]" />
+                  <div className="h-5 w-[34px] rounded-full bg-[#d5dedb] transition-colors duration-150 peer-checked:bg-brand after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-panel after:shadow-[0_1px_3px_rgba(15,23,42,0.3)] after:transition-all after:duration-150 peer-checked:after:left-[16px]" />
                   Ve y administra todo lo de su oficina
                 </label>
               </label>
             </div>
-            <div className="mt-4 grid gap-2 rounded-lg border border-line bg-white p-3 pt-2.5">
-              <span className="text-sm font-semibold text-slate-700">Asignar contraseña específica</span>
+            <div className="mt-4 grid gap-2 rounded-lg border border-line bg-panel p-3 pt-2.5">
+              <span className="text-sm font-semibold text-ink">Asignar contraseña específica</span>
               <p className="m-0 text-xs leading-snug text-muted">
                 Para cuando la temporal aleatoria no sirve — p. ej. hay que dictarla por
                 teléfono. La contraseña actual del usuario deja de funcionar de inmediato.

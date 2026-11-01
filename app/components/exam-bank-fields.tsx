@@ -6,7 +6,7 @@ import {
 } from "@/lib/exam-curriculum";
 import { OPTION_IDS, type ExamQuestion } from "@/lib/exam-policy";
 const field =
-  "mt-1 w-full rounded-xl border border-slate-300 bg-white p-3 text-sm focus:outline-none focus:ring-2 focus:ring-teal-700";
+  "mt-1 w-full rounded-xl border border-line-strong bg-panel p-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand";
 const checks = {
   unambiguous:
     "La pregunta tiene una única respuesta, no es ambigua y corresponde a la subcompetencia seleccionada",
@@ -25,7 +25,7 @@ export function ExamBankFields({
   onChange: (q: ExamQuestion) => void;
 }) {
   return (
-    <section className="space-y-4 rounded-xl border border-teal-200 bg-teal-50/30 p-4">
+    <section className="space-y-4 rounded-xl border border-brand/30 bg-teal-50/30 p-4">
       <h3 className="font-semibold">Temario y revisión de cada alternativa</h3>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="text-sm">
@@ -102,7 +102,7 @@ export function ExamBankFields({
           />
         </label>
       </div>
-      <p className="text-xs text-slate-600">
+      <p className="text-xs text-muted">
         La dificultad es una valoración editorial; no acredita un nivel del
         OECE. La fecha de corte debe corresponder a la normativa revisada.
       </p>
@@ -136,7 +136,7 @@ export function ExamBankFields({
           <label className="flex min-h-11 items-start gap-3 text-sm" key={id}>
             <input
               type="checkbox"
-              className="mt-1 h-4 w-4 accent-teal-700"
+              className="mt-1 h-4 w-4 accent-brand"
               checked={q.reviewChecks[id as keyof typeof checks]}
               onChange={(e) =>
                 onChange({
@@ -149,7 +149,7 @@ export function ExamBankFields({
           </label>
         ))}
       </fieldset>
-      <p className="text-xs text-slate-600">
+      <p className="text-xs text-muted">
         {q.origin.startsWith("IA:")
           ? "Propuesta asistida por IA, pendiente de revisión humana."
           : "Pregunta de autoría manual."}{" "}

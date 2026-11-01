@@ -101,7 +101,7 @@ export function ResumenTecnicoBanner({ analisis, onDismiss }: Props) {
       ) : null}
 
       {!collapsed && analisis.puntosClave ? (
-        <div className="mt-2.5 rounded-lg border border-[#bae6fd] bg-white p-2.5">
+        <div className="mt-2.5 rounded-lg border border-[#bae6fd] bg-panel p-2.5">
           <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.3px] text-[#0c4a6e]">
             <CheckCircle2 size={13} /> Puntos clave a responder
           </div>

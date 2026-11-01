@@ -228,7 +228,7 @@ function PreviewView({
                     {errorFila ? (
                       <td className="py-2 px-2 w-6">
                         <span
-                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-100 text-red-600 text-xs font-bold"
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-danger-soft text-danger text-xs font-bold"
                           title={errorFila.error}
                         >!</span>
                       </td>

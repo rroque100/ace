@@ -332,7 +332,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
               {/* Resumen por categoría */}
               <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2.5 px-0 py-2">
                 {categorySummary.map((item) => (
-                  <article data-category={item.value} key={item.value} className={`rounded-lg border border-line bg-white px-3 py-2.5 transition-[border-color,box-shadow] duration-150 hover:border-brand hover:shadow-[0_2px_8px_rgba(15,118,110,0.08)] ${
+                  <article data-category={item.value} key={item.value} className={`rounded-lg border border-line bg-panel px-3 py-2.5 transition-[border-color,box-shadow] duration-150 hover:border-brand hover:shadow-[0_2px_8px_rgba(15,118,110,0.08)] ${
                     item.value === "competitivo" ? "border-l-[3px] border-l-[#0f766e]"
                     : item.value === "no_competitivo" ? "border-l-[3px] border-l-[#7c3aed]"
                     : "border-l-[3px] border-l-[#d97706]"
@@ -361,8 +361,8 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                       type="button"
                       className={`inline-flex items-center gap-1.5 cursor-pointer border px-3 py-1.5 text-sm font-[850] rounded-sm transition-all duration-150 ease ${
                         processFilter === filter.value
-                          ? "border-brand bg-brand text-white"
-                          : "border-line bg-white text-[#475569] hover:border-brand hover:text-brand"
+                          ? "border-brand bg-brand text-on-brand"
+                          : "border-line bg-panel text-[#475569] hover:border-brand hover:text-brand"
                       }`}
                     >
                       {filter.label}
@@ -405,7 +405,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                         <div className="flex flex-col gap-2.5 pl-4">
                           {catItems.map(({ index, item }) => (
                             <article
-                              className={`rounded-xl border bg-white transition-[border-color,box-shadow,opacity] duration-150 ${
+                              className={`rounded-xl border bg-panel transition-[border-color,box-shadow,opacity] duration-150 ${
                                 item.active ? "border-brand shadow-[0_0_0_1px_rgba(15,118,110,0.1)]" : "border-line"
                               } ${
                                 item.category === "competitivo" ? "border-l-[3px] border-l-[#0f766e]"
@@ -432,7 +432,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                       item.active ? "!bg-[#0f766e]" : ""
                                     }`}
                                   >
-                                    <span className={`inline-block size-[18px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.2)] transition-transform duration-150 ${
+                                    <span className={`inline-block size-[18px] rounded-full bg-panel shadow-[0_1px_3px_rgba(0,0,0,0.2)] transition-transform duration-150 ${
                                       item.active ? "translate-x-[18px]" : ""
                                     }`} />
                                   </span>
@@ -468,7 +468,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   <button
                                     aria-label={item.legalBasis ? "Ver base legal" : "Sin base legal"}
                                     aria-expanded={baseLegalAbierta === index}
-                                    className="grid size-[32px] place-items-center rounded-full border border-line bg-white text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
+                                    className="grid size-[32px] place-items-center rounded-full border border-line bg-panel text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
                                     type="button"
                                     onClick={(e) => { e.stopPropagation(); setBaseLegalAbierta(baseLegalAbierta === index ? null : index); }}
                                   >
@@ -500,7 +500,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   ) : null}
                                   <button
                                     aria-label="Eliminar proceso"
-                                    className="grid size-[32px] place-items-center rounded-full border border-line bg-white text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
+                                    className="grid size-[32px] place-items-center rounded-full border border-line bg-panel text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
                                     onClick={() => setPendingDelete(index)}
                                     type="button"
                                   >
@@ -513,7 +513,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                 <label className="flex flex-col gap-1 text-sm">
                                   <span className="font-semibold text-[#475569]">Objeto</span>
                                   <input
-                                    className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                    className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                     onChange={(event) => updateProcess(index, { object: event.target.value })}
                                     placeholder="Bienes, obras, servicios..."
                                     value={item.object}
@@ -522,7 +522,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                 <label className="flex flex-col gap-1 text-sm">
                                   <span className="font-semibold text-[#475569]">Sustento / referencia legal</span>
                                   <input
-                                    className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                    className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                     onChange={(event) => updateProcess(index, { legalBasis: event.target.value })}
                                     placeholder="Ley 32069, Reglamento, Bases Estandar DGA..."
                                     value={item.legalBasis}
@@ -538,7 +538,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   <label className="flex flex-col gap-1 text-sm">
                                     <span className="font-semibold text-[#475569]">Categoría</span>
                                     <select
-                                      className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                      className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                       onChange={(event) =>
                                         updateProcess(index, {
                                           category: event.target.value as ProcessTypeSetting["category"],
@@ -554,7 +554,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   <label className="flex flex-col gap-1 text-sm">
                                     <span className="font-semibold text-[#475569]">Descripción operativa</span>
                                     <input
-                                      className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                      className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                       onChange={(event) => updateProcess(index, { description: event.target.value })}
                                       placeholder="Uso interno, directiva aplicable o nota breve"
                                       value={item.description}
@@ -574,7 +574,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   <label className="flex flex-col gap-1 text-sm">
                                     <span className="font-semibold text-[#475569]">Código interno</span>
                                     <input
-                                      className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                      className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                       onChange={(event) =>
                                         updateProcess(index, { code: codeFromLabel(event.target.value) })
                                       }
@@ -585,7 +585,7 @@ export function ProcesosModal({ oficina, open, onClose, setError }: Props) {
                                   <label className="flex flex-col gap-1 text-sm">
                                     <span className="font-semibold text-[#475569]">Orden de aparición</span>
                                     <input
-                                      className="w-full rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                                      className="w-full rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                                       inputMode="numeric"
                                       onChange={(event) =>
                                         updateProcess(index, {

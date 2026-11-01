@@ -46,7 +46,7 @@ type Passage = {
   metadata: { article?: string };
 };
 const field =
-  "mt-1 w-full rounded-xl border border-slate-300 bg-white p-3 text-sm focus:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/20";
+  "mt-1 w-full rounded-xl border border-line-strong bg-panel p-3 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20";
 const toDraft = (q: Row): ExamQuestion => ({
   id: q.id,
   revision: q.revision,
@@ -247,13 +247,13 @@ export function ExamBank() {
     setPassages(null);
   }
   return (
-    <div className="tw mx-auto max-w-7xl space-y-5 pb-8 text-slate-900">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-teal-200 bg-white p-5">
+    <div className="tw mx-auto max-w-7xl space-y-5 pb-8 text-ink">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-panel p-5">
         <div>
           <h2 className="text-lg font-semibold">
             Preguntas propias, revisión trazable
           </h2>
-          <p className="mt-2 max-w-3xl text-sm text-slate-600">
+          <p className="mt-2 max-w-3xl text-sm text-muted">
             Revisa el enunciado, cada alternativa y la explicación contra la
             fuente antes de publicar. Los borradores no forman parte del banco
             público.
@@ -266,13 +266,13 @@ export function ExamBank() {
       {error && (
         <p
           role="alert"
-          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm"
+          className="rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm"
         >
           {error}
         </p>
       )}
       {notice && (
-        <p role="status" className="rounded-xl bg-teal-50 p-4 text-sm">
+        <p role="status" className="rounded-xl bg-brand-soft p-4 text-sm">
           {notice}
         </p>
       )}
@@ -294,7 +294,7 @@ export function ExamBank() {
         }}
       />
       {questionFilter && (
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-white p-3 text-sm">
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-panel p-3 text-sm">
           Pregunta seleccionada desde un reporte.
           <button
             className="secondaryButton"
@@ -307,7 +307,7 @@ export function ExamBank() {
           </button>
         </div>
       )}
-      <div className="grid gap-3 rounded-xl border bg-white p-4 sm:grid-cols-2">
+      <div className="grid gap-3 rounded-xl border bg-panel p-4 sm:grid-cols-2">
         <label className="text-sm">
           Estado
           <select
@@ -349,7 +349,7 @@ export function ExamBank() {
         <p>Cargando el banco…</p>
       ) : (
         <div className="grid items-start gap-5 lg:grid-cols-[300px_minmax(0,1fr)]">
-          <aside className="rounded-2xl border border-slate-200 bg-white p-4">
+          <aside className="rounded-2xl border border-line bg-panel p-4">
             <div className="flex items-center justify-between gap-2">
               <h2 className="font-semibold">{bank.total} preguntas</h2>
               <button
@@ -370,7 +370,7 @@ export function ExamBank() {
                 <li key={q.id}>
                   <button
                     disabled={busy}
-                    className={`w-full rounded-xl border p-3 text-left ${draft?.id === q.id ? "border-teal-600 bg-teal-50" : "border-slate-200"}`}
+                    className={`w-full rounded-xl border p-3 text-left ${draft?.id === q.id ? "border-brand bg-brand-soft" : "border-line"}`}
                     onClick={() => {
                       setDraft(toDraft(q));
                       setPassages(null);
@@ -378,7 +378,7 @@ export function ExamBank() {
                       setNotice("");
                     }}
                   >
-                    <span className="block text-xs font-semibold text-teal-800">
+                    <span className="block text-xs font-semibold text-brand-dark">
                       {q.status === "published"
                         ? "Publicada"
                         : q.status === "retired"
@@ -412,7 +412,7 @@ export function ExamBank() {
             </div>
           </aside>
           {draft ? (
-            <section className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+            <section className="min-w-0 rounded-2xl border border-line bg-panel p-4 sm:p-6">
               <h2 className="text-xl font-semibold">
                 {draft.id ? "Revisar pregunta" : "Preparar pregunta original"}
               </h2>
@@ -533,7 +533,7 @@ export function ExamBank() {
                     }
                   />
                 </label>
-                <section className="rounded-xl border border-teal-200 bg-teal-50/40 p-4">
+                <section className="rounded-xl border border-brand/30 bg-teal-50/40 p-4">
                   <h3 className="font-semibold">Fundamento documental</h3>
                   {draft.sources.map((s) => (
                     <div key={s.chunkId} className="mt-3">
@@ -541,8 +541,8 @@ export function ExamBank() {
                         {s.title} · artículo {s.article} · páginas {s.pageStart}
                         –{s.pageEnd}
                       </p>
-                      <p className="mt-1 text-xs text-slate-600">{s.version}</p>
-                      <blockquote className="my-3 whitespace-pre-wrap border-l-2 border-teal-500 pl-3 text-sm leading-relaxed">
+                      <p className="mt-1 text-xs text-muted">{s.version}</p>
+                      <blockquote className="my-3 whitespace-pre-wrap border-l-2 border-brand pl-3 text-sm leading-relaxed">
                         {s.quote}
                       </blockquote>
                       <a
@@ -614,7 +614,7 @@ export function ExamBank() {
                           .map((p) => (
                             <li
                               key={p.id}
-                              className="rounded-lg border bg-white p-3"
+                              className="rounded-lg border bg-panel p-3"
                             >
                               <p className="text-xs font-semibold">
                                 Artículo {p.metadata.article} · páginas{" "}
@@ -690,7 +690,7 @@ export function ExamBank() {
                   )}
                 </div>
               </fieldset>
-              <p className="mt-4 text-xs text-slate-500">
+              <p className="mt-4 text-xs text-muted">
                 Publicar registra tu revisión. Los intentos anteriores conservan
                 la versión que utilizaron. Si cambia el archivo de la fuente, la
                 pregunta queda fuera de nuevos intentos hasta volver a
@@ -698,7 +698,7 @@ export function ExamBank() {
               </p>
             </section>
           ) : (
-            <p className="rounded-2xl border bg-white p-6 text-sm">
+            <p className="rounded-2xl border bg-panel p-6 text-sm">
               Crea una pregunta propia o selecciona un borrador para revisarlo.
             </p>
           )}

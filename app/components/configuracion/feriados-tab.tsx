@@ -168,29 +168,29 @@ export function FeriadosTab() {
       <div className="rounded-xl border border-line bg-panel p-5 shadow-card">
         <div className="flex flex-col gap-3">
           <div className="rounded-lg bg-[#f8fafc] p-3">
-            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
               <Plus size={14} /> Agregar feriado
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">Fecha <em className="text-xs font-normal text-slate-400 not-italic">obligatorio</em></span>
+                <span className="text-sm font-semibold text-ink">Fecha <em className="text-xs font-normal text-muted not-italic">obligatorio</em></span>
                 <input
-                  className="rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                  className="rounded-md border border-line bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                   onChange={(e) => setNuevaFecha(e.target.value)}
                   type="date"
                   value={nuevaFecha}
                 />
                 {feriados.some(f => f.fecha === nuevaFecha) && (
-                  <p className="text-xs text-amber-600 mt-1">
+                  <p className="text-xs text-warning mt-1">
                     Ya existe un feriado en esta fecha: «{feriados.find(f => f.fecha === nuevaFecha)?.nombre ?? ""}».
                     Puedes añadirlo de todas formas.
                   </p>
                 )}
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">Nombre (opcional)</span>
+                <span className="text-sm font-semibold text-ink">Nombre (opcional)</span>
                 <input
-                  className="rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-slate-400 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                  className="rounded-md border border-line-strong bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-placeholder focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                   onChange={(e) => setNuevoNombre(e.target.value)}
                   placeholder="Ej. Jueves Santo"
                   value={nuevoNombre}
@@ -209,7 +209,7 @@ export function FeriadosTab() {
           </div>
 
           <div className="rounded-lg bg-[#f8fafc] p-3">
-            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
               <CalendarDays size={14} /> Feriados registrados ({feriados.length})
             </div>
             {cargando ? (
@@ -242,8 +242,8 @@ export function FeriadosTab() {
             ) : (
               porAnio.map(([anio, items]) => (
                 <div key={anio}>
-                  <div className="mb-1.5 mt-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-600">
-                    {anio} <span className="rounded-full bg-[#eef2f7] px-1.5 text-xs text-slate-600">{items.length}</span>
+                  <div className="mb-1.5 mt-2.5 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted">
+                    {anio} <span className="rounded-full bg-[#eef2f7] px-1.5 text-xs text-muted">{items.length}</span>
                   </div>
                   <ul className="m-0 mb-2 flex list-none flex-col gap-1 p-0 max-h-80 overflow-y-auto">
                     {items.map((f) => (
@@ -297,7 +297,7 @@ export function FeriadosTab() {
 
       {showImportConfirm && importNuevos.length > 0 && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" onClick={() => setShowImportConfirm(false)}>
-          <div className="bg-white rounded-xl shadow-xl p-6 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
+          <div className="bg-panel rounded-xl shadow-xl p-6 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
             <h3 className="text-base font-semibold text-ink mb-2">Importar feriados oficiales</h3>
             <p className="text-sm text-muted mb-3">Se importarán {importNuevos.length} feriado(s):</p>
             <ul className="text-sm text-ink mb-4 max-h-40 overflow-y-auto space-y-1">
@@ -311,7 +311,7 @@ export function FeriadosTab() {
             <div className="flex gap-2 justify-end">
               <button
                 onClick={() => { setShowImportConfirm(false); setImportNuevos([]); }}
-                className="px-3 py-1.5 text-sm rounded-md border border-line bg-white text-ink hover:bg-surface"
+                className="px-3 py-1.5 text-sm rounded-md border border-line bg-panel text-ink hover:bg-surface"
               >
                 Cancelar
               </button>
@@ -321,7 +321,7 @@ export function FeriadosTab() {
                   setShowImportConfirm(false);
                   setImportNuevos([]);
                 }}
-                className="px-3 py-1.5 text-sm rounded-md bg-brand text-white hover:bg-brand-dark"
+                className="px-3 py-1.5 text-sm rounded-md bg-brand text-on-brand hover:bg-brand-dark"
               >
                 Importar {importNuevos.length} feriados
               </button>

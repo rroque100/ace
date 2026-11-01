@@ -236,7 +236,7 @@ export function PersonalSettings({ section }: { section: "personal" | null }) {
               type="button"
               onClick={confirmar}
               disabled={cargando}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-brand/40 bg-brand text-white text-sm font-semibold cursor-pointer hover:brightness-105 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-brand/40 bg-brand text-on-brand text-sm font-semibold cursor-pointer hover:brightness-105 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {cargando ? <Loader size={13} className="animate-spin" /> : <CheckCircle2 size={13} />}
               Confirmar carga
@@ -303,7 +303,7 @@ export function PersonalSettings({ section }: { section: "personal" | null }) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Buscar por nombre, DNI, código o unidad…"
-            className="w-full pl-8 pr-3 py-2 rounded-md border border-line bg-surface text-sm text-ink placeholder:text-muted focus:outline-none focus:border-brand/50"
+            className="w-full pl-8 pr-3 py-2 rounded-md border border-line-strong bg-surface text-sm text-ink placeholder:text-placeholder focus:outline-none focus:border-brand/50"
           />
         </div>
 

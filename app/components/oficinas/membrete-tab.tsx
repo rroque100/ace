@@ -67,10 +67,10 @@ export function MembreteTab({
 
   if (oficinas.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-2 rounded-xl bg-[#f8fafc] px-5 py-10 text-center text-slate-600">
+      <div className="flex flex-col items-center gap-2 rounded-xl bg-[#f8fafc] px-5 py-10 text-center text-muted">
         <Building2 size={28} />
         <strong className="text-lg">Aún no hay oficinas registradas</strong>
-        <p className="m-0 max-w-[400px] text-sm leading-normal text-slate-500">Primero crea un área en la pestaña <strong>Áreas</strong>. Luego podrás subir aquí la hoja membretada (PDF) que se usa de fondo al exportar las respuestas.</p>
+        <p className="m-0 max-w-[400px] text-sm leading-normal text-muted">Primero crea un área en la pestaña <strong>Áreas</strong>. Luego podrás subir aquí la hoja membretada (PDF) que se usa de fondo al exportar las respuestas.</p>
       </div>
     );
   }
@@ -151,7 +151,7 @@ export function MembreteTab({
           <Search size={15} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
           <input
             aria-label="Buscar oficina"
-            className="w-full rounded-md border border-line bg-white py-2 pl-8 pr-8 text-sm outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
+            className="w-full rounded-md border border-line bg-panel py-2 pl-8 pr-8 text-sm outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar oficina… (ej. logística)"
             type="search"
@@ -278,7 +278,7 @@ export function MembreteTab({
             {o.membrete ? (
               <div className="mt-3.5 flex flex-wrap items-center gap-2.5">
                 <a
-                  className="inline-flex items-center justify-center gap-2 min-h-[38px] rounded-lg border-0 bg-brand px-4 text-sm font-bold text-white cursor-pointer transition-all duration-150 ease hover:bg-brand-dark hover:-translate-y-px"
+                  className="inline-flex items-center justify-center gap-2 min-h-[38px] rounded-lg border-0 bg-brand px-4 text-sm font-bold text-on-brand cursor-pointer transition-all duration-150 ease hover:bg-brand-dark hover:-translate-y-px"
                   href={`${API}/membrete?oficinaId=${o.id}&v=${refreshKey}`}
                   target="_blank"
                   rel="noreferrer"

@@ -28,11 +28,11 @@ export function norm(s: string | null | undefined): string {
 const btnBase =
   "inline-flex items-center justify-center gap-2 cursor-pointer transition-[background,border-color,color,box-shadow,transform] duration-150 ease";
 
-export const btnPrimary = `${btnBase} min-h-[42px] rounded-lg border-0 bg-brand px-4 font-bold text-white hover:bg-brand-dark hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0`;
+export const btnPrimary = `${btnBase} min-h-[42px] rounded-lg border-0 bg-brand px-4 font-bold text-on-brand hover:bg-brand-dark hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0`;
 
-export const btnSecondary = `${btnBase} min-h-[38px] rounded-lg border border-line bg-white px-3 text-sm text-ink font-[740] hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-dark hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0`;
+export const btnSecondary = `${btnBase} min-h-[38px] rounded-lg border border-line bg-panel px-3 text-sm text-ink font-[740] hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-dark hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0`;
 
-export const btnSecondarySm = `${btnBase} min-h-[34px] rounded-lg border border-line bg-white px-2.5 text-sm text-ink font-[740] hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-dark disabled:opacity-50 disabled:cursor-not-allowed`;
+export const btnSecondarySm = `${btnBase} min-h-[34px] rounded-lg border border-line bg-panel px-2.5 text-sm text-ink font-[740] hover:border-[rgba(15,118,110,0.35)] hover:bg-brand-soft hover:text-brand-dark disabled:opacity-50 disabled:cursor-not-allowed`;
 
 // ── Campos de formulario ─────────────────────────────────────────────────────
 // El foco usa un anillo sutil (2 px, 12% marca) — más discreto que el
@@ -40,9 +40,9 @@ export const btnSecondarySm = `${btnBase} min-h-[34px] rounded-lg border border-
 const focusRing =
   "focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)] focus:outline-none";
 
-export const inputBase = `w-full rounded-md border border-line bg-white px-2.5 py-2 text-base placeholder:text-muted/60 transition-[border-color,box-shadow] duration-150 ${focusRing}`;
+export const inputBase = `w-full rounded-md border border-line-strong bg-panel px-2.5 py-2 text-base placeholder:text-placeholder transition-[border-color,box-shadow] duration-150 ${focusRing}`;
 
-export const inputSelect = `w-full rounded-md border border-line bg-white px-2.5 py-2 text-base transition-[border-color,box-shadow] duration-150 ${focusRing}`;
+export const inputSelect = `w-full rounded-md border border-line-strong bg-panel px-2.5 py-2 text-base transition-[border-color,box-shadow] duration-150 ${focusRing}`;
 
 export const fieldLabel = "flex flex-col gap-1";
 
