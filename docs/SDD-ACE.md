@@ -304,7 +304,7 @@ infiere la nueva etapa del proceso a partir de la evidencia subida. Solo se
 │  ┌────────────────────────┐  ┌────────────────────────────┐   │
 │  │  Server Components     │  │  Client Components         │   │
 │  │  - app/page.tsx        │  │  - legal-chat.tsx          │   │
-│  │  - app/chat/page.tsx   │  │  - semantic-search.tsx     │   │
+│  │  - app/chat/page.tsx   │  │  - document-search-workspace.tsx│   │
 │  │  - app-shell.tsx       │  │  - sidebar.tsx             │   │
 │  │  - ... (21 más)        │  │  - legal-activity.tsx      │   │
 │  │                        │  │  - ... (30 más)            │   │
@@ -347,17 +347,17 @@ D:\ace/
 │   │   └── auth/signout/
 │   ├── components/                   # 37 componentes
 │   │   ├── app-shell.tsx, sidebar.tsx, login-form.tsx
-│   │   ├── legal-chat.tsx, semantic-search.tsx, document-analyzer.tsx
+│   │   ├── legal-chat.tsx, document-search-workspace.tsx, document-analyzer.tsx
 │   │   ├── procedure-validator.tsx, process-list.tsx, process-detail.tsx
 │   │   ├── necesidad-list.tsx, necesidad-detail.tsx
 │   │   ├── normative-compare.tsx, normative-browser.tsx
-│   │   ├── contract-form.tsx, eval-dashboard.tsx
+│   │   ├── contrato-cp-form.tsx, contrato-sie-form.tsx, eval-dashboard.tsx
 │   │   ├── metrics-dashboard.tsx, audit-explorer.tsx, legal-activity.tsx
 │   │   ├── chat-history.tsx, document-upload.tsx, pdf-cite-viewer.tsx
 │   │   ├── archivo-workspace.tsx, saved-workspace.tsx
 │   │   ├── news-feed.tsx, save-button.tsx, admin-settings.tsx
 │   │   ├── use-settings-catalog.ts (hook)
-│   │   ├── lifecycle-map.tsx, phase-tracker.tsx
+│   │   ├── phase-tracker.tsx
 │   │   └── expedientes-archivo/    # ← Módulo 8.11
 │   │       ├── workspace maestro + sub-componentes
 │   ├── page.tsx                      # Landing
@@ -772,7 +772,7 @@ flujo, roles, endpoints, integraciones.
 
 - **Propósito:** Búsqueda RAG explícita (top-K) sin generación, con citas,
   evaluación de cobertura y nivel de confianza.
-- **Archivos clave:** `app/busqueda/page.tsx` · `app/components/semantic-search.tsx` ·
+- **Archivos clave:** `app/busqueda/page.tsx` · `app/components/document-search-workspace.tsx` ·
   `lib/legal-citations.ts` · `app/api/search/route.ts`.
 - **Modelo:** mismos chunks que chat.
 - **Flujo:** query → expansión con sinónimos legales + detección de artículo →
@@ -869,7 +869,7 @@ flujo, roles, endpoints, integraciones.
   Crea, instruye, evalúa, declara desierto, archiva y muestra ciclo de vida.
 - **Archivos clave:** `app/expedientes/page.tsx` · `app/expedientes/[id]` ·
   `app/components/process-list.tsx` · `app/components/process-detail.tsx` ·
-  `app/components/lifecycle-map.tsx` · `app/components/phase-tracker.tsx` ·
+  `app/components/phase-tracker.tsx` ·
   `lib/processes.ts` · `lib/expediente-instruccion.ts` (`instruirExpediente`) ·
   `lib/process-status.ts` (`reconcileProcessStatus`) · `app/api/processes/*`.
 - **Modelo:** `procurement_processes` (~25 columnas Ley 32069: valor_estimado,
@@ -893,7 +893,7 @@ flujo, roles, endpoints, integraciones.
 
 - **Propósito:** Generar borradores de contrato .docx con cláusulas obligatorias
   del art. 60 Ley 32069, referencias normativas del corpus y datos de la entidad.
-- **Archivos clave:** `app/contratos/page.tsx` · `app/components/contract-form.tsx` ·
+- **Archivos clave:** `app/contratos/page.tsx` · `app/components/contrato-cp-form.tsx` · `app/components/contrato-sie-form.tsx` ·
   `lib/contract-generator.ts` · `app/api/contracts/generate/route.ts`.
 - **Modelo:** no persiste; solo genera docx. Lee de `norma_articulos` (art. 60, 61).
 - **Flujo:** Zod validation → `getSettingsCatalog` (entity) → `buildContractDocx`
