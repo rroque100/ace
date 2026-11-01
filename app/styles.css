@@ -9710,27 +9710,21 @@ textarea:focus,
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .copiloto {
+  [data-theme="dark"] .copiloto {
     background: var(--surface, #0f172a);
     box-shadow: -12px 0 32px rgba(0, 0, 0, 0.5);
   }
-  .copilotoMsg.assistant .copilotoMsgTexto {
+  [data-theme="dark"] .copilotoMsg.assistant .copilotoMsgTexto {
     background: color-mix(in srgb, #ffffff 5%, transparent);
   }
-}
-
-@media (prefers-color-scheme: dark) {
-  .fichaGuiaItem.advertencia {
+  [data-theme="dark"] .fichaGuiaItem.advertencia {
     background: color-mix(in srgb, #b91c1c 14%, transparent);
     border-color: color-mix(in srgb, #b91c1c 40%, transparent);
   }
-  .fichaGuiaItem.nota {
+  [data-theme="dark"] .fichaGuiaItem.nota {
     background: color-mix(in srgb, #1d4ed8 14%, transparent);
     border-color: color-mix(in srgb, #1d4ed8 40%, transparent);
   }
-}
-
 .wizardStep {
   width: 28px;
   height: 4px;

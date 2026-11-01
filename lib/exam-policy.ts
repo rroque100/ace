@@ -12,6 +12,7 @@ export const examStartSchema = z
     minutes: z.number().int().min(5).max(180).default(120),
     regime: z.enum(["32069", "30225"]),
     topic: z.string().trim().max(160).default(""),
+    competency: z.enum(["", "1", "2", "3"]).default(""),
     preview: z.boolean().default(false),
   })
   .superRefine((v, c) => {
@@ -22,6 +23,7 @@ export const examStartSchema = z
         v.minutes !== 120 ||
         v.regime !== "32069" ||
         v.topic !== "" ||
+        v.competency !== "" ||
         v.preview)
     )
       c.addIssue({
@@ -208,6 +210,7 @@ export type RawExam = {
     started_at: string;
     deadline_at: string | null;
     finished_at: string | null;
+    last_question_id?: string | null;
     questions: SnapshotQuestion[];
     result: ExamResult | null;
   };

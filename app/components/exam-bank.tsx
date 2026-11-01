@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback, type SetStateAction } from "react";
 import { ExamBankFields } from "./exam-bank-fields";
+import { ExamEditorialTask } from "./exam-learning";
 import { ExamEditorialPanel } from "./exam-editorial-panel";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import {
@@ -111,15 +113,19 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
   return x;
 }
 export function ExamBank() {
+  const initialCode = useSearchParams().get("subcompetency") ?? "";
+  const validInitialCode = EXAM_CURRICULUM.some((s) => s.code === initialCode)
+    ? initialCode
+    : "";
   const [bank, setBank] = useState<Bank | null>(null),
     [draft, setDraftBase] = useState<ExamQuestion | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [notice, setNotice] = useState(""),
     [page, setPage] = useState(1),
-    [statusFilter, setStatusFilter] = useState(""),
+    [statusFilter, setStatusFilter] = useState(validInitialCode ? "draft" : ""),
     [questionFilter, setQuestionFilter] = useState(""),
-    [subFilter, setSubFilter] = useState(""),
+    [subFilter, setSubFilter] = useState(validInitialCode),
     [documentId, setDocumentId] = useState(""),
     [sourcePage, setSourcePage] = useState(2),
     [passages, setPassages] = useState<{
@@ -269,6 +275,13 @@ export function ExamBank() {
         <p role="status" className="rounded-xl bg-teal-50 p-4 text-sm">
           {notice}
         </p>
+      )}
+      {draft?.id && (
+        <ExamEditorialTask
+          key={draft.id + ":" + draft.revision}
+          questionId={draft.id}
+          revision={draft.revision}
+        />
       )}
       <ExamEditorialPanel
         onDrafts={() => void reload().catch((e) => setError(e.message))}

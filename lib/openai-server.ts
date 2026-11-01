@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import {generationFallback,openCodeTextFallback,openCodeAvailable,openCodeBase,openCodeModel,zaiFallbackAvailable,zaiFallbackModel,zaiFallbackBase,canUseZaiText} from "./ai-fallback";
 import { withRetry } from "./retry";
 import { medirCliente } from "./uso-ia-medicion";
 import { exigirCuotaIA, registrarUsoIA } from "./uso-ia";
@@ -57,7 +58,7 @@ function toChatMessages(input: unknown): Array<Record<string, unknown>> {
 }
 
 /** Traduce los parámetros de `responses.create` a `chat.completions.create`. */
-function toChatParams(params: Record<string, unknown>): Record<string, unknown> {
+function toChatParams(params: Record<string, unknown>, provider: string): Record<string, unknown> {
   const { input, instructions, max_output_tokens, model, temperature, stream, ...rest } = params;
   // Solo se conservan parámetros que chat.completions entiende; se descartan los
   // específicos de Responses (p. ej. `text`, `reasoning`) que romperían el proveedor.
@@ -80,13 +81,19 @@ function toChatParams(params: Record<string, unknown>): Record<string, unknown> 
   // salida (JSON cortado → irreparable). Se desactiva el thinking para que TODO
   // el presupuesto vaya a la respuesta. `reasoning_effort` es el control del
   // endpoint compatible-OpenAI de Gemini.
-  if (getProvider() === "gemini") out.reasoning_effort = "none";
+  if (provider === "gemini") out.reasoning_effort = "none";
+  if (provider === "opencode") out.reasoning_effort = "minimal";
+  if (provider === "zai") out.thinking = {type:"disabled"};
+  if (rest.text && typeof rest.text === "object") {
+    const format=(rest.text as {format?: {type?:string}}).format;
+    if(format?.type === "json_object") out.response_format={type:"json_object"};
+  }
   return out;
 }
 
 /** Shim de `responses.create` sobre `chat.completions` para Z.ai. */
-function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, options?: OpenAI.RequestOptions): unknown {
-  const chatParams = toChatParams(params);
+function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, options?: OpenAI.RequestOptions, provider: string = "gemini"): unknown {
+  const chatParams = toChatParams(params,provider);
   if (params.stream) {
     // Devuelve un async-iterable de eventos con la MISMA forma que Responses:
     // { type: "response.output_text.delta", delta }.
@@ -94,13 +101,15 @@ function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, opt
       const stream = (await client.chat.completions.create(
         chatParams as unknown as OpenAI.Chat.ChatCompletionCreateParamsStreaming, options,
       )) as AsyncIterable<OpenAI.Chat.ChatCompletionChunk>;
-      let incomplete=false;
+      let incomplete=false; let usage: unknown; let actualModel=String(params.model);
       for await (const chunk of stream) {
+        if(chunk.usage) usage=chunk.usage;
+        if(chunk.model) actualModel=chunk.model;
         if(chunk.choices?.[0]?.finish_reason==="length")incomplete=true;
         const delta = chunk.choices?.[0]?.delta?.content;
         if (delta) yield { type: "response.output_text.delta", delta };
       }
-      yield { type: incomplete ? "response.incomplete" : "response.completed" };
+      yield { type: incomplete ? "response.incomplete" : "response.completed", response:{model:["opencode","zai"].includes(provider) ? `${provider}/${actualModel}` : actualModel,usage} };
     })();
   }
   return client.chat.completions
@@ -108,13 +117,15 @@ function zaiResponsesCreate(client: OpenAI, params: Record<string, unknown>, opt
     .then((resp) => ({
       // La forma que consume el proyecto: `.output_text`.
       output_text: resp.choices?.[0]?.message?.content ?? "",
+      model: ["opencode","zai"].includes(provider) ? `${provider}/${resp.model}` : resp.model,
+      status:resp.choices?.[0]?.finish_reason === "length" ? "incomplete" : "completed",
       raw: resp,
     }));
 }
 
 /** Envuelve el cliente para que `.responses.create` funcione vía chat.completions. */
-function withChatShim(client: OpenAI): OpenAI {
-  const responsesShim = { create: (params: Record<string, unknown>, options?: OpenAI.RequestOptions) => zaiResponsesCreate(client, params, options) };
+function withChatShim(client: OpenAI, provider: string): OpenAI {
+  const responsesShim = { create: (params: Record<string, unknown>, options?: OpenAI.RequestOptions) => zaiResponsesCreate(client, params, options, provider) };
   return new Proxy(client, {
     get(target, prop, receiver) {
       if (prop === "responses") return responsesShim;
@@ -124,10 +135,46 @@ function withChatShim(client: OpenAI): OpenAI {
 }
 
 export function getOpenAIClient() {
-  // Todo el consumo de modelos pasa por aquí: se mide para atribuirlo a la cuenta y al módulo que lo originó, y una
-  // cuenta externa con la cuota agotada no puede lanzar más llamadas (ver lib/uso-ia.ts).
-  const proveedor = getProvider();
-  return medirCliente(crearClienteProveedor(), (uso) => registrarUsoIA(uso, uso.operacion, proveedor), () => exigirCuotaIA());
+  const provider=getProvider();
+  const measured=(client:OpenAI,name:string)=>medirCliente(client,usage=>registrarUsoIA(usage,usage.operacion,name),()=>exigirCuotaIA());
+  const primary=measured(crearClienteProveedor(),provider);
+  if(provider !== "gemini" || (!openCodeAvailable() && !zaiFallbackAvailable()))return primary;
+  const backup=openCodeAvailable()?measured(withChatShim(new OpenAI({apiKey:process.env.OPENCODE_API_KEY,baseURL:openCodeBase(),maxRetries:0}),"opencode"),"opencode"):null;
+  const third=zaiFallbackAvailable()?measured(withChatShim(new OpenAI({apiKey:process.env.ZAI_API_KEY,baseURL:zaiFallbackBase(),maxRetries:0}),"zai"),"zai"):null;
+  return new Proxy(primary,{
+    get(target,property,receiver){
+      if(property !== "responses")return Reflect.get(target,property,receiver);
+      return {create:(params:Record<string,unknown>,options?:OpenAI.RequestOptions)=>{
+        const call=(client:OpenAI,model?:string)=>client.responses.create({...params,...(model?{model}:{})} as unknown as OpenAI.Responses.ResponseCreateParamsNonStreaming,options);
+        const runPrimary=()=>call(primary);
+        const runThird=()=>call(third!,zaiFallbackModel());
+        const runBackup=()=>call(backup!,openCodeModel());
+        const eligible=Boolean(third)&&canUseZaiText(params);
+        const unavailable=()=>{throw new Error("No hay un proveedor de respaldo compatible con este contenido");};
+        if(params.stream){
+          const asStream=(run:()=>unknown)=>()=>run() as AsyncIterable<unknown>;
+          const backups=backup
+            ? eligible?()=>openCodeTextFallback.stream(asStream(runBackup),asStream(runThird)):asStream(runBackup)
+            : eligible?asStream(runThird):unavailable;
+          return generationFallback.stream(asStream(runPrimary),backups);
+        }
+        const backups=backup
+          ? eligible?()=>openCodeTextFallback.run(runBackup,runThird):runBackup
+          : eligible?runThird:unavailable;
+        return generationFallback.run(runPrimary,backups);
+      }};
+    },
+  }) as OpenAI;
+}
+
+/** The actual generation route, including the third provider, is visible in Chat details. */
+export function reportedProvider(model:string):string {
+  if(model.startsWith("opencode/"))return "opencode";
+  if(model.startsWith("zai/"))return "zai";
+  return getProvider();
+}
+export function configuredTextProviders():string[]{
+ return getProvider()==="gemini"?["Google Gemini",...(openCodeAvailable()?["OpenCode"]:[]),...(zaiFallbackAvailable()?["Z.ai"]:[])]:[getProvider()==="zai"?"Z.ai":"OpenAI"];
 }
 
 function crearClienteProveedor() {
@@ -135,12 +182,12 @@ function crearClienteProveedor() {
   if (provider === "gemini") {
     const apiKey = geminiKey() as string;
     const baseURL = process.env.GEMINI_BASE_URL ?? "https://generativelanguage.googleapis.com/v1beta/openai";
-    return withChatShim(new OpenAI({ apiKey, baseURL }));
+    return withChatShim(new OpenAI({ apiKey, baseURL, maxRetries: 0 }),provider);
   }
   if (provider === "zai") {
     const apiKey = process.env.ZAI_API_KEY as string;
     const baseURL = process.env.ZAI_BASE_URL ?? "https://api.z.ai/api/paas/v4";
-    return withChatShim(new OpenAI({ apiKey, baseURL }));
+    return withChatShim(new OpenAI({ apiKey, baseURL, maxRetries: 0 }),provider);
   }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { AppShell } from "../components/app-shell";
-import { ExamWorkspace } from "../components/exam-workspace";
+import { SimuladorShell } from "../components/simulador-shell";
 import "../components/legal-workspace.css";
 import "../components/exam-ui.css";
 export default async function Page() {
@@ -14,7 +14,13 @@ export default async function Page() {
       title="Simulador de examen"
       showFiscalYear={false}
     >
-      <ExamWorkspace isAdmin={user.isAdmin} />
+      <SimuladorShell
+        isAdmin={user.isAdmin}
+        storageScope={user.id}
+        centerEnabled={
+          !user.esExterno || user.modulosExternos.includes("centro_juridico")
+        }
+      />
     </AppShell>
   );
 }

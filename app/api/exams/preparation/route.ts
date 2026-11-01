@@ -4,7 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { examRpc, examError } from "@/lib/exam-server";
 export const dynamic = "force-dynamic";
 export async function GET() {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
     return NextResponse.json(
@@ -35,7 +35,7 @@ const action = z.discriminatedUnion("action", [
   }),
 ]);
 export async function POST(request: Request) {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
     const p = action.parse(await request.json());

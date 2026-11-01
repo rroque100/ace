@@ -2162,7 +2162,7 @@ export async function answerLegalQuestion(
       if(generationIncomplete(response))response=await openai.responses.create(compactRetryParams(prep.generationParams),{timeout:25000,maxRetries:0});
       if(generationIncomplete(response)){prep.assessment.evidenceWarnings.push("El proveedor interrumpió la respuesta después de un reintento; no se publicó como conclusión completa.");throw Error("generation_incomplete");}
       answer = applySystemConfidence(response.output_text, prep.assessment.confidence);
-      model = legalAnswerModel;
+      model = response.model || legalAnswerModel;
     } catch (error) {
       answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
@@ -2230,21 +2230,22 @@ export async function* streamLegalAnswer(
 
   } else {
     yield { type: "progress", stage: "drafting" };
-    let acc = "";let incomplete=false;
+    let acc = "";let incomplete=false;let actualModel=legalAnswerModel;
     try {
       const openai = getOpenAIClient();
       // Solo se reintenta ABRIR el stream: un corte a mitad de respuesta ya mostró texto al usuario y no se repite.
       const stream = await withRetry(() => openai.responses.create({ ...prep.generationParams, stream: true }, { timeout: 25000, maxRetries: 0 }), { attempts: 2, baseMs: 700 });
       for await (const event of stream) {
+        if((event.type === "response.completed" || event.type === "response.incomplete") && event.response?.model)actualModel=event.response.model;
         if(event.type === "response.incomplete")incomplete=true;
         if (event.type === "response.output_text.delta") {
           acc += event.delta;
           // Buffer the draft until evidence checks complete.
         }
       }
-      if(incomplete){const retried=await openai.responses.create(compactRetryParams(prep.generationParams),{timeout:25000,maxRetries:0});if(generationIncomplete(retried)){prep.assessment.evidenceWarnings.push("El proveedor interrumpió la respuesta después de un reintento; no se publicó como conclusión completa.");throw Error("generation_incomplete");}acc=retried.output_text;}
+      if(incomplete){const retried=await openai.responses.create(compactRetryParams(prep.generationParams),{timeout:25000,maxRetries:0});if(generationIncomplete(retried)){prep.assessment.evidenceWarnings.push("El proveedor interrumpió la respuesta después de un reintento; no se publicó como conclusión completa.");throw Error("generation_incomplete");}acc=retried.output_text;actualModel=retried.model||actualModel;}
       answer = applySystemConfidence(acc, prep.assessment.confidence);
-      model = legalAnswerModel;
+      model = actualModel;
     } catch (error) {
       answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;

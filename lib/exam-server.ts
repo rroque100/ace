@@ -13,7 +13,9 @@ export async function getExam(actor: string, id: string) {
   );
 }
 const normalize = (s: string) => s.replace(/\s+/g, " ").trim();
-export async function validateExamSources(question: ExamQuestion) {
+export async function validateExamSources(
+  question: Pick<ExamQuestion, "sources" | "regime">,
+) {
   const c = await getSupabaseAdminClient();
   for (const s of question.sources) {
     const [d, x] = await Promise.all([

@@ -6,7 +6,7 @@ export async function POST(
   request: Request,
   ctx: { params: Promise<{ id: string }> },
 ) {
-  const a = await requireUser();
+  const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
     const id = z

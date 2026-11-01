@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./styles.css";
 import "./tailwind.css";
 import "./components/expedientes-archivo/expedientes-archivo.css";
 import { YearProvider } from "@/lib/year-context";
 import { ToastProvider, ToastContainer } from "@/lib/toast";
+import { THEME_BOOTSTRAP } from "@/lib/theme";
+import "./workspace.css";
 
 /**
  * Inter, autoalojada por Next en el build.
@@ -25,8 +26,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ACE IA Juridica",
-  description: "Gestion documental, busqueda semantica y asistencia juridica con IA.",
+  title: { default: "ACE · Contrataciones públicas", template: "%s · ACE" },
+  description: "Consulta fuentes, estudia la normativa y prepara tus contrataciones públicas en un solo lugar.",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "ACE" },
+};
+export const viewport: Viewport = {
+  width: "device-width", initialScale: 1, viewportFit: "cover",
+  themeColor: "#f4f7fa",
 };
 
 export const dynamic = "force-dynamic";
@@ -37,7 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={inter.variable} suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} /></head>
       <body suppressHydrationWarning>
         <YearProvider>
           <ToastProvider>

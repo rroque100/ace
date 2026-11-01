@@ -12,6 +12,8 @@
 export type Tarifa = { entrada: number; salida: number };
 
 const TARIFAS_BASE: Record<string, Tarifa> = {
+  // OpenCode Console official list, checked 2026-10-30; estimates exclude credit purchase fees.
+  "gemini-3.8-flash": { entrada: 1.5, salida: 7.5 },
   "gemini-2.5-flash-lite": { entrada: 0.1, salida: 0.4 },
   "gemini-2.5-flash": { entrada: 0.3, salida: 2.5 },
   "gemini-embedding-001": { entrada: 0.15, salida: 0 },

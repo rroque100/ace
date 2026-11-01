@@ -81,11 +81,11 @@ describe("proxy: cuenta externa con un módulo", () => {
     expect(mocks.registrar).toHaveBeenCalledWith(expect.objectContaining({ accion: "acceso denegado (ruta): /configuracion", estado: 403 }));
   });
 
-  it("«/» la lleva a su inicio sin contarse como intento indebido", async () => {
+  it("«/» abre el inicio personal sin redirigir ni abrir APIs internas", async () => {
     mocks.user = juridico;
     const respuesta = await updateSession(solicitud("/"), (t) => void t);
-    expect(new URL(respuesta.headers.get("location") ?? "").pathname).toBe("/chat");
-    expect(mocks.registrar).not.toHaveBeenCalled();
+    expect(respuesta.status).toBe(200);
+    expect(respuesta.headers.get("location")).toBeNull();
   });
 
   it("una API que no es suya responde 403 (no una redirección) y queda anotada", async () => {
@@ -234,5 +234,20 @@ describe("proxy: solicitud de acceso (pública) y contraseña temporal", () => {
   it("el personal de la entidad no se ve afectado por ninguna de las dos cosas", async () => {
     mocks.user = { id: "int-2", email: "88888888@ace.local", app_metadata: { tipo: "interno", cambiar_password: true } };
     expect((await updateSession(solicitud("/necesidades"), (t) => void t)).status).toBe(200);
+  });
+});
+
+describe("cron documental autentica únicamente su ruta y método",()=>{
+  it("permite el secreto correcto y mantiene cerradas otras rutas y métodos",async()=>{
+    const old=process.env.CRON_SECRET;process.env.CRON_SECRET="test-scheduler-secret";
+    try {
+      const ok=await updateSession(solicitud("/api/library/sync/cron",{cabeceras:{authorization:"Bearer test-scheduler-secret"}}));
+      expect(ok.status).toBe(200);
+      for(const path of ["/api/library/sync","/api/configuracion/users","/api/library/sync/cron/extra"]){
+        expect((await updateSession(solicitud(path,{cabeceras:{authorization:"Bearer test-scheduler-secret"}}))).status).toBe(401);
+      }
+      expect((await updateSession(solicitud("/api/library/sync/cron",{metodo:"POST",cabeceras:{authorization:"Bearer test-scheduler-secret"}}))).status).toBe(401);
+      expect((await updateSession(solicitud("/api/library/sync/cron",{cabeceras:{authorization:"Bearer incorrect"}}))).status).toBe(401);
+    } finally {if(old===undefined)delete process.env.CRON_SECRET;else process.env.CRON_SECRET=old;}
   });
 });

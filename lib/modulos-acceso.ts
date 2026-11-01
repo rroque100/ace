@@ -48,6 +48,8 @@ const coincide = (pathname: string, prefijo: string) => pathname === prefijo || 
 
 /** ¿Puede una cuenta externa con estos módulos abrir esta ruta? Todo lo que no figura está cerrado. */
 export function rutaPermitidaExterno(modulos: readonly ModuloExterno[], pathname: string): boolean {
+  // The personal homepage contains only links filtered by the server, never staff data.
+  if (pathname === "/") return modulos.length > 0;
   if (COMUNES.some((prefijo) => coincide(pathname, prefijo))) return true;
   return modulos.some((modulo) => {
     const definicion = MODULOS_EXTERNOS[modulo];

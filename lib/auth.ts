@@ -1,9 +1,16 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { entitiesMatch, esOficinaAbastecimiento, normalizeEntity } from "@/lib/entity-utils";
+import {
+  entitiesMatch,
+  esOficinaAbastecimiento,
+  normalizeEntity,
+} from "@/lib/entity-utils";
 import { esIdSeguro } from "@/lib/supabase-server";
-import { leerCredencialExterna, type ModuloExterno } from "@/lib/modulos-acceso";
+import {
+  leerCredencialExterna,
+  type ModuloExterno,
+} from "@/lib/modulos-acceso";
 import { CuotaIAAgotadaError, exigirCuotaIA } from "@/lib/uso-ia";
 import {
   type AppRole,
@@ -124,7 +131,9 @@ export async function getSessionUser(): Promise<SessionUser | null> {
     supabase.auth.getSession(),
     supabase
       .from("profiles")
-      .select("role, entity, metadata, oficina_id, es_jefe, nombre_completo, cargo")
+      .select(
+        "role, entity, metadata, oficina_id, es_jefe, nombre_completo, cargo",
+      )
       .eq("id", user.id)
       .maybeSingle(),
   ]);
@@ -149,14 +158,21 @@ export async function getSessionUser(): Promise<SessionUser | null> {
       .maybeSingle();
     profile = retry.data as ProfileData | null;
     if (!profile && retry.error) {
-      const { data } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
+      const { data } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
       profile = data as ProfileData | null;
     }
   }
 
   const role = normalizeRole(profile?.role);
   // Una cuenta externa nunca es administradora, aunque su perfil dijera otra cosa: el acceso externo es más estrecho que cualquier rol.
-  const credencialExterna = leerCredencialExterna(user.app_metadata, Date.now());
+  const credencialExterna = leerCredencialExterna(
+    user.app_metadata,
+    Date.now(),
+  );
   const isAdmin = role === "admin" && !credencialExterna.externo;
 
   return {
@@ -202,30 +218,48 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 export function idsDeRutaInvalidos(...ids: unknown[]): NextResponse | null {
   return ids.every((valor) => esIdSeguro(valor))
     ? null
-    : NextResponse.json({ error: "Identificador de ruta inválido." }, { status: 400 });
+    : NextResponse.json(
+        { error: "Identificador de ruta inválido." },
+        { status: 400 },
+      );
 }
 
 type AuthResult = { user: SessionUser } | { error: NextResponse };
 
 // Exige sesion valida; devuelve 401 si no hay usuario.
-export async function requireUser(): Promise<AuthResult> {
+export async function requireUser(
+  options: { usesAI?: boolean } = {},
+): Promise<AuthResult> {
   const user = await getSessionUser();
 
   if (!user) {
-    return { error: NextResponse.json({ error: "No autenticado" }, { status: 401 }) };
+    return {
+      error: NextResponse.json({ error: "No autenticado" }, { status: 401 }),
+    };
   }
 
   // Una cuenta externa con la cuota mensual de IA agotada puede seguir leyendo (su historial, las normas), pero no lanzar
   // nada que escriba —preguntar al chat, grabar voz—, que es lo que gasta IA. La barrera de fondo está en el cliente de
   // modelos (lib/openai-server.ts); esto da un 429 claro en vez de una respuesta degradada.
-  if (user.esExterno && user.cuotaIAMensual !== null) {
-    const metodo = ((await headers().catch(() => null))?.get("x-ace-metodo") ?? "GET").toUpperCase();
+  if (
+    options.usesAI !== false &&
+    user.esExterno &&
+    user.cuotaIAMensual !== null
+  ) {
+    const metodo = (
+      (await headers().catch(() => null))?.get("x-ace-metodo") ?? "GET"
+    ).toUpperCase();
     if (metodo !== "GET" && metodo !== "HEAD" && metodo !== "OPTIONS") {
       try {
         await exigirCuotaIA();
       } catch (error) {
         if (error instanceof CuotaIAAgotadaError) {
-          return { error: NextResponse.json({ error: error.message, codigo: "cuota_ia_agotada" }, { status: 429 }) };
+          return {
+            error: NextResponse.json(
+              { error: error.message, codigo: "cuota_ia_agotada" },
+              { status: 429 },
+            ),
+          };
         }
         throw error;
       }
@@ -244,7 +278,12 @@ export async function requireAdmin(): Promise<AuthResult> {
   }
 
   if (!result.user.isAdmin) {
-    return { error: NextResponse.json({ error: "Requiere rol de administrador" }, { status: 403 }) };
+    return {
+      error: NextResponse.json(
+        { error: "Requiere rol de administrador" },
+        { status: 403 },
+      ),
+    };
   }
 
   return result;
@@ -260,7 +299,10 @@ export async function requireDec(): Promise<AuthResult> {
 
   if (!result.user.isDec) {
     return {
-      error: NextResponse.json({ error: "Requiere rol DEC o administrador" }, { status: 403 }),
+      error: NextResponse.json(
+        { error: "Requiere rol DEC o administrador" },
+        { status: 403 },
+      ),
     };
   }
 
@@ -304,7 +346,10 @@ export async function requireLegal(): Promise<AuthResult> {
 
   if (!result.user.isLegal) {
     return {
-      error: NextResponse.json({ error: "Requiere rol Legal o administrador" }, { status: 403 }),
+      error: NextResponse.json(
+        { error: "Requiere rol Legal o administrador" },
+        { status: 403 },
+      ),
     };
   }
 
@@ -331,7 +376,10 @@ export function getOfficeFilter(user: SessionUser): string | null {
 // el resto de llamadas existentes, pero SIEMPRE debe pasarse cuando se tenga
 // a mano (mismo criterio ya reforzado en lib/supabase/middleware.ts, el gate
 // real de estas rutas).
-export function puedeUsarProcesos(user: SessionUser, oficinaNombre?: string | null): boolean {
+export function puedeUsarProcesos(
+  user: SessionUser,
+  oficinaNombre?: string | null,
+): boolean {
   return (
     user.isAdmin ||
     esOficinaAbastecimiento(user.entity) ||
@@ -347,7 +395,8 @@ export type ArchivoScopeLevel = "all" | "oficina" | "own";
 export function getArchivoScopeLevel(user: SessionUser): ArchivoScopeLevel {
   if (user.isAdmin) return "all";
   // Jefe sin oficina asignada degrada a "own" para no abrir acceso por error.
-  if (user.esJefe && (normalizeEntity(user.entity) || user.oficinaId)) return "oficina";
+  if (user.esJefe && (normalizeEntity(user.entity) || user.oficinaId))
+    return "oficina";
   return "own";
 }
 
@@ -358,19 +407,26 @@ export function getArchivoScopeLevel(user: SessionUser): ArchivoScopeLevel {
 // se cae al match normalizado por texto.
 export function canAccessArchivoRow(
   user: SessionUser,
-  row: { oficina?: string | null; oficinaId?: string | null; owner?: string | null },
+  row: {
+    oficina?: string | null;
+    oficinaId?: string | null;
+    owner?: string | null;
+  },
 ): boolean {
   const level = getArchivoScopeLevel(user);
   if (level === "all") return true;
   if (level === "oficina") {
-    if (user.oficinaId && row.oficinaId) return row.oficinaId === user.oficinaId;
+    if (user.oficinaId && row.oficinaId)
+      return row.oficinaId === user.oficinaId;
     return entitiesMatch(row.oficina, user.entity);
   }
   return Boolean(row.owner) && row.owner === user.id;
 }
 
 // Exige una capacidad concreta del expediente (permisos por accion segun rol).
-export async function requireCapability(capability: Capability): Promise<AuthResult> {
+export async function requireCapability(
+  capability: Capability,
+): Promise<AuthResult> {
   const result = await requireUser();
 
   if ("error" in result) {
@@ -388,3 +444,4 @@ export async function requireCapability(capability: Capability): Promise<AuthRes
 
   return result;
 }
+

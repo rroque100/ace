@@ -1,7 +1,7 @@
 import { beforeEach, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({ auth: vi.fn(), available: vi.fn(), transcribe: vi.fn(), rate: vi.fn() }));
 vi.mock("@/lib/auth", () => ({ requireUser: mocks.auth }));
-vi.mock("@/lib/openai-server", () => ({ getProvider: () => "gemini" }));
+vi.mock("@/lib/openai-server", () => ({ getProvider: () => "gemini", configuredTextProviders:()=>["Google Gemini","OpenCode","Z.ai"] }));
 vi.mock("@/lib/voice-transcription", () => ({ voiceAvailable: mocks.available, voiceConfiguration:()=>({provider:"OpenAI",providerId:"openai",policyUrl:"https://developers.openai.com/api/docs/guides/your-data"}), transcribeSearchAudio: mocks.transcribe }));
 vi.mock("@/lib/rate-limit", () => ({ checkRateLimit: mocks.rate, getRateLimitKey: () => "key", rateLimitResponse: () => new Response(null, { status: 429 }) }));
 import { GET, POST } from "@/app/api/search/voice/route";

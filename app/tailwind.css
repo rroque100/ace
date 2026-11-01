@@ -17,7 +17,11 @@
    Cuando toda la app esté migrada, esto se puede sustituir por el import estándar.
    ════════════════════════════════════════════════════════════════════════════ */
 
-@layer theme, tw-base, components, utilities;
+@layer theme, legacy, tw-base, components, utilities;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Temporary isolated legacy layer: migrated utilities always have precedence. */
+@import "./styles.css" layer(legacy);
 
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
@@ -132,6 +136,20 @@
   --color-warning-soft: color-mix(in srgb, var(--warning) 14%, var(--surface));
   --color-success: var(--success);
   --color-success-soft: color-mix(in srgb, var(--success) 13%, var(--surface));
+  --color-info: var(--info);
+  --color-info-soft: color-mix(in srgb, var(--info) 12%, var(--surface));
+
+  /* Acento ámbar: tono oscuro para texto/hover y variante suave de fondo. */
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-soft: color-mix(in srgb, var(--accent) 14%, var(--surface));
+
+  /* Paleta categórica para gráficos/dashboards (utilidades bg/text/fill/stroke-chart-N). */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
 
   /* Forma: se conserva la escala del sistema. */
   --radius-card: 14px;
@@ -144,9 +162,9 @@
   /* Tipografía: escala definida para el módulo Configuración. Reemplaza
      progresivamente los `text-[12.5px]` y similares. */
   --text-xs: 11px;
-  --text-sm: 12.5px;
-  --text-base: 13.5px;
-  --text-md: 14.5px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 15px;
   --text-lg: 16px;
   --text-xl: 18px;
 
@@ -249,4 +267,19 @@
 
 /* Simulador: generar también las utilidades de sus componentes. */
 @source "./components/exam-*.tsx";
+@source "./components/simulador-shell.tsx";
+@source "./components/balotarios-oece.tsx";
 @source "./simulador/**/*.tsx";
+@source "./page.tsx";
+@source "./components/appearance-control.tsx";
+@source "./components/sidebar.tsx";
+@source "./components/workspace-assistants.tsx";
+
+@source "./components/document-sync-panel.tsx";
+@source "./actualizacion-documental/page.tsx";
+
+@source "./components/norm-article-reading.tsx";
+@source "./components/response-ai-badge.tsx";
+@source "./components/app-shell.tsx";
+@source "./components/year-selector.tsx";
+@source "./loading.tsx";

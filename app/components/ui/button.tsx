@@ -18,20 +18,20 @@ type Variant = "primary" | "secondary" | "ghost" | "subtle";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] font-semibold " +
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl font-semibold " +
   "transition-[background,border-color,color,box-shadow,transform] duration-150 " +
   "outline-none focus-visible:shadow-[var(--shadow-focus)] " +
   "disabled:cursor-not-allowed disabled:opacity-55 active:translate-y-px select-none";
 
 const sizes: Record<Size, string> = {
-  sm: "h-8 px-3 text-[13px]",
-  md: "h-10 px-4 text-sm",
-  lg: "h-11 px-5 text-[15px]",
+  sm: "min-h-11 px-3 text-[13px] lg:min-h-9",
+  md: "min-h-11 px-4 text-[14px]",
+  lg: "min-h-12 px-5 text-[15px]",
 };
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-brand text-white shadow-card hover:bg-brand-dark",
+    "bg-brand text-[var(--on-brand)] shadow-card hover:bg-brand-dark",
   secondary:
     "border border-line bg-panel text-ink shadow-card hover:bg-brand-soft hover:border-brand/40 hover:text-brand",
   ghost:
@@ -100,9 +100,9 @@ export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const iconSizes: Record<Size, string> = {
-  sm: "size-7",
-  md: "size-9",
-  lg: "size-10",
+  sm: "size-11 lg:size-8",
+  md: "size-11",
+  lg: "size-12",
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(

@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
   // `/api/**/*` porque el OCR de PDF lo usan 14 rutas de api/ distintas
   // (documents, necesidades/eett-tdr, expedientes-archivo, contratos-sie...).
   outputFileTracingIncludes: {
+    "/api/documents/pdf-worker": ["./node_modules/pdfjs-dist/build/pdf.worker.min.mjs"],
     "/api/processes/**": ["./lib/plantillas-f1/**"],
     "/api/**/*": [
       "./node_modules/pdfjs-dist/legacy/build/**",

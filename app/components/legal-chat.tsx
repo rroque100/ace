@@ -1,5 +1,6 @@
 "use client";
 
+import {ResponseAiBadge} from "./response-ai-badge";
 import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
 import {conversationUrl} from "@/lib/chat-continuity";
 import { esRespuestaFija } from "@/lib/chat-respuesta-fija";
@@ -1375,6 +1376,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                     <strong>Respuesta</strong>
                     <span className="chatAiLabel">Asistente de ACE</span>
                   </div>
+
+                  <ResponseAiBadge model={message.model} provider={message.telemetry?.provider} streaming={message.streaming} error={message.error}/>
 
                   {message.streaming && !message.content ? (
                     <span className="loadingInline" role="status" aria-live="polite">

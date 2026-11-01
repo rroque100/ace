@@ -38,8 +38,8 @@ type Mensaje = {
 // sola vez, visible en cualquier módulo autenticado) y habla con /api/asistente/*,
 // que a su vez reutiliza la lógica de legal-chat.ts, expedientes-archivo-search.ts
 // y audit_logs — ver lib/mi-yo.ts.
-export function MiYoWidget() {
-  const [open, setOpen] = useState(false);
+export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {}) {
+  const [open, setOpen] = useState(initiallyOpen);
   const [cargado, setCargado] = useState(false);
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [conversationId, setConversationId] = useState<string | null>(null);

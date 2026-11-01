@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  */
 
 const controlBase =
-  "w-full rounded-[10px] border border-line bg-panel px-3 text-sm text-ink shadow-[inset_0_1px_1px_rgba(15,23,42,0.02)] " +
+  "w-full rounded-[10px] border border-line bg-panel px-3 text-[16px] text-ink sm:text-[14px] shadow-[inset_0_1px_1px_rgba(15,23,42,0.02)] " +
   "transition-[border-color,box-shadow] duration-150 outline-none " +
   "placeholder:text-muted/60 " +
   "focus:border-brand focus:shadow-[var(--shadow-focus)] " +
@@ -20,7 +20,7 @@ const controlBase =
 
 export const Input = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {
-    return <input ref={ref} className={cn(controlBase, "h-10", className)} {...props} />;
+    return <input ref={ref} className={cn(controlBase, "min-h-11", className)} {...props} />;
   },
 );
 
@@ -36,7 +36,7 @@ export const Select = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<H
       <div className="relative">
         <select
           ref={ref}
-          className={cn(controlBase, "h-10 cursor-pointer appearance-none pr-9", className)}
+          className={cn(controlBase, "min-h-11 cursor-pointer appearance-none pr-9", className)}
           {...props}
         >
           {children}

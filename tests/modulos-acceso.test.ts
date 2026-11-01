@@ -18,7 +18,7 @@ describe("rutas que abre cada módulo: todo lo demás está cerrado", () => {
   });
   it("y no abre nada del personal de la entidad ni del otro módulo", () => {
     for (const ruta of [
-      "/", "/necesidades", "/expedientes", "/contratos", "/archivo", "/expedientes-archivo", "/configuracion", "/auditoria", "/metricas", "/evaluacion",
+      "/necesidades", "/expedientes", "/contratos", "/archivo", "/expedientes-archivo", "/configuracion", "/auditoria", "/metricas", "/evaluacion",
       "/historial", "/guardado", "/alertas", "/validar", "/analizar", "/comparar", "/simulacro",
       "/api/configuracion/users", "/api/necesidades", "/api/processes", "/api/audit", "/api/usage", "/api/asistente", "/api/corpus", "/api/simulacro",
     ]) expect(rutaPermitidaExterno(juridico, ruta), ruta).toBe(false);
@@ -35,7 +35,8 @@ describe("rutas que abre cada módulo: todo lo demás está cerrado", () => {
   });
   it("con ambos módulos abre la suma de los dos y nada más", () => {
     for (const ruta of ["/chat", "/normas", "/simulacro", "/api/simulacro/x", "/api/chat"]) expect(rutaPermitidaExterno(ambos, ruta), ruta).toBe(true);
-    for (const ruta of ["/", "/configuracion", "/necesidades", "/api/configuracion/users"]) expect(rutaPermitidaExterno(ambos, ruta), ruta).toBe(false);
+    expect(rutaPermitidaExterno(ambos, "/")).toBe(true);
+    for (const ruta of ["/configuracion", "/necesidades", "/api/configuracion/users"]) expect(rutaPermitidaExterno(ambos, ruta), ruta).toBe(false);
   });
   it("entrar, salir y la comprobación de salud están siempre abiertos; sin módulos, nada más", () => {
     for (const ruta of ["/login", "/auth/signout", "/api/health", "/api/auth/registro"]) {
@@ -152,8 +153,9 @@ describe("decisión del proxy para una cuenta externa", () => {
     expect(d).toEqual({ tipo: "denegar", motivo: "ruta", destino: "/chat", esperado: false });
     expect(decidirAccesoExterno(vigente(["simulacro"]), "/chat")).toMatchObject({ tipo: "denegar", destino: "/simulacro" });
   });
-  it("«/» lleva a su inicio sin contarse como intento indebido", () => {
-    expect(decidirAccesoExterno(vigente(["centro_juridico"]), "/")).toEqual({ tipo: "denegar", motivo: "ruta", destino: "/chat", esperado: true });
+  it("«/» abre el inicio personal y no habilita rutas del personal", () => {
+    expect(decidirAccesoExterno(vigente(["centro_juridico"]), "/")).toEqual({ tipo: "permitir" });
+    expect(rutaPermitidaExterno(["centro_juridico"], "/inicio-interno")).toBe(false);
   });
   it("un acceso vencido solo puede entrar, salir y comprobar la salud, aunque tenga módulos", () => {
     const vencida = leerCredencialExterna({ tipo: "externo", modulos: ["centro_juridico"], vigente_hasta: "2026-01-01T00:00:00Z" }, AHORA);

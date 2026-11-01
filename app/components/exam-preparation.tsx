@@ -6,15 +6,21 @@ import {
   CURRICULUM_SOURCE,
   EXAM_CURRICULUM,
 } from "@/lib/exam-curriculum";
+import { reviewPriority } from "@/lib/exam-learning-policy";
 import type { ExamPreparation } from "@/lib/exam-preparation";
 export function ExamPreparationPanel({
   onStart,
   busy,
   isAdmin,
+  setAttempts,
 }: {
   onStart: (profile: "oece" | "review" | "balotario", id?: string) => void;
   busy: boolean;
   isAdmin: boolean;
+  setAttempts: Array<{
+    setId: string;
+    result: { correct: number; total: number };
+  }>;
 }) {
   const [data, setData] = useState<ExamPreparation | null>(null),
     [error, setError] = useState("");
@@ -129,6 +135,42 @@ export function ExamPreparationPanel({
           Repasar mis errores
         </button>
       </div>
+      {missing.length > 0 && (
+        <details className="examDisclosure">
+          <summary>
+            ¿Qué falta para comenzar? ·{" "}
+            {missing.reduce(
+              (n, c) => n + Math.max(0, c.quota - c.published),
+              0,
+            )}{" "}
+            preguntas revisadas pendientes
+          </summary>
+          <p className="mt-3 text-sm">
+            El perfil requiere cubrir cada subcompetencia; tener 72 borradores
+            no lo habilita.
+          </p>
+          <ul className="mt-3 space-y-3">
+            {reviewPriority(data.coverage).map((c) => (
+              <li
+                key={c.code}
+                className="flex flex-wrap items-center justify-between gap-3 text-sm"
+              >
+                <span>
+                  {c.code} · {c.label}: faltan {c.missing}
+                </span>
+                {isAdmin && (
+                  <Link
+                    className="secondaryButton"
+                    href={"/simulador/banco?subcompetency=" + c.code}
+                  >
+                    Revisar pendientes
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
       <p className="text-sm text-slate-600">
         {missing.length
           ? `En preparación: faltan preguntas revisadas en ${missing.length} subcompetencias. No se completan cupos con repeticiones.`
@@ -167,7 +209,7 @@ export function ExamPreparationPanel({
       </details>
       <details className="rounded-xl border border-slate-200 p-4">
         <summary className="cursor-pointer text-sm font-semibold">
-          Cinco balotarios sin preguntas repetidas
+          Biblioteca de simulaciones · cinco balotarios
         </summary>
         <p className="mt-3 text-sm text-slate-600">
           Cada edición exige las 360 preguntas revisadas y conserva la revisión
@@ -182,7 +224,23 @@ export function ExamPreparationPanel({
                 key={b.id}
               >
                 <span className="text-sm">
-                  Balotario {b.slot} · {b.eligible}/72 disponibles
+                  Balotario {b.slot} · {b.eligible}/72 disponibles · edición{" "}
+                  {b.edition}
+                  {b.created_at && (
+                    <span className="mt-1 block text-xs text-slate-600">
+                      Publicación de la edición:{" "}
+                      {new Date(b.created_at).toLocaleDateString("es-PE", {
+                        timeZone: "America/Lima",
+                      })}
+                    </span>
+                  )}
+                  <span className="mt-1 block text-xs text-slate-600">
+                    {setAttempts.filter((a) => a.setId === b.id).length}{" "}
+                    intentos entregados ·{" "}
+                    {setAttempts.some((a) => a.setId === b.id)
+                      ? `Mejor resultado: ${Math.max(...setAttempts.filter((a) => a.setId === b.id).map((a) => a.result?.correct ?? 0))}/72`
+                      : `Sin resultado todavía`}
+                  </span>
                 </span>
                 <button
                   className="secondaryButton"
@@ -195,9 +253,22 @@ export function ExamPreparationPanel({
             ))}
           </ul>
         ) : (
-          <p className="mt-3 text-sm">
-            Todavía no hay una edición completa publicada.
-          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {[1, 2, 3, 4, 5].map((slot) => (
+              <div
+                className="rounded-xl border border-slate-200 p-4"
+                key={slot}
+              >
+                <h3 className="font-semibold">Balotario {slot}</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  72 preguntas · 120 minutos
+                </p>
+                <span className="examStatus mt-3">
+                  En preparación · sin edición publicada
+                </span>
+              </div>
+            ))}
+          </div>
         )}
       </details>
       <details className="rounded-xl border border-slate-200 p-4">
