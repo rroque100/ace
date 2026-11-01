@@ -44,7 +44,7 @@ function fmtFecha(iso: string): string {
 }
 
 export function BalotariosOece() {
-  const [vista, setVista] = useState<"practicar" | "historial">("practicar");
+  const [vista, setVista] = useState<"inicio" | "practicar" | "historial">("inicio");
   const [activo, setActivo] = useState(1);
   const [evaluando, setEvaluando] = useState(false);
   const [marcadas, setMarcadas] = useState<Record<string, string>>({});
@@ -127,6 +127,9 @@ export function BalotariosOece() {
           </p>
         </div>
         <div role="tablist" aria-label="Vista de balotarios" className="flex gap-2">
+          <SubTab activo={vista === "inicio"} onClick={() => setVista("inicio")}>
+            Inicio
+          </SubTab>
           <SubTab activo={vista === "practicar"} onClick={() => setVista("practicar")}>
             Practicar
           </SubTab>
@@ -136,7 +139,13 @@ export function BalotariosOece() {
         </div>
       </header>
 
-      {vista === "practicar" ? (
+      {vista === "inicio" ? (
+        <HubInicio
+          intentos={historial.length}
+          onRendir={() => setVista("practicar")}
+          onHistorial={() => setVista("historial")}
+        />
+      ) : vista === "practicar" ? (
         <>
           <div className="flex flex-wrap items-center gap-2 border-b border-line pb-3">
             {BALOTARIOS.map((b) => (
@@ -376,6 +385,62 @@ function Historial({
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function HubInicio({
+  intentos,
+  onRendir,
+  onHistorial,
+}: {
+  intentos: number;
+  onRendir: () => void;
+  onHistorial: () => void;
+}) {
+  return (
+    <div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <button
+          type="button"
+          onClick={onRendir}
+          className="group rounded-2xl border border-line bg-panel p-6 text-left shadow-sm transition-colors hover:border-brand"
+        >
+          <span className="grid size-12 place-items-center rounded-xl bg-brand-soft text-2xl text-brand-dark">
+            📝
+          </span>
+          <strong className="mt-4 block text-lg font-bold text-ink">Rendir balotario</strong>
+          <span className="mt-1 block text-sm text-muted">
+            Elige uno de los 5 balotarios y practica, o pulsa «Evaluarme» para medir tu puntaje.
+          </span>
+          <span className="mt-4 inline-block rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-on-brand">
+            Rendir balotario
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={onHistorial}
+          className="group rounded-2xl border border-line bg-panel p-6 text-left shadow-sm transition-colors hover:border-brand"
+        >
+          <span className="grid size-12 place-items-center rounded-xl bg-brand-soft text-2xl text-brand-dark">
+            🕑
+          </span>
+          <strong className="mt-4 block text-lg font-bold text-ink">
+            Historial de evaluaciones
+          </strong>
+          <span className="mt-1 block text-sm text-muted">
+            Revisa tus intentos, puntajes y nivel alcanzado en cada balotario.
+          </span>
+          <span className="mt-4 inline-block rounded-lg border border-line px-4 py-2 text-sm font-semibold text-ink">
+            Ver historial{intentos ? ` (${intentos})` : ""}
+          </span>
+        </button>
+      </div>
+      <p className="mt-4 flex items-center gap-2 rounded-xl bg-brand-soft px-4 py-3 text-sm text-brand-dark">
+        <span aria-hidden>✓</span>
+        Cada balotario tiene 72 preguntas. Material de repaso; el simulacro oficial cronometrado
+        está en «Simulador de examen».
+      </p>
     </div>
   );
 }
