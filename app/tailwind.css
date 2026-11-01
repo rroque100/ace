@@ -136,6 +136,20 @@
   --color-warning-soft: color-mix(in srgb, var(--warning) 14%, var(--surface));
   --color-success: var(--success);
   --color-success-soft: color-mix(in srgb, var(--success) 13%, var(--surface));
+  --color-info: var(--info);
+  --color-info-soft: color-mix(in srgb, var(--info) 12%, var(--surface));
+
+  /* Acento ámbar: tono oscuro para texto/hover y variante suave de fondo. */
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-soft: color-mix(in srgb, var(--accent) 14%, var(--surface));
+
+  /* Paleta categórica para gráficos/dashboards (utilidades bg/text/fill/stroke-chart-N). */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
 
   /* Forma: se conserva la escala del sistema. */
   --radius-card: 14px;
