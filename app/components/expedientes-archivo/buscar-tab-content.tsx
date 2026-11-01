@@ -896,7 +896,7 @@ export function BuscarTabContent({
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-1.5 rounded-md border border-white bg-white px-3 py-1.5 text-xs font-semibold text-exp-brand transition-colors duration-[120ms] ease-linear hover:bg-exp-brand-soft"
+                className="inline-flex items-center gap-1.5 rounded-md border border-white bg-panel px-3 py-1.5 text-xs font-semibold text-exp-brand transition-colors duration-[120ms] ease-linear hover:bg-exp-brand-soft"
                 onClick={() => setBulkOpen(true)}
               >
                 <MapPin size={14} /> Mover / reasignar

@@ -1346,7 +1346,7 @@ export function NecesidadList({ canManage, role = "" }: { canManage: boolean; ro
                   "grid size-9 cursor-pointer place-items-center text-muted outline-none transition-colors duration-150",
                   "focus-visible:relative focus-visible:z-10 focus-visible:shadow-[var(--shadow-focus)]",
                   i > 0 && "border-l border-line",
-                  presentacion === v.modo ? "bg-brand text-white" : "hover:bg-brand-soft hover:text-brand",
+                  presentacion === v.modo ? "bg-brand text-on-brand" : "hover:bg-brand-soft hover:text-brand",
                 )}
               >
                 {v.icono}
@@ -1477,11 +1477,11 @@ function QueueChip({
         // Destacados
         tone === "brand" &&
           (active
-            ? "border-brand bg-brand text-white"
+            ? "border-brand bg-brand text-on-brand"
             : "border-brand/30 bg-brand-soft text-brand hover:border-brand/50"),
         tone === "warning" &&
           (active
-            ? "border-warning bg-warning text-white"
+            ? "border-warning bg-warning text-on-brand"
             : "border-warning/30 bg-warning-soft text-warning hover:border-warning/50"),
         // Estados del flujo
         estadoTono && (active ? "border-transparent ring-2 ring-current ring-offset-1 ring-offset-panel" : "border-transparent"),

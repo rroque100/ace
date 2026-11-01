@@ -19,7 +19,7 @@
 .legalWorkspace :is(.primaryButton,.secondaryButton) {
   @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-[13px] font-semibold leading-5 shadow-none transition-colors;
 }
-.legalWorkspace .primaryButton { @apply border border-brand bg-brand text-white hover:bg-brand-dark; }
+.legalWorkspace .primaryButton { @apply border border-brand bg-brand text-on-brand hover:bg-brand-dark; }
 .legalWorkspace .secondaryButton { @apply border border-line bg-panel text-ink hover:border-brand/40 hover:bg-brand-soft hover:text-brand; }
 .legalWorkspace :is(button:disabled,a[aria-disabled=true]) { @apply cursor-not-allowed opacity-50; }
 .legalWorkspace :is(.documentSearchWorkspace,.legalTool,.normBrowser) { @apply min-w-0 max-w-full; }
@@ -92,7 +92,7 @@
 .legalWorkspace .chatComposerBar textarea { @apply min-h-20 resize-y border-0 bg-transparent p-0 shadow-none; }
 .legalWorkspace .chatComposerActions { @apply flex items-end gap-2 self-end; }
 .legalWorkspace .caseProfileChip { @apply mb-3 flex items-center justify-between gap-3 rounded-xl border border-brand/30 bg-brand-soft px-4 py-3 text-[13px] leading-5; }
-.legalWorkspace .caseProfileChip[data-stale=true] { @apply border-amber-300 bg-amber-50; }
+.legalWorkspace .caseProfileChip[data-stale=true] { @apply border-warning/40 bg-warning-soft; }
 .legalWorkspace .caseProfileChip>div { @apply grid min-w-0 gap-0.5; }
 .legalWorkspace .caseProfileChip span { @apply break-words; }
 .legalWorkspace .caseProfileChip small { @apply text-[12px] text-muted; }
@@ -111,7 +111,7 @@
 .legalWorkspace .normBrowser { @apply rounded-none border-0 bg-transparent p-0 shadow-none; }
 .legalWorkspace .normCategoryTabs { @apply mb-5 grid grid-cols-3 gap-1 rounded-xl border border-line bg-panel p-1; }
 .legalWorkspace .normCategoryTabs button { @apply min-h-11 rounded-lg border-0 bg-transparent px-3 py-2 text-[13px] font-medium text-muted shadow-none; }
-.legalWorkspace .normCategoryTabs button[aria-pressed=true] { @apply bg-brand text-white; }
+.legalWorkspace .normCategoryTabs button[aria-pressed=true] { @apply bg-brand text-on-brand; }
 .legalWorkspace .normSearchEntry>div { @apply rounded-xl border border-line bg-panel px-4 py-1; }
 .legalWorkspace .normSearchEntry input:not([type]) { @apply border-0 bg-transparent; }
 .legalWorkspace .normBrowser .normPrimaryFilters { @apply grid grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-3 py-4; }
@@ -287,35 +287,35 @@
 .legalWorkspace .answerTable :is(th,td):first-child { @apply w-32; }
 .chatExperienceDialog { @apply grid gap-4 overflow-y-auto; max-height:85dvh; width:min(92vw,48rem); }
 .chatExperienceDialog label { @apply grid gap-2 text-sm font-semibold; }
-.chatExperienceDialog input,.chatExperienceDialog select,.chatExperienceDialog textarea,.chatClarification input { @apply w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900; }
-.chatNotePreview { @apply rounded-xl border border-slate-200 bg-slate-50 p-4; }
+.chatExperienceDialog input,.chatExperienceDialog select,.chatExperienceDialog textarea,.chatClarification input { @apply w-full rounded-lg border border-line-strong bg-panel p-3 text-ink; }
+.chatNotePreview { @apply rounded-xl border border-line bg-surface p-4; }
 .chatNotePreview pre { @apply max-h-72 overflow-auto whitespace-pre-wrap break-words font-sans text-sm; }
 .legalWorkspace .chatComposerCompact { @apply grid-cols-[minmax(0,1fr)_auto] gap-3 p-3; }
 .legalWorkspace .chatComposerCompact textarea { min-height:44px; max-height:44px; resize:none; }
 .legalWorkspace .chatComposerCompact .chatQuestionHelp { @apply hidden; }
-.chatClarification { @apply my-3 rounded-xl border border-slate-200 p-3 text-sm; }
+.chatClarification { @apply my-3 rounded-xl border border-line p-3 text-sm; }
 .chatClarification form,.chatClarification label { @apply grid gap-3; }
 
 .legalWorkspace .chatComposerCompact .chatQuestionLabel { @apply sr-only; }
 
 .chatNoteText { @apply max-h-80 overflow-auto break-words text-sm; }
 .chatNoteText table { @apply my-3 w-full border-collapse text-left; min-width:36rem; }
-.chatNoteText th,.chatNoteText td { @apply border border-slate-200 p-3 align-top; }
+.chatNoteText th,.chatNoteText td { @apply border border-line p-3 align-top; }
 .chatNoteText p,.chatNoteText ul { @apply my-3; }
 .chatExperienceDialog form { @apply grid gap-4; }
-.documentValidityReview { @apply my-4 grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm; }
-.documentValidityReview h3 { @apply font-semibold text-slate-900; }
+.documentValidityReview { @apply my-4 grid gap-3 rounded-xl border border-line bg-surface p-4 text-sm; }
+.documentValidityReview h3 { @apply font-semibold text-ink; }
 .documentValidityReview form,.documentValidityReview label { @apply grid gap-2; }
 .validityReviewGrid { @apply grid gap-3 sm:grid-cols-2; }
-.documentValidityReview input:not([type=checkbox]),.documentValidityReview select,.documentValidityReview textarea { @apply w-full min-w-0 rounded-lg border border-slate-300 bg-white p-3 text-slate-900; min-height:44px; }
-.validityArticleChoices { @apply my-2 grid max-h-60 gap-2 overflow-auto rounded-lg border border-slate-200 bg-white p-3; }
+.documentValidityReview input:not([type=checkbox]),.documentValidityReview select,.documentValidityReview textarea { @apply w-full min-w-0 rounded-lg border border-line-strong bg-panel p-3 text-ink; min-height:44px; }
+.validityArticleChoices { @apply my-2 grid max-h-60 gap-2 overflow-auto rounded-lg border border-line bg-panel p-3; }
 .validityArticleChoices label { @apply flex items-start gap-2; }
 .validityArticleChoices input { @apply mt-1 shrink-0; }
-.validityReviewDetails { @apply my-2 max-w-full text-sm font-normal text-slate-700; }
-.validityReviewDetails summary { @apply cursor-pointer font-medium text-teal-800; }
+.validityReviewDetails { @apply my-2 max-w-full text-sm font-normal text-ink; }
+.validityReviewDetails summary { @apply cursor-pointer font-medium text-brand-dark; }
 .validityReviewDetails p { @apply my-2 break-words; }
-.validityReviewDetails a { @apply mr-4 inline-block break-all text-teal-800 underline underline-offset-2; }
-.documentValidityReview details article { @apply my-3 border-t border-slate-200 pt-3; }
+.validityReviewDetails a { @apply mr-4 inline-block break-all text-brand-dark underline underline-offset-2; }
+.documentValidityReview details article { @apply my-3 border-t border-line pt-3; }
 
 /* ───────────────────────── Normativa y criterios · rediseño ─────────────────────────
    Objetivos: encontrar rápido (menos cromo antes de los resultados), tarjetas que se

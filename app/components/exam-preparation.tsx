@@ -42,7 +42,7 @@ export function ExamPreparationPanel({
     return (
       <p
         role="alert"
-        className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm"
+        className="rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm"
       >
         No se pudo consultar la cobertura: {error}. Puedes usar la práctica
         personalizada.
@@ -50,7 +50,7 @@ export function ExamPreparationPanel({
     );
   if (!data)
     return (
-      <p role="status" className="text-sm text-slate-600">
+      <p role="status" className="text-sm text-muted">
         Consultando cobertura del temario…
       </p>
     );
@@ -64,7 +64,7 @@ export function ExamPreparationPanel({
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-dark">
             Preparación con el temario del OECE
           </p>
           <h2
@@ -73,7 +73,7 @@ export function ExamPreparationPanel({
           >
             Simulacro de preparación OECE
           </h2>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-muted">
             72 preguntas · 120 minutos · Ley 32069. Entrenamiento independiente;
             no otorga certificación.
           </p>
@@ -99,15 +99,15 @@ export function ExamPreparationPanel({
             <div key={code} className="examCoverageCard">
               <p className="examCompetencyLabel">Competencia {code}</p>
               <p className="text-sm font-semibold">{COMPETENCIES[code]}</p>
-              <p className="mt-2 text-2xl font-semibold tabular-nums text-teal-800">
+              <p className="mt-2 text-2xl font-semibold tabular-nums text-brand-dark">
                 {covered}
-                <span className="text-sm font-normal text-slate-500">
+                <span className="text-sm font-normal text-muted">
                   {" "}
                   / {required} revisadas
                 </span>
               </p>
               <progress
-                className="mt-3 h-2 w-full accent-teal-700"
+                className="mt-3 h-2 w-full accent-brand"
                 value={covered}
                 max={required}
                 aria-label={`Cobertura de ${COMPETENCIES[code]}`}
@@ -171,7 +171,7 @@ export function ExamPreparationPanel({
           </ul>
         </details>
       )}
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-muted">
         {missing.length
           ? `En preparación: faltan preguntas revisadas en ${missing.length} subcompetencias. No se completan cupos con repeticiones.`
           : "Las treinta cuotas están cubiertas con preguntas revisadas y fuentes actuales."}
@@ -180,12 +180,12 @@ export function ExamPreparationPanel({
         <summary className="cursor-pointer text-sm font-semibold">
           Cobertura y pendientes por subcompetencia
         </summary>
-        <p className="my-3 text-xs text-slate-600">
+        <p className="my-3 text-xs text-muted">
           Temario: 25/04/2025. {published} publicadas para este perfil
           {isAdmin ? ` · ${drafts} borradores con clasificación propuesta` : ""}
           . Meta editorial: 360 revisadas; la meta no representa disponibilidad.
         </p>
-        <ul className="divide-y divide-slate-100">
+        <ul className="divide-y divide-line">
           {data.coverage.map((c) => (
             <li
               key={c.code}
@@ -194,7 +194,7 @@ export function ExamPreparationPanel({
               <span className="min-w-0">
                 {c.code} · {c.label}
               </span>
-              <span className="text-xs text-slate-600">
+              <span className="text-xs text-muted">
                 {c.published}/{c.quota} para simulacro
                 {isAdmin ? ` · ${c.drafts} borradores · meta ${c.target}` : ""}
               </span>
@@ -207,11 +207,11 @@ export function ExamPreparationPanel({
           </Link>
         )}
       </details>
-      <details className="rounded-xl border border-slate-200 p-4">
+      <details className="rounded-xl border border-line p-4">
         <summary className="cursor-pointer text-sm font-semibold">
           Biblioteca de simulaciones · cinco balotarios
         </summary>
-        <p className="mt-3 text-sm text-slate-600">
+        <p className="mt-3 text-sm text-muted">
           Cada edición exige las 360 preguntas revisadas y conserva la revisión
           usada por sus cinco conjuntos. Si cambia una pregunta, el conjunto
           requiere comprobación.
@@ -227,14 +227,14 @@ export function ExamPreparationPanel({
                   Balotario {b.slot} · {b.eligible}/72 disponibles · edición{" "}
                   {b.edition}
                   {b.created_at && (
-                    <span className="mt-1 block text-xs text-slate-600">
+                    <span className="mt-1 block text-xs text-muted">
                       Publicación de la edición:{" "}
                       {new Date(b.created_at).toLocaleDateString("es-PE", {
                         timeZone: "America/Lima",
                       })}
                     </span>
                   )}
-                  <span className="mt-1 block text-xs text-slate-600">
+                  <span className="mt-1 block text-xs text-muted">
                     {setAttempts.filter((a) => a.setId === b.id).length}{" "}
                     intentos entregados ·{" "}
                     {setAttempts.some((a) => a.setId === b.id)
@@ -256,11 +256,11 @@ export function ExamPreparationPanel({
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {[1, 2, 3, 4, 5].map((slot) => (
               <div
-                className="rounded-xl border border-slate-200 p-4"
+                className="rounded-xl border border-line p-4"
                 key={slot}
               >
                 <h3 className="font-semibold">Balotario {slot}</h3>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-muted">
                   72 preguntas · 120 minutos
                 </p>
                 <span className="examStatus mt-3">
@@ -271,17 +271,17 @@ export function ExamPreparationPanel({
           </div>
         )}
       </details>
-      <details className="rounded-xl border border-slate-200 p-4">
+      <details className="rounded-xl border border-line p-4">
         <summary className="cursor-pointer text-sm font-semibold">
           Mi avance por competencia
         </summary>
-        <p className="mt-3 text-xs text-slate-600">
+        <p className="mt-3 text-xs text-muted">
           Última respuesta por pregunta y revisión. Los borradores
           administrativos se excluyen. Este avance orienta tu estudio; no
           predice aprobación.
         </p>
         {data.progress.length ? (
-          <ul className="mt-3 divide-y divide-slate-100">
+          <ul className="mt-3 divide-y divide-line">
             {data.progress.map((c) => (
               <li
                 key={c.code ?? "general"}

@@ -137,7 +137,7 @@ export function LoginForm({ next }: LoginFormProps) {
         {loading ? "Entrando…" : "Entrar"}
       </button>
 
-      <details className="group rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm">
+      <details className="group rounded-lg border border-line bg-panel px-3.5 py-2.5 text-sm">
         <summary className="flex cursor-pointer list-none items-center gap-2 font-semibold text-ink [&::-webkit-details-marker]:hidden">
           <HelpCircle size={16} className="text-muted" aria-hidden /> ¿Olvidaste tu contraseña?
         </summary>

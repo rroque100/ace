@@ -396,7 +396,7 @@ export function useEntityForm({
         />
       </div>
       {hasFieldError(name) ? (
-        <small className="text-xs font-semibold text-red-600" id={`err-${name}`} role="alert">
+        <small className="text-xs font-semibold text-danger" id={`err-${name}`} role="alert">
           {errors[name]}
         </small>
       ) : opts.hint ? (
@@ -444,7 +444,7 @@ export function NavAnclas({
             document.getElementById(sec.id)?.scrollIntoView({ behavior: "smooth" });
           }}
           className={`whitespace-nowrap px-3 py-1.5 text-xs rounded-md transition-colors ${
-            activeSection === sec.id ? "bg-brand text-white" : "text-muted hover:bg-surface"
+            activeSection === sec.id ? "bg-brand text-on-brand" : "text-muted hover:bg-surface"
           }`}
         >
           {sec.label}
@@ -460,7 +460,7 @@ export function BarraGuardado({ form }: { form: EntityForm }) {
   return (
     <div className="flex items-center gap-3 py-3 border-t border-line">
       <button
-        className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 font-bold text-white bg-brand border-0 rounded-lg cursor-pointer hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 font-bold text-on-brand bg-brand border-0 rounded-lg cursor-pointer hover:bg-brand-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         type="button"
         onClick={() => persist("manual")}
         disabled={saving || !isDirty}

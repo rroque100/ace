@@ -52,9 +52,9 @@ export function FiltrosBar({
           onChange={(e) => onBusqueda(e.target.value)}
           placeholder={placeholderBusqueda}
           className={cn(
-            "h-11 w-full rounded-[10px] border border-line bg-surface pl-10 pr-10 text-sm text-ink outline-none",
+            "h-11 w-full rounded-[10px] border border-line-strong bg-surface pl-10 pr-10 text-sm text-ink outline-none",
             "transition-[border-color,box-shadow] duration-150",
-            "placeholder:text-muted/70 focus:border-brand focus:bg-panel focus:shadow-[var(--shadow-focus)]",
+            "placeholder:text-placeholder focus:border-brand focus:bg-panel focus:shadow-[var(--shadow-focus)]",
           )}
         />
         {busqueda ? (

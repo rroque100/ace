@@ -264,7 +264,7 @@ export function AreasTab({
     return (
       <div
         key={o.id}
-        className={`overflow-hidden rounded-lg border bg-white ${draft ? "border-[color-mix(in_srgb,var(--brand)_45%,var(--line))] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand)_20%,transparent)]" : "border-line"} ${o.activo ? "" : "opacity-72"}`}
+        className={`overflow-hidden rounded-lg border bg-panel ${draft ? "border-[color-mix(in_srgb,var(--brand)_45%,var(--line))] shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--brand)_20%,transparent)]" : "border-line"} ${o.activo ? "" : "opacity-72"}`}
         data-expanded={expanded}
       >
         <button
@@ -275,7 +275,7 @@ export function AreasTab({
             if (!draft) setExpandedId((cur) => (cur === o.id ? null : o.id));
           }}
         >
-          <span className={`grid w-[34px] h-[34px] shrink-0 place-items-center rounded-md ${o.activo ? "bg-[#eef2f7] text-slate-600" : "bg-[#f1f4f7] text-slate-400"}`} aria-hidden>
+          <span className={`grid w-[34px] h-[34px] shrink-0 place-items-center rounded-md ${o.activo ? "bg-[#eef2f7] text-muted" : "bg-[#f1f4f7] text-muted"}`} aria-hidden>
             <Building2 size={17} />
           </span>
           <span className="min-w-0 flex-1">
@@ -285,14 +285,14 @@ export function AreasTab({
             {o.entidad ? <span className="block overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted">{o.entidad}</span> : null}
             <span className="mt-1 flex flex-wrap items-center gap-1">
               {draft ? (
-                <span className="inline-flex items-center gap-1 rounded-full border-[#fde68a] bg-[#fffbeb] px-2 py-1 text-xs font-[800] leading-none text-amber-700">Sin guardar</span>
+                <span className="inline-flex items-center gap-1 rounded-full border-[#fde68a] bg-[#fffbeb] px-2 py-1 text-xs font-[800] leading-none text-warning">Sin guardar</span>
               ) : (
-                <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-[800] leading-none ${o.activo ? "border-[rgba(15,118,110,0.16)] bg-[#f0fdfa] text-brand" : "border-[#dfe5ea] bg-[#f1f4f7] text-slate-500"}`}>
+                <span className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-[800] leading-none ${o.activo ? "border-[rgba(15,118,110,0.16)] bg-[#f0fdfa] text-brand" : "border-[#dfe5ea] bg-[#f1f4f7] text-muted"}`}>
                   {o.activo ? "Activa" : "Inactiva"}
                 </span>
               )}
               {o.gestiona_contrataciones ? (
-                <span className="inline-flex items-center gap-1 rounded-full border-[#ecdcc8] bg-[#f7eee3] px-2 py-1 text-xs font-[800] leading-none text-amber-800">
+                <span className="inline-flex items-center gap-1 rounded-full border-[#ecdcc8] bg-[#f7eee3] px-2 py-1 text-xs font-[800] leading-none text-warning">
                   <Workflow size={11} aria-hidden /> Contrataciones
                 </span>
               ) : null}
@@ -307,7 +307,7 @@ export function AreasTab({
                     <Hash size={11} aria-hidden /> {numeracion} doc{numeracion === 1 ? "" : "s"}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 rounded-full border-[#dfe5ea] bg-[#f1f4f7] px-2 py-1 text-xs font-[800] leading-none text-slate-500">
+                  <span className="inline-flex items-center gap-1 rounded-full border-[#dfe5ea] bg-[#f1f4f7] px-2 py-1 text-xs font-[800] leading-none text-muted">
                     <Hash size={11} aria-hidden /> Sin numeración
                   </span>
                 )
@@ -321,7 +321,7 @@ export function AreasTab({
           <div className="border-t border-line bg-[#f8fafc] p-3.5">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">Nombre de la oficina <em className="text-xs font-normal text-slate-400 not-italic">obligatorio</em></span>
+                <span className="text-sm font-semibold text-ink">Nombre de la oficina <em className="text-xs font-normal text-muted not-italic">obligatorio</em></span>
                 <input
                   className={inputBase}
                   value={o.nombre}
@@ -331,7 +331,7 @@ export function AreasTab({
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">Entidad</span>
+                <span className="text-sm font-semibold text-ink">Entidad</span>
                 <input
                   className={inputBase}
                   value={o.entidad ?? ""}
@@ -353,7 +353,7 @@ export function AreasTab({
 
             {o.gestiona_contrataciones ? (
               <div className="mt-0.5 border-t border-line pt-3.5">
-                <div className="mb-1 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+                <div className="mb-1 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
                   <Workflow size={14} /> Procesos de contratación
                 </div>
                 <p className="m-0 text-sm text-muted">
@@ -379,11 +379,11 @@ export function AreasTab({
             </button>
             <SaveStatus status={saveStatus} />
               {confirmDeleteId === o.id ? (
-                <span className="ml-auto inline-flex items-center gap-2 rounded-md bg-red-100 px-3 py-1.5 text-sm text-red-700">
+                <span className="ml-auto inline-flex items-center gap-2 rounded-md bg-danger-soft px-3 py-1.5 text-sm text-danger">
                   ¿Eliminar esta oficina y su numeracion? No se puede deshacer.
                   <button
                     type="button"
-                    className={`${btnSec} text-xs font-semibold text-red-700`}
+                    className={`${btnSec} text-xs font-semibold text-danger`}
                     onClick={() => deleteOficina(o.id)}
                     disabled={busyId === o.id}
                   >
@@ -391,7 +391,7 @@ export function AreasTab({
                   </button>
                   <button
                     type="button"
-                    className={`${btnSec} text-xs font-semibold text-red-700`}
+                    className={`${btnSec} text-xs font-semibold text-danger`}
                     onClick={() => setConfirmDeleteId(null)}
                   >
                     Cancelar
@@ -459,26 +459,26 @@ export function AreasTab({
       </div>
 
       {error ? (
-        <p role="alert" className="text-base text-red-700">
+        <p role="alert" className="text-base text-danger">
           {error}
         </p>
       ) : null}
 
       {oficinas.length > 0 ? (
         <div className="flex flex-wrap gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-sm text-muted">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-1.5 text-sm text-muted">
             <strong className="text-lg font-bold text-ink">{stats.total}</strong> oficinas
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-sm text-muted">
+          <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-1.5 text-sm text-muted">
             <strong className="text-lg font-bold text-ink">{stats.activas}</strong> activas
           </span>
           {stats.inactivas > 0 ? (
-            <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-sm text-muted">
+            <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-1.5 text-sm text-muted">
               <strong className="text-lg font-bold text-ink">{stats.inactivas}</strong> inactivas
             </span>
           ) : null}
           {stats.contrataciones > 0 ? (
-            <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-sm text-muted">
+            <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-panel px-3 py-1.5 text-sm text-muted">
               <Workflow size={13} aria-hidden /> <strong className="text-lg font-bold text-ink">{stats.contrataciones}</strong> gestiona contrataciones
             </span>
           ) : null}
@@ -491,7 +491,7 @@ export function AreasTab({
             <Search size={15} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
             <input
               type="search"
-              className="w-full rounded-md border border-line bg-white py-2 pl-8 pr-8 text-base outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
+              className="w-full rounded-md border border-line bg-panel py-2 pl-8 pr-8 text-base outline-none focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.15)]"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Buscar oficina... (ej. logistica)"

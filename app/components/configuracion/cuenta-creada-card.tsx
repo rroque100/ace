@@ -39,7 +39,7 @@ function CampoCopiable({ etiqueta, valor }: { etiqueta: string; valor: string })
   return (
     <div className="min-w-0">
       <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-muted">{etiqueta}</span>
-      <div className="flex items-stretch overflow-hidden rounded-md border border-line bg-white">
+      <div className="flex items-stretch overflow-hidden rounded-md border border-line bg-panel">
         <code className="min-w-0 flex-1 select-all break-all px-3 py-2.5 font-mono text-md font-bold tracking-wide text-ink">{valor}</code>
         <button
           type="button"
@@ -83,12 +83,12 @@ export function CuentaCreadaCard({ nombre, usuario, passwordTemporal, mensaje, c
         <span><strong>Se muestra solo ahora.</strong> No queda guardada en ninguna parte: si cierras esto sin copiarla, tendrás que restablecer la contraseña.</span>
       </p>
 
-      <details className="group mx-4 mt-3 overflow-hidden rounded-md border border-line bg-white">
+      <details className="group mx-4 mt-3 overflow-hidden rounded-md border border-line bg-panel">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3 py-2.5 text-sm font-semibold text-ink hover:bg-surface [&::-webkit-details-marker]:hidden">
           Ver el mensaje para entregar
           <ChevronDown size={16} className="text-muted transition-transform group-open:rotate-180" aria-hidden />
         </summary>
-        <pre className="m-0 whitespace-pre-wrap break-words border-t border-line bg-white p-3 font-sans text-sm leading-[1.6] text-ink">{mensaje}</pre>
+        <pre className="m-0 whitespace-pre-wrap break-words border-t border-line bg-panel p-3 font-sans text-sm leading-[1.6] text-ink">{mensaje}</pre>
       </details>
 
       <div className="flex flex-wrap items-center gap-2 px-4 pb-4 pt-3.5">

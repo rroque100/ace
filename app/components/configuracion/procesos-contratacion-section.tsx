@@ -53,7 +53,7 @@ export function ProcesosContratacionSection({ oficinas }: { oficinas: Oficina[] 
           {oec.map((o) => (
             <div
               key={o.id}
-              className="flex items-center justify-between gap-3 rounded-lg border border-line bg-white px-3 py-2.5 max-sm:flex-col max-sm:items-stretch"
+              className="flex items-center justify-between gap-3 rounded-lg border border-line bg-panel px-3 py-2.5 max-sm:flex-col max-sm:items-stretch"
             >
               <div className="min-w-0">
                 <div className="text-sm font-semibold text-ink truncate">

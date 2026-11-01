@@ -9,7 +9,7 @@ import { AppearanceControl } from "../appearance-control";
 // los títulos llevan el modificador `!` (`text-2xl!`); sin él, el tamaño que se ve no es el que se escribe.
 
 export const authInput =
-  "block w-full min-h-11 rounded-xl border border-line bg-panel px-3.5 py-2.5 text-[16px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-muted/60 focus:border-brand focus:outline-none focus:shadow-focus disabled:cursor-not-allowed disabled:bg-surface sm:text-md";
+  "block w-full min-h-11 rounded-xl border border-line-strong bg-panel px-3.5 py-2.5 text-[16px] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-placeholder focus:border-brand focus:outline-none focus:shadow-focus disabled:cursor-not-allowed disabled:bg-surface sm:text-md";
 export const authInputError = "border-danger focus:border-danger";
 export const authLabel = "mb-1.5 flex items-baseline justify-between gap-2 text-sm font-semibold text-ink";
 export const authBoton =

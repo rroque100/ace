@@ -77,11 +77,11 @@ export function ExamEditorialPanel({
         data.coverage.every((c) => c.published >= c.target)) ??
       false;
   return (
-    <section className="space-y-4 rounded-2xl border border-teal-200 bg-white p-4 sm:p-5">
+    <section className="space-y-4 rounded-2xl border border-brand/30 bg-panel p-4 sm:p-5">
       <h2 className="text-lg font-semibold">
         Preparación del banco · meta de 360 revisadas
       </h2>
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-muted">
         {published} publicadas y elegibles · {drafts} borradores con
         clasificación propuesta. Las preguntas de marco general sin
         subcompetencia no cuentan para este perfil.
@@ -92,13 +92,13 @@ export function ExamEditorialPanel({
       {error && (
         <p
           role="alert"
-          className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm"
+          className="rounded-lg border border-warning/40 bg-warning-soft p-3 text-sm"
         >
           {error}
         </p>
       )}
       {notice && (
-        <p role="status" className="rounded-lg bg-teal-50 p-3 text-sm">
+        <p role="status" className="rounded-lg bg-brand-soft p-3 text-sm">
           {notice}
         </p>
       )}
@@ -106,7 +106,7 @@ export function ExamEditorialPanel({
         <summary className="cursor-pointer text-sm font-semibold">
           Preparar preguntas originales con asistencia de IA
         </summary>
-        <p className="my-3 text-sm text-slate-600">
+        <p className="my-3 text-sm text-muted">
           Cada petición prepara hasta seis borradores usando pasajes del corpus
           oficial. Consume el proveedor configurado; no publica preguntas ni
           acredita revisión jurídica. Si faltan pasajes o cuota, la tarea queda
@@ -133,7 +133,7 @@ export function ExamEditorialPanel({
         >
           {busy ? "Procesando…" : "Preparar siguiente lote de borradores"}
         </button>
-        <ul className="mt-3 space-y-2 text-xs text-slate-600">
+        <ul className="mt-3 space-y-2 text-xs text-muted">
           {data?.authoring.slice(0, 5).map((b) => (
             <li key={b.id}>
               {b.subcompetency_code} · {b.state} · {b.created_count}/{b.target}{" "}
@@ -146,7 +146,7 @@ export function ExamEditorialPanel({
         <summary className="cursor-pointer text-sm font-semibold">
           Crear cinco balotarios de una edición
         </summary>
-        <p className="my-3 text-sm text-slate-600">
+        <p className="my-3 text-sm text-muted">
           Se requieren cinco veces las treinta cuotas. Cada pregunta se usa una
           vez entre los cinco conjuntos. Las ediciones anteriores se conservan.
         </p>
@@ -158,7 +158,7 @@ export function ExamEditorialPanel({
           Crear edición con 360 preguntas revisadas
         </button>
         {!ready && (
-          <p className="mt-2 text-xs text-slate-600">
+          <p className="mt-2 text-xs text-muted">
             Faltan preguntas revisadas en una o más subcompetencias.
           </p>
         )}
@@ -176,7 +176,7 @@ export function ExamEditorialPanel({
                   r.reason}{" "}
                 · revisión {r.question_revision}
               </p>
-              <p className="mt-1 break-all text-xs text-slate-500">
+              <p className="mt-1 break-all text-xs text-muted">
                 Pregunta: {r.question_id}
               </p>
               <p className="mt-2 whitespace-pre-wrap">
@@ -205,7 +205,7 @@ export function ExamEditorialPanel({
           ))}
         </ul>
         {reportId && (
-          <div className="mt-3 rounded-lg border border-teal-200 p-3">
+          <div className="mt-3 rounded-lg border border-brand/30 p-3">
             <label className="text-sm">
               Sustento de la revisión del reporte
               <textarea
@@ -232,7 +232,7 @@ export function ExamEditorialPanel({
           </div>
         )}
         {!data?.reports.length && (
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="mt-3 text-sm text-muted">
             Todavía no hay reportes.
           </p>
         )}
@@ -241,7 +241,7 @@ export function ExamEditorialPanel({
         <summary className="cursor-pointer text-sm font-semibold">
           Medición de dificultad y discriminación
         </summary>
-        <p className="my-3 text-xs text-slate-600">
+        <p className="my-3 text-xs text-muted">
           Solo primeras exposiciones por usuario y revisión, en simulacros
           completos comparables. Excluye borradores y prácticas con explicación.
           El tiempo activo es aproximado; las correlaciones no son una
@@ -262,7 +262,7 @@ export function ExamEditorialPanel({
                   {Math.round(m.accuracy * 100)}% aciertos · {m.omitted}{" "}
                   omisiones
                 </p>
-                <p className="mt-1 text-xs text-slate-600">
+                <p className="mt-1 text-xs text-muted">
                   Tiempo activo aproximado:{" "}
                   {m.active_seconds == null
                     ? "Sin medición suficiente"
@@ -276,7 +276,7 @@ export function ExamEditorialPanel({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-muted">
             Muestra insuficiente: todavía no hay simulacros completos
             comparables para medir el banco.
           </p>

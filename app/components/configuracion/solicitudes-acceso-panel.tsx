@@ -27,7 +27,7 @@ const hoyISO = () => new Date().toISOString().slice(0, 10);
 // Etiqueta de dato (DNI, Correo…): pequeña y en mayúsculas para que el valor, debajo, sea lo que se lea primero.
 const DT = "mb-0.5 text-xs font-semibold uppercase tracking-wide text-muted";
 // `inputSelect` lleva `w-full`: en una fila de controles se estiraba a todo el ancho y el botón de al lado caía debajo.
-const SELECT_COMPACTO = "min-h-[34px] rounded-lg border border-line bg-white px-2.5 text-sm font-semibold text-ink focus:border-brand focus:outline-none focus:shadow-focus";
+const SELECT_COMPACTO = "min-h-[34px] rounded-lg border border-line bg-panel px-2.5 text-sm font-semibold text-ink focus:border-brand focus:outline-none focus:shadow-focus";
 
 export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () => void }) {
   const { success, error: toastError } = useToastHelpers();
@@ -106,7 +106,7 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
       <div className="mb-1 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <h3 id="solicitudes-titulo" className="m-0 flex items-center gap-2 text-base font-bold">
           <Inbox size={18} aria-hidden /> Solicitudes de acceso
-          {bandeja && bandeja.pendientes > 0 ? <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white" aria-label={`${bandeja.pendientes} pendientes`}>{bandeja.pendientes}</span> : null}
+          {bandeja && bandeja.pendientes > 0 ? <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-on-brand" aria-label={`${bandeja.pendientes} pendientes`}>{bandeja.pendientes}</span> : null}
         </h3>
         <div className="flex flex-wrap items-center gap-2">
           <select id="solicitudes-filtro" className={SELECT_COMPACTO} value={filtro} onChange={(e) => setFiltro(e.target.value as typeof filtro)} aria-label="Filtrar solicitudes por estado">
@@ -148,7 +148,7 @@ export function SolicitudesAccesoPanel({ onCuentaCreada }: { onCuentaCreada: () 
 
       <ul className="m-0 flex list-none flex-col gap-3 p-0">
         {bandeja?.solicitudes.map((solicitud) => (
-          <li key={solicitud.id} className={`rounded-lg border border-l-4 border-line bg-white p-4 shadow-card ${solicitud.estado === "pendiente" ? "border-l-warning" : solicitud.estado === "aprobada" ? "border-l-success" : "border-l-muted"}`}>
+          <li key={solicitud.id} className={`rounded-lg border border-l-4 border-line bg-panel p-4 shadow-card ${solicitud.estado === "pendiente" ? "border-l-warning" : solicitud.estado === "aprobada" ? "border-l-success" : "border-l-muted"}`}>
             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
               <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1">
                 <strong className="text-md">{solicitud.nombre}</strong>

@@ -165,7 +165,7 @@ export function SolicitudAccesoForm() {
             {LISTA_MODULOS_EXTERNOS.map((modulo) => {
               const Icono = ICONOS[modulo];
               return (
-                <label key={modulo} className="flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-white p-3.5 transition-colors duration-150 hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus-visible]:shadow-focus">
+                <label key={modulo} className="flex cursor-pointer items-start gap-3 rounded-lg border border-line bg-panel p-3.5 transition-colors duration-150 hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand-soft has-[:focus-visible]:shadow-focus">
                   <input type="checkbox" className="mt-1 size-4 shrink-0 accent-brand" checked={valores.modulos.includes(modulo)} onChange={() => alternarModulo(modulo)} />
                   <span className="min-w-0 text-md leading-snug">
                     <span className="flex flex-wrap items-center gap-2 font-semibold"><Icono size={16} className="text-brand" aria-hidden /> {MODULOS_EXTERNOS[modulo].label}</span>

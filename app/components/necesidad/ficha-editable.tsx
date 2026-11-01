@@ -706,7 +706,7 @@ export function FichaEditable({
         <div className="inline-flex rounded-[10px] border border-line bg-surface p-0.5" role="group" aria-label="Campos a mostrar">
           <button
             aria-pressed={obligatoriosOnly}
-            className={cn("rounded-[8px] px-3 py-1.5 text-[12.5px] font-semibold transition", obligatoriosOnly ? "bg-brand text-white shadow-card" : "text-muted hover:text-brand")}
+            className={cn("rounded-[8px] px-3 py-1.5 text-[12.5px] font-semibold transition", obligatoriosOnly ? "bg-brand text-on-brand shadow-card" : "text-muted hover:text-brand")}
             onClick={() => setObligatoriosOnly(true)}
             type="button"
           >
@@ -714,7 +714,7 @@ export function FichaEditable({
           </button>
           <button
             aria-pressed={!obligatoriosOnly}
-            className={cn("rounded-[8px] px-3 py-1.5 text-[12.5px] font-semibold transition", !obligatoriosOnly ? "bg-brand text-white shadow-card" : "text-muted hover:text-brand")}
+            className={cn("rounded-[8px] px-3 py-1.5 text-[12.5px] font-semibold transition", !obligatoriosOnly ? "bg-brand text-on-brand shadow-card" : "text-muted hover:text-brand")}
             onClick={() => setObligatoriosOnly(false)}
             type="button"
           >
@@ -736,7 +736,7 @@ export function FichaEditable({
                 aria-pressed={modo === valor}
                 className={cn(
                   "rounded-[8px] px-3 py-1.5 text-[12.5px] font-semibold transition",
-                  modo === valor ? "bg-brand text-white shadow-card" : "text-muted hover:text-brand",
+                  modo === valor ? "bg-brand text-on-brand shadow-card" : "text-muted hover:text-brand",
                 )}
                 key={valor}
                 onClick={() => cambiarModo(valor)}
@@ -780,7 +780,7 @@ export function FichaEditable({
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[12px] font-medium transition",
                   activo
-                    ? "border-brand bg-brand text-white"
+                    ? "border-brand bg-brand text-on-brand"
                     : hecho
                       ? "border-success/30 bg-success-soft text-success"
                       : "border-line bg-panel text-muted hover:border-brand/30",
@@ -1085,7 +1085,7 @@ function SectionNavItem({
       className={cn(
         "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-1.5 text-[12.5px] transition",
         actual
-          ? "border-brand bg-brand font-semibold text-white"
+          ? "border-brand bg-brand font-semibold text-on-brand"
           : "border-line bg-surface text-muted hover:border-brand/40 hover:text-ink",
       )}
     >

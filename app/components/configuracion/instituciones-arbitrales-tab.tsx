@@ -119,17 +119,17 @@ export function InstitucionesArbitralesTab() {
       <div className="rounded-xl border border-line bg-panel p-5 shadow-card">
         <div className="flex flex-col gap-3">
           <div className="rounded-lg bg-[#f8fafc] p-3">
-            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
               <Plus size={14} /> Agregar institución arbitral
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_180px]">
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">
+                <span className="text-sm font-semibold text-ink">
                   Nombre de la institución arbitral{" "}
-                  <em className="text-xs font-normal not-italic text-slate-400">obligatorio</em>
+                  <em className="text-xs font-normal not-italic text-muted">obligatorio</em>
                 </span>
                 <input
-                  className="rounded-md border border-line bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-slate-400 focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
+                  className="rounded-md border border-line-strong bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-placeholder focus:border-brand focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)]"
                   onChange={(e) => setNuevoNombre(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") agregar();
@@ -139,11 +139,11 @@ export function InstitucionesArbitralesTab() {
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-slate-700">
-                  RUC <em className="text-xs font-normal not-italic text-slate-400">opcional</em>
+                <span className="text-sm font-semibold text-ink">
+                  RUC <em className="text-xs font-normal not-italic text-muted">opcional</em>
                 </span>
                 <input
-                  className={`rounded-md border bg-white px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-slate-400 focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)] ${
+                  className={`rounded-md border bg-panel px-2.5 py-2 text-base outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-placeholder focus:shadow-[0_0_0_2px_rgba(15,118,110,0.12)] ${
                     rucNuevoInvalido ? "border-amber-400 focus:border-amber-500" : "border-line focus:border-brand"
                   }`}
                   inputMode="numeric"
@@ -156,7 +156,7 @@ export function InstitucionesArbitralesTab() {
                   value={nuevoRuc}
                 />
                 {rucNuevoInvalido ? (
-                  <span className="mt-0.5 text-xs text-amber-600">Debe tener 11 dígitos.</span>
+                  <span className="mt-0.5 text-xs text-warning">Debe tener 11 dígitos.</span>
                 ) : null}
               </label>
             </div>
@@ -168,7 +168,7 @@ export function InstitucionesArbitralesTab() {
           </div>
 
           <div className="rounded-lg bg-[#f8fafc] p-3">
-            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-600">
+            <div className="mb-2.5 flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-muted">
               <Scale size={14} /> Instituciones registradas ({instituciones.length})
             </div>
             {cargando ? (
@@ -196,7 +196,7 @@ export function InstitucionesArbitralesTab() {
               />
             ) : (
               <ul className="m-0 flex max-h-96 list-none flex-col gap-1 overflow-y-auto p-0">
-                <li className="grid grid-cols-[48px_1fr_140px_auto] items-center gap-2.5 px-2 py-1 text-xs font-bold uppercase tracking-wide text-slate-500">
+                <li className="grid grid-cols-[48px_1fr_140px_auto] items-center gap-2.5 px-2 py-1 text-xs font-bold uppercase tracking-wide text-muted">
                   <span>Id</span>
                   <span>Institución arbitral</span>
                   <span>RUC</span>

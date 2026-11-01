@@ -313,7 +313,7 @@ export function ModelosRequerimiento({ entidad }: { entidad?: string | null }) {
                 </span>
               ) : (
                 <button
-                  className="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-white text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
+                  className="grid size-9 shrink-0 place-items-center rounded-full border border-line bg-panel text-brand cursor-pointer hover:border-[rgba(176,71,60,0.45)] hover:bg-[#fbf1ef] hover:text-[#b0473c]"
                   type="button"
                   aria-label="Eliminar modelo"
                   onClick={() => setConfirmDelete(m.id)}

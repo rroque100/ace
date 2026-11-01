@@ -147,7 +147,7 @@ const RESULT_BADGE: Record<string, string> = {
 const RISK_ITEM_BASE =
   "grid gap-[5px] rounded-[13px] border p-2.5 " +
   "[&>strong]:text-[13px] [&>strong]:text-ink " +
-  "[&>span]:w-fit [&>span]:rounded-full [&>span]:bg-white [&>span]:px-[7px] [&>span]:py-1 [&>span]:text-[11px] [&>span]:font-[900] [&>span]:uppercase [&>span]:text-muted " +
+  "[&>span]:w-fit [&>span]:rounded-full [&>span]:bg-panel [&>span]:px-[7px] [&>span]:py-1 [&>span]:text-[11px] [&>span]:font-[900] [&>span]:uppercase [&>span]:text-muted " +
   "[&>p]:m-0 [&>p]:text-[12px] [&>p]:leading-[1.45] [&>p]:text-muted " +
   "[&>small]:m-0 [&>small]:text-[12px] [&>small]:leading-[1.45] [&>small]:text-muted";
 const RISK_ITEM: Record<string, string> = {
