@@ -46,6 +46,8 @@ import {
   type SearchClassification,
 } from "@/lib/document-search";
 
+import { S } from "./document-search-workspace-estilos";
+import { cn } from "@/lib/utils";
 type CatalogueEntry = {
   title: string; documentNumber?: string | null;
   documentId: string;
@@ -93,14 +95,17 @@ const initialFilters = (params: { get: (key: string) => string | null }) =>
       ].map((key) => [key, params.get(key) ?? undefined]),
     ),
   });
+// En la tarjeta del documento el extracto se recorta a cuatro líneas; dentro de «Ver coincidencias» se muestra entero.
+const RECORTE_TARJETA = "mt-3! mb-3! [display:-webkit-box] [-webkit-line-clamp:4] [-webkit-box-orient:vertical] overflow-hidden";
+
 function Excerpt({
   text,
   query,
-  literal, words = false,
+  literal, words = false, tarjeta = false,
 }: {
   text: string;
   query: string;
-  literal: boolean; words?: boolean;
+  literal: boolean; words?: boolean; tarjeta?: boolean;
 }) {
   text = readableSearchPreview(text);
   const parts = literal
@@ -118,7 +123,7 @@ function Excerpt({
   const start = Math.max(0, before.length - 180);
   const window = text.slice(start, start + 420);
   return (
-    <p className="documentMatchText">
+    <p className={cn(S.documentMatchText, tarjeta && RECORTE_TARJETA)}>
       {start > 0 ? "… " : ""}
       {(literal
         ? literalMatchParts(window, query)
@@ -190,9 +195,9 @@ function DocumentCard({
     .filter((item) => document.classification.subjects.includes(item.value))
     .map((item) => item.label);
   return (
-    <article className="documentResult">
+    <article className={S.documentResult}>
       <label className="documentSelect"><input type="checkbox" checked={selected} disabled={!selected && selectionFull} onChange={onSelect} /> Seleccionar para consultar con IA · hasta 8</label>
-      <div className="documentResultMeta">
+      <div className={S.documentResultMeta}>
         <span>{documentTypeLabel(document.documentType)}</span>
         <span>{document.sourceEntity || "Entidad sin registrar"}</span>
         <span>
@@ -209,9 +214,9 @@ function DocumentCard({
       </h3>
       {document.dates?.updated ? <small>Texto actualizado: {document.dates.updated} · </small> : null}
       {document.dates?.imported ? <small>Incorporado: {document.dates.imported}</small> : null}
-      {document.dates?.version ? <small className="documentVersion">Versión: {document.dates.version}</small> : null}
-      {document.versionNote ? <p className="documentSearchHint">{document.versionNote}</p> : null}
-      {document.relatedVersions?.length ? <details className="documentVersions"><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
+      {document.dates?.version ? <small className={S.documentVersion}>Versión: {document.dates.version}</small> : null}
+      {document.versionNote ? <p className={S.documentSearchHint}>{document.versionNote}</p> : null}
+      {document.relatedVersions?.length ? <details className={S.documentVersions}><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
       <div className="documentResultTags">
         <LegalValidityBadge value={document.review?.validityRecord} review={document.review?.validity} />
         {objects.length || subjects.length ? (
@@ -225,26 +230,27 @@ function DocumentCard({
           <span>Clasificación pendiente</span>
         )}
       </div>
-      {document.review ? <details className="documentReviewDetails"><summary>Régimen y revisión de esta versión</summary><p>{document.review.regime ? `Régimen registrado: ${document.review.regime}. ` : "Régimen sin identificar. "}{document.review.method}.</p>{document.review.evidence ? <p>Identificado en: {document.review.evidence}</p> : null}<p>{document.review.reviewer}{document.review.reviewedAt ? ` · ${document.review.reviewedAt.slice(0,10)}` : " · fecha sin registrar"}.</p><p>Registro de vigencia: {document.review.validityRecord}. {document.review.validityReview}</p><p>Las fechas de publicación, actualización e incorporación corresponden solo a esta versión.</p></details> : null}
-      <p className="documentWhy">
+      {document.review ? <details className={S.documentReviewDetails}><summary>Régimen y revisión de esta versión</summary><p>{document.review.regime ? `Régimen registrado: ${document.review.regime}. ` : "Régimen sin identificar. "}{document.review.method}.</p>{document.review.evidence ? <p>Identificado en: {document.review.evidence}</p> : null}<p>{document.review.reviewer}{document.review.reviewedAt ? ` · ${document.review.reviewedAt.slice(0,10)}` : " · fecha sin registrar"}.</p><p>Registro de vigencia: {document.review.validityRecord}. {document.review.validityReview}</p><p>Las fechas de publicación, actualización e incorporación corresponden solo a esta versión.</p></details> : null}
+      <p className={S.documentWhy}>
         {mode === "literal" && !document.matchCount && document.titleMatch ? "Coincidencia con el número o título del documento" : document.foundBy?.length ? `Encontrado por ${document.foundBy.map(method=>method==="words"?"palabras":"significado o referencias").join(" y ")} · ${matches.length} pasajes disponibles` : mode === "literal"
           ? `${document.matchCount} ${document.matchCount===1?"fragmento":"fragmentos"} con la frase${document.titleMatch ? " · también coincide el título" : ""}`
           : `${document.matchCount} ${document.matchCount===1?"pasaje recuperado":"pasajes recuperados"}${mode==="all_words"?" con las palabras indicadas":" por significado"}`}
       </p>
       {matches[0] ? (
         <Excerpt
+          tarjeta
           text={matches[0].excerpt}
           query={mode === "semantic" ? lexicalTopic(query) : query}
           literal={mode === "literal"} words={mode !== "literal"}
         />
       ) : (
-        <p className="documentMatchText">
+        <p className={cn(S.documentMatchText, RECORTE_TARJETA)}>
           La coincidencia está en el título o en el texto agregado del
           documento. No se ha localizado una página exacta para esta frase.
         </p>
       )}
-      {firstPage ? <small className="documentPassagePage">Pasaje en página {firstPage}{matches[0]?.pageEnd && matches[0].pageEnd!==firstPage ? `–${matches[0].pageEnd}` : ""}</small> : null}
-      <div className="documentResultActions">
+      {firstPage ? <small className={S.documentPassagePage}>Pasaje en página {firstPage}{matches[0]?.pageEnd && matches[0].pageEnd!==firstPage ? `–${matches[0].pageEnd}` : ""}</small> : null}
+      <div className={S.documentResultActions}>
         <PdfCiteButton documentId={document.documentId} page={firstPage} sidePanel quote={mode === "literal" ? query : matches[0]?.excerpt} label="Leer PDF" />
         <button
           className="secondaryButton"
@@ -262,7 +268,7 @@ function DocumentCard({
           title={document.title}
         />
       </div>
-      <details className="documentSecondaryActions">
+      <details className={S.documentSecondaryActions}>
         <summary>Más opciones del documento</summary>
         <div>
           <Link
@@ -297,11 +303,11 @@ function DocumentCard({
           </button>
         </div>
       </details>
-      <details className="documentMatches">
+      <details className={S.documentMatches}>
         <summary>Ver coincidencias y páginas · {document.matchCount}</summary>
         {matches.map((match, index) => (
-          <section key={match.chunkId} className="documentMatch">
-            <div className="documentMatchTop">
+          <section key={match.chunkId} className={S.documentMatch}>
+            <div className={S.documentMatchTop}>
               <strong>Coincidencia {index + 1}</strong>
               <span>
                 {match.pageStart
@@ -314,7 +320,7 @@ function DocumentCard({
               query={mode === "semantic" ? lexicalTopic(query) : query}
               literal={mode === "literal"} words={mode !== "literal"}
             />
-            <div className="documentMatchActions">
+            <div className={S.documentMatchActions}>
               <PdfCiteButton
                 documentId={document.documentId}
                 page={match.pageStart}
@@ -609,7 +615,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
     Array.isArray(value) ? value.length : Boolean(value),
   );
   const primaryFilters = (
-<div className="documentPrimaryFilters">            <label>
+<div className={S.documentPrimaryFilters}>            <label>
               Tipo de documento
               <select
                 value={filters.documentType ?? ""}
@@ -658,9 +664,9 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
   return (
     <div className="documentSearchWorkspace">
       <LegalCenterNav active="busqueda" filters={filters} />
-      <section className={`documentSearchIntro${result ? " compactSearchIntro" : ""}`}>
+      <section className={`${S.documentSearchIntro}${result ? " compactSearchIntro" : ""}`}>
         <div>
-        <span className="documentSearchEyebrow">TU BIBLIOTECA JURÍDICA</span>
+        <span className={S.documentSearchEyebrow}>TU BIBLIOTECA JURÍDICA</span>
         <h2>Encuentra el documento que necesitas</h2>
         <p>
           Busca una frase conocida o describe lo que necesitas. Revisa las
@@ -671,14 +677,14 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       </section>
 
       <form
-        className="documentSearchForm"
+        className={S.documentSearchForm}
         onSubmit={(event: FormEvent) => {
           event.preventDefault();
           void run();
         }}
       >
         <div
-          className="documentSearchModes"
+          className={S.documentSearchModes}
           role="radiogroup"
           aria-label="Cómo quieres buscar"
         >
@@ -698,7 +704,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           ).map((item) => (
             <label
               key={item.value}
-              className="documentSearchModeOption"
+              className={S.documentSearchModeOption}
             >
               <input type="radio" name="search-intent" value={item.value} checked={item.value === "literal" ? mode !== "semantic" : mode === item.value} onChange={() => {
                 activeRequest.current?.abort();
@@ -757,18 +763,18 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
         </div>
         {!mobileFilters ? primaryFilters : null}
         <SearchDiscovery query={query} filters={filters} visible={showSuggestions} onCorrect={corrected=>{setQuery(corrected);setFilters(current=>({...current,documentId:undefined}));inputRef.current?.focus();}} onChoose={document=>{const next={...currentInput,query:document.title,mode:"literal" as const,filters:{...filters,documentId:document.documentId}};setQuery(document.title);setMode("literal");setFilters(next.filters);setShowSuggestions(false);void run(1,next);}} />
-        <p id="document-search-hint" className="documentSearchHint">
+        <p id="document-search-hint" className={S.documentSearchHint}>
           {mode !== "semantic"
             ? (mode === "all_words" ? "Se exigen todas las palabras en el mismo documento. Usa hasta diez palabras de al menos dos caracteres; pueden aparecer en pasajes distintos." : "Se ignoran mayúsculas, tildes y espacios repetidos. También puedes escribir un número documental o Artículo seguido del número.")
             : "Se combinan palabras y significado con tus filtros. La lista es una selección de resultados, no un conteo completo del catálogo."}
         </p>
-        <details className="documentMatchOptions"><summary>Opciones de coincidencia y fechas</summary>
-        {mode !== "semantic" ? <label className="documentLiteralChoice">Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
-        <details className="searchPublicationRange"><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
+        <details className={S.documentMatchOptions}><summary>Opciones de coincidencia y fechas</summary>
+        {mode !== "semantic" ? <label className={S.documentLiteralChoice}>Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
+        <details className={S.searchPublicationRange}><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
         </details>
-        <button type="button" className="secondaryButton mobileFilterToggle" onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
-        <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`documentSearchFilters${mobileFilters ? " mobileOpen" : ""}`}>
-          <div className="mobileFilterHeader"><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
+        <button type="button" className={cn("secondaryButton", S.mobileFilterToggle)} onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
+        <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`${S.documentSearchFilters}${mobileFilters ? " mobileOpen" : ""}`}>
+          <div className={S.mobileFilterHeader}><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
           <summary>
             <SlidersHorizontal size={17} />
             Más filtros
@@ -793,7 +799,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               </button>
             </p>
           ) : null}
-          <div className="documentFilterGrid">
+          <div className={S.documentFilterGrid}>
             <label>
               Objeto
               <select
@@ -853,7 +859,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             </label>
           </div>
           <h3>Datos del documento</h3>
-          <div className="documentFilterGrid">
+          <div className={S.documentFilterGrid}>
 
             <label>
               Entidad
@@ -962,10 +968,10 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           >
             Quitar todos los filtros
           </button>
-          <div className="mobileFilterFooter"><button type="button" className="secondaryButton" onClick={()=>setFilters({})}>Restablecer</button><button type="button" className="primaryButton" onClick={()=>{setMobileFilters(false); if(filtersRef.current) filtersRef.current.open=false; void run();}}>Aplicar filtros</button></div>
+          <div className={S.mobileFilterFooter}><button type="button" className="secondaryButton" onClick={()=>setFilters({})}>Restablecer</button><button type="button" className="primaryButton" onClick={()=>{setMobileFilters(false); if(filtersRef.current) filtersRef.current.open=false; void run();}}>Aplicar filtros</button></div>
         </details>
         {activeFilters.length ? (
-          <div className="documentActiveFilters">
+          <div className={S.documentActiveFilters}>
             {filters.documentId ? (
               <span>
                 Documento seleccionado{" "}
@@ -988,29 +994,29 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       <div className="documentLibraryTools">
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
       {savedSearch && !lastInput && !query ? <button type="button" className="secondaryButton" onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
-      <details className="documentCoverage"><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
+      <details className={S.documentCoverage}><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
       </div>
       {error ? (
-        <p className="documentSearchError" role="alert">
+        <p className={S.documentSearchError} role="alert">
           {error}
         </p>
       ) : null}
       {loading ? (
-        <p className="documentSearchStatus" role="status">
+        <p className={S.documentSearchStatus} role="status">
           {result ? "Buscando documentos. Puedes seguir revisando los resultados anteriores." : "Buscando coincidencias en los documentos disponibles…"}
         </p>
       ) : null}
-      {selected.length ? <section className="documentSelection" aria-label="Fuentes seleccionadas"><strong>{selected.length} de 8 documentos seleccionados</strong><div>{selected.map(item=><span key={item.documentId}>{item.title}<button type="button" aria-label={`Quitar ${item.title}`} onClick={()=>setSelected(current=>current.filter(row=>row.documentId!==item.documentId))}>×</button></span>)}</div><label><input type="checkbox" checked={expandCorpus} onChange={event=>setExpandCorpus(event.target.checked)}/> Permitir que el chat amplíe la búsqueda con otras fuentes</label><p>{expandCorpus?"El chat podrá consultar otras fuentes del corpus.":"El chat usará solo los documentos seleccionados."}</p><button type="button" className="primaryButton" disabled={Boolean(chatBusy)} onClick={()=>void chatSelection()}>Consultar selección con IA</button><button type="button" onClick={()=>setSelected([])}>Vaciar selección</button></section> : null}
+      {selected.length ? <section className={S.documentSelection} aria-label="Fuentes seleccionadas"><strong>{selected.length} de 8 documentos seleccionados</strong><div>{selected.map(item=><span key={item.documentId}>{item.title}<button type="button" aria-label={`Quitar ${item.title}`} onClick={()=>setSelected(current=>current.filter(row=>row.documentId!==item.documentId))}>×</button></span>)}</div><label><input type="checkbox" checked={expandCorpus} onChange={event=>setExpandCorpus(event.target.checked)}/> Permitir que el chat amplíe la búsqueda con otras fuentes</label><p>{expandCorpus?"El chat podrá consultar otras fuentes del corpus.":"El chat usará solo los documentos seleccionados."}</p><button type="button" className="primaryButton" disabled={Boolean(chatBusy)} onClick={()=>void chatSelection()}>Consultar selección con IA</button><button type="button" onClick={()=>setSelected([])}>Vaciar selección</button></section> : null}
       {result ? (
         <section
           ref={resultsRef}
           style={{ scrollMarginTop: 64 }}
-          className="documentSearchResults"
+          className={S.documentSearchResults}
           aria-label="Resultados de búsqueda"
           aria-busy={loading}
         >
-          {result.partialRetrieval ? <div className="documentSearchHint" role="status"><strong>Búsqueda parcial.</strong> Una parte de la recuperación no estuvo disponible. Los resultados pueden estar incompletos. Reintenta o revisa «Alcance de esta búsqueda».</div> : null}
-          <div className="documentResultsHeading">
+          {result.partialRetrieval ? <div className={S.documentSearchHint} role="status"><strong>Búsqueda parcial.</strong> Una parte de la recuperación no estuvo disponible. Los resultados pueden estar incompletos. Reintenta o revisa «Alcance de esta búsqueda».</div> : null}
+          <div className={S.documentResultsHeading}>
             <div>
               <h2>
                 {result.totalDocuments}{" "}
@@ -1023,7 +1029,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                 {result.mode === "literal" ? "frase exacta" : result.mode === "all_words" ? "todas las palabras" : "palabras y significado"}
               </p>
             </div>
-            <div className="documentResultOrdering">
+            <div className={S.documentResultOrdering}>
               <label>
                 Ordenar
                 <select
@@ -1062,17 +1068,17 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             </div>
           </div>
           {dirty && !loading ? (
-            <p className="documentSearchPending" role="status">
+            <p className={S.documentSearchPending} role="status">
               Has cambiado la consulta o los filtros. Pulsa «Buscar documentos»
               para aplicarlos.
             </p>
           ) : null}
-          <p className="documentSearchHint">
+          <p className={S.documentSearchHint}>
             Cada tarjeta representa un documento. Las fechas desconocidas se
             muestran al final; el año registrado no confirma régimen ni
             vigencia.
           </p>
-          {result.scope === "retrieved" ? <p className="documentScopeNote">Lista por relevancia, no exhaustiva. El orden por fecha se aplica solo a estos documentos recuperados.</p> : null}
+          {result.scope === "retrieved" ? <p className={S.documentScopeNote}>Lista por relevancia, no exhaustiva. El orden por fecha se aplica solo a estos documentos recuperados.</p> : null}
           {result.historyWarning ? (
             <p role="status">{result.historyWarning}</p>
           ) : null}
@@ -1091,7 +1097,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             />
           ))}
           {!result.documents.length ? (
-            <div className="documentSearchEmpty">
+            <div className={S.documentSearchEmpty}>
               <FileSearch size={28} />
               <h3>Sin coincidencias con estos criterios</h3>
               <SearchDiscovery query={lastInput?.query ?? query} filters={lastInput?.filters ?? filters} visible={!loading && !dirty} correctionOnly onChoose={()=>{}} onCorrect={corrected=>{const next={...(lastInput ?? currentInput),query:corrected};setQuery(corrected);void run(1,next);}} />
@@ -1101,7 +1107,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                   ? "Este modo no revisa exhaustivamente todo el catálogo."
                   : "Solo se ha consultado el texto indexado del corpus institucional."}
               </p>
-              <div className="documentEmptyActions">
+              <div className={S.documentEmptyActions}>
                 {result.mode === "literal" ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),mode:"all_words" as const};setMode("all_words");void run(1,next);}}>Buscar todas las palabras</button> : null}
                 {activeFilters.length ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),filters:{}};setFilters({});void run(1,next);}}>Buscar sin filtros</button> : null}
               </div>
@@ -1109,7 +1115,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           ) : null}
           {result.pages > 1 ? (
             <nav
-              className="documentPagination"
+              className={S.documentPagination}
               aria-label="Páginas de documentos"
             >
               <button
@@ -1139,7 +1145,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               </button>
             </nav>
           ) : null}
-          <details className="documentSearchLimits">
+          <details className={S.documentSearchLimits}>
             <summary>Alcance de esta búsqueda</summary>
             {result.warnings.map((warning) => (
               <p key={warning}>{warning}</p>
@@ -1152,7 +1158,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           </details>
         </section>
       ) : !loading ? (
-        <div className="documentSearchEmpty">
+        <div className={S.documentSearchEmpty}>
           <FileSearch size={30} />
           <strong>Empieza con una frase o una pregunta</strong>
           <p>

@@ -87,7 +87,12 @@ if (arg2) {
 }
 
 const usadas = new Set();
-for (const t of Object.values(textos)) for (const m of t.matchAll(/[A-Za-z_][\w-]*/g)) usadas.add(m[0]);
+// Los componentes migrados con scripts/migrar-a-tailwind.mjs conservan el NOMBRE de la clase como clave de `S`
+// (`S.documentResult`) pero ya no usan el CSS: ni sus ficheros -estilos.ts generados ni las referencias `S.x` cuentan.
+for (const t of Object.values(textos)) {
+  if (t.includes("Generado por scripts/migrar-a-tailwind.mjs")) continue;
+  for (const m of t.replace(/\bS\.[A-Za-z_]\w*/g, " ").matchAll(/[A-Za-z_][\w-]*/g)) usadas.add(m[0]);
+}
 
 const todas = reglas(css);
 const huerfanas = todas.filter((r) => {

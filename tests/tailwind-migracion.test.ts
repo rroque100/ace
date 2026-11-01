@@ -7,13 +7,13 @@ import { describe, expect, it } from "vitest";
 // fijar el avance. Plan: docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md
 const TOPE = {
   // Veces que un `className` usa una clase definida en app/styles.css.
-  usosClasePropia: 1591,
+  usosClasePropia: 1546,
   // Ficheros .tsx que usan alguna.
   ficherosConClasePropia: 110,
   // `style={{…}}` en línea: los dinámicos (anchos %, colores de datos) son legítimos; los literales no.
   estilosEnLinea: 372,
   // Tamaño de la hoja heredada.
-  lineasStylesCss: 10358,
+  lineasStylesCss: 10273,
 };
 
 const RAIZ = process.cwd();
