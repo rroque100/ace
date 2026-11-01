@@ -139,8 +139,8 @@ const TOPE = {
   clasesDePaletaPorDefecto: 35,
   // Literales #rrggbb en componentes: no cambian con el tema ni con los ajustes de los tokens.
   hexEnComponentes: 434,
-  // `background: #fff` / `white` en styles.css: quedan el papel de la hoja de informe y poco más.
-  blancosFijosEnStylesCss: 3,
+  // `background: #fff` / `white` en cualquier CSS de app/: quedan el papel de la hoja de informe y el módulo de expedientes (paleta propia). Un botón con `background: white` dejó «Anterior/Siguiente» ilegibles en oscuro.
+  blancosFijosEnCss: 3,
   // `background: #rrggbb` (cualquier tono) en styles.css.
   fondosHexEnStylesCss: 13,
 };
@@ -163,11 +163,11 @@ describe("paleta: colores escritos a mano", () => {
     expect(cuenta(HEX, ficheros("app", [".tsx", ".ts"]))).toBeLessThanOrEqual(TOPE.hexEnComponentes);
   });
 
-  it("styles.css no vuelve a fijar fondos blancos ni hex", () => {
+  it("los CSS no vuelven a fijar fondos blancos, y styles.css tampoco fondos hex", () => {
     const css = leer("app/styles.css");
-    const blancos = (css.match(/background(?:-color)?: ?(?:#fff(?:fff)?|white)\b/g) ?? []).length;
+    const blancos = ficheros("app", [".css"]).reduce((n, r) => n + (leer(r).match(/background(?:-color)?: ?(?:#fff(?:fff)?|white)\b/g) ?? []).length, 0);
     const fondos = (css.match(/^\s*background(?:-color)?: *#[0-9a-fA-F]{3,6};/gm) ?? []).length;
-    expect(blancos).toBeLessThanOrEqual(TOPE.blancosFijosEnStylesCss);
+    expect(blancos).toBeLessThanOrEqual(TOPE.blancosFijosEnCss);
     expect(fondos).toBeLessThanOrEqual(TOPE.fondosHexEnStylesCss);
   });
 
