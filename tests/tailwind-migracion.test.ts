@@ -6,14 +6,16 @@ import { describe, expect, it } from "vitest";
 // reintroducido CSS propio o estilos en línea; si falla porque has bajado algo, baja la cifra aquí para
 // fijar el avance. Plan: docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md
 const TOPE = {
-  // Veces que un `className` usa una clase definida en app/styles.css.
-  usosClasePropia: 1434,
+  // Veces que un `className` usa una clase definida en algún CSS propio (styles.css o CSS de componentes).
+  usosClasePropia: 1522,
   // Ficheros .tsx que usan alguna.
-  ficherosConClasePropia: 110,
+  ficherosConClasePropia: 120,
   // `style={{…}}` en línea: los dinámicos (anchos %, colores de datos) son legítimos; los literales no.
   estilosEnLinea: 372,
   // Tamaño de la hoja heredada.
   lineasStylesCss: 9048,
+  // Líneas de los CSS de componentes (sin styles.css).
+  lineasCssComponentes: 1230,
 };
 
 const RAIZ = process.cwd();
@@ -26,7 +28,10 @@ function ficheros(dir: string, ext: string[]): string[] {
   });
 }
 
-const propias = new Set([...leer("app/styles.css").replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1]));
+// CSS propio = styles.css y los CSS de componentes (legal-workspace.css, exam-ui.css…). `workspace.css` (tokens y
+// reglas de modo oscuro) y `tailwind.css` (configuración) no cuentan.
+const cssPropio = ficheros("app", [".css"]).filter((r) => !/^app\/(workspace|tailwind)\.css$/.test(r));
+const propias = new Set(cssPropio.flatMap((r) => [...leer(r).replace(/\/\*[\s\S]*?\*\//g, "").matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1])));
 const tsx = ficheros("app", [".tsx"]);
 
 describe("migración a Tailwind: el trinquete solo baja", () => {
@@ -48,7 +53,9 @@ describe("migración a Tailwind: el trinquete solo baja", () => {
     expect(n, "los literales (padding, display, colores) van a utilidades; solo los dinámicos se quedan").toBeLessThanOrEqual(TOPE.estilosEnLinea);
   });
 
-  it("tamaño de styles.css", () => {
+  it("tamaño del CSS propio", () => {
     expect(leer("app/styles.css").split("\n").length).toBeLessThanOrEqual(TOPE.lineasStylesCss);
+    const componentes = cssPropio.filter((r) => r !== "app/styles.css").reduce((n, r) => n + leer(r).split("\n").length, 0);
+    expect(componentes, "los CSS de componentes (legal-workspace.css, exam-ui.css…) también cuentan").toBeLessThanOrEqual(TOPE.lineasCssComponentes);
   });
 });

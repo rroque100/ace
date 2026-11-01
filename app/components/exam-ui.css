@@ -52,16 +52,6 @@
 .examWorkspace :is(progress)::-webkit-progress-value {
   @apply rounded-full bg-brand;
 }
-.examWorkspace .examWelcome {
-  @apply flex flex-wrap items-center justify-between gap-5 border-b border-line pb-6;
-}
-.examWorkspace .examWelcomeActions {
-  @apply flex flex-wrap gap-2;
-}
-.examWorkspace .examResume {
-  @apply flex flex-wrap items-center justify-between gap-4 rounded-xl border border-brand/25 bg-brand-soft p-5;
-  border-left: 4px solid var(--brand);
-}
 .examWorkspace
   :is(
     .examPreparation,
@@ -100,92 +90,11 @@
 .examWorkspace .examDisclosure[open] {
   @apply bg-surface/60;
 }
-.examWorkspace .examCustomLayout {
-  @apply grid items-start gap-5;
-  scroll-margin-top: 24px;
-}
-.examWorkspace .examMode {
-  @apply block min-h-28;
-}
-.examWorkspace .examMode:has(input:checked) {
-  @apply border-brand bg-brand-soft;
-  box-shadow: inset 0 0 0 1px var(--brand);
-}
-.examWorkspace .examMode:has(input:disabled) {
-  @apply cursor-default;
-}
-.examWorkspace .examStudyGuide {
-  @apply rounded-xl border border-line bg-surface p-6 text-ink;
-}
-.examWorkspace .examStudyGuide p {
-  @apply text-sm leading-6 text-muted;
-}
-.examWorkspace .examStudyGuide > p:first-child {
-  @apply text-xs font-semibold uppercase tracking-wider text-brand;
-}
-.examWorkspace .examStudyGuide h2 {
-  @apply mt-3 text-xl leading-7 text-ink;
-}
-.examWorkspace .examStudyGuide ol {
-  @apply my-5 space-y-4 pl-0 text-sm leading-6 text-muted;
-  list-style: none;
-}
-.examWorkspace .examStudyGuide > p:last-child {
-  @apply border-line;
-}
 .examWorkspace .examHistory {
   scroll-margin-top: 24px;
 }
-.examWorkspace .examAttemptLayout {
-  @apply grid items-start gap-5;
-}
-.examWorkspace .examQuestionPanel h2 {
-  @apply text-lg leading-8 sm:text-xl;
-}
-.examWorkspace .examAnswer {
-  @apply min-h-16;
-}
-.examWorkspace .examAnswer input {
-  @apply mt-1;
-}
-.examWorkspace .examAnswer:has(input:disabled) {
-  @apply cursor-default;
-}
-.examWorkspace .examJourney {
-  @apply p-5;
-}
-.examWorkspace .examQuestionGrid {
-  @apply grid gap-2;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-.examWorkspace .examQuestionGrid button {
-  @apply min-h-11 min-w-0 rounded-lg text-sm;
-}
-.examWorkspace .examQuestionGrid button[aria-current="step"] {
-  @apply border-brand bg-brand-soft text-brand;
-}
-@media (min-width: 1100px) {
-  .examWorkspace .examCustomLayout {
-    grid-template-columns: minmax(0, 1fr) 280px;
-  }
-  .examWorkspace .examAttemptLayout {
-    grid-template-columns: minmax(0, 1fr) 260px;
-  }
-  .examWorkspace .examJourney {
-    @apply sticky top-5;
-  }
-}
 @media (max-width: 639px) {
-  .examWorkspace .examWelcomeActions {
-    @apply w-full;
-  }
-  .examWorkspace .examWelcomeActions > * {
-    @apply flex-1;
-  }
   .examWorkspace .examPreparationActions > button {
-    @apply w-full;
-  }
-  .examWorkspace .examResume > button {
     @apply w-full;
   }
   .examWorkspace .examCoverage {

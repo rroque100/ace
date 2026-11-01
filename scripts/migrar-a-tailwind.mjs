@@ -524,7 +524,8 @@ const conservadas = new Set();
   while (cambio) {
     cambio = false;
     for (const r of reglasTodas) {
-      for (const sel of dividir(r.sel, ",").flatMap(expandirIs)) {
+      for (const selBruto of dividir(r.sel, ",").flatMap(expandirIs)) {
+        const sel = selBruto.replace(/\s+/g, " ").trim();
         const comps = compuestos(sel);
         let idx = -1;
         comps.forEach((c, i) => {
@@ -554,7 +555,8 @@ function asignar() {
   const porDueña = new Map(); // clase → [{ variantes, decl[], apply[], spec, orden }]
   const sep = (comb) => (comb === " " ? "_" : comb);
   for (const r of reglasTodas) {
-    for (const sel of dividir(r.sel, ",").flatMap(expandirIs)) {
+    for (const selBruto of dividir(r.sel, ",").flatMap(expandirIs)) {
+      const sel = selBruto.replace(/\s+/g, " ").trim();
       const comps = compuestos(sel);
       // La dueña es el compuesto migrado MÁS A LA DERECHA: es el elemento al que se aplican los estilos. Los
       // antecesores migrados son contenedores que siempre están donde vive la clase (son clases de la misma página).

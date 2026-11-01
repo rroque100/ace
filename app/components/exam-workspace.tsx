@@ -16,6 +16,8 @@ import { ExamPreparationPanel } from "./exam-preparation";
 import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
 import { remainingSeconds } from "@/lib/exam-policy";
+import { S } from "./exam-workspace-estilos";
+import { cn } from "@/lib/utils";
 type Dashboard = {
   available: Array<{
     regime: string;
@@ -451,7 +453,7 @@ export function ExamWorkspace({
     answered = exam?.answers.filter((x) => x.option).length ?? 0;
   return (
     <div className="tw examWorkspace mx-auto max-w-7xl space-y-6 pb-8 text-ink">
-      <div className="examWelcome">
+      <div className={S.examWelcome}>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-dark">
             Tu espacio de preparación
@@ -461,7 +463,7 @@ export function ExamWorkspace({
             Entrenamiento independiente de la certificación oficial.
           </p>
         </div>
-        <div className="examWelcomeActions">
+        <div className={S.examWelcomeActions}>
           {!exam && (
             <a className="secondaryButton" href="#exam-custom">
               Preparar práctica
@@ -582,8 +584,8 @@ export function ExamWorkspace({
             </p>
           )}
           {q && (
-            <div className="examAttemptLayout">
-              <section className="examQuestionPanel">
+            <div className={S.examAttemptLayout}>
+              <section className={S.examQuestionPanel}>
                 <div className="flex flex-wrap justify-between gap-2 text-sm text-muted">
                   <span>
                     Pregunta {index + 1} de {a.questions.length}
@@ -628,7 +630,7 @@ export function ExamWorkspace({
                   {q.options.map((o) => (
                     <label
                       key={o.id}
-                      className={`examAnswer flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-brand ${q.correctOption === o.id ? "border-brand bg-brand-soft" : q.correctOption && answer?.option === o.id ? "border-warning/40 bg-warning-soft" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-brand bg-brand-soft" : "border-line hover:bg-surface"}`}
+                      className={`${S.examAnswer} flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-brand ${q.correctOption === o.id ? "border-brand bg-brand-soft" : q.correctOption && answer?.option === o.id ? "border-warning/40 bg-warning-soft" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-brand bg-brand-soft" : "border-line hover:bg-surface"}`}
                     >
                       <input
                         className="mt-1 h-4 w-4 accent-brand"
@@ -813,7 +815,7 @@ export function ExamWorkspace({
                   </button>
                 </div>
               </section>
-              <aside className="examJourney">
+              <aside className={S.examJourney}>
                 <h2 className="font-semibold">Tu recorrido</h2>
                 <p className="mt-2 text-sm text-muted">
                   {answered} de {a.questions.length} respondidas
@@ -828,7 +830,7 @@ export function ExamWorkspace({
                   <summary className="cursor-pointer text-sm font-medium">
                     Navegar por preguntas
                   </summary>
-                  <div className="examQuestionGrid mt-3 grid grid-cols-5 gap-2">
+                  <div className={cn(S.examQuestionGrid, "mt-3", "grid", "grid-cols-5", "gap-2")}>
                     {a.questions.map((item, n) => {
                       const ans = exam.answers.find(
                         (x) => x.question_id === item.id,
@@ -875,7 +877,7 @@ export function ExamWorkspace({
         dash && (
           <>
             {dash.active && (
-              <div className="examResume">
+              <div className={S.examResume}>
                 <div>
                   <h2 className="font-semibold">
                     Tienes{" "}
@@ -905,7 +907,7 @@ export function ExamWorkspace({
               className="grid gap-3 sm:grid-cols-3"
             >
               <button
-                className="examMode rounded-xl border border-line bg-panel p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 disabled={busy}
                 onClick={() => studyTopic("")}
               >
@@ -915,7 +917,7 @@ export function ExamWorkspace({
                 </span>
               </button>
               <a
-                className="examMode rounded-xl border border-line bg-panel p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 href="#oece-preparation-title"
               >
                 <strong>Rendir simulacro</strong>
@@ -924,7 +926,7 @@ export function ExamWorkspace({
                 </span>
               </a>
               <a
-                className="examMode rounded-xl border border-line bg-panel p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 href="#exam-review"
               >
                 <strong>Repasar errores</strong>
@@ -950,9 +952,9 @@ export function ExamWorkspace({
             <section
               id="exam-custom"
               aria-labelledby="exam-custom-title"
-              className="examCustomLayout"
+              className={S.examCustomLayout}
             >
-              <div className="examCustomPanel">
+              <div className={S.examCustomPanel}>
                 <h2 id="exam-custom-title" className="text-xl font-semibold">
                   Prepara tu práctica
                 </h2>
@@ -977,7 +979,7 @@ export function ExamWorkspace({
                   ].map((m) => (
                     <label
                       key={m.id}
-                      className={`examMode cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-brand ${mode === m.id ? "border-brand bg-brand-soft" : "border-line"}`}
+                      className={`${S.examMode} cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-brand ${mode === m.id ? "border-brand bg-brand-soft" : "border-line"}`}
                     >
                       <span className="flex items-center gap-2 font-semibold">
                         <input
@@ -1130,7 +1132,7 @@ export function ExamWorkspace({
                   </p>
                 )}
               </div>
-              <aside className="examStudyGuide">
+              <aside className={S.examStudyGuide}>
                 <p className="text-xs uppercase tracking-wider text-teal-200">
                   Aprendizaje con fundamento
                 </p>

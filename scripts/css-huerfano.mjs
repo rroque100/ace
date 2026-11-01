@@ -95,9 +95,11 @@ for (const t of Object.values(textos)) {
 }
 
 const todas = reglas(css);
+// `--neutras=a,b` añade clases que siempre están presentes (la raíz de un componente), además de los envoltorios.
+const NEUTRAS = new Set(["legalWorkspace", "legalShell", "tw", ...(process.argv.find((a) => a.startsWith("--neutras=")) ?? "").slice(10).split(",").filter(Boolean)]);
 const huerfanas = todas.filter((r) => {
   // Los envoltorios (`.legalWorkspace .x`) están siempre presentes: no cuentan para decidir si la regla está muerta.
-  const cl = [...r.sel.matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1]).filter((c) => !["legalWorkspace", "legalShell", "tw"].includes(c));
+  const cl = [...r.sel.matchAll(/\.([A-Za-z_][\w-]*)/g)].map((m) => m[1]).filter((c) => !NEUTRAS.has(c));
   return cl.length > 0 && cl.every((c) => !usadas.has(c));
 });
 const lineas = huerfanas.reduce((n, r) => n + (r.hasta - r.desde + 1), 0);

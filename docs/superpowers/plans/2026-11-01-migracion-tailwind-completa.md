@@ -77,6 +77,46 @@ Los primitivos ya existen en `app/components/ui` (`Button`, `buttonClasses`, `Ca
 
 ---
 
+## Estado real y protocolo (actualizado tras ejecutar las Fases 0, 1 y parte de la 2)
+
+**Hecho y subido:** Fase 0 (guardas y herramientas), Fase 1 (código muerto), búsqueda documental (2.1), navegador de normas (parte de 2.3), chat jurídico (2.2) y simulador (`exam-workspace`). `styles.css` pasó de 11.344 a 9.048 líneas.
+
+**Lo que queda para «sin CSS propio»** (medido con el trinquete ampliado a todos los CSS de `app/`):
+
+| Dato | Valor |
+|---|---|
+| Ficheros `.tsx` con clases propias | 120 (72 con más de 3 clases; 48 con 3 o menos) |
+| Clases propias distintas | 545: 409 exclusivas de un fichero, 136 compartidas |
+| Usos de clase propia en `className` | 1.522 |
+| `styles.css` | 9.048 líneas |
+| CSS de componentes (`legal-workspace.css`, `exam-ui.css`, `expedientes-archivo.css`…) | 1.230 líneas |
+| `style={{…}}` en línea / hex en TSX | 372 / 434 (Contratos concentra ~250 de los estilos en línea) |
+
+Compartidas más usadas: `secondaryButton` (75 ficheros), `primaryButton` (48), `compactButton` (36), `emptyState` (19), `singleWorkspace` (18), `spinIcon` (17), `eyebrow` (16), `formMessage` (15), `toolPanel`/`toolPanelHeader` (12), `errorText` (11).
+
+**Bloqueo para seguir:** casi todo lo que falta (Necesidades, Expedientes, Contratos, Configuración, Validar, Analizar, Métricas…) **no se puede abrir con una cuenta externa**. Migrarlo sin medirlo rompería la garantía de «no cambia ningún píxel». Hace falta una sesión de una cuenta interna en el navegador del panel (la sesión de `localhost` sirve para cualquier puerto).
+
+**Protocolo de cada migración** (el que se usó en 2.1, 2.2, 2.3 y el simulador):
+1. `node scripts/css-huerfano.mjs --fichero=<tsx>` para ver clases y CSS que libera.
+2. `__barrido.guardar("etiqueta", [rutas])` (`docs/qa/barrido.js`) con el código sin migrar: mide cada pantalla a 1024 y 375 px, claro y oscuro, con `<details>` cerrados y abiertos, en iframes (el ancho no depende de la ventana). Los estados con interacción (popovers, resultados) se miden con `docs/qa/estilos-computados.js`.
+3. `node scripts/migrar-a-tailwind.mjs <tsx> --aplicar [opciones]`.
+4. `__barrido.comparar(...)`: debe dar `idéntico` o solo diferencias de color (pasar un hex a un token las produce a propósito). Si no, ajustar con las opciones y repetir.
+5. Borrar el CSS huérfano (`css-huerfano`, por rangos, de abajo arriba; validar con PostCSS; comprobar que ninguna clase en uso pierde todas sus reglas), bajar los topes de `tests/tailwind-migracion.test.ts`, typecheck, lint, build y comprobar de nuevo.
+
+**Opciones de la herramienta** (cada una nació de una diferencia real):
+- `--envoltorios=a,b`: clases que el componente siempre lleva en la raíz; sus reglas se funden con las base y la cascada sale exacta.
+- `--excluir=a,b`: clases que se dejan como están.
+- `--sin-fuente=a,b`: dentro de `.tw`, `.tw button { font: inherit }` (capa `tw-base`) gana a lo que `styles.css` diga de la fuente en botones y campos.
+- `--importante=clase` o `clase=utilidad` (varias separadas por `;`): marca con `!` las utilidades que una regla SIN capa de un CSS de compatibilidad (`legal-workspace.css`, `exam-ui.css`) pisaría.
+- `--sin-tw`: para componentes que no están dentro de un contenedor `.tw`.
+- Resuelve solo: capas (el CSS sin capa gana al de `styles.css`), especificidad, `@media`/`@container`, `:is()`, `:has()`, `@apply`, `button.clase`, el reset de bordes de `.tw` y las clases que coinciden en un mismo elemento (`a_b`).
+
+**Estrategia para las clases compartidas** (lo que aún no está resuelto): `secondaryButton` y compañía las usan 75 ficheros a la vez. La herramienta migra por fichero y deja las compartidas. Hay dos caminos: (a) generar un módulo común `estilos-comunes.ts` con una entrada por clase compartida y sustituirlas en todos los ficheros, sin cambiar el aspecto; o (b) cambiarlas por `<Button>`/`<Card>`/`<Alert>` de `app/components/ui`, que sí cambia algo el aspecto (radios, sombras). El camino (a) es el que cumple «sin CSS propio» sin riesgo visual; (b) es una decisión de diseño aparte.
+
+**Gotchas del entorno:** Turbopack guarda en `.next` una versión rota del CSS aunque se corrija el fichero (se arregla borrando `.next` y reiniciando el servidor); al reiniciar hay que esperar unos segundos para que el servidor recupere el puerto 3001, porque las mediciones guardadas son por origen; los scripts de más de 45 s en el navegador se lanzan en segundo plano y se sondea el resultado.
+
+---
+
 ## Fase 0 — Guardas y herramientas
 
 ### Task 0.1: Test «trinquete» de migración — **hecha**
