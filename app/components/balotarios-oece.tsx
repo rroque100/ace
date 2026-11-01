@@ -70,7 +70,10 @@ function fmtFecha(iso: string): string {
   }
 }
 function claveMes(iso: string): string {
-  return iso.slice(0, 7); // YYYY-MM
+  // Mes en hora LOCAL (coincide con fmtFecha). Cortar el ISO daría el mes UTC y
+  // un intento de la noche en Perú (UTC-5) caería en el mes siguiente.
+  const d = new Date(iso);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 function etiquetaMes(clave: string): string {
   const [y, m] = clave.split("-").map(Number);
