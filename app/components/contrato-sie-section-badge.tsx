@@ -2,30 +2,24 @@
 
 import { CheckCircle2, Circle, AlertCircle } from "lucide-react";
 import type { SectionStatus } from "./contrato-sie-validation";
+import { cn } from "@/lib/utils";
 
 // Badge visual de estado de una seccion del formulario.
 // Muestra un check verde si esta completa, un circulo naranja si esta parcial,
-// y una X roja si no se ha empezado.
+// y una X roja si no se ha empezado. Colores por token (success/warning/muted)
+// para que sigan el tema claro/oscuro; antes eran hex fijos.
 export function SectionBadge({ status, compact = false }: { status: SectionStatus; compact?: boolean }) {
   const { done, total, isComplete } = status;
   const started = done > 0;
-  const color = isComplete ? "#059669" : started ? "#ea580c" : "#9ca3af";
-  const bg = isComplete ? "rgba(5,150,105,0.08)" : started ? "rgba(234,88,12,0.08)" : "transparent";
+  const tono = isComplete ? "bg-success-soft text-success" : started ? "bg-warning-soft text-warning" : "text-muted";
 
   return (
     <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 4,
-        fontSize: compact ? 11 : 12,
-        fontWeight: 600,
-        padding: compact ? "1px 6px" : "2px 8px",
-        borderRadius: 999,
-        background: bg,
-        color,
-        whiteSpace: "nowrap",
-      }}
+      className={cn(
+        "inline-flex items-center gap-1 whitespace-nowrap rounded-full font-semibold",
+        compact ? "px-1.5 py-px text-[11px]" : "px-2 py-0.5 text-xs",
+        tono,
+      )}
     >
       {isComplete ? (
         <CheckCircle2 size={compact ? 11 : 13} />
@@ -42,17 +36,11 @@ export function SectionBadge({ status, compact = false }: { status: SectionStatu
 // Lista de campos de una seccion con su estado individual (para tooltip o panel expandible).
 export function SectionFieldList({ status }: { status: SectionStatus }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 3, marginTop: 6 }}>
+    <div className="mt-1.5 flex flex-col gap-[3px]">
       {status.fields.map((f) => (
         <div
           key={f.key}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            fontSize: 11.5,
-            color: f.valid ? "#059669" : "#9ca3af",
-          }}
+          className={cn("flex items-center gap-1.5 text-[11.5px]", f.valid ? "text-success" : "text-muted")}
         >
           {f.valid ? <CheckCircle2 size={12} /> : <Circle size={12} />}
           {f.label}

@@ -138,7 +138,7 @@ const TOPE = {
   // permiten: van sobre fondos de marca u oscuros fijos (sidebar, héroes), donde el blanco es lo correcto.
   clasesDePaletaPorDefecto: 35,
   // Literales #rrggbb en componentes: no cambian con el tema ni con los ajustes de los tokens.
-  hexEnComponentes: 409,
+  hexEnComponentes: 368,
   // `background: #fff` / `white` en cualquier CSS de app/: quedan el papel de la hoja de informe y el módulo de expedientes (paleta propia). Un botón con `background: white` dejó «Anterior/Siguiente» ilegibles en oscuro.
   blancosFijosEnCss: 3,
   // `background: #rrggbb` (cualquier tono) en styles.css.

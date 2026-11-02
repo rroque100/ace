@@ -84,10 +84,12 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
     r.numero_contrato.toLowerCase().includes(buscando.toLowerCase())
   );
 
-  const inputStyle: React.CSSProperties = { width: "100%", padding: "7px 9px", borderRadius: 8, border: "1px solid var(--line, #e2e4ea)", fontSize: 13, boxSizing: "border-box" };
-
+  // Estilos en línea migrados a utilidades. No se envuelve en `.tw`: este
+  // componente aún usa clases compartidas (toolPanelHeader, secondaryButton,
+  // formMessage…) que el reset de `.tw` rompería; por eso los bordes llevan
+  // `border-solid` y los campos `box-border` explícitos (lo que `.tw` daría).
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <div className="flex flex-col gap-3">
       <div className="toolPanelHeader">
         <div>
           <p className="eyebrow">Contratos guardados</p>
@@ -98,43 +100,43 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
 
       {error ? <p className="formMessage errorText">{error}</p> : null}
 
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        <Search size={15} style={{ color: "var(--muted, #667)" }} />
-        <input style={inputStyle} placeholder="Buscar por nomenclatura, denominación o contratista…" value={buscando} onChange={(e) => setBuscando(e.target.value)} />
+      <div className="flex items-center gap-2">
+        <Search size={15} className="text-muted" />
+        <input className="w-full box-border rounded-md border border-solid border-line px-[9px] py-[7px] text-[13px]" placeholder="Buscar por nomenclatura, denominación o contratista…" value={buscando} onChange={(e) => setBuscando(e.target.value)} />
       </div>
 
       {cargando ? (
-        <div style={{ textAlign: "center", padding: 20, color: "var(--muted, #667)", fontSize: 13 }}>
+        <div className="p-5 text-center text-[13px] text-muted">
           <LoaderCircle className="spinIcon" size={18} /> Cargando…
         </div>
       ) : filtrados.length === 0 ? (
-        <p style={{ color: "var(--muted, #667)", fontSize: 13, fontStyle: "italic" }}>
+        <p className="text-[13px] italic text-muted">
           {buscando ? "Sin resultados." : "Aún no has guardado ningún contrato de Comparación de Precios."}
         </p>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="flex flex-col gap-1.5">
           {filtrados.map((r) => (
-            <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderRadius: 8, border: "1px solid var(--line, #e2e4ea)", background: "var(--panel, #fff)" }}>
-              <FileText size={16} style={{ color: "var(--brand, #0f766e)", flexShrink: 0 }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            <div key={r.id} className="flex items-center gap-2 rounded-md border border-solid border-line bg-panel px-3.5 py-2.5">
+              <FileText size={16} className="shrink-0 text-brand" />
+              <div className="min-w-0 flex-1">
+                <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-semibold">
                   {r.nomenclatura || r.denominacion || "(sin título)"}
                 </div>
-                <div style={{ fontSize: 11.5, color: "var(--muted, #667)", display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <div className="flex flex-wrap gap-3 text-[11.5px] text-muted">
                   <span>{r.contratista || "—"}</span>
                   <span>{r.numero_contrato || "s/n"}</span>
-                  <span style={{ textTransform: "capitalize" }}>{r.estado}</span>
+                  <span className="capitalize">{r.estado}</span>
                   <span>{new Date(r.updated_at).toLocaleDateString("es-PE")}</span>
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-                <button type="button" className="secondaryButton" style={{ padding: "4px 8px", fontSize: 12 }} onClick={() => onLoad(r.id)} title="Cargar en el formulario">
+              <div className="flex shrink-0 gap-1">
+                <button type="button" className="secondaryButton px-2 py-1 text-xs" onClick={() => onLoad(r.id)} title="Cargar en el formulario">
                   <Database size={13} /> Cargar
                 </button>
-                <button type="button" className="secondaryButton" style={{ padding: "4px 8px", fontSize: 12 }} disabled={generando === r.id} onClick={() => descargarDocx(r.id)} title="Descargar DOCX">
+                <button type="button" className="secondaryButton px-2 py-1 text-xs" disabled={generando === r.id} onClick={() => descargarDocx(r.id)} title="Descargar DOCX">
                   {generando === r.id ? <LoaderCircle className="spinIcon" size={13} /> : <Download size={13} />} DOCX
                 </button>
-                <button type="button" className="secondaryButton" style={{ padding: "4px 8px", fontSize: 12, color: "#c0392b" }} disabled={eliminando === r.id} onClick={() => eliminar(r.id)} title="Eliminar">
+                <button type="button" className="secondaryButton px-2 py-1 text-xs text-danger" disabled={eliminando === r.id} onClick={() => eliminar(r.id)} title="Eliminar">
                   <Trash2 size={13} />
                 </button>
               </div>

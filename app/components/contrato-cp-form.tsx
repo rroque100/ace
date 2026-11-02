@@ -7,6 +7,7 @@ import { VistaPreviaContratoCp } from "./contrato-cp-preview";
 import { SectionBadge } from "./contrato-sie-section-badge";
 import { useAutoSave } from "./contrato-sie-autosave";
 import type { SectionStatus } from "./contrato-sie-validation";
+import { cn } from "@/lib/utils";
 
 type Bien = { paquete: string; descripcion: string; marca: string; unidad: string; cantidad: string };
 type PrecioItem = { concepto: string; marca: string; unidad: string; cantidad: string; precioUnitario: string; precioTotal: string };
@@ -16,27 +17,31 @@ type Postor = { razonSocial: string; ruc: string; domicilio: string; partidaRegi
 const procesoVacio: Proceso = { nomenclatura: "", denominacion: "", entidadNombre: "", entidadRuc: "", entidadDomicilio: "", fechaBuenaPro: "", entidadRepresentante: "", entidadRepresentanteDni: "", entidadRepresentanteCargo: "" };
 const postorVacio: Postor = { razonSocial: "", ruc: "", domicilio: "", partidaRegistral: "", asiento: "", ciudadRegistro: "", representante: "", docTipo: "DNI", docNumero: "", poderPartida: "", poderAsiento: "", poderCiudad: "", correo: "" };
 
-const inputStyle: React.CSSProperties = { width: "100%", padding: "7px 9px", borderRadius: 8, border: "1px solid var(--line, #e2e4ea)", fontSize: 13, background: "var(--bg, #fff)", boxSizing: "border-box" };
-const labelStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 4, fontSize: 12.5, fontWeight: 600 };
-const panelCard: React.CSSProperties = { borderRadius: 10, border: "1px solid var(--line, #e2e4ea)", padding: 16, background: "var(--panel, #fff)" };
+// Estilos migrados de inline a utilidades. Este formulario no vive dentro de un
+// contenedor `.tw` (todavía usa clases compartidas: toolPanel, secondaryButton,
+// formMessage…, que el reset de `.tw` rompería), así que los bordes llevan
+// `border-solid` y los campos `box-border` explícitos —lo que `.tw` aportaría—.
+const INPUT = "w-full box-border rounded-md border border-solid border-line bg-canvas px-[9px] py-[7px] text-[13px]";
+const LABEL = "flex flex-col gap-1 text-[12.5px] font-semibold";
+const PANEL_CARD = "rounded-[10px] border border-solid border-line bg-panel p-4";
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", gap: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
-      <span style={{ minWidth: 180, fontSize: 12.5, fontWeight: 600, paddingTop: 6 }}>{label}</span>
-      <div style={{ flex: 1, minWidth: 200 }}>{children}</div>
+    <div className="flex flex-wrap items-start gap-2">
+      <span className="min-w-[180px] pt-1.5 text-[12.5px] font-semibold">{label}</span>
+      <div className="min-w-[200px] flex-1">{children}</div>
     </div>
   );
 }
 
 function Section({ title, expanded, onToggle, children }: { title: string; expanded?: boolean; onToggle: () => void; children: React.ReactNode }) {
   return (
-    <div style={panelCard}>
-      <button type="button" onClick={onToggle} style={{ background: "transparent", border: 0, cursor: "pointer", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: 0, fontSize: 14, fontWeight: 700, color: "var(--brand, #0f766e)" }}>
+    <div className={PANEL_CARD}>
+      <button type="button" onClick={onToggle} className="flex w-full cursor-pointer items-center justify-between border-0 bg-transparent p-0 text-sm font-bold text-brand">
         {title}
-        <ChevronDown size={18} style={{ transform: expanded ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
+        <ChevronDown size={18} className={cn("transition-transform duration-200", expanded && "rotate-180")} />
       </button>
-      {expanded !== false ? <div style={{ marginTop: 12 }}>{children}</div> : null}
+      {expanded !== false ? <div className="mt-3">{children}</div> : null}
     </div>
   );
 }
@@ -346,33 +351,33 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         <FileText size={22} />
       </div>
 
-      <div className="toolBody" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div className="toolBody flex flex-col gap-3">
         {error ? <p className="formMessage errorText">{error}</p> : null}
         {ok ? <p className="formMessage">{ok}</p> : null}
 
         {showRestoreBanner ? (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", borderRadius: 8, background: "rgba(5,150,105,0.08)", color: "#047857", fontSize: 12.5, fontWeight: 500 }}>
-            <span style={{ display: "flex", alignItems: "center", gap: 6 }}><Save size={15} /> Borrador restaurado automáticamente. Puedes continuar editando.</span>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button type="button" style={{ background: "transparent", border: 0, color: "#047857", cursor: "pointer", fontSize: 12, fontWeight: 600, textDecoration: "underline" }} onClick={() => setShowRestoreBanner(false)}>Cerrar</button>
-              <button type="button" style={{ background: "transparent", border: 0, color: "#dc2626", cursor: "pointer", fontSize: 12, fontWeight: 600, textDecoration: "underline" }} onClick={() => { clearAutosave(); setShowRestoreBanner(false); }}>Descartar borrador</button>
+          <div className="flex items-center justify-between rounded-md bg-success-soft px-3 py-2 text-[12.5px] font-medium text-success">
+            <span className="flex items-center gap-1.5"><Save size={15} /> Borrador restaurado automáticamente. Puedes continuar editando.</span>
+            <div className="flex gap-2">
+              <button type="button" className="cursor-pointer border-0 bg-transparent text-xs font-semibold text-success underline" onClick={() => setShowRestoreBanner(false)}>Cerrar</button>
+              <button type="button" className="cursor-pointer border-0 bg-transparent text-xs font-semibold text-danger underline" onClick={() => { clearAutosave(); setShowRestoreBanner(false); }}>Descartar borrador</button>
             </div>
           </div>
         ) : null}
 
         {dbId ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 12px", borderRadius: 8, background: "rgba(15,118,110,0.06)", color: "var(--brand, #0f766e)", fontSize: 12.5, fontWeight: 500 }}>
+          <div className="flex items-center gap-1.5 rounded-md bg-brand-soft px-3 py-2 text-[12.5px] font-medium text-brand">
             <Database size={15} /> Editando contrato guardado · {numeroContrato || proceso.nomenclatura || "(sin título)"}
           </div>
         ) : null}
 
         {savedAt ? (
-          <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "var(--muted, #94a3b8)", fontWeight: 500, alignSelf: "flex-end" }}>
+          <div className="flex items-center gap-1 self-end text-[11px] font-medium text-muted">
             <Save size={11} /> Guardado automático - {new Date(savedAt).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
           </div>
         ) : null}
 
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", padding: "8px 12px", borderRadius: 8, background: "var(--bg, #f8fafc)", border: "1px solid var(--line, #e2e4ea)" }}>
+        <div className="flex flex-wrap gap-2 rounded-md border border-solid border-line bg-canvas px-3 py-2">
           {[
             { key: "proceso", label: "1. Proceso" },
             { key: "postor", label: "2. Contratista" },
@@ -380,51 +385,51 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             { key: "contrato", label: "4. Contrato" },
           ].map((sec) => (
             <button key={sec.key} type="button" onClick={() => toggleSection(sec.key)}
-              style={{ display: "flex", alignItems: "center", gap: 6, background: "transparent", border: 0, cursor: "pointer", fontSize: 12, fontWeight: 600, color: "var(--ink, #1f2937)" }}>
+              className="flex cursor-pointer items-center gap-1.5 border-0 bg-transparent text-xs font-semibold text-ink">
               {sec.label}
               <SectionBadge status={validation[sec.key]} compact />
-              <ChevronDown size={14} style={{ transform: expandedSections[sec.key] ? "rotate(180deg)" : "none", transition: "transform 0.15s" }} />
+              <ChevronDown size={14} className={cn("transition-transform duration-150", expandedSections[sec.key] && "rotate-180")} />
             </button>
           ))}
         </div>
 
         <Section title="1. Datos del proceso de selección" expanded={expandedSections.proceso} onToggle={() => toggleSection("proceso")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="flex flex-col gap-2.5">
             <Row label="Nomenclatura CP N°">
-              <input style={inputStyle} placeholder="Ej. CP-01-2026-MDCH" value={proceso.nomenclatura} onChange={(e) => upProc("nomenclatura", e.target.value)} />
+              <input className={INPUT} placeholder="Ej. CP-01-2026-MDCH" value={proceso.nomenclatura} onChange={(e) => upProc("nomenclatura", e.target.value)} />
             </Row>
             <Row label="Denominación / Objeto">
-              <input style={inputStyle} placeholder="Ej. Adquisición de equipos de cómputo" value={proceso.denominacion} onChange={(e) => upProc("denominacion", e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Adquisición de equipos de cómputo" value={proceso.denominacion} onChange={(e) => upProc("denominacion", e.target.value)} />
             </Row>
             <Row label="Entidad contratante">
-              <input style={inputStyle} value={proceso.entidadNombre} onChange={(e) => upProc("entidadNombre", e.target.value)} />
+              <input className={INPUT} value={proceso.entidadNombre} onChange={(e) => upProc("entidadNombre", e.target.value)} />
             </Row>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+            <div className="flex flex-wrap gap-2.5">
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 RUC de la entidad
-                <input style={inputStyle} maxLength={11} placeholder="11 dígitos" value={proceso.entidadRuc} onChange={(e) => upProc("entidadRuc", e.target.value)} />
+                <input className={INPUT} maxLength={11} placeholder="11 dígitos" value={proceso.entidadRuc} onChange={(e) => upProc("entidadRuc", e.target.value)} />
               </div>
-              <div style={{ flex: 2, minWidth: 250, ...labelStyle }}>
+              <div className={cn(LABEL, "min-w-[250px] flex-[2]")}>
                 Domicilio legal
-                <input style={inputStyle} value={proceso.entidadDomicilio} onChange={(e) => upProc("entidadDomicilio", e.target.value)} />
+                <input className={INPUT} value={proceso.entidadDomicilio} onChange={(e) => upProc("entidadDomicilio", e.target.value)} />
               </div>
             </div>
             <Row label="Representante de la entidad">
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <input style={{ ...inputStyle, flex: 2, minWidth: 200 }} placeholder="Nombre completo del representante" value={proceso.entidadRepresentante} onChange={(e) => upProc("entidadRepresentante", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1, minWidth: 120 }} placeholder="DNI / Carné" maxLength={12} value={proceso.entidadRepresentanteDni} onChange={(e) => upProc("entidadRepresentanteDni", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1, minWidth: 150 }} placeholder="Cargo (Ej. Alcalde, Gerente)" value={proceso.entidadRepresentanteCargo} onChange={(e) => upProc("entidadRepresentanteCargo", e.target.value)} />
+              <div className="flex flex-wrap gap-2">
+                <input className={cn(INPUT, "min-w-[200px] flex-[2]")} placeholder="Nombre completo del representante" value={proceso.entidadRepresentante} onChange={(e) => upProc("entidadRepresentante", e.target.value)} />
+                <input className={cn(INPUT, "min-w-[120px] flex-1")} placeholder="DNI / Carné" maxLength={12} value={proceso.entidadRepresentanteDni} onChange={(e) => upProc("entidadRepresentanteDni", e.target.value)} />
+                <input className={cn(INPUT, "min-w-[150px] flex-1")} placeholder="Cargo (Ej. Alcalde, Gerente)" value={proceso.entidadRepresentanteCargo} onChange={(e) => upProc("entidadRepresentanteCargo", e.target.value)} />
               </div>
             </Row>
             <Row label="Fecha de la Buena Pro">
-              <input type="date" style={inputStyle} value={proceso.fechaBuenaPro} onChange={(e) => upProc("fechaBuenaPro", e.target.value)} />
+              <input type="date" className={INPUT} value={proceso.fechaBuenaPro} onChange={(e) => upProc("fechaBuenaPro", e.target.value)} />
             </Row>
             <Row label="PDF del proceso">
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                <label style={{ cursor: subiendo === "proceso" ? "wait" : "pointer", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12 }} className="secondaryButton">
-                  {subiendo === "proceso" ? <LoaderCircle className="spinIcon" size={16} /> : procesoCargado ? <CheckCircle2 size={16} style={{ color: "#059669" }} /> : <FileUp size={16} />}
+              <div className="flex flex-wrap items-center gap-2">
+                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "proceso" ? "cursor-wait" : "cursor-pointer")}>
+                  {subiendo === "proceso" ? <LoaderCircle className="spinIcon" size={16} /> : procesoCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "proceso" ? "Extrayendo con IA…" : procesoCargado ? "Leído con IA" : "Extraer datos con IA"}
-                  <input type="file" accept="application/pdf" style={{ display: "none" }} disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "proceso"); e.target.value = ""; }} />
+                  <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "proceso"); e.target.value = ""; }} />
                 </label>
               </div>
             </Row>
@@ -432,46 +437,46 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         </Section>
 
         <Section title="2. Datos del contratista" expanded={expandedSections.postor} onToggle={() => toggleSection("postor")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="flex flex-col gap-2.5">
             <Row label="Razón social">
-              <input style={inputStyle} value={postor.razonSocial} onChange={(e) => upPost("razonSocial", e.target.value)} />
+              <input className={INPUT} value={postor.razonSocial} onChange={(e) => upPost("razonSocial", e.target.value)} />
             </Row>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+            <div className="flex flex-wrap gap-2.5">
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 RUC
-                <input style={inputStyle} maxLength={11} placeholder="11 dígitos" value={postor.ruc} onChange={(e) => upPost("ruc", e.target.value)} />
+                <input className={INPUT} maxLength={11} placeholder="11 dígitos" value={postor.ruc} onChange={(e) => upPost("ruc", e.target.value)} />
               </div>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 Domicilio legal
-                <input style={inputStyle} value={postor.domicilio} onChange={(e) => upPost("domicilio", e.target.value)} />
+                <input className={INPUT} value={postor.domicilio} onChange={(e) => upPost("domicilio", e.target.value)} />
               </div>
             </div>
             <Row label="Partida registral">
-              <div style={{ display: "flex", gap: 8 }}>
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="N° de partida" value={postor.partidaRegistral} onChange={(e) => upPost("partidaRegistral", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="Asiento" value={postor.asiento} onChange={(e) => upPost("asiento", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="Ciudad" value={postor.ciudadRegistro} onChange={(e) => upPost("ciudadRegistro", e.target.value)} />
+              <div className="flex gap-2">
+                <input className={cn(INPUT, "flex-1")} placeholder="N° de partida" value={postor.partidaRegistral} onChange={(e) => upPost("partidaRegistral", e.target.value)} />
+                <input className={cn(INPUT, "flex-1")} placeholder="Asiento" value={postor.asiento} onChange={(e) => upPost("asiento", e.target.value)} />
+                <input className={cn(INPUT, "flex-1")} placeholder="Ciudad" value={postor.ciudadRegistro} onChange={(e) => upPost("ciudadRegistro", e.target.value)} />
               </div>
             </Row>
             <Row label="Representante legal">
-              <div style={{ display: "flex", gap: 8 }}>
-                <input style={{ ...inputStyle, flex: 2 }} placeholder="Nombre completo" value={postor.representante} onChange={(e) => upPost("representante", e.target.value)} />
-                <select style={{ ...inputStyle, flex: 1 }} value={postor.docTipo} onChange={(e) => upPost("docTipo", e.target.value)}>
+              <div className="flex gap-2">
+                <input className={cn(INPUT, "flex-[2]")} placeholder="Nombre completo" value={postor.representante} onChange={(e) => upPost("representante", e.target.value)} />
+                <select className={cn(INPUT, "flex-1")} value={postor.docTipo} onChange={(e) => upPost("docTipo", e.target.value)}>
                   <option value="DNI">DNI</option>
                   <option value="Carné de extranjería">Carné de extranjería</option>
                 </select>
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="N° documento" value={postor.docNumero} onChange={(e) => upPost("docNumero", e.target.value)} />
+                <input className={cn(INPUT, "flex-1")} placeholder="N° documento" value={postor.docNumero} onChange={(e) => upPost("docNumero", e.target.value)} />
               </div>
             </Row>
             <Row label="Correo electrónico">
-              <input type="email" style={inputStyle} placeholder="contratista@correo.com" value={postor.correo} onChange={(e) => upPost("correo", e.target.value)} />
+              <input type="email" className={INPUT} placeholder="contratista@correo.com" value={postor.correo} onChange={(e) => upPost("correo", e.target.value)} />
             </Row>
             <Row label="PDF del contratista">
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                <label style={{ cursor: subiendo === "postor" ? "wait" : "pointer", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12 }} className="secondaryButton">
-                  {subiendo === "postor" ? <LoaderCircle className="spinIcon" size={16} /> : postorCargado ? <CheckCircle2 size={16} style={{ color: "#059669" }} /> : <FileUp size={16} />}
+              <div className="flex flex-wrap items-center gap-2">
+                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "postor" ? "cursor-wait" : "cursor-pointer")}>
+                  {subiendo === "postor" ? <LoaderCircle className="spinIcon" size={16} /> : postorCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "postor" ? "Extrayendo con IA…" : postorCargado ? "Leído con IA" : "Extraer datos con IA"}
-                  <input type="file" accept="application/pdf" style={{ display: "none" }} disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "postor"); e.target.value = ""; }} />
+                  <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "postor"); e.target.value = ""; }} />
                 </label>
               </div>
             </Row>
@@ -479,18 +484,18 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         </Section>
 
         <Section title="3. Bienes a contratar" expanded={expandedSections.bienes} onToggle={() => toggleSection("bienes")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div className="flex flex-col gap-2">
             {bienes.length === 0 && (
-              <p style={{ fontSize: 12.5, color: "var(--muted, #667)", fontStyle: "italic" }}>Agrega los bienes a contratar usando el botón +</p>
+              <p className="text-[12.5px] italic text-muted">Agrega los bienes a contratar usando el botón +</p>
             )}
             {bienes.map((b, i) => (
-              <div key={i} style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
-                <input style={{ ...inputStyle, width: 80 }} placeholder="Paq." value={b.paquete} onChange={(e) => upBien(i, "paquete", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 2, minWidth: 150 }} placeholder="Descripción" value={b.descripcion} onChange={(e) => upBien(i, "descripcion", e.target.value)} />
-                <input style={{ ...inputStyle, width: 100 }} placeholder="Marca" value={b.marca} onChange={(e) => upBien(i, "marca", e.target.value)} />
-                <input style={{ ...inputStyle, width: 80 }} placeholder="Unidad" value={b.unidad} onChange={(e) => upBien(i, "unidad", e.target.value)} />
-                <input style={{ ...inputStyle, width: 80 }} placeholder="Cant." value={b.cantidad} onChange={(e) => upBien(i, "cantidad", e.target.value)} />
-                <button type="button" onClick={() => setBienes((r) => r.filter((_, j) => j !== i))} style={{ background: "transparent", border: 0, cursor: "pointer", color: "#c0392b", display: "flex", padding: 4 }}>
+              <div key={i} className="flex flex-wrap items-center gap-1.5">
+                <input className={cn(INPUT, "w-20")} placeholder="Paq." value={b.paquete} onChange={(e) => upBien(i, "paquete", e.target.value)} />
+                <input className={cn(INPUT, "min-w-[150px] flex-[2]")} placeholder="Descripción" value={b.descripcion} onChange={(e) => upBien(i, "descripcion", e.target.value)} />
+                <input className={cn(INPUT, "w-[100px]")} placeholder="Marca" value={b.marca} onChange={(e) => upBien(i, "marca", e.target.value)} />
+                <input className={cn(INPUT, "w-20")} placeholder="Unidad" value={b.unidad} onChange={(e) => upBien(i, "unidad", e.target.value)} />
+                <input className={cn(INPUT, "w-20")} placeholder="Cant." value={b.cantidad} onChange={(e) => upBien(i, "cantidad", e.target.value)} />
+                <button type="button" onClick={() => setBienes((r) => r.filter((_, j) => j !== i))} className="flex cursor-pointer border-0 bg-transparent p-1 text-danger">
                   <Trash2 size={15} />
                 </button>
               </div>
@@ -504,106 +509,106 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         </Section>
 
         <Section title="4. Condiciones del contrato" expanded={expandedSections.condiciones} onToggle={() => toggleSection("condiciones")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="flex flex-col gap-2.5">
             <Row label="N° de contrato">
-              <input style={inputStyle} placeholder="CONTRATO N° 001-2026-MDCH/GM" value={numeroContrato} onChange={(e) => setNumeroContrato(e.target.value)} />
+              <input className={INPUT} placeholder="CONTRATO N° 001-2026-MDCH/GM" value={numeroContrato} onChange={(e) => setNumeroContrato(e.target.value)} />
             </Row>
             <Row label="Monto contractual (S/)">
-              <input style={inputStyle} placeholder="Ej. 603,806.00" value={monto} onChange={(e) => setMonto(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. 603,806.00" value={monto} onChange={(e) => setMonto(e.target.value)} />
             </Row>
             <Row label="Forma de pago">
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <select style={{ ...inputStyle, width: 180 }} value={formaPago} onChange={(e) => setFormaPago(e.target.value as "PAGO UNICO" | "PAGO A CUENTA")}>
+              <div className="flex items-center gap-2">
+                <select className={cn(INPUT, "w-[180px]")} value={formaPago} onChange={(e) => setFormaPago(e.target.value as "PAGO UNICO" | "PAGO A CUENTA")}>
                   <option value="PAGO UNICO">Pago único</option>
                   <option value="PAGO A CUENTA">Pago a cuenta</option>
                 </select>
                 {formaPago === "PAGO A CUENTA" ? (
                   <>
-                    <span style={{ fontSize: 12.5 }}>en</span>
-                    <input type="number" min={2} max={24} style={{ ...inputStyle, width: 60 }} value={nroPagos} onChange={(e) => setNroPagos(Number(e.target.value))} />
-                    <span style={{ fontSize: 12.5 }}>armadas</span>
+                    <span className="text-[12.5px]">en</span>
+                    <input type="number" min={2} max={24} className={cn(INPUT, "w-[60px]")} value={nroPagos} onChange={(e) => setNroPagos(Number(e.target.value))} />
+                    <span className="text-[12.5px]">armadas</span>
                   </>
                 ) : null}
               </div>
             </Row>
             <Row label="Plazo de ejecución">
-              <input style={inputStyle} placeholder="Ej. 30 días calendario" value={plazoEntrega} onChange={(e) => setPlazoEntrega(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. 30 días calendario" value={plazoEntrega} onChange={(e) => setPlazoEntrega(e.target.value)} />
             </Row>
             <Row label="Cómputo del plazo">
-              <input style={inputStyle} placeholder="Ej. el día siguiente del perfeccionamiento del contrato" value={inicioPlazo} onChange={(e) => setInicioPlazo(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. el día siguiente del perfeccionamiento del contrato" value={inicioPlazo} onChange={(e) => setInicioPlazo(e.target.value)} />
             </Row>
             <Row label="Lugar de entrega">
-              <input style={inputStyle} placeholder="Ej. Almacén de la entidad" value={lugarEntrega} onChange={(e) => setLugarEntrega(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Almacén de la entidad" value={lugarEntrega} onChange={(e) => setLugarEntrega(e.target.value)} />
             </Row>
             <Row label="Área de recepción">
-              <input style={inputStyle} placeholder="Ej. Almacén de la entidad" value={recepcionArea} onChange={(e) => setRecepcionArea(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Almacén de la entidad" value={recepcionArea} onChange={(e) => setRecepcionArea(e.target.value)} />
             </Row>
             <Row label="Área de conformidad">
-              <input style={inputStyle} placeholder="Ej. Área usuaria" value={conformidadArea} onChange={(e) => setConformidadArea(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Área usuaria" value={conformidadArea} onChange={(e) => setConformidadArea(e.target.value)} />
             </Row>
             <Row label="Plazo de conformidad (días)">
-              <input style={inputStyle} placeholder="Ej. 7" value={plazoConformidadDias} onChange={(e) => setPlazoConformidadDias(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. 7" value={plazoConformidadDias} onChange={(e) => setPlazoConformidadDias(e.target.value)} />
             </Row>
             <Row label="Vicios ocultos (años)">
-              <input style={inputStyle} placeholder="Ej. 1" value={viciosOcultosAnios} onChange={(e) => setViciosOcultosAnios(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. 1" value={viciosOcultosAnios} onChange={(e) => setViciosOcultosAnios(e.target.value)} />
             </Row>
             <Row label="Institución arbitral">
-              <input style={inputStyle} placeholder="Ej. Centro de Arbitraje de la CCL" value={institucionArbitral} onChange={(e) => setInstitucionArbitral(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Centro de Arbitraje de la CCL" value={institucionArbitral} onChange={(e) => setInstitucionArbitral(e.target.value)} />
             </Row>
           </div>
         </Section>
 
         <Section title="5. Precios unitarios (opcional)" expanded={expandedSections.precios} onToggle={() => toggleSection("precios")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div className="flex flex-col gap-2">
             <Row label="PDF de precios / oferta">
-              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                <label style={{ cursor: subiendo === "precios" ? "wait" : "pointer", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12 }} className="secondaryButton">
-                  {subiendo === "precios" ? <LoaderCircle className="spinIcon" size={16} /> : preciosCargados ? <CheckCircle2 size={16} style={{ color: "#059669" }} /> : <FileUp size={16} />}
+              <div className="flex flex-wrap items-center gap-2">
+                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "precios" ? "cursor-wait" : "cursor-pointer")}>
+                  {subiendo === "precios" ? <LoaderCircle className="spinIcon" size={16} /> : preciosCargados ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "precios" ? "Extrayendo con IA…" : preciosCargados ? "Leído con IA" : "Extraer precios con IA"}
-                  <input type="file" accept="application/pdf" style={{ display: "none" }} disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "precios"); e.target.value = ""; }} />
+                  <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "precios"); e.target.value = ""; }} />
                 </label>
               </div>
             </Row>
             {preciosItems.length > 0 && (
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-xs">
                   <thead>
                     <tr>
-                      <th style={{ padding: 4, textAlign: "left" }}>Concepto</th>
-                      <th style={{ padding: 4, textAlign: "left" }}>Marca</th>
-                      <th style={{ padding: 4, textAlign: "left" }}>Unidad</th>
-                      <th style={{ padding: 4, textAlign: "right" }}>Cant.</th>
-                      <th style={{ padding: 4, textAlign: "right" }}>P. Unit.</th>
-                      <th style={{ padding: 4, textAlign: "right" }}>P. Total</th>
-                      <th style={{ padding: 4 }}></th>
+                      <th className="p-1 text-left">Concepto</th>
+                      <th className="p-1 text-left">Marca</th>
+                      <th className="p-1 text-left">Unidad</th>
+                      <th className="p-1 text-right">Cant.</th>
+                      <th className="p-1 text-right">P. Unit.</th>
+                      <th className="p-1 text-right">P. Total</th>
+                      <th className="p-1"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {preciosItems.map((it, i) => (
                       <tr key={i}>
-                        <td style={{ padding: 2 }}><input style={inputStyle} value={it.concepto} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, concepto: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2 }}><input style={inputStyle} value={it.marca} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, marca: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2 }}><input style={inputStyle} value={it.unidad} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, unidad: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2, width: 80 }}><input style={inputStyle} value={it.cantidad} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, cantidad: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2, width: 100 }}><input style={inputStyle} value={it.precioUnitario} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, precioUnitario: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2, width: 100 }}><input style={inputStyle} value={it.precioTotal} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, precioTotal: e.target.value } : x))} /></td>
-                        <td style={{ padding: 2 }}>
-                          <button type="button" onClick={() => setPreciosItems((r) => r.filter((_, j) => j !== i))} style={{ background: "transparent", border: 0, cursor: "pointer", color: "#c0392b", display: "flex" }}>
+                        <td className="p-0.5"><input className={INPUT} value={it.concepto} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, concepto: e.target.value } : x))} /></td>
+                        <td className="p-0.5"><input className={INPUT} value={it.marca} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, marca: e.target.value } : x))} /></td>
+                        <td className="p-0.5"><input className={INPUT} value={it.unidad} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, unidad: e.target.value } : x))} /></td>
+                        <td className="w-20 p-0.5"><input className={INPUT} value={it.cantidad} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, cantidad: e.target.value } : x))} /></td>
+                        <td className="w-[100px] p-0.5"><input className={INPUT} value={it.precioUnitario} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, precioUnitario: e.target.value } : x))} /></td>
+                        <td className="w-[100px] p-0.5"><input className={INPUT} value={it.precioTotal} onChange={(e) => setPreciosItems((r) => r.map((x, j) => j === i ? { ...x, precioTotal: e.target.value } : x))} /></td>
+                        <td className="p-0.5">
+                          <button type="button" onClick={() => setPreciosItems((r) => r.filter((_, j) => j !== i))} className="flex cursor-pointer border-0 bg-transparent text-danger">
                             <Minus size={14} />
                           </button>
                         </td>
                       </tr>
                     ))}
                     <tr>
-                      <td colSpan={5} style={{ textAlign: "right", padding: 4, fontWeight: 600, fontSize: 12 }}>TOTAL GENERAL</td>
-                      <td style={{ padding: 2, fontWeight: 600, fontSize: 12 }}>{preciosTotalGeneral}</td>
+                      <td colSpan={5} className="p-1 text-right text-xs font-semibold">TOTAL GENERAL</td>
+                      <td className="p-0.5 text-xs font-semibold">{preciosTotalGeneral}</td>
                       <td></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
             )}
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="flex gap-2">
               <button type="button" className="secondaryButton" onClick={() => setPreciosItems((r) => [...r, { concepto: "", marca: "", unidad: "", cantidad: "", precioUnitario: "", precioTotal: "" }])}>
                 <Plus size={15} /> Agregar ítem
               </button>
@@ -617,29 +622,29 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         </Section>
 
         <Section title="6. Fecha y firma" expanded={expandedSections.firma} onToggle={() => toggleSection("firma")}>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+          <div className="flex flex-wrap gap-2.5">
+            <div className={cn(LABEL, "min-w-[180px] flex-1")}>
               Ciudad de firma
-              <input style={inputStyle} placeholder="Ej. Lima" value={ciudadFirma} onChange={(e) => setCiudadFirma(e.target.value)} />
+              <input className={INPUT} placeholder="Ej. Lima" value={ciudadFirma} onChange={(e) => setCiudadFirma(e.target.value)} />
             </div>
-            <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+            <div className={cn(LABEL, "min-w-[180px] flex-1")}>
               Fecha de firma
-              <input type="date" style={inputStyle} value={fechaFirma} onChange={(e) => setFechaFirma(e.target.value)} />
+              <input type="date" className={INPUT} value={fechaFirma} onChange={(e) => setFechaFirma(e.target.value)} />
             </div>
           </div>
         </Section>
 
-        <div className="formActions" style={{ marginTop: 8 }}>
-          <div style={{ display: "flex", gap: 8, alignItems: "center", flex: 1, flexWrap: "wrap" }}>
-            <div style={{ display: "flex", border: "1px solid var(--line, #e2e4ea)", borderRadius: 6, overflow: "hidden" }}>
-              <button type="button" onClick={() => setFormato("docx")} style={{ padding: "6px 12px", fontSize: 12, fontWeight: formato === "docx" ? 700 : 400, background: formato === "docx" ? "var(--brand, #0f766e)" : "transparent", color: formato === "docx" ? "#fff" : "var(--text, #222)", border: 0, cursor: "pointer" }}>DOCX</button>
-              <button type="button" onClick={() => setFormato("pdf")} style={{ padding: "6px 12px", fontSize: 12, fontWeight: formato === "pdf" ? 700 : 400, background: formato === "pdf" ? "var(--brand, #0f766e)" : "transparent", color: formato === "pdf" ? "#fff" : "var(--text, #222)", border: 0, cursor: "pointer" }}>PDF</button>
+        <div className="formActions mt-2">
+          <div className="flex flex-1 flex-wrap items-center gap-2">
+            <div className="flex overflow-hidden rounded-sm border border-solid border-line">
+              <button type="button" onClick={() => setFormato("docx")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "docx" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>DOCX</button>
+              <button type="button" onClick={() => setFormato("pdf")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "pdf" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>PDF</button>
             </div>
             <button type="button" className="secondaryButton" disabled={guardando} onClick={guardarEnDB} title={dbId ? "Actualizar contrato guardado" : "Guardar en la base de datos"}>
               {guardando ? <LoaderCircle className="spinIcon" size={15} /> : <Save size={15} />} {dbId ? "Actualizar" : "Guardar"}
             </button>
             {dbId ? (
-              <button type="button" className="secondaryButton" disabled={guardando} onClick={eliminarDeDB} title="Eliminar contrato guardado" style={{ color: "#c0392b" }}>
+              <button type="button" className="secondaryButton text-danger" disabled={guardando} onClick={eliminarDeDB} title="Eliminar contrato guardado">
                 <Trash2 size={15} />
               </button>
             ) : null}
