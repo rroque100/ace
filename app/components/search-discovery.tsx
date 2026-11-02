@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { DocumentSearchFilters } from "@/lib/document-search";
 import { documentTypeLabel } from "@/lib/legal-taxonomy";
 
+import { S } from "./search-discovery-estilos";
 type Suggestion = { documentId: string; title: string; documentType: string };
 type Discovery = { original: string; documents: Suggestion[]; correction: string | null };
 
@@ -30,9 +31,9 @@ export function SearchDiscovery({ query, filters, visible, correctionOnly = fals
   }, [query, filtersKey, visible]);
   if (!visible || query.length > 200 || query.trim().length < 2) return null;
   const current = response?.original === query.trim() && response.filtersKey === filtersKey ? response : null;
-  return <div className="searchDiscovery">
+  return <div className={S.searchDiscovery}>
     {failed ? <small role="status">Las sugerencias no están disponibles. Puedes buscar igualmente.</small> : null}
-    {current?.correction ? <p className="searchCorrection">¿Quisiste decir <button type="button" onClick={() => onCorrect(current.correction!)}>{current.correction}</button>? <small>Solo se cambia si lo seleccionas.</small></p> : null}
-    {!correctionOnly && current?.documents.length ? <section aria-label="Sugerencias del catálogo"><p className="searchSuggestionLabel">Documentos de tu biblioteca · con los filtros actuales</p><ul className="searchCatalogueSuggestions">{current.documents.map(document => <li key={document.documentId}><button type="button" onClick={() => onChoose(document)}><span>{document.title}</span><small>{documentTypeLabel(document.documentType)} · Buscar este documento</small></button></li>)}</ul></section> : null}
+    {current?.correction ? <p className={S.searchCorrection}>¿Quisiste decir <button type="button" onClick={() => onCorrect(current.correction!)}>{current.correction}</button>? <small>Solo se cambia si lo seleccionas.</small></p> : null}
+    {!correctionOnly && current?.documents.length ? <section aria-label="Sugerencias del catálogo"><p className={S.searchSuggestionLabel}>Documentos de tu biblioteca · con los filtros actuales</p><ul className={S.searchCatalogueSuggestions}>{current.documents.map(document => <li key={document.documentId}><button type="button" onClick={() => onChoose(document)}><span>{document.title}</span><small>{documentTypeLabel(document.documentType)} · Buscar este documento</small></button></li>)}</ul></section> : null}
   </div>;
 }
