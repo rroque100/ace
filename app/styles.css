@@ -9041,8 +9041,4 @@ a.panelOrigen:hover {
 .searchAssistantBody nav{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid #dce8e8;padding-top:14px}
 .searchAssistantProposal{display:grid;gap:12px;padding:16px;border:1px solid #b9d7d5;border-left:4px solid #167b77;border-radius:10px;background:#f4faf9}
 .searchAssistantProposal p{margin:0;font-size:13px;line-height:1.6}
-.searchCatalogueSuggestions{list-style:none;margin:0;padding:6px;border:1px solid #d2e1e1;border-radius:10px;background: var(--panel)}
-.searchCatalogueSuggestions button{background:none;border:0;text-align:left;padding:10px;width:100%;color:var(--brand-dark);cursor:pointer}
-.searchCatalogueSuggestions button:hover{background:#edf7f5}
-.searchCatalogueSuggestions small{display:block;color:#5c747c;font-size:11px;margin-top:4px}
 .compactSearchIntro{padding:10px 0!important}.compactSearchIntro p,.compactSearchIntro .documentSearchEyebrow{display:none}.compactSearchIntro h2{font-size:19px!important;margin:0!important}

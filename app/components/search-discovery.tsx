@@ -1,7 +1,5 @@
 "use client";
 
-import "./search-discovery.css";
-
 import { useEffect, useState } from "react";
 import type { DocumentSearchFilters } from "@/lib/document-search";
 import { documentTypeLabel } from "@/lib/legal-taxonomy";
