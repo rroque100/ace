@@ -44,7 +44,7 @@ export const ChatPanel = memo(function ChatPanel({ query, onClose, onAsk, search
   // Escape, foco atrapado y bloqueo de scroll los aporta ExpSlideOver (Radix).
   return (
     <ExpSlideOver
-      clasePanel="expChatPanel"
+      variante="chat"
       etiquetaCerrar="Cerrar chat"
       onClose={onClose}
       subtitulo="Pregunta en lenguaje natural sobre los expedientes"

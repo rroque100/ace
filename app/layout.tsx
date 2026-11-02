@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./tailwind.css";
-import "./components/expedientes-archivo/expedientes-archivo.css";
 import { YearProvider } from "@/lib/year-context";
 import { ToastProvider, ToastContainer } from "@/lib/toast";
 import { THEME_BOOTSTRAP } from "@/lib/theme";

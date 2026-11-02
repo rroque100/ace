@@ -41,7 +41,7 @@ export function ReplaceFileModal({ exp, onClose, onApply }: ReplaceFileModalProp
   // Escape, foco atrapado y bloqueo de scroll los aporta ExpSlideOver (Radix).
   return (
     <ExpSlideOver
-      modificador="expSlideOver-modal"
+      variante="modal"
       onClose={onClose}
       subtitulo={<>&ldquo;{exp.title}&rdquo; se reprocesará automáticamente</>}
       titulo="Reemplazar PDF"

@@ -175,7 +175,9 @@ const BASE_PESTANAS = "archivo";
 // generación deja de importar.
 const EXP_TAB =
   "expTab relative inline-flex items-center gap-2 whitespace-nowrap rounded-t-exp border-0 px-[18px] py-3.5 text-sm font-semibold " +
-  "transition-all duration-[180ms] ease-[cubic-bezier(0.4,0,0.2,1)]";
+  "transition-all duration-[180ms] ease-[cubic-bezier(0.4,0,0.2,1)] " +
+  // A ≤768px la pestaña se compacta (lo que hacía el @media de .expTab).
+  "max-[768px]:px-3.5 max-[768px]:py-3 max-[768px]:text-[13px]";
 const EXP_TAB_INACTIVE = "bg-transparent text-exp-muted hover:bg-exp-line-soft hover:text-exp-ink";
 const EXP_TAB_ACTIVE = "active bg-exp-brand-soft text-exp-brand";
 
@@ -1808,7 +1810,7 @@ export function ExpedientesArchivoWorkspace({
 
       {helpOpen ? (
         <ExpSlideOver
-          modificador="expSlideOver-modal"
+          variante="modal"
           onClose={() => setHelpOpen(false)}
           subtitulo="Navega más rápido con el teclado"
           titulo="Atajos de teclado"

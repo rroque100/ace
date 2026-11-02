@@ -77,7 +77,9 @@ export const EXP_LIST_ITEM_ACTIONS = "flex items-center gap-1";
 
 // ── Estadísticas (dashboard y su skeleton) ──────────────────────────────────
 
-export const EXP_STATS = "mb-5 grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2.5";
+// A ≤768px se fijan 2 columnas (lo que hacía el @media de .expStats); por
+// encima, auto-fit con mínimo de 140px.
+export const EXP_STATS = "mb-5 grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-2.5 max-[768px]:grid-cols-2";
 
 const EXP_STAT_TONE: Record<string, string> = {
   statBrand: "before:bg-exp-brand",
@@ -219,10 +221,8 @@ export function expMessageClass(tono: keyof typeof EXP_MESSAGE_TONE): string {
   return cn(EXP_MESSAGE_BASE, EXP_MESSAGE_TONE[tono]);
 }
 
-// ── Slide-over: cuerpo y pie (la cabecera y el overlay viven en
-//    slide-over-shell.tsx; clasePanel/modificador del panel exterior siguen
-//    en CSS legacy porque expedientes-archivo-workspace.tsx —no migrado
-//    todavía— también los pasa como className) ───────────────────────────────
+// ── Slide-over: cuerpo y pie (la cabecera, el overlay y el panel exterior
+//    —con su variante drawer/chat/modal— viven en slide-over-shell.tsx) ───────
 
 export const EXP_SLIDE_OVER_BODY = "flex-1 overflow-auto p-[18px_20px]";
 

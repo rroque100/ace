@@ -17,29 +17,38 @@ import { cn } from "@/lib/utils";
  * el bloqueo del scroll, la devolución del foco al cerrar y un `aria-labelledby`
  * con id único en lugar del `aria-label` escrito a mano.
  *
- * La cabecera y el overlay ya están en Tailwind. El panel exterior
- * (`clasePanel`/`modificador`) sigue en las clases CSS de siempre a propósito:
- * `expedientes-archivo-workspace.tsx` (el modal de ayuda, `?`) todavía no está
- * migrado y le sigue pasando `modificador="expSlideOver-modal"` como texto —
- * cambiar ese contrato aquí lo habría roto sin tocarlo.
+ * La cabecera, el overlay y el panel exterior están en Tailwind. El panel se
+ * elige con `variante`: `drawer` (detalle, ancho), `chat` (más estrecho) y
+ * `modal` (tarjeta centrada). Antes se pasaba el nombre de la clase CSS
+ * (`clasePanel`/`modificador`); se cambió a este enum al retirar
+ * expedientes-archivo.css. Cada variante es autónoma (ninguna comparte dos
+ * utilidades del mismo tipo), así que el orden en que Tailwind las genera no
+ * altera la cascada. Las animaciones (animate-exp-*) viven en app/workspace.css.
  */
+const EXP_PANEL_BASE = "flex flex-col bg-exp-panel shadow-[-16px_0_48px_rgba(15,23,42,0.2)]";
+// El modal se centra con `inset-0 m-auto` (y no con transform, que ya lo gasta
+// la animación expPopIn); drawer y chat se anclan a la derecha, a pantalla
+// completa en móvil, igual que hacían las reglas .expSlideOver/.expChatPanel.
+const EXP_PANEL_VARIANTE = {
+  drawer: "fixed right-0 top-0 z-[101] h-screen w-[min(720px,92vw)] animate-exp-slide-in-right max-[768px]:w-screen",
+  chat: "fixed right-0 top-0 z-[101] h-screen w-[min(420px,92vw)] animate-exp-slide-in-right max-[768px]:w-screen",
+  modal: "fixed inset-0 z-[101] m-auto h-auto max-h-[86vh] w-[min(560px,92vw)] self-center rounded-exp-lg animate-exp-pop-in",
+} as const;
+
 export function ExpSlideOver({
   titulo,
   subtitulo,
   onClose,
   children,
-  /** Clase del panel: la variante ancha del chat usa la suya. */
-  clasePanel = "expSlideOver",
-  /** Modificador opcional, p. ej. `expSlideOver-modal` para la variante centrada. */
-  modificador,
+  /** `drawer` (por defecto), `chat` (más estrecho) o `modal` (centrado). */
+  variante = "drawer",
   etiquetaCerrar = "Cerrar",
 }: {
   titulo: React.ReactNode;
   subtitulo?: React.ReactNode;
   onClose: () => void;
   children: React.ReactNode;
-  clasePanel?: string;
-  modificador?: string;
+  variante?: keyof typeof EXP_PANEL_VARIANTE;
   etiquetaCerrar?: string;
 }) {
   return (
@@ -54,7 +63,7 @@ export function ExpSlideOver({
       <Dialog.Portal>
         <Dialog.Overlay className="tw fixed inset-0 z-[100] flex animate-exp-fade-in justify-end bg-[rgba(15,23,42,0.5)] backdrop-blur-[3px]" />
         <Dialog.Content
-          className={cn("tw", clasePanel, "expSlideOverPortal", modificador)}
+          className={cn("tw", EXP_PANEL_BASE, EXP_PANEL_VARIANTE[variante])}
         >
           <div className="flex items-center justify-between gap-3 border-b border-exp-line bg-exp-panel px-5 py-[18px]">
             <div>

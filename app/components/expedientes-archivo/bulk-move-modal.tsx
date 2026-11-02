@@ -32,7 +32,7 @@ export function BulkMoveModal({ count, onClose, onApply, canChangeOficina = true
   // Escape, foco atrapado y bloqueo de scroll los aporta ExpSlideOver (Radix).
   return (
     <ExpSlideOver
-      modificador="expSlideOver-modal"
+      variante="modal"
       onClose={onClose}
       subtitulo="Solo se aplican los campos con valor. El resto se preserva."
       titulo={`Mover / reasignar ${count} expediente${count === 1 ? "" : "s"}`}

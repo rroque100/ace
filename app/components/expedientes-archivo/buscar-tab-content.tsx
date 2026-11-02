@@ -665,7 +665,7 @@ export function BuscarTabContent({
 
       {expedientes.length > 0 ? (
         <>
-          <div className="expListHeader mb-3.5 flex flex-wrap items-center gap-2.5 rounded-exp border border-exp-line bg-exp-panel p-2.5">
+          <div className="expListHeader mb-3.5 flex flex-wrap items-center gap-2.5 rounded-exp border border-exp-line bg-exp-panel p-2.5 max-[768px]:flex-col max-[768px]:items-stretch">
             <input
               type="search"
               placeholder="Filtra la lista por título, materia u oficina…"
