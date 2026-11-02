@@ -16,6 +16,8 @@ import { ExamPreparationPanel } from "./exam-preparation";
 import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
 import { remainingSeconds } from "@/lib/exam-policy";
+import { S } from "./exam-workspace-estilos";
+import { cn } from "@/lib/utils";
 type Dashboard = {
   available: Array<{
     regime: string;
@@ -37,7 +39,7 @@ type Dashboard = {
   }>;
 };
 const field =
-  "w-full rounded-xl border border-slate-300 bg-white p-3 text-slate-900 focus:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/20";
+  "w-full rounded-xl border border-line-strong bg-panel p-3 text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20";
 async function read<T>(url: string, init?: RequestInit): Promise<T> {
   const r = await fetch(url, { ...init, cache: "no-store" });
   const x = await r.json();
@@ -450,18 +452,18 @@ export function ExamWorkspace({
     answer = exam?.answers.find((x) => x.question_id === q?.id),
     answered = exam?.answers.filter((x) => x.option).length ?? 0;
   return (
-    <div className="tw examWorkspace mx-auto max-w-7xl space-y-6 pb-8 text-slate-900">
-      <div className="examWelcome">
+    <div className="tw examWorkspace mx-auto max-w-7xl space-y-6 pb-8 text-ink">
+      <div className={S.examWelcome}>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-teal-700">
+          <p className="text-xs font-semibold uppercase tracking-wider text-brand-dark">
             Tu espacio de preparación
           </p>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          <p className="mt-2 max-w-2xl text-sm text-muted">
             Practica a tu ritmo, comprueba cada respuesta y vuelve a su fuente.
             Entrenamiento independiente de la certificación oficial.
           </p>
         </div>
-        <div className="examWelcomeActions">
+        <div className={S.examWelcomeActions}>
           {!exam && (
             <a className="secondaryButton" href="#exam-custom">
               Preparar práctica
@@ -477,21 +479,21 @@ export function ExamWorkspace({
       {!online && (
         <p
           role="status"
-          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm"
+          className="rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm"
         >
           Sin conexión. Las respuestas confirmadas permanecen en el servidor;
           espera a reconectarte para guardar cambios.
         </p>
       )}
       {positionNotice && (
-        <p role="status" className="text-xs text-slate-600">
+        <p role="status" className="text-xs text-muted">
           {positionNotice}
         </p>
       )}
       {error && (
         <div
           role="alert"
-          className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm"
+          className="rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm"
         >
           <p>{error}</p>
           {pending && (
@@ -534,7 +536,7 @@ export function ExamWorkspace({
             >
               Volver al simulador
             </button>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-muted">
               {a.preview
                 ? "Revisión de borradores · no incluido en estadísticas"
                 : a.mode === "practice"
@@ -544,7 +546,7 @@ export function ExamWorkspace({
             </p>
           </div>
           {a.profile === "review" && a.review_context && (
-            <p className="rounded-xl border border-teal-200 bg-teal-50 p-4 text-sm">
+            <p className="rounded-xl border border-brand/30 bg-brand-soft p-4 text-sm">
               Repaso con versiones actuales: {a.review_context.updated}{" "}
               preguntas actualizadas desde tu respuesta anterior ·{" "}
               {a.review_context.unavailable} preguntas anteriores retiradas o
@@ -553,7 +555,7 @@ export function ExamWorkspace({
             </p>
           )}
           {a.result && a.state === "submitted" && (
-            <section className="rounded-2xl border border-teal-200 bg-teal-50 p-5">
+            <section className="rounded-2xl border border-brand/30 bg-brand-soft p-5">
               <h2 className="text-xl font-semibold">
                 Resultado: {a.result.correct} de {a.result.total} correctas
               </h2>
@@ -565,7 +567,7 @@ export function ExamWorkspace({
                 {a.result.topics.map((t) => (
                   <span
                     key={t.topic}
-                    className="rounded-lg border border-teal-200 bg-white px-3 py-2 text-sm"
+                    className="rounded-lg border border-brand/30 bg-panel px-3 py-2 text-sm"
                   >
                     {t.topic}: {t.correct}/{t.total}
                   </span>
@@ -582,14 +584,14 @@ export function ExamWorkspace({
             </p>
           )}
           {q && (
-            <div className="examAttemptLayout">
-              <section className="examQuestionPanel">
-                <div className="flex flex-wrap justify-between gap-2 text-sm text-slate-600">
+            <div className={S.examAttemptLayout}>
+              <section className={S.examQuestionPanel}>
+                <div className="flex flex-wrap justify-between gap-2 text-sm text-muted">
                   <span>
                     Pregunta {index + 1} de {a.questions.length}
                   </span>
                   <span
-                    className="font-mono font-semibold text-teal-800"
+                    className="font-mono font-semibold text-brand-dark"
                     aria-label="Tiempo restante"
                   >
                     {a.state !== "active"
@@ -604,7 +606,7 @@ export function ExamWorkspace({
                             )}:${(seconds % 60).toString().padStart(2, "0")}`}
                   </span>
                 </div>
-                <p className="mt-3 text-xs text-teal-800">
+                <p className="mt-3 text-xs text-brand-dark">
                   {q.competency} · {q.topic}
                 </p>
                 <h2
@@ -628,10 +630,10 @@ export function ExamWorkspace({
                   {q.options.map((o) => (
                     <label
                       key={o.id}
-                      className={`examAnswer flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-teal-700 ${q.correctOption === o.id ? "border-teal-600 bg-teal-50" : q.correctOption && answer?.option === o.id ? "border-amber-300 bg-amber-50" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-teal-600 bg-teal-50" : "border-slate-200 hover:bg-slate-50"}`}
+                      className={`${S.examAnswer} flex min-h-14 cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors focus-within:ring-2 focus-within:ring-brand ${q.correctOption === o.id ? "border-brand bg-brand-soft" : q.correctOption && answer?.option === o.id ? "border-warning/40 bg-warning-soft" : (pending?.questionId === q.id ? pending.option : answer?.option) === o.id ? "border-brand bg-brand-soft" : "border-line hover:bg-surface"}`}
                     >
                       <input
-                        className="mt-1 h-4 w-4 accent-teal-700"
+                        className="mt-1 h-4 w-4 accent-brand"
                         type="radio"
                         name={`answer-${q.id}`}
                         value={o.id}
@@ -681,7 +683,7 @@ export function ExamWorkspace({
                 />
                 <p
                   role="status"
-                  className="my-3 min-h-5 text-xs text-slate-600"
+                  className="my-3 min-h-5 text-xs text-muted"
                 >
                   {a.state !== "active"
                     ? answer?.option
@@ -696,7 +698,7 @@ export function ExamWorkspace({
                           : "Puedes dejarla pendiente y continuar."}
                 </p>
                 {q.correctOption && (
-                  <section className="my-5 rounded-xl border border-teal-200 bg-slate-50 p-4">
+                  <section className="my-5 rounded-xl border border-brand/30 bg-surface p-4">
                     <h3 className="font-semibold">
                       {answer?.option === q.correctOption
                         ? "Respuesta correcta"
@@ -727,17 +729,17 @@ export function ExamWorkspace({
                     {q.sources?.map((s, i) => (
                       <div
                         key={s.chunkId + i}
-                        className="mt-4 border-t border-slate-200 pt-4"
+                        className="mt-4 border-t border-line pt-4"
                       >
                         <p className="text-xs font-semibold">
                           {s.title} · artículo {s.article} · páginas{" "}
                           {s.pageStart}
                           {s.pageEnd !== s.pageStart ? `–${s.pageEnd}` : ""}
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-muted">
                           {s.version}
                         </p>
-                        <blockquote className="my-3 border-l-2 border-teal-400 pl-3 text-sm leading-relaxed">
+                        <blockquote className="my-3 border-l-2 border-brand pl-3 text-sm leading-relaxed">
                           {s.quote}
                         </blockquote>
                         <div className="flex flex-wrap gap-2">
@@ -813,13 +815,13 @@ export function ExamWorkspace({
                   </button>
                 </div>
               </section>
-              <aside className="examJourney">
+              <aside className={S.examJourney}>
                 <h2 className="font-semibold">Tu recorrido</h2>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-muted">
                   {answered} de {a.questions.length} respondidas
                 </p>
                 <progress
-                  className="mt-2 h-2 w-full accent-teal-700"
+                  className="mt-2 h-2 w-full accent-brand"
                   value={answered}
                   max={a.questions.length}
                   aria-label="Preguntas respondidas"
@@ -828,7 +830,7 @@ export function ExamWorkspace({
                   <summary className="cursor-pointer text-sm font-medium">
                     Navegar por preguntas
                   </summary>
-                  <div className="examQuestionGrid mt-3 grid grid-cols-5 gap-2">
+                  <div className={cn(S.examQuestionGrid, "mt-3", "grid", "grid-cols-5", "gap-2")}>
                     {a.questions.map((item, n) => {
                       const ans = exam.answers.find(
                         (x) => x.question_id === item.id,
@@ -840,7 +842,7 @@ export function ExamWorkspace({
                           aria-current={n === index ? "step" : undefined}
                           aria-label={`Pregunta ${n + 1}${ans?.option ? ", respondida" : ", pendiente"}${ans?.flagged ? ", marcada" : ""}`}
                           onClick={() => jump(n)}
-                          className={`min-h-11 rounded-lg border text-sm font-semibold ${n === index ? "border-teal-800 ring-2 ring-teal-700" : ans?.option ? "border-teal-200 bg-teal-50" : "border-slate-200 bg-white"}`}
+                          className={`min-h-11 rounded-lg border text-sm font-semibold ${n === index ? "border-brand ring-2 ring-brand" : ans?.option ? "border-brand/30 bg-brand-soft" : "border-line bg-panel"}`}
                         >
                           {n + 1}
                           {ans?.flagged ? " ★" : ans?.option ? " ✓" : ""}
@@ -875,7 +877,7 @@ export function ExamWorkspace({
         dash && (
           <>
             {dash.active && (
-              <div className="examResume">
+              <div className={S.examResume}>
                 <div>
                   <h2 className="font-semibold">
                     Tienes{" "}
@@ -905,30 +907,30 @@ export function ExamWorkspace({
               className="grid gap-3 sm:grid-cols-3"
             >
               <button
-                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 disabled={busy}
                 onClick={() => studyTopic("")}
               >
                 <strong>Estudiar</strong>
-                <span className="mt-2 block text-sm text-slate-600">
+                <span className="mt-2 block text-sm text-muted">
                   Sesiones de 10 preguntas con explicación inmediata.
                 </span>
               </button>
               <a
-                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 href="#oece-preparation-title"
               >
                 <strong>Rendir simulacro</strong>
-                <span className="mt-2 block text-sm text-slate-600">
+                <span className="mt-2 block text-sm text-muted">
                   72 preguntas, 120 minutos y corrección al entregar.
                 </span>
               </a>
               <a
-                className="examMode rounded-xl border border-line bg-white p-5 text-left"
+                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
                 href="#exam-review"
               >
                 <strong>Repasar errores</strong>
-                <span className="mt-2 block text-sm text-slate-600">
+                <span className="mt-2 block text-sm text-muted">
                   Vuelve a los temas pendientes y a tu plan de repaso.
                 </span>
               </a>
@@ -950,13 +952,13 @@ export function ExamWorkspace({
             <section
               id="exam-custom"
               aria-labelledby="exam-custom-title"
-              className="examCustomLayout"
+              className={S.examCustomLayout}
             >
-              <div className="examCustomPanel">
+              <div className={S.examCustomPanel}>
                 <h2 id="exam-custom-title" className="text-xl font-semibold">
                   Prepara tu práctica
                 </h2>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-muted">
                   Elige una modalidad, competencia y tema. Las sesiones cortas
                   comienzan con 10 preguntas; ajusta la cantidad a las
                   disponibles.
@@ -977,7 +979,7 @@ export function ExamWorkspace({
                   ].map((m) => (
                     <label
                       key={m.id}
-                      className={`examMode cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-teal-600 ${mode === m.id ? "border-teal-600 bg-teal-50" : "border-slate-200"}`}
+                      className={`${S.examMode} cursor-pointer rounded-xl border p-4 focus-within:ring-2 focus-within:ring-brand ${mode === m.id ? "border-brand bg-brand-soft" : "border-line"}`}
                     >
                       <span className="flex items-center gap-2 font-semibold">
                         <input
@@ -991,7 +993,7 @@ export function ExamWorkspace({
                         />
                         {m.title}
                       </span>
-                      <span className="mt-2 block text-sm text-slate-600">
+                      <span className="mt-2 block text-sm text-muted">
                         {m.text}
                       </span>
                     </label>
@@ -1089,7 +1091,7 @@ export function ExamWorkspace({
                     Probar borradores del banco (solo administración)
                   </label>
                 )}
-                <p className="mt-4 text-sm text-slate-600">
+                <p className="mt-4 text-sm text-muted">
                   {available} preguntas{" "}
                   {preview
                     ? "disponibles para revisión"
@@ -1098,7 +1100,7 @@ export function ExamWorkspace({
                   intento.
                 </p>
                 {!available && (
-                  <p className="mt-3 rounded-xl bg-slate-50 p-3 text-sm">
+                  <p className="mt-3 rounded-xl bg-surface p-3 text-sm">
                     El banco de esta selección está en preparación.
                     {isAdmin
                       ? " Revisa los borradores y publica las preguntas antes de ofrecerlas a los usuarios."
@@ -1125,12 +1127,12 @@ export function ExamWorkspace({
                         : "Empezar simulacro"}
                 </button>
                 {count > available && available > 0 && (
-                  <p className="mt-2 text-xs text-amber-900">
+                  <p className="mt-2 text-xs text-warning">
                     Elige hasta {available} preguntas o amplía el tema.
                   </p>
                 )}
               </div>
-              <aside className="examStudyGuide">
+              <aside className={S.examStudyGuide}>
                 <p className="text-xs uppercase tracking-wider text-teal-200">
                   Aprendizaje con fundamento
                 </p>
@@ -1150,16 +1152,16 @@ export function ExamWorkspace({
             </section>
             <section id="exam-history" className="examHistory">
               <h2 className="text-xl font-semibold">Mis intentos</h2>
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="mt-1 text-sm text-muted">
                 Últimos 20 intentos. Las revisiones de borradores se identifican
                 por separado.
               </p>
               {!dash.history.length ? (
-                <p className="mt-5 text-sm text-slate-600">
+                <p className="mt-5 text-sm text-muted">
                   Tu primera práctica aparecerá aquí cuando termines.
                 </p>
               ) : (
-                <ul className="mt-4 divide-y divide-slate-100">
+                <ul className="mt-4 divide-y divide-line">
                   {dash.history.map((h) => (
                     <li
                       key={h.id}
@@ -1174,7 +1176,7 @@ export function ExamWorkspace({
                               : "Práctica"}{" "}
                           · Ley {h.regime}
                         </p>
-                        <p className="mt-1 text-xs text-slate-600">
+                        <p className="mt-1 text-xs text-muted">
                           {new Date(h.started_at).toLocaleString("es-PE", {
                             timeZone: "America/Lima",
                           })}{" "}
@@ -1204,7 +1206,7 @@ export function ExamWorkspace({
           ref={dialog}
           aria-labelledby="exam-confirm"
           onCancel={() => setConfirmation(null)}
-          className="tw m-auto max-w-lg rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-xl backdrop:bg-slate-950/50"
+          className="tw m-auto max-w-lg rounded-2xl border border-line bg-panel p-6 text-ink shadow-xl backdrop:bg-slate-950/50"
         >
           <h2 id="exam-confirm" className="text-xl font-semibold">
             {confirmation === "submit"

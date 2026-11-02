@@ -46,6 +46,8 @@ import { SaveButton } from "./save-button";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
 import { stripPageMarkers } from "@/lib/page-markers";
 
+import { S } from "./normative-browser-estilos";
+import { cn } from "@/lib/utils";
 type Category = "normas" | "jurisprudencia" | "orientacion";
 
 const MONTHS = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -602,11 +604,11 @@ export function NormativeBrowser() {
       {reading && focusReading ? <h1 className="sr-only">Vista de lectura · {detail?.norm.title}</h1> : null}
       <LegalCenterNav active="normas" filters={{ ...extendedFilters, documentType: documentTypeFilter || detail?.norm.documentType, documentId: selectedId, article: selectedArticle?.articleNumber, articleId:selectedArticle?.id, bodyId:selectedArticle?.bodyId, processType: processTypeFilter, sourceEntity: sourceEntityFilter, year: yearFilter, vigencia: vigenciaFilter, topic: topicFilter }} />
 
-      <div className="normCatalogueControls">
-      <p className="normIntro">Busca por título o número, o explora por categoría. Cada documento enlaza su PDF para poder citarlo con su página.</p>
+      <div className={S.normCatalogueControls}>
+      <p className={S.normIntro}>Busca por título o número, o explora por categoría. Cada documento enlaza su PDF para poder citarlo con su página.</p>
 
       {/* Filtro de categoría sobre el mismo listado, no pestañas. */}
-      <div className="sourceTabs normCategoryTabs" role="group" aria-label="Categoria">
+      <div className={S.sourceTabs_normCategoryTabs} role="group" aria-label="Categoria">
         <button
           aria-pressed={category === "normas"}
           onClick={() => changeCategory("normas")}
@@ -626,30 +628,30 @@ export function NormativeBrowser() {
         </button>
       </div>
 
-      <div className="normSearchEntry"><label htmlFor="norm-title-query">Encuentra un documento por título o número</label><div><Search size={18} aria-hidden="true"/><input id="norm-title-query" value={titleQuery} maxLength={200} onChange={event=>{setTitleQuery(event.target.value);setPage(1);}} placeholder="Por ejemplo: Reglamento de la Ley 32069" /></div></div>
-      <div className="normFilters normPrimaryFilters">
+      <div className={S.normSearchEntry}><label htmlFor="norm-title-query">Encuentra un documento por título o número</label><div><Search size={18} aria-hidden="true"/><input id="norm-title-query" value={titleQuery} maxLength={200} onChange={event=>{setTitleQuery(event.target.value);setPage(1);}} placeholder="Por ejemplo: Reglamento de la Ley 32069" /></div></div>
+      <div className={cn(S.normFilters, "normPrimaryFilters")}>
         <label><span>Tipo</span><select value={documentTypeFilter} onChange={event=>{setDocumentTypeFilter(event.target.value);setPage(1);}}><option value="">Todos los tipos</option>{DOCUMENT_TYPES.filter(item=>corpusTypesForGroup(category).includes(item.value)).map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label><span>Régimen identificado</span><select value={extendedFilters.regime ?? ""} onChange={event=>{setExtendedFilters({...extendedFilters,regime:event.target.value as ExtendedLegalFilters["regime"]});setPage(1);}}><option value="">Todos</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Especial</option><option value="no_determinado">Sin identificar</option></select></label>
         <label><span>Año registrado</span><select value={yearFilter} onChange={event=>{setYearFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{facets.years.map(year=><option key={year} value={year}>{year}</option>)}</select></label>
         <button className="secondaryButton" type="button" onClick={clearNormFilters}>Restablecer</button>
       </div>
-      <details className="normAdvancedFilters"><summary>Más filtros · entidad, procedimiento y revisión{[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length ? ` · ${[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length} activos` : ""}</summary><div className="normFilters">
+      <details className={S.normAdvancedFilters}><summary>Más filtros · entidad, procedimiento y revisión{[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length ? ` · ${[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length} activos` : ""}</summary><div className={S.normFilters}>
         <label><span>Entidad</span><select value={sourceEntityFilter} onChange={event=>{setSourceEntityFilter(event.target.value);setPage(1);}}><option value="">Todas</option>{facets.entities.map(entity=><option key={entity} value={entity}>{entity}</option>)}</select></label>
         <label><span>Procedimiento</span><select value={processTypeFilter} onChange={event=>{setProcessTypeFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{processTypes.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label><span>Estado registrado de vigencia</span><select value={vigenciaFilter} onChange={event=>{setVigenciaFilter(event.target.value);setPage(1);}}><option value="">Todos</option><option value="vigente">Registrado como vigente</option><option value="no vigente">Registrado como no vigente</option><option value="parcialmente vigente">Parcialmente vigente</option><option value="unknown">Sin confirmar / por revisar</option></select></label>
         <label><span>Tema registrado</span><input value={topicFilter} onChange={event=>{setTopicFilter(event.target.value);setPage(1);}} placeholder="Tema del catálogo" /></label>
         </div><ExtendedLegalFilterControls value={extendedFilters} onChange={value=>{setExtendedFilters(value);setPage(1);if(value.documentTypes?.length)setDocumentTypeFilter("");if(value.years?.length)setYearFilter("");}} /></details>
-      <p className="normCatalogueCount" role="status">
+      <p className={S.normCatalogueCount} role="status">
         <strong>{loadingList ? "Consultando documentos…" : `${pagination.total} ${pagination.total === 1 ? "documento" : "documentos"}`}</strong>
         {loadingList ? null : <span>{facets.categoryTotal} en esta categoría</span>}
-        <span className="normCatalogueNote">La vigencia y el régimen se confirman dentro de cada documento; el listado no acredita que apliquen a tu caso. Solo se marca lo que consta como vigente o no vigente.</span>
+        <span className={S.normCatalogueNote}>La vigencia y el régimen se confirman dentro de cada documento; el listado no acredita que apliquen a tu caso. Solo se marca lo que consta como vigente o no vigente.</span>
       </p>
-      {listWarnings.length ? <div className="normPartialNotice" role="status"><strong>Listado disponible con comprobaciones pendientes</strong>{listWarnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
+      {listWarnings.length ? <div className={S.normPartialNotice} role="status"><strong>Listado disponible con comprobaciones pendientes</strong>{listWarnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
 
 
       </div>
       {error ? <p className="formMessage errorText">{error}</p> : null}
-      <div className="normReaderToolbar" ref={readingRef} tabIndex={-1}>
+      <div className={S.normReaderToolbar} ref={readingRef} tabIndex={-1}>
         {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);setFocusReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
         {reading ? <span>Lectura del documento · comprueba la versión y la página del PDF.</span> : null}
       </div>
@@ -657,8 +659,8 @@ export function NormativeBrowser() {
         <aside className="normList" aria-label="Listado de normas">
           {loadingList ? (
             <>
-              <span className="normSkeletonLabel" role="status">Cargando documentos…</span>
-              {Array.from({ length: 6 }, (_, index) => <div key={index} className="normCardSkeleton" aria-hidden="true"><i /><i /><i /></div>)}
+              <span className={S.normSkeletonLabel} role="status">Cargando documentos…</span>
+              {Array.from({ length: 6 }, (_, index) => <div key={index} className={S.normCardSkeleton} aria-hidden="true"><i /><i /><i /></div>)}
             </>
           ) : norms.length === 0 ? (
             <div className="emptyState">
@@ -673,11 +675,11 @@ export function NormativeBrowser() {
                 onClick={() => selectNorm(norm.id)}
                 type="button"
               >
-                <span className="normCardTop">
-                  <span className="normCardType">{documentTypeLabel(norm.documentType)}</span>
-                  {norm.dates?.published || norm.year ? <time className="normCardDate">{norm.dates?.published ? formatNormDate(norm.dates.published) : `Año ${norm.year}`}</time> : null}
+                <span className={S.normCardTop}>
+                  <span className={S.normCardType}>{documentTypeLabel(norm.documentType)}</span>
+                  {norm.dates?.published || norm.year ? <time className={S.normCardDate}>{norm.dates?.published ? formatNormDate(norm.dates.published) : `Año ${norm.year}`}</time> : null}
                 </span>
-                <strong className="normCardTitle">{norm.title}</strong>
+                <strong className={S.normCardTitle}>{norm.title}</strong>
                 <span className="normCardMeta">
                   {[
                     norm.documentNumber && !norm.title.includes(norm.documentNumber) ? `N.° ${norm.documentNumber}` : "",
@@ -693,7 +695,7 @@ export function NormativeBrowser() {
               </button>
             ))
           )}
-          {pagination.pages>1 ? <nav className="normPagination" aria-label="Páginas de documentos"><button type="button" disabled={loadingList||page<=1} onClick={()=>setPage(value=>value-1)}>Anterior</button><span>{page} / {pagination.pages}</span><button type="button" disabled={loadingList||page>=pagination.pages} onClick={()=>setPage(value=>value+1)}>Siguiente</button></nav> : null}
+          {pagination.pages>1 ? <nav className={S.normPagination} aria-label="Páginas de documentos"><button type="button" disabled={loadingList||page<=1} onClick={()=>setPage(value=>value-1)}>Anterior</button><span>{page} / {pagination.pages}</span><button type="button" disabled={loadingList||page>=pagination.pages} onClick={()=>setPage(value=>value+1)}>Siguiente</button></nav> : null}
         </aside>
 
         <section className="normDetail" aria-label="Detalle de la norma">
@@ -710,7 +712,7 @@ export function NormativeBrowser() {
             </div>
           ) : (
             <>
-              <header className="normDetailHeader">
+              <header className={S.normDetailHeader}>
                 <div>
                   <p className="eyebrow">
                     {documentTypeLabel(detail.norm.documentType)}
@@ -722,7 +724,7 @@ export function NormativeBrowser() {
                   <h3>{detail.norm.title}</h3>
                   <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
-                <div className="normHeaderActions">
+                <div className={S.normHeaderActions}>
                   <button type="button" className="primaryButton compactButton" disabled={chatBusy} onClick={() => void askDocument()}>
                     <MessageSquareText size={15} />
                     Consultar en Chat
@@ -739,21 +741,21 @@ export function NormativeBrowser() {
                 </div>
               </header>
 
-              {detail.warnings?.length ? <div className="normPartialNotice" role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
-              {versionsError ? <p className="normPartialNotice" role="status">{versionsError}</p> : null}
-              <details className="normDocumentInfo"><summary>Ficha, vigencia, versiones y acciones del documento</summary>
+              {detail.warnings?.length ? <div className={S.normPartialNotice} role="status">{detail.warnings.map(warning=><p key={warning}>{warning}</p>)}</div> : null}
+              {versionsError ? <p className={S.normPartialNotice} role="status">{versionsError}</p> : null}
+              <details className={S.normDocumentInfo}><summary>Ficha, vigencia, versiones y acciones del documento</summary>
               {detail.norm.amends ? (
-                <div className="normAmends">
+                <div className={S.normAmends}>
                   <AlertTriangle size={15} />
                   <span>Nota registrada · efectos jurídicos sin comprobar: {detail.norm.amends}</span>
                 </div>
               ) : null}
 
-              <div className="normReadingActions"><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
+              <div className={S.normReadingActions}><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
               <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
               <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={refreshAfterValidityReview} />              <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
-              <details className="normTechnicalState"><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
-              <div className="normQualityStrip">
+              <details className={S.normTechnicalState}><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
+              <div className={S.normQualityStrip}>
                 {detail.norm.articleCount > 0 ? <span data-ready={true}>
                   <BookOpenCheck size={15} />
                   {detail.norm.articleCount} articulos
@@ -778,17 +780,15 @@ export function NormativeBrowser() {
 
               </details>
               {selectedVersionGroup ? (
-                <details className="versionPanel">
+                <details className={S.versionPanel}>
                   <summary>Versiones del documento · {selectedVersionGroup.total}</summary>
                   <span>
                     {selectedVersionGroup.total} documentos de la misma familia · ordenados por fecha de actualización o publicación; fechas desconocidas al final
                   </span>
-                  <div className="versionList">
+                  <div className={S.versionList}>
                     {selectedVersionGroup.documents.map((document) => (
                       <div key={document.id} className="normVersionChoice"><button
-                        className={`versionChip ${document.id === detail.norm.id ? "active" : ""} ${
-                          isNotCurrent(document.vigencia, document.status) ? "warn" : ""
-                        }`}
+                        className={`${S.versionChip} ${document.id === detail.norm.id ? "active" : ""} ${ isNotCurrent(document.vigencia, document.status) ? "warn" : "" }`}
                         key={document.id}
                         onClick={() => selectNorm(document.id)}
                         type="button"
@@ -807,11 +807,11 @@ export function NormativeBrowser() {
 
               </details>
 
-              {repeatedArticleNumbers(detail.articles).length ? <p className="normPartialNotice">Hay numeración de artículos repetida en este archivo. Puede contener varios cuerpos o secciones; el ámbito aún no está separado. Comprueba encabezado y página del PDF antes de citar.</p> : null}
+              {repeatedArticleNumbers(detail.articles).length ? <p className={S.normPartialNotice}>Hay numeración de artículos repetida en este archivo. Puede contener varios cuerpos o secciones; el ámbito aún no está separado. Comprueba encabezado y página del PDF antes de citar.</p> : null}
               {detail.articles.length === 0 ? (
-                <div className="normJurisprudence">
+                <div className={S.normJurisprudence}>
                   {detail.norm.summary ? (
-                    <details className="normAssistedReading"><summary>Resumen asistido · contenido generado, no texto original</summary><p>{detail.norm.summary}</p><small>Contrasta la explicación con el documento original. No se presume revisión humana.</small></details>
+                    <details className={S.normAssistedReading}><summary>Resumen asistido · contenido generado, no texto original</summary><p>{detail.norm.summary}</p><small>Contrasta la explicación con el documento original. No se presume revisión humana.</small></details>
                   ) : (
                     <p>Este documento no tiene articulos detectados. Abre el PDF para leerlo completo.</p>
                   )}
@@ -825,9 +825,9 @@ export function NormativeBrowser() {
                   </button>
                 </div>
               ) : (
-                <div className="articleLayout">
-                  <details className="articleNavCol normArticleNavigation" open={articleNavOpen} onToggle={(event) => setArticleNavChoice(event.currentTarget.open)}><summary>Índice y búsqueda en el documento</summary>
-                    <label className="articleSearch">
+                <div className={S.articleLayout}>
+                  <details className={cn("articleNavCol", S.normArticleNavigation)} open={articleNavOpen} onToggle={(event) => setArticleNavChoice(event.currentTarget.open)}><summary>Índice y búsqueda en el documento</summary>
+                    <label className={S.articleSearch}>
                       <Search size={15} />
                       <input
                         onChange={(event) => setArticleFilter(event.target.value)}
@@ -844,8 +844,8 @@ export function NormativeBrowser() {
                       />
                       Solo registrado como vigente
                     </label>
-                    <div className="semanticInNorm">
-                      <label className="articleSearch">
+                    <div className={S.semanticInNorm}>
+                      <label className={S.articleSearch}>
                         <Sparkles size={15} />
                         <input
                           onChange={(event) => setSemanticQuery(event.target.value)}
@@ -867,7 +867,7 @@ export function NormativeBrowser() {
                     </div>
                     {semanticNotice ? <p className="normScopeNote" role="status">{semanticNotice}</p> : null}
                     {semanticSources.length > 0 ? (
-                      <div className="semanticNormResults">
+                      <div className={S.semanticNormResults}>
                         {semanticSources.slice(0, 5).map((source) => (
                           <button
                             key={source.chunkId}
@@ -889,14 +889,14 @@ export function NormativeBrowser() {
                   <article className="articleReader">
                     {selectedArticle ? (
                       <>
-                        <div className="articleReaderHeader">
+                        <div className={S.articleReaderHeader}>
                           <div>
                             {selectedArticle.sectionTitle ? (
-                              <span className="articleSection">{selectedArticle.sectionTitle}</span>
+                              <span className={S.articleSection}>{selectedArticle.sectionTitle}</span>
                             ) : null}
-                            <h2 id="norm-article-heading" className="normArticleHeading" tabIndex={-1}>Artículo {selectedArticle.articleNumber}</h2><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
+                            <h2 id="norm-article-heading" className={S.normArticleHeading} tabIndex={-1}>Artículo {selectedArticle.articleNumber}</h2><p className="normScopeNote">{selectedArticle.bodyTitle ?? "Cuerpo normativo sin identificar"} · {selectedArticle.bodyReviewed?"Ámbito revisado":"Ámbito por revisar"} · {selectedArticle.version ?? "Versión sin registrar"}</p>
                           </div>
-                          <div className="articleBadges">
+                          <div className={S.articleBadges}>
                             {selectedArticle.pageStart ? (
                               <span className="normTag">
                                 pág. {selectedArticle.pageStart}
@@ -910,7 +910,7 @@ export function NormativeBrowser() {
                         </div>
 
                         {isNotCurrent(selectedArticle.vigencia, selectedArticle.status) ? (
-                          <div className="normAmends">
+                          <div className={S.normAmends}>
                             <AlertTriangle size={15} />
                             <span>
                               Este articulo figura como derogado o modificado; verifica la version vigente
@@ -930,7 +930,7 @@ export function NormativeBrowser() {
                         {detail.canCorrectReferences ? <NormativeBodyReview key={selectedArticle.id} articleId={selectedArticle.id} title={selectedArticle.bodyReviewed?selectedArticle.bodyTitle:undefined} revision={selectedArticle.bodyRevision??0} onSaved={()=>void selectNorm(detail.norm.id,selectedArticle.id)}/> : null}
 
                         {selectedReading ? (
-                          <details className="normAssistedReading"><summary>Extracto y señales automáticas · sin revisión jurídica</summary><div className="legalReadingPanel">
+                          <details className={S.normAssistedReading}><summary>Extracto y señales automáticas · sin revisión jurídica</summary><div className={S.legalReadingPanel}>
                             <div>
                               <strong>Extracto textual abreviado</strong>
                               <p>{selectedReading.summary}</p>
@@ -962,18 +962,18 @@ export function NormativeBrowser() {
                           </div><p>Detección por palabras, no análisis jurídico. Para una explicación con fuentes, consulta este artículo en Chat.</p></details>
                         ) : null}
 
-                        {citingError ? <p className="normPartialNotice" role="status">{citingError}</p> : null}
+                        {citingError ? <p className={S.normPartialNotice} role="status">{citingError}</p> : null}
                         {articleConcordancias.length > 0 || citing.length > 0 ? (
-                          <div className="concordanciaPanel">
+                          <div className={S.concordanciaPanel}>
                             {articleConcordancias.length > 0 ? (
-                              <div className="concordanciaGroup">
+                              <div className={S.concordanciaGroup}>
                                 <strong>Referencias detectadas · sin revisión jurídica</strong>
-                                <div className="concordanciaList">
+                                <div className={S.concordanciaList}>
                                   {articleConcordancias.map((concordancia) =>
                                     concordancia.resolved && concordancia.targetDocumentId && concordancia.destinationCheck?.valid ? (
                                       <button
                                         key={concordancia.id}
-                                        className="concordanciaChip resolved"
+                                        className={cn(S.concordanciaChip, "resolved")}
                                         onClick={() => navigateToConcordancia(concordancia)}
                                         type="button"
                                         title={concordancia.rawText}
@@ -987,7 +987,7 @@ export function NormativeBrowser() {
                                     ) : (
                                       <span
                                         key={concordancia.id}
-                                        className="concordanciaChip external"
+                                        className={cn(S.concordanciaChip, "external")}
                                         title={concordancia.rawText}
                                       >
                                         {concordancia.destinationCheck?.reason ?? referenceReviewLabel(concordancia.resolved, concordancia.targetDocumentId)} · {concordancia.rawText} · no indexada
@@ -1000,13 +1000,13 @@ export function NormativeBrowser() {
                             ) : null}
 
                             {citing.length > 0 ? (
-                              <div className="concordanciaGroup">
+                              <div className={S.concordanciaGroup}>
                                 <strong>Citado por</strong>
-                                <div className="concordanciaList">
+                                <div className={S.concordanciaList}>
                                   {citing.map((item) => (
                                     <button
                                       key={item.id}
-                                      className="concordanciaChip"
+                                      className={S.concordanciaChip}
                                       onClick={() =>
                                         navigateToArticleRef(item.sourceDocumentId, item.sourceArticleId)
                                       }

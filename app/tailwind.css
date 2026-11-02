@@ -103,6 +103,15 @@
 @source "./chat/page.tsx";
 @source "./busqueda/page.tsx";
 @source "./normas/page.tsx";
+/* Pantallas migradas a Tailwind: las clases viven en sus componentes y en los
+   mapas *-estilos.ts, así que hay que escanearlos (no hay escaneo automático). */
+@source "./components/legal-chat.tsx";
+@source "./components/legal-chat-estilos.ts";
+@source "./components/document-search-workspace.tsx";
+@source "./components/document-search-workspace-estilos.ts";
+@source "./components/normative-browser.tsx";
+@source "./components/normative-browser-estilos.ts";
+@source "./components/exam-workspace-estilos.ts";
 
 /* "Mi Yo" — el asistente único, flota en <AppShell> sobre cualquier módulo. */
 @source "./components/asistente";
