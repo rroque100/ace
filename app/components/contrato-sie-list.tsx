@@ -47,11 +47,11 @@ export function ContratoSieList({ onLoad }: { onLoad: (id: string) => void }) {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+    <div className="flex flex-col gap-2.5">
+      <div className="flex items-center gap-2">
         <Search size={16} />
         <input
-          style={{ flex: 1, padding: "6px 10px", borderRadius: 6, border: "1px solid var(--line, #e2e4ea)", fontSize: 13 }}
+          className="flex-1 rounded-sm border border-line px-2.5 py-1.5 text-[13px]"
           placeholder="Buscar por nomenclatura, denominación o contratista…"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
@@ -59,40 +59,36 @@ export function ContratoSieList({ onLoad }: { onLoad: (id: string) => void }) {
       </div>
 
       {loading ? (
-        <p style={{ fontSize: 13, color: "var(--muted, #667)" }}>Cargando…</p>
+        <p className="text-[13px] text-muted">Cargando…</p>
       ) : filtrados.length === 0 ? (
-        <p style={{ fontSize: 13, color: "var(--muted, #667)", fontStyle: "italic" }}>
+        <p className="text-[13px] italic text-muted">
           {busqueda ? "Sin resultados." : "Aún no has guardado ningún contrato SIE. Completa el formulario y usa Guardar borrador."}
         </p>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div className="flex flex-col gap-1.5">
           {filtrados.map((r) => (
             <div
               key={r.id}
-              style={{
-                display: "flex", alignItems: "center", gap: 10,
-                padding: "8px 12px", borderRadius: 8,
-                border: "1px solid var(--line, #e2e4ea)", background: "var(--panel, #fff)",
-              }}
+              className="flex items-center gap-2.5 rounded-md border border-line bg-panel px-3 py-2"
             >
-              <FileText size={18} style={{ flexShrink: 0, color: "var(--brand, #0f766e)" }} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <FileText size={18} className="shrink-0 text-brand" />
+              <div className="min-w-0 flex-1">
+                <div className="overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-semibold text-ink">
                   {r.nomenclatura || r.denominacion || "(sin nombre)"}
                 </div>
-                <div style={{ fontSize: 11.5, color: "var(--muted, #667)" }}>
+                <div className="text-[11.5px] text-muted">
                   {r.contratista ? `${r.contratista} · ` : ""}
                   {new Date(r.updated_at).toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                   {" · "}
-                  <span style={{ fontWeight: r.estado === "generado" ? 600 : 400 }}>{r.estado === "generado" ? "Generado" : "Borrador"}</span>
+                  <span className={r.estado === "generado" ? "font-semibold" : "font-normal"}>{r.estado === "generado" ? "Generado" : "Borrador"}</span>
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+              <div className="flex shrink-0 gap-1">
                 <button
                   type="button"
                   title="Cargar contrato"
                   onClick={() => onLoad(r.id)}
-                  style={{ background: "transparent", border: 0, cursor: "pointer", color: "var(--brand, #0f766e)", padding: 4, display: "flex" }}
+                  className="flex p-1 text-brand"
                 >
                   <ExternalLink size={16} />
                 </button>
@@ -124,23 +120,23 @@ export function ContratoSieList({ onLoad }: { onLoad: (id: string) => void }) {
                       URL.revokeObjectURL(url);
                     } catch { /* ignore */ }
                   }}
-                  style={{ background: "transparent", border: 0, cursor: "pointer", color: "#0f766e", padding: 4, display: "flex" }}
+                  className="flex p-1 text-brand"
                 >
                   <FileDown size={16} />
                 </button>
                 {confirmarId === r.id ? (
-                  <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => eliminar(r.id)}
-                      style={{ background: "#c0392b", color: "#fff", border: 0, borderRadius: 4, padding: "2px 8px", fontSize: 11, cursor: "pointer" }}
+                      className="rounded bg-danger px-2 py-0.5 text-[11px] text-white"
                     >
                       Confirmar
                     </button>
                     <button
                       type="button"
                       onClick={() => setConfirmarId(null)}
-                      style={{ background: "transparent", border: 0, fontSize: 11, cursor: "pointer", color: "var(--muted, #667)" }}
+                      className="text-[11px] text-muted"
                     >
                       Cancelar
                     </button>
@@ -150,7 +146,7 @@ export function ContratoSieList({ onLoad }: { onLoad: (id: string) => void }) {
                     type="button"
                     title="Eliminar"
                     onClick={() => setConfirmarId(r.id)}
-                    style={{ background: "transparent", border: 0, cursor: "pointer", color: "#c0392b", padding: 4, display: "flex" }}
+                    className="flex p-1 text-danger"
                   >
                     <Trash2 size={16} />
                   </button>
