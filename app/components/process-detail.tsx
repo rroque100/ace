@@ -1,5 +1,6 @@
 "use client";
 import {WorkNotesPanel} from "./work-notes-panel";
+import { cn } from "@/lib/utils";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -180,16 +181,16 @@ function Row({
 }) {
   const vacio = value === null || value === undefined || String(value).trim() === "";
   return (
-    <div className="fichaRow" data-vacio={vacio ? "true" : undefined}>
-      <span className="fichaLabel">
+    <div className="grid grid-cols-[minmax(140px,22%)_1fr] gap-2.5 border-b border-line px-1 py-2 last:border-b-0">
+      <span className="text-xs font-[var(--peso-medio)] text-muted">
         {label}
         {origen ? (
-          <span className="fichaOrigen" title={`Este dato lo registra el paso ${origen} de la Fase 1`}>
+          <span className="ml-1.5 inline-block rounded-sm border border-[color-mix(in_srgb,var(--brand)_30%,var(--line))] bg-[color-mix(in_srgb,var(--brand)_9%,var(--surface))] px-[5px] align-[1px] text-[9.5px] font-bold tracking-[0.02em] text-brand" title={`Este dato lo registra el paso ${origen} de la Fase 1`}>
             {origen}
           </span>
         ) : null}
       </span>
-      <span className="fichaValue">{vacio ? "—" : String(value)}</span>
+      <span className={cn("whitespace-pre-wrap text-[13px] leading-[1.45] [overflow-wrap:anywhere]", vacio ? "text-muted" : "text-ink")}>{vacio ? "—" : String(value)}</span>
     </div>
   );
 }
@@ -919,7 +920,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
               {descargandoCaratula ? "Generando…" : "Carátula"}
             </button>
           </div>
-          <div className="fichaGrid">
+          <div className="grid gap-0.5">
             <Row
               label="Cuantía de la contratación"
               origen="A5"
@@ -1047,7 +1048,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             </ul>
           </section>
 
-          <section className="processPanel processSoon">
+          <section className="processPanel bg-surface">
             <div className="processPanelHead">
               <ScanSearch size={17} />
               <h3 className="panelTitulo">Centro operativo del expediente</h3>

@@ -3871,9 +3871,6 @@ textarea,
   color: var(--muted);
 }
 
-.processSoon {
-  background: var(--surface);
-}
 
 /* ===== Instrucción del expediente (seguimiento por fases) ===== */
 .phaseTracker {
@@ -3951,43 +3948,12 @@ textarea,
 }
 
 /* ===== Ficha de Necesidad (Módulo 1) ===== */
-.fichaGrid {
-  display: grid;
-  gap: 2px;
-}
 
-.fichaRow {
-  display: grid;
-  /* La etiqueta se llevaba hasta el 32% del ancho y el valor quedaba estrecho:
-     los campos largos (EETT/TDR, condiciones de contratación, requisitos) se
-     leían en una columna angosta con decenas de líneas. Se acota la etiqueta
-     para que el texto disponga del resto. */
-  grid-template-columns: minmax(140px, 22%) 1fr;
-  gap: 10px;
-  padding: 8px 4px;
-  border-bottom: 1px solid var(--line);
-}
 
-.fichaRow:last-child {
-  border-bottom: none;
-}
 
-.fichaValue {
-  font-size: 13px;
-  color: var(--ink);
-  line-height: 1.45;
-  white-space: pre-wrap;
-  /* Sin esto, un valor sin espacios (una URL, una cadena funcional larga)
-     desborda la celda y ensancha toda la tabla. */
-  overflow-wrap: anywhere;
-}
 
 @media (max-width: 880px) {
 
-  .fichaRow {
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
 }
 
 /* ===== Sistema visual refinado: ACE IA juridica ===== */
@@ -7609,10 +7575,6 @@ textarea:focus,
 }
 
 @media (max-width: 880px) {
-  .fichaSectionBlockBody .fichaRow {
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
 }
 
 /* ===== Vista previa del Anexo N° 1 (A5) ===== */
@@ -8343,25 +8305,9 @@ textarea:focus,
 
 /* De qué paso sale cada dato. Sin esto, en una ficha de solo lectura un campo
    vacío parece un fallo y no se sabe dónde ir a rellenarlo. */
-.fichaOrigen {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 0 5px;
-  border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--line));
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--brand) 9%, var(--surface));
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--brand);
-  vertical-align: 1px;
-}
 
 /* Una fila sin dato se atenúa: lo que está lleno tiene que resaltar sobre lo
    que falta, no competir con ello. */
-.fichaRow[data-vacio="true"] .fichaValue {
-  color: var(--muted);
-}
 
 /* Aclaración en la cabecera del panel, en tono secundario. */
 .panelOrigen {
