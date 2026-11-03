@@ -120,11 +120,11 @@ export const PanelDerivacion = memo(function PanelDerivacion({
           {/* El avance REAL del expediente, sin tener que abrirlo: antes la
               necesidad solo decía "derivada" y no contaba nada de la Fase 1. */}
           {avanceFase1 ? (
-            <div className="fase1Avance">
+            <div className="my-2.5 flex flex-col gap-1.5">
               <div className="h-1.5 overflow-hidden rounded-full bg-line [&>div]:h-full [&>div]:bg-success [&>div]:transition-[width] [&>div]:duration-200">
                 <div style={{ width: `${avanceFase1.porcentaje}%` }} />
               </div>
-              <small>
+              <small className="text-muted">
                 Actuaciones preparatorias: <strong>{avanceFase1.completados}</strong> de{" "}
                 {avanceFase1.total} pasos
               </small>

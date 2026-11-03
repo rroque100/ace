@@ -8025,16 +8025,7 @@ textarea:focus,
 }
 
 /* Avance de la Fase 1 del expediente, visto desde la necesidad. */
-.fase1Avance {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 10px 0;
-}
 
-.fase1Avance small {
-  color: var(--muted);
-}
 
 /* Calculadora de plazos (Configuración · Feriados y reutilizable). */
 .calcPlazos {
