@@ -41,7 +41,7 @@ const SEG_REFTABLE =
   "[&_table]:mt-1.5 [&_table]:w-full [&_table]:border-collapse " +
   "[&_th]:border [&_th]:border-line [&_th]:bg-canvas [&_th]:px-1.5 [&_th]:py-1 [&_th]:text-left [&_th]:text-[11px] [&_th]:font-semibold " +
   "[&_td]:border [&_td]:border-line [&_td]:px-1.5 [&_td]:py-1 [&_td]:text-left [&_td]:text-[11px]";
-const SEG_REF_ACTIVE = "bg-[#dbeafe] font-semibold text-[#1e40af]";
+const SEG_REF_ACTIVE = "bg-info-soft font-semibold text-info";
 const SEG_NOTE = "mt-1 text-[11px] leading-[1.4] text-muted";
 const SEG_NARRATIVA =
   "mt-2 flex flex-col gap-2.5 [&_textarea]:w-full [&_textarea]:resize-y [&_textarea]:px-[9px] [&_textarea]:py-[7px] [&_textarea]:!text-[12px] [&_textarea]:!leading-[1.45]";
@@ -66,7 +66,7 @@ const SEG_CRONO_ROW =
 // El color del borde-izq lo pone cada variante (o `border-l-transparent` en el
 // <em> desnudo): dejarlo en la base ganaba a las variantes por orden de cascada.
 const SEG_FUENTE_BASE =
-  "mt-2 rounded-[8px] border-l-[3px] bg-[#f1f5f9] px-2.5 py-2 text-[12px] leading-[1.45]";
+  "mt-2 rounded-[8px] border-l-[3px] bg-surface px-2.5 py-2 text-[12px] leading-[1.45]";
 const SEG_FUENTE_REGL = "border-l-brand bg-[color-mix(in_srgb,var(--brand)_8%,transparent)]";
 const SEG_FUENTE_GUIA = "border-l-muted bg-surface text-muted";
 const SEG_FUENTETAG_BASE =
@@ -686,7 +686,7 @@ export function SegmentacionForm({
         </select>
       </label>
 
-      <label className={SEG_OPCION} style={{ marginBottom: 8 }}>
+      <label className={`${SEG_OPCION} mb-2`}>
         <input
           checked={Boolean(data.centralizada)}
           disabled={readOnly}
@@ -754,7 +754,7 @@ export function SegmentacionForm({
                     />
                   </label>
                 </div>
-                <p className={SEG_NOTE} style={{ marginTop: 0 }}>
+                <p className={`${SEG_NOTE} mt-0`}>
                   Déjalos en 0 si no aplican. Si los omites cuando sí existen, la base queda corta
                   y una contratación de baja cuantía puede salir como alta.
                 </p>
@@ -830,7 +830,7 @@ export function SegmentacionForm({
                   <span>Alta — &gt; 10% del monto total del PAC para el objeto</span>
                 </label>
                 {cuantiaSinDeterminar ? (
-                  <p className={SEG_AVISO} role="status" style={{ marginTop: 8 }}>
+                  <p className={`${SEG_AVISO} mt-2`} role="status">
                     <strong>Falta determinar la cuantía.</strong> Elige <em>Alta</em> o <em>Baja</em>
                     {" "}(o registra el valor estimado y el PAC para calcularla): de esto depende que
                     la categoría salga Rutinaria/Crítico (baja) u Operacional/Estratégico (alta). Sin
@@ -932,9 +932,9 @@ export function SegmentacionForm({
 
       {/* Texto del informe: solo hace falta al exportar el .docx, así que va
           plegado para no alargar el paso. */}
-      <details className={SEG_REFTABLE} style={{ marginTop: 12 }}>
+      <details className={`${SEG_REFTABLE} mt-3`}>
         <summary>Texto del Informe de Segmentación (justificación y gestión de riesgos)</summary>
-        <p className={SEG_NOTE} style={{ marginBottom: 8 }}>
+        <p className={`${SEG_NOTE} mb-2`}>
           Estos textos se incorporan al documento .docx que se exporta. Se dejan en blanco si no aplican:
           su bloque se omite del informe. Admiten <strong>**negrita**</strong>, <em>*cursiva*</em> y
           __subrayado__.
@@ -969,7 +969,7 @@ export function SegmentacionForm({
           requerimiento ya llegó (es lo que dispara la segmentación, Art. 42.3),
           así que no hay nada que calendarizar. */}
       {parametros?.programada === false ? null : (
-      <fieldset className={SEG_FIELDSET} style={{ marginTop: 12 }}>
+      <fieldset className={`${SEG_FIELDSET} mt-3`}>
         <legend>Cronograma de presentación de requerimientos (Art. 42.2)</legend>
         <p className={SEG_NOTE}>
           Culminada la segmentación de las contrataciones programadas, la DEC elabora el cronograma con las fechas estimadas para la remisión de los requerimientos por parte de las áreas usuarias, y lo comunica mediante documento interno.
@@ -1016,10 +1016,10 @@ export function SegmentacionForm({
           </div>
         ) : null}
         {!readOnly ? (
-          <button className="secondaryButton compactButton" onClick={() => {
+          <button className="secondaryButton compactButton mt-1.5" onClick={() => {
             const next = [...(Array.isArray(data.cronogramaItems) ? (data.cronogramaItems as CronoItem[]) : []), { area: "", fecha: "" }];
             set({ cronogramaItems: next });
-          }} style={{ marginTop: 6 }} type="button">
+          }} type="button">
             <Plus size={13} /> Agregar área usuaria
           </button>
         ) : null}

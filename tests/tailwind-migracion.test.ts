@@ -11,7 +11,7 @@ const TOPE = {
   // Ficheros .tsx que usan alguna.
   ficherosConClasePropia: 116,
   // `style={{…}}` en línea: los dinámicos (anchos %, colores de datos) son legítimos; los literales no.
-  estilosEnLinea: 72,
+  estilosEnLinea: 65,
   // Tamaño de la hoja heredada.
   lineasStylesCss: 8891,
   // Líneas de los CSS de componentes (sin styles.css).
