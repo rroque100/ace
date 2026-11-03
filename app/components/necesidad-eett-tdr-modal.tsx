@@ -17,6 +17,7 @@ import type { Necesidad } from "@/lib/necesidades";
 import { numeroDesdeTexto, TrasladoPanel, type GrupoTraslado } from "./necesidad-traslado-panel";
 import { Button, IconButton } from "./ui/button";
 import { Alert } from "./ui/alert";
+import { cn } from "@/lib/utils";
 
 // Modal de revisión del EETT/TDR: visor del PDF subido a un lado y, al otro, la
 // PROPUESTA generada por IA (conforme al modelo OECE del proceso) + la REVISIÓN
@@ -46,10 +47,12 @@ export type EettRevision = {
   veredicto?: "apto" | "requiere_subsanacion";
 };
 
-const HALLAZGO_META: Record<Hallazgo["tipo"], { label: string; color: string }> = {
-  cumple: { label: "Cumple", color: "var(--success, #16a34a)" },
-  falta: { label: "Falta", color: "var(--warning, #d97706)" },
-  corregir: { label: "Corregir", color: "var(--danger, #dc2626)" },
+// Color por tipo de hallazgo como clases utilitarias (antes era un hex): `texto`
+// para la etiqueta y «Debería decir», `bordeL` para el borde izquierdo de la tarjeta.
+const HALLAZGO_META: Record<Hallazgo["tipo"], { label: string; texto: string; bordeL: string }> = {
+  cumple: { label: "Cumple", texto: "text-success", bordeL: "border-l-success" },
+  falta: { label: "Falta", texto: "text-warning", bordeL: "border-l-warning" },
+  corregir: { label: "Corregir", texto: "text-danger", bordeL: "border-l-danger" },
 };
 
 const escHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -83,7 +86,7 @@ function markdownToHtml(md: string): string {
     if (img) {
       cerrarLista();
       out.push(
-        `<div style="border:1px dashed var(--muted,#94a3b8);border-radius:6px;padding:18px;text-align:center;color:var(--muted,#64748b);font-style:italic;margin:8px 0">🖼 Espacio para imagen${img[1] ? ` · ${escHtml(img[1])}` : ""}</div>`,
+        `<div style="border:1px dashed var(--muted);border-radius:6px;padding:18px;text-align:center;color:var(--muted);font-style:italic;margin:8px 0">🖼 Espacio para imagen${img[1] ? ` · ${escHtml(img[1])}` : ""}</div>`,
       );
       i += 1;
       continue;
@@ -98,8 +101,8 @@ function markdownToHtml(md: string): string {
       const datos = filas.filter((f) => !esSeparadorTablaMd(f));
       if (datos.length >= 1) {
         cerrarLista();
-        const th = celdasMd(datos[0]).map((c) => `<th style="border:1px solid var(--muted,#cbd5e1);padding:4px 6px;text-align:left;background:color-mix(in srgb,var(--muted,#64748b) 10%,transparent)">${inlineMd(c)}</th>`).join("");
-        const trs = datos.slice(1).map((f) => `<tr>${celdasMd(f).map((c) => `<td style="border:1px solid var(--muted,#cbd5e1);padding:4px 6px">${inlineMd(c)}</td>`).join("")}</tr>`).join("");
+        const th = celdasMd(datos[0]).map((c) => `<th style="border:1px solid var(--muted);padding:4px 6px;text-align:left;background:color-mix(in srgb,var(--muted) 10%,transparent)">${inlineMd(c)}</th>`).join("");
+        const trs = datos.slice(1).map((f) => `<tr>${celdasMd(f).map((c) => `<td style="border:1px solid var(--muted);padding:4px 6px">${inlineMd(c)}</td>`).join("")}</tr>`).join("");
         out.push(`<table style="border-collapse:collapse;width:100%;margin:8px 0;font-size:12px"><thead><tr>${th}</tr></thead><tbody>${trs}</tbody></table>`);
         continue;
       }
@@ -561,19 +564,11 @@ export function EettTdrModal({
           className="tw fixed left-1/2 top-1/2 z-[1000] flex max-h-[96dvh] w-[96vw] max-w-[1400px] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[12px] border border-line bg-panel shadow-pop outline-none"
         >
         {/* Cabecera */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "12px 16px",
-            borderBottom: "1px solid color-mix(in srgb, var(--muted, #64748b) 20%, transparent)",
-          }}
-        >
+        <div className="flex items-center gap-2.5 border-b border-line px-4 py-3">
           <DialogPrimitive.Title asChild>
-            <strong style={{ flex: 1 }}>
+            <strong className="flex-1">
               Revisar · {tipoLabel}
-              <span style={{ color: "var(--muted, #64748b)", fontWeight: 400 }}> · {doc.file_name}</span>
+              <span className="font-normal text-muted"> · {doc.file_name}</span>
             </strong>
           </DialogPrimitive.Title>
           <Button
@@ -653,48 +648,25 @@ export function EettTdrModal({
         ) : null}
 
         {/* Cuerpo: PDF · (propuesta + revisión) */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", flex: 1, minHeight: 0 }}>
+        <div className="grid min-h-0 flex-1 grid-cols-2">
           {/* Visor del PDF subido */}
-          <div style={{ borderRight: "1px solid color-mix(in srgb, var(--muted, #64748b) 20%, transparent)", minHeight: 0 }}>
-            <iframe title="PDF del EETT/TDR" src={pdfUrl} style={{ width: "100%", height: "100%", border: "none" }} />
+          <div className="min-h-0 border-r border-line">
+            <iframe title="PDF del EETT/TDR" src={pdfUrl} className="h-full w-full border-0" />
           </div>
 
           {/* Panel: propuesta generada + revisión */}
-          <div style={{ display: "flex", flexDirection: "column", minHeight: 0, background: "var(--surface, #f8fafb)" }}>
-            <div style={{ flex: 1, overflow: "auto", padding: 16, minHeight: 0 }}>
+          <div className="flex min-h-0 flex-col bg-surface">
+            <div className="min-h-0 flex-1 overflow-auto p-4">
               {leyendoPdf ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    padding: "8px 10px",
-                    marginBottom: 12,
-                    borderRadius: 6,
-                    fontSize: 12.5,
-                    background: "color-mix(in srgb, var(--accent, #bd6b2f) 10%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--accent, #bd6b2f) 25%, transparent)",
-                  }}
-                >
-                  <Loader size={15} style={{ color: "var(--accent, #bd6b2f)", flexShrink: 0 }} />
+                <div className="mb-3 flex items-center gap-2 rounded-md border border-accent/25 bg-accent-soft px-2.5 py-2 text-[12.5px]">
+                  <Loader size={15} className="shrink-0 text-accent" />
                   <span>
                     <strong>Leyendo el PDF</strong> (con OCR si es un escaneo)… la revisión usará su contenido detallado.
                   </span>
                 </div>
               ) : !contenidoBase.trim() ? (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    padding: "8px 10px",
-                    marginBottom: 12,
-                    borderRadius: 6,
-                    fontSize: 12.5,
-                    background: "color-mix(in srgb, var(--warning, #d97706) 12%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--warning, #d97706) 30%, transparent)",
-                  }}
-                >
-                  <AlertTriangle size={15} style={{ color: "var(--warning, #d97706)", flexShrink: 0 }} />
+                <div className="mb-3 flex gap-2 rounded-md border border-warning/30 bg-warning-soft px-2.5 py-2 text-[12.5px]">
+                  <AlertTriangle size={15} className="shrink-0 text-warning" />
                   <span>
                     No se pudo leer texto del PDF (posible escaneo no legible). La revisión usará el{" "}
                     <strong>requerimiento guardado en la ficha</strong> como base.
@@ -704,25 +676,16 @@ export function EettTdrModal({
               {/* Propuesta generada */}
               {/* Traslado a la ficha: visto bueno sección por sección. */}
               {confirmandoGuardar ? (
-                <div
-                  style={{
-                    padding: "10px 12px",
-                    marginBottom: 12,
-                    borderRadius: 6,
-                    fontSize: 12.5,
-                    background: "color-mix(in srgb, var(--warning, #d97706) 12%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--warning, #d97706) 30%, transparent)",
-                  }}
-                >
-                  <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                    <AlertTriangle size={15} style={{ color: "var(--warning, #d97706)", flexShrink: 0 }} />
+                <div className="mb-3 rounded-md border border-warning/30 bg-warning-soft px-3 py-2.5 text-[12.5px]">
+                  <div className="mb-2 flex gap-2">
+                    <AlertTriangle size={15} className="shrink-0 text-warning" />
                     <span>
                       La sección <strong>3.4</strong> de la ficha ya tiene contenido y se{" "}
                       <strong>reemplazará por completo</strong> con este documento. Si solo quieres pasar algunos datos, usa{" "}
                       <strong>«Trasladar a la ficha»</strong>, que aprueba sección por sección.
                     </span>
                   </div>
-                  <div style={{ display: "flex", gap: 8 }}>
+                  <div className="flex gap-2">
                     <button className="primaryButton compactButton" type="button" onClick={() => void guardar()}>
                       Reemplazar 3.4
                     </button>
@@ -734,19 +697,8 @@ export function EettTdrModal({
               ) : null}
 
               {trasladadas !== null ? (
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 8,
-                    padding: "8px 10px",
-                    marginBottom: 12,
-                    borderRadius: 6,
-                    fontSize: 12.5,
-                    background: "color-mix(in srgb, var(--success, #16a34a) 12%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--success, #16a34a) 30%, transparent)",
-                  }}
-                >
-                  <CheckCircle2 size={15} style={{ color: "var(--success, #16a34a)", flexShrink: 0 }} />
+                <div className="mb-3 flex gap-2 rounded-md border border-success/30 bg-success-soft px-2.5 py-2 text-[12.5px]">
+                  <CheckCircle2 size={15} className="shrink-0 text-success" />
                   <span>
                     <strong>
                       {trasladadas} campo{trasladadas === 1 ? "" : "s"}
@@ -789,45 +741,38 @@ export function EettTdrModal({
               ) : null}
 
               {propuesta.trim() ? (
-                <div style={{ marginBottom: 18 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>
-                    <WandSparkles size={15} style={{ color: "var(--accent, #bd6b2f)" }} /> Propuesta generada (según modelo OECE)
+                <div className="mb-[18px]">
+                  <div className="mb-1.5 flex items-center gap-1.5 text-[13px] font-bold">
+                    <WandSparkles size={15} className="text-accent" /> Propuesta generada (según modelo OECE)
                   </div>
                   {generadoEn ? (
-                    <p style={{ fontSize: 11.5, color: "var(--muted, #64748b)", margin: "0 0 6px" }}>
+                    <p className="mb-1.5 mt-0 text-[11.5px] text-muted">
                       Propuesta guardada · generada el {new Date(generadoEn).toLocaleString("es-PE")} · no gasta tokens al
                       reabrir.
                     </p>
                   ) : null}
-                  <p style={{ fontSize: 12, color: "var(--muted, #64748b)", margin: "0 0 8px" }}>
+                  <p className="mb-2 mt-0 text-xs text-muted">
                     Descárgala en <strong>.docx</strong> para editarla en Word, o pásala a la ficha con{" "}
                     <strong>«Trasladar a la ficha»</strong>, que te deja aprobar sección por sección.
                   </p>
                   <div
-                    style={{
-                      background: "var(--panel, #fff)",
-                      borderRadius: 8,
-                      padding: "12px 14px",
-                      fontSize: 13,
-                      lineHeight: 1.5,
-                      border: "1px solid color-mix(in srgb, var(--muted, #64748b) 18%, transparent)",
-                    }}
+                    className="rounded-lg border border-muted/20 bg-panel px-3.5 py-3 text-[13px] leading-normal"
                     dangerouslySetInnerHTML={{ __html: markdownToHtml(propuesta) }}
                   />
                 </div>
               ) : null}
 
               {/* Revisión */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 700, fontSize: 13, marginBottom: 4 }}>
-                <Sparkles size={15} style={{ color: "var(--accent, #bd6b2f)" }} /> Revisión contra el modelo OECE
+              <div className="mb-1 flex items-center gap-1.5 text-[13px] font-bold">
+                <Sparkles size={15} className="text-accent" /> Revisión contra el modelo OECE
               </div>
               {revisadoEn ? (
-                <p style={{ fontSize: 11.5, color: "var(--muted, #64748b)", margin: "0 0 8px" }}>
+                <p className="mb-2 mt-0 text-[11.5px] text-muted">
                   Última revisión guardada: {new Date(revisadoEn).toLocaleString("es-PE")} · no gasta tokens al reabrir.
                 </p>
               ) : null}
               {!resumen && hallazgos.length === 0 ? (
-                <p style={{ color: "var(--muted, #64748b)", fontSize: 13, margin: 0 }}>
+                <p className="m-0 text-[13px] text-muted">
                   Pulsa <strong>«Revisar con el modelo OECE»</strong> para contrastar este EETT/TDR con el requerimiento
                   estándar del proceso elegido y ver, con su justificación, qué <strong>cumple</strong>, qué{" "}
                   <strong>falta</strong> y qué <strong>corregir</strong>. O <strong>«Generar propuesta»</strong> para
@@ -838,39 +783,29 @@ export function EettTdrModal({
                   {/* Cabecera: veredicto + conteo de conformidad */}
                   {veredicto ? (
                     <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 8,
-                        flexWrap: "wrap",
-                        padding: "8px 10px",
-                        marginBottom: 10,
-                        borderRadius: 8,
-                        background:
-                          veredicto === "apto"
-                            ? "color-mix(in srgb, var(--success, #16a34a) 12%, transparent)"
-                            : "color-mix(in srgb, var(--warning, #d97706) 12%, transparent)",
-                        border: `1px solid ${veredicto === "apto" ? "var(--success, #16a34a)" : "var(--warning, #d97706)"}`,
-                      }}
+                      className={cn(
+                        "mb-2.5 flex flex-wrap items-center gap-2 rounded-lg border px-2.5 py-2",
+                        veredicto === "apto" ? "border-success bg-success-soft" : "border-warning bg-warning-soft",
+                      )}
                     >
-                      <strong style={{ fontSize: 13, color: veredicto === "apto" ? "var(--success, #16a34a)" : "var(--warning, #d97706)" }}>
+                      <strong className={cn("text-[13px]", veredicto === "apto" ? "text-success" : "text-warning")}>
                         {veredicto === "apto" ? "✓ Apto para avanzar" : "⚠ Requiere subsanación"}
                       </strong>
                       {conteo ? (
-                        <span style={{ fontSize: 12, color: "var(--muted, #64748b)" }}>
+                        <span className="text-xs text-muted">
                           {conteo.cumple} cumple · {conteo.falta} falta · {conteo.corregir} corregir
                         </span>
                       ) : null}
                     </div>
                   ) : null}
                   {veredicto !== "apto" && conteo ? (
-                    <p style={{ fontSize: 11.5, color: "var(--muted, #64748b)", margin: "0 0 8px" }}>
+                    <p className="mb-2 mt-0 text-[11.5px] text-muted">
                       El requerimiento es la base de las siguientes fases (estrategia, expediente). Subsana lo pendiente
                       antes de avanzar.
                     </p>
                   ) : null}
-                  {resumen ? <p style={{ fontSize: 13, marginTop: 0 }}>{resumen}</p> : null}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {resumen ? <p className="mt-0 text-[13px]">{resumen}</p> : null}
+                  <div className="flex flex-col gap-2.5">
                     {[...hallazgos]
                       .map((h, i) => ({ h, i }))
                       .sort((a, b) => {
@@ -880,84 +815,58 @@ export function EettTdrModal({
                       .map(({ h, i }) => (
                       <div
                         key={i}
-                        style={{
-                          borderLeft: `3px solid ${HALLAZGO_META[h.tipo].color}`,
-                          padding: "8px 12px",
-                          background: "var(--panel, #fff)",
-                          borderRadius: 6,
-                        }}
+                        className={cn("rounded-md border-l-[3px] bg-panel px-3 py-2", HALLAZGO_META[h.tipo].bordeL)}
                       >
-                        <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: HALLAZGO_META[h.tipo].color, textTransform: "uppercase" }}>
+                        <div className="flex flex-wrap items-baseline gap-2">
+                          <span className={cn("text-[11px] font-bold uppercase", HALLAZGO_META[h.tipo].texto)}>
                             {HALLAZGO_META[h.tipo].label}
                           </span>
                           {h.pagina && h.pagina !== "—" ? (
-                            <span
-                              style={{
-                                fontSize: 11,
-                                fontWeight: 700,
-                                color: "var(--muted, #64748b)",
-                                background: "color-mix(in srgb, var(--muted, #64748b) 15%, transparent)",
-                                borderRadius: 4,
-                                padding: "0 6px",
-                              }}
-                            >
+                            <span className="rounded-sm bg-muted/15 px-1.5 text-[11px] font-bold text-muted">
                               Pág. {h.pagina}
                             </span>
                           ) : null}
                           {h.ubicacion ? (
-                            <span style={{ fontSize: 12.5, fontWeight: 600 }}>{h.ubicacion}</span>
+                            <span className="text-[12.5px] font-semibold">{h.ubicacion}</span>
                           ) : null}
                         </div>
                         {h.observacion ? (
-                          <div style={{ fontSize: 12.5, color: "var(--ink, inherit)", lineHeight: 1.45, marginTop: 3 }}>
-                            <span style={{ color: "var(--muted, #64748b)", fontWeight: 600 }}>Cómo está: </span>
+                          <div className="mt-[3px] text-[12.5px] leading-[1.45] text-ink">
+                            <span className="font-semibold text-muted">Cómo está: </span>
                             {h.observacion}
                           </div>
                         ) : null}
                         {h.deberiaDecir ? (
-                          <div style={{ fontSize: 12.5, color: "var(--ink, inherit)", lineHeight: 1.45, marginTop: 3 }}>
-                            <span style={{ color: HALLAZGO_META[h.tipo].color, fontWeight: 600 }}>Debería decir: </span>
+                          <div className="mt-[3px] text-[12.5px] leading-[1.45] text-ink">
+                            <span className={cn("font-semibold", HALLAZGO_META[h.tipo].texto)}>Debería decir: </span>
                             {h.deberiaDecir}
                           </div>
                         ) : null}
                         {h.propuesta ? (
-                          <div style={{ marginTop: 6 }}>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 3 }}>
-                              <span style={{ fontSize: 11.5, fontWeight: 700, color: "var(--accent, #bd6b2f)" }}>
+                          <div className="mt-1.5">
+                            <div className="mb-[3px] flex items-center justify-between gap-2">
+                              <span className="text-[11.5px] font-bold text-accent">
                                 ✍️ Propuesta correcta (lista para pegar)
                               </span>
                               <button
                                 type="button"
-                                className="copilotoLink"
+                                className="copilotoLink inline-flex items-center gap-1 text-[11.5px] text-accent"
                                 onClick={() => {
                                   navigator.clipboard?.writeText(h.propuesta);
                                   setCopiado(i);
                                   window.setTimeout(() => setCopiado((c) => (c === i ? null : c)), 1500);
                                 }}
-                                style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11.5, cursor: "pointer", background: "none", border: "none", color: "var(--accent, #bd6b2f)" }}
                               >
                                 <Copy size={12} /> {copiado === i ? "Copiado" : "Copiar"}
                               </button>
                             </div>
-                            <div
-                              style={{
-                                fontSize: 12.5,
-                                lineHeight: 1.5,
-                                whiteSpace: "pre-wrap",
-                                background: "color-mix(in srgb, var(--accent, #bd6b2f) 7%, transparent)",
-                                border: "1px solid color-mix(in srgb, var(--accent, #bd6b2f) 25%, transparent)",
-                                borderRadius: 6,
-                                padding: "8px 10px",
-                                color: "var(--ink, inherit)",
-                              }}
-                            >
+                            <div className="whitespace-pre-wrap rounded-md border border-accent/25 bg-accent/[0.07] px-2.5 py-2 text-[12.5px] leading-normal text-ink">
                               {h.propuesta}
                             </div>
                           </div>
                         ) : null}
                         {h.justificacion ? (
-                          <div style={{ fontSize: 11.5, color: "var(--muted, #64748b)", lineHeight: 1.4, marginTop: 4, fontStyle: "italic" }}>
+                          <div className="mt-1 text-[11.5px] italic leading-[1.4] text-muted">
                             Fundamento: {h.justificacion}
                           </div>
                         ) : null}
