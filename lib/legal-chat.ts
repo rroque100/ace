@@ -11,7 +11,7 @@ import { publishEvidence } from "./chat-evidence-publication";
 import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
-import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
+import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
 import {
@@ -1270,18 +1270,16 @@ async function searchLexicalChunks(query: string, limit: number) {
   // De lo más exigente (AND de las palabras específicas) a lo más amplio (OR).
   // El OR sobre 8 palabras sin orden devolvía las primeras filas físicas de la
   // tabla (la Ley 27444) y dejaba fuera al Reglamento. Ver lib/chat-lexical.ts.
-  const found: DocumentChunk[] = [];
-  const seen = new Set<string>();
-  for (const step of lexicalPlan(tokens)) {
-    for (const chunk of await search(lexicalFilter(step.tokens, step.mode))) {
-      if (!seen.has(chunk.id)) {
-        seen.add(chunk.id);
-        found.push(chunk);
-      }
-    }
-    if (found.length >= Math.min(limit, 12)) break;
-  }
-  return found.slice(0, limit);
+  // Un paso que falla (el OR agotando el statement_timeout) ya no descarta lo que los AND anteriores encontraron: se registra
+  // en el log y se sigue; solo si TODOS fallan la vía cuenta como caída (ver runLexicalPlan).
+  return runLexicalPlan(
+    lexicalPlan(tokens),
+    (step) => search(lexicalFilter(step.tokens, step.mode)),
+    {
+      limit,
+      alFallar: (error, step) => console.error(`${detalleParaLog("lexical", error)} (paso ${step.mode.toUpperCase()} de ${step.tokens.length} palabras)`),
+    },
+  );
 }
 
 function chunkToSource(
