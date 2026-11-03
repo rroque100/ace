@@ -55,12 +55,20 @@ export function lexicalFilter(tokens: string[], mode: "and" | "or"): string {
 export type LexicalStep = { mode: "and" | "or"; tokens: string[] };
 
 /**
+ * Máximo de palabras en el OR. Medido en producción (statement_timeout de PostgREST ≈ 8 s): cada patrón `ilike '%…%'` sobre
+ * `document_chunks.content` recorre la tabla entera sin índice, y con 1-3 palabras raras el OR tarda 0,2-0,5 s, pero con 4 sube
+ * a ~8 s y con 5-6 agota el tiempo (error 57014). Con 3 se queda en el lado seguro; el índice trigram de
+ * docs/supabase/chat-lexico-indice-trigram.sql permitiría subirlo.
+ */
+export const MAX_TOKENS_OR = 3;
+
+/**
  * Niveles de la búsqueda léxica, de más a menos exigente. Cada nivel solo se
  * ejecuta si el anterior no reunió suficientes fragmentos:
  *  1. AND de las 3 palabras más específicas de TODA la consulta;
  *  2. AND de las 2 más específicas;
- *  3. OR de las específicas (hasta 6). Solo si la consulta no tiene ninguna
- *     específica se usan las 8 primeras, como antes.
+ *  3. OR de las específicas (hasta MAX_TOKENS_OR). Solo si la consulta no tiene
+ *     ninguna específica se usan las primeras MAX_TOKENS_OR.
  * Importa elegir las claves sobre toda la consulta: recortar a 8 palabras antes
  * de elegir dejaba fuera «cumplimiento» en la pregunta de la garantía.
  */
@@ -70,9 +78,48 @@ export function lexicalPlan(allTokens: string[]): LexicalStep[] {
   const steps: LexicalStep[] = [];
   if (keys.length >= 3) steps.push({ mode: "and", tokens: keys });
   if (keys.length >= 2) steps.push({ mode: "and", tokens: keys.slice(0, 2) });
-  const orTokens = pickKeyTokens(unique, 6);
-  steps.push({ mode: "or", tokens: orTokens.length > 0 ? orTokens : unique.slice(0, 8) });
+  const orTokens = pickKeyTokens(unique, MAX_TOKENS_OR);
+  steps.push({ mode: "or", tokens: orTokens.length > 0 ? orTokens : unique.slice(0, MAX_TOKENS_OR) });
   return steps;
+}
+
+/**
+ * Ejecuta el plan paso a paso y se queda con lo que haya reunido aunque un paso falle.
+ *
+ * Antes el bucle vivía en `searchLexicalChunks` y una excepción en el último paso (el OR, el más caro) descartaba también los
+ * fragmentos que los AND anteriores ya habían encontrado: la vía léxica entera quedaba «caída» con resultados en la mano.
+ * Si TODOS los pasos fallan se relanza el primer error (no hay nada que devolver y la vía debe contar como caída); si alguno
+ * respondió, los fallos se reportan por `alFallar` y la búsqueda sigue con lo recuperado.
+ */
+export async function runLexicalPlan<T extends { id: string }>(
+  plan: LexicalStep[],
+  buscar: (step: LexicalStep) => Promise<T[]>,
+  opciones: { limit: number; suficientes?: number; alFallar?: (error: unknown, step: LexicalStep) => void },
+): Promise<T[]> {
+  const suficientes = opciones.suficientes ?? Math.min(opciones.limit, 12);
+  const found: T[] = [];
+  const seen = new Set<string>();
+  let primerError: unknown;
+  let huboFallo = false;
+  let respondio = false;
+  for (const step of plan) {
+    try {
+      for (const chunk of await buscar(step)) {
+        if (!seen.has(chunk.id)) {
+          seen.add(chunk.id);
+          found.push(chunk);
+        }
+      }
+      respondio = true;
+    } catch (error) {
+      if (!huboFallo) primerError = error;
+      huboFallo = true;
+      opciones.alFallar?.(error, step);
+    }
+    if (found.length >= suficientes) break;
+  }
+  if (huboFallo && !respondio) throw primerError;
+  return found.slice(0, opciones.limit);
 }
 
 /**

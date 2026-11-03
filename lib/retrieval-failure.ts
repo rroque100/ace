@@ -15,6 +15,7 @@ export type CausaFalloRecuperacion =
   | "limite_peticiones"
   | "indice_vectorial"
   | "base_de_datos"
+  | "consulta_lenta"
   | "red"
   | "desconocida";
 
@@ -27,6 +28,7 @@ const MOTIVOS: Record<CausaFalloRecuperacion, string> = {
   limite_peticiones: "el proveedor limitó temporalmente las peticiones",
   indice_vectorial: "el índice vectorial (Pinecone) no respondió",
   base_de_datos: "la base de datos no respondió",
+  consulta_lenta: "la consulta a la base de datos superó el tiempo máximo",
   red: "hubo un fallo de red o de tiempo de espera",
   desconocida: "no se pudo identificar la causa",
 };
@@ -59,6 +61,9 @@ export function clasificarFalloRecuperacion(error: unknown): FalloRecuperacion {
     if (estado === 402 || /insufficient_quota|credit_balance_exhausted|credits? (?:are )?(?:depleted|remaining)|no credits|prepayment|billing/i.test(texto)) return "sin_credito";
     // Pinecone y Supabase van antes que «clave»: un 401/403 de su API es de SU clave, no la de embeddings.
     if (/pinecone/i.test(texto) && estado !== 429) return "indice_vectorial";
+    // Un statement timeout de Postgres (código 57014) llega por PostgREST como un 500 con el cuerpo del error: la base está
+    // viva, pero la consulta ilike era demasiado cara. Decir «no respondió» mandaba a revisar la caída de un servicio sano.
+    if (/\b57014\b|statement timeout/i.test(texto)) return "consulta_lenta";
     if (/supabase|postgrest|document_chunks/i.test(texto) && estado !== 429) return "base_de_datos";
     if (/Falta\s+(?:GOOGLE|OPENAI)[A-Z_]*API_KEY|api key|apikey|invalid[_ ]api[_ ]key|incorrect api key/i.test(texto) || estado === 401 || estado === 403) return "clave";
     if (estado === 429 || /rate.?limit|too many requests/i.test(texto)) return "limite_peticiones";

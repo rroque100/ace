@@ -38,6 +38,13 @@ describe("clasificarFalloRecuperacion", () => {
     expect(clasificarFalloRecuperacion(new Error("Supabase REST 401: JWT expired")).causa).toBe("base_de_datos");
   });
 
+  it("un statement timeout de Postgres (57014) es una consulta lenta, no una base caída", () => {
+    const error = new Error('Supabase REST 500: {"code":"57014","details":null,"hint":null,"message":"canceling statement due to statement timeout"}');
+    const fallo = clasificarFalloRecuperacion(error);
+    expect(fallo.causa).toBe("consulta_lenta");
+    expect(fallo.motivo).not.toContain("no respondió");
+  });
+
   it("red y tiempo de espera; lo desconocido no se inventa", () => {
     expect(clasificarFalloRecuperacion(new TypeError("fetch failed")).causa).toBe("red");
     expect(clasificarFalloRecuperacion(new Error("algo raro")).causa).toBe("desconocida");

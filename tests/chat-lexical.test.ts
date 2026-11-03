@@ -5,7 +5,10 @@ import {
   fillWithDocumentCap,
   lexicalFilter,
   lexicalPlan,
+  MAX_TOKENS_OR,
   pickKeyTokens,
+  runLexicalPlan,
+  type LexicalStep,
 } from "../lib/chat-lexical";
 
 describe("palabras clave de la consulta", () => {
@@ -108,6 +111,68 @@ describe("plan léxico por niveles", () => {
     expect(lexicalPlan(["retencion", "monto", "debe"])).toEqual([{ mode: "or", tokens: ["retencion"] }]);
     const solo = lexicalPlan(["monto", "contrato", "debe"]);
     expect(solo).toEqual([{ mode: "or", tokens: ["monto", "contrato", "debe"] }]);
+  });
+
+  it("el OR nunca pasa de MAX_TOKENS_OR palabras (con 4 el ilike sin índice agotaba el statement_timeout)", () => {
+    const largas = ["porcentaje", "garantia", "cumplimiento", "penalidad", "resolucion", "adicional", "ampliacion"];
+    const generico = ["monto", "contrato", "debe", "tener", "original", "dice", "caso", "norma"];
+    for (const tokens of [largas, generico, [...generico, ...largas]]) {
+      for (const paso of lexicalPlan(tokens)) {
+        if (paso.mode === "or") expect(paso.tokens.length).toBeLessThanOrEqual(MAX_TOKENS_OR);
+      }
+    }
+  });
+});
+
+describe("ejecución del plan léxico", () => {
+  const AND3: LexicalStep = { mode: "and", tokens: ["a", "b", "c"] };
+  const AND2: LexicalStep = { mode: "and", tokens: ["a", "b"] };
+  const OR: LexicalStep = { mode: "or", tokens: ["a", "b", "c"] };
+  const fila = (id: string) => ({ id });
+  const timeout = () => new Error('Supabase REST 500: {"code":"57014","message":"canceling statement due to statement timeout"}');
+
+  it("si el OR falla, conserva lo que los AND ya encontraron (antes se perdía todo)", async () => {
+    const fallos: unknown[] = [];
+    const out = await runLexicalPlan(
+      [AND3, AND2, OR],
+      async (paso) => {
+        if (paso === OR) throw timeout();
+        return paso === AND3 ? [fila("1"), fila("2")] : [fila("2"), fila("3")];
+      },
+      { limit: 50, alFallar: (e) => fallos.push(e) },
+    );
+    expect(out.map((x) => x.id)).toEqual(["1", "2", "3"]);
+    expect(fallos).toHaveLength(1);
+  });
+
+  it("si un paso intermedio falla, los siguientes se intentan", async () => {
+    const out = await runLexicalPlan(
+      [AND3, AND2, OR],
+      async (paso) => {
+        if (paso === AND3) throw timeout();
+        return paso === OR ? [fila("9")] : [];
+      },
+      { limit: 50 },
+    );
+    expect(out.map((x) => x.id)).toEqual(["9"]);
+  });
+
+  it("si TODOS los pasos fallan relanza el primer error: la vía cuenta como caída", async () => {
+    await expect(
+      runLexicalPlan([AND3, OR], async (paso) => { throw new Error(paso === AND3 ? "primero" : "segundo"); }, { limit: 50 }),
+    ).rejects.toThrow("primero");
+  });
+
+  it("un paso que responde vacío NO es un fallo", async () => {
+    await expect(runLexicalPlan([AND3, OR], async () => [], { limit: 50 })).resolves.toEqual([]);
+  });
+
+  it("se detiene en cuanto hay suficientes fragmentos y respeta el límite", async () => {
+    const llamadas: LexicalStep[] = [];
+    const muchos = Array.from({ length: 20 }, (_, n) => fila(`c${n}`));
+    const out = await runLexicalPlan([AND3, AND2, OR], async (paso) => { llamadas.push(paso); return muchos; }, { limit: 8 });
+    expect(out).toHaveLength(8);
+    expect(llamadas).toEqual([AND3]);
   });
 });
 
