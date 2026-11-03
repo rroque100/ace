@@ -8,6 +8,16 @@ import { useAutoSave } from "./contrato-sie-autosave";
 import { useContratoValidation } from "./contrato-sie-validation";
 import { SectionBadge } from "./contrato-sie-section-badge";
 import { parseSoles } from "@/lib/parse-soles";
+import { cn } from "@/lib/utils";
+
+// Estilos migrados de inline a utilidades. El formulario no vive dentro de un
+// contenedor `.tw` (aún usa clases compartidas: toolPanel, secondaryButton,
+// formMessage…, que el reset de `.tw` rompería), así que los bordes llevan
+// `border-solid`/`border-dashed` explícitos —lo que `.tw` aportaría—. El campo
+// NO lleva box-border: el inline original era content-box (sin boxSizing).
+const INPUT = "w-full rounded-md border border-solid border-line px-[9px] py-[7px] text-[13px]";
+const TEXTAREA = cn(INPUT, "min-h-[60px] resize-y [font-family:inherit]");
+const LABEL = "flex flex-col gap-1 text-[12.5px] font-semibold";
 
 type Bien = { paquete: string; descripcion: string; marca: string; unidad: string; cantidad: string; entrega: string; nroEntrega: number };
 
@@ -104,13 +114,12 @@ function BotonSubirPdf({
 }) {
   return (
     <label
-      className="secondaryButton"
-      style={{ cursor: subiendo ? "wait" : "pointer", display: "inline-flex", alignItems: "center", gap: 6 }}
+      className={cn("secondaryButton inline-flex items-center gap-1.5", subiendo ? "cursor-wait" : "cursor-pointer")}
     >
       {subiendo === kind ? (
         <LoaderCircle className="spinIcon" size={16} />
       ) : done ? (
-        <CheckCircle2 size={16} style={{ color: "#059669" }} />
+        <CheckCircle2 size={16} className="text-success" />
       ) : (
         <FileUp size={16} />
       )}
@@ -118,7 +127,7 @@ function BotonSubirPdf({
       <input
         type="file"
         accept="application/pdf"
-        style={{ display: "none" }}
+        className="hidden"
         disabled={Boolean(subiendo)}
         onChange={(e) => {
           const f = e.target.files?.[0];
@@ -132,21 +141,21 @@ function BotonSubirPdf({
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", gap: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
-      <span style={{ minWidth: 180, fontSize: 12.5, fontWeight: 600, paddingTop: 6 }}>{label}</span>
-      <div style={{ flex: 1, minWidth: 200 }}>{children}</div>
+    <div className="flex flex-wrap items-start gap-2">
+      <span className="min-w-[180px] pt-1.5 text-[12.5px] font-semibold">{label}</span>
+      <div className="min-w-[200px] flex-1">{children}</div>
     </div>
   );
 }
 
 function Section({ title, expanded, onToggle, children }: { title: string; expanded?: boolean; onToggle: () => void; children: React.ReactNode }) {
   return (
-    <div style={{ borderRadius: 10, border: "1px solid var(--line, #e2e4ea)", padding: 16, background: "var(--panel, #fff)" }}>
-      <button type="button" onClick={onToggle} style={{ background: "transparent", border: 0, cursor: "pointer", width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: 0, fontSize: 14, fontWeight: 700, color: "var(--brand, #0f766e)" }}>
+    <div className="rounded-[10px] border border-solid border-line bg-panel p-4">
+      <button type="button" onClick={onToggle} className="flex w-full cursor-pointer items-center justify-between border-0 bg-transparent p-0 text-sm font-bold text-brand">
         {title}
-        <ChevronDown size={18} style={{ transform: expanded ? "rotate(180deg)" : "none", transition: "transform .2s" }} />
+        <ChevronDown size={18} className={cn("transition-transform duration-200", expanded && "rotate-180")} />
       </button>
-      {expanded !== false ? <div style={{ marginTop: 12 }}>{children}</div> : null}
+      {expanded !== false ? <div className="mt-3">{children}</div> : null}
     </div>
   );
 }
@@ -570,21 +579,6 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
     setGuardando(false);
   }
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "7px 9px",
-    borderRadius: 8,
-    border: "1px solid var(--line, #e2e4ea)",
-    fontSize: 13,
-  };
-  const textareaStyle: React.CSSProperties = {
-    ...inputStyle,
-    minHeight: 60,
-    resize: "vertical",
-    fontFamily: "inherit",
-  };
-  const labelStyle: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 4, fontSize: 12.5, fontWeight: 600 };
-
   return (
     <div className="toolPanel">
       <div className="toolPanelHeader">
@@ -595,26 +589,22 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         <Gavel size={22} />
       </div>
 
-      <div className="toolBody" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div className="toolBody flex flex-col gap-4">
         {/* Banner de borrador restaurado */}
         {showRestoreBanner ? (
-          <div style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "8px 12px", borderRadius: 8, background: "rgba(5,150,105,0.08)",
-            color: "#047857", fontSize: 12.5, fontWeight: 500,
-          }}>
-            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div className="flex items-center justify-between rounded-md bg-success-soft px-3 py-2 text-[12.5px] font-medium text-success">
+            <span className="flex items-center gap-1.5">
               <Save size={15} /> Borrador restaurado automaticamente. Puedes continuar editando.
             </span>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="flex gap-2">
               <button
                 type="button"
-                style={{ background: "transparent", border: 0, color: "#047857", cursor: "pointer", fontSize: 12, fontWeight: 600, textDecoration: "underline" }}
+                className="cursor-pointer border-0 bg-transparent text-xs font-semibold text-success underline"
                 onClick={() => setShowRestoreBanner(false)}
               >Cerrar</button>
               <button
                 type="button"
-                style={{ background: "transparent", border: 0, color: "#dc2626", cursor: "pointer", fontSize: 12, fontWeight: 600, textDecoration: "underline" }}
+                className="cursor-pointer border-0 bg-transparent text-xs font-semibold text-danger underline"
                 onClick={() => { clearAutosave(); setShowRestoreBanner(false); }}
               >Descartar borrador</button>
             </div>
@@ -622,28 +612,20 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         ) : null}
 
         {cargandoDb ? (
-          <div style={{ padding: 20, textAlign: "center", fontSize: 13, color: "var(--muted, #667)" }}>
+          <div className="p-5 text-center text-[13px] text-muted">
             <LoaderCircle className="spinIcon" size={20} /> Cargando contrato…
           </div>
         ) : null}
 
         {/* Indicador de autoguardado */}
         {savedAt ? (
-          <div style={{
-            display: "flex", alignItems: "center", gap: 4,
-            fontSize: 11, color: "var(--muted, #94a3b8)", fontWeight: 500,
-            alignSelf: "flex-end",
-          }}>
+          <div className="flex items-center gap-1 self-end text-[11px] font-medium text-muted">
             <Save size={11} /> Guardado automatico - {new Date(savedAt).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
           </div>
         ) : null}
 
         {/* Resumen de validacion - click abre la seccion */}
-        <div style={{
-          display: "flex", gap: 8, flexWrap: "wrap",
-          padding: "8px 12px", borderRadius: 8, background: "var(--bg, #f8fafc)",
-          border: "1px solid var(--line, #e2e4ea)",
-        }}>
+        <div className="flex flex-wrap gap-2 rounded-md border border-solid border-line bg-canvas px-3 py-2">
           {[
             { key: "proceso", label: "1. Proceso" },
             { key: "postor", label: "2. Contratista" },
@@ -654,15 +636,11 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               key={sec.key}
               type="button"
               onClick={() => toggleSection(sec.key)}
-              style={{
-                display: "flex", alignItems: "center", gap: 6,
-                background: "transparent", border: 0, cursor: "pointer",
-                fontSize: 12, fontWeight: 600, color: "var(--ink, #1f2937)",
-              }}
+              className="flex cursor-pointer items-center gap-1.5 border-0 bg-transparent text-xs font-semibold text-ink"
             >
               {sec.label}
               <SectionBadge status={validation[sec.key]} compact />
-              <ChevronDown size={14} style={{ transform: expandedSections[sec.key] ? "rotate(180deg)" : "none", transition: "transform 0.15s" }} />
+              <ChevronDown size={14} className={cn("transition-transform duration-150", expandedSections[sec.key] && "rotate-180")} />
             </button>
           ))}
         </div>
@@ -671,34 +649,34 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         {/* 1. DATOS DEL PROCESO */}
         {/* ============================================ */}
         <Section title="1. Datos del proceso de selección" expanded={expandedSections.proceso} onToggle={() => toggleSection("proceso")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ fontSize: 12.5, color: "var(--muted, #667)", margin: 0 }}>
+          <div className="flex flex-col gap-2.5">
+            <p className="m-0 text-[12.5px] text-muted">
               Sube la <strong>sección específica de las bases</strong> (OBJETO DE LA CONVOCATORIA con lista de bienes). La IA llena automáticamente los campos.
             </p>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <div className="flex flex-wrap items-center gap-2">
               <BotonSubirPdf kind="proceso" label="Extraer con IA (PDF)" done={procesoCargado} subiendo={subiendo} onFile={(f, k) => void extraer(f, k)} />
             </div>
             <Row label="Nomenclatura">
-              <input style={inputStyle} value={proceso.nomenclatura} onChange={(e) => upP("nomenclatura", e.target.value)} placeholder="SUBASTA INVERSA ELECTRONICA N° 02-2026..." />
+              <input className={INPUT} value={proceso.nomenclatura} onChange={(e) => upP("nomenclatura", e.target.value)} placeholder="SUBASTA INVERSA ELECTRONICA N° 02-2026..." />
             </Row>
             <Row label="Denominación / Objeto">
-              <input style={inputStyle} value={proceso.denominacion} onChange={(e) => upP("denominacion", e.target.value)} placeholder="ADQUISICIÓN DE ..." />
+              <input className={INPUT} value={proceso.denominacion} onChange={(e) => upP("denominacion", e.target.value)} placeholder="ADQUISICIÓN DE ..." />
             </Row>
             <Row label="Entidad contratante">
-              <input style={inputStyle} value={proceso.entidadNombre} onChange={(e) => upP("entidadNombre", e.target.value)} />
+              <input className={INPUT} value={proceso.entidadNombre} onChange={(e) => upP("entidadNombre", e.target.value)} />
             </Row>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+            <div className="flex flex-wrap gap-2.5">
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 RUC de la entidad
-                <input style={inputStyle} maxLength={11} placeholder="11 dígitos" value={proceso.entidadRuc} onChange={(e) => upP("entidadRuc", e.target.value)} />
+                <input className={INPUT} maxLength={11} placeholder="11 dígitos" value={proceso.entidadRuc} onChange={(e) => upP("entidadRuc", e.target.value)} />
               </div>
-              <div style={{ flex: 2, minWidth: 250, ...labelStyle }}>
+              <div className={cn(LABEL, "min-w-[250px] flex-[2]")}>
                 Domicilio legal
-                <input style={inputStyle} value={proceso.entidadDomicilio} onChange={(e) => upP("entidadDomicilio", e.target.value)} />
+                <input className={INPUT} value={proceso.entidadDomicilio} onChange={(e) => upP("entidadDomicilio", e.target.value)} />
               </div>
             </div>
             <Row label="Fecha de la Buena Pro">
-              <input type="date" style={inputStyle} value={proceso.fechaBuenaPro} onChange={(e) => upP("fechaBuenaPro", e.target.value)} />
+              <input type="date" className={INPUT} value={proceso.fechaBuenaPro} onChange={(e) => upP("fechaBuenaPro", e.target.value)} />
             </Row>
           </div>
         </Section>
@@ -707,45 +685,45 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         {/* 2. DATOS DEL CONTRATISTA */}
         {/* ============================================ */}
         <Section title="2. Datos del contratista" expanded={expandedSections.postor} onToggle={() => toggleSection("postor")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <p style={{ fontSize: 12.5, color: "var(--muted, #667)", margin: 0 }}>
+          <div className="flex flex-col gap-2.5">
+            <p className="m-0 text-[12.5px] text-muted">
               Sube la <strong>oferta del ganador de la buena pro</strong> (Anexo 1 — Datos del Postor). La IA extrae sus datos para el contrato.
             </p>
-            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <div className="flex flex-wrap items-center gap-2">
               <BotonSubirPdf kind="oferta" label="Extraer con IA (PDF)" done={ofertaCargada} subiendo={subiendo} onFile={(f, k) => void extraer(f, k)} />
             </div>
             <Row label="Razón social">
-              <input style={inputStyle} value={postor.razonSocial} onChange={(e) => upO("razonSocial", e.target.value)} />
+              <input className={INPUT} value={postor.razonSocial} onChange={(e) => upO("razonSocial", e.target.value)} />
             </Row>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+            <div className="flex flex-wrap gap-2.5">
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 RUC
-                <input style={inputStyle} maxLength={11} placeholder="11 dígitos" value={postor.ruc} onChange={(e) => upO("ruc", e.target.value)} />
+                <input className={INPUT} maxLength={11} placeholder="11 dígitos" value={postor.ruc} onChange={(e) => upO("ruc", e.target.value)} />
               </div>
-              <div style={{ flex: 1, minWidth: 180, ...labelStyle }}>
+              <div className={cn(LABEL, "min-w-[180px] flex-1")}>
                 Domicilio legal
-                <input style={inputStyle} value={postor.domicilio} onChange={(e) => upO("domicilio", e.target.value)} />
+                <input className={INPUT} value={postor.domicilio} onChange={(e) => upO("domicilio", e.target.value)} />
               </div>
             </div>
             <Row label="Partida registral">
-              <div style={{ display: "flex", gap: 8 }}>
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="N° de partida" value={postor.partidaRegistral} onChange={(e) => upO("partidaRegistral", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="Asiento" value={postor.asiento} onChange={(e) => upO("asiento", e.target.value)} />
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="Ciudad" value={postor.ciudadRegistro} onChange={(e) => upO("ciudadRegistro", e.target.value)} />
+              <div className="flex gap-2">
+                <input className={cn(INPUT, "flex-1")} placeholder="N° de partida" value={postor.partidaRegistral} onChange={(e) => upO("partidaRegistral", e.target.value)} />
+                <input className={cn(INPUT, "flex-1")} placeholder="Asiento" value={postor.asiento} onChange={(e) => upO("asiento", e.target.value)} />
+                <input className={cn(INPUT, "flex-1")} placeholder="Ciudad" value={postor.ciudadRegistro} onChange={(e) => upO("ciudadRegistro", e.target.value)} />
               </div>
             </Row>
             <Row label="Representante legal">
-              <div style={{ display: "flex", gap: 8 }}>
-                <input style={{ ...inputStyle, flex: 2 }} placeholder="Nombre completo" value={postor.representante} onChange={(e) => upO("representante", e.target.value)} />
-                <select style={{ ...inputStyle, flex: 1 }} value={postor.docTipo} onChange={(e) => upO("docTipo", e.target.value)}>
+              <div className="flex gap-2">
+                <input className={cn(INPUT, "flex-[2]")} placeholder="Nombre completo" value={postor.representante} onChange={(e) => upO("representante", e.target.value)} />
+                <select className={cn(INPUT, "flex-1")} value={postor.docTipo} onChange={(e) => upO("docTipo", e.target.value)}>
                   <option value="DNI">DNI</option>
                   <option value="Carné de Extranjería">Carné de Extranjería</option>
                 </select>
-                <input style={{ ...inputStyle, flex: 1 }} placeholder="N° documento" value={postor.docNumero} onChange={(e) => upO("docNumero", e.target.value)} maxLength={postor.docTipo === "DNI" ? 8 : 20} />
+                <input className={cn(INPUT, "flex-1")} placeholder="N° documento" value={postor.docNumero} onChange={(e) => upO("docNumero", e.target.value)} maxLength={postor.docTipo === "DNI" ? 8 : 20} />
               </div>
             </Row>
             <Row label="Monto ofertado (S/)">
-              <input style={inputStyle} placeholder="S/ 0.00" value={postor.montoOferta}
+              <input className={INPUT} placeholder="S/ 0.00" value={postor.montoOferta}
                 onChange={(e) => {
                   const formatted = formatSoles(e.target.value);
                   upO("montoOferta", formatted);
@@ -753,7 +731,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
                 }} />
             </Row>
             <Row label="Correo electrónico">
-              <input type="email" style={inputStyle} placeholder="contratista@correo.com" value={postor.correo} onChange={(e) => upO("correo", e.target.value)} />
+              <input type="email" className={INPUT} placeholder="contratista@correo.com" value={postor.correo} onChange={(e) => upO("correo", e.target.value)} />
             </Row>
           </div>
         </Section>
@@ -762,37 +740,37 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         {/* 3. PRECIOS UNITARIOS (opcional) */}
         {/* ============================================ */}
         <Section title="3. Detalle de precios unitarios (opcional)" expanded={expandedSections.precios} onToggle={() => toggleSection("precios")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <p style={{ fontSize: 12.5, color: "var(--muted, #667)", margin: 0 }}>
+          <div className="flex flex-col gap-2">
+            <p className="m-0 text-[12.5px] text-muted">
               Sube el <strong>detalle de precios unitarios del precio ofertado</strong>. La IA extrae la tabla para la cláusula de monto contractual.
             </p>
             <BotonSubirPdf kind="precios" label="Extraer con IA (PDF)" done={preciosCargados} subiendo={subiendo} onFile={(f, k) => void extraer(f, k)} />
             {preciosItems.length > 0 && (
-              <div style={{ overflowX: "auto", marginTop: 4 }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+              <div className="mt-1 overflow-x-auto">
+                <table className="w-full border-collapse text-xs">
                   <thead>
-                    <tr style={{ background: "var(--bg, #f8fafc)" }}>
+                    <tr className="bg-canvas">
                       {["Concepto", "Marca", "Unidad", "Cant.", "P. Unitario", "P. Total"].map((h) => (
-                        <th key={h} style={{ textAlign: "left", padding: "6px 8px", borderBottom: "1px solid var(--line, #e2e4ea)", fontWeight: 600 }}>{h}</th>
+                        <th key={h} className="border-b border-solid border-line px-2 py-1.5 text-left font-semibold">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {preciosItems.map((it, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid var(--line, #eef0f4)" }}>
-                        <td style={{ padding: "4px 8px" }}>{it.concepto}</td>
-                        <td style={{ padding: "4px 8px" }}>{it.marca}</td>
-                        <td style={{ padding: "4px 8px" }}>{it.unidad}</td>
-                        <td style={{ padding: "4px 8px", textAlign: "right" }}>{it.cantidad}</td>
-                        <td style={{ padding: "4px 8px", textAlign: "right" }}>{it.precioUnitario}</td>
-                        <td style={{ padding: "4px 8px", textAlign: "right" }}>{it.precioTotal}</td>
+                      <tr key={i} className="border-b border-solid border-line-soft">
+                        <td className="px-2 py-1">{it.concepto}</td>
+                        <td className="px-2 py-1">{it.marca}</td>
+                        <td className="px-2 py-1">{it.unidad}</td>
+                        <td className="px-2 py-1 text-right">{it.cantidad}</td>
+                        <td className="px-2 py-1 text-right">{it.precioUnitario}</td>
+                        <td className="px-2 py-1 text-right">{it.precioTotal}</td>
                       </tr>
                     ))}
                   </tbody>
                   <tfoot>
-                    <tr style={{ fontWeight: 700, borderTop: "2px solid var(--line, #e2e4ea)" }}>
-                      <td colSpan={5} style={{ padding: "6px 8px", textAlign: "right" }}>TOTAL S/</td>
-                      <td style={{ padding: "6px 8px", textAlign: "right" }}>{preciosTotalGeneral}</td>
+                    <tr className="border-t-2 border-solid border-line font-bold">
+                      <td colSpan={5} className="px-2 py-1.5 text-right">TOTAL S/</td>
+                      <td className="px-2 py-1.5 text-right">{preciosTotalGeneral}</td>
                     </tr>
                   </tfoot>
                 </table>
@@ -805,45 +783,45 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         {/* 4. CONDICIONES DEL CONTRATO */}
         {/* ============================================ */}
         <Section title="4. Condiciones del contrato" expanded={expandedSections.contrato} onToggle={() => toggleSection("contrato")}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div className="flex flex-col gap-2.5">
             <Row label="N° de contrato">
-              <input style={inputStyle} value={numeroContrato} onChange={(e) => setNumeroContrato(e.target.value)} />
+              <input className={INPUT} value={numeroContrato} onChange={(e) => setNumeroContrato(e.target.value)} />
             </Row>
             <Row label="Monto contractual (S/)">
-              <input style={inputStyle} value={monto} placeholder={postor.montoOferta || "S/ 0.00"} onChange={(e) => setMonto(formatSoles(e.target.value))} />
+              <input className={INPUT} value={monto} placeholder={postor.montoOferta || "S/ 0.00"} onChange={(e) => setMonto(formatSoles(e.target.value))} />
             </Row>
             <Row label="Forma de pago">
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <select style={{ ...inputStyle, width: 180 }} value={formaPago} onChange={(e) => { const v = e.target.value as "PAGO UNICO" | "PAGO A CUENTA"; setFormaPago(v); if (v === "PAGO UNICO") setNroPagos(1); else setNroPagos((n) => Math.max(2, n)); }}>
+              <div className="flex items-center gap-2">
+                <select className={cn(INPUT, "w-[180px]")} value={formaPago} onChange={(e) => { const v = e.target.value as "PAGO UNICO" | "PAGO A CUENTA"; setFormaPago(v); if (v === "PAGO UNICO") setNroPagos(1); else setNroPagos((n) => Math.max(2, n)); }}>
                   <option value="PAGO UNICO">Pago único</option>
                   <option value="PAGO A CUENTA">Pago a cuenta</option>
                 </select>
                 {formaPago === "PAGO A CUENTA" ? (
                   <>
-                    <span style={{ fontSize: 12.5 }}>en</span>
-                    <input type="number" min={2} max={24} style={{ ...inputStyle, width: 60 }} value={nroPagos} onChange={(e) => setNroPagos(Math.max(2, parseInt(e.target.value, 10) || 2))} />
-                    <span style={{ fontSize: 12.5 }}>armadas</span>
+                    <span className="text-[12.5px]">en</span>
+                    <input type="number" min={2} max={24} className={cn(INPUT, "w-[60px]")} value={nroPagos} onChange={(e) => setNroPagos(Math.max(2, parseInt(e.target.value, 10) || 2))} />
+                    <span className="text-[12.5px]">armadas</span>
                   </>
                 ) : null}
               </div>
             </Row>
             <Row label="Inicio del plazo">
-              <input style={inputStyle} value={inicioPlazo} onChange={(e) => setInicioPlazo(e.target.value)} placeholder="Ej. el día siguiente del perfeccionamiento del contrato" />
+              <input className={INPUT} value={inicioPlazo} onChange={(e) => setInicioPlazo(e.target.value)} placeholder="Ej. el día siguiente del perfeccionamiento del contrato" />
             </Row>
             <Row label="Área de recepción">
-              <input style={inputStyle} value={recepcionArea} onChange={(e) => setRecepcionArea(e.target.value)} placeholder="Ej. Almacén central" />
+              <input className={INPUT} value={recepcionArea} onChange={(e) => setRecepcionArea(e.target.value)} placeholder="Ej. Almacén central" />
             </Row>
             <Row label="Área de conformidad">
-              <input style={inputStyle} value={conformidadArea} onChange={(e) => setConformidadArea(e.target.value)} placeholder="Ej. Área usuaria" />
+              <input className={INPUT} value={conformidadArea} onChange={(e) => setConformidadArea(e.target.value)} placeholder="Ej. Área usuaria" />
             </Row>
             <Row label="Plazo de conformidad (días)">
-              <input style={inputStyle} value={plazoConformidadDias} onChange={(e) => setPlazoConformidadDias(e.target.value)} placeholder="Ej. siete (7)" />
+              <input className={INPUT} value={plazoConformidadDias} onChange={(e) => setPlazoConformidadDias(e.target.value)} placeholder="Ej. siete (7)" />
             </Row>
             <Row label="Vicios ocultos (años)">
-              <input style={inputStyle} value={viciosOcultosAnios} onChange={(e) => setViciosOcultosAnios(e.target.value)} placeholder="Ej. un (1)" />
+              <input className={INPUT} value={viciosOcultosAnios} onChange={(e) => setViciosOcultosAnios(e.target.value)} placeholder="Ej. un (1)" />
             </Row>
             <Row label="Institución arbitral">
-              <select style={inputStyle} value={institucionArbitral} onChange={(e) => setInstitucionArbitral(e.target.value)}>
+              <select className={INPUT} value={institucionArbitral} onChange={(e) => setInstitucionArbitral(e.target.value)}>
                 <option value="">— Seleccionar —</option>
                 {INSTITUCIONES_ARBITRALES.map((inst) => (
                   <option key={inst} value={inst}>{inst}</option>
@@ -851,19 +829,19 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               </select>
             </Row>
             <Row label="Ciudad de firma">
-              <input style={inputStyle} value={ciudadFirma} onChange={(e) => setCiudadFirma(e.target.value)} />
+              <input className={INPUT} value={ciudadFirma} onChange={(e) => setCiudadFirma(e.target.value)} />
             </Row>
             <Row label="Fecha de firma">
-              <input type="date" style={inputStyle} value={fechaFirma} onChange={(e) => setFechaFirma(e.target.value)} />
+              <input type="date" className={INPUT} value={fechaFirma} onChange={(e) => setFechaFirma(e.target.value)} />
             </Row>
             <Row label="Garantía de fiel cumplimiento">
-              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5 }}>
+              <div className="flex flex-col gap-1.5">
+                <label className="flex items-center gap-2 text-[12.5px]">
                   <input type="checkbox" checked={garantiaAplica} onChange={(e) => setGarantiaOverride(e.target.checked)} />
                   Requiere garantía (contratos mayores a 50 UIT — art. 139.a del Reglamento)
                 </label>
                 {montoContractual > 0 ? (
-                  <p style={{ margin: 0, fontSize: 12, padding: "4px 10px", borderRadius: 6, background: superaUmbral ? "rgba(234, 88, 12, 0.08)" : "rgba(5, 150, 105, 0.08)", color: superaUmbral ? "#c2410c" : "#047857", fontWeight: 500 }}>
+                  <p className={cn("m-0 rounded-sm px-2.5 py-1 text-xs font-medium", superaUmbral ? "bg-warning-soft text-warning" : "bg-success-soft text-success")}>
                     {superaUmbral
                       ? `⚠ El monto contractual (${formatSoles(String(montoContractual))}) supera 50 UIT (S/ ${UMBRAL_GARANTIA.toLocaleString("es-PE")}). La garantía es obligatoria.`
                       : `✓ El monto (${formatSoles(String(montoContractual))}) no supera 50 UIT (S/ ${UMBRAL_GARANTIA.toLocaleString("es-PE")}). Garantía no obligatoria.`}
@@ -872,100 +850,102 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               </div>
             </Row>
             {garantiaAplica ? (
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", padding: "10px 12px", background: "var(--bg, #f8fafc)", borderRadius: 8 }}>
-                <div style={{ flex: 1, minWidth: 160, ...labelStyle }}>
+              <div className="flex flex-wrap gap-2.5 rounded-md bg-canvas px-3 py-2.5">
+                <div className={cn(LABEL, "min-w-[160px] flex-1")}>
                   Monto (S/)
-                  <input style={inputStyle} value={garantia.monto} placeholder="S/ 0.00" onChange={(e) => upG("monto", formatSoles(e.target.value))} />
+                  <input className={INPUT} value={garantia.monto} placeholder="S/ 0.00" onChange={(e) => upG("monto", formatSoles(e.target.value))} />
                 </div>
-                <div style={{ flex: 1, minWidth: 160, ...labelStyle }}>
+                <div className={cn(LABEL, "min-w-[160px] flex-1")}>
                   N° Carta Fianza
-                  <input style={inputStyle} value={garantia.nroCartaFianza} onChange={(e) => upG("nroCartaFianza", e.target.value)} placeholder="Ej. 2026-00123" />
+                  <input className={INPUT} value={garantia.nroCartaFianza} onChange={(e) => upG("nroCartaFianza", e.target.value)} placeholder="Ej. 2026-00123" />
                 </div>
-                <div style={{ flex: 1, minWidth: 160, ...labelStyle }}>
+                <div className={cn(LABEL, "min-w-[160px] flex-1")}>
                   Banco emisor
-                  <input style={inputStyle} value={garantia.banco} onChange={(e) => upG("banco", e.target.value)} placeholder="Ej. Banco de la Nación" />
+                  <input className={INPUT} value={garantia.banco} onChange={(e) => upG("banco", e.target.value)} placeholder="Ej. Banco de la Nación" />
                 </div>
-                <div style={{ flex: 1, minWidth: 160, ...labelStyle }}>
+                <div className={cn(LABEL, "min-w-[160px] flex-1")}>
                   Vencimiento
-                  <input type="date" style={inputStyle} value={garantia.vencimiento} onChange={(e) => upG("vencimiento", e.target.value)} />
+                  <input type="date" className={INPUT} value={garantia.vencimiento} onChange={(e) => upG("vencimiento", e.target.value)} />
                 </div>
               </div>
             ) : null}
           </div>
 
           {/* Cronograma de entrega con lugar y plazo por armada */}
-          <div style={{ marginTop: 14 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-              <strong style={{ fontSize: 13 }}>
+          <div className="mt-3.5">
+            <div className="mb-1.5 flex items-center justify-between">
+              <strong className="text-[13px]">
                 Cronograma de entrega
                 {formaPago === "PAGO A CUENTA" && nroPagos > 1 ? ` - ${nroPagos} armadas` : " - entrega unica"}
               </strong>
-              <button type="button" className="secondaryButton" style={{ fontSize: 12, padding: "3px 10px" }}
+              <button type="button" className="secondaryButton px-2.5 py-0.5 text-xs"
                 onClick={() => setBienes((r) => [...r, { paquete: String(r.length + 1), descripcion: "", marca: "", unidad: "", cantidad: "", entrega: "", nroEntrega: 1 }])}>
                 <Plus size={13} /> Agregar bien
               </button>
             </div>
             {bienes.length === 0 ? (
-              <p style={{ fontSize: 12.5, color: "var(--muted, #667)", margin: 0 }}>
+              <p className="m-0 text-[12.5px] text-muted">
                 Se carga automáticamente con la lista de bienes del <strong>OBJETO DE LA CONVOCATORIA</strong> al subir el PDF del proceso (paso 1). También puedes agregar filas a mano.
               </p>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div className="flex flex-col gap-3">
                 {entregas.map((ent) => {
                   const grupo = bienes.filter((b) => b.nroEntrega === ent.nro);
                   const isMulti = nroPagos > 1;
                   return (
+                    // El resaltado al arrastrar sigue siendo inline (borderColor dinámico
+                    // en los handlers); la base es la utilidad border-dashed border-line.
                     <div key={ent.nro}
-                      onDragOver={(e) => { e.preventDefault(); e.currentTarget.style.borderColor = "var(--brand, #0f766e)"; }}
-                      onDragLeave={(e) => { e.currentTarget.style.borderColor = "var(--line, #e2e4ea)"; }}
-                      onDrop={(e) => { e.preventDefault(); e.currentTarget.style.borderColor = "var(--line, #e2e4ea)"; const idx = parseInt(e.dataTransfer.getData("text/plain"), 10); if (!isNaN(idx)) upBien(idx, "nroEntrega", ent.nro); }}
-                      style={{ border: "2px dashed var(--line, #e2e4ea)", borderRadius: 10, overflow: "hidden", transition: "border-color 0.15s" }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", background: "var(--bg, #f8fafc)", borderBottom: "1px solid var(--line, #e2e4ea)" }}>
-                        <strong style={{ fontSize: 13 }}>
+                      onDragOver={(e) => { e.preventDefault(); e.currentTarget.style.borderColor = "var(--brand)"; }}
+                      onDragLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; }}
+                      onDrop={(e) => { e.preventDefault(); e.currentTarget.style.borderColor = "var(--line)"; const idx = parseInt(e.dataTransfer.getData("text/plain"), 10); if (!isNaN(idx)) upBien(idx, "nroEntrega", ent.nro); }}
+                      className="overflow-hidden rounded-[10px] border-2 border-dashed border-line transition-[border-color] duration-150">
+                      <div className="flex items-center justify-between border-b border-solid border-line bg-canvas px-3 py-2">
+                        <strong className="text-[13px]">
                           {isMulti ? `Entrega ${ent.nro} de ${nroPagos}` : "Entrega única"}
                           {" - "}
-                          <span style={{ fontSize: 11.5, color: "var(--muted, #667)" }}>{grupo.length} bien(es)</span>
+                          <span className="text-[11.5px] text-muted">{grupo.length} bien(es)</span>
                         </strong>
                       </div>
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8, padding: "10px 12px" }}>
-                        <label style={{ ...labelStyle, gridColumn: "1 / -1" }}>Lugar de entrega {isMulti ? `(armada ${ent.nro})` : ""} *
-                          <textarea style={{ ...textareaStyle, minHeight: 40 }} value={ent.lugarEntrega}
+                      <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-2 px-3 py-2.5">
+                        <label className={cn(LABEL, "col-span-full")}>Lugar de entrega {isMulti ? `(armada ${ent.nro})` : ""} *
+                          <textarea className={cn(TEXTAREA, "min-h-[40px]")} value={ent.lugarEntrega}
                             onChange={(e) => setEntregas((prev) => prev.map((p) => p.nro === ent.nro ? { ...p, lugarEntrega: e.target.value } : p))}
                             placeholder="Ej. Almacén central de la Municipalidad..." />
                         </label>
-                        <label style={labelStyle}>Plazo de entrega {isMulti ? `(armada ${ent.nro})` : ""} *
-                          <input style={inputStyle} value={ent.plazoEntrega}
+                        <label className={LABEL}>Plazo de entrega {isMulti ? `(armada ${ent.nro})` : ""} *
+                          <input className={INPUT} value={ent.plazoEntrega}
                             onChange={(e) => setEntregas((prev) => prev.map((p) => p.nro === ent.nro ? { ...p, plazoEntrega: e.target.value } : p))}
                             placeholder="Ej. quince (15)" />
                         </label>
-                        <label style={labelStyle}>Tipo de días
-                          <select style={inputStyle} value={ent.tipoDias}
+                        <label className={LABEL}>Tipo de días
+                          <select className={INPUT} value={ent.tipoDias}
                             onChange={(e) => setEntregas((prev) => prev.map((p) => p.nro === ent.nro ? { ...p, tipoDias: e.target.value as "habil" | "calendario" } : p))}>
                             <option value="calendario">Días calendario</option>
                             <option value="habil">Días hábiles</option>
                           </select>
                         </label>
                         {isMulti ? (
-                          <label style={{ ...labelStyle, gridColumn: "1 / -1" }}>
-                            <span style={{ fontSize: 11.5, color: "var(--muted, #667)" }}>
+                          <label className={cn(LABEL, "col-span-full")}>
+                            <span className="text-[11.5px] text-muted">
                               Arrastra bienes desde otra entrega hacia esta zona para asignarlos a la armada {ent.nro}.
                             </span>
                           </label>
                         ) : null}
                       </div>
-                      <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12.5 }}>
+                      <div className="overflow-x-auto">
+                        <table className="w-full border-collapse text-[12.5px]">
                           <thead>
-                            <tr style={{ background: "var(--bg, #f8fafc)" }}>
+                            <tr className="bg-canvas">
                               {["Paquete", "Descripción", "Marca", "Unidad", "Cantidad", isMulti ? "Mover a" : "", ""].filter(Boolean).map((h) => (
-                                <th key={h} style={{ textAlign: "left", padding: "6px 8px", borderBottom: "1px solid var(--line, #e2e4ea)", fontWeight: 600 }}>{h}</th>
+                                <th key={h} className="border-b border-solid border-line px-2 py-1.5 text-left font-semibold">{h}</th>
                               ))}
                             </tr>
                           </thead>
                           <tbody>
                             {grupo.length === 0 ? (
                               <tr>
-                                <td colSpan={isMulti ? 7 : 6} style={{ padding: "10px 8px", textAlign: "center", color: "var(--muted, #94a3b8)", fontSize: 12, fontStyle: "italic" }}>
+                                <td colSpan={isMulti ? 7 : 6} className="px-2 py-2.5 text-center text-xs italic text-muted">
                                   {isMulti ? "Arrastra bienes aquí o usa el selector para asignarlos a esta armada." : "Aún no hay bienes. Agrega uno con el botón de arriba."}
                                 </td>
                               </tr>
@@ -974,26 +954,26 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
                               return (
                                 <tr key={globalIdx} draggable
                                   onDragStart={(e) => { e.dataTransfer.setData("text/plain", String(globalIdx)); e.dataTransfer.effectAllowed = "move"; }}
-                                  style={{ borderBottom: "1px solid var(--line, #eef0f4)", cursor: isMulti ? "grab" : "default", opacity: 0.9 }}>
-                                  <td style={{ padding: 4, width: 70 }}><input style={inputStyle} value={b.paquete} onChange={(e) => upBien(globalIdx, "paquete", e.target.value)} /></td>
-                                  <td style={{ padding: 4 }}><input style={inputStyle} value={b.descripcion} onChange={(e) => upBien(globalIdx, "descripcion", e.target.value)} /></td>
-                                  <td style={{ padding: 4, width: 120 }}><input style={inputStyle} value={b.marca} onChange={(e) => upBien(globalIdx, "marca", e.target.value)} /></td>
-                                  <td style={{ padding: 4, width: 120 }}><input style={inputStyle} value={b.unidad} onChange={(e) => upBien(globalIdx, "unidad", e.target.value)} /></td>
-                                  <td style={{ padding: 4, width: 100 }}><input style={inputStyle} value={b.cantidad} onChange={(e) => upBien(globalIdx, "cantidad", e.target.value)} /></td>
+                                  className={cn("border-b border-solid border-line-soft opacity-90", isMulti ? "cursor-grab" : "cursor-default")}>
+                                  <td className="w-[70px] p-1"><input className={INPUT} value={b.paquete} onChange={(e) => upBien(globalIdx, "paquete", e.target.value)} /></td>
+                                  <td className="p-1"><input className={INPUT} value={b.descripcion} onChange={(e) => upBien(globalIdx, "descripcion", e.target.value)} /></td>
+                                  <td className="w-[120px] p-1"><input className={INPUT} value={b.marca} onChange={(e) => upBien(globalIdx, "marca", e.target.value)} /></td>
+                                  <td className="w-[120px] p-1"><input className={INPUT} value={b.unidad} onChange={(e) => upBien(globalIdx, "unidad", e.target.value)} /></td>
+                                  <td className="w-[100px] p-1"><input className={INPUT} value={b.cantidad} onChange={(e) => upBien(globalIdx, "cantidad", e.target.value)} /></td>
                                   {isMulti ? (
-                                    <td style={{ padding: 4, width: 110 }}>
-                                      <select style={inputStyle} value={b.nroEntrega} onChange={(e) => upBien(globalIdx, "nroEntrega", parseInt(e.target.value, 10))}>
+                                    <td className="w-[110px] p-1">
+                                      <select className={INPUT} value={b.nroEntrega} onChange={(e) => upBien(globalIdx, "nroEntrega", parseInt(e.target.value, 10))}>
                                         {entregas.map((p) => (<option key={p.nro} value={p.nro}>Entrega {p.nro}</option>))}
                                       </select>
                                     </td>
                                   ) : null}
-                                  <td style={{ padding: 4, width: isMulti ? 80 : 36, whiteSpace: "nowrap" }}>
+                                  <td className={cn("whitespace-nowrap p-1", isMulti ? "w-20" : "w-9")}>
                                     {isMulti ? (
-                                      <button type="button" aria-label="Duplicar" title="Distribuir este bien entre todas las entregas" onClick={() => duplicar(globalIdx)} style={{ background: "transparent", border: 0, cursor: "pointer", color: "#0f766e", display: "inline-flex", verticalAlign: "middle", marginRight: 4 }}>
+                                      <button type="button" aria-label="Duplicar" title="Distribuir este bien entre todas las entregas" onClick={() => duplicar(globalIdx)} className="mr-1 inline-flex cursor-pointer border-0 bg-transparent align-middle text-brand">
                                         <Copy size={15} />
                                       </button>
                                     ) : null}
-                                    <button type="button" aria-label="Quitar bien" onClick={() => setBienes((r) => r.filter((_, idx) => idx !== globalIdx))} style={{ background: "transparent", border: 0, cursor: "pointer", color: "#c0392b", display: "inline-flex", verticalAlign: "middle" }}>
+                                    <button type="button" aria-label="Quitar bien" onClick={() => setBienes((r) => r.filter((_, idx) => idx !== globalIdx))} className="inline-flex cursor-pointer border-0 bg-transparent align-middle text-danger">
                                       <Trash2 size={15} />
                                     </button>
                                   </td>
@@ -1012,11 +992,11 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         </Section>
 
         <div className="formActions">
-          <div style={{ display: "flex", gap: 8, alignItems: "center", flex: 1 }}>
+          <div className="flex flex-1 items-center gap-2">
             {/* Selector de formato */}
-            <div style={{ display: "flex", border: "1px solid var(--line, #e2e4ea)", borderRadius: 6, overflow: "hidden" }}>
-              <button type="button" onClick={() => setFormato("docx")} style={{ padding: "6px 12px", fontSize: 12, fontWeight: formato === "docx" ? 700 : 400, background: formato === "docx" ? "var(--brand, #0f766e)" : "transparent", color: formato === "docx" ? "#fff" : "var(--text, #222)", border: 0, cursor: "pointer" }}>DOCX</button>
-              <button type="button" onClick={() => setFormato("pdf")} style={{ padding: "6px 12px", fontSize: 12, fontWeight: formato === "pdf" ? 700 : 400, background: formato === "pdf" ? "var(--brand, #0f766e)" : "transparent", color: formato === "pdf" ? "#fff" : "var(--text, #222)", border: 0, cursor: "pointer" }}>PDF</button>
+            <div className="flex overflow-hidden rounded-sm border border-solid border-line">
+              <button type="button" onClick={() => setFormato("docx")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "docx" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>DOCX</button>
+              <button type="button" onClick={() => setFormato("pdf")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "pdf" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>PDF</button>
             </div>
             {/* Guardar borrador (localStorage) */}
             <button type="button" className="secondaryButton" disabled={guardando} onClick={async () => {
@@ -1034,7 +1014,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               <Database size={15} /> {guardando ? "Guardando…" : dbId ? "Actualizar" : "Guardar en DB"}
             </button>
             {dbId ? (
-              <button type="button" className="secondaryButton" style={{ color: "#c0392b" }} disabled={guardando} onClick={eliminarDeDB}>
+              <button type="button" className="secondaryButton text-danger" disabled={guardando} onClick={eliminarDeDB}>
                 <Trash2 size={15} /> Eliminar
               </button>
             ) : null}
