@@ -43,6 +43,7 @@ import { esRespuestaFija, MODELO_ACLARACION, MODELO_GUIA } from "./chat-respuest
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
 import { missingArticleNotice, missingNormNotice, missingRequestedArticles, missingRequestedNorms } from "./chat-article-check";
 import { withRetry } from "./retry";
+import { advertenciaRecuperacionParcial, clasificarFalloRecuperacion, detalleParaLog, type FallosRecuperacion } from "./retrieval-failure";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
@@ -1363,7 +1364,7 @@ function chunkToSource(
 export async function searchLegalSources(
   input: z.infer<typeof semanticSearchRequestSchema>,
   options?: { diversifyDocuments?: boolean; allowedDocumentIds?: string[]; indexedLexical?: boolean },
-): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean; retrieval: {semantic: "available" | "unavailable"; lexical: "available" | "unavailable"; catalogue: "available" | "unavailable"} }> {
+): Promise<{ assessment: SourceAssessment; sources: LegalSource[]; semanticaCaida: boolean; retrieval: {semantic: "available" | "unavailable"; lexical: "available" | "unavailable"; catalogue: "available" | "unavailable"; fallos?: FallosRecuperacion} }> {
   const filters = normalizeFilters(input.filters);
   const pineconeFilters = {
     ...filters,
@@ -1407,17 +1408,26 @@ export async function searchLegalSources(
   // búsqueda real está caída, es peor que no citar nada.
   let semanticaCaida = false;
   let lexicalUnavailable = false;
+  // Por qué cayó cada vía: el aviso lo nombra y el log del servidor guarda el detalle (antes se tragaba el error).
+  const fallos: FallosRecuperacion = {};
   const [hits, lexicalChunks] = await Promise.all([
-    searchTextRecords(expandedQuery, semanticTopK, pineconeFilters).catch(() => {
+    searchTextRecords(expandedQuery, semanticTopK, pineconeFilters).catch((error) => {
       semanticaCaida = true;
+      fallos.semantic = clasificarFalloRecuperacion(error);
+      console.error(detalleParaLog("semantic", error));
       return [];
     }),
-    (options?.indexedLexical ? Promise.resolve([] as DocumentChunk[]) : searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2))).catch(() => { lexicalUnavailable = true; return []; }),
+    (options?.indexedLexical ? Promise.resolve([] as DocumentChunk[]) : searchLexicalChunks(queryUsed, Math.min(50, semanticTopK * 2))).catch((error) => {
+      lexicalUnavailable = true;
+      fallos.lexical = clasificarFalloRecuperacion(error);
+      console.error(detalleParaLog("lexical", error));
+      return [];
+    }),
   ]);
   const vectorIds = uniqueValues(hits.map((hit) => hit._id));
 
   if (vectorIds.length === 0 && lexicalChunks.length === 0 && exactChunks.length === 0) {
-    if (semanticaCaida && lexicalUnavailable) throw new Error("La recuperación documental no está disponible. Reintenta la consulta; no se comprobó ausencia de documentos.");
+    if (semanticaCaida && lexicalUnavailable) throw new Error(`La recuperación documental no está disponible (por significado: ${fallos.semantic?.motivo}; por palabras: ${fallos.lexical?.motivo}). Reintenta la consulta; no se comprobó ausencia de documentos.`);
     const assessment = assessSources([], {
       processType: filters.processType, queryUsed,
       scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
@@ -1429,7 +1439,7 @@ export async function searchLegalSources(
     return {
       assessment,
       semanticaCaida,
-      retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available"},
+      retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available",...(semanticaCaida||lexicalUnavailable?{fallos}:{})},
       sources: [],
     };
   }
@@ -1483,7 +1493,7 @@ export async function searchLegalSources(
     processType: filters.processType, queryUsed,
     scope: isLikelyLegalProcurementQuestion(input.query) ? "legal" : "unknown",
   });
-  if (semanticaCaida || lexicalUnavailable) assessment.evidenceWarnings.push("Recuperación parcial: una de las vías de búsqueda no estuvo disponible. Los resultados pueden ser incompletos.");
+  if (semanticaCaida || lexicalUnavailable) assessment.evidenceWarnings.push(advertenciaRecuperacionParcial(fallos));
   if (filters.regime) assessment.evidenceWarnings.push("El filtro de régimen usa solo metadatos revisados; la cobertura puede ser parcial si faltan revisiones en el catálogo.");
   if (references.length) {
     const allOriginalsFound = references.every((reference) => sources.some((source) => source.requestedOriginal && matchesDocumentReference(reference, { documentType: source.documentType, title: source.documentTitle, number: source.documentNumber })));
@@ -1496,7 +1506,7 @@ export async function searchLegalSources(
 
   return {
     semanticaCaida,
-    retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available"},
+    retrieval:{semantic:semanticaCaida?"unavailable":"available",lexical:lexicalUnavailable?"unavailable":"available",catalogue:catalogueUnavailable?"unavailable":"available",...(semanticaCaida||lexicalUnavailable?{fallos}:{})},
     assessment,
     sources,
   };
