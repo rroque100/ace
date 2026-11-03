@@ -59,9 +59,9 @@ export function NecesidadEettCampo({
   const activo = docs.find((d) => d.id === verId) ?? null;
 
   return (
-    <div className="eettCampo">
+    <div className="grid gap-2.5 mt-1">
       {readOnly ? null : (
-        <div className="eettCampoBarra">
+        <div className="flex flex-wrap items-center gap-2">
           <select
             aria-label="Tipo de documento"
             onChange={(e) => setTipo(e.target.value as "eett" | "tdr")}
@@ -70,10 +70,12 @@ export function NecesidadEettCampo({
             <option value="tdr">TDR — Términos de Referencia (servicios)</option>
             <option value="eett">EETT — Especificaciones Técnicas (bienes)</option>
           </select>
-          <label className="secondaryButton compactButton eettCampoSubir">
+          {/* El <input type=file> va oculto dentro del label (hidden). */}
+          <label className="secondaryButton compactButton cursor-pointer">
             {subiendo ? <Loader className="spinIcon" size={14} /> : <UploadCloud size={14} />}
             {subiendo ? "Subiendo…" : `Adjuntar ${tipo === "eett" ? "EETT" : "TDR"}`}
             <input
+              className="hidden"
               accept="application/pdf,.pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               disabled={subiendo}
               onChange={(e) => {
@@ -86,28 +88,28 @@ export function NecesidadEettCampo({
               type="file"
             />
           </label>
-          <span className="eettCampoFormatos">PDF o Word (.docx)</span>
+          <span className="text-xs text-muted">PDF o Word (.docx)</span>
         </div>
       )}
 
       {docs.length === 0 ? (
-        <p className="eettCampoVacio">
+        <p className="m-0 rounded-[var(--radio-sm)] border border-dashed border-line p-3 text-center text-xs text-muted">
           Sin documento adjunto. El EETT/TDR se redacta en Word o PDF y se adjunta aquí.
         </p>
       ) : (
         <>
-          <ul className="eettCampoLista">
+          <ul className="m-0 grid list-none gap-1 p-0">
             {docs.map((d) => (
-              <li key={d.id}>
+              <li key={d.id} className="flex flex-wrap items-center gap-2">
                 <button
                   aria-current={d.id === verId ? "true" : undefined}
-                  className="eettCampoDoc"
+                  className="inline-flex cursor-pointer items-center gap-1.5 rounded-[var(--radio-sm)] border border-line bg-surface px-2.5 py-[5px] text-[12.5px] text-ink aria-[current=true]:border-brand aria-[current=true]:bg-[color-mix(in_srgb,var(--brand)_8%,transparent)] aria-[current=true]:font-[var(--peso-medio)] aria-[current=true]:text-brand"
                   onClick={() => setVerId(d.id)}
                   type="button"
                 >
                   <FileText size={14} aria-hidden /> {d.file_name}
                 </button>
-                <button className="eettCampoRevisar" onClick={() => onAbrir(d.id)} type="button">
+                <button className="cursor-pointer border-0 bg-transparent px-1.5 py-1 text-xs text-brand underline" onClick={() => onAbrir(d.id)} type="button">
                   Revisar y trasladar
                 </button>
               </li>
@@ -159,8 +161,9 @@ function VistaPrevia({
 
   if (!esDocx) {
     return (
-      <div className="eettCampoPreview">
+      <div className="overflow-hidden rounded-[var(--radio-sm)] border border-line bg-surface">
         <iframe
+          className="block h-[62vh] w-full border-0"
           src={`/api/necesidades/${necesidadId}/eett-tdr/${docId}/pdf`}
           title={`Vista previa de ${fileName}`}
         />
@@ -171,14 +174,14 @@ function VistaPrevia({
   if (error) return <p className="formError">{error}</p>;
   if (!parrafos) {
     return (
-      <p className="eettCampoCargando">
+      <p className="text-xs text-muted">
         <Loader className="spinIcon" size={14} /> Leyendo el documento…
       </p>
     );
   }
 
   return (
-    <div className="eettCampoPreview eettCampoPreviewDocx">
+    <div className="max-h-[62vh] overflow-y-auto rounded-[var(--radio-sm)] border border-line bg-panel p-4">
       <div className="hojaInforme">
         {parrafos.map((p, i) => (
           <ParrafoVista key={i} parrafo={p} />
@@ -190,14 +193,14 @@ function VistaPrevia({
 
 /** Un párrafo del .docx con su alineación y sus énfasis, tal como se leyó. */
 function ParrafoVista({ parrafo }: { parrafo: ParrafoDocx }) {
-  const textAlign =
+  const alinear =
     parrafo.alineacion === "center"
-      ? "center"
+      ? "text-center"
       : parrafo.alineacion === "right"
-        ? "right"
+        ? "text-right"
         : parrafo.alineacion === "both"
-          ? "justify"
-          : "left";
+          ? "text-justify"
+          : "text-left";
 
   // Un párrafo sin texto es un espacio de la maqueta: se conserva con altura
   // fija para no comerse la separación.
@@ -206,14 +209,14 @@ function ParrafoVista({ parrafo }: { parrafo: ParrafoDocx }) {
   }
 
   return (
-    <p className="hojaParrafo" style={{ textAlign }}>
+    <p className={`hojaParrafo ${alinear}`}>
       {parrafo.fragmentos.map((f, i) => {
         let nodo: React.ReactNode = f.texto;
         if (f.subrayado) nodo = <u key={`u${i}`}>{nodo}</u>;
         if (f.cursiva) nodo = <em key={`i${i}`}>{nodo}</em>;
         if (f.negrita) nodo = <strong key={`b${i}`}>{nodo}</strong>;
         return (
-          <span key={i} style={{ whiteSpace: "pre-wrap" }}>
+          <span key={i} className="whitespace-pre-wrap">
             {nodo}
           </span>
         );
