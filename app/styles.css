@@ -5843,9 +5843,6 @@ textarea:focus,
 }
 
 /* ===== Fase 1 · Actuaciones Preparatorias ===== */
-.faseUnoPanel {
-  border-color: color-mix(in srgb, var(--brand) 22%, var(--line));
-}
 
 .faseUnoBadge {
   margin-left: auto;
@@ -5858,88 +5855,21 @@ textarea:focus,
   white-space: nowrap;
 }
 
-.faseSyncBtn {
-  white-space: nowrap;
-}
 
 /* Agrupacion de la Fase 1 en las 7 acciones oficiales (+ precondicion). */
-.accionGroups {
-  display: grid;
-  gap: 14px;
-}
 
-.accionGroup {
-  border-left: 2px solid var(--line);
-  padding-left: 12px;
-}
 
-.accionGroup[data-precondicion="true"] {
-  border-left-style: dashed;
-}
 
-.accionGroup[data-opcional="true"] {
-  opacity: 0.9;
-}
 
-.accionGroupHead {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
 
 /* Los numerales de la Guía (0, I, II, III–IV…) son jerga para un usuario no
    técnico. No se quitan —quien conoce la Guía los referencia—, pero dejan de
    dominar: pasan de pill de marca a una etiqueta discreta y contorneada en color
    de apoyo, para que lo que lidere sea el nombre llano de la acción. */
-.accionNumeral {
-  flex: none;
-  min-width: 26px;
-  padding: 1px 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  border: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
 
-.accionGroup[data-precondicion="true"] .accionNumeral {
-  background: var(--bg);
-  color: var(--muted);
-}
 
-.accionLabel {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-}
 
-.accionOpcional {
-  flex: none;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 1px 7px;
-}
 
-.accionMiniProgress {
-  margin-left: auto;
-  flex: none;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
 
 /* Texto solo para lectores de pantalla: una cabecera de tabla que no se dibuja
    pero sí se anuncia (la columna de "quitar" no lleva rótulo visible). */
@@ -6336,43 +6266,12 @@ textarea:focus,
    cabecera. Reutiliza el look de `.pasoGating` (mismo fondo, borde y tipografía)
    para no romper la gramática visual del paso; es un `button`, de ahí el reset
    de `text-align`/`cursor`. */
-.pasoContextoToggle {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  width: 100%;
-  margin: 0 0 10px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: var(--soft);
-  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
-  color: var(--ink);
-  font-size: 12px;
-  line-height: 1.45;
-  text-align: left;
-  cursor: pointer;
-}
 
-.pasoContextoToggle svg {
-  flex: none;
-  margin-top: 1px;
-  color: var(--brand);
-}
 
-.pasoContextoToggle:hover {
-  border-color: color-mix(in srgb, var(--brand) 45%, var(--line));
-}
 
 /* Cuando la modificación del PAC está sin determinar, la cabecera se tiñe como
    un aviso para que ese punto siga señalando aunque el contexto esté plegado. */
-.pasoContextoToggle.pasoContextoAviso {
-  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--warning) 45%, var(--line));
-}
 
-.pasoContextoToggle.pasoContextoAviso svg {
-  color: var(--warning);
-}
 
 /* "No corresponde" no es una advertencia más: es la respuesta a si hay que
    trabajar este paso. Se le da el peso visual que tenía el aviso genérico, y a
@@ -6399,52 +6298,14 @@ textarea:focus,
 /* Ruta crítica: el «qué cerrar YA» que desatasca la cuantía. Se tiñe con el
    color de marca —no es un error ni una advertencia, es la guía del siguiente
    paso decisivo— y va algo más marcada que el perfil para que se lea primero. */
-.faseRutaCritica {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 2px 0 12px;
-  padding: 11px 13px;
-  border-radius: 9px;
-  background: color-mix(in srgb, var(--brand) 8%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--brand) 34%, var(--line));
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--ink);
-}
 
-.faseRutaCritica > svg {
-  flex: none;
-  margin-top: 2px;
-  color: var(--brand);
-}
 
-.faseRutaCriticaIr {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 1px 4px 1px 6px;
-  margin-left: 2px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--brand);
-  background: transparent;
-  border: 1px solid color-mix(in srgb, var(--brand) 40%, var(--line));
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  vertical-align: baseline;
-}
 
-.faseRutaCriticaIr:hover {
-  background: color-mix(in srgb, var(--brand) 10%, transparent);
-}
 
 /* Chat del copiloto del expediente (iteración 4). Se abre desde este botón y se
    presenta en el panel lateral `.copiloto` (mismo patrón que el copiloto del
    requerimiento en Necesidades); las clases de abajo dan estilo al formulario y
    la respuesta DENTRO de ese panel. */
-.faseCopilotoBtn { margin: 2px 0 12px; }
 
 /* Cabecera de sección de A4 (variables del Art. 46.1, agrupadas a–t).
    Antes era un fino subrayado en mayúsculas, indistinguible de una etiqueta más en
@@ -6453,78 +6314,13 @@ textarea:focus,
    formato de cumplimiento tan largo, saber "qué falta por sección" es la tarea, no
    un adorno. El progreso cuenta solo los campos que la norma pide —obligatorios y
    "de corresponder"— porque son los que alimentan el documento firmado. */
-.pasoGrupo {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 14px;
-  padding: 6px 10px 6px 11px;
-  border-radius: var(--radio-sm, 8px);
-  background: color-mix(in srgb, var(--brand, #12695d) 5%, var(--panel));
-  border: 1px solid color-mix(in srgb, var(--brand, #12695d) 14%, transparent);
-  border-left: 3px solid var(--brand, #12695d);
-}
-.pasoGrupo:first-child {
-  margin-top: 0;
-}
 
-.pasoGrupoProgreso {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
 
-.pasoGrupoBarra {
-  width: 46px;
-  height: 4px;
-  border-radius: var(--radio-pill, 999px);
-  background: color-mix(in srgb, var(--muted) 22%, transparent);
-  overflow: hidden;
-}
-.pasoGrupoBarra > i {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--brand, #12695d);
-  transition: width 0.2s ease;
-}
 
-.pasoGrupoCuenta {
-  min-width: 24px;
-  text-align: right;
-  color: var(--muted);
-  font-size: 10.5px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
 
-.pasoGrupoCheck {
-  display: none;
-  align-items: center;
-  gap: 4px;
-  color: var(--ok, #16a34a);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
 
 /* Sección con todos sus campos exigibles llenos: el acento pasa a verde y el
    contador se sustituye por el check "completo". */
-.pasoGrupo[data-completo="si"] {
-  background: color-mix(in srgb, var(--ok, #16a34a) 7%, var(--panel));
-  border-color: color-mix(in srgb, var(--ok, #16a34a) 22%, transparent);
-  border-left-color: var(--ok, #16a34a);
-}
-.pasoGrupo[data-completo="si"] .pasoGrupoCheck {
-  display: inline-flex;
-}
-.pasoGrupo[data-completo="si"] .pasoGrupoBarra,
-.pasoGrupo[data-completo="si"] .pasoGrupoCuenta {
-  display: none;
-}
 
 .pasoFieldHelp {
   color: var(--muted);
@@ -6547,17 +6343,7 @@ textarea:focus,
   color: var(--ink);
 }
 
-.pasoExport {
-  align-self: flex-start;
-  margin-top: 4px;
-  text-decoration: none;
-  color: var(--brand-dark);
-  border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
-}
 
-.pasoExport:hover {
-  background: var(--soft);
-}
 
 /* A7 · fecha de la solicitud de certificación (editable antes de exportar). */
 /* Stepper del flujo del requerimiento (C). */
@@ -8353,16 +8139,9 @@ a.panelOrigen:hover {
    explícito para que un `display` futuro no vuelva a romper el plegado en
    silencio —el atributo se pondría, el aria cambiaría y el bloque seguiría
    viéndose—. */
-.faseDetalle[hidden] {
-  display: none;
-}
 
 /* El detalle desplegado hereda la separación entre bloques que antes daba el
    propio panel. */
-.faseDetalle {
-  display: grid;
-  gap: 10px;
-}
 
 /* Botón de plegar/desplegar en la cabecera de un panel. Discreto: es una acción
    de vista, no una acción sobre el expediente, y no debe competir con las que sí

@@ -2432,7 +2432,12 @@ function PasoCard({
                   señalando ese punto desde plegado. */}
               <button
                 aria-expanded={contextoAbierto}
-                className={`pasoContextoToggle ${modificaPac === null ? "pasoContextoAviso" : ""}`}
+                className={cn(
+                  "mb-2.5 flex w-full cursor-pointer items-start gap-1.5 rounded-lg border border-solid px-2.5 py-2 text-left text-xs leading-[1.45] text-ink [&>svg]:mt-px [&>svg]:flex-none",
+                  modificaPac === null
+                    ? "border-[color-mix(in_srgb,var(--warning)_45%,var(--line))] bg-[color-mix(in_srgb,var(--warning)_12%,var(--surface))] [&>svg]:text-warning"
+                    : "border-[color-mix(in_srgb,var(--brand)_25%,var(--line))] bg-brand-soft hover:border-[color-mix(in_srgb,var(--brand)_45%,var(--line))] [&>svg]:text-brand",
+                )}
                 onClick={() => setContextoAbierto((v) => !v)}
                 type="button"
               >
@@ -2725,20 +2730,20 @@ function PasoCard({
                     return (
                     <Fragment key={campo.name}>
                     {nuevoGrupo ? (
-                      <div className="pasoGrupo" data-completo={grupoCompleto ? "si" : undefined}>
+                      <div className="group col-span-full mt-3.5 flex items-center gap-2.5 rounded-[var(--radio-sm,8px)] border border-solid border-l-[3px] border-[color-mix(in_srgb,var(--brand)_14%,transparent)] border-l-brand bg-[color-mix(in_srgb,var(--brand)_5%,var(--panel))] py-1.5 pl-[11px] pr-2.5 first:mt-0 data-[completo=si]:border-[color-mix(in_srgb,var(--ok,#16a34a)_22%,transparent)] data-[completo=si]:border-l-[var(--ok,#16a34a)] data-[completo=si]:bg-[color-mix(in_srgb,var(--ok,#16a34a)_7%,var(--panel))]" data-completo={grupoCompleto ? "si" : undefined}>
                         <span className="min-w-0 flex-1 text-[11px] font-bold uppercase tracking-[0.03em] text-ink">{campo.grupo}</span>
                         {est && est.total > 0 ? (
-                          <span className="pasoGrupoProgreso">
-                            <span className="pasoGrupoCheck">
+                          <span className="inline-flex shrink-0 items-center gap-1.5">
+                            <span className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.02em] text-[var(--ok,#16a34a)] group-data-[completo=si]:inline-flex">
                               <Check size={13} aria-hidden /> completo
                             </span>
                             <span
-                              className="pasoGrupoBarra"
+                              className="h-1 w-[46px] overflow-hidden rounded-full bg-[color-mix(in_srgb,var(--muted)_22%,transparent)] group-data-[completo=si]:hidden [&>i]:block [&>i]:h-full [&>i]:rounded-[inherit] [&>i]:bg-brand [&>i]:transition-[width] [&>i]:duration-200"
                               title={`${est.llenos} de ${est.total} campos exigibles`}
                             >
                               <i style={{ width: `${Math.round((est.llenos / est.total) * 100)}%` }} />
                             </span>
-                            <span className="pasoGrupoCuenta">
+                            <span className="min-w-[24px] text-right text-[10.5px] font-bold text-muted [font-variant-numeric:tabular-nums] group-data-[completo=si]:hidden">
                               {est.llenos}/{est.total}
                             </span>
                           </span>
@@ -3030,7 +3035,7 @@ function PasoCard({
                         ))}
                       </select>
                       <button
-                        className="secondaryButton compactButton pasoExport"
+                        className="secondaryButton compactButton mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft"
                         disabled={downloadingPath !== null || !varianteBasesSel}
                         onClick={() => void descargar(fmt, null, varianteBasesSel)}
                         type="button"
@@ -3043,7 +3048,7 @@ function PasoCard({
                 }
                 return (
                   <button
-                    className="secondaryButton compactButton pasoExport"
+                    className="secondaryButton compactButton mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft"
                     disabled={downloadingPath !== null}
                     key={fmt.path}
                     onClick={() => (fmt.previa ? setPreviaAbierta(fmt) : void descargar(fmt))}
@@ -3837,7 +3842,7 @@ export function FasePanel({
   })();
 
   return (
-    <section className="processPanel faseUnoPanel">
+    <section className="processPanel border-[color-mix(in_srgb,var(--brand)_22%,var(--line))]">
       <div className="processPanelHead">
         <ClipboardCheck size={17} />
         <h3 className="panelTitulo">
@@ -3850,7 +3855,7 @@ export function FasePanel({
         {faseId === "F1" ? <span className="faseUnoBadge">Guía R.D. 019-2026-EF/54.01</span> : null}
         {faseId === "F1" && canManage ? (
           <button
-            className="secondaryButton compactButton faseSyncBtn"
+            className="secondaryButton compactButton whitespace-nowrap"
             disabled={syncing}
             onClick={() => void precargarDesdeNecesidad()}
             title="Trae de la necesidad los datos que aún falten (CMN/PAC, requerimiento, presupuesto). Solo rellena huecos: NO borra ni cambia lo que ya escribiste en el expediente."
@@ -3952,11 +3957,11 @@ export function FasePanel({
       {/* Ruta crítica: qué cerrar YA para desatascar la cuantía y, con ella, el
           resto de la fase. Va fuera del acordeón y con salto directo al paso. */}
       {rutaCritica && canManage ? (
-        <div className="faseRutaCritica" role="status">
+        <div className="mb-3 mt-[2px] flex items-start gap-2 rounded-[9px] border border-solid border-[color-mix(in_srgb,var(--brand)_34%,var(--line))] bg-[color-mix(in_srgb,var(--brand)_8%,var(--surface))] px-[13px] py-[11px] text-[12.5px] leading-normal text-ink [&>svg]:mt-0.5 [&>svg]:flex-none [&>svg]:text-brand" role="status">
           <Lightbulb size={14} />
           <span>
             <strong>Ruta crítica.</strong> {rutaCritica.texto}{" "}
-            <button className="faseRutaCriticaIr" onClick={() => setExpanded(rutaCritica.paso)} type="button">
+            <button className="ml-[2px] inline-flex cursor-pointer items-center gap-0.5 whitespace-nowrap rounded-md border border-solid border-[color-mix(in_srgb,var(--brand)_40%,var(--line))] bg-transparent py-px pl-1.5 pr-1 align-baseline text-xs font-semibold text-brand hover:bg-[color-mix(in_srgb,var(--brand)_10%,transparent)]" onClick={() => setExpanded(rutaCritica.paso)} type="button">
               Ir a {rutaCritica.paso} <ChevronRight size={12} />
             </button>
           </span>
@@ -3988,7 +3993,7 @@ export function FasePanel({
           norma; si algo no consta, lo dice. */}
       {faseId === "F1" && canManage && !loading ? (
         <button
-          className="secondaryButton compactButton faseCopilotoBtn"
+          className="secondaryButton compactButton mb-3 mt-[2px]"
           onClick={() => setChatAbierto(true)}
           type="button"
         >
@@ -4052,30 +4057,30 @@ export function FasePanel({
           resumen la fase de un vistazo —que es para lo que se pliega—, y las
           contradicciones de la torre son advertencias. Esconder una advertencia
           detrás de un clic es la forma segura de que nadie la lea. */}
-      <div className="faseDetalle" hidden={!abierta} id={`fase-detalle-${faseId}`}>
+      <div className="grid gap-2.5 [&[hidden]]:hidden" hidden={!abierta} id={`fase-detalle-${faseId}`}>
       {loading ? (
         <p className="sideMuted">
           <Loader size={14} /> Cargando pasos…
         </p>
       ) : faseId === "F1" ? (
-        <div className="accionGroups">
+        <div className="grid gap-3.5">
           {acciones.map((accion) => (
             <div
-              className="accionGroup"
+              className="group border-l-2 border-solid border-l-line pl-3 data-[precondicion=true]:border-dashed data-[opcional=true]:opacity-90"
               key={accion.id}
               data-precondicion={accion.precondicion ? "true" : undefined}
               data-opcional={accion.opcional ? "true" : undefined}
             >
-              <div className="accionGroupHead">
+              <div className="mb-2 flex items-center gap-2">
                 <span
-                  className="accionNumeral"
+                  className="inline-flex min-w-[26px] flex-none items-center justify-center rounded-[5px] border border-solid border-line bg-transparent px-1.5 py-px text-[10px] font-semibold tracking-[0.04em] text-muted group-data-[precondicion=true]:bg-canvas"
                   title={`Numeración de la Guía de Actuaciones Preparatorias (${accion.numeral})`}
                 >
                   {accion.numeral}
                 </span>
-                <span className="accionLabel">{accion.label}</span>
-                {accion.opcional ? <span className="accionOpcional">opcional</span> : null}
-                <span className="accionMiniProgress">
+                <span className="text-[13px] font-bold text-ink">{accion.label}</span>
+                {accion.opcional ? <span className="flex-none rounded-full border border-solid border-line bg-canvas px-[7px] py-px text-[10px] font-bold uppercase tracking-[0.04em] text-muted">opcional</span> : null}
+                <span className="ml-auto flex-none text-[11px] font-semibold text-muted [font-variant-numeric:tabular-nums]">
                   {accion.completados}/{accion.total}
                 </span>
               </div>
