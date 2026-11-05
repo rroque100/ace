@@ -2730,11 +2730,11 @@ function PasoCard({
                     return (
                     <Fragment key={campo.name}>
                     {nuevoGrupo ? (
-                      <div className="group col-span-full mt-3.5 flex items-center gap-2.5 rounded-[var(--radio-sm,8px)] border border-solid border-l-[3px] border-[color-mix(in_srgb,var(--brand)_14%,transparent)] border-l-brand bg-[color-mix(in_srgb,var(--brand)_5%,var(--panel))] py-1.5 pl-[11px] pr-2.5 first:mt-0 data-[completo=si]:border-[color-mix(in_srgb,var(--ok,#16a34a)_22%,transparent)] data-[completo=si]:border-l-[var(--ok,#16a34a)] data-[completo=si]:bg-[color-mix(in_srgb,var(--ok,#16a34a)_7%,var(--panel))]" data-completo={grupoCompleto ? "si" : undefined}>
+                      <div className="group col-span-full mt-3.5 flex items-center gap-2.5 rounded-[var(--radio-sm,8px)] border border-solid border-l-[3px] border-[color-mix(in_srgb,var(--brand)_14%,transparent)] border-l-brand bg-[color-mix(in_srgb,var(--brand)_5%,var(--panel))] py-1.5 pl-[11px] pr-2.5 first:mt-0 data-[completo=si]:border-[color-mix(in_srgb,var(--success)_22%,transparent)] data-[completo=si]:border-l-[var(--success)] data-[completo=si]:bg-[color-mix(in_srgb,var(--success)_7%,var(--panel))]" data-completo={grupoCompleto ? "si" : undefined}>
                         <span className="min-w-0 flex-1 text-[11px] font-bold uppercase tracking-[0.03em] text-ink">{campo.grupo}</span>
                         {est && est.total > 0 ? (
                           <span className="inline-flex shrink-0 items-center gap-1.5">
-                            <span className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.02em] text-[var(--ok,#16a34a)] group-data-[completo=si]:inline-flex">
+                            <span className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.02em] text-[var(--success)] group-data-[completo=si]:inline-flex">
                               <Check size={13} aria-hidden /> completo
                             </span>
                             <span
