@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Bookmark, ExternalLink, FolderClosed, Inbox, Save, Trash2 } from "lucide-react";
 
 type Folder = { id: string; name: string };
@@ -190,12 +191,12 @@ export function SavedWorkspace() {
                     value={drafts[item.id] ?? item.note ?? ""}
                   />
                   <div className="sourceActions">
-                    <button className="secondaryButton compactButton" onClick={() => saveNote(item.id)} type="button">
+                    <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => saveNote(item.id)} type="button">
                       <Save size={15} />
                       Guardar nota
                     </button>
                     {href ? (
-                      <a className="secondaryButton compactButton" href={href} rel="noreferrer" target="_blank">
+                      <a className={buttonClasses({ variant: "secondary", size: "sm" })} href={href} rel="noreferrer" target="_blank">
                         <ExternalLink size={15} />
                         Abrir
                       </a>

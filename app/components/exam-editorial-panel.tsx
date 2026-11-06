@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ExamEditorialQueue } from "./exam-learning";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import {
@@ -128,7 +130,7 @@ export function ExamEditorialPanel({
         </label>
         <button
           disabled={busy}
-          className="secondaryButton mt-3"
+          className={cn(buttonClasses({ variant: "secondary" }), "mt-3")}
           onClick={() => void action({ code, count: 6 }, true)}
         >
           {busy ? "Procesando…" : "Preparar siguiente lote de borradores"}
@@ -151,7 +153,7 @@ export function ExamEditorialPanel({
           vez entre los cinco conjuntos. Las ediciones anteriores se conservan.
         </p>
         <button
-          className="secondaryButton"
+          className={buttonClasses({ variant: "secondary" })}
           disabled={busy || !ready}
           onClick={() => void action({ action: "assemble" })}
         >
@@ -183,14 +185,14 @@ export function ExamEditorialPanel({
                 {r.comment || "Sin comentario adicional."}
               </p>
               <button
-                className="secondaryButton mt-2"
+                className={cn(buttonClasses({ variant: "secondary" }), "mt-2")}
                 onClick={() => onQuestion(r.question_id)}
               >
                 Abrir pregunta reportada
               </button>
               {r.state === "open" ? (
                 <button
-                  className="secondaryButton mt-2"
+                  className={cn(buttonClasses({ variant: "secondary" }), "mt-2")}
                   onClick={() => {
                     setReportId(r.id);
                     setResolution("");
@@ -221,7 +223,7 @@ export function ExamEditorialPanel({
               ficha para editarla o retirarla.
             </p>
             <button
-              className="secondaryButton"
+              className={buttonClasses({ variant: "secondary" })}
               disabled={busy || resolution.trim().length < 20}
               onClick={() =>
                 void action({ action: "resolve", reportId, resolution })
@@ -283,7 +285,7 @@ export function ExamEditorialPanel({
         )}
       </details>
       <button
-        className="secondaryButton"
+        className={buttonClasses({ variant: "secondary" })}
         disabled={busy}
         onClick={() => void load().catch((e) => setError(e.message))}
       >

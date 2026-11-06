@@ -1,6 +1,8 @@
 "use client";
 
 import { FileText, Loader, UploadCloud } from "lucide-react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import type { ParrafoDocx } from "@/lib/docx-a-bloques";
 
@@ -71,7 +73,7 @@ export function NecesidadEettCampo({
             <option value="eett">EETT — Especificaciones Técnicas (bienes)</option>
           </select>
           {/* El <input type=file> va oculto dentro del label (hidden). */}
-          <label className="secondaryButton compactButton cursor-pointer">
+          <label className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "cursor-pointer")}>
             {subiendo ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> : <UploadCloud size={14} />}
             {subiendo ? "Subiendo…" : `Adjuntar ${tipo === "eett" ? "EETT" : "TDR"}`}
             <input

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import Link from "next/link";
 import { Check, History, LoaderCircle, MessageSquareText, NotebookText, RefreshCw, X } from "lucide-react";
 
@@ -186,7 +187,7 @@ export function ChatHistory() {
           <span>Fuentes guardadas</span>
           <strong>{totalSources}</strong>
         </div>
-        <button className="secondaryButton compactButton" onClick={() => void loadHistory()} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => void loadHistory()} type="button">
           {loading ? <LoaderCircle size={16} /> : <RefreshCw size={16} />}
           Actualizar
         </button>
@@ -257,7 +258,7 @@ export function ChatHistory() {
 
           return (
             <article className="historyItem" key={session.id}>
-              <Link className="secondaryButton compactButton" href={`/chat?sessionId=${session.id}`}>Continuar conversación</Link>
+              <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={`/chat?sessionId=${session.id}`}>Continuar conversación</Link>
               <div className="historyItemHeader">
                 <div>
                   <span>{formatDate(session.updated_at)}</span>

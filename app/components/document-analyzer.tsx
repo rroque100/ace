@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
@@ -399,11 +400,11 @@ export function DocumentAnalyzer() {
           </div>
 
           <div className="formActions">
-            <button className="primaryButton" disabled={loading} onClick={runAnalysis} type="button">
+            <button className={buttonClasses({ variant: "primary" })} disabled={loading} onClick={runAnalysis} type="button">
               {loading ? <LoaderCircle size={18} /> : <ScanSearch size={18} />}
               {loading ? "Analizando..." : "Analizar documento"}
             </button>
-            <button className="secondaryButton" onClick={openValidator} type="button">
+            <button className={buttonClasses({ variant: "secondary" })} onClick={openValidator} type="button">
               <ShieldCheck size={16} />
               Validar este procedimiento
             </button>
@@ -430,7 +431,7 @@ export function DocumentAnalyzer() {
             <p>{analysis.resumen}</p>
             <small>{analysis.confidenceReason}</small>
             <div className="formActions compactActions">
-              <button className="secondaryButton" onClick={exportAnalysis} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} onClick={exportAnalysis} type="button">
                 <Download size={16} />
                 Exportar Word
               </button>
@@ -517,7 +518,7 @@ export function DocumentAnalyzer() {
                         {finding.sources.length ? <span>Fuentes: {finding.sources.map((source) => `F${source}`).join(", ")}</span> : null}
                       </div>
                       <p>{finding.message}</p>
-                      <button className="secondaryButton compactButton" onClick={() => sendFindingToChat(finding)} type="button">
+                      <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => sendFindingToChat(finding)} type="button">
                         <MessageSquareText size={15} />
                         Enviar al chat
                       </button>
@@ -578,7 +579,7 @@ export function DocumentAnalyzer() {
                     <div className="sourceActions">
                       <PdfCiteButton documentId={source.documentId} page={source.pageStart} quote={source.excerpt} />
                       <button
-                        className="secondaryButton compactButton"
+                        className={buttonClasses({ variant: "secondary", size: "sm" })}
                         onClick={() =>
                           sendFindingToChat({
                             category: "revision_humana",

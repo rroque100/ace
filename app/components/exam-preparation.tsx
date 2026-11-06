@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 import {
   COMPETENCIES,
@@ -79,7 +81,7 @@ export function ExamPreparationPanel({
           </p>
         </div>
         <a
-          className="secondaryButton"
+          className={buttonClasses({ variant: "secondary" })}
           target="_blank"
           rel="noreferrer"
           href={CURRICULUM_SOURCE}
@@ -122,14 +124,14 @@ export function ExamPreparationPanel({
         </span>
         <button
           disabled={busy || data.coverage.length !== 30 || missing.length > 0}
-          className="primaryButton"
+          className={buttonClasses({ variant: "primary" })}
           onClick={() => onStart("oece")}
         >
           Iniciar simulacro de preparación OECE
         </button>
         <button
           disabled={busy}
-          className="secondaryButton"
+          className={buttonClasses({ variant: "secondary" })}
           onClick={() => onStart("review")}
         >
           Repasar mis errores
@@ -160,7 +162,7 @@ export function ExamPreparationPanel({
                 </span>
                 {isAdmin && (
                   <Link
-                    className="secondaryButton"
+                    className={buttonClasses({ variant: "secondary" })}
                     href={"/simulador/banco?subcompetency=" + c.code}
                   >
                     Revisar pendientes
@@ -202,7 +204,7 @@ export function ExamPreparationPanel({
           ))}
         </ul>
         {isAdmin && (
-          <Link className="secondaryButton mt-3" href="/simulador/banco">
+          <Link className={cn(buttonClasses({ variant: "secondary" }), "mt-3")} href="/simulador/banco">
             Revisar el banco y sus fuentes
           </Link>
         )}
@@ -243,7 +245,7 @@ export function ExamPreparationPanel({
                   </span>
                 </span>
                 <button
-                  className="secondaryButton"
+                  className={buttonClasses({ variant: "secondary" })}
                   disabled={busy || b.eligible !== 72}
                   onClick={() => onStart("balotario", b.id)}
                 >

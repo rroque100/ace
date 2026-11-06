@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { ChatHistory } from "../components/chat-history";
@@ -9,7 +10,7 @@ export default function HistorialPage() {
     <AppShell
       active="historial"
       action={
-        <Link className="secondaryButton" href="/chat">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/chat">
           <Bot size={17} />
           Ir al chat
         </Link>

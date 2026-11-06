@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Search, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
@@ -44,12 +46,12 @@ export function SearchAssistant({ownerId, onApply, destinations, initialOpen=fal
     setOpen(false);
   }
   return <Dialog open={open} onOpenChange={setOpen}>
-    <DialogTrigger asChild><button type="button" className="secondaryButton searchAssistantTrigger">{onApply?<Sparkles size={17}/>:<Search size={17}/>} {onApply?"Ayúdame a buscar":"Buscar en ACE"}</button></DialogTrigger>
+    <DialogTrigger asChild><button type="button" className={cn(buttonClasses({ variant: "secondary" }), "searchAssistantTrigger")}>{onApply?<Sparkles size={17}/>:<Search size={17}/>} {onApply?"Ayúdame a buscar":"Buscar en ACE"}</button></DialogTrigger>
     <DialogContent title={onApply?"Ayúdame a buscar":"Buscar en ACE"} description="Describe lo que necesitas. Revisa la propuesta antes de continuar.">
       <div className="searchAssistantBody">
         <label htmlFor={onApply?"search-help-text":"global-help-text"}>¿Qué necesitas encontrar?</label>
         <textarea id={onApply?"search-help-text":"global-help-text"} rows={3} maxLength={500} value={text} onChange={e=>{setText(e.target.value);setProposal(null);}} placeholder={onApply?"Por ejemplo: opiniones de 2026 sobre garantías":"Por ejemplo: encontrar mis consultas guardadas"}/>
-        <button className="primaryButton" type="button" onClick={()=>void suggest()} disabled={busy||text.trim().length<3}>{busy?"Preparando…":"Preparar propuesta"}</button>
+        <button className={buttonClasses({ variant: "primary" })} type="button" onClick={()=>void suggest()} disabled={busy||text.trim().length<3}>{busy?"Preparando…":"Preparar propuesta"}</button>
         {error?<p role="alert">{error}</p>:null}
         {proposal?<section className="searchAssistantProposal" aria-live="polite">
           <strong>Propuesta para revisar</strong><p>{proposal.explanation}</p>
@@ -63,9 +65,9 @@ export function SearchAssistant({ownerId, onApply, destinations, initialOpen=fal
             <label>Artículo<input value={proposal.search.filters.article ?? ""} onChange={e=>setProposal({...proposal,search:{...proposal.search,filters:{...proposal.search.filters,article:e.target.value}}})}/></label>
             <p>Se reemplazarán los criterios actuales por esta propuesta. El régimen y la vigencia no se deducen automáticamente.</p>
           </>:<p>{proposal.destination==="/chat"?"Se abrirá una consulta privada con tu texto. La IA podrá consultar el corpus disponible.":"Se abrirá la sección elegida; tu texto no se añadirá a la dirección."}</p>}
-          <button className="primaryButton" type="button" disabled={busy} onClick={()=>void apply()}>{proposal.destination==="/busqueda"?"Buscar con estos criterios":"Abrir esta sección"}</button>
+          <button className={buttonClasses({ variant: "primary" })} type="button" disabled={busy} onClick={()=>void apply()}>{proposal.destination==="/busqueda"?"Buscar con estos criterios":"Abrir esta sección"}</button>
         </section>:null}
-        {!onApply?<nav aria-label="Accesos directos">{destinations?.map(item=><button className="secondaryButton" type="button" key={item.href} onClick={()=>{setOpen(false);router.push(item.href);}}>{item.label}</button>)}</nav>:null}
+        {!onApply?<nav aria-label="Accesos directos">{destinations?.map(item=><button className={buttonClasses({ variant: "secondary" })} type="button" key={item.href} onClick={()=>{setOpen(false);router.push(item.href);}}>{item.label}</button>)}</nav>:null}
       </div>
     </DialogContent>
   </Dialog>;

@@ -1,6 +1,7 @@
 "use client";
 
 import { Component, type ErrorInfo, type ReactNode } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 
 type Props = { children: ReactNode; fallback?: ReactNode };
@@ -33,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
             {this.state.error?.message ?? "Error inesperado al cargar la p&aacute;gina."}
           </p>
           <button
-            className="secondaryButton"
+            className={buttonClasses({ variant: "secondary" })}
             onClick={() => this.setState({ hasError: false, error: null })}
             style={{ justifySelf: "center" }}
             type="button"

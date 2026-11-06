@@ -1,6 +1,7 @@
 "use client";
 
 import {ResponseAiBadge} from "./response-ai-badge";
+import { buttonClasses } from "@/app/components/ui/button";
 import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
 import {conversationUrl} from "@/lib/chat-continuity";
 import { esRespuestaFija } from "@/lib/chat-respuesta-fija";
@@ -522,7 +523,7 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
 
       <div className="sourceActions">
       <a
-        className="secondaryButton compactButton"
+        className={buttonClasses({ variant: "secondary", size: "sm" })}
         href={documentPdfUrl(reference.source)}
         rel="noreferrer"
         target="_blank"
@@ -532,8 +533,8 @@ function SourceModalReference({ reference }: { reference: SourceReference }) {
           ? `Abrir PDF en página ${reference.source.pageStart}`
           : "Abrir PDF"}
       </a>
-      <Link className="secondaryButton compactButton" href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article,articleId:reference.source.articleId,bodyId:reference.source.bodyId })}>Ver en Normativa</Link>
-      <Link className="secondaryButton compactButton" href={legalCenterHref("busqueda", { documentId: reference.source.documentId, documentType: reference.source.documentType })}>Buscar en este documento</Link>
+      <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={legalCenterHref("normas", { documentId: reference.source.documentId, documentType: reference.source.documentType, article: reference.source.article,articleId:reference.source.articleId,bodyId:reference.source.bodyId })}>Ver en Normativa</Link>
+      <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={legalCenterHref("busqueda", { documentId: reference.source.documentId, documentType: reference.source.documentType })}>Buscar en este documento</Link>
       </div>
     </article>
   );
@@ -729,12 +730,12 @@ function AnswerUseCard({
         <small>Estas medidas no indican exactitud jurídica.</small>
       </details> : null}
       <div className={S.answerUseActions}>
-        <Link className="secondaryButton compactButton" href={buildSearchUrl(message, filters)}>
+        <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={buildSearchUrl(message, filters)}>
           <Search size={14} />
           Buscar más información
         </Link>
         {status.tone === "bad" ? (
-          <Link className="secondaryButton compactButton" href="/validar">
+          <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/validar">
             <ShieldCheck size={14} />
             Revisar documentos disponibles
           </Link>
@@ -812,7 +813,7 @@ function MessageEvidence({
                 <p>{stripPageMarkers(source.excerpt)}</p>
                 <div className={S.evidenceCardActions}>
                   <button
-                    className="secondaryButton compactButton"
+                    className={buttonClasses({ variant: "secondary", size: "sm" })}
                     onClick={() => onOpenSources([reference])}
                     type="button"
                   >
@@ -1431,7 +1432,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                       <AlertTriangle size={15} />
                       <span>{message.error}</span>
                       {message.questionText ? (
-                        <button className="secondaryButton compactButton" onClick={() => retry(message)} type="button">
+                        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => retry(message)} type="button">
                           <RotateCcw size={14} />
                           Reintentar
                         </button>
@@ -1546,7 +1547,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   return (
     <div className={cn(S.legalTool, "chatRedesign", "chatAccessible")}>
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
-      {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className="secondaryButton compactButton" onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
+      {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
       {continuity.notice?<p className="normScopeNote" role="status">{continuity.notice}</p>:null}
       <div className={S.chatReadingLayout}><div className={S.chatMainColumn}>
@@ -1561,7 +1562,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
           </div>
         </div>
-        <button className="secondaryButton compactButton" disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} disabled={loadingSession || isStreaming} onClick={resetChat} type="button">
           <RotateCcw size={16} />
           Nueva consulta
         </button>
@@ -1664,11 +1665,11 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 </label>
               </div>
               <div className={S.filterPopoverActions}>
-                <button className="secondaryButton compactButton" onClick={clearFilters} type="button">
+                <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={clearFilters} type="button">
                   <RotateCcw size={14} />
                   Limpiar
                 </button>
-                <button className="primaryButton compactButton" onClick={() => setShowFilters(false)} type="button">
+                <button className={buttonClasses({ variant: "primary", size: "sm" })} onClick={() => setShowFilters(false)} type="button">
                   Aplicar
                 </button>
               </div>
@@ -1704,12 +1705,12 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         <div className={S.chatComposerActions}>
           <VoiceDictation onInsert={insertDictation} onAfterInsert={focusComposer} disabled={isStreaming || loadingSession} />
           {isStreaming ? (
-            <button className={cn("secondaryButton", S.stopButton)} onClick={stopStreaming} type="button">
+            <button className={cn(buttonClasses({ variant: "secondary" }), S.stopButton)} onClick={stopStreaming} type="button">
               <Square size={16} />
               Detener
             </button>
           ) : (
-            <button className={cn("primaryButton", S.sendButton)} disabled={!canSubmit} type="submit">
+            <button className={cn(buttonClasses({ variant: "primary" }), S.sendButton)} disabled={!canSubmit} type="submit">
               <Send size={18} />
               Enviar consulta
             </button>
@@ -1727,7 +1728,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               <span>{describeProfile(caseProfile)}</span>
               <small>{describeProfileAge(caseProfile, profileNow)}{isStaleProfile(caseProfile, profileNow) ? " · comprueba que sigue siendo tu caso" : " · se aplica a tus consultas"}</small>
             </div>
-            <button className="secondaryButton compactButton" type="button" onClick={dropCaseProfile} disabled={isStreaming || loadingSession}>Quitar</button>
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button" onClick={dropCaseProfile} disabled={isStreaming || loadingSession}>Quitar</button>
           </div>
         ) : null}
         <details>
@@ -1762,7 +1763,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             </div>
           </fieldset>
           <div className={S.caseProfileActions}>
-            <button className="secondaryButton compactButton" type="button" onClick={() => saveCaseProfile(caseContext)}
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button" onClick={() => saveCaseProfile(caseContext)}
               disabled={isStreaming || loadingSession || isEmptyCommonContext(caseContext) || Boolean(caseProfile && matchesProfile(caseContext, caseProfile))}>
               {caseProfile && matchesProfile(caseContext, caseProfile) ? "Caso activo guardado" : "Guardar como caso activo"}
             </button>
@@ -1800,7 +1801,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                   <SourceModalReference key={`${reference.number}-${reference.source.chunkId}`} reference={reference} />
                 ))}
                 <div className="dialogActions">
-                  <Dialog.Close className="primaryButton" type="button">
+                  <Dialog.Close className={buttonClasses({ variant: "primary" })} type="button">
                     Entendido
                   </Dialog.Close>
                 </div>

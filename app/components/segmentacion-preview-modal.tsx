@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { FileText, Loader } from "lucide-react";
 import type { BloqueDocx, ParrafoDocx } from "@/lib/docx-a-bloques";
 import { ModalShell } from "./modal-shell";
@@ -50,7 +51,7 @@ export function SegmentacionPreviewModal({
       acciones={
         <>
           <button
-            className="primaryButton compactButton"
+            className={buttonClasses({ variant: "primary", size: "sm" })}
             disabled={!bloques}
             onClick={() => {
               onDescargar();
@@ -60,7 +61,7 @@ export function SegmentacionPreviewModal({
           >
             <FileText size={14} /> Descargar Word
           </button>
-          <button className="secondaryButton compactButton" onClick={onClose} type="button">
+          <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={onClose} type="button">
             Volver a editar
           </button>
         </>

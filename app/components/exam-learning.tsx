@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { PublicExam } from "@/lib/exam-policy";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import { examStudyReport, type StudyReview } from "@/lib/exam-learning-policy";
@@ -99,7 +101,7 @@ export function ExamLearningDashboard({
                   ).length;
                   return (
                     <button
-                      className="primaryButton"
+                      className={buttonClasses({ variant: "primary" })}
                       key={regime}
                       disabled={busy || !n}
                       onClick={() => onScheduled(regime)}
@@ -130,7 +132,7 @@ export function ExamLearningDashboard({
                       </p>
                     </div>
                     <button
-                      className="secondaryButton"
+                      className={buttonClasses({ variant: "secondary" })}
                       onClick={() => onTopic(r.topic)}
                     >
                       Estudiar tema
@@ -155,7 +157,7 @@ export function ExamLearningDashboard({
                     </span>
                     <button
                       disabled={busy}
-                      className="secondaryButton"
+                      className={buttonClasses({ variant: "secondary" })}
                       onClick={() => onOpen(a.attemptId)}
                     >
                       Revisar resultado
@@ -235,7 +237,7 @@ export function ExamStudyReport({
                 </p>
               </div>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 onClick={() => onTopic(row.topic)}
               >
                 Practicar este tema
@@ -320,7 +322,7 @@ export function ExamTutor({
           ["alternatives", "Comparar alternativas"],
         ].map(([action, label]) => (
           <button
-            className="secondaryButton"
+            className={buttonClasses({ variant: "secondary" })}
             key={action}
             disabled={busy}
             onClick={() => void ask(action)}
@@ -486,7 +488,7 @@ export function ExamEditorialTask({
         />
       </label>
       <button
-        className="secondaryButton mt-3"
+        className={cn(buttonClasses({ variant: "secondary" }), "mt-3")}
         disabled={busy || note.trim().length < 10}
         onClick={() => void save()}
       >
@@ -609,7 +611,7 @@ export function ExamEditorialQueue({
               </p>
               {task && <p className="text-xs">Observación: {task.note}</p>}
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 onClick={() => onQuestion(q.id)}
               >
                 Abrir revisión

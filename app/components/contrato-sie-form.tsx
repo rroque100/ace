@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { CheckCircle2, ChevronDown, Copy, Database, FileText, FileUp, Gavel, LoaderCircle, Plus, Save, Trash2 } from "lucide-react";
 import { useSettingsCatalog } from "./use-settings-catalog";
 import { VistaPreviaContrato } from "./contrato-sie-preview";
@@ -114,7 +115,7 @@ function BotonSubirPdf({
 }) {
   return (
     <label
-      className={cn("secondaryButton inline-flex items-center gap-1.5", subiendo ? "cursor-wait" : "cursor-pointer")}
+      className={cn(buttonClasses({ variant: "secondary" }), "gap-1.5", subiendo ? "cursor-wait" : "cursor-pointer")}
     >
       {subiendo === kind ? (
         <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} />
@@ -878,7 +879,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
                 Cronograma de entrega
                 {formaPago === "PAGO A CUENTA" && nroPagos > 1 ? ` - ${nroPagos} armadas` : " - entrega unica"}
               </strong>
-              <button type="button" className="secondaryButton px-2.5 py-0.5 text-xs"
+              <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "px-2.5 py-0.5 text-xs")}
                 onClick={() => setBienes((r) => [...r, { paquete: String(r.length + 1), descripcion: "", marca: "", unidad: "", cantidad: "", entrega: "", nroEntrega: 1 }])}>
                 <Plus size={13} /> Agregar bien
               </button>
@@ -999,7 +1000,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               <button type="button" onClick={() => setFormato("pdf")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "pdf" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>PDF</button>
             </div>
             {/* Guardar borrador (localStorage) */}
-            <button type="button" className="secondaryButton" disabled={guardando} onClick={async () => {
+            <button type="button" className={buttonClasses({ variant: "secondary" })} disabled={guardando} onClick={async () => {
               setGuardando(true); setError("");
               try {
                 const entry = { data: { proceso, postor, bienes, entregas, monto, numeroContrato, inicioPlazo, viciosOcultosAnios, recepcionArea, conformidadArea, plazoConformidadDias, garantiaOverride, garantia, formaPago, nroPagos, institucionArbitral, ciudadFirma, fechaFirma, preciosItems, preciosTotalGeneral }, savedAt: Date.now() };
@@ -1010,16 +1011,16 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
               <Save size={15} /> {guardando ? "Guardando…" : "Guardar borrador"}
             </button>
             {/* Guardar en DB */}
-            <button type="button" className="secondaryButton" disabled={guardando} onClick={guardarEnDB}>
+            <button type="button" className={buttonClasses({ variant: "secondary" })} disabled={guardando} onClick={guardarEnDB}>
               <Database size={15} /> {guardando ? "Guardando…" : dbId ? "Actualizar" : "Guardar en DB"}
             </button>
             {dbId ? (
-              <button type="button" className="secondaryButton text-danger" disabled={guardando} onClick={eliminarDeDB}>
+              <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "text-danger")} disabled={guardando} onClick={eliminarDeDB}>
                 <Trash2 size={15} /> Eliminar
               </button>
             ) : null}
           </div>
-          <button className="primaryButton" type="button" disabled={Boolean(subiendo)} onClick={validarYPrevisualizar}>
+          <button className={buttonClasses({ variant: "primary" })} type="button" disabled={Boolean(subiendo)} onClick={validarYPrevisualizar}>
             <FileText size={18} /> Vista previa del contrato
           </button>
         </div>

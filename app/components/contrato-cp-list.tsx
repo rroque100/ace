@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Database, Download, FileText, LoaderCircle, Search, Trash2 } from "lucide-react";
 
 type ContratoRow = {
@@ -130,13 +132,13 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
                 </div>
               </div>
               <div className="flex shrink-0 gap-1">
-                <button type="button" className="secondaryButton px-2 py-1 text-xs" onClick={() => onLoad(r.id)} title="Cargar en el formulario">
+                <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "px-2 py-1 text-xs")} onClick={() => onLoad(r.id)} title="Cargar en el formulario">
                   <Database size={13} /> Cargar
                 </button>
-                <button type="button" className="secondaryButton px-2 py-1 text-xs" disabled={generando === r.id} onClick={() => descargarDocx(r.id)} title="Descargar DOCX">
+                <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "px-2 py-1 text-xs")} disabled={generando === r.id} onClick={() => descargarDocx(r.id)} title="Descargar DOCX">
                   {generando === r.id ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={13} /> : <Download size={13} />} DOCX
                 </button>
-                <button type="button" className="secondaryButton px-2 py-1 text-xs text-danger" disabled={eliminando === r.id} onClick={() => eliminar(r.id)} title="Eliminar">
+                <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "px-2 py-1 text-xs text-danger")} disabled={eliminando === r.id} onClick={() => eliminar(r.id)} title="Eliminar">
                   <Trash2 size={13} />
                 </button>
               </div>

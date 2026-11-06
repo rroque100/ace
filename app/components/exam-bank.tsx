@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback, type SetStateAction } from "react";
 import { ExamBankFields } from "./exam-bank-fields";
@@ -259,7 +261,7 @@ export function ExamBank() {
             público.
           </p>
         </div>
-        <Link className="secondaryButton" href="/simulador">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/simulador">
           Volver al simulador
         </Link>
       </div>
@@ -297,7 +299,7 @@ export function ExamBank() {
         <div className="flex flex-wrap items-center gap-3 rounded-xl border bg-panel p-3 text-sm">
           Pregunta seleccionada desde un reporte.
           <button
-            className="secondaryButton"
+            className={buttonClasses({ variant: "secondary" })}
             onClick={() => {
               setQuestionFilter("");
               setDraft(null);
@@ -353,7 +355,7 @@ export function ExamBank() {
             <div className="flex items-center justify-between gap-2">
               <h2 className="font-semibold">{bank.total} preguntas</h2>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={busy}
                 onClick={() => {
                   setDraft(blank());
@@ -393,7 +395,7 @@ export function ExamBank() {
             </ul>
             <div className="mt-4 flex items-center justify-between gap-2">
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={page === 1 || busy}
                 onClick={() => setPage(page - 1)}
               >
@@ -403,7 +405,7 @@ export function ExamBank() {
                 {page}/{Math.max(1, Math.ceil(bank.total / 30))}
               </span>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={page * 30 >= bank.total || busy}
                 onClick={() => setPage(page + 1)}
               >
@@ -546,7 +548,7 @@ export function ExamBank() {
                         {s.quote}
                       </blockquote>
                       <a
-                        className="secondaryButton"
+                        className={buttonClasses({ variant: "secondary" })}
                         href={`/api/documents/${s.documentId}#page=${s.pageStart}`}
                         target="_blank"
                         rel="noreferrer"
@@ -595,7 +597,7 @@ export function ExamBank() {
                       </label>
                     </div>
                     <button
-                      className="secondaryButton mt-3"
+                      className={cn(buttonClasses({ variant: "secondary" }), "mt-3")}
                       disabled={busy || !documentId || sourcePage < 1}
                       onClick={() => void loadPassages()}
                     >
@@ -624,7 +626,7 @@ export function ExamBank() {
                                 {p.content}
                               </p>
                               <button
-                                className="secondaryButton"
+                                className={buttonClasses({ variant: "secondary" })}
                                 onClick={() => pick(p)}
                                 disabled={p.content.length > 5000}
                               >
@@ -663,13 +665,13 @@ export function ExamBank() {
                 </label>
                 <div className="flex flex-wrap gap-3">
                   <button
-                    className="secondaryButton"
+                    className={buttonClasses({ variant: "secondary" })}
                     onClick={() => void save("draft")}
                   >
                     Guardar borrador
                   </button>
                   <button
-                    className="primaryButton"
+                    className={buttonClasses({ variant: "primary" })}
                     disabled={
                       !examQuestionSchema.safeParse({
                         ...draft,
@@ -682,7 +684,7 @@ export function ExamBank() {
                   </button>
                   {draft.id && (
                     <button
-                      className="secondaryButton"
+                      className={buttonClasses({ variant: "secondary" })}
                       onClick={() => void save("retired")}
                     >
                       Retirar de nuevos intentos
@@ -705,7 +707,7 @@ export function ExamBank() {
         </div>
       )}
       <button
-        className="secondaryButton"
+        className={buttonClasses({ variant: "secondary" })}
         disabled={busy}
         onClick={() => void reload().catch((e) => setError(e.message))}
       >

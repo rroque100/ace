@@ -1,6 +1,7 @@
 "use client";
 
 import "./normative-browser.css";
+import { buttonClasses } from "@/app/components/ui/button";
 import { NormArticleReading } from "./norm-article-reading";
 import Link from "next/link";
 import {DocumentValidityReview} from "./document-validity-review";
@@ -633,7 +634,7 @@ export function NormativeBrowser() {
         <label><span>Tipo</span><select value={documentTypeFilter} onChange={event=>{setDocumentTypeFilter(event.target.value);setPage(1);}}><option value="">Todos los tipos</option>{DOCUMENT_TYPES.filter(item=>corpusTypesForGroup(category).includes(item.value)).map(item=><option key={item.value} value={item.value}>{item.label}</option>)}</select></label>
         <label><span>Régimen identificado</span><select value={extendedFilters.regime ?? ""} onChange={event=>{setExtendedFilters({...extendedFilters,regime:event.target.value as ExtendedLegalFilters["regime"]});setPage(1);}}><option value="">Todos</option><option value="32069">Ley 32069</option><option value="30225">Ley 30225</option><option value="especial">Especial</option><option value="no_determinado">Sin identificar</option></select></label>
         <label><span>Año registrado</span><select value={yearFilter} onChange={event=>{setYearFilter(event.target.value);setPage(1);}}><option value="">Todos</option>{facets.years.map(year=><option key={year} value={year}>{year}</option>)}</select></label>
-        <button className="secondaryButton" type="button" onClick={clearNormFilters}>Restablecer</button>
+        <button className={buttonClasses({ variant: "secondary" })} type="button" onClick={clearNormFilters}>Restablecer</button>
       </div>
       <details className={S.normAdvancedFilters}><summary>Más filtros · entidad, procedimiento y revisión{[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length ? ` · ${[sourceEntityFilter,processTypeFilter,vigenciaFilter,topicFilter,extendedFilters.documentTypes?.length,extendedFilters.years?.length].filter(Boolean).length} activos` : ""}</summary><div className={S.normFilters}>
         <label><span>Entidad</span><select value={sourceEntityFilter} onChange={event=>{setSourceEntityFilter(event.target.value);setPage(1);}}><option value="">Todas</option>{facets.entities.map(entity=><option key={entity} value={entity}>{entity}</option>)}</select></label>
@@ -652,7 +653,7 @@ export function NormativeBrowser() {
       </div>
       {error ? <p className="formMessage errorText">{error}</p> : null}
       <div className={S.normReaderToolbar} ref={readingRef} tabIndex={-1}>
-        {reading ? <button type="button" className="secondaryButton" onClick={() => {setReading(false);setFocusReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className="secondaryButton" onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
+        {reading ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => {setReading(false);setFocusReading(false);requestAnimationFrame(()=>document.getElementById("norm-title-query")?.focus());}}><ArrowLeft size={16} aria-hidden="true"/> Volver al catálogo</button> : selectedId ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>setReading(true)}>Continuar leyendo el documento</button> : null}
         {reading ? <span>Lectura del documento · comprueba la versión y la página del PDF.</span> : null}
       </div>
       <div className="normGrid">
@@ -725,12 +726,12 @@ export function NormativeBrowser() {
                   <LegalValidityBadge value={detail.norm.vigencia} status={detail.norm.status} review={detail.norm.review?.validity} />
                 </div>
                 <div className={S.normHeaderActions}>
-                  <button type="button" className="primaryButton compactButton" disabled={chatBusy} onClick={() => void askDocument()}>
+                  <button type="button" className={buttonClasses({ variant: "primary", size: "sm" })} disabled={chatBusy} onClick={() => void askDocument()}>
                     <MessageSquareText size={15} />
                     Consultar en Chat
                   </button>
                   <a
-                    className="secondaryButton compactButton"
+                    className={buttonClasses({ variant: "secondary", size: "sm" })}
                     href={`/api/documents/${detail.norm.id}`}
                     rel="noreferrer"
                     target="_blank"
@@ -751,7 +752,7 @@ export function NormativeBrowser() {
                 </div>
               ) : null}
 
-              <div className={S.normReadingActions}><button type="button" className="primaryButton" disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className="secondaryButton" href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
+              <div className={S.normReadingActions}><button type="button" className={buttonClasses({ variant: "primary" })} disabled={chatBusy} onClick={()=>void askDocument()}>Consultar este documento en Chat</button><Link className={buttonClasses({ variant: "secondary" })} href={legalCenterHref("busqueda",{documentId:detail.norm.id,documentType:detail.norm.documentType})}>Ver en Búsqueda</Link><SaveButton itemType="documento" documentId={detail.norm.id} title={detail.norm.title}/></div>
               <p className="normScopeNote">La consulta en Chat queda limitada al documento seleccionado. Para un artículo, usa su acción específica.</p>
               <DocumentValidityReview key={detail.norm.id} documentId={detail.norm.id} version={detail.norm.dates?.version??null} articles={detail.articles} onSaved={refreshAfterValidityReview} />              <details className="normProvenance"><summary>Procedencia, versión y revisión</summary><p>Entidad: {detail.norm.sourceEntity ?? "Sin registrar"}</p><p>Publicación original: {detail.norm.dates?.published ?? "Sin registrar"} · Actualización: {detail.norm.dates?.updated ?? "Sin registrar"} · Incorporación: {detail.norm.dates?.imported ?? "Sin registrar"}</p><p>Versión: {detail.norm.dates?.version ?? "Sin denominación de versión"}</p>{detail.norm.sourceUrl ? <a href={detail.norm.sourceUrl} target="_blank" rel="noreferrer">Abrir publicación oficial</a> : null}<p>{detail.norm.review?.method} · {detail.norm.review?.reviewer}</p><p>{detail.norm.review?.evidence}</p><p>{detail.norm.review?.validityReview ?? "La vigencia y la aplicación al caso requieren revisión."}</p></details>
               <details className={S.normTechnicalState}><summary>Estado del documento · lectura e indexación</summary><p>Estos indicadores describen la preparación técnica; no son una revisión jurídica. Una búsqueda IA disponible no garantiza citas con página.</p>
@@ -794,7 +795,7 @@ export function NormativeBrowser() {
                         type="button"
                       >
                         {document.dates?.version ?? document.title} · Actualizado: {document.dates?.updated ?? "sin fecha"} · Publicado: {document.dates?.published ?? "sin fecha"}
-                      </button>{document.id!==detail.norm.id ? <Link className="secondaryButton compactButton" href={`/comparar?${new URLSearchParams({comparison:"texto",documentIdA:detail.norm.id,documentIdB:document.id,documentTypeA:detail.norm.documentType,documentTypeB:document.documentType}).toString()}`}>Comparar texto de estas versiones</Link> : null}</div>
+                      </button>{document.id!==detail.norm.id ? <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={`/comparar?${new URLSearchParams({comparison:"texto",documentIdA:detail.norm.id,documentIdB:document.id,documentTypeA:detail.norm.documentType,documentTypeB:document.documentType}).toString()}`}>Comparar texto de estas versiones</Link> : null}</div>
                     ))}
                   </div>
                   {currentVersionDocument?.amends || hasModifiedArticle ? (
@@ -816,7 +817,7 @@ export function NormativeBrowser() {
                     <p>Este documento no tiene articulos detectados. Abre el PDF para leerlo completo.</p>
                   )}
                   <button
-                    className="secondaryButton compactButton"
+                    className={buttonClasses({ variant: "secondary", size: "sm" })}
                     onClick={() => void askDocument()} disabled={chatBusy}
                     type="button"
                   >
@@ -856,7 +857,7 @@ export function NormativeBrowser() {
                         />
                       </label>
                       <button
-                        className="secondaryButton compactButton"
+                        className={buttonClasses({ variant: "secondary", size: "sm" })}
                         disabled={semanticLoading || semanticQuery.trim().length < 5}
                         onClick={runSemanticSearch}
                         type="button"
@@ -1031,7 +1032,7 @@ export function NormativeBrowser() {
                             quote={selectedArticle.content}
                           />
                           <a
-                            className="secondaryButton compactButton"
+                            className={buttonClasses({ variant: "secondary", size: "sm" })}
                             href={`/api/documents/${detail.norm.id}`}
                             rel="noreferrer"
                             target="_blank"
@@ -1040,7 +1041,7 @@ export function NormativeBrowser() {
                             Abrir PDF
                           </a>
                           <button
-                            className="secondaryButton compactButton"
+                            className={buttonClasses({ variant: "secondary", size: "sm" })}
                             disabled={chatBusy}
                             onClick={() => sendArticleToChat(selectedArticle)}
                             type="button"
@@ -1049,7 +1050,7 @@ export function NormativeBrowser() {
                             Preguntar sobre este articulo
                           </button>
                           <button
-                            className="secondaryButton compactButton"
+                            className={buttonClasses({ variant: "secondary", size: "sm" })}
                             onClick={() => validateArticle(selectedArticle)}
                             type="button"
                           >
@@ -1057,7 +1058,7 @@ export function NormativeBrowser() {
                             Validar con este articulo
                           </button>
                           <button
-                            className="secondaryButton compactButton"
+                            className={buttonClasses({ variant: "secondary", size: "sm" })}
                             onClick={() => compareArticle(selectedArticle)}
                             type="button"
                           >

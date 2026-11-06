@@ -1,6 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink, FileSearch, LoaderCircle, X } from "lucide-react";
 
@@ -181,7 +182,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
   return (
     <Dialog.Root modal={!sidePanel} open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button className="secondaryButton compactButton" type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button">
           <FileSearch size={15} />
           {label}
         </button>
@@ -201,7 +202,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
               <button className="iconButton" aria-label="Página siguiente" disabled={status !== "ready" || currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
                 <ChevronRight size={16} />
               </button>
-              <a className="secondaryButton compactButton" href={fallbackHref} rel="noreferrer" target="_blank">
+              <a className={buttonClasses({ variant: "secondary", size: "sm" })} href={fallbackHref} rel="noreferrer" target="_blank">
                 <ExternalLink size={15} />
                 PDF exacto
               </a>
@@ -223,7 +224,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
             {status === "error" ? (
               <div className="emptyState">
                 <span>No se pudo renderizar el visor.</span>
-                <a className="primaryButton" href={fallbackHref} rel="noreferrer" target="_blank">
+                <a className={buttonClasses({ variant: "primary" })} href={fallbackHref} rel="noreferrer" target="_blank">
                   Abrir PDF en la página {page ?? 1}
                 </a>
               </div>

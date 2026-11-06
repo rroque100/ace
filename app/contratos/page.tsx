@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { ScanSearch } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { ContratosWorkspace } from "../components/contratos-workspace";
@@ -8,7 +9,7 @@ export default function ContratosPage() {
     <AppShell
       active="contratos"
       action={
-        <Link className="secondaryButton" href="/analizar">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/analizar">
           <ScanSearch size={17} />
           Analizar documento
         </Link>

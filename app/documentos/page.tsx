@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Bot, Lock } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { DocumentUpload } from "../components/document-upload";
@@ -12,7 +13,7 @@ export default async function DocumentosPage() {
     <AppShell
       active="documentos"
       action={
-        <Link className="secondaryButton" href="/chat">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/chat">
           <Bot size={17} />
           Ir al chat
         </Link>
@@ -31,7 +32,7 @@ export default async function DocumentosPage() {
               administrador. Puedes consultar todos los documentos indexados desde el
               chat y la busqueda.
             </p>
-            <Link className="primaryButton" href="/busqueda">
+            <Link className={buttonClasses({ variant: "primary" })} href="/busqueda">
               Ir a Consultas
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { FileSearch } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { SavedWorkspace } from "../components/saved-workspace";
@@ -8,7 +9,7 @@ export default function GuardadoPage() {
     <AppShell
       active="guardado"
       action={
-        <Link className="secondaryButton" href="/busqueda">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/busqueda">
           <FileSearch size={17} />
           Ir a Consultas
         </Link>

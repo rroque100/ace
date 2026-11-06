@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { AlertTriangle, ClipboardCheck, Copy, Loader, Send, Sparkles, WandSparkles, X } from "lucide-react";
 import { markdownAHtmlSeguro } from "@/lib/markdown-seguro";
 import type { CopilotoFuente } from "@/lib/necesidad-copiloto";
@@ -254,7 +255,7 @@ export function NecesidadCopiloto({
       {/* Acciones rápidas */}
       <div className="copilotoAcciones">
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           disabled={cargando}
           onClick={() => enviar({ accion: "revisar" })}
           type="button"
@@ -276,7 +277,7 @@ export function NecesidadCopiloto({
             ))}
           </select>
           <button
-            className="secondaryButton compactButton"
+            className={buttonClasses({ variant: "secondary", size: "sm" })}
             disabled={cargando || campoRedactar === ""}
             onClick={() => {
               const campo = campos.find((c) => c.key === campoRedactar);
@@ -398,7 +399,7 @@ export function NecesidadCopiloto({
         />
         <button
           aria-label="Enviar"
-          className="primaryButton compactButton"
+          className={buttonClasses({ variant: "primary", size: "sm" })}
           disabled={cargando || pregunta.trim().length < 3}
           type="submit"
         >

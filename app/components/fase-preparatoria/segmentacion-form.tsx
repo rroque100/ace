@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Calculator, Info, Plus, Trash2 } from "lucide-react";
 import {
   CONDICIONES_RIESGO_BS,
@@ -1016,7 +1018,7 @@ export function SegmentacionForm({
           </div>
         ) : null}
         {!readOnly ? (
-          <button className="secondaryButton compactButton mt-1.5" onClick={() => {
+          <button className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "mt-1.5")} onClick={() => {
             const next = [...(Array.isArray(data.cronogramaItems) ? (data.cronogramaItems as CronoItem[]) : []), { area: "", fecha: "" }];
             set({ cronogramaItems: next });
           }} type="button">

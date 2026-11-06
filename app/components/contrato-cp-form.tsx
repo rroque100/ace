@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { CheckCircle2, ChevronDown, Database, FileText, FileUp, LoaderCircle, Minus, Plus, Save, Trash2 } from "lucide-react";
 import { useSettingsCatalog } from "./use-settings-catalog";
 import { VistaPreviaContratoCp } from "./contrato-cp-preview";
@@ -426,7 +427,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             </Row>
             <Row label="PDF del proceso">
               <div className="flex flex-wrap items-center gap-2">
-                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "proceso" ? "cursor-wait" : "cursor-pointer")}>
+                <label className={cn(buttonClasses({ variant: "secondary" }), "gap-1.5 text-xs", subiendo === "proceso" ? "cursor-wait" : "cursor-pointer")}>
                   {subiendo === "proceso" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : procesoCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "proceso" ? "Extrayendo con IA…" : procesoCargado ? "Leído con IA" : "Extraer datos con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "proceso"); e.target.value = ""; }} />
@@ -473,7 +474,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             </Row>
             <Row label="PDF del contratista">
               <div className="flex flex-wrap items-center gap-2">
-                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "postor" ? "cursor-wait" : "cursor-pointer")}>
+                <label className={cn(buttonClasses({ variant: "secondary" }), "gap-1.5 text-xs", subiendo === "postor" ? "cursor-wait" : "cursor-pointer")}>
                   {subiendo === "postor" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : postorCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "postor" ? "Extrayendo con IA…" : postorCargado ? "Leído con IA" : "Extraer datos con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "postor"); e.target.value = ""; }} />
@@ -501,7 +502,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
               </div>
             ))}
             <div>
-              <button type="button" className="secondaryButton" onClick={() => setBienes((r) => [...r, { paquete: "", descripcion: "", marca: "", unidad: "", cantidad: "" }])}>
+              <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => setBienes((r) => [...r, { paquete: "", descripcion: "", marca: "", unidad: "", cantidad: "" }])}>
                 <Plus size={15} /> Agregar bien
               </button>
             </div>
@@ -562,7 +563,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
           <div className="flex flex-col gap-2">
             <Row label="PDF de precios / oferta">
               <div className="flex flex-wrap items-center gap-2">
-                <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "precios" ? "cursor-wait" : "cursor-pointer")}>
+                <label className={cn(buttonClasses({ variant: "secondary" }), "gap-1.5 text-xs", subiendo === "precios" ? "cursor-wait" : "cursor-pointer")}>
                   {subiendo === "precios" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : preciosCargados ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "precios" ? "Extrayendo con IA…" : preciosCargados ? "Leído con IA" : "Extraer precios con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "precios"); e.target.value = ""; }} />
@@ -609,11 +610,11 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
               </div>
             )}
             <div className="flex gap-2">
-              <button type="button" className="secondaryButton" onClick={() => setPreciosItems((r) => [...r, { concepto: "", marca: "", unidad: "", cantidad: "", precioUnitario: "", precioTotal: "" }])}>
+              <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => setPreciosItems((r) => [...r, { concepto: "", marca: "", unidad: "", cantidad: "", precioUnitario: "", precioTotal: "" }])}>
                 <Plus size={15} /> Agregar ítem
               </button>
               {preciosItems.length > 0 ? (
-                <button type="button" className="secondaryButton" onClick={() => { setPreciosItems([]); setPreciosTotalGeneral(""); }}>
+                <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => { setPreciosItems([]); setPreciosTotalGeneral(""); }}>
                   Limpiar
                 </button>
               ) : null}
@@ -640,16 +641,16 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
               <button type="button" onClick={() => setFormato("docx")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "docx" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>DOCX</button>
               <button type="button" onClick={() => setFormato("pdf")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "pdf" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>PDF</button>
             </div>
-            <button type="button" className="secondaryButton" disabled={guardando} onClick={guardarEnDB} title={dbId ? "Actualizar contrato guardado" : "Guardar en la base de datos"}>
+            <button type="button" className={buttonClasses({ variant: "secondary" })} disabled={guardando} onClick={guardarEnDB} title={dbId ? "Actualizar contrato guardado" : "Guardar en la base de datos"}>
               {guardando ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={15} /> : <Save size={15} />} {dbId ? "Actualizar" : "Guardar"}
             </button>
             {dbId ? (
-              <button type="button" className="secondaryButton text-danger" disabled={guardando} onClick={eliminarDeDB} title="Eliminar contrato guardado">
+              <button type="button" className={cn(buttonClasses({ variant: "secondary" }), "text-danger")} disabled={guardando} onClick={eliminarDeDB} title="Eliminar contrato guardado">
                 <Trash2 size={15} />
               </button>
             ) : null}
           </div>
-          <button className="primaryButton" type="button" onClick={validarYPrevisualizar}>
+          <button className={buttonClasses({ variant: "primary" })} type="button" onClick={validarYPrevisualizar}>
             <FileText size={18} /> Vista previa del contrato
           </button>
         </div>

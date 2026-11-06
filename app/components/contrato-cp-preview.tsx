@@ -1,6 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useState, useEffect } from "react";
 import { FileText, Download, X, LoaderCircle } from "lucide-react";
 
@@ -135,7 +136,7 @@ export function VistaPreviaContratoCp(props: Props) {
             ) : error ? (
               <div className="visorModalEstado">
                 <p className="visorModalError">{error}</p>
-                <button className="secondaryButton" onClick={generarPreview} type="button">
+                <button className={buttonClasses({ variant: "secondary" })} onClick={generarPreview} type="button">
                   Reintentar
                 </button>
               </div>
@@ -145,10 +146,10 @@ export function VistaPreviaContratoCp(props: Props) {
           </div>
 
           <div className="visorModalPie">
-            <button className="secondaryButton" onClick={onCancel} type="button">
+            <button className={buttonClasses({ variant: "secondary" })} onClick={onCancel} type="button">
               Cerrar
             </button>
-            <button className="primaryButton" disabled={!pdfUrl} onClick={descargar} type="button">
+            <button className={buttonClasses({ variant: "primary" })} disabled={!pdfUrl} onClick={descargar} type="button">
               <Download size={15} /> Descargar {formato.toUpperCase()}
             </button>
           </div>

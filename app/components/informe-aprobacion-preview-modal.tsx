@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { FileText, Loader } from "lucide-react";
 import type { Bloque } from "@/lib/informe-aprobacion-contenido";
 import { ModalShell } from "./modal-shell";
@@ -59,11 +60,11 @@ export function InformeAprobacionPreviewModal({
     <ModalShell
       acciones={
         <>
-          <button className="secondaryButton compactButton" onClick={onClose} type="button">
+          <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={onClose} type="button">
             Cerrar
           </button>
           <button
-            className="primaryButton compactButton"
+            className={buttonClasses({ variant: "primary", size: "sm" })}
             disabled={!bloques}
             onClick={onDescargar}
             type="button"

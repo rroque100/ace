@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { DocumentAnalyzer } from "../components/document-analyzer";
@@ -8,7 +9,7 @@ export default function AnalizarPage() {
     <AppShell
       active="analizar"
       action={
-        <Link className="secondaryButton" href="/chat">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/chat">
           <Bot size={17} />
           Ir al chat
         </Link>

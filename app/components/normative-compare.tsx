@@ -1,6 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
@@ -466,11 +467,11 @@ export function NormativeCompare() {
 
         </div> : null}
         <div className="formActions">
-          <button className="secondaryButton" onClick={resetComparison} type="button">
+          <button className={buttonClasses({ variant: "secondary" })} onClick={resetComparison} type="button">
             <RotateCcw size={17} />
             Limpiar
           </button>
-          <button className="primaryButton" disabled={!canSubmit} type="submit">
+          <button className={buttonClasses({ variant: "primary" })} disabled={!canSubmit} type="submit">
             {loading ? <LoaderCircle size={18} /> : <GitCompare size={18} />}
             {loading ? "Comparando..." : "Comparar"}
           </button>
@@ -555,7 +556,7 @@ export function NormativeCompare() {
                     <p>{stripPageMarkers(selectedReference.source.excerpt)}</p>
                   </div>
                   <a
-                    className="secondaryButton compactButton"
+                    className={buttonClasses({ variant: "secondary", size: "sm" })}
                     href={documentPdfUrl(selectedReference.source)}
                     rel="noreferrer"
                     target="_blank"
@@ -567,7 +568,7 @@ export function NormativeCompare() {
                   </a>
                 </article>
                 <div className="dialogActions">
-                  <Dialog.Close className="primaryButton" type="button">
+                  <Dialog.Close className={buttonClasses({ variant: "primary" })} type="button">
                     Entendido
                   </Dialog.Close>
                 </div>

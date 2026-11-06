@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { REPORT_REASONS } from "@/lib/exam-preparation";
 export function ExamQuestionTools({
   attemptId,
@@ -93,7 +95,7 @@ export function ExamQuestionTools({
       <button
         type="button"
         disabled={busy}
-        className="secondaryButton mt-3"
+        className={cn(buttonClasses({ variant: "secondary" }), "mt-3")}
         onClick={() => void report()}
       >
         Enviar a revisión

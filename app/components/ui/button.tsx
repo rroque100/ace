@@ -1,4 +1,9 @@
-"use client";
+// Sin "use client" a propósito: `buttonClasses` es una función pura y la llaman
+// también server components (las páginas). Si el módulo fuera de cliente, Next
+// la trataría como referencia de cliente y fallaría al invocarla en el render
+// del servidor ("Attempted to call buttonClasses() from the server"). Button e
+// IconButton solo pintan un <button> (sin hooks ni manejadores propios), así que
+// funcionan igual en servidor y cliente; quien les pase onClick ya es cliente.
 
 import { forwardRef } from "react";
 import { Loader2 } from "lucide-react";

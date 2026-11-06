@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Lock, BarChart3 } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { AuditExplorer } from "../components/audit-explorer";
@@ -12,7 +13,7 @@ export default async function AuditoriaPage() {
     <AppShell
       active="auditoria"
       action={
-        <Link className="secondaryButton" href="/metricas">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/metricas">
           <BarChart3 size={17} />
           Ver monitoreo
         </Link>
@@ -27,7 +28,7 @@ export default async function AuditoriaPage() {
           <div className="emptyState">
             <Lock size={20} />
             <p>El registro de auditoría está reservado a administradores.</p>
-            <Link className="primaryButton" href="/chat">
+            <Link className={buttonClasses({ variant: "primary" })} href="/chat">
               Ir al chat
             </Link>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useState } from "react";
 import { Bookmark, Check, FolderPlus, LoaderCircle, X } from "lucide-react";
 
@@ -78,7 +79,7 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button className="secondaryButton compactButton" type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button">
           <Bookmark size={15} />
           {label}
         </button>
@@ -132,7 +133,7 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
           </label>
 
           <div className="dialogActions">
-            <button className="primaryButton" disabled={saving} onClick={save} type="button">
+            <button className={buttonClasses({ variant: "primary" })} disabled={saving} onClick={save} type="button">
               {saving ? <LoaderCircle size={16} /> : saved ? <Check size={16} /> : <Bookmark size={16} />}
               {saved ? "Guardado" : saving ? "Guardando..." : "Guardar"}
             </button>

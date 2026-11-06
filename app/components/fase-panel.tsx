@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, type ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import {
   AlertTriangle,
   Ban,
@@ -524,7 +525,7 @@ function Campo({
       </span>
       {!disabled ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           onClick={() => onChange(propuesto)}
           type="button"
         >
@@ -559,7 +560,7 @@ function Campo({
       </span>
       {!disabled && !yaIncorporado ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           onClick={() => onChange(actual ? `${actual}\n\n${insumo}` : insumo)}
           type="button"
         >
@@ -612,7 +613,7 @@ function Campo({
         </span>
         {!disabled && !yaTraeRiesgos ? (
           <button
-            className="secondaryButton compactButton"
+            className={buttonClasses({ variant: "secondary", size: "sm" })}
             onClick={() => onChange(actual && actual !== "NO CORRESPONDE" ? `${actual}\n\n${riesgosNec}` : riesgosNec)}
             type="button"
           >
@@ -637,7 +638,7 @@ function Campo({
       </span>
       {!disabled ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           onClick={() => onChange(sugTexto)}
           type="button"
         >
@@ -669,7 +670,7 @@ function Campo({
         {actual ? " (reemplazará la fecha actual)" : ""}.
       </span>
       {!disabled ? (
-        <button className="secondaryButton compactButton" onClick={() => onChange(fechaCalculada)} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => onChange(fechaCalculada)} type="button">
           {actual ? "Reemplazar" : "Usar esta fecha"}
         </button>
       ) : null}
@@ -2679,7 +2680,7 @@ function PasoCard({
                     </div>
                     {canManage && !yaEsta ? (
                       <button
-                        className="secondaryButton compactButton"
+                        className={buttonClasses({ variant: "secondary", size: "sm" })}
                         onClick={() =>
                           setDraftData((prev) => {
                             const actual = String(prev[ins.campo] ?? "").trim();
@@ -3035,7 +3036,7 @@ function PasoCard({
                         ))}
                       </select>
                       <button
-                        className="secondaryButton compactButton mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft"
+                        className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft")}
                         disabled={downloadingPath !== null || !varianteBasesSel}
                         onClick={() => void descargar(fmt, null, varianteBasesSel)}
                         type="button"
@@ -3048,7 +3049,7 @@ function PasoCard({
                 }
                 return (
                   <button
-                    className="secondaryButton compactButton mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft"
+                    className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "mt-1 self-start border-[color-mix(in_srgb,var(--brand)_35%,var(--line))] text-brand-dark no-underline hover:bg-brand-soft")}
                     disabled={downloadingPath !== null}
                     key={fmt.path}
                     onClick={() => (fmt.previa ? setPreviaAbierta(fmt) : void descargar(fmt))}
@@ -3184,7 +3185,7 @@ function PasoCard({
                 </Select>
               </label>
               <button
-                className="primaryButton compactButton"
+                className={buttonClasses({ variant: "primary", size: "sm" })}
                 // Deshabilitar la <option> es solo la vista: el estado puede
                 // venir ya en "hecho" de la base o de un draft previo.
                 disabled={
@@ -3855,7 +3856,7 @@ export function FasePanel({
         {faseId === "F1" ? <span className="faseUnoBadge">Guía R.D. 019-2026-EF/54.01</span> : null}
         {faseId === "F1" && canManage ? (
           <button
-            className="secondaryButton compactButton whitespace-nowrap"
+            className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "whitespace-nowrap")}
             disabled={syncing}
             onClick={() => void precargarDesdeNecesidad()}
             title="Trae de la necesidad los datos que aún falten (CMN/PAC, requerimiento, presupuesto). Solo rellena huecos: NO borra ni cambia lo que ya escribiste en el expediente."
@@ -3993,7 +3994,7 @@ export function FasePanel({
           norma; si algo no consta, lo dice. */}
       {faseId === "F1" && canManage && !loading ? (
         <button
-          className="secondaryButton compactButton mb-3 mt-[2px]"
+          className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "mb-3 mt-[2px]")}
           onClick={() => setChatAbierto(true)}
           type="button"
         >

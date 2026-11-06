@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
 import { ExpedienteProvider } from "../../components/expediente-contexto";
@@ -25,7 +26,7 @@ export default async function ExpedienteDetailPage({
     <AppShell
       active="expedientes"
       action={
-        <Link className="secondaryButton" href="/expedientes">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/expedientes">
           <ArrowLeft size={17} />
           Volver
         </Link>

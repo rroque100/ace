@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, Trash2 } from "lucide-react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useState } from "react";
 import { calcularFechasCronograma, sumarDiasHabiles, validarCronograma } from "@/lib/cronograma-fechas";
 import { diasParaProcedimiento, type DiasCronogramaPorProcedimiento } from "@/lib/cronograma-dias";
@@ -253,14 +254,14 @@ export function CronogramaEditor({
       {!readOnly ? (
         <div className="flex gap-2">
           <button
-            className="secondaryButton compactButton"
+            className={buttonClasses({ variant: "secondary", size: "sm" })}
             onClick={() => onChange([...filas, { fase: "seleccion" }])}
             type="button"
           >
             <Plus size={13} /> Añadir actividad
           </button>
           {filas.length === 0 ? (
-            <button className="secondaryButton compactButton" onClick={sembrar} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={sembrar} type="button">
               {procedimientoLabel
                 ? `Listar las actividades de ${procedimientoLabel}`
                 : "Usar las actividades habituales"}
@@ -268,7 +269,7 @@ export function CronogramaEditor({
           ) : null}
           {filas.length > 0 ? (
             <button
-              className="secondaryButton compactButton"
+              className={buttonClasses({ variant: "secondary", size: "sm" })}
               disabled={!filas[0]?.inicio}
               // "Calcular" recalcula las fechas SOBRE las actividades ACTUALES —las
               // conserva tal cual, incluidas las añadidas o renombradas a mano— y las
@@ -309,7 +310,7 @@ export function CronogramaEditor({
             . El Art. 46.1.o pide el cronograma del procedimiento que se va a convocar.
           </span>
           <button
-            className="secondaryButton compactButton"
+            className={buttonClasses({ variant: "secondary", size: "sm" })}
             onClick={relistarSeleccion}
             title="Reemplaza las actividades de la fase de selección (se pierden sus fechas). Las preparatorias y la ejecución no se tocan."
             type="button"
@@ -467,14 +468,14 @@ export function RolesEditor({
       {!readOnly ? (
         <div className="flex gap-2">
           <button
-            className="secondaryButton compactButton"
+            className={buttonClasses({ variant: "secondary", size: "sm" })}
             onClick={() => onChange([...filas, {}])}
             type="button"
           >
             <Plus size={13} /> Añadir rol
           </button>
           {filas.length === 0 ? (
-            <button className="secondaryButton compactButton" onClick={sembrar} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={sembrar} type="button">
               Listar roles habituales
             </button>
           ) : null}
@@ -685,7 +686,7 @@ export function FactoresEditor({
 
       {!readOnly ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           onClick={() => onChange([...filas, {}])}
           type="button"
         >
@@ -851,7 +852,7 @@ export function PuntosEditor({
 
       {!readOnly ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           onClick={() => onChange([...filas, { punto: PUNTO_NO_CORRESPONDE, sustento: PUNTO_NO_CORRESPONDE }])}
           type="button"
         >

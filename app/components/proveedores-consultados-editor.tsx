@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, Trash2 } from "lucide-react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { cuantiaDeProveedores, leerProveedores, type ProveedorConsultado } from "@/lib/anexo1-interaccion";
 import { PROV_QUITAR, PROV_TABLA, PROV_VACIA } from "./tabla-editor-estilos";
 
@@ -129,7 +130,7 @@ export function ProveedoresConsultadosEditor({
 
       {!readOnly ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           // La fila nueva llega con el pedido del requerimiento puesto: es el
           // documento con el que se consulta en la práctica. Queda editable —
           // se puede haber consultado con otro.

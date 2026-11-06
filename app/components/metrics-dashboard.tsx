@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -240,11 +241,11 @@ export function MetricsDashboard() {
             <h2>Estado del pipeline</h2>
           </div>
           <div className="metricActions">
-            <button className="secondaryButton compactButton" onClick={reload} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={reload} type="button">
               <RefreshCw size={15} />
               Refrescar
             </button>
-            <button className="primaryButton" disabled={draining} onClick={drain} type="button">
+            <button className={buttonClasses({ variant: "primary" })} disabled={draining} onClick={drain} type="button">
               {draining ? <LoaderCircle size={16} /> : <Play size={16} />}
               {draining ? "Drenando..." : "Drenar cola"}
             </button>
@@ -270,7 +271,7 @@ export function MetricsDashboard() {
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Verificación operativa</p>
             <h2>{verification ? (verification.ok ? "Sistema verificado" : "Requiere atención") : "Roles, corpus y flujo end-to-end"}</h2>
           </div>
-          <button className="primaryButton" disabled={verifying} onClick={runVerification} type="button">
+          <button className={buttonClasses({ variant: "primary" })} disabled={verifying} onClick={runVerification} type="button">
             {verifying ? <LoaderCircle size={16} /> : <ShieldCheck size={16} />}
             {verifying ? "Verificando..." : "Ejecutar verificación"}
           </button>
@@ -412,7 +413,7 @@ export function MetricsDashboard() {
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Uso del sistema</p>
               <h2>Señales de adopción y calidad</h2>
             </div>
-            <button className="secondaryButton compactButton" onClick={reload} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={reload} type="button">
               <RefreshCw size={15} />
               Actualizar uso
             </button>

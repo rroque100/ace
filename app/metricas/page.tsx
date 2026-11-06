@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Lock, ScrollText } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { MetricsDashboard } from "../components/metrics-dashboard";
@@ -12,7 +13,7 @@ export default async function MetricasPage() {
     <AppShell
       active="metricas"
       action={
-        <Link className="secondaryButton" href="/auditoria">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/auditoria">
           <ScrollText size={17} />
           Ver auditoría
         </Link>
@@ -27,7 +28,7 @@ export default async function MetricasPage() {
           <div className="emptyState">
             <Lock size={20} />
             <p>El panel de monitoreo está reservado a administradores.</p>
-            <Link className="primaryButton" href="/chat">
+            <Link className={buttonClasses({ variant: "primary" })} href="/chat">
               Ir al chat
             </Link>
           </div>

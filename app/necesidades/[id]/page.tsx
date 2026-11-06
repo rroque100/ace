@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
 import { NecesidadDetail } from "../../components/necesidad-detail";
@@ -18,7 +19,7 @@ export default async function NecesidadDetailPage({ params }: { params: Promise<
     <AppShell
       active="necesidades"
       action={
-        <Link className="secondaryButton" href="/necesidades">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/necesidades">
           <ArrowLeft size={17} />
           Volver
         </Link>

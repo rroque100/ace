@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import { Activity, Bot, Bookmark, Briefcase, CheckCircle2, FileSearch, LoaderCircle, RefreshCw } from "lucide-react";
 import { processTypeLabel } from "@/lib/legal-taxonomy";
@@ -90,7 +91,7 @@ export function LegalActivity() {
             <span>{item === "all" ? items.length : items.filter((entry) => entry.origin === item).length}</span>
           </button>
         ))}
-        <button className="secondaryButton compactButton" onClick={() => void load()} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => void load()} type="button">
           {loading ? <LoaderCircle size={15} /> : <RefreshCw size={15} />}
           Actualizar
         </button>
@@ -116,7 +117,7 @@ export function LegalActivity() {
                 {item.processType ? <span>{processTypeLabel(item.processType) ?? item.processType}</span> : null}
                 {typeof item.sourceCount === "number" ? <span>{item.sourceCount} fuente(s)</span> : null}
               </div>
-              <Link className="secondaryButton compactButton" href={item.href}>
+              <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={item.href}>
                 Abrir contexto
               </Link>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
@@ -717,11 +718,11 @@ export function ProcedureValidator() {
           </div>
 
           <div className="formActions">
-            <button className="secondaryButton" type="button" onClick={verifyCorpus} disabled={checkingCorpus}>
+            <button className={buttonClasses({ variant: "secondary" })} type="button" onClick={verifyCorpus} disabled={checkingCorpus}>
               <FileSearch size={16} />
               {checkingCorpus ? "Verificando..." : "Verificar corpus (admin)"}
             </button>
-            <button className="primaryButton" type="submit" disabled={loading}>
+            <button className={buttonClasses({ variant: "primary" })} type="submit" disabled={loading}>
               <Play size={16} />
               {loading ? "Validando..." : "Validar"}
             </button>
@@ -801,15 +802,15 @@ export function ProcedureValidator() {
             </div>
 
             <div className="formActions compactActions">
-              <button className="secondaryButton" disabled={saving} onClick={saveValidation} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} disabled={saving} onClick={saveValidation} type="button">
                 <Save size={16} />
                 {saving ? "Guardando..." : "Guardar validacion"}
               </button>
-              <button className="secondaryButton" onClick={openAnalyzer} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} onClick={openAnalyzer} type="button">
                 <FileSearch size={16} />
                 Analizar documento base
               </button>
-              <button className="secondaryButton" onClick={exportValidation} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} onClick={exportValidation} type="button">
                 <Download size={16} />
                 Exportar Word
               </button>
@@ -860,7 +861,7 @@ export function ProcedureValidator() {
                       page={source.pageStart}
                       quote={source.excerpt ?? ""}
                     />
-                    <button className="secondaryButton compactButton" onClick={() => sendSourceToChat(source)} type="button">
+                    <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => sendSourceToChat(source)} type="button">
                       <MessageSquareText size={15} />
                       Enviar al chat
                     </button>

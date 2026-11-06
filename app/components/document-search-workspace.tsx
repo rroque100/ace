@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import {LegalValidityBadge} from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
 import { lexicalTopic } from "@/lib/search-discovery";
@@ -253,7 +254,7 @@ function DocumentCard({
       <div className={S.documentResultActions}>
         <PdfCiteButton documentId={document.documentId} page={firstPage} sidePanel quote={mode === "literal" ? query : matches[0]?.excerpt} label="Leer PDF" />
         <button
-          className="secondaryButton"
+          className={buttonClasses({ variant: "secondary" })}
           type="button"
           onClick={onChat}
           disabled={busy}
@@ -261,7 +262,7 @@ function DocumentCard({
           <MessageSquareText size={17} />
           {busy ? "Abriendo chat…" : "Consultar en Chat"}
         </button>
-        <Link className="secondaryButton" href={legalCenterHref("normas",{documentId:document.documentId,documentType:document.documentType})}>Ver en Normativa</Link>
+        <Link className={buttonClasses({ variant: "secondary" })} href={legalCenterHref("normas",{documentId:document.documentId,documentType:document.documentType})}>Ver en Normativa</Link>
         <SaveButton
           itemType="documento"
           documentId={document.documentId}
@@ -338,7 +339,7 @@ function DocumentCard({
         {mode === "literal" && !noMoreMatches && matches.length < document.matchCount ? (
           <button
             type="button"
-            className="secondaryButton"
+            className={buttonClasses({ variant: "secondary" })}
             onClick={() => void more()}
             disabled={loading}
           >
@@ -745,7 +746,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           />
           <VoiceSearch filters={filters} onApply={input=>{setQuery(input.query);setMode(input.mode);setFilters(input.filters);void run(1,input);}} />
           <button
-            className="primaryButton"
+            className={buttonClasses({ variant: "primary" })}
             type="submit"
             disabled={
               loading ||
@@ -772,7 +773,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
         {mode !== "semantic" ? <label className={S.documentLiteralChoice}>Buscar como<select aria-label="Buscar como" value={mode} onChange={event=>setMode(event.target.value as "literal"|"all_words")}><option value="literal">Frase exacta o número documental</option><option value="all_words">Todas estas palabras</option></select></label> : null}
         <details className={S.searchPublicationRange}><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
         </details>
-        <button type="button" className={cn("secondaryButton", S.mobileFilterToggle)} onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
+        <button type="button" className={cn(buttonClasses({ variant: "secondary" }), S.mobileFilterToggle)} onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
         <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`${S.documentSearchFilters}${mobileFilters ? " mobileOpen" : ""}`}>
           <div className={S.mobileFilterHeader}><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
           <summary>
@@ -963,12 +964,12 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           />
           <button
             type="button"
-            className="secondaryButton"
+            className={buttonClasses({ variant: "secondary" })}
             onClick={() => setFilters({})}
           >
             Quitar todos los filtros
           </button>
-          <div className={S.mobileFilterFooter}><button type="button" className="secondaryButton" onClick={()=>setFilters({})}>Restablecer</button><button type="button" className="primaryButton" onClick={()=>{setMobileFilters(false); if(filtersRef.current) filtersRef.current.open=false; void run();}}>Aplicar filtros</button></div>
+          <div className={S.mobileFilterFooter}><button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>setFilters({})}>Restablecer</button><button type="button" className={buttonClasses({ variant: "primary" })} onClick={()=>{setMobileFilters(false); if(filtersRef.current) filtersRef.current.open=false; void run();}}>Aplicar filtros</button></div>
         </details>
         {activeFilters.length ? (
           <div className={S.documentActiveFilters}>
@@ -993,7 +994,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
       </form>
       <div className="documentLibraryTools">
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
-      {savedSearch && !lastInput && !query ? <button type="button" className="secondaryButton" onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
+      {savedSearch && !lastInput && !query ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
       <details className={S.documentCoverage}><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>
       </div>
       {error ? (
@@ -1006,7 +1007,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           {result ? "Buscando documentos. Puedes seguir revisando los resultados anteriores." : "Buscando coincidencias en los documentos disponibles…"}
         </p>
       ) : null}
-      {selected.length ? <section className={S.documentSelection} aria-label="Fuentes seleccionadas"><strong>{selected.length} de 8 documentos seleccionados</strong><div>{selected.map(item=><span key={item.documentId}>{item.title}<button type="button" aria-label={`Quitar ${item.title}`} onClick={()=>setSelected(current=>current.filter(row=>row.documentId!==item.documentId))}>×</button></span>)}</div><label><input type="checkbox" checked={expandCorpus} onChange={event=>setExpandCorpus(event.target.checked)}/> Permitir que el chat amplíe la búsqueda con otras fuentes</label><p>{expandCorpus?"El chat podrá consultar otras fuentes del corpus.":"El chat usará solo los documentos seleccionados."}</p><button type="button" className="primaryButton" disabled={Boolean(chatBusy)} onClick={()=>void chatSelection()}>Consultar selección con IA</button><button type="button" onClick={()=>setSelected([])}>Vaciar selección</button></section> : null}
+      {selected.length ? <section className={S.documentSelection} aria-label="Fuentes seleccionadas"><strong>{selected.length} de 8 documentos seleccionados</strong><div>{selected.map(item=><span key={item.documentId}>{item.title}<button type="button" aria-label={`Quitar ${item.title}`} onClick={()=>setSelected(current=>current.filter(row=>row.documentId!==item.documentId))}>×</button></span>)}</div><label><input type="checkbox" checked={expandCorpus} onChange={event=>setExpandCorpus(event.target.checked)}/> Permitir que el chat amplíe la búsqueda con otras fuentes</label><p>{expandCorpus?"El chat podrá consultar otras fuentes del corpus.":"El chat usará solo los documentos seleccionados."}</p><button type="button" className={buttonClasses({ variant: "primary" })} disabled={Boolean(chatBusy)} onClick={()=>void chatSelection()}>Consultar selección con IA</button><button type="button" onClick={()=>setSelected([])}>Vaciar selección</button></section> : null}
       {result ? (
         <section
           ref={resultsRef}
@@ -1108,8 +1109,8 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
                   : "Solo se ha consultado el texto indexado del corpus institucional."}
               </p>
               <div className={S.documentEmptyActions}>
-                {result.mode === "literal" ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),mode:"all_words" as const};setMode("all_words");void run(1,next);}}>Buscar todas las palabras</button> : null}
-                {activeFilters.length ? <button type="button" className="secondaryButton" onClick={()=>{const next={...(lastInput ?? currentInput),filters:{}};setFilters({});void run(1,next);}}>Buscar sin filtros</button> : null}
+                {result.mode === "literal" ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>{const next={...(lastInput ?? currentInput),mode:"all_words" as const};setMode("all_words");void run(1,next);}}>Buscar todas las palabras</button> : null}
+                {activeFilters.length ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>{const next={...(lastInput ?? currentInput),filters:{}};setFilters({});void run(1,next);}}>Buscar sin filtros</button> : null}
               </div>
             </div>
           ) : null}
@@ -1120,7 +1121,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             >
               <button
                 type="button"
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={loading || dirty || result.page <= 1}
                 onClick={() =>
                   lastInput && void run(result.page - 1, lastInput)
@@ -1134,7 +1135,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
               </span>
               <button
                 type="button"
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={loading || dirty || result.page >= result.pages}
                 onClick={() =>
                   lastInput && void run(result.page + 1, lastInput)

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { activeValidityReview, VALIDITY_RESULTS, validityReviewInput, type ValidityRecord } from "@/lib/validity-review";
 import { ValidityReviewDetails } from "./validity-review-details";
 
@@ -58,7 +59,7 @@ export function DocumentValidityReview({ documentId, version, articles, onSaved 
     {!state && !error ? <p role="status">Consultando revisión…</p> : null}
     {current ? <ValidityReviewDetails review={current} /> : state ? <p>No hay revisión activa del documento completo. {Object.keys(state.active.articles ?? {}).length ? "Hay revisiones específicas de artículos: consulta el historial o abre el artículo." : "Los estados registrados automáticamente no sustituyen esta revisión."}</p> : null}
     {state?.invalidatedAt && !current ? <p>El archivo o su estructura cambió. Las revisiones anteriores se conservan en el historial y requieren nueva comprobación.</p> : null}
-    {state?.canReview ? <button type="button" className="secondaryButton" onClick={() => setOpen(!open)} disabled={busy}>{open ? "Cerrar formulario" : "Registrar revisión de estado"}</button> : null}
+    {state?.canReview ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => setOpen(!open)} disabled={busy}>{open ? "Cerrar formulario" : "Registrar revisión de estado"}</button> : null}
     {open ? <form onSubmit={save}>
       <p>Registra únicamente lo que has comprobado. Este registro será institucional y visible para otros usuarios; no incluyas datos privados de expedientes.</p>
       <div className="validityReviewGrid">
@@ -71,10 +72,10 @@ export function DocumentValidityReview({ documentId, version, articles, onSaved 
       <label>Publicación oficial que sustenta la revisión<input type="url" value={sourceUrl} onChange={event => setSourceUrl(event.target.value)} maxLength={2000} required placeholder="https://www.gob.pe/…" /></label>
       <label>Sustento y observaciones<textarea value={basis} onChange={event => setBasis(event.target.value)} minLength={20} maxLength={6000} rows={5} required placeholder="Qué comprobaste, modificaciones o derogaciones consultadas y alcance de la conclusión. Si es parcial, identifica las partes afectadas." /></label>
       <p>El servidor registrará tu identidad y la hora. Una corrección crea otra entrada; no elimina el historial.</p>
-      <div className="formActions"><button className="primaryButton" disabled={busy}>{busy ? "Guardando…" : "Guardar revisión y hacerla visible"}</button><button type="button" className="secondaryButton" disabled={busy} onClick={() => void refresh()}>Recargar revisión sin borrar mi texto</button></div>
+      <div className="formActions"><button className={buttonClasses({ variant: "primary" })} disabled={busy}>{busy ? "Guardando…" : "Guardar revisión y hacerla visible"}</button><button type="button" className={buttonClasses({ variant: "secondary" })} disabled={busy} onClick={() => void refresh()}>Recargar revisión sin borrar mi texto</button></div>
     </form> : null}
-    {error ? <div role="alert"><p>{error}</p><button type="button" className="secondaryButton" disabled={busy} onClick={() => void refresh()}>Volver a consultar</button></div> : null}
+    {error ? <div role="alert"><p>{error}</p><button type="button" className={buttonClasses({ variant: "secondary" })} disabled={busy} onClick={() => void refresh()}>Volver a consultar</button></div> : null}
     {success ? <p role="status">{success}</p> : null}
-    {state ? <details><summary>Historial de revisiones · {state.history.length} cargadas</summary>{state.history.length ? state.history.map(item => <article key={item.id}><p>Revisión {item.revision} {current?.id === item.id ? "· activa para el documento" : "· registro histórico o alcance específico"}</p><ValidityReviewDetails review={item.record} /></article>) : <p>No hay revisiones registradas.</p>}{state.nextBefore ? <button type="button" className="secondaryButton" disabled={busy} onClick={() => void refresh(true)}>Cargar revisiones anteriores</button> : null}</details> : null}
+    {state ? <details><summary>Historial de revisiones · {state.history.length} cargadas</summary>{state.history.length ? state.history.map(item => <article key={item.id}><p>Revisión {item.revision} {current?.id === item.id ? "· activa para el documento" : "· registro histórico o alcance específico"}</p><ValidityReviewDetails review={item.record} /></article>) : <p>No hay revisiones registradas.</p>}{state.nextBefore ? <button type="button" className={buttonClasses({ variant: "secondary" })} disabled={busy} onClick={() => void refresh(true)}>Cargar revisiones anteriores</button> : null}</details> : null}
   </section>;
 }

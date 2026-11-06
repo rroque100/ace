@@ -1,5 +1,6 @@
 "use client";
 import {WorkNotesPanel} from "./work-notes-panel";
+import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -913,7 +914,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
                 expediente a la AGA o a quien audita sin obligarles a abrir la
                 aplicación y recorrer cinco acordeones. */}
             <button
-              className="secondaryButton compactButton"
+              className={buttonClasses({ variant: "secondary", size: "sm" })}
               disabled={descargandoCaratula}
               onClick={descargarCaratula}
               title="Descarga una página con las decisiones del expediente y la archiva como documento"
@@ -977,7 +978,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
                   value={bidderName}
                 />
                 <input accept="application/pdf" className="text-[13px]" ref={fileRef} type="file" />
-                <button className="primaryButton compactButton" disabled={uploading} type="submit">
+                <button className={buttonClasses({ variant: "primary", size: "sm" })} disabled={uploading} type="submit">
                   {uploading ? <Loader size={15} /> : <UploadCloud size={15} />}
                   Subir al expediente
                 </button>
@@ -991,7 +992,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
                     </option>
                   ))}
                 </Select>
-                <button className="secondaryButton compactButton" disabled={linking || !libraryDocumentId} onClick={linkLibraryDocument} type="button">
+                <button className={buttonClasses({ variant: "secondary", size: "sm" })} disabled={linking || !libraryDocumentId} onClick={linkLibraryDocument} type="button">
                   <LinkIcon size={15} />
                   Vincular documento existente
                 </button>
@@ -1063,27 +1064,27 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             </div>
             <div className="sourceActions">
               <Link
-                className="secondaryButton compactButton"
+                className={buttonClasses({ variant: "secondary", size: "sm" })}
                 href={`/analizar?processId=${process.id}&processType=${process.procedure_type ?? ""}`}
               >
                 <ScanSearch size={15} />
                 Analizar documento
               </Link>
               <Link
-                className="secondaryButton compactButton"
+                className={buttonClasses({ variant: "secondary", size: "sm" })}
                 href={`/validar?processId=${process.id}&processType=${process.procedure_type ?? ""}&pregunta=${encodeURIComponent(`Validar expediente ${process.nomenclature}`)}`}
               >
                 <ShieldAlert size={15} />
                 Validar procedimiento
               </Link>
               <Link
-                className="secondaryButton compactButton"
+                className={buttonClasses({ variant: "secondary", size: "sm" })}
                 href={`/chat?processType=${process.procedure_type ?? ""}&pregunta=${encodeURIComponent(`Revisar expediente ${process.nomenclature} y sus documentos asociados`)}`}
               >
                 <MessageSquareText size={15} />
                 Consultar en chat
               </Link>
-              <Link className="secondaryButton compactButton" href="/documentos">
+              <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/documentos">
                 <LinkIcon size={15} />
                 Biblioteca normativa
               </Link>
@@ -1097,11 +1098,11 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
                   value={evalBidderName}
                 />
               </label>
-              <button className="primaryButton compactButton" disabled={!permisos.evaluate || evaluating} onClick={evaluateOffer} type="button">
+              <button className={buttonClasses({ variant: "primary", size: "sm" })} disabled={!permisos.evaluate || evaluating} onClick={evaluateOffer} type="button">
                 {evaluating ? <Loader size={15} /> : <CheckCircle2 size={15} />}
                 Evaluar oferta
               </button>
-              <button className="secondaryButton compactButton" disabled={!permisos.risks || detectingRisks} onClick={detectRisks} type="button">
+              <button className={buttonClasses({ variant: "secondary", size: "sm" })} disabled={!permisos.risks || detectingRisks} onClick={detectRisks} type="button">
                 {detectingRisks ? <Loader size={15} /> : <ShieldAlert size={15} />}
                 Detectar riesgos
               </button>
@@ -1115,13 +1116,13 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
                   ))}
                 </Select>
               </label>
-              <button className="secondaryButton compactButton" disabled={!permisos.draft || drafting} onClick={generateDraft} type="button">
+              <button className={buttonClasses({ variant: "secondary", size: "sm" })} disabled={!permisos.draft || drafting} onClick={generateDraft} type="button">
                 {drafting ? <Loader size={15} /> : <Download size={15} />}
                 Generar DOCX
               </button>
               {permisos.evaluate && (process.status === "seleccion" || process.status === "buena_pro") ? (
                 <button
-                  className="secondaryButton compactButton border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] text-danger hover:not-disabled:border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] hover:not-disabled:bg-danger-soft"
+                  className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] text-danger hover:not-disabled:border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] hover:not-disabled:bg-danger-soft")}
                   disabled={declaringDesierto}
                   onClick={() => setConfirmDesierto(true)}
                   type="button"

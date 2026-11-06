@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Check, CornerDownRight, MessageSquarePlus, RotateCcw, UserRound } from "lucide-react";
 import type { ObservacionNecesidad } from "@/lib/necesidades";
 
@@ -116,14 +117,14 @@ export function ObservacionesNecesidad({
           />
           <div className="obsComposerActions">
             <button
-              className="primaryButton compactButton"
+              className={buttonClasses({ variant: "primary", size: "sm" })}
               disabled={enviando || !campo || comentario.trim().length < 2}
               onClick={() => void enviar()}
               type="button"
             >
               Añadir observación
             </button>
-            <button className="secondaryButton compactButton" onClick={() => setComponiendo(false)} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => setComponiendo(false)} type="button">
               Cancelar
             </button>
           </div>

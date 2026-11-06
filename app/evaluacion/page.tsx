@@ -1,4 +1,5 @@
 import {ChatQualityPanel} from "../components/chat-quality-panel";
+import { buttonClasses } from "@/app/components/ui/button";
 import Link from "next/link";
 import { Bot, Lock } from "lucide-react";
 import { AppShell } from "../components/app-shell";
@@ -13,7 +14,7 @@ export default async function EvaluacionPage() {
     <AppShell
       active="evaluacion"
       action={
-        <Link className="secondaryButton" href="/chat">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/chat">
           <Bot size={17} />
           Ir al chat
         </Link>
@@ -32,7 +33,7 @@ export default async function EvaluacionPage() {
               La evaluación continua del RAG (banco de preguntas, corridas y métricas de calidad)
               está reservada a administradores.
             </p>
-            <Link className="primaryButton" href="/chat">
+            <Link className={buttonClasses({ variant: "primary" })} href="/chat">
               Ir al chat
             </Link>
           </div>

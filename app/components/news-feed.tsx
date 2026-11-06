@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Bell, FileText, Plus, Star, Trash2 } from "lucide-react";
 import { DOCUMENT_TYPES, PROCESS_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
 
@@ -135,7 +136,7 @@ export function NewsFeed() {
                 </div>
                 {event.summary ? <p>{event.summary}</p> : null}
                 {event.document_id ? (
-                  <a className="secondaryButton compactButton" href={`/api/documents/${event.document_id}`} rel="noreferrer" target="_blank">
+                  <a className={buttonClasses({ variant: "secondary", size: "sm" })} href={`/api/documents/${event.document_id}`} rel="noreferrer" target="_blank">
                     <FileText size={15} />
                     Abrir PDF
                   </a>
@@ -184,7 +185,7 @@ export function NewsFeed() {
             ) : (
               <input onChange={(event) => setValue(event.target.value)} placeholder={kind === "entity" ? "OECE" : "impedimentos"} value={value} />
             )}
-            <button className="primaryButton" onClick={addFollow} type="button">
+            <button className={buttonClasses({ variant: "primary" })} onClick={addFollow} type="button">
               <Plus size={16} />
               Seguir
             </button>

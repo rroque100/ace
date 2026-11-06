@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Activity, CheckCircle2, Gauge, MessageSquareWarning, Play, Plus, Target, Trash2 } from "lucide-react";
 import { DOCUMENT_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
@@ -228,11 +229,11 @@ export function EvalDashboard() {
           <h2>Última corrida</h2>
         </div>
         <div className="buttonCluster">
-          <button className="secondaryButton" onClick={seedQuestions} type="button">
+          <button className={buttonClasses({ variant: "secondary" })} onClick={seedQuestions} type="button">
             <Plus size={16} />
             Set base
           </button>
-          <button className="primaryButton" disabled={running || questions.length === 0} onClick={runEval} type="button">
+          <button className={buttonClasses({ variant: "primary" })} disabled={running || questions.length === 0} onClick={runEval} type="button">
             <Play size={16} />
             {running ? "Corriendo..." : "Correr evaluación"}
           </button>
@@ -312,7 +313,7 @@ export function EvalDashboard() {
                   </option>
                 ))}
               </select>
-              <button className="secondaryButton" onClick={addQuestion} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} onClick={addQuestion} type="button">
                 <Plus size={16} />
                 Agregar pregunta
               </button>

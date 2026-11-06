@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import {
   Archive,
   Bot,
@@ -306,7 +307,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
         </div>
 
         <div className="formActions">
-          <button className="primaryButton" disabled={searching} type="submit">
+          <button className={buttonClasses({ variant: "primary" })} disabled={searching} type="submit">
             {mode === "buscar" ? <Search size={17} /> : <Bot size={17} />}
             {searching ? "Consultando..." : mode === "buscar" ? "Buscar" : "Preguntar"}
           </button>
@@ -457,10 +458,10 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
               </label>
             </div>
             <div className="formActions">
-              <button className="secondaryButton" onClick={() => void loadDocuments()} type="button">
+              <button className={buttonClasses({ variant: "secondary" })} onClick={() => void loadDocuments()} type="button">
                 <RefreshCw size={17} /> Actualizar
               </button>
-              <button className="primaryButton" disabled={uploading} type="submit">
+              <button className={buttonClasses({ variant: "primary" })} disabled={uploading} type="submit">
                 <UploadCloud size={18} /> {uploading ? "Subiendo..." : "Subir al archivo"}
               </button>
             </div>

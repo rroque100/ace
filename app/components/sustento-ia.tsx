@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { Loader, Sparkles } from "lucide-react";
 import type { CampoSustento } from "@/lib/sustento-ia";
 
@@ -69,7 +70,7 @@ export function SustentoIA({
     <div className="sustentoIA">
       {!borrador ? (
         <button
-          className="secondaryButton compactButton"
+          className={buttonClasses({ variant: "secondary", size: "sm" })}
           disabled={cargando}
           onClick={pedir}
           title={
@@ -103,7 +104,7 @@ export function SustentoIA({
           ) : null}
           <div className="sustentoIAAcciones">
             <button
-              className="secondaryButton compactButton"
+              className={buttonClasses({ variant: "secondary", size: "sm" })}
               onClick={() => {
                 onUsar(borrador);
                 setBorrador("");
@@ -112,10 +113,10 @@ export function SustentoIA({
             >
               {actual?.trim() ? "Reemplazar lo escrito" : "Usar este texto"}
             </button>
-            <button className="secondaryButton compactButton" onClick={() => void pedir()} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => void pedir()} type="button">
               Otra propuesta
             </button>
-            <button className="secondaryButton compactButton" onClick={() => setBorrador("")} type="button">
+            <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => setBorrador("")} type="button">
               Descartar
             </button>
           </div>

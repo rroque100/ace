@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircle2, ClipboardCheck, Loader } from "lucide-react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 
 // Panel de traslado de la propuesta IA a la ficha de necesidad.
@@ -141,11 +142,11 @@ export function TrasladoPanel({
       })}
 
       <div className="mt-2.5 flex flex-wrap items-center gap-2">
-        <button className="primaryButton compactButton" disabled={trasladando || aprobados === 0} onClick={onTrasladar} type="button">
+        <button className={buttonClasses({ variant: "primary", size: "sm" })} disabled={trasladando || aprobados === 0} onClick={onTrasladar} type="button">
           {trasladando ? <Loader size={14} /> : <CheckCircle2 size={14} />} Trasladar {aprobados} campo
           {aprobados === 1 ? "" : "s"}
         </button>
-        <button className="secondaryButton compactButton" onClick={onDescartar} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={onDescartar} type="button">
           Descartar
         </button>
         {aprobados === 0 ? (

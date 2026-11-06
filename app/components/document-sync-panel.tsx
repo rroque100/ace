@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
 import { syncStateLabels } from "@/lib/document-sync-policy";
 type Config = {
@@ -167,7 +169,7 @@ function SourceRule({
           {source.config.last_error}
         </p>
       )}
-      <button className="secondaryButton mt-2" disabled={busy}>
+      <button className={cn(buttonClasses({ variant: "secondary" }), "mt-2")} disabled={busy}>
         Guardar fuente
       </button>
     </form>
@@ -315,27 +317,27 @@ export function DocumentSyncPanel() {
                   className="ml-2 w-20 rounded-lg border p-2"
                 />
               </label>
-              <button disabled={busy} className="secondaryButton">
+              <button disabled={busy} className={buttonClasses({ variant: "secondary" })}>
                 Guardar programación
               </button>
             </form>
             <div className="mt-3 flex flex-wrap gap-2">
               <button
-                className="primaryButton"
+                className={buttonClasses({ variant: "primary" })}
                 disabled={busy || !data.settings.enabled}
                 onClick={() => void action({ action: "run" })}
               >
                 Revisar y continuar cola
               </button>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={busy}
                 onClick={() => void action({ action: "resume" })}
               >
                 Reintentar tras restablecer IA
               </button>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={busy}
                 onClick={() => void action({ action: "adopt" })}
               >

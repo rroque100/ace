@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { FileSpreadsheet, Loader } from "lucide-react";
 import type { CeldaPreview } from "@/lib/fase1-export";
 import { HojaPreview } from "./hoja-preview";
@@ -53,7 +54,7 @@ export function CertificacionPreviewModal({
       acciones={
         <>
           <button
-            className="primaryButton compactButton"
+            className={buttonClasses({ variant: "primary", size: "sm" })}
             disabled={!preview}
             onClick={() => {
               onDescargar();
@@ -63,7 +64,7 @@ export function CertificacionPreviewModal({
           >
             <FileSpreadsheet size={14} /> Descargar Excel
           </button>
-          <button className="secondaryButton compactButton" onClick={onClose} type="button">
+          <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={onClose} type="button">
             Volver a editar
           </button>
         </>

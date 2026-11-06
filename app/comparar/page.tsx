@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import "../components/legal-workspace.css";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
@@ -9,7 +10,7 @@ export default function CompararPage() {
     <AppShell
       active="comparar"
       action={
-        <Link className="secondaryButton" href="/chat">
+        <Link className={buttonClasses({ variant: "secondary" })} href="/chat">
           <Bot size={17} />
           Ir al chat
         </Link>

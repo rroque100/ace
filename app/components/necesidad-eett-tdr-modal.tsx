@@ -15,7 +15,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import type { Necesidad } from "@/lib/necesidades";
 import { numeroDesdeTexto, TrasladoPanel, type GrupoTraslado } from "./necesidad-traslado-panel";
-import { Button, IconButton } from "./ui/button";
+import { Button, IconButton, buttonClasses } from "./ui/button";
 import { Alert } from "./ui/alert";
 import { cn } from "@/lib/utils";
 
@@ -686,10 +686,10 @@ export function EettTdrModal({
                     </span>
                   </div>
                   <div className="flex gap-2">
-                    <button className="primaryButton compactButton" type="button" onClick={() => void guardar()}>
+                    <button className={buttonClasses({ variant: "primary", size: "sm" })} type="button" onClick={() => void guardar()}>
                       Reemplazar 3.4
                     </button>
-                    <button className="secondaryButton compactButton" type="button" onClick={() => setConfirmandoGuardar(false)}>
+                    <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button" onClick={() => setConfirmandoGuardar(false)}>
                       Cancelar
                     </button>
                   </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, Trash2, TriangleAlert } from "lucide-react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { OBJETOS_NECESIDAD } from "@/lib/necesidades";
 import {
   agruparPorPaquete,
@@ -280,7 +281,7 @@ export function NecesidadItemsEditor({
       ) : null}
 
       {readOnly ? null : (
-        <button className="secondaryButton compactButton" onClick={agregar} type="button">
+        <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={agregar} type="button">
           <Plus size={14} /> Añadir ítem
         </button>
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { buttonClasses } from "@/app/components/ui/button";
 import { AlertTriangle, Plus, Trash2, UserPlus } from "lucide-react";
 import {
   type IntegranteEvaluador,
@@ -377,7 +378,7 @@ export function EvaluadoresEditor({
               </select>
             </label>
           ) : null}
-          <button className="secondaryButton compactButton" onClick={agregarManual} type="button">
+          <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={agregarManual} type="button">
             <Plus size={13} /> Añadir del padrón
           </button>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { buttonClasses } from "@/app/components/ui/button";
 import { AlertCircle } from "lucide-react";
 
 type Tone = "danger" | "warning" | "info";
@@ -70,7 +71,7 @@ export function ConfirmDialog({
             {/* El foco entra en Cancelar: ante una acción destructiva, la tecla
                 Intro por inercia no debe ejecutarla. */}
             <AlertDialog.Cancel asChild>
-              <button className="secondaryButton" type="button">
+              <button className={buttonClasses({ variant: "secondary" })} type="button">
                 {cancelLabel}
               </button>
             </AlertDialog.Cancel>

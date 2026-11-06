@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { buttonClasses } from "@/app/components/ui/button";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   type SetAttempt,
@@ -465,12 +466,12 @@ export function ExamWorkspace({
         </div>
         <div className={S.examWelcomeActions}>
           {!exam && (
-            <a className="secondaryButton" href="#exam-custom">
+            <a className={buttonClasses({ variant: "secondary" })} href="#exam-custom">
               Preparar práctica
             </a>
           )}
           {isAdmin && (
-            <Link className="secondaryButton" href="/simulador/banco">
+            <Link className={buttonClasses({ variant: "secondary" })} href="/simulador/banco">
               Gestionar preguntas
             </Link>
           )}
@@ -499,14 +500,14 @@ export function ExamWorkspace({
           {pending && (
             <div className="mt-2 flex flex-wrap gap-2">
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={busy}
                 onClick={() => void save(pending)}
               >
                 Reintentar guardado
               </button>
               <button
-                className="secondaryButton"
+                className={buttonClasses({ variant: "secondary" })}
                 disabled={busy}
                 onClick={() => void refreshAttempt()}
               >
@@ -524,7 +525,7 @@ export function ExamWorkspace({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <button
               disabled={busy || Boolean(pending)}
-              className="secondaryButton"
+              className={buttonClasses({ variant: "secondary" })}
               onClick={() => {
                 setExam(null);
                 const u = new URL(location.href);
@@ -744,7 +745,7 @@ export function ExamWorkspace({
                         </blockquote>
                         <div className="flex flex-wrap gap-2">
                           <a
-                            className="secondaryButton"
+                            className={buttonClasses({ variant: "secondary" })}
                             href={`/api/exams/documents/${s.documentId}?attemptId=${a.id}#page=${s.pageStart}`}
                             target="_blank"
                             rel="noreferrer"
@@ -753,7 +754,7 @@ export function ExamWorkspace({
                           </a>
                           {centerEnabled && (
                             <Link
-                              className="secondaryButton"
+                              className={buttonClasses({ variant: "secondary" })}
                               href={`/normas?documentId=${s.documentId}`}
                             >
                               Ver en Normativa
@@ -761,7 +762,7 @@ export function ExamWorkspace({
                           )}
                           {centerEnabled && (
                             <button
-                              className="secondaryButton"
+                              className={buttonClasses({ variant: "secondary" })}
                               disabled={busy}
                               onClick={() =>
                                 void askSource(
@@ -781,7 +782,7 @@ export function ExamWorkspace({
                 )}
                 <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                   <button
-                    className="secondaryButton"
+                    className={buttonClasses({ variant: "secondary" })}
                     disabled={busy || Boolean(pending) || index === 0}
                     onClick={() => jump(index - 1)}
                   >
@@ -789,7 +790,7 @@ export function ExamWorkspace({
                   </button>
                   {a.state === "active" && (
                     <button
-                      className="secondaryButton"
+                      className={buttonClasses({ variant: "secondary" })}
                       disabled={busy || Boolean(pending)}
                       onClick={() =>
                         void save({
@@ -803,7 +804,7 @@ export function ExamWorkspace({
                     </button>
                   )}
                   <button
-                    className="primaryButton"
+                    className={buttonClasses({ variant: "primary" })}
                     disabled={
                       busy ||
                       Boolean(pending) ||
@@ -854,14 +855,14 @@ export function ExamWorkspace({
                 {a.state === "active" && (
                   <div className="mt-5 space-y-2">
                     <button
-                      className="primaryButton w-full"
+                      className={cn(buttonClasses({ variant: "primary" }), "w-full")}
                       disabled={busy || Boolean(pending)}
                       onClick={() => setConfirmation("submit")}
                     >
                       Terminar y ver resultado
                     </button>
                     <button
-                      className="secondaryButton w-full"
+                      className={cn(buttonClasses({ variant: "secondary" }), "w-full")}
                       disabled={busy || Boolean(pending)}
                       onClick={() => setConfirmation("cancel")}
                     >
@@ -895,7 +896,7 @@ export function ExamWorkspace({
                 </div>
                 <button
                   disabled={busy}
-                  className="primaryButton"
+                  className={buttonClasses({ variant: "primary" })}
                   onClick={() => void open(dash.active!.id)}
                 >
                   Continuar intento
@@ -1108,7 +1109,7 @@ export function ExamWorkspace({
                   </p>
                 )}
                 <button
-                  className="primaryButton mt-5"
+                  className={cn(buttonClasses({ variant: "primary" }), "mt-5")}
                   disabled={
                     busy ||
                     Boolean(dash.active) ||
@@ -1187,7 +1188,7 @@ export function ExamWorkspace({
                         </p>
                       </div>
                       <button
-                        className="secondaryButton"
+                        className={buttonClasses({ variant: "secondary" })}
                         disabled={busy}
                         onClick={() => void open(h.id)}
                       >
@@ -1221,14 +1222,14 @@ export function ExamWorkspace({
           <div className="flex flex-wrap justify-end gap-3">
             <button
               disabled={busy}
-              className="secondaryButton"
+              className={buttonClasses({ variant: "secondary" })}
               onClick={() => setConfirmation(null)}
             >
               Volver
             </button>
             <button
               disabled={busy}
-              className="primaryButton"
+              className={buttonClasses({ variant: "primary" })}
               onClick={() => void finish()}
             >
               {busy
