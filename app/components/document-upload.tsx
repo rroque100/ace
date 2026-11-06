@@ -3,6 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { buttonClasses } from "./ui/button";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -657,13 +658,13 @@ export function DocumentUpload() {
             Expediente: documentos de un proceso especifico para evaluar ofertas, riesgos o generar informes.
           </span>
           <div className="sourceActions">
-            <Link className="secondaryButton compactButton" href="/documentos">
+            <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/documentos">
               Subir a biblioteca normativa
             </Link>
-            <Link className="secondaryButton compactButton" href="/expedientes">
+            <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/expedientes">
               Subir al expediente
             </Link>
-            <Link className="secondaryButton compactButton" href="/expedientes">
+            <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/expedientes">
               Vincular documento existente
             </Link>
           </div>
@@ -828,11 +829,11 @@ export function DocumentUpload() {
         ) : null}
 
         <div className="formActions">
-          <button className="secondaryButton" onClick={() => void loadDocuments()} type="button">
+          <button className={buttonClasses({ variant: "secondary" })} onClick={() => void loadDocuments()} type="button">
             <RefreshCw size={17} />
             Actualizar
           </button>
-          <button className="primaryButton" disabled={loading} type="submit">
+          <button className={buttonClasses({ variant: "primary" })} disabled={loading} type="submit">
             <UploadCloud size={18} />
             {loading ? "Subiendo..." : "Subir PDF"}
           </button>
@@ -847,7 +848,7 @@ export function DocumentUpload() {
             <strong>Preparacion para Chat y Consultas</strong>
             <span>El chat juridico necesita normativa vigente, paginas, articulos y vectores verificados.</span>
           </div>
-          <Link className="secondaryButton compactButton" href="/validar">
+          <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/validar">
             <ShieldCheck size={15} />
             Verificar corpus
           </Link>
@@ -883,7 +884,7 @@ export function DocumentUpload() {
             <strong>Calidad del corpus por procedimiento</strong>
             <span>Permite saber si cada proceso tiene normativa suficiente y bases solo como apoyo operativo.</span>
           </div>
-          <button className="secondaryButton compactButton" onClick={() => void loadQuality()} type="button">
+          <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => void loadQuality()} type="button">
             <RefreshCw size={15} />
             Actualizar calidad
           </button>
@@ -970,7 +971,7 @@ export function DocumentUpload() {
               </select>
             </label>
             <button
-              className="secondaryButton compactButton"
+              className={buttonClasses({ variant: "secondary", size: "sm" })}
               onClick={() => {
                 setFilterDocumentType("");
                 setFilterProcessType("");
@@ -986,7 +987,7 @@ export function DocumentUpload() {
             <AlertTriangle size={16} />
             <span>Acciones masivas</span>
             <button
-              className="secondaryButton compactButton"
+              className={buttonClasses({ variant: "secondary", size: "sm" })}
               disabled={!canBulkReindex}
               onClick={() =>
                 setBulkReindexTarget({
@@ -1000,7 +1001,7 @@ export function DocumentUpload() {
               Reindexar visibles
             </button>
             <button
-              className="dangerButton compactButton"
+              className={buttonClasses({ variant: "primary", destructive: true, size: "sm" })}
               disabled={!canBulkDelete || bulkDeleting}
               onClick={() =>
                 setBulkDeleteTarget({
@@ -1139,11 +1140,11 @@ export function DocumentUpload() {
             </Dialog.Description>
             <strong>{pendingAction?.document.title}</strong>
             <div className="dialogActions">
-              <Dialog.Close className="secondaryButton" type="button">
+              <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>
               <button
-                className={pendingAction?.type === "delete" ? "dangerButton" : "primaryButton"}
+                className={buttonClasses(pendingAction?.type === "delete" ? { variant: "primary", destructive: true } : { variant: "primary" })}
                 onClick={() => {
                   if (!pendingAction) {
                     return;
@@ -1180,11 +1181,11 @@ export function DocumentUpload() {
             </strong>
             <p>{bulkDeleteTarget?.count ?? 0} documento(s) seran eliminados.</p>
             <div className="dialogActions">
-              <Dialog.Close className="secondaryButton" type="button">
+              <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>
               <button
-                className="dangerButton"
+                className={buttonClasses({ variant: "primary", destructive: true })}
                 disabled={bulkDeleting}
                 onClick={() => void bulkDeleteDocuments()}
                 type="button"
@@ -1209,11 +1210,11 @@ export function DocumentUpload() {
             <strong>{bulkReindexTarget?.count ?? 0} documento(s) seran reindexados.</strong>
             <p>Usa filtros antes de ejecutar si quieres limitarlo por tipo documental, proceso o estado.</p>
             <div className="dialogActions">
-              <Dialog.Close className="secondaryButton" type="button">
+              <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>
               <button
-                className="primaryButton"
+                className={buttonClasses({ variant: "primary" })}
                 disabled={bulkReindexing}
                 onClick={() => void bulkReindexDocuments()}
                 type="button"
