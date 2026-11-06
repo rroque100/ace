@@ -335,7 +335,7 @@ export function EvalDashboard() {
                       ) : null}
                     </div>
                   </div>
-                  <button className="iconButton" onClick={() => removeQuestion(item.id)} type="button" aria-label="Eliminar">
+                  <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" onClick={() => removeQuestion(item.id)} type="button" aria-label="Eliminar">
                     <Trash2 size={15} />
                   </button>
                 </article>

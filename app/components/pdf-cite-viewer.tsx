@@ -193,13 +193,13 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
           <div className="pdfViewerBar">
             <Dialog.Title>{sidePanel ? "Lectura del documento" : "Cita en el documento"}</Dialog.Title>
             <div className="pdfViewerControls">
-              <button className="iconButton" aria-label="Página anterior" disabled={status !== "ready" || currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
+              <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-50" aria-label="Página anterior" disabled={status !== "ready" || currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
                 <ChevronLeft size={16} />
               </button>
               <span>
                 {status === "ready" ? `${currentPage} / ${numPages}` : "Cargando…"}
               </span>
-              <button className="iconButton" aria-label="Página siguiente" disabled={status !== "ready" || currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
+              <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-50" aria-label="Página siguiente" disabled={status !== "ready" || currentPage >= numPages} onClick={() => goTo(currentPage + 1)} type="button">
                 <ChevronRight size={16} />
               </button>
               <a className={buttonClasses({ variant: "secondary", size: "sm" })} href={fallbackHref} rel="noreferrer" target="_blank">
@@ -207,7 +207,7 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
                 PDF exacto
               </a>
               <Dialog.Close asChild>
-                <button className="iconButton" type="button" aria-label="Cerrar documento">
+                <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" type="button" aria-label="Cerrar documento">
                   <X size={16} />
                 </button>
               </Dialog.Close>

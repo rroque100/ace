@@ -227,22 +227,6 @@ h2 {
   padding: 0 16px;
 }
 
-.iconButton {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-  color: var(--brand);
-  cursor: pointer;
-}
-
-.iconButton:hover {
-  background: var(--soft);
-}
-
 .primaryButton:hover{
   background: var(--brand-dark);
 }
@@ -837,10 +821,6 @@ h3 {
   border-color: color-mix(in srgb, var(--danger) 30%, var(--panel));
   border-radius: 10px;
   background: var(--danger);
-}
-
-.iconButton {
-  border-radius: 10px;
 }
 
 .toolPanel,
@@ -3809,10 +3789,6 @@ textarea,
   color: var(--brand);
 }
 
-.extractPanelHead .iconButton {
-  margin-left: auto;
-}
-
 .docStatus.ready { color: var(--success); }
 .docStatus.error { color: var(--danger); }
 .docStatus.pending { color: var(--warning); }
@@ -4211,10 +4187,6 @@ span {
 
 .dangerButton:hover {
   background: #8f1d15;
-}
-
-.iconButton{
-  border-radius: 999px;
 }
 
 .toolPanel,
@@ -4700,10 +4672,6 @@ textarea:focus,
   color: var(--danger);
 }
 
-.processSettingsRow .iconButton {
-  align-self: end;
-}
-
 .scopeChip.oficina {
   border-color: rgba(15, 118, 110, 0.16);
   background: var(--soft);
@@ -4714,12 +4682,6 @@ textarea:focus,
   border-color: color-mix(in srgb, var(--warning) 30%, var(--panel));
   background: var(--warning-soft);
   color: var(--warning);
-}
-
-.iconButton.danger:hover {
-  border-color: rgba(176, 71, 60, 0.45);
-  background: var(--danger-soft);
-  color: var(--danger);
 }
 
 .entityChecklist {

@@ -90,7 +90,7 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
           <div className="pdfViewerBar">
             <Dialog.Title>Guardar en carpeta</Dialog.Title>
             <Dialog.Close asChild>
-              <button className="iconButton" type="button">
+              <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" type="button">
                 <X size={16} />
               </button>
             </Dialog.Close>

@@ -169,7 +169,7 @@ export function SavedWorkspace() {
                       <strong>{item.title}</strong>
                       {itemContext(item) ? <small>{itemContext(item)}</small> : null}
                     </div>
-                    <button className="iconButton" onClick={() => remove(item.id)} type="button" aria-label="Eliminar">
+                    <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" onClick={() => remove(item.id)} type="button" aria-label="Eliminar">
                       <Trash2 size={15} />
                     </button>
                   </div>

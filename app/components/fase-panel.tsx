@@ -4008,7 +4008,7 @@ export function FasePanel({
             <span className="copilotoTitulo">
               <Sparkles size={15} /> Copiloto del expediente
             </span>
-            <button className="iconButton" onClick={() => setChatAbierto(false)} title="Cerrar" type="button">
+            <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" onClick={() => setChatAbierto(false)} title="Cerrar" type="button">
               <X size={16} />
             </button>
           </header>
