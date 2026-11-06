@@ -3783,21 +3783,7 @@ textarea,
   line-height: 1.35;
 }
 
-.processStatus {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  background: var(--soft);
-  color: var(--brand);
-}
 
-.processStatus.status-otorgado { background: #dcfce7; color: var(--success); }
-.processStatus.status-desierto { background: #fee2e2; color: var(--danger); }
-.processStatus.status-en_evaluacion { background: #fef9c3; color: var(--warning); }
-.processStatus.status-en_ejecucion { background: #dbeafe; color: var(--muted); }
 
 .processPanel {
   border: 1px solid var(--line);
@@ -5161,14 +5147,6 @@ textarea:focus,
 /* Tarjeta de resultado desierto */
 
 /* Botón "Declarar desierto" (acción destructiva) */
-.desiertoButton {
-  color: var(--danger);
-  border-color: color-mix(in srgb, var(--danger) 30%, var(--panel));
-}
-.desiertoButton:hover:not(:disabled) {
-  background: var(--danger-soft);
-  border-color: color-mix(in srgb, var(--danger) 30%, var(--panel));
-}
 
 .subirTab.active {
   color: var(--brand);
@@ -6187,46 +6165,11 @@ textarea:focus,
 }
 
 /* Toast flotante de la Fase 1 (descargas por fetch). */
-.faseToast {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 60;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 360px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink);
-  animation: faseToastIn 0.16s ease-out;
-}
 
-.faseToast svg {
-  flex: none;
-  color: var(--muted);
-}
 
-.faseToast-success {
-  border-color: color-mix(in srgb, var(--success) 45%, var(--line));
-}
 
-.faseToast-success svg {
-  color: var(--success);
-}
 
-.faseToast-error {
-  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
-}
 
-.faseToast-error svg {
-  color: var(--danger);
-}
 
 @keyframes faseToastIn {
   from {

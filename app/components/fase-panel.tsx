@@ -4173,7 +4173,7 @@ export function FasePanel({
       </div>
 
       {toast ? (
-        <div className={`faseToast faseToast-${toast.kind}`} role="status">
+        <div className="fixed bottom-5 right-5 z-[60] flex max-w-[360px] items-center gap-2 rounded-[10px] border border-solid border-line bg-surface px-3.5 py-2.5 text-[13px] font-medium text-ink shadow-[0_8px_24px_rgba(15,23,42,0.14)] animate-[faseToastIn_0.16s_ease-out] [&>svg]:flex-none [&>svg]:text-muted data-[kind=success]:border-[color-mix(in_srgb,var(--success)_45%,var(--line))] data-[kind=success]:[&>svg]:text-success data-[kind=error]:border-[color-mix(in_srgb,var(--danger)_45%,var(--line))] data-[kind=error]:[&>svg]:text-danger" data-kind={toast.kind} role="status">
           {toast.kind === "success" ? <CheckCircle2 size={15} /> : <Info size={15} />}
           <span>{toast.text}</span>
         </div>

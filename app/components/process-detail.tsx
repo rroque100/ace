@@ -840,7 +840,10 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
               </Select>
             </label>
           ) : (
-            <span className={`processStatus status-${process.status}`}>{processStatusLabel(process.status)}</span>
+            <span className={cn(
+              "inline-flex items-center rounded-full px-[9px] py-[3px] text-[11px] font-[780]",
+              ({ otorgado: "bg-success-soft text-success", desierto: "bg-danger-soft text-danger", en_evaluacion: "bg-warning-soft text-warning", en_ejecucion: "bg-info-soft text-muted" } as Record<string, string>)[process.status] ?? "bg-brand-soft text-brand",
+            )}>{processStatusLabel(process.status)}</span>
           )}
           {permisos.manage ? (
             // Separado del selector de Estado con un borde y margen propios: son
@@ -1118,7 +1121,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
               </button>
               {permisos.evaluate && (process.status === "seleccion" || process.status === "buena_pro") ? (
                 <button
-                  className="secondaryButton compactButton desiertoButton"
+                  className="secondaryButton compactButton border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] text-danger hover:not-disabled:border-[color-mix(in_srgb,var(--danger)_30%,var(--panel))] hover:not-disabled:bg-danger-soft"
                   disabled={declaringDesierto}
                   onClick={() => setConfirmDesierto(true)}
                   type="button"
