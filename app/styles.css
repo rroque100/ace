@@ -614,10 +614,6 @@ h2 {
   box-shadow: inset 0 0 0 1px #95b8b1;
 }
 
-.loadingInline svg,
-.spinIcon {
-  animation: spin 0.9s linear infinite;
-}
 
 @keyframes spin {
   to {
