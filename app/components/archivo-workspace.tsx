@@ -250,7 +250,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
     <div className="uploadPanel" id="archivo">
       <div className="panelHeader">
         <div>
-          <p className="eyebrow">Archivo documental</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Archivo documental</p>
           <h2>Consulta y búsqueda en el archivo</h2>
         </div>
         <Archive size={22} />

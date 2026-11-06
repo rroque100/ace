@@ -76,7 +76,7 @@ export function LegalActivity() {
     <div className="toolPanel legalActivity">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Actividad jurídica</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Actividad jurídica</p>
           <h2>Trabajo integrado</h2>
         </div>
         <Activity size={22} />

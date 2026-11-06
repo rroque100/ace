@@ -224,7 +224,7 @@ export function EvalDashboard() {
 
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Calidad del RAG</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Calidad del RAG</p>
           <h2>Última corrida</h2>
         </div>
         <div className="buttonCluster">
@@ -273,7 +273,7 @@ export function EvalDashboard() {
         <aside className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Banco de preguntas</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Banco de preguntas</p>
               <h2>{questions.length} pregunta(s)</h2>
             </div>
           </div>
@@ -348,7 +348,7 @@ export function EvalDashboard() {
         <section className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Histórico</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Histórico</p>
               <h2>Corridas recientes</h2>
             </div>
           </div>
@@ -371,7 +371,7 @@ export function EvalDashboard() {
         <section className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Memoria institucional</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Memoria institucional</p>
               <h2>Feedback reciente del chat</h2>
             </div>
           </div>

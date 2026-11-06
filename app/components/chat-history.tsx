@@ -171,7 +171,7 @@ export function ChatHistory() {
     <div className="toolPanel">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Trazabilidad</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Trazabilidad</p>
           <h2>Historial de consultas</h2>
         </div>
         <History size={22} />

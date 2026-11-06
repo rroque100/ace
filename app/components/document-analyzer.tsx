@@ -305,7 +305,7 @@ export function DocumentAnalyzer() {
       <div className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Análisis documental</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Análisis documental</p>
             <h2>Revisión jurídica asistida</h2>
           </div>
           <ScanSearch size={22} />
@@ -610,7 +610,7 @@ export function DocumentAnalyzer() {
         <section className="toolPanel analyzerHistory">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Historial</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Historial</p>
               <h2>Últimos análisis</h2>
             </div>
             <History size={20} />

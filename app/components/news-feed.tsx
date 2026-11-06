@@ -94,7 +94,7 @@ export function NewsFeed() {
       <div className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Novedades</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Novedades</p>
             <h2>Boletín normativo</h2>
           </div>
           <Bell size={22} />
@@ -149,7 +149,7 @@ export function NewsFeed() {
       <aside className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Seguimiento</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Seguimiento</p>
             <h2>Temas que sigo</h2>
           </div>
           <Star size={20} />

@@ -714,7 +714,7 @@ export function NormativeBrowser() {
             <>
               <header className={S.normDetailHeader}>
                 <div>
-                  <p className="eyebrow">
+                  <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">
                     {documentTypeLabel(detail.norm.documentType)}
                     {detail.norm.documentNumber ? ` · ${detail.norm.documentNumber}` : ""}
                     {labelProcessType(detail.norm.processType)

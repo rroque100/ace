@@ -544,7 +544,7 @@ export function ProcedureValidator() {
       <section className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Agent Orchestrator</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Agent Orchestrator</p>
             <h2>Validar procedimiento</h2>
           </div>
           <ShieldCheck size={21} />
@@ -580,7 +580,7 @@ export function ProcedureValidator() {
 
           <div className="validatorAssistPanel">
             <div>
-              <span className="eyebrow">Guia del procedimiento</span>
+              <span className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Guia del procedimiento</span>
               <strong>{guidance.title}</strong>
               <p>{guidance.description}</p>
             </div>
@@ -734,7 +734,7 @@ export function ProcedureValidator() {
       <section className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Resultado</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Resultado</p>
             <h2>{result?.rules ? conclusionLabel(result.rules.conclusion) : "Sin validar"}</h2>
           </div>
           <Gauge size={21} />
@@ -876,7 +876,7 @@ export function ProcedureValidator() {
         <section className="toolPanel validatorWide">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Corpus</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Corpus</p>
               <h2>{corpus.corpusReady ? "Listo para pruebas" : "Requiere ajustes"}</h2>
             </div>
           </div>
@@ -926,7 +926,7 @@ export function ProcedureValidator() {
         <section className="toolPanel validatorWide">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Historial</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Historial</p>
               <h2>Validaciones guardadas</h2>
             </div>
           </div>

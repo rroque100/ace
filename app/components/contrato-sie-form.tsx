@@ -583,7 +583,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
     <div className="toolPanel">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Subasta Inversa Electrónica · Ley 32069 (2026)</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Subasta Inversa Electrónica · Ley 32069 (2026)</p>
           <h2>Contrato SIE con proforma oficial</h2>
         </div>
         <Gavel size={22} />

@@ -1556,7 +1556,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             <ShieldCheck size={22} />
           </div>
           <div>
-            <p className="eyebrow">Consulta legal</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Consulta legal</p>
             <h2>Conversemos sobre tu consulta</h2>
             <p>Escribe tu duda. Revisa la respuesta y las normas que la sustentan.</p>
           </div>

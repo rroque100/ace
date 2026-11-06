@@ -92,7 +92,7 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
     <div className="flex flex-col gap-3">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Contratos guardados</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Contratos guardados</p>
           <h2>Mis contratos · Comparación de Precios</h2>
         </div>
         <Database size={22} />

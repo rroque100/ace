@@ -345,7 +345,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
     <div className="toolPanel">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Comparación de Precios · Ley 32069 (2026)</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Comparación de Precios · Ley 32069 (2026)</p>
           <h2>Generar contrato de Comparación de Precios</h2>
         </div>
         <FileText size={22} />

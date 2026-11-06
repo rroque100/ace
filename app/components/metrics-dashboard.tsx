@@ -236,7 +236,7 @@ export function MetricsDashboard() {
       <section className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Cola de indexación</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Cola de indexación</p>
             <h2>Estado del pipeline</h2>
           </div>
           <div className="metricActions">
@@ -267,7 +267,7 @@ export function MetricsDashboard() {
       <section className="toolPanel">
         <div className="toolPanelHeader">
           <div>
-            <p className="eyebrow">Verificación operativa</p>
+            <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Verificación operativa</p>
             <h2>{verification ? (verification.ok ? "Sistema verificado" : "Requiere atención") : "Roles, corpus y flujo end-to-end"}</h2>
           </div>
           <button className="primaryButton" disabled={verifying} onClick={runVerification} type="button">
@@ -365,7 +365,7 @@ export function MetricsDashboard() {
         <section className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Indexación</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Indexación</p>
               <h2>Documentos con error</h2>
             </div>
           </div>
@@ -389,7 +389,7 @@ export function MetricsDashboard() {
         <aside className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Trazabilidad</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Trazabilidad</p>
               <h2>Actividad reciente</h2>
             </div>
           </div>
@@ -409,7 +409,7 @@ export function MetricsDashboard() {
         <section className="toolPanel">
           <div className="toolPanelHeader">
             <div>
-              <p className="eyebrow">Uso del sistema</p>
+              <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Uso del sistema</p>
               <h2>Señales de adopción y calidad</h2>
             </div>
             <button className="secondaryButton compactButton" onClick={reload} type="button">

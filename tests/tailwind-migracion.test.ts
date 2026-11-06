@@ -7,7 +7,7 @@ import { describe, expect, it } from "vitest";
 // fijar el avance. Plan: docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md
 const TOPE = {
   // Veces que un `className` usa una clase definida en algún CSS propio (styles.css o CSS de componentes).
-  usosClasePropia: 1431,
+  usosClasePropia: 1402,
   // Ficheros .tsx que usan alguna.
   ficherosConClasePropia: 115,
   // `style={{…}}` en línea: los dinámicos (anchos %, colores de datos) son legítimos; los literales no.

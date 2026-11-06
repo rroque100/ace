@@ -617,7 +617,7 @@ export function DocumentUpload() {
     <div className="uploadPanel" id="documentos">
       <div className="panelHeader">
         <div>
-          <p className="eyebrow">Base documental</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Base documental</p>
           <h2>Gestion documental</h2>
         </div>
         <UploadCloud size={22} />

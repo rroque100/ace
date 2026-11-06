@@ -432,7 +432,7 @@ export function NormativeCompare() {
     <div className="toolPanel">
       <div className="toolPanelHeader">
         <div>
-          <p className="eyebrow">Comparacion normativa</p>
+          <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Comparacion normativa</p>
           <h2>Contrastar dos normas con fuentes</h2>
         </div>
         <GitCompare size={22} />
