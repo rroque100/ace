@@ -107,7 +107,7 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
 
       {cargando ? (
         <div className="p-5 text-center text-[13px] text-muted">
-          <LoaderCircle className="spinIcon" size={18} /> Cargando…
+          <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={18} /> Cargando…
         </div>
       ) : filtrados.length === 0 ? (
         <p className="text-[13px] italic text-muted">
@@ -134,7 +134,7 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
                   <Database size={13} /> Cargar
                 </button>
                 <button type="button" className="secondaryButton px-2 py-1 text-xs" disabled={generando === r.id} onClick={() => descargarDocx(r.id)} title="Descargar DOCX">
-                  {generando === r.id ? <LoaderCircle className="spinIcon" size={13} /> : <Download size={13} />} DOCX
+                  {generando === r.id ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={13} /> : <Download size={13} />} DOCX
                 </button>
                 <button type="button" className="secondaryButton px-2 py-1 text-xs text-danger" disabled={eliminando === r.id} onClick={() => eliminar(r.id)} title="Eliminar">
                   <Trash2 size={13} />

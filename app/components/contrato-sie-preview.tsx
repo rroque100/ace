@@ -141,7 +141,7 @@ export function VistaPreviaContrato(props: Props) {
           <div className="visorModalCuerpo">
             {generando ? (
               <div className="visorModalEstado">
-                <LoaderCircle className="spinIcon" size={32} />
+                <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={32} />
                 <p>Generando documento PDF…</p>
               </div>
             ) : error ? (

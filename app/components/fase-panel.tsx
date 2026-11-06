@@ -2273,7 +2273,7 @@ function PasoCard({
                 onClick={() => void redactarConIA()}
                 type="button"
               >
-                {redactandoIA ? <Loader className="spinIcon" size={13} /> : <Sparkles size={13} />}
+                {redactandoIA ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={13} /> : <Sparkles size={13} />}
                 {redactandoIA
                   ? "Redactando…"
                   : code === "A2"
@@ -3040,7 +3040,7 @@ function PasoCard({
                         onClick={() => void descargar(fmt, null, varianteBasesSel)}
                         type="button"
                       >
-                        {cargando ? <Loader className="spinIcon" size={14} /> : <FileText size={14} />}
+                        {cargando ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> : <FileText size={14} />}
                         {cargando ? "Generando…" : `Exportar ${fmt.label} (Word)`}
                       </button>
                     </div>
@@ -3055,7 +3055,7 @@ function PasoCard({
                     type="button"
                   >
                     {cargando ? (
-                      <Loader className="spinIcon" size={14} />
+                      <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} />
                     ) : fmt.word ? (
                       <FileText size={14} />
                     ) : (
@@ -3861,7 +3861,7 @@ export function FasePanel({
             title="Trae de la necesidad los datos que aún falten (CMN/PAC, requerimiento, presupuesto). Solo rellena huecos: NO borra ni cambia lo que ya escribiste en el expediente."
             type="button"
           >
-            <RefreshCw className={syncing ? "spinIcon" : undefined} size={13} />
+            <RefreshCw className={syncing ? "animate-[spin_0.9s_linear_infinite]" : undefined} size={13} />
             {syncing ? "Trayendo datos…" : "Traer datos nuevos de la necesidad"}
           </button>
         ) : null}
@@ -4034,7 +4034,7 @@ export function FasePanel({
               disabled={chatCargando || chatPregunta.trim().length < 2}
               type="submit"
             >
-              {chatCargando ? <Loader className="spinIcon" size={14} /> : "Preguntar"}
+              {chatCargando ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> : "Preguntar"}
             </button>
           </form>
           <div className="copilotoLog">

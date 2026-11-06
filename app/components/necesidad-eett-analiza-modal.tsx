@@ -118,7 +118,7 @@ export function NecesidadEettAnalizaModal({
       >
         {cargandoRag ? (
           <p className="flex items-center gap-2 text-[13px] text-muted">
-            <Loader size={14} className="spinIcon" /> Cargando estado del RAG…
+            <Loader size={14} className="animate-[spin_0.9s_linear_infinite]" /> Cargando estado del RAG…
           </p>
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-[300px_1fr]">
@@ -128,7 +128,7 @@ export function NecesidadEettAnalizaModal({
                 <span className={`rounded-full px-2.5 py-1 text-[12px] font-semibold ${TONE_BADGE[est.tone]}`}>
                   {est.label}
                 </span>
-                {procesando ? <Loader size={14} className="spinIcon text-muted" /> : null}
+                {procesando ? <Loader size={14} className="animate-[spin_0.9s_linear_infinite] text-muted" /> : null}
               </div>
               {est.razon ? <p className="text-[12px] text-muted">{est.razon}</p> : null}
               {rag?.documento.error_message ? (
@@ -257,7 +257,7 @@ function Fragmentos({ necesidadId, docId }: { necesidadId: string; docId: string
         />
       </div>
       {cargando ? (
-        <p className="flex items-center gap-2 text-[13px] text-muted"><Loader size={14} className="spinIcon" /> Cargando fragmentos…</p>
+        <p className="flex items-center gap-2 text-[13px] text-muted"><Loader size={14} className="animate-[spin_0.9s_linear_infinite]" /> Cargando fragmentos…</p>
       ) : data && data.items.length > 0 ? (
         <ul className="flex flex-col gap-2">
           {data.items.map((c) => (

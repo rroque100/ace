@@ -117,7 +117,7 @@ function BotonSubirPdf({
       className={cn("secondaryButton inline-flex items-center gap-1.5", subiendo ? "cursor-wait" : "cursor-pointer")}
     >
       {subiendo === kind ? (
-        <LoaderCircle className="spinIcon" size={16} />
+        <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} />
       ) : done ? (
         <CheckCircle2 size={16} className="text-success" />
       ) : (
@@ -613,7 +613,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
 
         {cargandoDb ? (
           <div className="p-5 text-center text-[13px] text-muted">
-            <LoaderCircle className="spinIcon" size={20} /> Cargando contrato…
+            <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={20} /> Cargando contrato…
           </div>
         ) : null}
 

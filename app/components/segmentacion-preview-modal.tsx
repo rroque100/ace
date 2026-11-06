@@ -73,7 +73,7 @@ export function SegmentacionPreviewModal({
         <p className="formError">{error}</p>
       ) : !bloques ? (
         <p className="anexo1PreviewCargando">
-          <Loader className="spinIcon" size={14} /> Preparando la vista previa…
+          <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Preparando la vista previa…
         </p>
       ) : (
         <div className="hojaInforme">

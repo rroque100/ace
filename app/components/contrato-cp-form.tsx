@@ -427,7 +427,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             <Row label="PDF del proceso">
               <div className="flex flex-wrap items-center gap-2">
                 <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "proceso" ? "cursor-wait" : "cursor-pointer")}>
-                  {subiendo === "proceso" ? <LoaderCircle className="spinIcon" size={16} /> : procesoCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
+                  {subiendo === "proceso" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : procesoCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "proceso" ? "Extrayendo con IA…" : procesoCargado ? "Leído con IA" : "Extraer datos con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "proceso"); e.target.value = ""; }} />
                 </label>
@@ -474,7 +474,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             <Row label="PDF del contratista">
               <div className="flex flex-wrap items-center gap-2">
                 <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "postor" ? "cursor-wait" : "cursor-pointer")}>
-                  {subiendo === "postor" ? <LoaderCircle className="spinIcon" size={16} /> : postorCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
+                  {subiendo === "postor" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : postorCargado ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "postor" ? "Extrayendo con IA…" : postorCargado ? "Leído con IA" : "Extraer datos con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "postor"); e.target.value = ""; }} />
                 </label>
@@ -563,7 +563,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
             <Row label="PDF de precios / oferta">
               <div className="flex flex-wrap items-center gap-2">
                 <label className={cn("secondaryButton inline-flex items-center gap-1.5 text-xs", subiendo === "precios" ? "cursor-wait" : "cursor-pointer")}>
-                  {subiendo === "precios" ? <LoaderCircle className="spinIcon" size={16} /> : preciosCargados ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
+                  {subiendo === "precios" ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={16} /> : preciosCargados ? <CheckCircle2 size={16} className="text-success" /> : <FileUp size={16} />}
                   {subiendo === "precios" ? "Extrayendo con IA…" : preciosCargados ? "Leído con IA" : "Extraer precios con IA"}
                   <input type="file" accept="application/pdf" className="hidden" disabled={Boolean(subiendo)} onChange={(e) => { const f = e.target.files?.[0]; if (f) extraer(f, "precios"); e.target.value = ""; }} />
                 </label>
@@ -641,7 +641,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
               <button type="button" onClick={() => setFormato("pdf")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "pdf" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>PDF</button>
             </div>
             <button type="button" className="secondaryButton" disabled={guardando} onClick={guardarEnDB} title={dbId ? "Actualizar contrato guardado" : "Guardar en la base de datos"}>
-              {guardando ? <LoaderCircle className="spinIcon" size={15} /> : <Save size={15} />} {dbId ? "Actualizar" : "Guardar"}
+              {guardando ? <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={15} /> : <Save size={15} />} {dbId ? "Actualizar" : "Guardar"}
             </button>
             {dbId ? (
               <button type="button" className="secondaryButton text-danger" disabled={guardando} onClick={eliminarDeDB} title="Eliminar contrato guardado">

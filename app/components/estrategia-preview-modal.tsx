@@ -81,7 +81,7 @@ export function EstrategiaPreviewModal({
             <p className="formError">{error}</p>
           ) : !preview ? (
             <p className="anexo1PreviewCargando">
-              <Loader className="spinIcon" size={14} /> Generando la vista previa…
+              <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Generando la vista previa…
             </p>
           ) : (
             <>

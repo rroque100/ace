@@ -72,7 +72,7 @@ export function NecesidadEettCampo({
           </select>
           {/* El <input type=file> va oculto dentro del label (hidden). */}
           <label className="secondaryButton compactButton cursor-pointer">
-            {subiendo ? <Loader className="spinIcon" size={14} /> : <UploadCloud size={14} />}
+            {subiendo ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> : <UploadCloud size={14} />}
             {subiendo ? "Subiendo…" : `Adjuntar ${tipo === "eett" ? "EETT" : "TDR"}`}
             <input
               className="hidden"
@@ -175,7 +175,7 @@ function VistaPrevia({
   if (!parrafos) {
     return (
       <p className="text-xs text-muted">
-        <Loader className="spinIcon" size={14} /> Leyendo el documento…
+        <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Leyendo el documento…
       </p>
     );
   }
