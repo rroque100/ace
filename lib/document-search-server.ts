@@ -1,4 +1,5 @@
 import {activeValidityReview,reviewedValidity} from "./validity-review";
+import type { FallosRecuperacion } from "./retrieval-failure";
 import { equivalentReference, lexicalTopic, fuseSearchDocuments } from "./search-discovery";
 import { questionRegimeIntent } from "./chat-regime";
 import { getRegimeDocumentIds } from "./regime-documents";
@@ -175,12 +176,12 @@ export async function searchDocuments(
       regimePass,
     ]);
     if (meaningResult.status === "rejected" && (wordsResult.status === "rejected" || !wordsResult.value)) throw new Error("No se pudo recuperar documentos por palabras ni significado.");
-    const result = meaningResult.status === "fulfilled" ? meaningResult.value : { sources: [], semanticaCaida: true, retrieval: { semantic: "unavailable", lexical: "available", catalogue: "available" } };
+    const result = meaningResult.status === "fulfilled" ? meaningResult.value : { sources: [], semanticaCaida: true, retrieval: { semantic: "unavailable", lexical: "available", catalogue: "available", fallos: {} as FallosRecuperacion } };
     const wordDocuments = wordsResult.status === "fulfilled" ? wordsResult.value?.documents ?? [] : [];
     if (wordsResult.status === "rejected") warnings.push("La recuperación documental por palabras falló. Se conservan los resultados por significado.");
     if (!indexScope) warnings.push("El índice de candidatos filtrados no está disponible; se usó el catálogo de compatibilidad.");
     partialRetrieval=Boolean(wordsResult.status === "rejected" || result.semanticaCaida || result.retrieval?.lexical==="unavailable" || result.retrieval?.catalogue==="unavailable");
-    if(result.retrieval?.lexical==="unavailable") warnings.push("La búsqueda por palabras no estuvo disponible. Los resultados por significado pueden ser incompletos.");
+    if(result.retrieval?.lexical==="unavailable") warnings.push(`La búsqueda por palabras no estuvo disponible${result.retrieval?.fallos?.lexical ? ` (${result.retrieval.fallos.lexical.motivo})` : ""}. Los resultados por significado pueden ser incompletos.`);
     if(result.retrieval?.catalogue==="unavailable") warnings.push("No se pudo completar la comprobación de las referencias documentales solicitadas. La recuperación puede ser incompleta.");
     const groups = new Map<string, typeof result.sources>();
     const regimeSources: typeof result.sources = regimeResult.status === "fulfilled" ? regimeResult.value : [];
@@ -219,7 +220,7 @@ export async function searchDocuments(
     );
     if (result.semanticaCaida)
       warnings.push(
-        "La búsqueda por significado no estuvo disponible: se utilizó el respaldo por palabras. No interpretes esta lista como cobertura completa.",
+        `La búsqueda por significado no estuvo disponible${result.retrieval?.fallos?.semantic ? ` (${result.retrieval.fallos.semantic.motivo})` : ""}: se utilizó el respaldo por palabras. No interpretes esta lista como cobertura completa.`,
       );
     if (!indexScope && (
       input.filters.object ||
