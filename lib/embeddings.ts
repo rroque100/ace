@@ -1,4 +1,5 @@
 import { embeddingDimensions, embeddingModel, embeddingProvider, embedWithGoogle, getEmbeddingClient, googleEmbeddingModel } from "./openai-server";
+import { createMemoAsync } from "./memo-async";
 import { exigirCuotaIA, registrarUsoIA } from "./uso-ia";
 import { estimarTokens } from "./uso-ia-medicion";
 
@@ -53,8 +54,11 @@ function cacheSet(text: string, vector: number[], now: number) {
   }
 }
 
+// Solo cubre el cálculo EN CURSO: al terminar, el vector pasa a queryCache (con su propio vencimiento) y los demás lo toman de allí.
+const inflightQueries = createMemoAsync<number[]>({ ttlMs: 60_000, maxEntries: 50, soloEnCurso: true });
+
 /** Vacía la caché (los tests y los cambios de modelo la necesitan limpia). */
-export function clearEmbeddingCache() { queryCache.clear(); cacheStats.hits = 0; cacheStats.misses = 0; }
+export function clearEmbeddingCache() { queryCache.clear(); inflightQueries.clear(); cacheStats.hits = 0; cacheStats.misses = 0; }
 export function embeddingCacheStats() { return { ...cacheStats, size: queryCache.size }; }
 
 /** Calcula un embedding por texto de entrada, en el mismo orden. */
@@ -72,7 +76,11 @@ export async function embedTexts(texts: string[]): Promise<number[][]> {
   });
   if (missing.length === 0) return result;
 
-  const computed = await computeEmbeddings(missing.map((index) => texts[index]));
+  // Una consulta suelta (la búsqueda del chat) que otra recuperación simultánea ya está calculando se espera en vez de
+  // repetirse: la caché de arriba solo ayuda cuando la primera YA terminó, y el chat las lanza todas a la vez.
+  const computed = missing.length === 1 && cacheable(texts[missing[0]])
+    ? [(await inflightQueries.get(cacheKey(texts[missing[0]]), async () => (await computeEmbeddings([texts[missing[0]]]))[0])).slice()]
+    : await computeEmbeddings(missing.map((index) => texts[index]));
   missing.forEach((index, position) => {
     result[index] = computed[position];
     if (cacheable(texts[index])) cacheSet(texts[index].slice(0, 8000), computed[position], now);

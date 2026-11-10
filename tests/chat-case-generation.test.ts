@@ -3,11 +3,12 @@ const mocks = vi.hoisted(() => ({ search: vi.fn(), rest: vi.fn(), userRest: vi.f
 vi.mock("@/lib/pinecone", () => ({ searchTextRecords: mocks.search, rerankWithModel: async () => null }));
 vi.mock("@/lib/openai-server", () => ({ getOpenAIClient: () => ({ responses: { create: mocks.create } }), legalAnswerModel: "test" }));
 vi.mock("@/lib/supabase-server", () => ({ supabaseRest: mocks.rest, supabaseUserRest: mocks.userRest, writeAuditLog: async () => {}, institutionalAuditDetails: (x: unknown) => x }));
-import { answerLegalQuestion, streamLegalAnswer, chatRequestSchema } from "@/lib/legal-chat";
+import { answerLegalQuestion, streamLegalAnswer, chatRequestSchema, clearLexicalCache } from "@/lib/legal-chat";
 const context = { regime: "No determinado", dates: "Fecha pendiente", facts: "Se necesita revisar la admisibilidad del recurso" };
 const auth = { ownerId: "alice", accessToken: "jwt", persist: false };
 beforeEach(() => {
   vi.clearAllMocks();
+  clearLexicalCache();
   mocks.search.mockResolvedValue([{ _id: "vector", _score: 0.95 }]);
   mocks.rest.mockResolvedValue([{
     id: "chunk", document_id: "doc", chunk_index: 0, pinecone_vector_id: "vector", page_start: 2, page_end: 2,
