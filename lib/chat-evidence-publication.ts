@@ -1,4 +1,4 @@
-import { checkedAnswerSections } from "./chat-answer-layout";
+import { checkedAnswerSections, isStructuralClaim } from "./chat-answer-layout";
 import { isCaseQuestion, caseInformationNeeds, isMultiPartQuestion } from "./chat-question-plan";
 import { parseAlternatives, checkedAlternative } from "./chat-alternatives";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
@@ -39,7 +39,11 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
   const kept = claims.filter(claim => review.claims.find(r => r.id === claim.id)?.status === "supported"
     && claim.markers.length && claim.markers.every(n => coherent.has(sources[n - 1]))
     && checkCitationFaithfulness(claim.text, sources).ok);
-  review.omittedCount = review.claims.length ? claims.length - kept.length : 0;
+  // Un encabezado o una frase de enlace sin cita («**Reducción de la garantía**», «El procedimiento es el siguiente:») no afirma nada
+  // que las fuentes deban respaldar: el auditor lo rechaza siempre («no hay información que lo respalde») y, contado como omitido,
+  // convertía en «parcial» casi toda respuesta. Solo cuenta lo que SÍ afirma algo (ver isStructuralClaim).
+  const omitted = claims.filter(claim => !kept.includes(claim) && !isStructuralClaim(claim.text));
+  review.omittedCount = review.claims.length ? omitted.length : 0;
   const alternatives = parseAlternatives(question);
   if (alternatives) {
     const choices = kept.filter(claim => checkedAlternative(claim.text, alternatives));
@@ -56,7 +60,7 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
     kept.splice(kept.indexOf(choice),1); kept.unshift(choice);
   }
   if (kept.length) {
-    review.presentation = kept.length === claims.length && review.reviewStatus === "complete" ? "verified" : "partial";
+    review.presentation = omitted.length === 0 && review.reviewStatus === "complete" ? "verified" : "partial";
     review.documentary = review.presentation === "verified" ? "checked" : "partial";
     const relevantSources = citedSourceNumbers(kept.map(c => c.text).join("\n"));
     const labels = relevantSources.slice(0, 2).map(n => {
