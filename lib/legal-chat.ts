@@ -1864,7 +1864,7 @@ async function prepareLegalAnswer(
   // volumen—, y el Reglamento no entraba aunque la pregunta lo nombrara
   // (medido: «artículo 113 del Reglamento» no recuperaba ningún fragmento suyo).
   // Por eso toda consulta jurídica lleva siempre una pasada tipada al Reglamento.
-  const alwaysScopedTypes = likelyLegal || /reglamento/i.test(contextualQuery) ? ["reglamento"] : [];
+  const alwaysScopedTypes = likelyLegal || /\breglamento\b/i.test(contextualQuery) ? ["reglamento"] : [];
   const scopedTypes = Array.from(new Set([...criticalScopedTypes, ...alwaysScopedTypes]));
   const [searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
     await Promise.all([
