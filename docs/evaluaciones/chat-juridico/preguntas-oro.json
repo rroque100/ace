@@ -909,9 +909,7 @@
           "titleIncludes": "32069",
           "article": "207"
         }
-      ],
-      "intermitente": true,
-      "nota": "Defecto conocido, medido el 2026-11-11: falla 6 de 6 desde que el régimen especial (D.S. 071-2018-PCM) ya no completa las respuestas generales. Antes pasaba solo porque ese decreto traía la frase del descuento: la respuesta salía encabezada por una norma que no aplica. La causa real está en lib/legal-chat.ts (chunkToSource): el extracto se recorta a 1400 caracteres y el fragmento del art. 210 de la 32069 mide 2240, así que «deduciendo dicho monto de las valorizaciones» no llega al modelo ni a la verificación. Con el recorte en 2600 pasó 3 de 3. Queda verde con el PR que amplía el extracto."
+      ]
     },
     {
       "id": "completitud-adelanto-diferencia-y-reajustes",
@@ -944,7 +942,9 @@
           "titleIncludes": "32069",
           "article": "209"
         }
-      ]
+      ],
+      "intermitente": true,
+      "nota": "Intermitente también en main, sin relación con el extracto: medido el 2026-11-11 con el mismo código, falla 3 de 8 veces (la parte de reajustes del art. 209: el modelo a veces responde sin la frase «es potestad del contratista…»). La fuente (art. 209) llega siempre. Queda verde cuando esa parte se conteste de forma estable."
     },
     {
       "id": "completitud-resolucion-procedimiento-y-penalidad-maxima",

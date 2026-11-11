@@ -159,3 +159,15 @@ it("si la persona pide la Reconstrucción con Cambios, su norma sí entra", asyn
   const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cuándo procede la resolución del contrato de obra en la Reconstrucción con Cambios?" }), auth);
   expect(result.sources.some((source) => /071-2018-PCM/.test(source.documentTitle))).toBe(true);
 });
+
+it("el modelo recibe la parte del fragmento donde está la respuesta aunque quede después de los 1 400 caracteres (caso real: art. 210, «deduciendo dicho monto»)", async () => {
+  const frase = "El mayor costo de la supervisión se hace efectivo deduciendo dicho monto de las valorizaciones y de la liquidación del contrato.";
+  const relleno = "Texto de apoyo sobre otros asuntos de la ejecución de la obra y sus condiciones generales. ".repeat(24);
+  mocks.rest.mockResolvedValue([{
+    id: "largo", document_id: "doc", chunk_index: 0, pinecone_vector_id: "vector", page_start: 2, page_end: 2,
+    content: `Artículo 210. Mayor costo de la supervisión. ${relleno} ${frase}`, metadata: { article: "210" },
+    documents: { id: "doc", title: "Acuerdo de Sala Plena", document_type: "acuerdo_sala_plena", source_entity: "OECE", file_name: "acuerdo.pdf", status: "indexed", metadata: { vigencia: "desconocida" } },
+  }]);
+  await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Quién asume el mayor costo de la supervisión y cómo se deduce de las valorizaciones?" }), auth);
+  expect(mocks.create.mock.calls[0][0].input[1].content).toContain("deduciendo dicho monto");
+});
