@@ -153,6 +153,14 @@ Los tests suelen recorrer el catálogo entero (`for (const p of
 PROCESOS_SELECCION)`) en vez de comprobar un caso suelto. Mantén ese estilo: es
 lo que detecta que un proceso nuevo se quedó sin clasificar.
 
+**Banco de oro del chat** — `docs/evaluaciones/chat-juridico/preguntas-oro.json` (66
+casos) se corre contra el pipeline real con `npx tsx --env-file=.env.local
+scripts/evaluar-chat-oro.mts [--grupo completitud]`. Usa servicios de pago y tarda
+~15 min, así que no está en el CI normal: lo corre el workflow `chat-oro.yml` (PR que
+toque el chat, lunes y a mano). Si cambias la recuperación, la selección de fuentes o
+la verificación, córrelo antes de dar el cambio por bueno. `tests/banco-oro-formato.test.ts`
+(sin red) cuida que el fichero esté bien formado.
+
 ## Convenciones de escritura
 
 **Commits** — Conventional Commits con scope, y el asunto describe el **síntoma
