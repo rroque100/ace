@@ -12,6 +12,7 @@ import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
+import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
 import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
@@ -173,6 +174,8 @@ export type LegalSource = {
   evidenceQuality: number;
   matchType: "semantica" | "lexical" | "hibrida";
   excerpt: string;
+  /** Los primeros 1 400 caracteres del fragmento, que es lo que el ranking puntúa (ver rankingText). */
+  rankingExcerpt?: string;
 };
 
 export type SourceAssessment = {
@@ -327,7 +330,7 @@ function sourceSupportsProcess(source: LegalSource, processType?: string | null)
   }
 
   const sourceText = normalizeProcedureText(
-    `${source.documentTitle} ${source.topic ?? ""} ${source.citation} ${source.excerpt}`,
+    `${source.documentTitle} ${source.topic ?? ""} ${source.citation} ${rankingText(source)}`,
   );
 
   const supportsAlias = config.aliases.some((alias) => procedureTextIncludes(sourceText, alias));
@@ -349,6 +352,14 @@ function sourceSupportsProcess(source: LegalSource, processType?: string | null)
   );
 
   return supportsAlias || supportsAnchor || Boolean(supportsRequirementRule) || supportsMatrixRequirement;
+}
+
+// Lo que el ranking puntúa de un fragmento es SIEMPRE el recorte de siempre (los primeros 1 400 caracteres), aunque el modelo vea otra
+// ventana (lib/chat-excerpt.ts). Medido: el puntaje por coincidencia de palabras depende del largo y del contenido del texto; si el
+// extracto que se muestra cambia lo que se puntúa, cambia qué fuentes se eligen (dos copias del art. 210 desplazaron al art. 209).
+// Cambiar lo que VE el modelo no debe cambiar lo que SE ELIGE.
+function rankingText(source: Pick<LegalSource, "excerpt" | "rankingExcerpt">) {
+  return source.rankingExcerpt ?? source.excerpt.slice(0, EXCERPT_LIMIT);
 }
 
 function filterAnswerSources(sources: LegalSource[]) {
@@ -1015,7 +1026,7 @@ function evidenceQualityScore(source: LegalSource, query: string) {
   // nombrar «Ley 30225» sube la coincidencia de palabras de la ley derogada, y sin este ajuste
   // ganaba a los artículos de la vigente.
   const regimeAdjustment = regimeRankAdjustment(regimeIntentFor(query), sourceRegime(source));
-  const lexical = lexicalCoverage(query, `${source.documentTitle} ${source.topic ?? ""} ${source.excerpt}`);
+  const lexical = lexicalCoverage(query, `${source.documentTitle} ${source.topic ?? ""} ${rankingText(source)}`);
   const semantic = Math.min(Math.max(source.semanticScore, source.rerankScore), 1);
 
   return Math.max(
@@ -1123,7 +1134,7 @@ function assessSources(
   const queryTokens = tokenizeEvidenceText(options?.queryUsed ?? "");
   const evidenceText = tokenizeEvidenceText(
     sources
-      .map((source) => `${source.documentTitle} ${source.documentType} ${source.topic ?? ""} ${source.excerpt}`)
+      .map((source) => `${source.documentTitle} ${source.documentType} ${source.topic ?? ""} ${rankingText(source)}`)
       .join(" "),
   );
   const evidenceTokenSet = new Set(evidenceText);
@@ -1342,7 +1353,8 @@ function chunkToSource(
     regimeReviewed: reviewedRegime(documentMetadata) !== "no_determinado",
     evidenceQuality: 0,
     // Sin el marcador interno de página: ni el modelo ni el usuario deben verlo.
-    excerpt: stripPageMarkers(chunk.content).slice(0, 1400),
+    excerpt: relevantExcerpt(stripPageMarkers(chunk.content), options.query),
+    rankingExcerpt: stripPageMarkers(chunk.content).slice(0, EXCERPT_LIMIT),
     fileName: chunk.documents?.file_name ?? "archivo.pdf",
     lexicalScore,
     rerankScore: 0,
@@ -1485,7 +1497,7 @@ export async function searchLegalSources(
   // frente a la consulta. Alimenta el rerank heuristico posterior (jerarquia +
   // articulo) via evidenceQualityScore; si falla, se conserva el orden previo.
   const rerankInputs = Array.from(new Map(combined.map((source) => [source.chunkId, source])).values()).map(
-    (source) => ({ id: source.chunkId, text: `${source.documentTitle} ${source.excerpt}` }),
+    (source) => ({ id: source.chunkId, text: `${source.documentTitle} ${rankingText(source)}` }),
   );
   const reranked = await rerankWithModel(input.query, rerankInputs);
 
