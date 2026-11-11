@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { stripModelSourceList } from "@/lib/chat-answer-layout";
+import { stripModelSourceList, tidyModelPunctuation } from "@/lib/chat-answer-layout";
 import { auditEvidence } from "@/lib/chat-evidence-audit";
 import { publishEvidence } from "@/lib/chat-evidence-publication";
 
@@ -54,5 +54,17 @@ describe("bibliografía que añade el modelo", () => {
     expect(revision.omittedCount).toBe(0);
     expect(publicada).not.toContain("Fuentes Citadas");
     expect(publicada).not.toContain("páginas 18-19");
+  });
+});
+
+describe("puntuación suelta del modelo dentro de una cita (caso real: «(Artículo 113.1;)»)", () => {
+  it("quita el punto y coma o la coma que quedan justo antes de cerrar el paréntesis", () => {
+    expect(tidyModelPunctuation("equivalente al 10% del monto (Artículo 113.1;) [F3]")).toBe("equivalente al 10% del monto (Artículo 113.1) [F3]");
+    expect(tidyModelPunctuation("(Artículo 207.1, ) [F1]")).toBe("(Artículo 207.1) [F1]");
+  });
+
+  it("no toca cifras, referencias ni la puntuación fuera de un cierre de paréntesis", () => {
+    const texto = "Plazo de 10 días (Art. 122.1; numeral a) [F2]; y el 5% (art. 183) [F1].";
+    expect(tidyModelPunctuation(texto)).toBe(texto);
   });
 });

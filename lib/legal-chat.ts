@@ -13,7 +13,7 @@ import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-rece
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
-import { stripModelSourceList } from "./chat-answer-layout";
+import { stripModelSourceList, tidyModelPunctuation } from "./chat-answer-layout";
 import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
@@ -920,7 +920,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   }
   // La bibliografía que a veces añade el modelo no se audita ni se publica: el auditor rechazaba cada línea y la respuesta salía
   // «parcial» siendo completa (ver stripModelSourceList).
-  answer = stripModelSourceList(applySystemConfidence(answer, "baja"));
+  answer = tidyModelPunctuation(stripModelSourceList(applySystemConfidence(answer, "baja")));
   const alternatives = parseAlternatives(input.question);
   if(alternatives && prep.status === "generate") answer=renderAlternativeDraft(answer,alternatives,prep.sources);
   else if(planQuestion(input.question,input.caseContext).tasks.includes("comparison")&&prep.status === "generate")answer=comparisonDraft(answer,prep.sources.length);
