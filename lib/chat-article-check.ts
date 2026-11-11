@@ -88,6 +88,15 @@ export function missingRequestedNorms(question: string, sources: NormSourceLike[
   return requestedNorms(question).filter((norm) => !haystack.some((text) => norm.present.test(text))).map((norm) => norm.label);
 }
 
+/**
+ * Con la norma o el artículo pedido ausente, el encabezado «Según «Reglamento de la Ley N.° 32069…»:» parecía decir que ESA fuente
+ * trata de lo pedido (medido en producción el 2026-11-11 con «¿Qué dice el Decreto Supremo 999-2099-EF?»). Se reescribe para que
+ * se lea como lo que es: lo que sí consta en otras fuentes. Solo toca el encabezado de la respuesta publicada.
+ */
+export function frameAsRelatedSources(answer: string): string {
+  return answer.replace(/^(\*\*(?:Respuesta documental(?: parcial)?|Lectura del documento)\*\*\n)Según /m, "$1Lo que consta en las fuentes recuperadas, según ");
+}
+
 export function missingNormNotice(missing: string[]): string | null {
   if (!missing.length) return null;
   const uno = missing.length === 1;
