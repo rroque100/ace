@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { baseArticle, missingArticleNotice, missingRequestedArticles, requestedArticles } from "@/lib/chat-article-check";
+import { baseArticle, frameAsRelatedSources, missingArticleNotice, missingRequestedArticles, requestedArticles } from "@/lib/chat-article-check";
 
 const fuente = (article: string | null) => ({ article });
 
@@ -52,5 +52,25 @@ describe("artículo pedido que no se recuperó (caso real: «artículo 9999» re
   it("una pregunta sin artículo nunca genera aviso", () => {
     expect(missingRequestedArticles("¿Qué garantía se exige?", [fuente("61")])).toEqual([]);
     expect(missingArticleNotice([])).toBeNull();
+  });
+});
+
+describe("encabezado cuando lo pedido no se recuperó (caso real: «¿Qué dice el Decreto Supremo 999-2099-EF?»)", () => {
+  const publicada = "**Respuesta documental**\nSegún «Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026»:\n\nEl Decreto Supremo N.° 009-2025-EF aprueba el Reglamento [F5]";
+
+  it("«Según «X»:» pasa a decir que es lo que consta en las fuentes recuperadas", () => {
+    const reencuadrada = frameAsRelatedSources(publicada);
+    expect(reencuadrada.startsWith("**Respuesta documental**\nLo que consta en las fuentes recuperadas, según «Reglamento")).toBe(true);
+    expect(reencuadrada).toContain("El Decreto Supremo N.° 009-2025-EF aprueba el Reglamento [F5]");
+  });
+
+  it("también con «parcial» y con la lectura literal", () => {
+    expect(frameAsRelatedSources(publicada.replace("documental**", "documental parcial**"))).toContain("parcial**\nLo que consta en las fuentes recuperadas, según");
+    expect(frameAsRelatedSources("**Lectura del documento**\nSegún Reglamento · artículo 3:\n\n> texto [F1]")).toContain("**Lectura del documento**\nLo que consta en las fuentes recuperadas, según Reglamento");
+  });
+
+  it("no toca un «Según» que no sea el encabezado de la respuesta", () => {
+    const otro = "Texto previo.\nSegún el artículo 3, la norma aplica. [F1]";
+    expect(frameAsRelatedSources(otro)).toBe(otro);
   });
 });

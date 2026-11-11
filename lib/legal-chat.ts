@@ -46,7 +46,7 @@ import { documentReferences, matchesDocumentReference, resolveFollowUp } from ".
 import { isMetaQuestion, metaQuestionAnswer } from "./chat-meta";
 import { esRespuestaFija, MODELO_ACLARACION, MODELO_GUIA } from "./chat-respuesta-fija";
 import { isVagueQuestion, vagueQuestionAnswer } from "./chat-vague";
-import { missingArticleNotice, missingNormNotice, missingRequestedArticles, missingRequestedNorms } from "./chat-article-check";
+import { frameAsRelatedSources, missingArticleNotice, missingNormNotice, missingRequestedArticles, missingRequestedNorms } from "./chat-article-check";
 import { withRetry } from "./retry";
 import { advertenciaRecuperacionParcial, clasificarFalloRecuperacion, detalleParaLog, type FallosRecuperacion } from "./retrieval-failure";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
@@ -939,9 +939,12 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   // Si se pidió un artículo por su número y ninguna fuente lo es, se dice antes que nada (ver chat-article-check.ts).
   // Con un artículo elegido en los filtros no aplica: ahí la fuente es ese artículo por construcción. Vale también
   // para la salida «sin fuentes suficientes» (status final), que es justo donde un pedido inexistente suele acabar.
-  if (!input.filters?.articleId && !input.filters?.article) answer = (missingArticleNotice(missingRequestedArticles(input.question, prep.sources)) ?? "") + answer;
+  const articleNotice = !input.filters?.articleId && !input.filters?.article ? missingArticleNotice(missingRequestedArticles(input.question, prep.sources)) : null;
   // Lo mismo con una norma pedida por su número (decreto, ley) que ninguna fuente recuperada lleva.
-  if (!input.filters?.documentId && (input.filters?.selectedDocumentIds?.length ?? 0) === 0) answer = (missingNormNotice(missingRequestedNorms(input.question, prep.sources)) ?? "") + answer;
+  const normNotice = !input.filters?.documentId && (input.filters?.selectedDocumentIds?.length ?? 0) === 0 ? missingNormNotice(missingRequestedNorms(input.question, prep.sources)) : null;
+  // Con lo pedido ausente, «Según «X»:» se leía como si X tratara de ello: el encabezado pasa a decir lo que es.
+  if (articleNotice || normNotice) answer = frameAsRelatedSources(answer);
+  answer = (normNotice ?? "") + (articleNotice ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
   review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
