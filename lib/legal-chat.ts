@@ -12,6 +12,7 @@ import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
+import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
 import {
@@ -1256,6 +1257,15 @@ async function fetchChunksByVectorIds(vectorIds: string[]) {
   );
 }
 
+// Una pregunta lanza de 5 a 8 recuperaciones y varias llevan la misma consulta (la búsqueda léxica ni mira los filtros): sin
+// esto la base recibía la misma consulta `ilike` hasta 6 veces EN PARALELO. Se pide siempre con el tope más alto que usa algún
+// llamador (50) y cada uno recorta lo suyo, para que consultas con topK distinto compartan el cálculo. 60 s: la biblioteca no
+// cambia en ese plazo de forma que importe a una conversación, y un fallo no se recuerda (ver lib/memo-async.ts).
+const LEXICAL_FETCH_LIMIT = 50;
+const lexicalMemo = createMemoAsync<DocumentChunk[]>({ ttlMs: 60_000, maxEntries: 200 });
+/** Vacía la memoria de búsquedas léxicas (los tests la necesitan limpia entre casos). */
+export function clearLexicalCache() { lexicalMemo.clear(); }
+
 async function searchLexicalChunks(query: string, limit: number) {
   const tokens = uniqueTokens(tokenizeEvidenceText(query));
 
@@ -1265,21 +1275,24 @@ async function searchLexicalChunks(query: string, limit: number) {
 
   const select =
     "documents.es_institucional=eq.true&documents.status=eq.indexed&select=id,document_id,chunk_index,content,metadata,page_start,page_end,pinecone_vector_id,documents!inner(id,title,document_type,source_entity,file_name,status,metadata)";
-  const search = (filter: string) => supabaseRest<DocumentChunk[]>(`document_chunks?${filter}&${select}&limit=${limit}`);
+  const search = (filter: string) => supabaseRest<DocumentChunk[]>(`document_chunks?${filter}&${select}&limit=${LEXICAL_FETCH_LIMIT}`);
 
   // De lo más exigente (AND de las palabras específicas) a lo más amplio (OR).
   // El OR sobre 8 palabras sin orden devolvía las primeras filas físicas de la
   // tabla (la Ley 27444) y dejaba fuera al Reglamento. Ver lib/chat-lexical.ts.
   // Un paso que falla (el OR agotando el statement_timeout) ya no descarta lo que los AND anteriores encontraron: se registra
   // en el log y se sigue; solo si TODOS fallan la vía cuenta como caída (ver runLexicalPlan).
-  return runLexicalPlan(
-    lexicalPlan(tokens),
-    (step) => search(lexicalFilter(step.tokens, step.mode)),
-    {
-      limit,
-      alFallar: (error, step) => console.error(`${detalleParaLog("lexical", error)} (paso ${step.mode.toUpperCase()} de ${step.tokens.length} palabras)`),
-    },
+  const found = await lexicalMemo.get(tokens.join(" "), () =>
+    runLexicalPlan(
+      lexicalPlan(tokens),
+      (step) => search(lexicalFilter(step.tokens, step.mode)),
+      {
+        limit: LEXICAL_FETCH_LIMIT,
+        alFallar: (error, step) => console.error(`${detalleParaLog("lexical", error)} (paso ${step.mode.toUpperCase()} de ${step.tokens.length} palabras)`),
+      },
+    ),
   );
+  return found.slice(0, limit);
 }
 
 function chunkToSource(

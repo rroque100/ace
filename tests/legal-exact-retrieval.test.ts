@@ -2,11 +2,11 @@ import { beforeEach, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({ rest: vi.fn(), search: vi.fn() }));
 vi.mock("@/lib/pinecone", () => ({ searchTextRecords: mocks.search, rerankWithModel: async () => null }));
 vi.mock("@/lib/supabase-server", () => ({ supabaseRest: mocks.rest, supabaseUserRest: async () => [], writeAuditLog: async () => {}, institutionalAuditDetails: (x: unknown) => x }));
-import { searchLegalSources } from "@/lib/legal-chat";
+import { clearLexicalCache, searchLegalSources } from "@/lib/legal-chat";
 const query = "Acuerdo de Sala Plena N.° 003-2025/TCP admisibilidad";
 const original = { id: "original", title: "Acuerdo de Sala Plena 003-2025/TCP", document_type: "acuerdo_sala_plena", metadata: { number: "003-2025/TCP", pageCount: 4 } };
 const chunk = (id: string, originalDocument = false) => ({ id, document_id: originalDocument ? "original" : "other", chunk_index: 0, content: "Admisibilidad del recurso de apelación. Acuerdo de Sala Plena 003-2025/TCP. ".repeat(10), metadata: {}, page_start: 2, page_end: 2, pinecone_vector_id: id, documents: originalDocument ? { ...original, status: "indexed", file_name: "a.pdf", source_entity: "TCP" } : { id: "other", title: "Resolución 7395-2025/TCP", document_type: "resolucion", metadata: {}, status: "indexed", file_name: "r.pdf", source_entity: "TCP" } });
-beforeEach(() => { vi.clearAllMocks(); mocks.search.mockResolvedValue([]); });
+beforeEach(() => { vi.clearAllMocks(); clearLexicalCache(); mocks.search.mockResolvedValue([]); });
 it("antepone el original aunque otra resolución mencione su identificador", async () => {
   mocks.rest.mockImplementation(async (path: string) => path.startsWith("documents?") ? [original] : path.includes("document_id=in.") ? [chunk("exact", true)] : [chunk("related")]);
   const result = await searchLegalSources({ query, topK: 5 });
@@ -30,6 +30,14 @@ it("distingue fallo del catálogo de ausencia del original", async () => {
 it("no presenta un fallo total de recuperación como búsqueda sin coincidencias", async () => {
   mocks.rest.mockRejectedValue(new Error("offline")); mocks.search.mockRejectedValue(new Error("offline"));
   await expect(searchLegalSources({ query, topK: 5 })).rejects.toThrow("recuperación documental no está disponible");
+});
+it("la misma consulta lanzada en paralelo consulta la base por palabras una sola vez, sea cual sea el topK", async () => {
+  mocks.rest.mockImplementation(async (path: string) => path.startsWith("documents?") ? [] : [chunk("lex")]);
+  await Promise.all([1, 2, 3, 4].map((n) => searchLegalSources({ query: "garantia de fiel cumplimiento porcentaje", topK: 3 * n })));
+  const lexicas = mocks.rest.mock.calls.map(([path]) => String(path)).filter((path) => path.includes("content.ilike"));
+  expect(lexicas.length).toBeGreaterThan(0);
+  // Sin memoria serían 4 veces cada paso del plan: aquí cada filtro aparece una sola vez.
+  expect(new Set(lexicas).size).toBe(lexicas.length);
 });
 it("respeta el documento elegido aunque exista otro original en el catálogo", async () => {
   mocks.rest.mockImplementation(async (path: string) => path.startsWith("documents?") ? [original] : path.includes("document_id=in.") ? [chunk("exact", true)] : [chunk("related")]);
