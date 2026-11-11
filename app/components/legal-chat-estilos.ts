@@ -20,6 +20,7 @@ export const S = {
   chatEmptyExamples: "[&>p]:mt-0 [&>p]:mb-[9px] [&>p]:mx-0 [&>p]:text-muted [&>p]:text-[12.5px] [&>p]:font-bold",
   chatEmptyIcon: "grid [place-items:center] [background:linear-gradient(145deg,_var(--brand),_var(--brand-dark))] w-13 h-13 rounded-2xl bg-brand-soft text-brand shadow-none",
   chatEmptyIntro: "p-4.5 rounded-[12px] bg-panel [&_svg]:text-brand grid justify-items-center text-center max-w-[570px] gap-3.5 [&_span]:max-w-[560px] [&_strong]:text-ink [&_span]:text-[16px] [&_span]:leading-[1.65] [&_span]:text-muted [&_strong]:text-[27px] [&_strong]:leading-9 [&_strong]:tracking-tight [@container(max-width:_720px)]:[&_strong]:text-[23px] [@container(max-width:_720px)]:[&_strong]:leading-8",
+  chatEmptyPromise: "flex items-start gap-2 text-left text-[12.5px] leading-5 text-muted [&_svg]:mt-0.5 [&_svg]:shrink-0",
   chatEmptyRedesign: "my-0 mx-auto max-w-[760px]! grid px-0 min-h-0 gap-6 py-6",
   chatEvidenceRule: "mb-0 hidden",
   chatMainColumn: "min-w-0 overflow-visible rounded-2xl border border-line bg-panel shadow-card",

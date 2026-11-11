@@ -4,6 +4,7 @@ import {ResponseAiBadge} from "./response-ai-badge";
 import { buttonClasses } from "@/app/components/ui/button";
 import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
 import {conversationUrl} from "@/lib/chat-continuity";
+import { COBERTURA_CHAT, EJEMPLOS_CHAT, PROMESA_SIN_RESPALDO } from "@/lib/chat-meta";
 import { esRespuestaFija } from "@/lib/chat-respuesta-fija";
 import {useChatContinuity} from "./use-chat-continuity";
 import {ChatWorkNote} from "./chat-work-note";
@@ -174,12 +175,6 @@ const lengthOptions = [
   { hint: "Equilibrada: directa + explicación útil.", label: "Media", value: "media" },
   { hint: "Desarrollo a fondo: contexto, condiciones y práctica.", label: "Detallada", value: "detallada" },
 ] as const;
-
-const exampleQuestions = [
-  "¿Cuáles son los requisitos para una compra por comparación de precios?",
-  "¿Cómo revisar si están bien hechas las especificaciones técnicas de subasta inversa electrónica?",
-  "¿Qué garantías y cláusulas obligatorias debe incluir un contrato?",
-];
 
 function followUpsFor(message:ConversationMessage){return contextualFollowups(message);}
 
@@ -1352,14 +1347,20 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               </div>
               <strong>¿Qué necesitas resolver?</strong>
               <span>
-                Cuéntame tu duda sobre contrataciones públicas. Puedes empezar con una pregunta o adjuntar un documento de tu caso.
+                Cuéntame tu duda sobre contrataciones públicas: respondo con {COBERTURA_CHAT}, y te muestro la norma en la que se apoya cada respuesta.
               </span>
+              {/* La promesa de no inventar solo la veía quien escribía «hola»: es lo que distingue a este
+                  asistente, así que va donde se decide si preguntar o no. */}
+              <small className={S.chatEmptyPromise}>
+                <ShieldCheck size={15} aria-hidden="true" />
+                {PROMESA_SIN_RESPALDO}
+              </small>
             </div>
 
             <div className={S.chatEmptyExamples}>
-              <p>¿No sabes cómo empezar?</p>
+              <p>Prueba una de estas · cada una usa algo distinto de lo que sé hacer</p>
               <div className={S.exampleCards}>
-                {exampleQuestions.map((item) => (
+                {EJEMPLOS_CHAT.map((item) => (
                   <button key={item} onClick={() => { setQuestion(item); composerRef.current?.focus(); }} type="button">
                     {item}
                   </button>
