@@ -9,6 +9,30 @@ export type LayoutClaim = { id: number; text: string; markers: number[] };
  * pasaje «respalda» un título, y contados como omitidos volvían «parcial» una respuesta completa (medido en producción el
  * 2026-11-11: las tres preguntas compuestas salían «parcial» por un encabezado). Nunca lo es lo que lleva una cita [F#]: eso afirma.
  */
+const SOURCE_LIST_HEADING = /^(?:#{1,6}\s*)?(?:\*\*)?\s*(?:fuentes(?:\s+(?:citadas|consultadas|utilizadas|recuperadas|normativas))?|referencias(?:\s+normativas)?|bibliograf[ií]a|documentos\s+(?:citados|consultados))\s*:?\s*(?:\*\*)?\s*:?\s*$/i;
+const MARKER_ONLY_LINE = /^\s*(?:[-*•]|\d+[.)])?\s*(?:\[F\d+\][\s,;]*)+$/;
+const SOURCE_DESCRIPTION_LINE = /\b(?:art[ií]culo|p[aá]gina|ley|reglamento|decreto|directiva|opini[oó]n|resoluci[oó]n|acuerdo|n\.?\s*°)/i;
+
+/**
+ * Quita la bibliografía que el modelo añade a veces al final («**Fuentes Citadas:**», «* [F1]», «Ley…, Artículo 61, páginas
+ * 18-19.»). No afirma nada que comprobar, así que el auditor rechazaba cada línea y la respuesta salía «parcial» con «se omitieron
+ * 10 afirmaciones» siendo completa (medido el 2026-11-11: 2 de 14 corridas de una misma pregunta). Tampoco se publicaba: la
+ * interfaz ya pone su propia lista «Documentos y páginas citados», con páginas comprobadas en lugar de las que escribe el modelo.
+ * Conservadora: solo corta si DESPUÉS del título todo son marcadores o descripciones de fuentes; con prosa detrás no toca nada.
+ */
+export function stripModelSourceList(answer: string) {
+  const lines = answer.split("\n");
+  for (let index = lines.length - 1; index >= 0; index--) {
+    if (!SOURCE_LIST_HEADING.test(lines[index].trim())) continue;
+    const rest = lines.slice(index + 1).map((line) => line.trim()).filter(Boolean);
+    // Una descripción de fuente es una sola línea corta que nombra la norma; si trae otra frase («…. La garantía…») ya es prosa.
+    const isSourceDescription = (line: string) => line.length <= 300 && SOURCE_DESCRIPTION_LINE.test(line) && !/[.;:]\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]/.test(line);
+    const onlySources = rest.length > 0 && rest.every((line) => MARKER_ONLY_LINE.test(line) || isSourceDescription(line));
+    return onlySources ? lines.slice(0, index).join("\n").trimEnd() : answer;
+  }
+  return answer;
+}
+
 export function isStructuralClaim(text: string) {
   const claim = text.trim();
   if (!claim || /\[F\d/.test(claim)) return false;

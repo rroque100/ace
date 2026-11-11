@@ -13,6 +13,7 @@ import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-rece
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
+import { stripModelSourceList } from "./chat-answer-layout";
 import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
@@ -917,7 +918,9 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     prep.assessment.evidenceWarnings = [];
     return { answer, review };
   }
-  answer = applySystemConfidence(answer, "baja");
+  // La bibliografía que a veces añade el modelo no se audita ni se publica: el auditor rechazaba cada línea y la respuesta salía
+  // «parcial» siendo completa (ver stripModelSourceList).
+  answer = stripModelSourceList(applySystemConfidence(answer, "baja"));
   const alternatives = parseAlternatives(input.question);
   if(alternatives && prep.status === "generate") answer=renderAlternativeDraft(answer,alternatives,prep.sources);
   else if(planQuestion(input.question,input.caseContext).tasks.includes("comparison")&&prep.status === "generate")answer=comparisonDraft(answer,prep.sources.length);
@@ -1894,7 +1897,7 @@ async function prepareLegalAnswer(
   // volumen—, y el Reglamento no entraba aunque la pregunta lo nombrara
   // (medido: «artículo 113 del Reglamento» no recuperaba ningún fragmento suyo).
   // Por eso toda consulta jurídica lleva siempre una pasada tipada al Reglamento.
-  const alwaysScopedTypes = likelyLegal || /reglamento/i.test(contextualQuery) ? ["reglamento"] : [];
+  const alwaysScopedTypes = likelyLegal || /\breglamento\b/i.test(contextualQuery) ? ["reglamento"] : [];
   const scopedTypes = Array.from(new Set([...criticalScopedTypes, ...alwaysScopedTypes]));
   const [searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
     await Promise.all([
@@ -2157,7 +2160,7 @@ Reglas anti-invencion (CRITICAS, materia legal):
 - AUTO-CHEQUEO OBLIGATORIO antes de escribir cualquier porcentaje (%), monto (S/), valor en UIT o plazo: localiza ese token EXACTO dentro del texto de la Fuente [F#] que vas a citar. Si no puedes copiarlo literalmente de ese fragmento, NO lo escribas: omite la cifra y describe la regla en palabras. Esto aplica especialmente a penalidades, garantias, adelantos y umbrales de competencia, donde la tentacion de poner el valor "de memoria" es alta.
 
 ${adaptiveAnswerInstruction(input.question,input.caseContext)}
-- El sistema añadirá ubicaciones y avisos; no generes apartados de confianza ni Verificación y límites.
+- El sistema añadirá ubicaciones y avisos; no generes apartados de confianza ni Verificación y límites, ni una lista final de fuentes (el sistema pone la suya con las páginas comprobadas).
 
 No escribas el nivel de confianza; el sistema lo agregara despues con una evaluacion independiente.`,
         role: "user",
