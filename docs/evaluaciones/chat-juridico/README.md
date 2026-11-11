@@ -37,6 +37,7 @@ Cómo escribir una parte:
 - **Los términos deben distinguirla.** Que «10%» aparezca en la respuesta no prueba que se contestó el tope de penalidades: el 10% también es el plazo de requerimiento del art. 122. Usa la frase de la norma («del monto vigente», «exceder el 10%»).
 - **Todo término sale del corpus**, no de memoria: busca la frase en `document_chunks` (Reglamento de la Ley 32069) antes de fijarla. Cada parte cita el artículo en su `nombre`.
 - Una pregunta de una sola parte no es de completitud (lo comprueba `tests/banco-oro-formato.test.ts`).
+- **La parte tiene que estar a la vista**, no solo en el texto completo: la interfaz pliega todo salvo el primer bloque bajo «Ver fundamento y fuentes», y una segunda respuesta escondida ahí es, para quien pregunta, una respuesta a medias (medido en producción el 2026-11-11). El script lo comprueba con `chatAnswerSections(...).main` y marca «está, pero plegada». En una pregunta de varias partes (`isMultiPartQuestion`) lo verificado se publica a la vista.
 
 Un caso que documenta un defecto conocido se marca `intermitente: true` y lleva una `nota` con la causa y lo que lo dejaría verde; sale como AVISO y no bloquea. Hoy hay dos: `comparar-plazos` y `completitud-resolucion-y-penalidad-redaccion-de-produccion` (el D.S. 071-2018-PCM, régimen especial de Reconstrucción con Cambios, encabeza la respuesta). Al corregir la causa, se quita `intermitente`.
 

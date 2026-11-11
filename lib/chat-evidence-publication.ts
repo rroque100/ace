@@ -1,5 +1,5 @@
 import { checkedAnswerSections } from "./chat-answer-layout";
-import { isCaseQuestion, caseInformationNeeds } from "./chat-question-plan";
+import { isCaseQuestion, caseInformationNeeds, isMultiPartQuestion } from "./chat-question-plan";
 import { parseAlternatives, checkedAlternative } from "./chat-alternatives";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
 import { checkedSourcePages, citedSourceNumbers } from "./chat-source-locations";
@@ -69,7 +69,8 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
     const titles = [...new Set(kept[0].markers.map(n => sources[n - 1].documentTitle))];
     const frame = `Según ${titles.map(title => `«${title}»`).join(" y ")}:`;
     if(!alternatives) {
-      const body=checkedAnswerSections(answer,new Set(kept.map(claim=>claim.id)));
+      // En una pregunta de varias partes el resto de lo verificado es la otra respuesta, no una elaboración: no se pliega.
+      const body=checkedAnswerSections(answer,new Set(kept.map(claim=>claim.id)),{everything:isMultiPartQuestion(question,context)});
       return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${body.main}\n\n**Disposición y fuente**\n${labels.join("\n\n")}${body.detail ? `\n\n**Desarrollo comprobado**\n${body.detail}` : ""}`;
     }
     return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${clean(kept[0].text)}\n\n**Disposición y fuente**\n${labels[0]}${kept.length > 1 ? `\n\n**Desarrollo comprobado**\n${kept.slice(1).map(c => clean(c.text)).join("\n\n")}` : ""}`;

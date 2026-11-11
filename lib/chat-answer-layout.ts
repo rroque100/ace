@@ -55,8 +55,10 @@ export function renderCheckedAnswer(answer:string,allowed:Set<number>) {
  return output.join("\n\n");
 }
 
-export function checkedAnswerSections(answer:string,allowed:Set<number>) {
+/** `everything`: todo lo verificado queda en `main` (pregunta de varias partes: ver isMultiPartQuestion). */
+export function checkedAnswerSections(answer:string,allowed:Set<number>,options:{everything?:boolean}={}) {
  const blocks=renderCheckedAnswer(answer,allowed).split("\n\n").filter(Boolean);
+ if(options.everything)return {main:blocks.join("\n\n"),detail:""};
  let count=blocks[0]?.startsWith("**")&&blocks[0].endsWith("**")?2:1;
  if(/^\s*(?:[-*]|\d+[.)])\s/.test(blocks[count-1]??""))while(count<blocks.length&&/^\s*(?:[-*]|\d+[.)])\s/.test(blocks[count]))count++;
  return {main:blocks.slice(0,count).join("\n\n"),detail:blocks.slice(count).join("\n\n")};

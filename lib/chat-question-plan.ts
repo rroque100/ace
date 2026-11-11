@@ -40,3 +40,19 @@ export function caseInformationNeeds(question:string,context?:CaseContext) {
   absent(context?.object)&&! /\b(?:bienes|servicios|obras|consultoria)\b/.test(text)&&(plan.tasks.includes("requirements")||plan.tasks.includes("numeric"))&&"objeto contractual",
   absent(context?.facts)&&/aplica|corresponde|procede|valido|puedo|debo/.test(text)&&"hechos del caso"].filter(Boolean) as string[];
 }
+
+/**
+ * ¿La pregunta pide varias cosas a la vez? («¿qué porcentaje debe tener la garantía y cuándo puede reducirse?»,
+ * «¿quién asume el costo y qué debe ordenar el supervisor?»). Dos señales: más de una pregunta escrita, o una
+ * coordinación («y», «e») seguida de otra interrogación o de un verbo que abre otra cláusula.
+ *
+ * Existe porque la respuesta publicada pone el primer bloque a la vista y pliega el resto bajo «Ver fundamento y fuentes»:
+ * en una pregunta de una sola parte ese resto es elaboración, pero en una compuesta es LA SEGUNDA RESPUESTA, y quedaba escondida
+ * (medido en producción el 2026-11-11: garantía y reducción en obras, supervisión y programa acelerado). Conservadora a
+ * propósito: «¿qué plazos y condiciones tiene…?» NO es compuesta; un falso positivo solo muestra más texto verificado.
+ */
+export function isMultiPartQuestion(question:string,context?:CaseContext) {
+ if(planQuestion(question,context).subqueries.length>1)return true;
+ const text=question.toLowerCase();
+ return /\b(?:y|e)\s+(?:cu[aá]ndo|cu[aá]l(?:es)?|c[oó]mo|qu[eé]|qui[eé]n(?:es)?|d[oó]nde|cu[aá]nt[oa]s?|en qu[eé]|por qu[eé]|puede[n]?|debe[n]?|procede[n]?|corresponde[n]?|existe[n]?|hay|es posible)(?![a-záéíóúñ])/.test(text);
+}

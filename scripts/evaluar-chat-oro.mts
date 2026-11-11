@@ -14,6 +14,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { answerLegalQuestion, chatRequestSchema } from "@/lib/legal-chat";
 import { checkCitationFaithfulness } from "@/lib/citation-faithfulness";
+import { chatAnswerSections } from "@/lib/chat-review-presentation";
 import { detectGroundingViolations, groundingTexts } from "@/lib/eval-grounding";
 import { caseSearchQuery } from "@/lib/chat-case-context";
 import { resolveFollowUp } from "@/lib/legal-document-reference";
@@ -71,11 +72,15 @@ for (const caso of elegidos) {
     respuesta = resultado.answer;
     nFuentes = resultado.sources.length;
     const texto = plano(respuesta);
+    // Lo que la interfaz muestra SIN abrir «Ver fundamento y fuentes»: una parte que solo está en lo plegado cuenta como no contestada.
+    const visible = plano(chatAnswerSections(respuesta, resultado.assessment.evidenceReview).main);
     for (const frase of caso.contiene ?? []) if (!texto.includes(plano(frase))) fallos.push(`Falta «${frase}».`);
     if (caso.contieneAlguno?.length && !caso.contieneAlguno.some((frase) => texto.includes(plano(frase)))) fallos.push(`No contiene ninguna de: ${caso.contieneAlguno.map((f) => `«${f}»`).join(", ")}.`);
     for (const parte of caso.partes ?? []) {
-      if (parte.contieneAlguno.some((frase) => texto.includes(plano(frase)))) partesCubiertas += 1;
-      else fallos.push(`Falta contestar la parte «${parte.nombre}» (ninguno de: ${parte.contieneAlguno.map((f) => `«${f}»`).join(", ")}).`);
+      const terminos = parte.contieneAlguno.map((f) => `«${f}»`).join(", ");
+      if (!parte.contieneAlguno.some((frase) => texto.includes(plano(frase)))) fallos.push(`Falta contestar la parte «${parte.nombre}» (ninguno de: ${terminos}).`);
+      else if (!parte.contieneAlguno.some((frase) => visible.includes(plano(frase)))) fallos.push(`La parte «${parte.nombre}» está, pero plegada en «Ver fundamento y fuentes» (ninguno de ${terminos} a la vista).`);
+      else partesCubiertas += 1;
     }
     for (const frase of caso.noContiene ?? []) if (texto.includes(plano(frase))) fallos.push(`Contiene «${frase}».`);
     for (const esperada of caso.fuentes ?? []) if (!resultado.sources.some((fuente) => coincide(fuente, esperada))) fallos.push(`Falta la fuente ${JSON.stringify(esperada)}.`);
