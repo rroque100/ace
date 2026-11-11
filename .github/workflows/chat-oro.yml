@@ -1,0 +1,130 @@
+name: Chat - banco de oro
+
+# Corre el banco de preguntas de oro (scripts/evaluar-chat-oro.mts) contra el pipeline REAL del chat: recuperación, modelo y
+# verificación de citas. Comprueba conducta (qué ley rige, qué fuentes entran, cuándo pide contexto, que no invente y, en el grupo
+# «completitud», que conteste todas las partes de una pregunta compuesta). No mide exactitud jurídica; ver
+# docs/evaluaciones/chat-juridico/README.md.
+#
+# Por qué es un workflow aparte de CI y no un paso más:
+#  - Llama a servicios de pago (Gemini, embeddings) y a la biblioteca de producción: ~66 preguntas, 13-15 minutos. No se puede
+#    correr en cada push.
+#  - Depende del modelo y del corpus, no solo del código, así que también corre por calendario: un cambio de modelo o de
+#    documentos puede romper el chat sin que nadie toque el repositorio.
+#
+# Cuándo corre:
+#  - En un PR hacia main solo si toca algo que afecta a las respuestas (ver `paths`).
+#  - Cada lunes (detecta cambios de modelo o de corpus).
+#  - A mano, con un grupo opcional para probar solo una parte.
+#
+# Necesita estos secretos del repositorio: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, PINECONE_API_KEY y GOOGLE_API_KEY
+# (COHERE_API_KEY es opcional: sin ella el reranker queda desactivado, como en una máquina sin la clave). Sin ellos, en un PR el
+# trabajo avisa y se omite (los PR desde forks no reciben secretos); en el calendario y a mano FALLA, para que no parezca que todo
+# va bien cuando en realidad no se comprobó nada.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/legal-chat.ts'
+      - 'lib/chat-*.ts'
+      - 'lib/citation-faithfulness.ts'
+      - 'lib/eval-grounding.ts'
+      - 'lib/legal-document-reference.ts'
+      - 'lib/regime-documents.ts'
+      - 'lib/retrieval-failure.ts'
+      - 'lib/memo-async.ts'
+      - 'lib/pinecone.ts'
+      - 'lib/embeddings.ts'
+      - 'lib/openai-server.ts'
+      - 'scripts/evaluar-chat-oro.mts'
+      - 'docs/evaluaciones/chat-juridico/preguntas-oro.json'
+      - '.github/workflows/chat-oro.yml'
+  schedule:
+    - cron: '0 12 * * 1'
+  workflow_dispatch:
+    inputs:
+      grupo:
+        description: 'Solo un grupo (p. ej. completitud). Vacío = todos'
+        required: false
+        default: ''
+
+# Un PR nuevo cancela la corrida anterior del mismo PR: gastan modelo y no sirven de nada.
+concurrency:
+  group: chat-oro-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  oro:
+    name: Banco de oro
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+      GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+      # Lo que no es secreto replica la configuración de producción: el índice y el espacio de nombres tienen que ser los que
+      # llenó el proveedor de embeddings activo, porque los vectores de proveedores distintos no son intercambiables.
+      EMBEDDING_PROVIDER: google
+      GEMINI_MODEL: gemini-2.5-flash
+      OPENAI_EMBEDDING_DIMENSIONS: '1536'
+      PINECONE_INDEX_NAME: ace-openai
+      PINECONE_NAMESPACE: legal-documents-gemini
+      RERANK_ENABLED: 'true'
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+    steps:
+      - name: Comprobar secretos
+        id: secretos
+        run: |
+          faltan=""
+          for nombre in NEXT_PUBLIC_SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY PINECONE_API_KEY GOOGLE_API_KEY; do
+            if [ -z "${!nombre}" ]; then faltan="$faltan $nombre"; fi
+          done
+          if [ -z "$faltan" ]; then echo "listos=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "listos=false" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "::warning title=Banco de oro omitido::Faltan secretos ($faltan ). Los PR desde forks no los reciben; en el repositorio, añádelos en Settings > Secrets."
+            exit 0
+          fi
+          echo "::error title=Banco de oro sin ejecutar::Faltan secretos ($faltan ). No se comprobó nada."
+          exit 1
+
+      - uses: actions/checkout@v4
+        if: steps.secretos.outputs.listos == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.secretos.outputs.listos == 'true'
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        if: steps.secretos.outputs.listos == 'true'
+        run: npm ci --legacy-peer-deps
+
+      - name: Correr el banco
+        if: steps.secretos.outputs.listos == 'true'
+        env:
+          GRUPO: ${{ github.event.inputs.grupo }}
+        # tsx no es dependencia del proyecto: se fija la versión para que el resultado no cambie por un cambio ajeno.
+        # El script sale con código 1 si falla un caso que no es «intermitente»; los intermitentes solo avisan.
+        run: |
+          mkdir -p informe
+          if [ -n "$GRUPO" ]; then
+            npx --yes tsx@4.23.15 scripts/evaluar-chat-oro.mts --grupo "$GRUPO" --salida informe/oro.json
+          else
+            npx --yes tsx@4.23.15 scripts/evaluar-chat-oro.mts --salida informe/oro.json
+          fi
+
+      - name: Guardar el informe
+        if: always() && steps.secretos.outputs.listos == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-banco-oro
+          path: informe/oro.json
+          if-no-files-found: ignore
+          retention-days: 30

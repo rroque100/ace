@@ -1,5 +1,5 @@
 {
-  "_lee": "Banco de regresión del chat jurídico. Cada caso fija lo que la respuesta DEBE cumplir (no un texto exacto: el modelo varía). Se ejecuta con `npx tsx --env-file=.env.local scripts/evaluar-chat-oro.mts`. Las expectativas se basan en conducta comprobable (qué ley rige por fecha, qué fuentes entran, cuándo se pide contexto), no en datos jurídicos que el corpus no confirme. 'contiene' = todos; 'contieneAlguno' = al menos uno; comparaciones sin tildes ni mayúsculas. Los casos con `historial` prueban seguimientos (turnos previos del usuario y del asistente). `intermitente: true` marca un caso que acierta unas veces y otras no: se informa como AVISO y no hace fallar la ejecución.",
+  "_lee": "Banco de regresión del chat jurídico. Cada caso fija lo que la respuesta DEBE cumplir (no un texto exacto: el modelo varía). Se ejecuta con `npx tsx --env-file=.env.local scripts/evaluar-chat-oro.mts`. Las expectativas se basan en conducta comprobable (qué ley rige por fecha, qué fuentes entran, cuándo se pide contexto), no en datos jurídicos que el corpus no confirme. 'contiene' = todos; 'contieneAlguno' = al menos uno; comparaciones sin tildes ni mayúsculas. Los casos con `historial` prueban seguimientos (turnos previos del usuario y del asistente). `intermitente: true` marca un caso que acierta unas veces y otras no: se informa como AVISO y no hace fallar la ejecución. `partes` (solo en el grupo completitud) = lista de {nombre, contieneAlguno}: una pregunta con varias partes debe contestarlas todas; cada parte se da por contestada si aparece alguno de sus términos. Un caso `intermitente` lleva siempre una `nota` con la causa y lo que lo dejaría verde. Ver README.md.",
   "casos": [
     {
       "id": "fecha-junio-2026",
@@ -506,7 +506,8 @@
         "32069",
         "|"
       ],
-      "intermitente": true
+      "intermitente": true,
+      "nota": "Intermitente: la tabla comparativa depende de que se recupere el Reglamento de cada régimen para los plazos de pago. Medido el 2026-11-11 en main: la revisión descartó la afirmación sin respaldo, el chat avisó «Faltan fuentes críticas: Reglamento vigente» y mostró solo el art. 3.1 de la Ley 32069 (aplicabilidad, sin relación con plazos). Queda verde cuando la recuperación traiga los artículos de plazos de pago de ambos reglamentos."
     },
     {
       "id": "comparar-impedimentos",
@@ -777,6 +778,264 @@
       "noContiene": [
         "Necesito un poco más de contexto"
       ]
+    },
+    {
+      "id": "completitud-garantia-porcentaje-y-reduccion",
+      "grupo": "completitud",
+      "pregunta": "¿Qué porcentaje del monto del contrato debe tener la garantía de fiel cumplimiento y cuándo puede reducirse en un contrato de obra?",
+      "partes": [
+        {
+          "nombre": "porcentaje de la garantía (Reglamento art. 113.1)",
+          "contieneAlguno": [
+            "10%",
+            "10 %",
+            "diez por ciento"
+          ]
+        },
+        {
+          "nombre": "reducción en obras desde la recepción (art. 183)",
+          "contieneAlguno": [
+            "recepción de la obra"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "113"
+        },
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "183"
+        }
+      ]
+    },
+    {
+      "id": "completitud-penalidad-tope-y-calculo-mora",
+      "grupo": "completitud",
+      "pregunta": "¿Cuál es el tope de las penalidades en un contrato y cómo se calcula la penalidad diaria por mora en una obra con plazo de ejecución mayor a ciento veinte días?",
+      "partes": [
+        {
+          "nombre": "tope de la suma de penalidades (art. 119.2)",
+          "contieneAlguno": [
+            "del monto vigente",
+            "10% del monto",
+            "exceder el 10%",
+            "excede el 10%",
+            "exceda el 10%",
+            "supere el 10%"
+          ]
+        },
+        {
+          "nombre": "fórmula y factor F de la mora en obras (art. 120.1)",
+          "contieneAlguno": [
+            "0.15",
+            "0,15"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "119"
+        },
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "120"
+        }
+      ]
+    },
+    {
+      "id": "completitud-informe-expediente-objetivo-y-plazo",
+      "grupo": "completitud",
+      "pregunta": "En un contrato de obra bajo el sistema de entrega de solo construcción, ¿cuál es el objetivo del informe técnico de revisión del expediente técnico y en qué plazo debe pronunciarse la entidad contratante?",
+      "partes": [
+        {
+          "nombre": "objetivo del informe (art. 171)",
+          "contieneAlguno": [
+            "deficiencias",
+            "omisiones"
+          ]
+        },
+        {
+          "nombre": "plazo de pronunciamiento de la entidad (art. 171)",
+          "contieneAlguno": [
+            "diez días",
+            "10 días"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "171"
+        }
+      ]
+    },
+    {
+      "id": "completitud-supervision-costo-y-programa-acelerado",
+      "grupo": "completitud",
+      "pregunta": "Si una obra se atrasa por causas imputables al contratista, ¿quién asume el mayor costo de la extensión de la supervisión y qué debe ordenar el supervisor cuando la valorización acumulada es menor al 80% de la programada?",
+      "partes": [
+        {
+          "nombre": "quién asume el costo de la supervisión extendida (art. 210)",
+          "contieneAlguno": [
+            "deduc"
+          ]
+        },
+        {
+          "nombre": "nuevo programa acelerado ante el atraso (art. 207)",
+          "contieneAlguno": [
+            "aceleración",
+            "acelerado"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "210"
+        },
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "207"
+        }
+      ]
+    },
+    {
+      "id": "completitud-adelanto-diferencia-y-reajustes",
+      "grupo": "completitud",
+      "pregunta": "En un contrato de obra, ¿qué sucede si hay una diferencia de monto en la amortización del adelanto de una valorización y puede el contratista pedir el pago de reajustes en las valorizaciones o solo en la liquidación?",
+      "partes": [
+        {
+          "nombre": "diferencia de amortización del adelanto (art. 180)",
+          "contieneAlguno": [
+            "valorización posterior"
+          ]
+        },
+        {
+          "nombre": "reajustes en valorizaciones o liquidación (art. 209)",
+          "contieneAlguno": [
+            "potestad",
+            "valorizaciones o en la liquidación",
+            "valorizaciones o la liquidación"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "180"
+        },
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "209"
+        }
+      ]
+    },
+    {
+      "id": "completitud-resolucion-procedimiento-y-penalidad-maxima",
+      "grupo": "completitud",
+      "pregunta": "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado de obligaciones del contratista y cuál es la penalidad máxima por mora y otras penalidades?",
+      "partes": [
+        {
+          "nombre": "procedimiento previo de requerimiento (art. 122.1)",
+          "contieneAlguno": [
+            "apercibimiento",
+            "requiere",
+            "requerimiento"
+          ]
+        },
+        {
+          "nombre": "tope de penalidades (art. 119.2)",
+          "contieneAlguno": [
+            "del monto vigente",
+            "10% del monto",
+            "exceder el 10%",
+            "excede el 10%",
+            "exceda el 10%",
+            "supere el 10%"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "122"
+        }
+      ],
+      "noContiene": [
+        "071-2018-PCM"
+      ]
+    },
+    {
+      "id": "completitud-estandarizados-controversias-y-confidencialidad",
+      "grupo": "completitud",
+      "pregunta": "En un contrato estandarizado de ingeniería y construcción de uso internacional, ¿qué mecanismos resuelven las controversias durante la ejecución y cómo se trata la información que los proveedores identifican como confidencial?",
+      "partes": [
+        {
+          "nombre": "mecanismos de controversias (Ley art. 76)",
+          "contieneAlguno": [
+            "junta de prevención",
+            "arbitraje",
+            "conciliación"
+          ]
+        },
+        {
+          "nombre": "información confidencial (Reglamento art. 218.3)",
+          "contieneAlguno": [
+            "confidencial"
+          ]
+        }
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "218"
+        }
+      ]
+    },
+    {
+      "id": "completitud-resolucion-y-penalidad-redaccion-de-produccion",
+      "grupo": "completitud",
+      "pregunta": "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado de obligaciones del contratista y cuál es la penalidad máxima por mora en la ejecución de la prestación?",
+      "partes": [
+        {
+          "nombre": "procedimiento previo de requerimiento (art. 122.1)",
+          "contieneAlguno": [
+            "apercibimiento",
+            "requiere",
+            "requerimiento"
+          ]
+        },
+        {
+          "nombre": "tope de penalidades (art. 119.2)",
+          "contieneAlguno": [
+            "del monto vigente",
+            "10% del monto",
+            "exceder el 10%",
+            "excede el 10%",
+            "exceda el 10%",
+            "supere el 10%"
+          ]
+        }
+      ],
+      "noContiene": [
+        "071-2018-PCM"
+      ],
+      "intermitente": true,
+      "nota": "Defecto conocido, medido en producción el 2026-11-11: sin fecha ni ley nombrada, el D.S. 071-2018-PCM (régimen especial de Reconstrucción con Cambios) entra como relleno y encabeza la respuesta («Según «Decreto Supremo N.° 071-2018-PCM»»). Es el caso que debe volverse verde al excluir los regímenes especiales de las respuestas generales; entonces se quita `intermitente`."
     }
   ]
 }

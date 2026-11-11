@@ -25,8 +25,17 @@ type Caso = {
   /** Turnos previos de la conversación: sirve para probar seguimientos («¿y si fue en 2024?»). */
   historial?: Array<{ role: "user" | "assistant"; content: string }>;
   contiene?: string[]; contieneAlguno?: string[]; noContiene?: string[]; fuentes?: Fuente[]; sinFuentes?: boolean;
+  /**
+   * Completitud: una pregunta con varias partes («qué porcentaje… y cuándo puede reducirse…») debe contestarlas TODAS. Cada parte
+   * se da por cubierta si la respuesta contiene alguno de sus términos; el caso falla por cada parte que falte. Existe porque la
+   * verificación del chat prefiere callar a arriesgar una afirmación sin respaldo, y a veces deja una sola frase: una respuesta
+   * correcta pero a medias pasaba el resto de comprobaciones sin que nadie lo notara.
+   */
+  partes?: Array<{ nombre: string; contieneAlguno: string[] }>;
   /** Acierta unas veces y otras no (depende de qué recupera el buscador y de qué afirmaciones respalda la revisión): se informa como AVISO y no hace fallar la ejecución. */
   intermitente?: boolean;
+  /** Obligatoria en un caso intermitente: por qué lo es y qué lo dejaría verde (lo exige tests/banco-oro-formato.test.ts). */
+  nota?: string;
 };
 
 const args = process.argv.slice(2);
@@ -53,6 +62,7 @@ for (const caso of elegidos) {
   const fallos: string[] = [];
   let respuesta = "";
   let nFuentes = 0;
+  let partesCubiertas = 0;
   try {
     const resultado = await answerLegalQuestion(
       chatRequestSchema.parse({ question: caso.pregunta, mode: "tecnica", tone: "formal", length: "media", ...(caso.contextoCaso ? { caseContext: { regime: "", dates: "", facts: "", ...caso.contextoCaso } } : {}) }),
@@ -63,6 +73,10 @@ for (const caso of elegidos) {
     const texto = plano(respuesta);
     for (const frase of caso.contiene ?? []) if (!texto.includes(plano(frase))) fallos.push(`Falta «${frase}».`);
     if (caso.contieneAlguno?.length && !caso.contieneAlguno.some((frase) => texto.includes(plano(frase)))) fallos.push(`No contiene ninguna de: ${caso.contieneAlguno.map((f) => `«${f}»`).join(", ")}.`);
+    for (const parte of caso.partes ?? []) {
+      if (parte.contieneAlguno.some((frase) => texto.includes(plano(frase)))) partesCubiertas += 1;
+      else fallos.push(`Falta contestar la parte «${parte.nombre}» (ninguno de: ${parte.contieneAlguno.map((f) => `«${f}»`).join(", ")}).`);
+    }
     for (const frase of caso.noContiene ?? []) if (texto.includes(plano(frase))) fallos.push(`Contiene «${frase}».`);
     for (const esperada of caso.fuentes ?? []) if (!resultado.sources.some((fuente) => coincide(fuente, esperada))) fallos.push(`Falta la fuente ${JSON.stringify(esperada)}.`);
     if (caso.sinFuentes && nFuentes > 0) fallos.push(`Debía responder sin fuentes y trae ${nFuentes}.`);
@@ -78,7 +92,7 @@ for (const caso of elegidos) {
   }
   const segundos = +((Date.now() - inicio) / 1000).toFixed(1);
   console.log(`${fallos.length ? (caso.intermitente ? "AVISO" : "FALLA") : "ok   "}${caso.id.padEnd(30)} ${String(segundos).padStart(5)} s · ${nFuentes} fuentes${fallos.length ? "\n        - " + fallos.join("\n        - ") : ""}`);
-  informe.push({ id: caso.id, grupo: caso.grupo, intermitente: Boolean(caso.intermitente), pasa: fallos.length === 0, fallos, segundos, fuentes: nFuentes, respuesta: respuesta.slice(0, 6000) });
+  informe.push({ id: caso.id, grupo: caso.grupo, intermitente: Boolean(caso.intermitente), pasa: fallos.length === 0, fallos, segundos, fuentes: nFuentes, ...(caso.partes ? { partes: `${partesCubiertas}/${caso.partes.length}` } : {}), respuesta: respuesta.slice(0, 6000) });
 }
 
 const pasan = informe.filter((fila) => fila.pasa).length;
@@ -88,5 +102,20 @@ console.log(`\n${pasan}/${informe.length} casos cumplen lo esperado.${avisos ? `
 const porGrupo = new Map<string, [number, number]>();
 for (const fila of informe) { const [ok, total] = porGrupo.get(String(fila.grupo)) ?? [0, 0]; porGrupo.set(String(fila.grupo), [ok + (fila.pasa ? 1 : 0), total + 1]); }
 for (const [nombre, [ok, total]] of porGrupo) console.log(`  ${nombre.padEnd(24)} ${ok}/${total}`);
+const conPartes = informe.filter((fila) => typeof fila.partes === "string");
+if (conPartes.length) {
+  const suma = (indice: 0 | 1) => conPartes.reduce((total, fila) => total + Number(String(fila.partes).split("/")[indice]), 0);
+  console.log(`  partes contestadas       ${suma(0)}/${suma(1)} (completitud)`);
+}
+// En GitHub Actions, el resumen del trabajo muestra de un vistazo qué casos fallan y por qué, sin abrir el log.
+if (process.env.GITHUB_STEP_SUMMARY) {
+  const malos = informe.filter((fila) => !fila.pasa);
+  const lineas = [`### Banco de preguntas de oro: ${pasan}/${informe.length}`, ""];
+  if (malos.length) {
+    lineas.push("| Caso | Tipo | Qué falló |", "|---|---|---|");
+    for (const fila of malos) lineas.push(`| ${fila.id} | ${fila.intermitente ? "aviso (intermitente)" : "**falla**"} | ${(fila.fallos as string[]).join("<br>").replace(/\|/g, "\\|")} |`);
+  } else lineas.push("Todos los casos cumplen lo esperado.");
+  writeFileSync(process.env.GITHUB_STEP_SUMMARY, lineas.join("\n") + "\n", { flag: "a" });
+}
 if (salida) writeFileSync(salida, JSON.stringify({ creadoEn: new Date().toISOString(), pasan, total: informe.length, casos: informe }, null, 2));
 process.exit(fallan === 0 ? 0 : 1);
