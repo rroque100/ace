@@ -34,11 +34,13 @@ import {
   Bot,
   Check,
   Clipboard,
+  ClipboardList,
   CopyCheck,
   Download,
   ExternalLink,
   FileText,
   LoaderCircle,
+  Paperclip,
   Pin,
   Quote,
   RotateCcw,
@@ -903,6 +905,10 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const abortRef = useRef<AbortController | null>(null);
   const hydratedSession=useRef<string|null>(null);
   const [composerFocused,setComposerFocused]=useState(false);
+  // Los dos paneles de debajo del compositor se abren también desde la pantalla inicial.
+  const [adjuntosAbierto, setAdjuntosAbierto] = useState(false);
+  const [datosDelCasoAbierto, setDatosDelCasoAbierto] = useState(false);
+  const adjuntosRef = useRef<HTMLDivElement>(null);
   const continuity=useChatContinuity({owner:ownerId,session:sessionId??requestedSessionId,loading:loadingSession,question,onRestore:setQuestion,preferInitial:Boolean(initialQuestion)});
   function adoptSession(id:string){
     hydratedSession.current=id;setSessionId(id);
@@ -1333,6 +1339,19 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
     const box = composerRef.current;
     if (box) { box.focus(); autoGrow(box); box.setSelectionRange(box.value.length, box.value.length); }
   }
+  // Las acciones de la pantalla inicial abren los paneles que YA existen debajo del compositor, en vez de
+  // duplicar controles. No se dispara el clic del input[type=file] desde aquí: eso depende de la activación
+  // transitoria del navegador y falla distinto en cada uno; se abre el panel, cuyo primer control es el de
+  // subida.
+  function abrirAdjuntos() {
+    setAdjuntosAbierto(true);
+    adjuntosRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function abrirDatosDelCaso() {
+    setDatosDelCasoAbierto(true);
+    // El campo aún no es enfocable en este fotograma: el <details> se abre al pintar.
+    requestAnimationFrame(() => focusCaseField("object"));
+  }
 
   const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
@@ -1365,6 +1384,22 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                     {item}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            <div className={S.chatEmptyActions}>
+              <p>O dame contexto primero · opcional</p>
+              <div className={S.chatEmptyActionRow}>
+                <button onClick={abrirAdjuntos} type="button" disabled={isStreaming || loadingSession}>
+                  <Paperclip size={16} aria-hidden="true" />
+                  Adjuntar un documento del caso
+                </button>
+                {/* El mismo dictado del compositor: inserta en la caja y nunca envía solo. */}
+                <VoiceDictation onInsert={insertDictation} onAfterInsert={focusComposer} disabled={isStreaming || loadingSession} />
+                <button onClick={abrirDatosDelCaso} type="button" disabled={isStreaming || loadingSession}>
+                  <ClipboardList size={16} aria-hidden="true" />
+                  Añadir datos del caso
+                </button>
               </div>
             </div>
           </div>
@@ -1720,7 +1755,9 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className="chatComposeTools">
-      <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <div ref={adjuntosRef}>
+        <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
+      </div>
       <section className={S.chatCaseContext} aria-label="Contexto del caso">
         {caseProfile ? (
           <div className={S.caseProfileChip} role="status" data-stale={isStaleProfile(caseProfile, profileNow) ? "true" : undefined}>
@@ -1732,7 +1769,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button" onClick={dropCaseProfile} disabled={isStreaming || loadingSession}>Quitar</button>
           </div>
         ) : null}
-        <details>
+        <details open={datosDelCasoAbierto} onToggle={(event) => setDatosDelCasoAbierto(event.currentTarget.open)}>
           <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
           <fieldset disabled={isStreaming || loadingSession}>

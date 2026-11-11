@@ -14,6 +14,8 @@ export function CaseAttachments({
   selected,
   onBusy,
   disabled = false,
+  open,
+  onOpenChange,
 }: {
   sessionId: string | null;
   onSession: (id: string) => void;
@@ -21,6 +23,9 @@ export function CaseAttachments({
   onBusy: (busy: boolean) => void;
   selected: string[];
   disabled?: boolean;
+  /** Abre el panel desde fuera (la pantalla inicial del chat). Sin esta prop, el panel es autónomo. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const [items, setItems] = useState<Item[]>([]);
   const [itemsSession, setItemsSession] = useState<string | null>(sessionId);
@@ -71,7 +76,7 @@ export function CaseAttachments({
         itemsSession === p.sessionId ? [p.document, ...current] : [p.document],
       );
       setItemsSession(p.sessionId);
-      onChange([...selected, p.document.id].slice(-4));
+      onChange([...selected, p.document.id].slice(-6));
     } catch (e) {
       setError(
         e instanceof Error ? e.message : "No se pudo cargar el archivo.",
@@ -82,15 +87,23 @@ export function CaseAttachments({
       if (input.current) input.current.value = "";
     }
   }
+  // `open` solo se pasa cuando el llamador lo controla: un `open={undefined}` dejaría el panel cerrado en
+  // cada render y el usuario no podría abrirlo a mano.
   return (
-    <details className="legalWorkspacePanel">
+    <details
+      className="legalWorkspacePanel"
+      {...(open === undefined ? {} : { open })}
+      onToggle={(event) => onOpenChange?.(event.currentTarget.open)}
+    >
       <summary>
         Adjuntar o elegir documentos{" "}
         {visibleItems.length ? `· ${visibleItems.length}` : ""}
       </summary>
       <p>
-        PDF, PNG o JPEG · hasta 4 MiB. Selecciona hasta cuatro por consulta. Se
-        guardan en esta conversación y no forman parte del corpus normativo.
+        PDF, PNG o JPEG · hasta 4 MiB. Selecciona hasta seis por consulta. Se
+        guardan en esta conversación y no forman parte del corpus normativo. En
+        documentos largos se leen las páginas relacionadas con tu pregunta y la
+        cita indica cuáles.
       </p>
       <label className="legalAttachmentUpload">
         {busy
@@ -123,7 +136,7 @@ export function CaseAttachments({
                 disabled={
                   disabled ||
                   busy ||
-                  (!selected.includes(item.id) && selected.length >= 4)
+                  (!selected.includes(item.id) && selected.length >= 6)
                 }
                 onChange={(e) => {
                   const ids = e.target.checked
