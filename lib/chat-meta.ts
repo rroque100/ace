@@ -40,18 +40,26 @@ export function isMetaQuestion(question: string): boolean {
 
 /**
  * Los ejemplos que se ofrecen en la pantalla inicial del chat y en esta guía. Cada uno ejercita un camino
- * DISTINTO del motor —pasada tipada al Reglamento, régimen por fecha de convocatoria, aritmética de un
- * plazo, disposición derogatoria, regla con excepciones—, porque la pantalla inicial solo traía ejemplos de
- * requisitos y nadie descubría el resto. Son preguntas: ninguno afirma un plazo, un porcentaje ni un
- * artículo (lo comprueba tests/chat-meta.test.ts). El plazo va en palabra («ocho días hábiles») por eso y
- * porque es la forma que `detectarCalculoPlazo` reconoce.
+ * DISTINTO del motor —definición citada, régimen por fecha de convocatoria, aritmética de un plazo,
+ * disposición derogatoria, Reglamento más criterio de la OECE—, porque la pantalla inicial solo traía
+ * ejemplos de requisitos y nadie descubría el resto. Son preguntas: ninguno afirma un plazo, un porcentaje
+ * ni un artículo (lo comprueba tests/chat-meta.test.ts).
+ *
+ * Los cinco están PROBADOS contra el chat real: un ejemplo que no rinde deja peor la pantalla inicial que
+ * no tener ninguno. Al cambiar uno, vuelve a enviarlo antes de darlo por bueno. Dos candidatos se
+ * descartaron ahí: «¿qué requisitos tiene una compra por comparación de precios?» y «¿cuándo no se exige la
+ * garantía de fiel cumplimiento?» devolvían una definición suelta, porque la auditoría de evidencia recorta
+ * las enumeraciones que el modelo no puede sostener fragmento a fragmento. Las preguntas de lista son las
+ * que peor salen; las de regla única y las de cálculo, las que mejor.
  */
 export const EJEMPLOS_CHAT = [
-  "¿Qué requisitos tiene una compra por comparación de precios?",
+  "¿Qué es el requerimiento y quién lo elabora?",
   "Mi procedimiento se convocó en junio de 2026, ¿puedo aplicar la Ley 30225?",
-  "¿Hasta qué fecha vence un plazo de ocho días hábiles contado desde el 12 de marzo?",
+  // El año es imprescindible: `extractDates` no reconoce «el 12 de marzo» a secas, así que sin él
+  // `detectarCalculoPlazo` no se dispara y el ejemplo devolvía la regla del cómputo sin la fecha.
+  "¿Hasta qué fecha vence un plazo de ocho días hábiles contado desde el 12 de marzo de 2026?",
   "¿Qué norma derogó la Ley 30225 y desde cuándo?",
-  "¿Cuándo no se exige la garantía de fiel cumplimiento?",
+  "¿Qué penalidades se aplican por mora y cómo se calculan?",
 ] as const;
 
 /** Qué corpus cubre el asistente. Una sola redacción para la guía y la pantalla inicial. */
