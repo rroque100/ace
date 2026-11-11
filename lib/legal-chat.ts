@@ -19,7 +19,9 @@ import {
   comparisonInstruction,
   defaultRegimeInstruction,
   isRegimeComparison as isComparisonOfRegimes,
+  isSpecialRegimeSource,
   isTemporalApplicabilityQuestion,
+  mentionsSpecialRegime,
   pickTemporalEvidence,
   questionRegimeIntent,
   regimeLabel,
@@ -1777,6 +1779,11 @@ async function prepareLegalAnswer(
   };
   const requestedProcessType = chatFilters.processType || null;
   const selectedIds=[...new Set(input.filters?.selectedDocumentIds ?? ((input.filters?.documentIds?.length??0)<=8?input.filters?.documentIds??[]:[]))];
+  // Las normas de un régimen especial (Reconstrucción con Cambios, Ley 32416) no responden preguntas ordinarias: se dejan fuera
+  // salvo que la persona las pida, las nombre o elija ese documento (ver isSpecialRegimeSource en chat-regime.ts).
+  const allowSpecialRegime = selectedIds.length > 0 || Boolean(input.filters?.documentId || input.filters?.articleId)
+    || mentionsSpecialRegime(`${input.question} ${contextualQuery} ${input.caseContext ? Object.values(input.caseContext).filter((value) => typeof value === "string").join(" ") : ""}`);
+  const generalUse = (source: LegalSource) => allowSpecialRegime || !isSpecialRegimeSource({ documentNumber: source.documentNumber, documentTitle: source.documentTitle });
   // Pedir ayuda sin decir sobre qué («no sé qué hacer con mi contrato») no tiene respuesta citable: se pide lo
   // mínimo en vez de devolver un ensayo genérico. Solo en una conversación nueva y sin nada que acote (datos
   // del caso, documentos, un documento o artículo elegidos): con historial, el modelo ya tiene de qué partir.
@@ -1921,7 +1928,7 @@ async function prepareLegalAnswer(
   const temporalEvidence = temporal ? pickTemporalEvidence([...temporalRuleSources, ...temporalDateSources]) : [];
   // Comparación: tres de cada ley (no más) para que la tabla tenga con qué rellenar ambas columnas.
   const comparisonEvidence = comparison ? [...previousRegimeSources.slice(0, 3), ...currentRegimeSources.slice(0, 3)] : [];
-  const alternativeSources = alternativeResults.flatMap(result => result.status === "fulfilled" ? result.value.sources : []).filter(source=>sourceSupportsProcess(source,requestedProcessType));
+  const alternativeSources = alternativeResults.flatMap(result => result.status === "fulfilled" ? result.value.sources : []).filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source));
   const processRelevantBroadSources = (broadSearchResult?.sources ?? []).filter((source) =>
     sourceSupportsProcess(source, requestedProcessType),
   );
@@ -1930,7 +1937,7 @@ async function prepareLegalAnswer(
   );
   const processRelevantScopedSources = scopedResults
     .flatMap((result) => result?.sources ?? [])
-    .filter((source) => sourceSupportsProcess(source, requestedProcessType));
+    .filter((source) => sourceSupportsProcess(source, requestedProcessType) && generalUse(source));
   const candidateSources = rerankSources(
     [
       ...alternativeSources,
@@ -1939,7 +1946,7 @@ async function prepareLegalAnswer(
       ...processRelevantBroadSources,
       ...processRelevantAnchoredSources,
       ...processRelevantScopedSources,
-    ].filter((source) => sourceSupportsProcess(source, requestedProcessType)),
+    ].filter((source) => sourceSupportsProcess(source, requestedProcessType) && generalUse(source)),
     normalizeQuestionForSearch(contextualQuery),
     24,
   );
@@ -1954,7 +1961,7 @@ async function prepareLegalAnswer(
   );
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
   const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
-  const seeds = !alternatives ? alternativeResults.flatMap(result=>result.status==="fulfilled"?result.value.sources.slice(0,1):[]).filter(source=>sourceSupportsProcess(source,requestedProcessType)) : [];
+  const seeds = !alternatives ? alternativeResults.flatMap(result=>result.status==="fulfilled"?result.value.sources.slice(0,1):[]).filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source)) : [];
   const selected = alternatives ? alternativePool.slice(0,12) : [...validityEvidence,...temporalEvidence,...comparisonEvidence,...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
   // Nombrar una ley («¿puedo aplicar la Ley 30225?») trae los primeros fragmentos de ESA ley como

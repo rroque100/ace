@@ -721,7 +721,9 @@
         "no se identific",
         "no figura",
         "no se ha recuper"
-      ]
+      ],
+      "intermitente": true,
+      "nota": "Intermitente por la comprobación de grounding, no por el chat. Medido el 2026-11-11 en main: falla 3 de 4 veces. La respuesta dice correctamente que el D.S. 999-2099-EF no existe y añade que el Reglamento de la 32069 deroga el D.S. 344-2018-EF (Disposición Complementaria Derogatoria Única, dato cierto y citado), y la regla «cita norma derogada/ajena al corpus» lo marca como falla. Queda verde cuando esa regla distinga citar una norma derogada como vigente de mencionar que fue derogada."
     },
     {
       "id": "trampa-articulo-inexistente-reglamento",
@@ -907,7 +909,9 @@
           "titleIncludes": "32069",
           "article": "207"
         }
-      ]
+      ],
+      "intermitente": true,
+      "nota": "Defecto conocido, medido el 2026-11-11: falla 6 de 6 desde que el régimen especial (D.S. 071-2018-PCM) ya no completa las respuestas generales. Antes pasaba solo porque ese decreto traía la frase del descuento: la respuesta salía encabezada por una norma que no aplica. La causa real está en lib/legal-chat.ts (chunkToSource): el extracto se recorta a 1400 caracteres y el fragmento del art. 210 de la 32069 mide 2240, así que «deduciendo dicho monto de las valorizaciones» no llega al modelo ni a la verificación. Con el recorte en 2600 pasó 3 de 3. Queda verde con el PR que amplía el extracto."
     },
     {
       "id": "completitud-adelanto-diferencia-y-reajustes",
@@ -1033,9 +1037,35 @@
       ],
       "noContiene": [
         "071-2018-PCM"
+      ]
+    },
+    {
+      "id": "regimen-especial-fuera-de-respuestas-generales",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado del contratista?",
+      "noContiene": [
+        "071-2018-PCM",
+        "Reconstrucción con Cambios"
+      ],
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "122"
+        }
+      ]
+    },
+    {
+      "id": "regimen-especial-si-se-pide",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo se resuelve un contrato de obra en el procedimiento especial de la Reconstrucción con Cambios (D.S. 071-2018-PCM)?",
+      "fuentes": [
+        {
+          "titleIncludes": "071-2018-PCM"
+        }
       ],
       "intermitente": true,
-      "nota": "Defecto conocido, medido en producción el 2026-11-11: sin fecha ni ley nombrada, el D.S. 071-2018-PCM (régimen especial de Reconstrucción con Cambios) entra como relleno y encabeza la respuesta («Según «Decreto Supremo N.° 071-2018-PCM»»). Es el caso que debe volverse verde al excluir los regímenes especiales de las respuestas generales; entonces se quita `intermitente`."
+      "nota": "Intermitente por la comprobación de grounding: falló 1 de 7 corridas. La respuesta sobre el D.S. 071-2018-PCM (norma de la época de la Ley 30225) a veces menciona el D.S. 344-2018-EF y la regla «cita norma derogada/ajena al corpus» lo marca. La expectativa propia del caso (que la norma especial entre cuando se pide) se cumple siempre. Queda verde cuando esa regla distinga citar una norma derogada como vigente de mencionarla."
     }
   ]
 }
