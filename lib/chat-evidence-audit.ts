@@ -140,19 +140,24 @@ export function validateEvidenceVerdict(raw: string, claims: EvidenceClaim[], so
     })} : null;
     if (!row) return { id: claim.id, status: "insufficient" as const, reason: "Revisión ausente, inválida o duplicada para esta afirmación.", evidence: [] };
     const validMarkers = claim.markers.length > 0 && claim.markers.every(n => n > 0 && n <= sources.length);
-    const validQuotes = row.evidence.length > 0 && row.evidence.every(item => {
+    // Solo cuenta como respaldo un pasaje literal de una fuente que la propia frase cita. Los pasajes que el auditor añade de
+    // otras fuentes se descartan, pero no tumban la frase: antes bastaba uno para rechazarla aunque su fuente citada la
+    // respaldara literalmente. Caso real (2026-11-11): «…la entidad puede otorgar un plazo adicional [F7]» se rechazaba porque
+    // el auditor sumó al pasaje de F7 otro del art. 116 (F4), que la frase no cita, y la respuesta de la garantía de fiel
+    // cumplimiento salía «parcial» (2 de 4 veces en producción). Lo que no se afloja: sin al menos un pasaje así no se publica.
+    const citedEvidence = row.evidence.filter(item => {
       const source = sources[item.source - 1];
       return claim.markers.includes(item.source) && source && normalized(item.quote).length >= 16
         && normalized(source.excerpt).includes(normalized(item.quote));
     });
-    const scopeMismatch = unsupportedScope(claim.text, row.evidence.map(item => item.quote));
+    const validQuotes = citedEvidence.length > 0;
+    const scopeMismatch = unsupportedScope(claim.text, citedEvidence.map(item => item.quote));
     const numericMismatch = !checkCitationFaithfulness(claim.text, sources).ok;
     return { id: claim.id, status: row.status === "supported" && (!validMarkers || !validQuotes || scopeMismatch || numericMismatch)
       ? "insufficient" as const : row.status,
       reason: row.status === "supported" && (!validMarkers || !validQuotes || scopeMismatch || numericMismatch)
         ? numericMismatch ? "La cifra y unidad no constan en el fragmento citado." : scopeMismatch ? "El objeto contractual mencionado no está respaldado por los pasajes citados." : "La afirmación carece de citas válidas o de un pasaje literal comprobable." : row.reason,
-      evidence: row.evidence.filter(item => claim.markers.includes(item.source)
-        && sources[item.source - 1] && normalized(sources[item.source - 1].excerpt).includes(normalized(item.quote))) };
+      evidence: citedEvidence };
   });
 }
 

@@ -24,9 +24,11 @@ const SOURCE_DESCRIPTION_LINE = /\b(?:art[ií]culo|p[aá]gina|ley|reglamento|dec
  * Puntuación suelta que el modelo deja dentro de un paréntesis de cita: «(Artículo 113.1;)», «(Artículo 207.1, )». Se veía tal cual
  * en la respuesta publicada (medido en producción el 2026-11-11). Solo quita el signo que queda justo antes del cierre; el resto del
  * paréntesis no cambia, así que no altera ninguna cifra ni referencia.
+ * También el «; ,» entre dos referencias: «(Artículo 61.2.a; , Artículo 113.1.i)», en casi todas las corridas de la pregunta de la
+ * garantía de fiel cumplimiento (2026-11-11). Queda la coma, que es lo que el modelo quería poner.
  */
 export function tidyModelPunctuation(answer: string) {
-  return answer.replace(/\s*[;,]\s*\)/g, ")");
+  return answer.replace(/\s*;\s*,/g, ",").replace(/\s*[;,]\s*\)/g, ")");
 }
 
 export function stripModelSourceList(answer: string) {
