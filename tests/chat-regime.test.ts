@@ -6,7 +6,9 @@ import {
   extractConvocatoria,
   extractDates,
   isRegimeComparison,
+  isSpecialRegimeSource,
   isTemporalApplicabilityQuestion,
+  mentionsSpecialRegime,
   pickTemporalEvidence,
   questionRegimeIntent,
   regimeForDate,
@@ -300,5 +302,44 @@ describe("conclusión directa calculada en código", () => {
   });
   it("una fecha completa sigue concluyendo, no pidiendo el día", () => {
     expect(temporalApplicationBlock("Se convocó el 3 de marzo de 2025, ¿qué ley aplica?", [regla])).toContain("Aplicación a tu caso");
+  });
+});
+
+describe("regímenes especiales (caso real: el D.S. 071-2018-PCM encabezaba una respuesta sobre resolución del contrato de obra)", () => {
+  const f = (documentNumber: string | null, documentTitle: string) => ({ documentNumber, documentTitle });
+
+  it("reconoce las normas del régimen de Reconstrucción con Cambios y del Régimen Especial de la Ley 32416", () => {
+    expect(isSpecialRegimeSource(f("071-2018-PCM", "Decreto Supremo N.° 071-2018-PCM"))).toBe(true);
+    expect(isSpecialRegimeSource(f(null, "Reglamento del procedimiento de contratación pública especial para la Reconstrucción con Cambios"))).toBe(true);
+    expect(isSpecialRegimeSource(f(null, "Manual de usuario de Régimen Especial - Ley 32416 - 55° Disposición Complementaria Final"))).toBe(true);
+  });
+
+  it("no toca las normas generales de ninguno de los dos regímenes ni las directivas de procedimientos especiales de la 32069", () => {
+    for (const fuente of [
+      f("009-2025-EF", "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026"),
+      f("32069", "Ley N.° 32069 — texto actualizado al 19.07.2026"),
+      f("344-2018-EF", "Decreto Supremo N.° 344-2018-EF — Reglamento de la Ley de Contrataciones del Estado"),
+      f("30225", "Ley N.° 30225"),
+      f("010-2025-OECE-CD", "Directiva N.° 010-2025-OECE-CD — Directiva de Bases estándar para los procedimientos especiales"),
+    ]) expect(isSpecialRegimeSource(fuente), fuente.documentTitle).toBe(false);
+  });
+
+  it("la persona los pide por su nombre, su programa o su número", () => {
+    for (const texto of [
+      "¿Cómo se resuelve un contrato en la Reconstrucción con Cambios?",
+      "Procedimiento de la ARCC para contratar obras",
+      "¿Qué dice el D.S. 071-2018-PCM sobre la resolución?",
+      "¿Cuándo aplica el régimen especial de la Ley 32416?",
+      "Obras de reconstrucción tras el Niño costero",
+    ]) expect(mentionsSpecialRegime(texto), texto).toBe(true);
+  });
+
+  it("una pregunta ordinaria no pide un régimen especial, aunque hable de obras o de resolución", () => {
+    for (const texto of [
+      "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado?",
+      "¿Qué porcentaje debe tener la garantía de fiel cumplimiento?",
+      "¿Qué ley se aplica a un procedimiento convocado en junio de 2026?",
+      "Diferencias entre la Ley 30225 y la Ley 32069 en penalidades",
+    ]) expect(mentionsSpecialRegime(texto), texto).toBe(false);
   });
 });

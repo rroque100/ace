@@ -185,6 +185,29 @@ export function sourceRegime(source: SourceLike): Regime | null {
   return null;
 }
 
+// ── Regímenes especiales ───────────────────────────────────────────────────────────────────────────────────
+// Hay normas de un programa concreto cuyo texto se parece mucho al de las generales. El caso medido: el D.S. 071-2018-PCM
+// (Reglamento del procedimiento de contratación pública especial para la Reconstrucción con Cambios) tiene un artículo
+// «Resolución del contrato de obra» que coincide palabra por palabra con la pregunta «¿cuándo procede la resolución del contrato
+// de obra…?», así que era la mejor coincidencia semántica (0,741), entraba como `reglamento` del régimen 30225 con solo −0,12
+// de penalización, completaba las plazas del Reglamento cuando la 32069 no traía más artículos distintos y acababa
+// encabezando la respuesta («Según «Decreto Supremo N.° 071-2018-PCM»…») para alguien que no preguntaba por reconstrucción.
+// No es «régimen anterior» (que se puede citar como contexto): no se aplica a un procedimiento ordinario en ningún caso.
+// Por eso no se penaliza: se deja fuera de las respuestas generales y solo entra si la pregunta lo pide.
+
+const SPECIAL_REGIME_SOURCE = /071\s*-?\s*2018\s*-?\s*pcm|reconstruccion con cambios|regimen especial/;
+const SPECIAL_REGIME_QUESTION = /reconstruccion|\barcc\b|regimen(?:es)? especial(?:es)?|procedimientos? especial(?:es)?|071\s*-?\s*2018|ley\s*(?:n\W*\s*)?(?:30556|32416)|\b(?:30556|32416)\b/;
+
+/** ¿La fuente es una norma de un régimen especial (Reconstrucción con Cambios, Régimen Especial de la Ley 32416)? */
+export function isSpecialRegimeSource(source: Pick<SourceLike, "documentNumber" | "documentTitle">): boolean {
+  return SPECIAL_REGIME_SOURCE.test(plain(`${source.documentNumber ?? ""} ${source.documentTitle ?? ""}`));
+}
+
+/** ¿El texto pide expresamente un régimen especial? Entonces sus normas dejan de excluirse. */
+export function mentionsSpecialRegime(text: string): boolean {
+  return SPECIAL_REGIME_QUESTION.test(plain(text));
+}
+
 /** Ajuste al puntaje de una fuente según el régimen que pide la pregunta. */
 export function regimeRankAdjustment(intent: RegimeIntent, regime: Regime | null): number {
   if (!regime || intent.regime === "ambos") return 0;

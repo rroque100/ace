@@ -143,3 +143,19 @@ it("persiste el texto revisado y su evidencia con el JWT, nunca el borrador rech
   expect(rows[1].metadata.assessment.evidenceReview.documentary).toBe("unchecked");
   expect(rows[1].metadata.assessment.confidence).toBe("baja");
 });
+
+const chunkDeRegimenEspecial = {
+  id: "ds071", document_id: "doc-071", chunk_index: 0, pinecone_vector_id: "vector", page_start: 11, page_end: 12,
+  content: "Artículo 92.- Resolución del contrato de obra. La resolución del contrato de obra determina la inmediata paralización de la misma. ".repeat(6), metadata: { article: "92" },
+  documents: { id: "doc-071", title: "Decreto Supremo N.° 071-2018-PCM", document_type: "reglamento", source_entity: "PCM", file_name: "071.pdf", status: "indexed", metadata: { documentNumber: "071-2018-PCM", vigencia: "desconocida" } },
+};
+it("una pregunta ordinaria no se responde con el régimen especial de Reconstrucción con Cambios", async () => {
+  mocks.rest.mockResolvedValue([chunkDeRegimenEspecial]);
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado del contratista?" }), auth);
+  expect(result.sources.some((source) => /071-2018-PCM/.test(source.documentTitle))).toBe(false);
+});
+it("si la persona pide la Reconstrucción con Cambios, su norma sí entra", async () => {
+  mocks.rest.mockResolvedValue([chunkDeRegimenEspecial]);
+  const result = await answerLegalQuestion(chatRequestSchema.parse({ question: "¿Cuándo procede la resolución del contrato de obra en la Reconstrucción con Cambios?" }), auth);
+  expect(result.sources.some((source) => /071-2018-PCM/.test(source.documentTitle))).toBe(true);
+});

@@ -1033,9 +1033,33 @@
       ],
       "noContiene": [
         "071-2018-PCM"
+      ]
+    },
+    {
+      "id": "regimen-especial-fuera-de-respuestas-generales",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cuándo procede la resolución del contrato de obra por incumplimiento injustificado del contratista?",
+      "noContiene": [
+        "071-2018-PCM",
+        "Reconstrucción con Cambios"
       ],
-      "intermitente": true,
-      "nota": "Defecto conocido, medido en producción el 2026-11-11: sin fecha ni ley nombrada, el D.S. 071-2018-PCM (régimen especial de Reconstrucción con Cambios) entra como relleno y encabeza la respuesta («Según «Decreto Supremo N.° 071-2018-PCM»»). Es el caso que debe volverse verde al excluir los regímenes especiales de las respuestas generales; entonces se quita `intermitente`."
+      "fuentes": [
+        {
+          "documentType": "reglamento",
+          "titleIncludes": "32069",
+          "article": "122"
+        }
+      ]
+    },
+    {
+      "id": "regimen-especial-si-se-pide",
+      "grupo": "norma-vigente-primero",
+      "pregunta": "¿Cómo se resuelve un contrato de obra en el procedimiento especial de la Reconstrucción con Cambios (D.S. 071-2018-PCM)?",
+      "fuentes": [
+        {
+          "titleIncludes": "071-2018-PCM"
+        }
+      ]
     }
   ]
 }
