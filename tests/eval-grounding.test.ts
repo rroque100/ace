@@ -79,3 +79,21 @@ describe("el régimen que el chat le muestra al modelo respalda su mención (cas
     expect(detectGroundingViolations("Rige la Ley 30225 [F1].", 1, [], "¿Quiénes están impedidos?", textos).some((f) => /30225/.test(f))).toBe(true);
   });
 });
+
+describe("números de norma con espacios alrededor de los guiones (caso real: «Nº 344 - 2018 - EF» del texto actualizado)", () => {
+  const derogatoria = "Disposición Complementaria Derogatoria Única. Derogar los siguientes dispositivos: a) Decreto Supremo Nº 344 - 2018 - EF, Reglamento de la Ley Nº 30225, Ley de Contrataciones del Estado.";
+  const respuesta = "El Decreto Supremo N.° 009-2025-EF deroga el Decreto Supremo N.° 344-2018-EF, Reglamento de la Ley N.° 30225 [F8].";
+  const pregunta = "¿Qué dice el Decreto Supremo 999-2099-EF?";
+
+  it("la fuente con «344 - 2018» respalda la mención «344-2018» de la respuesta", () => {
+    expect(detectGroundingViolations(respuesta, 8, [], pregunta, [derogatoria])).toEqual([]);
+  });
+
+  it("también al revés y con otros guiones tipográficos (–, —)", () => {
+    expect(detectGroundingViolations("Se deroga el D.S. 344 – 2018 – EF y la Ley 30225 [F1].", 1, [], pregunta, ["Decreto Supremo Nº 344-2018-EF, Reglamento de la Ley Nº 30225"])).toEqual([]);
+  });
+
+  it("sin una fuente que lo diga, sigue siendo una falla", () => {
+    expect(detectGroundingViolations(respuesta, 8, [], pregunta, ["Artículo 1. Objeto del reglamento."]).some((f) => /344-2018/.test(f))).toBe(true);
+  });
+});
