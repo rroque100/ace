@@ -1,6 +1,21 @@
 import { citedSourceNumbers } from "./chat-source-locations";
 
 export type LayoutClaim = { id: number; text: string; markers: number[] };
+
+/**
+ * ¿Es una afirmación «estructural»: un encabezado o una frase de enlace que no afirma nada que las fuentes deban respaldar?
+ * Son los títulos en negrita que escribe el modelo («**Reducción de la garantía en obras**», «**Aplicación en el tiempo**») y las
+ * frases que solo anuncian lo siguiente («El procedimiento general es el siguiente:»). El auditor los rechaza siempre porque ningún
+ * pasaje «respalda» un título, y contados como omitidos volvían «parcial» una respuesta completa (medido en producción el
+ * 2026-11-11: las tres preguntas compuestas salían «parcial» por un encabezado). Nunca lo es lo que lleva una cita [F#]: eso afirma.
+ */
+export function isStructuralClaim(text: string) {
+  const claim = text.trim();
+  if (!claim || /\[F\d/.test(claim)) return false;
+  if (/^(?:#{1,6}\s*)?\*\*[^*\n]{1,160}\*\*:?$/.test(claim)) return true;
+  if (/^#{1,6}\s+\S[^\n]{0,160}$/.test(claim)) return true;
+  return /:$/.test(claim) && !/\d/.test(claim) && claim.length <= 200;
+}
 type Node = { kind:"heading"; text:string } | { kind:"text"; ids:number[] } | { kind:"table"; headers:string[]; rows:Array<{id:number;cells:string[]}> };
 const neutralHeadings=new Set(["respuesta","respuesta directa","fundamento","fundamento legal","explicación","en la práctica","requisitos","pasos","procedimiento","comparación","resumen","condiciones","excepciones","condiciones y excepciones","riesgos","conclusión","aplicación al caso","información faltante y límites","fuentes y vigencia"]);
 const separator=(line:string)=>/^\|?[\s:|-]+\|?$/.test(line);
