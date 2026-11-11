@@ -87,8 +87,29 @@ export function analyzeAnswerLayout(answer:string) {
  return {claims,nodes};
 }
 
+/**
+ * Conector de enlace al inicio de una frase («Sin embargo,», «No obstante,», «Además,»…). Solo tiene sentido si se publica
+ * también la frase a la que responde. Exige la coma (o «Pero») para no tocar «Además del pago…» ni «Así lo dispone…».
+ */
+const LEADING_CONNECTOR=/^(?:(?:sin embargo|no obstante|por otro lado|por otra parte|en cambio|adem[aá]s|asimismo|igualmente|de igual (?:forma|manera|modo)|del mismo modo|por (?:lo )?tanto|por ello|por eso|por consiguiente|en consecuencia|a su vez)\s*,|pero(?![a-záéíóúñ]))\s*/i;
+
+/**
+ * Quita el conector inicial que queda suelto cuando no se publica la frase anterior. Caso real (producción, 2026-11-11):
+ * «¿Qué dice el Decreto Supremo 999-2099-EF?» → el modelo escribió «Las fuentes no contienen ese decreto.» y luego «Sin
+ * embargo, las fuentes recuperadas incluyen…»; el auditor descartó la primera (no hay pasaje que «respalde» una ausencia) y
+ * la respuesta publicada empezaba por «Sin embargo,», contestando a algo que el lector no veía. Solo quita el conector y
+ * pone la mayúscula; el resto de la frase, con sus cifras y citas, no cambia.
+ */
+export function dropDanglingConnector(text:string) {
+ const rest=text.replace(LEADING_CONNECTOR,"");
+ return rest===text||!rest?text:rest[0].toUpperCase()+rest.slice(1);
+}
+
 export function renderCheckedAnswer(answer:string,allowed:Set<number>) {
  const {claims,nodes}=analyzeAnswerLayout(answer);const output:string[]=[];let heading:string|null=null;
+ // ¿Se publica la frase a la que responde esta? Los títulos no cuentan: un conector tras un título enlaza con lo anterior.
+ const previousShown=(id:number)=>{for(let prev=id-1;prev>=1;prev--){if(isStructuralClaim(claims[prev-1].text))continue;return allowed.has(prev);}return false;};
+ const shown=(id:number)=>{const text=claims[id-1].text.replace(/^[.,;\s]+/,"");return previousShown(id)?text:dropDanglingConnector(text);};
  const flush=()=>{if(heading&&!/^(?:Respuesta|Respuesta directa)$/i.test(heading))output.push(`**${heading}**`);heading=null;};
  for(const node of nodes) {
   if(node.kind==="heading"){heading=node.text;continue;}
@@ -96,7 +117,7 @@ export function renderCheckedAnswer(answer:string,allowed:Set<number>) {
    const rows=node.rows.filter(row=>allowed.has(row.id));if(!rows.length)continue;flush();
    output.push([`| ${node.headers.join(" | ")} |`,`| ${node.headers.map(()=>"---").join(" | ")} |`,...rows.map(row=>`| ${row.cells.join(" | ")} |`)].join("\n"));
   } else {
-   const texts=node.ids.filter(id=>allowed.has(id)).map(id=>claims[id-1].text.replace(/^[.,;\s]+/,""));
+   const texts=node.ids.filter(id=>allowed.has(id)).map(shown);
    if(texts.length){flush();output.push(texts.join(" "));}
   }
  }
