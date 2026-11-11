@@ -12,7 +12,11 @@ import { isRegimeComparison, isTemporalApplicabilityQuestion, questionRegimeInte
 // Normas del régimen anterior: en una pregunta común, citarlas es traer la norma equivocada.
 export const derogatedNormPatterns = ["30225", "344-2018", "320-2019", "350-2015", "ley de contrataciones del estado"];
 
-const normalize = (text: string) => text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+// Los guiones de un número de norma se comparan sin espacios alrededor: la copia «texto actualizado» del Reglamento escribe
+// «Decreto Supremo Nº 344 - 2018 - EF» (así lo trae el PDF de SPIJ) y el modelo, con razón, «344-2018-EF». Sin esto, decir que el
+// Reglamento deroga el D.S. 344-2018-EF —cierto y citado de la Disposición Derogatoria— se marcaba como «norma derogada sin
+// respaldo» (medido el 2026-11-11: 3 de 4 corridas de trampa-decreto-inexistente).
+const normalize = (text: string) => text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s*[-‐‑–—]\s*/g, "-");
 
 /** ¿La pregunta trata justamente del régimen anterior (convocatoria previa a la vigencia, comparación, vigencia)? */
 export function allowsPreviousRegime(question: string): boolean {

@@ -721,9 +721,7 @@
         "no se identific",
         "no figura",
         "no se ha recuper"
-      ],
-      "intermitente": true,
-      "nota": "Intermitente por la comprobación de grounding, no por el chat. Medido el 2026-11-11 en main: falla 3 de 4 veces. La respuesta dice correctamente que el D.S. 999-2099-EF no existe y añade que el Reglamento de la 32069 deroga el D.S. 344-2018-EF (Disposición Complementaria Derogatoria Única, dato cierto y citado), y la regla «cita norma derogada/ajena al corpus» lo marca como falla. Queda verde cuando esa regla distinga citar una norma derogada como vigente de mencionar que fue derogada."
+      ]
     },
     {
       "id": "trampa-articulo-inexistente-reglamento",
@@ -1063,9 +1061,7 @@
         {
           "titleIncludes": "071-2018-PCM"
         }
-      ],
-      "intermitente": true,
-      "nota": "Intermitente por la comprobación de grounding: falló 1 de 7 corridas. La respuesta sobre el D.S. 071-2018-PCM (norma de la época de la Ley 30225) a veces menciona el D.S. 344-2018-EF y la regla «cita norma derogada/ajena al corpus» lo marca. La expectativa propia del caso (que la norma especial entre cuando se pide) se cumple siempre. Queda verde cuando esa regla distinga citar una norma derogada como vigente de mencionarla."
+      ]
     }
   ]
 }
