@@ -39,24 +39,45 @@ export function isMetaQuestion(question: string): boolean {
 }
 
 /**
+ * Los ejemplos que se ofrecen en la pantalla inicial del chat y en esta guía. Cada uno ejercita un camino
+ * DISTINTO del motor —pasada tipada al Reglamento, régimen por fecha de convocatoria, aritmética de un
+ * plazo, disposición derogatoria, regla con excepciones—, porque la pantalla inicial solo traía ejemplos de
+ * requisitos y nadie descubría el resto. Son preguntas: ninguno afirma un plazo, un porcentaje ni un
+ * artículo (lo comprueba tests/chat-meta.test.ts). El plazo va en palabra («ocho días hábiles») por eso y
+ * porque es la forma que `detectarCalculoPlazo` reconoce.
+ */
+export const EJEMPLOS_CHAT = [
+  "¿Qué requisitos tiene una compra por comparación de precios?",
+  "Mi procedimiento se convocó en junio de 2026, ¿puedo aplicar la Ley 30225?",
+  "¿Hasta qué fecha vence un plazo de ocho días hábiles contado desde el 12 de marzo?",
+  "¿Qué norma derogó la Ley 30225 y desde cuándo?",
+  "¿Cuándo no se exige la garantía de fiel cumplimiento?",
+] as const;
+
+/** Qué corpus cubre el asistente. Una sola redacción para la guía y la pantalla inicial. */
+export const COBERTURA_CHAT =
+  "la Ley 32069 y su Reglamento, y la Ley 30225 para los procedimientos convocados antes";
+
+/** Lo que distingue a este asistente de un chat cualquiera. Va en la guía y en la pantalla inicial. */
+export const PROMESA_SIN_RESPALDO =
+  "Si no encuentro respaldo en las normas disponibles, te lo digo en lugar de inventar una respuesta.";
+
+/**
  * La guía de uso. Es una respuesta fija: no cita normas ni afirma nada jurídico; solo dice qué cubre el chat y cómo
  * preguntar para que la respuesta salga con fuente. Los ejemplos son PREGUNTAS, no respuestas.
  */
 export function metaQuestionAnswer(): string {
   return (
     "**Soy el asistente jurídico de ACE**\n" +
-    "Respondo dudas sobre contrataciones públicas en el Perú —la Ley 32069 y su Reglamento, y la Ley 30225 para los procedimientos convocados antes—, " +
+    `Respondo dudas sobre contrataciones públicas en el Perú —${COBERTURA_CHAT}—, ` +
     "y te muestro la norma en la que se apoya cada respuesta para que puedas comprobarla.\n\n" +
     "**Puedes preguntarme, por ejemplo:**\n" +
-    "- ¿Qué requisitos tiene una compra por comparación de precios?\n" +
-    "- ¿Cuándo se puede ampliar el plazo de ejecución de un contrato?\n" +
-    "- ¿Qué penalidades se aplican por mora y cómo se calculan?\n" +
-    "- ¿Qué garantías debe presentar el contratista?\n\n" +
+    `${EJEMPLOS_CHAT.map((ejemplo) => `- ${ejemplo}`).join("\n")}\n\n` +
     "**Para una respuesta más precisa**\n" +
     "1. Indica **qué se contrata** (bienes, servicios, obras o consultoría) y **en qué etapa** estás.\n" +
     "2. Di **cuándo se convocó** el procedimiento: de eso depende qué ley se aplica.\n" +
     "3. Si tienes un documento del caso, adjúntalo, o completa «Añadir datos del caso» debajo de la caja de pregunta.\n\n" +
-    "Si no encuentro respaldo en las normas disponibles, te lo digo en lugar de inventar una respuesta. " +
+    `${PROMESA_SIN_RESPALDO} ` +
     "También puedes usar **Búsqueda documental** para encontrar normas, opiniones y resoluciones por número o por tema."
   );
 }
