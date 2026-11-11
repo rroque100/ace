@@ -2,7 +2,15 @@
 // reglas CSS que tenía el componente; una cadena por clase, con el mismo nombre que tenía.
 export const S = {
   normFocusButton: "border-brand/30 bg-brand-soft text-brand-dark [@container(max-width:560px)]:flex-1",
-  normReadingContinuous: "flex items-center gap-2 min-h-11 [div_&]:[label&:not()]:grid [div_&]:[label&:not()]:gap-1.5",
+  // El generador arrastró aquí las declaraciones de `.normReadingSettings>div>label:not(.normReadingContinuous)`
+  // —una regla que EXCLUÍA a esta etiqueta— como dos variantes arbitrarias con un `:not()` SIN argumento.
+  // Un `:not()` vacío no es un selector válido: Tailwind las emitía igual, el CSS final no se podía parsear y
+  // el dev server respondía 500 en TODAS las páginas. Además nunca podrían aplicar a este elemento (una
+  // etiqueta no puede ser «una etiqueta que no sea ella misma»), así que se quitan.
+  //
+  // Ojo al documentar esto: Tailwind escanea también los comentarios, así que escribir aquí la clase
+  // defectuosa la devuelve al CSS y rompe el build otra vez. Se describe, no se copia.
+  normReadingContinuous: "flex items-center gap-2 min-h-11",
   normReadingControls: "top-3 sticky z-20 my-5 flex flex-wrap items-center gap-2 rounded-xl border border-line bg-panel p-2 shadow-card max-[980px]:top-[calc(76px_+_env(safe-area-inset-top))] [@container(max-width:560px)]:gap-2 [&_button]:cursor-pointer [&_button]:inline-flex [&_button]:min-h-11 [&_button]:items-center [&_button]:justify-center [&_button]:gap-1.5 [&_button]:rounded-lg [&_button]:border [&_button]:border-line [&_button]:bg-panel [&_button]:px-3 [&_button]:text-[13px] [&_button]:font-semibold [&_button]:text-ink [&_summary]:cursor-pointer [&_summary]:inline-flex [&_summary]:min-h-11 [&_summary]:items-center [&_summary]:justify-center [&_summary]:gap-1.5 [&_summary]:rounded-lg [&_summary]:border [&_summary]:border-line [&_summary]:bg-panel [&_summary]:px-3 [&_summary]:text-[13px] [&_summary]:font-semibold [&_summary]:text-ink [&_select]:min-h-11 [&_select]:max-w-full [&_select]:rounded-lg [&_select]:border [&_select]:border-line [&_select]:bg-panel [&_select]:px-2 [&_select]:text-[13px] [&_select]:text-ink max-[980px]:[.normFocusReading_&]:top-2 [&_summary:hover]:border-brand/40 [&_summary:hover]:bg-brand-soft [&_button:disabled]:cursor-not-allowed [&_button:disabled]:opacity-40 [&_button:hover:not(:disabled)]:border-brand/40 [&_button:hover:not(:disabled)]:bg-brand-soft",
   normReadingFont: "flex min-w-0 flex-1 items-center gap-2 text-[12px] text-muted [@container(max-width:560px)]:[flex:1_1_auto] [@container(max-width:560px)]:[&>span]:hidden",
   normReadingPagination: "mt-8 flex justify-between gap-3 border-t border-line pt-5 [&_button]:flex [&_button]:min-h-12 [&_button]:items-center [&_button]:gap-3 [&_button]:rounded-xl [&_button]:border [&_button]:border-line [&_button]:bg-panel [&_button]:px-4 [&_button]:py-3 [&_button]:text-left [&_button]:text-[12px] [&_button]:text-muted [@container(max-width:560px)]:[&_button]:p-2.5 [@container(max-width:560px)]:[&_button]:flex-1 [&_button_strong]:block [&_button_strong]:text-[14px] [&_button_strong]:font-semibold [&_button_strong]:text-ink [&_button:disabled]:opacity-40 [&_button:disabled]:cursor-default",
