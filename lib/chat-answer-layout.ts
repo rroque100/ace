@@ -20,6 +20,15 @@ const SOURCE_DESCRIPTION_LINE = /\b(?:art[ií]culo|p[aá]gina|ley|reglamento|dec
  * interfaz ya pone su propia lista «Documentos y páginas citados», con páginas comprobadas en lugar de las que escribe el modelo.
  * Conservadora: solo corta si DESPUÉS del título todo son marcadores o descripciones de fuentes; con prosa detrás no toca nada.
  */
+/**
+ * Puntuación suelta que el modelo deja dentro de un paréntesis de cita: «(Artículo 113.1;)», «(Artículo 207.1, )». Se veía tal cual
+ * en la respuesta publicada (medido en producción el 2026-11-11). Solo quita el signo que queda justo antes del cierre; el resto del
+ * paréntesis no cambia, así que no altera ninguna cifra ni referencia.
+ */
+export function tidyModelPunctuation(answer: string) {
+  return answer.replace(/\s*[;,]\s*\)/g, ")");
+}
+
 export function stripModelSourceList(answer: string) {
   const lines = answer.split("\n");
   for (let index = lines.length - 1; index >= 0; index--) {
