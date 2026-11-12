@@ -1,4 +1,4 @@
-import { checkedAnswerSections, dropDanglingConnector, isStructuralClaim } from "./chat-answer-layout";
+import { checkedAnswerSections, claimTextForCheck, dropDanglingConnector, isStructuralClaim } from "./chat-answer-layout";
 import { isCaseQuestion, caseInformationNeeds, isMultiPartQuestion } from "./chat-question-plan";
 import { parseAlternatives, checkedAlternative } from "./chat-alternatives";
 import { checkCitationFaithfulness } from "./citation-faithfulness";
@@ -36,9 +36,11 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
   review.missing=caseInformationNeeds(question,context);
   const claims = evidenceClaims(answer);
   const coherent = new Set(selectCoherentEvidence(sources, question, context));
-  const kept = claims.filter(claim => review.claims.find(r => r.id === claim.id)?.status === "supported"
+  const checked = claims.filter(claim => review.claims.find(r => r.id === claim.id)?.status === "supported"
     && claim.markers.length && claim.markers.every(n => coherent.has(sources[n - 1]))
-    && checkCitationFaithfulness(claim.text, sources).ok);
+    && checkCitationFaithfulness(claimTextForCheck(claim), sources).ok);
+  // Una línea con cita heredada no lleva [F#] escrito: publicada sin la frase que la introduce quedaría suelta y sin fuente visible.
+  const kept = checked.filter(claim => !claim.inheritedFrom || checked.some(intro => intro.id === claim.inheritedFrom));
   // Un encabezado o una frase de enlace sin cita («**Reducción de la garantía**», «El procedimiento es el siguiente:») no afirma nada
   // que las fuentes deban respaldar: el auditor lo rechaza siempre («no hay información que lo respalde») y, contado como omitido,
   // convertía en «parcial» casi toda respuesta. Solo cuenta lo que SÍ afirma algo (ver isStructuralClaim).

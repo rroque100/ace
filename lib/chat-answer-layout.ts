@@ -1,6 +1,15 @@
 import { citedSourceNumbers } from "./chat-source-locations";
 
-export type LayoutClaim = { id: number; text: string; markers: number[] };
+/** `inheritedFrom`: la línea no lleva cita propia y toma la de la frase que la introduce (ver analyzeAnswerLayout). */
+export type LayoutClaim = { id: number; text: string; markers: number[]; inheritedFrom?: number };
+
+/**
+ * Texto con el que se comprueban las cifras (checkCitationFaithfulness lee los [F#] del texto). Una línea con cita heredada no la
+ * lleva escrita: sin añadirla aquí, un «10%» en esa línea se saltaría la comprobación contra su fuente.
+ */
+export function claimTextForCheck(claim: LayoutClaim) {
+  return claim.inheritedFrom ? `${claim.text} ${claim.markers.map((n) => `[F${n}]`).join(" ")}` : claim.text;
+}
 
 /**
  * ¿Es una afirmación «estructural»: un encabezado o una frase de enlace que no afirma nada que las fuentes deban respaldar?
@@ -60,14 +69,25 @@ const neutralHeadings=new Set(["respuesta","respuesta directa","fundamento","fun
 const separator=(line:string)=>/^\|?[\s:|-]+\|?$/.test(line);
 const cells=(line:string)=>line.replace(/^\|/,"").replace(/\|$/,"").split("|").map(cell=>cell.trim());
 
+/** ¿Anuncia lo que sigue? «…fórmula (Artículo 120.1) [F4]:» o «…fórmula: (Artículo 120.1) [F4]», sin contar citas ni paréntesis finales. */
+const introducesList=(line:string)=>/:$/.test(line.replace(/\[F[^\]\n]*\]/g," ").replace(/\s+/g," ").trim().replace(/(?:\s*\([^()]*\))+\s*\.?$/,"").replace(/\*\*$/,"").trim());
+
 /** One parser for the reviewer and renderer: no unchecked table headers or headings. */
 export function analyzeAnswerLayout(answer:string) {
  const claims:LayoutClaim[]=[],nodes:Node[]=[];
  const add=(text:string)=>{const id=claims.length+1;claims.push({id,text,markers:citedSourceNumbers(text)});return id;};
  const lines=answer.split(/\n+/).map(line=>line.trim()).filter(Boolean);
+ // Cita heredada. El modelo escribe «La penalidad diaria se calcula mediante la siguiente fórmula (Artículo 120.1) [F4]:» y debajo
+ // la fórmula y los valores de F sin repetir [F4]. Cada línea se auditaba sola, sin cita, y se descartaba: la respuesta salía
+ // «parcial» y sin la fórmula (12 de 90 corridas medidas el 2026-11-11). Una línea SIN cita propia que sigue a una frase citada
+ // terminada en «:» toma sus marcadores: el auditor la compara con ESA fuente con el mismo rigor (pasaje literal, cifras), y solo
+ // se publica si también se publica la frase que la introduce (ver publishEvidence). Continúan la cadena las viñetas, las fórmulas
+ // («=») y los rótulos terminados en «:»; un párrafo, un título o una tabla la cortan.
+ let chain:{id:number;markers:number[]}|null=null;
  for(let index=0;index<lines.length;index++) {
   const line=lines[index];
   if(line.startsWith("|")&&index+1<lines.length&&separator(lines[index+1])) {
+   chain=null;
    const headers=cells(line),rows:Array<{id:number;cells:string[]}>=[];index++;
    while(index+1<lines.length&&lines[index+1].startsWith("|")&&!separator(lines[index+1])) {
     const row=cells(lines[++index]);
@@ -81,7 +101,7 @@ export function analyzeAnswerLayout(answer:string) {
   }
   if(separator(line))continue;
   const label=line.replace(/[#*:]/g,"").trim().toLowerCase();
-  if(neutralHeadings.has(label)){nodes.push({kind:"heading",text:label[0].toUpperCase()+label.slice(1)});continue;}
+  if(neutralHeadings.has(label)){chain=null;nodes.push({kind:"heading",text:label[0].toUpperCase()+label.slice(1)});continue;}
   const parts:string[]=[];let start=0;
   for(const match of line.matchAll(/\[F[^\]\n]*\](?:[\s,]*\[F[^\]\n]*\])*/g)) {
    const end=match.index!+match[0].length;parts.push(line.slice(start,end).trim());start=end;
@@ -92,7 +112,16 @@ export function analyzeAnswerLayout(answer:string) {
   // isStructuralClaim no lo reconocía como título y contaba como afirmación omitida (la respuesta salía «parcial», medido el
   // 2026-11-11 en «¿En qué casos se puede resolver un contrato?»).
   const heading=(part:string)=>/^#{1,6}\s/.test(part)&&!/\[F\d/.test(part)?`**${part.replace(/^#{1,6}\s*/,"").replace(/\*\*/g,"").trim()}**`:part.replace(/^#{1,6}\s*/,"");
-  nodes.push({kind:"text",ids:parts.filter(Boolean).map(part=>add(heading(part)))});
+  const ids=parts.filter(Boolean).map(part=>add(heading(part)));
+  nodes.push({kind:"text",ids});
+  const own=ids.filter(id=>claims[id-1].markers.length);
+  const listItem=/^(?:[-*•]|\d+[.)])\s/.test(line);
+  if(!own.length) {
+   const continues=listItem||/=/.test(line)||ids.every(id=>isStructuralClaim(claims[id-1].text)&&/:(?:\*\*)?$/.test(claims[id-1].text));
+   if(chain&&continues)for(const id of ids){claims[id-1].markers=[...chain.markers];claims[id-1].inheritedFrom=chain.id;}
+   else chain=null;
+  } else if(introducesList(line)) chain={id:own[own.length-1],markers:[...claims[own[own.length-1]-1].markers]};
+  else if(!listItem) chain=null;
  }
  return {claims,nodes};
 }
