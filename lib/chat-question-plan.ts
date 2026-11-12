@@ -13,7 +13,8 @@ export function planQuestion(question:string,context?:CaseContext) {
  if(parseAlternatives(question))tasks.push("alternatives");
  if(/\b(?:compara|comparar|diferencias?|contrasta|versus)\b|\bcomparacion\s+(?:entre|de\s+(?:leyes|normas|versiones|documentos|regimenes))/.test(text)||isRegimeComparison(question))tasks.push("comparison");
  if(/requisitos?|documentos? necesito|condiciones? (?:debo|debe)|checklist/.test(text))tasks.push("requirements");
- if(/paso a paso|procedimiento|como (?:se |debo |puedo )?(?:tramitar|realizar|presentar|solicitar)|que pasos/.test(text))tasks.push("procedure");
+ // También la forma conjugada: «¿cómo se solicita una ampliación de plazo?» no contaba como procedimiento (solo «solicitar»).
+ if(/paso a paso|procedimiento|como (?:se |debo |puedo )?(?:tramit|realiz|present|solicit)(?:ar|a|an)(?![a-z])|que pasos/.test(text))tasks.push("procedure");
  if(/resume|resumen|sintetiza|sintesis/.test(text))tasks.push("summary");
  if(isCaseQuestion(question,context))tasks.push("case");
  if(/porcentaje|cuanto|plazo|dias|monto|umbral|limite|\buit\b/.test(text))tasks.push("numeric");
@@ -51,8 +52,45 @@ export function caseInformationNeeds(question:string,context?:CaseContext) {
  * (medido en producción el 2026-11-11: garantía y reducción en obras, supervisión y programa acelerado). Conservadora a
  * propósito: «¿qué plazos y condiciones tiene…?» NO es compuesta; un falso positivo solo muestra más texto verificado.
  */
+const OPENS_CLAUSE="(?:cu[aá]ndo|cu[aá]l(?:es)?|c[oó]mo|qu[eé]|qui[eé]n(?:es)?|d[oó]nde|cu[aá]nt[oa]s?|en qu[eé]|por qu[eé]|puede[n]?|debe[n]?|procede[n]?|corresponde[n]?|existe[n]?|hay|es posible)(?![a-záéíóúñ])";
+const COORDINATED_CLAUSE=new RegExp(`\\b(?:y|e)\\s+${OPENS_CLAUSE}`);
 export function isMultiPartQuestion(question:string,context?:CaseContext) {
  if(planQuestion(question,context).subqueries.length>1)return true;
- const text=question.toLowerCase();
- return /\b(?:y|e)\s+(?:cu[aá]ndo|cu[aá]l(?:es)?|c[oó]mo|qu[eé]|qui[eé]n(?:es)?|d[oó]nde|cu[aá]nt[oa]s?|en qu[eé]|por qu[eé]|puede[n]?|debe[n]?|procede[n]?|corresponde[n]?|existe[n]?|hay|es posible)(?![a-záéíóúñ])/.test(text);
+ return COORDINATED_CLAUSE.test(question.toLowerCase());
+}
+
+/**
+ * Cuántas fuentes recibe la respuesta. Ocho bastan para una pregunta puntual; las de procedimiento, requisitos o varias partes
+ * se quedaban cortas: con ocho fragmentos la segunda parte o los pasos finales no tenían fuente y la respuesta salía recortada
+ * (medido el 2026-11-11 en «¿cómo se solicita una ampliación de plazo…?» y «¿qué pasa si el contratista se atrasa…?»). Doce y no
+ * más: cada fuente viaja también al auditor en cada lote, y más texto alarga la revisión hacia su límite de 25 s.
+ */
+export function answerSourceLimit(question:string,context?:CaseContext) {
+ const plan=planQuestion(question,context);
+ const broad=plan.tasks.some(task=>task==="alternatives"||task==="procedure"||task==="requirements")||isMultiPartQuestion(question,context);
+ return broad?12:8;
+}
+
+const TOPIC_STOP=new Set(["que","qué","cual","cuál","cuales","cuáles","como","cómo","cuando","cuándo","quien","quién","donde","dónde","cuanto","cuánto","cuanta","cuánta","debe","deben","puede","pueden","tiene","tienen","tener","hacer","sobre","para","desde","hasta","segun","según","entre","porque","esta","este","estos","estas","cuál","sucede","pasa","ocurre","procede","corresponde","existe","exige","exigen"]);
+
+/**
+ * Las partes de una pregunta compuesta, cada una lista para buscarse sola. «¿Qué porcentaje del monto debe tener la garantía de
+ * fiel cumplimiento y cuándo puede reducirse en obras?» → la primera tal cual y «cuándo puede reducirse en obras» con el tema de la
+ * primera («garantía fiel cumplimiento…»): sin él, «cuándo puede reducirse» sola no dice QUÉ se reduce y la búsqueda traía
+ * cualquier reducción. Las preguntas escritas por separado («¿…? ¿…?») ya llegan partidas (subqueries). Sin partes, [].
+ */
+export function questionParts(question:string,context?:CaseContext):string[] {
+ const plan=planQuestion(question,context);
+ if(plan.tasks.includes("alternatives"))return [];
+ if(plan.subqueries.length>1)return plan.subqueries;
+ const pieces=question.split(new RegExp(`\\s*,?\\s+\\b(?:y|e)\\s+(?=${OPENS_CLAUSE})`,"i"))
+  .map(piece=>piece.replace(/^[\s¿]+/,"").replace(/[\s?]+$/,"").trim()).filter(piece=>piece.length>=8).slice(0,3);
+ if(pieces.length<2)return [];
+ const words=(text:string)=>text.split(/[^\p{L}\p{N}]+/u).filter(word=>word.length>=4&&!TOPIC_STOP.has(word.toLowerCase()));
+ const topic=words(pieces[0]).slice(-6);
+ return pieces.map((piece,index)=>{
+  if(index===0)return piece;
+  const own=new Set(words(piece).map(word=>word.toLowerCase()));
+  return [piece,...topic.filter(word=>!own.has(word.toLowerCase()))].join(" ");
+ });
 }
