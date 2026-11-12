@@ -268,7 +268,9 @@ function tokenDeHex(hex, rol) {
   const [h, s, l] = hsl(rgb);
   const estado = () => (h >= 335 || h < 20 ? "danger" : h < 70 ? "warning" : h < 150 ? "success" : h < 195 ? "brand" : h < 260 ? "info" : "accent");
   if (rol === "texto") {
-    if (l > 0.92) return "on-brand";
+    // Un texto casi blanco (`#e2e8f0`) va sobre un fondo oscuro: es `on-brand`. Con un poco de tono se iba a `info` y, sobre el
+    // fondo `#0f172a` (también `info`), el detalle de cada registro de Auditoría salió del mismo color que su fondo.
+    if (l > 0.85) return "on-brand";
     if (l > 0.62) return s < 0.2 ? "placeholder" : estado() === "brand" ? "brand" : estado();
     if (s < 0.2) return l < 0.3 ? "ink" : "muted";
     const e = estado();
@@ -289,7 +291,8 @@ function tokenDeHex(hex, rol) {
     return e === "brand" ? "brand-soft" : `${e}-soft`;
   }
   if (l > 0.6 && s < 0.2) return "line";
-  if (l < 0.28 && s < 0.35) return "ink";
+  // Un fondo casi negro es un bloque oscuro (código, consola), sea cual sea su matiz: `#0f172a` no es «info».
+  if (l < 0.2 || (l < 0.28 && s < 0.35)) return "ink";
   const e = estado();
   return l < 0.45 ? (e === "brand" ? "brand" : e) : `${e}/30`;
 }

@@ -73,4 +73,27 @@ describe("migración a Tailwind: el trinquete solo baja", () => {
     expect(usadas.size, "los estilos migrados usan legado: y fuera-tw*:").toBeGreaterThan(0);
     expect([...usadas].filter((v) => !declaradas.has(v))).toEqual([]);
   });
+
+  // Fondo y texto en el mismo token, con las mismas variantes, es texto invisible. Pasó al llevar hex a tokens: el detalle de
+  // Auditoría (`#0f172a` sobre `#e2e8f0`) quedó en `bg-info text-info`. Un fondo translúcido (`bg-warning/30`) sí se lee.
+  it("ninguna cadena de estilos pone fondo y texto del mismo color", () => {
+    const NO_COLOR = /^(left|right|center|justify|start|end|xs|sm|base|lg|xl|\dxl|ellipsis|clip|wrap|nowrap|balance|pretty|inherit)$/;
+    const choques: string[] = [];
+    for (const r of ficheros("app", [".ts"]).filter((x) => /estilos/.test(x))) {
+      for (const m of leer(r).matchAll(/^\s{2}("?[\w-]+"?): (?:"|String\.raw`)([^"`]*)/gm)) {
+        const fondos = new Map<string, string>();
+        const textos = new Map<string, string>();
+        for (const tok of m[2].split(/\s+/)) {
+          const corte = tok.lastIndexOf(":") + 1;
+          const [variantes, util] = [tok.slice(0, corte), tok.slice(corte).replace(/!$/, "")];
+          const fondo = util.match(/^bg-([a-z-]+)$/);
+          const texto = util.match(/^text-([a-z-]+)$/);
+          if (fondo) fondos.set(variantes + fondo[1], tok);
+          if (texto && !NO_COLOR.test(texto[1])) textos.set(variantes + texto[1], tok);
+        }
+        for (const [k, tok] of fondos) if (textos.has(k)) choques.push(`${r} ${m[1]}: ${tok} + ${textos.get(k)}`);
+      }
+    }
+    expect(choques).toEqual([]);
+  });
 });
