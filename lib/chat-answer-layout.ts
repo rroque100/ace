@@ -45,11 +45,15 @@ export function stripModelSourceList(answer: string) {
 }
 
 export function isStructuralClaim(text: string) {
-  const claim = text.trim();
+  // La viñeta no cambia lo que es la línea: «*   **Para obras:**» y «1.  **Plazos**:» son rótulos de una lista, igual que sin ella.
+  // Sin quitarla, contaban como afirmaciones omitidas y la respuesta salía «parcial» (medido el 2026-11-11 en «¿Qué pasa si el
+  // contratista se atrasa…?» y «¿Cómo se solicita una ampliación de plazo…?»).
+  const claim = text.trim().replace(/^(?:[-*•]|\d+[.)])\s+/, "");
   if (!claim || /\[F\d/.test(claim)) return false;
   if (/^(?:#{1,6}\s*)?\*\*[^*\n]{1,160}\*\*:?$/.test(claim)) return true;
   if (/^#{1,6}\s+\S[^\n]{0,160}$/.test(claim)) return true;
-  return /:$/.test(claim) && !/\d/.test(claim) && claim.length <= 200;
+  // «**Plazos:**» termina en «**», no en «:»: los dos puntos dentro de la negrita también anuncian lo que sigue.
+  return /:(?:\*\*)?$/.test(claim) && !/\d/.test(claim) && claim.length <= 200;
 }
 type Node = { kind:"heading"; text:string } | { kind:"text"; ids:number[] } | { kind:"table"; headers:string[]; rows:Array<{id:number;cells:string[]}> };
 const neutralHeadings=new Set(["respuesta","respuesta directa","fundamento","fundamento legal","explicación","en la práctica","requisitos","pasos","procedimiento","comparación","resumen","condiciones","excepciones","condiciones y excepciones","riesgos","conclusión","aplicación al caso","información faltante y límites","fuentes y vigencia"]);
@@ -84,7 +88,11 @@ export function analyzeAnswerLayout(answer:string) {
   }
   const remainder=line.slice(start).trim();if(/[\p{L}\p{N}]/u.test(remainder))parts.push(remainder);
   // Unknown headings are reviewed as assertions and rendered as ordinary prose.
-  nodes.push({kind:"text",ids:parts.filter(Boolean).map(part=>add(part.replace(/^#{1,6}\s*/,"")))});
+  // Un título «### Causales de resolución» sin cita queda en negrita y no como texto suelto: sin las almohadillas ni la negrita,
+  // isStructuralClaim no lo reconocía como título y contaba como afirmación omitida (la respuesta salía «parcial», medido el
+  // 2026-11-11 en «¿En qué casos se puede resolver un contrato?»).
+  const heading=(part:string)=>/^#{1,6}\s/.test(part)&&!/\[F\d/.test(part)?`**${part.replace(/^#{1,6}\s*/,"").replace(/\*\*/g,"").trim()}**`:part.replace(/^#{1,6}\s*/,"");
+  nodes.push({kind:"text",ids:parts.filter(Boolean).map(part=>add(heading(part)))});
  }
  return {claims,nodes};
 }
