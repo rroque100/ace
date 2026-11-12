@@ -13,6 +13,7 @@ import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-rece
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
+import { formatInstruction, formatOutputTokens, formatShowsEverything } from "./chat-answer-format";
 import { stripModelSourceList, tidyModelPunctuation } from "./chat-answer-layout";
 import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
@@ -932,7 +933,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     return response.output_text;
   }, input.question) : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
-  answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext);
+  answer = publishEvidence(answer, prep.sources, review, input.question, input.caseContext, { everything: formatShowsEverything(input.mode) });
   // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
   // La fecha de convocatoria puede venir de «Datos del caso» y no de la pregunta: se mira con ambas.
   if (prep.status === "generate") answer = (temporalApplicationBlock(caseSearchQuery(prep.followupQuestion ?? input.question, input.caseContext), prep.sources) ?? "") + answer;
@@ -2164,12 +2165,12 @@ Reglas anti-invencion (CRITICAS, materia legal):
 
 ${adaptiveAnswerInstruction(input.question,input.caseContext)}
 - El sistema añadirá ubicaciones y avisos; no generes apartados de confianza ni Verificación y límites, ni una lista final de fuentes (el sistema pone la suya con las páginas comprobadas).
-
+${formatInstruction(input.mode) ? `\n${formatInstruction(input.mode)}\n` : ""}
 No escribas el nivel de confianza; el sistema lo agregara despues con una evaluacion independiente.`,
         role: "user",
       },
     ],
-    max_output_tokens: input.length === "concisa" ? 600 : input.length === "media" ? 1300 : 2400,
+    max_output_tokens: formatOutputTokens(input.mode, input.length),
     model: legalAnswerModel,
     temperature: 0.2,
   };

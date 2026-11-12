@@ -52,7 +52,9 @@ export function isStructuralClaim(text: string) {
   return /:$/.test(claim) && !/\d/.test(claim) && claim.length <= 200;
 }
 type Node = { kind:"heading"; text:string } | { kind:"text"; ids:number[] } | { kind:"table"; headers:string[]; rows:Array<{id:number;cells:string[]}> };
-const neutralHeadings=new Set(["respuesta","respuesta directa","fundamento","fundamento legal","explicación","en la práctica","requisitos","pasos","procedimiento","comparación","resumen","condiciones","excepciones","condiciones y excepciones","riesgos","conclusión","aplicación al caso","información faltante y límites","fuentes y vigencia"]);
+// «análisis» y «lista de verificación» son los encabezados de los formatos informe y lista (ver FORMAT_HEADINGS en
+// chat-answer-format.ts): sin estar aquí se auditaban como afirmaciones y casi nunca se publicaban.
+const neutralHeadings=new Set(["respuesta","respuesta directa","fundamento","fundamento legal","explicación","en la práctica","requisitos","pasos","procedimiento","comparación","resumen","condiciones","excepciones","condiciones y excepciones","riesgos","conclusión","aplicación al caso","información faltante y límites","fuentes y vigencia","análisis","lista de verificación"]);
 const separator=(line:string)=>/^\|?[\s:|-]+\|?$/.test(line);
 const cells=(line:string)=>line.replace(/^\|/,"").replace(/\|$/,"").split("|").map(cell=>cell.trim());
 

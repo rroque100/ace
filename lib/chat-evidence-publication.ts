@@ -31,7 +31,8 @@ export function relevantLiteral(question: string, sources: AuditSource[]) {
     .sort((a, b) => b.score - a.score || b.hits - a.hits || a.text.length - b.text.length)[0] ?? null;
 }
 
-export function publishEvidence(answer: string, sources: AuditSource[], review: EvidenceReview, question: string, context?: CaseContext) {
+/** `everything`: todo lo comprobado a la vista, sin plegar (formatos lista e informe: ver formatShowsEverything). */
+export function publishEvidence(answer: string, sources: AuditSource[], review: EvidenceReview, question: string, context?: CaseContext, options: { everything?: boolean } = {}) {
   review.queryScope = isCaseQuestion(question,context) ? "case" : "general";
   review.missing=caseInformationNeeds(question,context);
   const claims = evidenceClaims(answer);
@@ -74,7 +75,7 @@ export function publishEvidence(answer: string, sources: AuditSource[], review: 
     const frame = `Según ${titles.map(title => `«${title}»`).join(" y ")}:`;
     if(!alternatives) {
       // En una pregunta de varias partes el resto de lo verificado es la otra respuesta, no una elaboración: no se pliega.
-      const body=checkedAnswerSections(answer,new Set(kept.map(claim=>claim.id)),{everything:isMultiPartQuestion(question,context)});
+      const body=checkedAnswerSections(answer,new Set(kept.map(claim=>claim.id)),{everything:options.everything||isMultiPartQuestion(question,context)});
       return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${body.main}\n\n**Disposición y fuente**\n${labels.join("\n\n")}${body.detail ? `\n\n**Desarrollo comprobado**\n${body.detail}` : ""}`;
     }
     return `**Respuesta documental${review.presentation === "partial" ? " parcial" : ""}**\n${frame}\n\n${dropDanglingConnector(clean(kept[0].text))}\n\n**Disposición y fuente**\n${labels[0]}${kept.length > 1 ? `\n\n**Desarrollo comprobado**\n${kept.slice(1).map(c => clean(c.text)).join("\n\n")}` : ""}`;

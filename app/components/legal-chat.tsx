@@ -175,6 +175,15 @@ const lengthOptions = [
   { hint: "Desarrollo a fondo: contexto, condiciones y práctica.", label: "Detallada", value: "detallada" },
 ] as const;
 
+// Formato de la respuesta (campo `mode`; ver lib/chat-answer-format.ts). «breve» no se ofrece: es lo mismo que la longitud
+// «Concisa» y tener los dos solo confundiría; sigue aceptándose en la petición por compatibilidad. La etiqueta es «Lista» y no
+// «Lista de verificación» para que la fila quepa en un móvil de 375 px sin partirse (la respuesta sí se titula así).
+const formatOptions = [
+  { hint: "Respuesta explicada: respuesta directa y desarrollo.", label: "Respuesta", value: "tecnica" },
+  { hint: "Lista de verificación: requisitos y obligaciones numerados, cada uno con su fuente.", label: "Lista", value: "checklist" },
+  { hint: "Informe con resumen, fundamento legal, análisis y conclusión.", label: "Informe", value: "informe" },
+] as const;
+
 const exampleQuestions = [
   "¿Cuáles son los requisitos para una compra por comparación de precios?",
   "¿Cómo revisar si están bien hechas las especificaciones técnicas de subasta inversa electrónica?",
@@ -881,6 +890,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   }, [caseProfile, requestedSessionId]);
   const [tone, setTone] = useState("formal");
   const [length, setLength] = useState("media");
+  const [mode, setMode] = useState("tecnica");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState("");
@@ -1082,7 +1092,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       caseContext: userMessage.caseContext,
       content: "",
       id: assistantId,
-      mode: `${tone}/${length}`,
+      mode: `${mode}/${tone}/${length}`,
       questionText: normalizedQuestion,
       role: "assistant",
       streaming: true,
@@ -1105,6 +1115,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           caseContext: userMessage.caseContext,
           attachmentIds,
           filters: { ...extendedFilters, ...sourceSelection, articleId:articleIdentity.articleId||undefined,bodyId:articleIdentity.bodyId||undefined, article, documentId, documentIds: documentIds.length ? documentIds : undefined, documentType, processType, sourceEntity, status, topic, vigencia, year },
+          mode,
           tone,
           length,
           question: normalizedQuestion,
@@ -1575,6 +1586,20 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
           </span>
           {/* Ajustes de la respuesta, no pestañas: no cambian de panel, cambian
               cómo responde el modelo. */}
+          <div className={S.modeSelector} role="group" aria-label="Formato de respuesta">
+            <span className={S.styleSelectorLabel}>Formato</span>
+            {formatOptions.map((item) => (
+              <button
+                aria-pressed={mode === item.value}
+                key={item.value}
+                onClick={() => setMode(item.value)}
+                title={item.hint}
+                type="button"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
           <div className={S.modeSelector} role="group" aria-label="Tono de respuesta">
             <span className={S.styleSelectorLabel}>Tono</span>
             {toneOptions.map((item) => (
