@@ -61,6 +61,11 @@ describe("publicación con respaldo documental", () => {
     const raw = JSON.stringify({ claims: [{ id: 1, status: "supported", reason: "Misma cifra", evidence: [{ source: 1, quote: scoped[0].excerpt }] }] });
     expect(validateEvidenceVerdict(raw, evidenceClaims("La comisión en obras será del 10% del importe de prueba. [F1]"), scoped)[0].status).toBe("insufficient");
   });
+  it("una regla general (sin tipo de contrato) sí respalda aplicarla a obras", () => {
+    const general = [{ documentTitle: "Regla sintética", excerpt: "La comisión de prueba será del 10% del importe de prueba." }];
+    const raw = JSON.stringify({ claims: [{ id: 1, status: "supported", reason: "Regla general", evidence: [{ source: 1, quote: general[0].excerpt }] }] });
+    expect(validateEvidenceVerdict(raw, evidenceClaims("En obras, la comisión de prueba será del 10% del importe de prueba. [F1]"), general)[0].status).toBe("supported");
+  });
   it("no asigna a una frase sin cita la referencia de la afirmación anterior", () => {
     const claims = evidenceClaims("Una afirmación citada [F1]. Otra conclusión sin respaldo.");
     expect(claims).toHaveLength(2);

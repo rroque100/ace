@@ -2042,9 +2042,14 @@ async function prepareLegalAnswer(
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
   const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], sourceLimit);
   // De cada parte entra la fuente que más cubre ESA parte (no solo la primera del ranking general de su búsqueda).
+  // Solo del régimen que pide la pregunta (sin pista, el vigente): la búsqueda por partes recorre todo el corpus y la mejor
+  // coincidencia literal puede ser de la norma derogada. Como semilla iba delante de todo y el filtro de coherencia se quedaba
+  // con SU familia: «¿quién asume el mayor costo de la supervisión…?» acabó respondida con el art. 189 del D.S. 344-2018 y sin
+  // ninguna fuente de la Ley 32069 (banco de oro, 2026-11-12).
+  const regimenPedido = (source: LegalSource) => regimeRankAdjustment(regimeIntentFor(contextualQuery), sourceRegime(source)) >= 0;
   const seeds = !alternatives ? alternativeResults.flatMap((result,index)=>{
     if(result.status!=="fulfilled")return [];
-    const usable=result.value.sources.filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source));
+    const usable=result.value.sources.filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source) && regimenPedido(source));
     const best=bestCoveringSource(usable,focusedQueries[index]);
     return best?[best]:[];
   }) : [];
@@ -2069,7 +2074,7 @@ async function prepareLegalAnswer(
     parts: !selectedIds.length && !answerFirst ? parts : [],
     limit: sourceLimit,
     search: (query) => searchLegalSources({ filters: { ...chatFilters, documentType: "reglamento", processType: "" }, query: caseSearchQuery(query, input.caseContext), topK: 4 }).then((result) => result.sources),
-    accept: (source, current) => sourceSupportsProcess(source, requestedProcessType) && generalUse(source)
+    accept: (source, current) => sourceSupportsProcess(source, requestedProcessType) && generalUse(source) && regimenPedido(source)
       && (originals.length > 0 || selectCoherentEvidence([...current, source], input.question, input.caseContext).includes(source)),
   });
   const assessment = assessSources(sources, {
