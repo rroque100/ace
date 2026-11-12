@@ -39,7 +39,8 @@ describe("publicación con respaldo documental", () => {
     }
   });
   it("limita el trabajo y no inicia una revisión sin fuentes", async () => {
-    const complete = vi.fn();
+    // Respuesta válida (aunque vacía): un fallo dispararía el reintento del lote y aquí se cuenta solo el reparto en lotes de 16.
+    const complete = vi.fn(async () => JSON.stringify({ claims: [] }));
     await auditEvidence(Array(25).fill(claim).join("\n"), sources, undefined, complete);
     await auditEvidence(claim, [], undefined, complete);
     expect(complete).toHaveBeenCalledTimes(2);
