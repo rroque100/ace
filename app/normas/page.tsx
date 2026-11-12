@@ -1,6 +1,7 @@
 import { AppShell } from "../components/app-shell";
 import { NormativeBrowser } from "../components/normative-browser";
-import "../components/legal-workspace.css";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 export default function NormasPage() {
   return (
@@ -10,7 +11,7 @@ export default function NormasPage() {
       eyebrow="Centro Jurídico"
       title="Normativa y criterios"
     >
-      <section className="singleWorkspace tw legalWorkspace min-w-0">
+      <section className={cn(C.legalWorkspace_singleWorkspace, "tw min-w-0")}>
         <NormativeBrowser />
       </section>
     </AppShell>

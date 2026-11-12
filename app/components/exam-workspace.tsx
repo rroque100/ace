@@ -19,6 +19,7 @@ import type { PublicExam, ExamResult } from "@/lib/exam-policy";
 import { remainingSeconds } from "@/lib/exam-policy";
 import { S } from "./exam-workspace-estilos";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 type Dashboard = {
   available: Array<{
     regime: string;
@@ -453,7 +454,7 @@ export function ExamWorkspace({
     answer = exam?.answers.find((x) => x.question_id === q?.id),
     answered = exam?.answers.filter((x) => x.option).length ?? 0;
   return (
-    <div className="tw examWorkspace mx-auto max-w-7xl space-y-6 pb-8 text-ink">
+    <div className={cn("tw", S.examWorkspace, "mx-auto max-w-7xl space-y-6 pb-8 text-ink")}>
       <div className={S.examWelcome}>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-dark">
@@ -1151,7 +1152,7 @@ export function ExamWorkspace({
                 </p>
               </aside>
             </section>
-            <section id="exam-history" className="examHistory">
+            <section id="exam-history" className={C.examHistory}>
               <h2 className="text-xl font-semibold">Mis intentos</h2>
               <p className="mt-1 text-sm text-muted">
                 Últimos 20 intentos. Las revisiones de borradores se identifican

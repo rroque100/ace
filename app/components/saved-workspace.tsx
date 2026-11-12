@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { Bookmark, ExternalLink, FolderClosed, Inbox, Save, Trash2 } from "lucide-react";
+import { S } from "./saved-workspace-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type Folder = { id: string; name: string };
 type SavedItem = {
@@ -118,52 +120,52 @@ export function SavedWorkspace() {
   }
 
   return (
-    <div className="normGrid">
-      <aside className="normList" aria-label="Carpetas">
-        <button className={`normCard ${selected === "all" ? "active" : ""}`} onClick={() => setSelected("all")} type="button">
+    <div className={C.normGrid}>
+      <aside className={C.normList} aria-label="Carpetas">
+        <button className={`${C.normCard} ${selected === "all" ? "active" : ""}`} onClick={() => setSelected("all")} type="button">
           <strong>
             <Inbox size={15} /> Todo
           </strong>
-          <span className="normCardMeta">{items.length} elemento(s)</span>
+          <span className={C.normCardMeta}>{items.length} elemento(s)</span>
         </button>
-        <button className={`normCard ${selected === "none" ? "active" : ""}`} onClick={() => setSelected("none")} type="button">
+        <button className={`${C.normCard} ${selected === "none" ? "active" : ""}`} onClick={() => setSelected("none")} type="button">
           <strong>Sin carpeta</strong>
         </button>
         {folders.map((folder) => (
           <button
             key={folder.id}
-            className={`normCard ${selected === folder.id ? "active" : ""}`}
+            className={`${C.normCard} ${selected === folder.id ? "active" : ""}`}
             onClick={() => setSelected(folder.id)}
             type="button"
           >
             <strong>
               <FolderClosed size={15} /> {folder.name}
             </strong>
-            <span className="normCardMeta">
+            <span className={C.normCardMeta}>
               {items.filter((item) => item.carpeta_id === folder.id).length} elemento(s)
             </span>
           </button>
         ))}
       </aside>
 
-      <section className="normDetail" aria-label="Elementos guardados">
+      <section className={C.normDetail} aria-label="Elementos guardados">
         {loading ? (
-          <div className="emptyState">
+          <div className={C.emptyState}>
             <span>Cargando...</span>
           </div>
         ) : visible.length === 0 ? (
-          <div className="emptyState">
+          <div className={C.emptyState}>
             <Bookmark size={20} />
             <strong>Nada guardado aquí</strong>
             <span>Usa Guardar en búsquedas, normas o respuestas del chat.</span>
           </div>
         ) : (
-          <div className="documentList">
+          <div className={C.documentList}>
             {visible.map((item) => {
               const href = itemHref(item);
               return (
-                <article className="sourceItem" key={item.id}>
-                  <div className="sourceItemHeader">
+                <article className={C.sourceItem} key={item.id}>
+                  <div className={C.sourceItemHeader}>
                     <div>
                       <span>{typeLabels[item.item_type] ?? item.item_type}</span>
                       <strong>{item.title}</strong>
@@ -174,23 +176,23 @@ export function SavedWorkspace() {
                     </button>
                   </div>
                   {itemQuestion(item) ? (
-                    <p className="savedItemTitle">
+                    <p className={C.savedItemTitle}>
                       <strong>Contexto:</strong> {itemQuestion(item)}
                     </p>
                   ) : null}
                   {sourceCount(item.metadata) ? (
-                    <div className="sourceMetaGrid">
+                    <div className={C.sourceMetaGrid}>
                       <span>{sourceCount(item.metadata)} fuente(s) usadas</span>
                       {stringValue(item.metadata?.processType) ? <span>{stringValue(item.metadata?.processType)}</span> : null}
                     </div>
                   ) : null}
                   <textarea
-                    className="noteTextarea savedNote"
+                    className={S.noteTextarea_savedNote}
                     onChange={(event) => setDrafts((current) => ({ ...current, [item.id]: event.target.value }))}
                     placeholder="Nota personal..."
                     value={drafts[item.id] ?? item.note ?? ""}
                   />
-                  <div className="sourceActions">
+                  <div className={C.sourceActions}>
                     <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={() => saveNote(item.id)} type="button">
                       <Save size={15} />
                       Guardar nota

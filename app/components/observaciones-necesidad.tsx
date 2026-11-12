@@ -4,6 +4,8 @@ import { useState } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { Check, CornerDownRight, MessageSquarePlus, RotateCcw, UserRound } from "lucide-react";
 import type { ObservacionNecesidad } from "@/lib/necesidades";
+import { S } from "./observaciones-necesidad-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Observaciones POR CAMPO del requerimiento (D2). La DEC comenta un campo
@@ -59,20 +61,20 @@ export function ObservacionesNecesidad({
   }
 
   const item = (o: ObservacionNecesidad) => (
-    <li className="obsItem" data-resuelto={o.resuelto ? "1" : undefined} key={o.id}>
-      <div className="obsItemCuerpo">
-        <button className="obsCampo" onClick={() => onIrACampo(o.campo)} type="button">
+    <li className={S.obsItem} data-resuelto={o.resuelto ? "1" : undefined} key={o.id}>
+      <div className={S.obsItemCuerpo}>
+        <button className={S.obsCampo} onClick={() => onIrACampo(o.campo)} type="button">
           <CornerDownRight size={11} aria-hidden /> {campoLabel(o.campo)}
         </button>
-        <p className="obsComentario">{o.comentario}</p>
-        <span className="obsMeta">
+        <p className={S.obsComentario}>{o.comentario}</p>
+        <span className={S.obsMeta}>
           <UserRound size={11} aria-hidden /> {o.autor_referencia ?? "—"} · {fmt(o.created_at)}
           {o.resuelto && o.resuelto_por ? ` · resuelto por ${o.resuelto_por}` : ""}
         </span>
       </div>
       {puedeGestionar ? (
         <button
-          className="obsResolver"
+          className={S.obsResolver}
           onClick={() => void onResolver(o.id, !o.resuelto)}
           title={o.resuelto ? "Reabrir la observación" : "Marcar como subsanada"}
           type="button"
@@ -84,23 +86,23 @@ export function ObservacionesNecesidad({
   );
 
   return (
-    <div className="obsPanel">
-      <div className="obsPanelHead">
-        <h3 className="panelTitle">Observaciones por campo</h3>
+    <div className={S.obsPanel}>
+      <div className={S.obsPanelHead}>
+        <h3 className={C.panelTitle}>Observaciones por campo</h3>
         {pendientes.length > 0 ? (
-          <span className="obsPendientesBadge">{pendientes.length} pendiente{pendientes.length === 1 ? "" : "s"}</span>
+          <span className={S.obsPendientesBadge}>{pendientes.length} pendiente{pendientes.length === 1 ? "" : "s"}</span>
         ) : observaciones.length > 0 ? (
-          <span className="obsPendientesBadge" data-ok="1">Todas subsanadas</span>
+          <span className={S.obsPendientesBadge} data-ok="1">Todas subsanadas</span>
         ) : null}
         {puedeGestionar ? (
-          <button className="obsAgregarBtn" onClick={() => setComponiendo((v) => !v)} type="button">
+          <button className={S.obsAgregarBtn} onClick={() => setComponiendo((v) => !v)} type="button">
             <MessageSquarePlus size={13} /> Observar un campo
           </button>
         ) : null}
       </div>
 
       {componiendo ? (
-        <div className="obsComposer">
+        <div className={S.obsComposer}>
           <select onChange={(e) => setCampo(e.target.value)} value={campo}>
             <option value="">— Elige el campo a observar —</option>
             {campos.map((c) => (
@@ -115,7 +117,7 @@ export function ObservacionesNecesidad({
             rows={2}
             value={comentario}
           />
-          <div className="obsComposerActions">
+          <div className={S.obsComposerActions}>
             <button
               className={buttonClasses({ variant: "primary", size: "sm" })}
               disabled={enviando || !campo || comentario.trim().length < 2}
@@ -131,11 +133,11 @@ export function ObservacionesNecesidad({
         </div>
       ) : null}
 
-      {pendientes.length > 0 ? <ul className="obsLista">{pendientes.map(item)}</ul> : null}
+      {pendientes.length > 0 ? <ul className={S.obsLista}>{pendientes.map(item)}</ul> : null}
       {resueltas.length > 0 ? (
-        <details className="obsResueltas">
+        <details className={S.obsResueltas}>
           <summary>Subsanadas ({resueltas.length})</summary>
-          <ul className="obsLista">{resueltas.map(item)}</ul>
+          <ul className={S.obsLista}>{resueltas.map(item)}</ul>
         </details>
       ) : null}
     </div>

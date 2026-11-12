@@ -4,6 +4,7 @@ import { useState } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { Loader, Sparkles } from "lucide-react";
 import type { CampoSustento } from "@/lib/sustento-ia";
+import { S } from "./sustento-ia-estilos";
 
 /**
  * Botón que pide a la IA un BORRADOR de sustento y lo enseña para que la persona
@@ -67,7 +68,7 @@ export function SustentoIA({
   if (disabled) return null;
 
   return (
-    <div className="sustentoIA">
+    <div className={S.sustentoIA}>
       {!borrador ? (
         <button
           className={buttonClasses({ variant: "secondary", size: "sm" })}
@@ -85,24 +86,24 @@ export function SustentoIA({
         </button>
       ) : null}
 
-      {error ? <small className="pasoFieldHelp sustentoIAError">{error}</small> : null}
+      {error ? <small className={S.pasoFieldHelp_sustentoIAError}>{error}</small> : null}
 
       {borrador ? (
-        <div className="sustentoIABorrador">
-          <div className="sustentoIAHead">
+        <div className={S.sustentoIABorrador}>
+          <div className={S.sustentoIAHead}>
             <Sparkles size={13} /> Borrador de la IA — revísalo antes de usarlo
           </div>
-          <p className="sustentoIATexto">{borrador}</p>
+          <p className={S.sustentoIATexto}>{borrador}</p>
           {/* Se le prohíbe citar normas porque las citas del expediente salen de
               código. Si se coló una, hay que mirarla: una cita inventada en un
               documento firmado es el peor resultado posible de esta función. */}
           {citaNorma ? (
-            <small className="pasoFieldHelp sustentoIAError">
+            <small className={S.pasoFieldHelp_sustentoIAError}>
               ⚠ El borrador menciona una norma o un artículo. Verifícalo: la IA no debería citar y
               puede haberlo inventado.
             </small>
           ) : null}
-          <div className="sustentoIAAcciones">
+          <div className={S.sustentoIAAcciones}>
             <button
               className={buttonClasses({ variant: "secondary", size: "sm" })}
               onClick={() => {

@@ -10,6 +10,8 @@ import {
 } from "@/lib/exam-curriculum";
 import { reviewPriority } from "@/lib/exam-learning-policy";
 import type { ExamPreparation } from "@/lib/exam-preparation";
+import { S } from "./exam-preparation-estilos";
+import { C } from "@/app/components/estilos-comunes";
 export function ExamPreparationPanel({
   onStart,
   busy,
@@ -61,7 +63,7 @@ export function ExamPreparationPanel({
     drafts = data.coverage.reduce((n, c) => n + c.drafts, 0);
   return (
     <section
-      className="examPreparation space-y-4"
+      className={cn(S.examPreparation, "space-y-4")}
       aria-labelledby="oece-preparation-title"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -89,7 +91,7 @@ export function ExamPreparationPanel({
           Ver temario oficial
         </a>
       </div>
-      <div className="examCoverage grid gap-3 sm:grid-cols-3">
+      <div className={cn(S.examCoverage, "grid gap-3 sm:grid-cols-3")}>
         {["1", "2", "3"].map((code) => {
           const rows = data.coverage.filter((c) => c.competency === code),
             required = rows.reduce((n, c) => n + c.quota, 0),
@@ -98,8 +100,8 @@ export function ExamPreparationPanel({
               0,
             );
           return (
-            <div key={code} className="examCoverageCard">
-              <p className="examCompetencyLabel">Competencia {code}</p>
+            <div key={code} className={S.examCoverageCard}>
+              <p className={S.examCompetencyLabel}>Competencia {code}</p>
               <p className="text-sm font-semibold">{COMPETENCIES[code]}</p>
               <p className="mt-2 text-2xl font-semibold tabular-nums text-brand-dark">
                 {covered}
@@ -118,8 +120,8 @@ export function ExamPreparationPanel({
           );
         })}
       </div>
-      <div className="examPreparationActions">
-        <span className="examStatus">
+      <div className={S.examPreparationActions}>
+        <span className={S.examStatus}>
           {missing.length ? "En preparación" : "Disponible"}
         </span>
         <button
@@ -138,7 +140,7 @@ export function ExamPreparationPanel({
         </button>
       </div>
       {missing.length > 0 && (
-        <details className="examDisclosure">
+        <details className={C.examDisclosure}>
           <summary>
             ¿Qué falta para comenzar? ·{" "}
             {missing.reduce(
@@ -178,7 +180,7 @@ export function ExamPreparationPanel({
           ? `En preparación: faltan preguntas revisadas en ${missing.length} subcompetencias. No se completan cupos con repeticiones.`
           : "Las treinta cuotas están cubiertas con preguntas revisadas y fuentes actuales."}
       </p>
-      <details className="examDisclosure">
+      <details className={C.examDisclosure}>
         <summary className="cursor-pointer text-sm font-semibold">
           Cobertura y pendientes por subcompetencia
         </summary>
@@ -265,7 +267,7 @@ export function ExamPreparationPanel({
                 <p className="mt-2 text-sm text-muted">
                   72 preguntas · 120 minutos
                 </p>
-                <span className="examStatus mt-3">
+                <span className={cn(S.examStatus, "mt-3")}>
                   En preparación · sin edición publicada
                 </span>
               </div>

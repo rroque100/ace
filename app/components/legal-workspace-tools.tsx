@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { CORPUS_ANSWER_TYPES } from "@/lib/official-corpus";
 import { documentTypeLabel } from "@/lib/legal-taxonomy";
 import type { ExtendedLegalFilters } from "@/lib/legal-workspace-filters";
+import { S } from "./legal-workspace-tools-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 export function ExtendedLegalFilterControls({
   value,
@@ -13,7 +15,7 @@ export function ExtendedLegalFilterControls({
   onChange: (value: ExtendedLegalFilters) => void;
 }) {
   return (
-    <details className="legalWorkspacePanel">
+    <details className={C.legalWorkspacePanel}>
       <summary>
         {hideRegime ? "Varios tipos y años" : "Régimen, varios tipos y años"}
         {[
@@ -24,7 +26,7 @@ export function ExtendedLegalFilterControls({
           ? ` · ${[value.regime, value.documentTypes?.length, value.years?.length].filter(Boolean).length} grupos activos`
           : ""}
       </summary>
-      <div className="legalWorkspaceGrid">
+      <div className={S.legalWorkspaceGrid}>
         {!hideRegime ? <label>
           Régimen revisado
           <select
@@ -97,7 +99,7 @@ export function ExtendedLegalFilterControls({
             cualquiera de los valores.
           </small>
         </label>
-        <label className="legalWorkspaceCheck">
+        <label className={C.legalWorkspaceCheck}>
           <input
             type="checkbox"
             checked={Boolean(value.includeUnknownRegime)}
@@ -114,7 +116,7 @@ export function ExtendedLegalFilterControls({
       </p>
       <button
         type="button"
-        className="buttonSecondary"
+        className={S.buttonSecondary}
         onClick={() => onChange({})}
       >
         Limpiar estos filtros
@@ -160,7 +162,7 @@ export function LegalSearchHistory({
     return () => controller.abort();
   }, [revision]);
   return (
-    <details className="legalWorkspacePanel">
+    <details className={C.legalWorkspacePanel}>
       <summary>
         Mis búsquedas recientes {items.length ? `· ${items.length}` : ""}
       </summary>
@@ -173,7 +175,7 @@ export function LegalSearchHistory({
       ) : error ? (
         <p role="alert">{error}</p>
       ) : items.length ? (
-        <ul className="legalWorkspaceHistory">
+        <ul className={C.legalWorkspaceHistory}>
           {items.map((item) => (
             <li key={item.id}>
               <div>
@@ -183,7 +185,7 @@ export function LegalSearchHistory({
                 </small>
               </div>
               <button
-                className="buttonSecondary"
+                className={S.buttonSecondary}
                 type="button"
                 onClick={() => onRestore(item.metadata)}
               >
@@ -218,7 +220,7 @@ export function LegalChatRecent() {
     return () => controller.abort();
   }, []);
   return (
-    <details className="legalWorkspacePanel">
+    <details className={C.legalWorkspacePanel}>
       <summary>Mis consultas</summary>
       {error ? (
         <p>
@@ -226,7 +228,7 @@ export function LegalChatRecent() {
           reintentar.
         </p>
       ) : sessions.length ? (
-        <ul className="legalWorkspaceHistory">
+        <ul className={C.legalWorkspaceHistory}>
           {sessions.map((session) => (
             <li key={session.id}>
               <a href={`/chat?sessionId=${session.id}`}>

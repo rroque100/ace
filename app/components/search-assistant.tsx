@@ -9,6 +9,8 @@ import { documentSearchRequestSchema, type DocumentSearchInput } from "@/lib/doc
 import { assistantProposalSchema, type AssistantProposal } from "@/lib/search-assistant";
 import { searchSessionKey } from "@/lib/document-search-session";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
+import { S } from "./search-assistant-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 export function SearchAssistant({ownerId, onApply, destinations, initialOpen=false}: {ownerId:string; onApply?:(input:DocumentSearchInput)=>void; destinations?:{href:string;label:string}[]; initialOpen?:boolean}) {
   const router=useRouter();
@@ -46,14 +48,14 @@ export function SearchAssistant({ownerId, onApply, destinations, initialOpen=fal
     setOpen(false);
   }
   return <Dialog open={open} onOpenChange={setOpen}>
-    <DialogTrigger asChild><button type="button" className={cn(buttonClasses({ variant: "secondary" }), "searchAssistantTrigger")}>{onApply?<Sparkles size={17}/>:<Search size={17}/>} {onApply?"Ayúdame a buscar":"Buscar en ACE"}</button></DialogTrigger>
+    <DialogTrigger asChild><button type="button" className={cn(buttonClasses({ variant: "secondary" }), C.searchAssistantTrigger)}>{onApply?<Sparkles size={17}/>:<Search size={17}/>} {onApply?"Ayúdame a buscar":"Buscar en ACE"}</button></DialogTrigger>
     <DialogContent title={onApply?"Ayúdame a buscar":"Buscar en ACE"} description="Describe lo que necesitas. Revisa la propuesta antes de continuar.">
-      <div className="searchAssistantBody">
+      <div className={S.searchAssistantBody}>
         <label htmlFor={onApply?"search-help-text":"global-help-text"}>¿Qué necesitas encontrar?</label>
         <textarea id={onApply?"search-help-text":"global-help-text"} rows={3} maxLength={500} value={text} onChange={e=>{setText(e.target.value);setProposal(null);}} placeholder={onApply?"Por ejemplo: opiniones de 2026 sobre garantías":"Por ejemplo: encontrar mis consultas guardadas"}/>
         <button className={buttonClasses({ variant: "primary" })} type="button" onClick={()=>void suggest()} disabled={busy||text.trim().length<3}>{busy?"Preparando…":"Preparar propuesta"}</button>
         {error?<p role="alert">{error}</p>:null}
-        {proposal?<section className="searchAssistantProposal" aria-live="polite">
+        {proposal?<section className={S.searchAssistantProposal} aria-live="polite">
           <strong>Propuesta para revisar</strong><p>{proposal.explanation}</p>
           {proposal.clarification?<p>{proposal.clarification} Puedes añadirlo arriba y preparar otra propuesta.</p>:null}
           {!onApply?<label>Destino<select value={proposal.destination} onChange={e=>setProposal({...proposal,destination:e.target.value as AssistantProposal["destination"]})}>{["/busqueda","/chat","/normas","/guardado","/historial","/archivo"].map(href=><option key={href} value={href}>{destinations?.find(item=>item.href===href)?.label ?? href.slice(1)}</option>)}</select></label>:null}

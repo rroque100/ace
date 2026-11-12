@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
 import { NecesidadDetail } from "../../components/necesidad-detail";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function NecesidadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, user] = await Promise.all([params, getSessionUser()]);
@@ -27,7 +28,7 @@ export default async function NecesidadDetailPage({ params }: { params: Promise<
       eyebrow="Módulo 1 · Necesidad"
       title="Ficha de Necesidad"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <NecesidadDetail necesidadId={id} permisos={permisos} role={role} usuarioId={user?.id ?? null} />
       </section>
     </AppShell>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FasePanel } from "../fase-panel";
+import { C } from "@/app/components/estilos-comunes";
 
 export function FaseUnoPanel({ processId, canManage }: { processId: string; canManage: boolean }) {
   const [notifiedMsg, setNotifiedMsg] = useState<string | null>(null);
@@ -9,7 +10,7 @@ export function FaseUnoPanel({ processId, canManage }: { processId: string; canM
 
   return (
     <>
-      {notifiedMsg ? <p className="formMessage successText">{notifiedMsg}</p> : null}
+      {notifiedMsg ? <p className={C.formMessage_successText}>{notifiedMsg}</p> : null}
       <FasePanel
         canManage={canManage}
         faseId="F1"

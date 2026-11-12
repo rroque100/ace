@@ -1,0 +1,9 @@
+// Estilos de normative-compare.tsx en utilidades de Tailwind. Generado por scripts/migrar-a-tailwind.mjs a partir de las
+// reglas CSS que tenía el componente; una cadena por clase, con el mismo nombre que tenía.
+export const S = {
+  compareSide: "legado:p-3.5 legado:flex legado:flex-col legado:gap-2.5 legado:rounded-[12px] legado:bg-panel legado:fuera-tw:border legado:fuera-tw:border-line min-w-0! max-w-full! [.legalWorkspace_&]:[&_label]:flex! [.legalWorkspace_&]:[&_label]:min-w-0! [.legalWorkspace_&]:[&_label]:max-w-full! [.legalWorkspace_&]:[&_label]:flex-col! [.legalWorkspace_&]:[&_label]:gap-2! [.legalWorkspace_&]:[&_input]:w-full! [.legalWorkspace_&]:[&_input]:min-w-0! [.legalWorkspace_&]:[&_select]:w-full! [.legalWorkspace_&]:[&_select]:min-w-0!",
+  compareSideHeader: "legado:flex legado:flex-col legado:gap-0.5 legado:[&_span]:text-[12px] legado:[&_span]:font-extrabold legado:[&_span]:uppercase legado:[&_span]:tracking-[0.04em] legado:[&_span]:text-brand legado:[&_strong]:text-[15px]",
+  evidenceMini: "legado:grid legado:gap-1.5 legado:[&_small]:text-muted legado:[&_small]:text-[12px] legado:[&_small]:[font-weight:var(--peso-medio)]",
+  compareColumns: "grid! min-w-0! grid-cols-2! gap-4! @max-[720px]:grid-cols-1!",
+  exampleQuestions: "legado:flex legado:flex-wrap legado:gap-2 legado:[&_button]:py-0 legado:[&_button]:px-[11px] legado:[&_button]:fuera-tw:border legado:[&_button]:fuera-tw:border-line legado:[&_button]:fuera-tw-boton:bg-panel legado:[&_button]:fuera-tw-boton:cursor-pointer legado:[&_button]:fuera-tw-texto:text-ink legado:[&_button]:fuera-tw-texto:text-[13px] legado:[&_button]:fuera-tw-texto:font-bold legado:[&_button]:min-h-[38px] legado:[&_button]:rounded-[10px] legado:[&_button]:[transition:background_0.16s_ease,_border-color_0.16s_ease,_color_0.16s_ease,_box-shadow_0.16s_ease,_transform_0.16s_ease] legado:[&_button:hover]:fuera-tw:border-line-strong legado:[&_button:hover]:fuera-tw-boton:bg-brand-soft",
+} as const;

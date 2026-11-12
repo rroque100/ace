@@ -46,6 +46,8 @@ import { unirTimeline, type EntradaTimeline } from "@/lib/timeline-expediente";
 import { useExpediente } from "./expediente-contexto";
 import { resumenDelExpediente, type HitosDelExpediente } from "@/lib/expediente-columnas";
 import { NotificationBanner } from "./fase-preparatoria/notification-banner";
+import { S } from "./process-detail-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type Process = {
   /** Pasos de las tres fases: es de donde la ficha de resumen lee sus datos. */
@@ -676,12 +678,12 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
   }
 
   if (loading) {
-    return <p className="sideMuted">Cargando expediente…</p>;
+    return <p className={C.sideMuted}>Cargando expediente…</p>;
   }
 
   if (!process) {
     return (
-      <div className="emptyState">
+      <div className={C.emptyState}>
         <AlertTriangle size={20} />
         <p>{error || "Expediente no encontrado."}</p>
       </div>
@@ -872,9 +874,9 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
           la última acción del usuario. Se enseña el que haya, con prioridad al
           de carga: si el expediente no llegó, lo demás es consecuencia. */}
       {errorDelExpediente || error ? (
-        <p className="formMessage errorText">{errorDelExpediente || error}</p>
+        <p className={C.errorText_formMessage}>{errorDelExpediente || error}</p>
       ) : null}
-      {notice ? <p className="formMessage successText">{notice}</p> : null}
+      {notice ? <p className={C.formMessage_successText}>{notice}</p> : null}
 
       <GlobalProgress />
 
@@ -903,11 +905,11 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             ningún paso y salían en "—" para siempre. Una ficha con dos tercios
             de guiones enseña que falta información cuando en realidad no había
             de dónde sacarla. */}
-        <section className="processPanel">
-          <div className="processPanelHead">
+        <section className={C.processPanel}>
+          <div className={C.processPanelHead}>
             <ScanSearch size={17} />
-            <h3 className="panelTitulo">Resumen del expediente</h3>
-            <a className="panelOrigen" href="#fase-1">
+            <h3 className={C.panelTitulo}>Resumen del expediente</h3>
+            <a className={C.panelOrigen} href="#fase-1">
               Se escribe en los pasos de la Fase 1 →
             </a>
             {/* La carátula es el uso que esta ficha no tenía: entregar el
@@ -955,10 +957,10 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
           </div>
         </section>
 
-        <section className="processPanel" ref={uploadSectionRef}>
-          <div className="processPanelHead">
+        <section className={C.processPanel} ref={uploadSectionRef}>
+          <div className={C.processPanelHead}>
             <UploadCloud size={17} />
-            <h3 className="panelTitulo">Documentos del expediente</h3>
+            <h3 className={C.panelTitulo}>Documentos del expediente</h3>
           </div>
 
           {permisos.upload ? (
@@ -1001,7 +1003,7 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
           ) : null}
 
           {documents.length === 0 ? (
-            <p className="sideMuted">Sin documentos cargados.</p>
+            <p className={C.sideMuted}>Sin documentos cargados.</p>
           ) : (
             <ul className="m-0 grid list-none gap-2 p-0">
               {documents.map((doc) => (
@@ -1026,12 +1028,12 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
         </section>
 
         <aside className="processSide">
-          <section className="processPanel">
-            <div className="processPanelHead">
+          <section className={C.processPanel}>
+            <div className={C.processPanelHead}>
               <Clock size={17} />
-              <h3 className="panelTitulo">Línea de tiempo</h3>
+              <h3 className={C.panelTitulo}>Línea de tiempo</h3>
             </div>
-            <ul className="timeline">
+            <ul className={S.timeline}>
               {timeline.map((item, index) => {
                 const Icon = ICONO_TIMELINE[item.tipo];
                 return (
@@ -1052,17 +1054,17 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             </ul>
           </section>
 
-          <section className="processPanel bg-surface">
-            <div className="processPanelHead">
+          <section className={cn(C.processPanel, "bg-surface")}>
+            <div className={C.processPanelHead}>
               <ScanSearch size={17} />
-              <h3 className="panelTitulo">Centro operativo del expediente</h3>
+              <h3 className={C.panelTitulo}>Centro operativo del expediente</h3>
             </div>
-            <div className="sourceMetaGrid">
+            <div className={C.sourceMetaGrid}>
               <span>Documentos: {documents.length}</span>
               <span>Evaluaciones: {evaluations.length}</span>
               <span>Riesgos: {risks[0]?.items?.length ?? 0}</span>
             </div>
-            <div className="sourceActions">
+            <div className={C.sourceActions}>
               <Link
                 className={buttonClasses({ variant: "secondary", size: "sm" })}
                 href={`/analizar?processId=${process.id}&processType=${process.procedure_type ?? ""}`}
@@ -1134,13 +1136,13 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             </div>
           </section>
 
-          <section className="processPanel">
-            <div className="processPanelHead">
+          <section className={C.processPanel}>
+            <div className={C.processPanelHead}>
               <CheckCircle2 size={17} />
-              <h3 className="panelTitulo">Última evaluación</h3>
+              <h3 className={C.panelTitulo}>Última evaluación</h3>
             </div>
             {evaluations.length === 0 ? (
-              <p className="sideMuted">Aún no hay matriz de evaluación.</p>
+              <p className={C.sideMuted}>Aún no hay matriz de evaluación.</p>
             ) : (
               <div className="grid gap-2">
                 <div className={`${RESULT_BADGE_BASE} ${RESULT_BADGE[evaluations[0]?.result ?? "riesgo"] ?? RESULT_BADGE.riesgo}`}>
@@ -1172,13 +1174,13 @@ export function ProcessDetail({ permisos, processId }: { permisos: ExpedientePer
             )}
           </section>
 
-          <section className="processPanel">
-            <div className="processPanelHead">
+          <section className={C.processPanel}>
+            <div className={C.processPanelHead}>
               <ShieldAlert size={17} />
-              <h3 className="panelTitulo">Riesgos</h3>
+              <h3 className={C.panelTitulo}>Riesgos</h3>
             </div>
             {risks.length === 0 ? (
-              <p className="sideMuted">Aún no hay matriz de riesgos.</p>
+              <p className={C.sideMuted}>Aún no hay matriz de riesgos.</p>
             ) : (
               <div className="grid gap-2">
                 {(risks[0]?.items ?? []).slice(0, 5).map((risk, index) => (

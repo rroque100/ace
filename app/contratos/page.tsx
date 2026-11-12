@@ -3,6 +3,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { ScanSearch } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { ContratosWorkspace } from "../components/contratos-workspace";
+import { C } from "@/app/components/estilos-comunes";
 
 export default function ContratosPage() {
   return (
@@ -17,7 +18,7 @@ export default function ContratosPage() {
       eyebrow="Asistente"
       title="Generación de contratos"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <ContratosWorkspace />
       </section>
     </AppShell>

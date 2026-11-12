@@ -30,6 +30,8 @@ import {
 } from "@/lib/actores-contratacion";
 import { processDocKindLabel } from "@/lib/legal-taxonomy";
 import { cn } from "@/lib/utils";
+import { S } from "./phase-tracker-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 const ESTADO_LABEL: Record<EstadoFase, string> = {
   completa: "Completa",
@@ -219,13 +221,13 @@ function PhaseCard({
 
 function ActorMatrix() {
   return (
-    <details className="actorMatrix">
+    <details className={S.actorMatrix}>
       <summary>
         <Users size={14} />
         Actores por fase (Ley N.° 32069 · D.S. 009-2025-EF)
       </summary>
-      <div className="actorMatrixWrap">
-        <table className="actorMatrixTable">
+      <div className={S.actorMatrixWrap}>
+        <table className={S.actorMatrixTable}>
           <thead>
             <tr>
               <th>Actor</th>
@@ -310,15 +312,15 @@ export function PhaseTracker({
   );
 
   return (
-    <section className="processPanel phaseTracker">
-      <div className="processPanelHead">
+    <section className={S.phaseTracker_processPanel}>
+      <div className={C.processPanelHead}>
         <ListChecks size={17} />
-        <h3 className="panelTitulo">Instrucción del expediente</h3>
-        <span className="panelOrigen">Ciclo de la contratación · Ley 32069</span>
+        <h3 className={C.panelTitulo}>Instrucción del expediente</h3>
+        <span className={C.panelOrigen}>Ciclo de la contratación · Ley 32069</span>
         <button
           aria-controls="instruccion-detalle"
           aria-expanded={abierta}
-          className="panelToggle"
+          className={C.panelToggle}
           onClick={alternar}
           type="button"
         >

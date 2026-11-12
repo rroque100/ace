@@ -5,6 +5,8 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { FileText, Loader } from "lucide-react";
 import type { Bloque } from "@/lib/informe-aprobacion-contenido";
 import { ModalShell } from "./modal-shell";
+import { S } from "./informe-aprobacion-preview-modal-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Vista previa del informe de solicitud de aprobación (A8) antes de descargarlo.
@@ -80,13 +82,13 @@ export function InformeAprobacionPreviewModal({
         {error ? (
           <p className="formError">{error}</p>
         ) : !bloques ? (
-          <p className="anexo1PreviewCargando">
+          <p className={C.anexo1PreviewCargando}>
             <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Preparando la vista previa…
           </p>
         ) : (
           <>
             {faltantes > 0 ? (
-              <p className="previaAviso">
+              <p className={S.previaAviso}>
                 {faltantes === 1
                   ? "Un dato del detalle sale con guion: aún no está registrado en su paso."
                   : `${faltantes} datos del detalle salen con guion: aún no están registrados en sus pasos.`}{" "}
@@ -94,7 +96,7 @@ export function InformeAprobacionPreviewModal({
               </p>
             ) : null}
 
-            <div className="hojaInforme">
+            <div className={C.hojaInforme}>
               {bloques.map((b, i) => (
                 <BloqueVista bloque={b} key={i} />
               ))}
@@ -108,13 +110,13 @@ export function InformeAprobacionPreviewModal({
 function BloqueVista({ bloque }: { bloque: Bloque }) {
   switch (bloque.tipo) {
     case "titulo":
-      return <p className="hojaTitulo">{bloque.texto}</p>;
+      return <p className={S.hojaTitulo}>{bloque.texto}</p>;
     case "subtitulo":
-      return <p className="hojaSubtitulo">{bloque.texto}</p>;
+      return <p className={S.hojaSubtitulo}>{bloque.texto}</p>;
     case "cabecera":
       return (
-        <p className="hojaCabecera">
-          <span className="hojaCabeceraEtiqueta">{bloque.etiqueta}</span>
+        <p className={S.hojaCabecera}>
+          <span className={S.hojaCabeceraEtiqueta}>{bloque.etiqueta}</span>
           <span>
             <strong>{bloque.nombre || "—"}</strong>
             {bloque.cargo ? (
@@ -128,7 +130,7 @@ function BloqueVista({ bloque }: { bloque: Bloque }) {
       );
     case "parrafo":
       return (
-        <p className="hojaParrafo">
+        <p className={C.hojaParrafo}>
           {bloque.fragmentos.map((f, i) => {
             if (f.negrita) return <strong key={i}>{f.texto}</strong>;
             if (f.cursiva) return <em key={i}>{f.texto}</em>;
@@ -138,7 +140,7 @@ function BloqueVista({ bloque }: { bloque: Bloque }) {
       );
     case "vinetas":
       return (
-        <ul className="hojaVinetas">
+        <ul className={S.hojaVinetas}>
           {bloque.items.map((t, i) => (
             <li key={i}>
               <em>{t}</em>
@@ -148,7 +150,7 @@ function BloqueVista({ bloque }: { bloque: Bloque }) {
       );
     case "tabla":
       return (
-        <table className="hojaTabla">
+        <table className={S.hojaTabla}>
           <tbody>
             {bloque.filas.map((f, i) => (
               <tr key={i}>
@@ -160,12 +162,12 @@ function BloqueVista({ bloque }: { bloque: Bloque }) {
         </table>
       );
     case "linea":
-      return <hr className="hojaLinea" />;
+      return <hr className={S.hojaLinea} />;
     case "espacio":
-      return <div className="hojaEspacio" />;
+      return <div className={S.hojaEspacio} />;
     case "pie":
       return (
-        <p className="hojaPie">
+        <p className={S.hojaPie}>
           {bloque.fragmentos.map((f, i) => {
             if (f.negrita) return <strong key={i}>{f.texto}</strong>;
             if (f.cursiva) return <em key={i}>{f.texto}</em>;

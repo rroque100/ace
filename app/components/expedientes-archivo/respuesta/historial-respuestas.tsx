@@ -21,6 +21,8 @@ import {
   expBtnClass,
 } from "../estilos";
 import { cn } from "@/lib/utils";
+import { S } from "./historial-respuestas-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 const PAGE_SIZE = 8;
 
@@ -289,25 +291,25 @@ function CompareModal({
       }}
     >
       <Dialog.Portal>
-        <Dialog.Overlay className="visorModalFondo" />
-        <Dialog.Content className="tw diffVersiones">
-          <div className="diffVersionesHead">
+        <Dialog.Overlay className={C.visorModalFondo} />
+        <Dialog.Content className={cn("tw", S.diffVersiones)}>
+          <div className={S.diffVersionesHead}>
             <Dialog.Title asChild>
-              <h3 className="diffVersionesTitulo">
+              <h3 className={S.diffVersionesTitulo}>
                 Comparando v{actual.version ?? 2} con la versión anterior
                 {actual.nro_oficio ? ` — ${actual.nro_oficio}` : ""}
               </h3>
             </Dialog.Title>
             <Dialog.Close asChild>
-              <button aria-label="Cerrar comparación" className="visorModalCerrar" type="button">
+              <button aria-label="Cerrar comparación" className={C.visorModalCerrar} type="button">
                 <X size={18} />
               </button>
             </Dialog.Close>
           </div>
-          <span className="diffVersionesPista">
+          <span className={S.diffVersionesPista}>
             Los párrafos resaltados en rojo se quitaron; los verdes son nuevos o cambiaron.
           </span>
-          <div className="diffVersionesCols">
+          <div className={S.diffVersionesCols}>
             {columna(
               anterior ? `Versión anterior (v${anterior.version ?? 1})` : "Versión anterior",
               pAnterior,
@@ -316,7 +318,7 @@ function CompareModal({
             )}
             {columna(`Esta versión (v${actual.version ?? 2})`, pActual, setAnterior, "bg-exp-success-soft")}
           </div>
-          <div className="diffVersionesPie">
+          <div className={S.diffVersionesPie}>
             {anterior ? (
               <button type="button" className={expBtnClass("secondary")} onClick={() => onOpen(anterior)}>
                 Restaurar la anterior en el editor

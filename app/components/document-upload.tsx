@@ -26,6 +26,8 @@ import {
 import { supportsAmendment } from "@/lib/documents";
 import { maxPdfSizeBytes, maxPdfSizeLabel } from "@/lib/upload-limits";
 import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } from "./use-settings-catalog";
+import { S } from "./document-upload-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type DocumentItem = {
   id: string;
@@ -615,8 +617,8 @@ export function DocumentUpload() {
   }
 
   return (
-    <div className="uploadPanel" id="documentos">
-      <div className="panelHeader">
+    <div className={C.uploadPanel} id="documentos">
+      <div className={C.panelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Base documental</p>
           <h2>Gestion documental</h2>
@@ -624,7 +626,7 @@ export function DocumentUpload() {
         <UploadCloud size={22} />
       </div>
 
-      <section className="documentStats" aria-label="Resumen documental">
+      <section className={S.documentStats} aria-label="Resumen documental">
         <div>
           <Database size={17} />
           <span>Total</span>
@@ -649,7 +651,7 @@ export function DocumentUpload() {
         </div>
       </section>
 
-      <section className="analysisHelpBox">
+      <section className={C.analysisHelpBox}>
         <UploadCloud size={18} />
         <div>
           <strong>Elige el destino correcto del PDF</strong>
@@ -657,7 +659,7 @@ export function DocumentUpload() {
             Biblioteca normativa: Ley, Reglamento, Directivas, Opiniones y Bases que alimentan Chat, Busqueda y Normas.
             Expediente: documentos de un proceso especifico para evaluar ofertas, riesgos o generar informes.
           </span>
-          <div className="sourceActions">
+          <div className={C.sourceActions}>
             <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href="/documentos">
               Subir a biblioteca normativa
             </Link>
@@ -671,14 +673,14 @@ export function DocumentUpload() {
         </div>
       </section>
 
-      <form className="documentForm" onSubmit={uploadDocument}>
-        <div className="documentSectionTitle">
+      <form className={C.documentForm} onSubmit={uploadDocument}>
+        <div className={C.documentSectionTitle}>
           <div>
             <strong>Subir nuevo PDF</strong>
             <span>{uploadGuidance(documentType)}</span>
           </div>
         </div>
-        <label className="filePicker">
+        <label className={C.filePicker}>
           <UploadCloud size={28} />
           <strong>{selectedFileLabel}</strong>
           <span>Ley, reglamento, bases integradas, directivas, resoluciones y expedientes. Maximo {maxPdfSizeLabel}.</span>
@@ -702,7 +704,7 @@ export function DocumentUpload() {
           />
         </label>
 
-        <div className="formGrid uploadFields">
+        <div className={S.formGrid_uploadFields}>
           <label>
             <span>1 · Tipo de documento</span>
             <select
@@ -726,7 +728,7 @@ export function DocumentUpload() {
               <option value="modificatoria">Modificatoria (modifica otra norma)</option>
               <option value="modificada">Con modificaciones posteriores</option>
             </select>
-            <small className="fieldHint">{changeCategoryHint}</small>
+            <small className={S.fieldHint}>{changeCategoryHint}</small>
           </label>
           <label>
             <span>3 · Tipo de proceso</span>
@@ -741,7 +743,7 @@ export function DocumentUpload() {
                 </option>
               ))}
             </select>
-            <small className="fieldHint">{uploadProcessHint}</small>
+            <small className={S.fieldHint}>{uploadProcessHint}</small>
           </label>
           <label>
             <span>4 · Título (opcional)</span>
@@ -751,14 +753,14 @@ export function DocumentUpload() {
               value={title}
             />
           </label>
-          <label className="checkboxField">
+          <label className={S.checkboxField}>
             <input
               checked={esInstitucional}
               onChange={(event) => setEsInstitucional(event.target.checked)}
               type="checkbox"
             />
             <span>5 · Documento institucional</span>
-            <small className="fieldHint">
+            <small className={S.fieldHint}>
               Visible para todas las oficinas (p. ej. la Ley, el Reglamento, una plantilla común). Sin
               marcar, solo lo ve tu oficina.
             </small>
@@ -766,7 +768,7 @@ export function DocumentUpload() {
         </div>
 
         {documentType === "opinion" ? (
-          <div className="uploadTypeNote">
+          <div className={S.uploadTypeNote}>
             <Info size={18} />
             <div>
               <strong>Opiniones del OECE</strong>
@@ -782,9 +784,9 @@ export function DocumentUpload() {
         ) : null}
 
         {changeCategory === "modificatoria" ? (
-          <div className="amendmentBox">
-            <div className="formGrid uploadFields">
-              <label className="fullSpan">
+          <div className={S.amendmentBox}>
+            <div className={S.formGrid_uploadFields}>
+              <label className={C.fullSpan}>
                 <span>Norma que modifica</span>
                 <select
                   onChange={(event) => setAmendsDocumentId(event.target.value)}
@@ -797,13 +799,13 @@ export function DocumentUpload() {
                     </option>
                   ))}
                 </select>
-                <small className="fieldHint">
+                <small className={S.fieldHint}>
                   {amendableDocuments.length === 0
                     ? "Aún no hay normas indexadas para enlazar. Sube primero la norma base."
                     : "Elige la Ley, Reglamento o Directiva que este PDF modifica."}
                 </small>
               </label>
-              <label className="fullSpan">
+              <label className={C.fullSpan}>
                 <span>Detalle del cambio (opcional)</span>
                 <input
                   onChange={(event) => setAmendsNote(event.target.value)}
@@ -814,9 +816,9 @@ export function DocumentUpload() {
             </div>
           </div>
         ) : changeCategory === "modificada" ? (
-          <div className="amendmentBox">
-            <div className="formGrid uploadFields">
-              <label className="fullSpan">
+          <div className={S.amendmentBox}>
+            <div className={S.formGrid_uploadFields}>
+              <label className={C.fullSpan}>
                 <span>Detalle de las modificaciones (opcional)</span>
                 <input
                   onChange={(event) => setAmendsNote(event.target.value)}
@@ -828,7 +830,7 @@ export function DocumentUpload() {
           </div>
         ) : null}
 
-        <div className="formActions">
+        <div className={C.formActions}>
           <button className={buttonClasses({ variant: "secondary" })} onClick={() => void loadDocuments()} type="button">
             <RefreshCw size={17} />
             Actualizar
@@ -839,11 +841,11 @@ export function DocumentUpload() {
           </button>
         </div>
 
-        {message ? <p className="formMessage">{message}</p> : null}
+        {message ? <p className={C.formMessage}>{message}</p> : null}
       </form>
 
-      <section className="corpusReadiness" aria-label="Preparacion del corpus">
-        <div className="documentSectionTitle">
+      <section className={S.corpusReadiness} aria-label="Preparacion del corpus">
+        <div className={C.documentSectionTitle}>
           <div>
             <strong>Preparacion para Chat y Consultas</strong>
             <span>El chat juridico necesita normativa vigente, paginas, articulos y vectores verificados.</span>
@@ -853,9 +855,9 @@ export function DocumentUpload() {
             Verificar corpus
           </Link>
         </div>
-        <div className="corpusChecklist">
+        <div className={S.corpusChecklist}>
           {corpusChecklist.map((item) => (
-            <article className="corpusCheckItem" data-ready={item.ready} key={item.title}>
+            <article className={S.corpusCheckItem} data-ready={item.ready} key={item.title}>
               {item.ready ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
               <div>
                 <strong>{item.title}</strong>
@@ -867,7 +869,7 @@ export function DocumentUpload() {
           ))}
         </div>
         {reindexRecommended.length > 0 || globalScopeIssues.length > 0 ? (
-          <div className="corpusWarnings">
+          <div className={S.corpusWarnings}>
             {reindexRecommended.length > 0 ? (
               <span>{reindexRecommended.length} documento(s) requieren reindexacion o revision de Pinecone/paginas.</span>
             ) : null}
@@ -878,8 +880,8 @@ export function DocumentUpload() {
         ) : null}
       </section>
 
-      <section className="corpusReadiness" aria-label="Calidad por procedimiento">
-        <div className="documentSectionTitle">
+      <section className={S.corpusReadiness} aria-label="Calidad por procedimiento">
+        <div className={C.documentSectionTitle}>
           <div>
             <strong>Calidad del corpus por procedimiento</strong>
             <span>Permite saber si cada proceso tiene normativa suficiente y bases solo como apoyo operativo.</span>
@@ -890,9 +892,9 @@ export function DocumentUpload() {
           </button>
         </div>
         {quality ? (
-          <div className="procedureQualityGrid">
+          <div className={S.procedureQualityGrid}>
             {quality.procedures.map((procedure) => (
-              <article className="ruleItem" data-tone={procedure.status === "listo" ? "ok" : procedure.operationalReady ? "warn" : "bad"} key={procedure.processType}>
+              <article className={C.ruleItem} data-tone={procedure.status === "listo" ? "ok" : procedure.operationalReady ? "warn" : "bad"} key={procedure.processType}>
                 <div>
                   {procedure.status === "listo" ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
                   <strong>{procedure.processTypeLabel}</strong>
@@ -905,7 +907,7 @@ export function DocumentUpload() {
                       ? "Hay bases/esquema, pero falta normativa completa."
                       : "Corpus incompleto para responder con seguridad."}
                 </small>
-                <div className="sourceMetaGrid">
+                <div className={C.sourceMetaGrid}>
                   {procedure.typeCoverage.map((item) => (
                     <span key={`${procedure.processType}-${item.documentType}`}>
                       {item.documentTypeLabel}: {item.ready ? "sí" : "no"} ({item.documents})
@@ -913,7 +915,7 @@ export function DocumentUpload() {
                   ))}
                 </div>
                 {procedure.missingDocumentTypes?.length ? (
-                  <div className="corpusMissingList">
+                  <div className={S.corpusMissingList}>
                     <strong>Falta completar</strong>
                     {procedure.missingDocumentTypes.slice(0, 4).map((item) => (
                       <span key={`${procedure.processType}-missing-${item.documentType}`}>
@@ -926,19 +928,19 @@ export function DocumentUpload() {
             ))}
           </div>
         ) : (
-          <div className="emptyState">Actualiza para calcular calidad por procedimiento.</div>
+          <div className={C.emptyState}>Actualiza para calcular calidad por procedimiento.</div>
         )}
       </section>
 
-      <div className="documentList">
-        <div className="documentToolbar">
-          <div className="documentSectionTitle">
+      <div className={C.documentList}>
+        <div className={S.documentToolbar}>
+          <div className={C.documentSectionTitle}>
             <div>
               <strong>Biblioteca cargada</strong>
               <span>{filteredDocuments.length} documento(s) visibles</span>
             </div>
           </div>
-          <div className="documentFilters">
+          <div className={S.documentFilters}>
             <label>
               <span>Tipo</span>
               <select onChange={(event) => setFilterDocumentType(event.target.value)} value={filterDocumentType}>
@@ -983,7 +985,7 @@ export function DocumentUpload() {
               Limpiar
             </button>
           </div>
-          <div className="bulkDeleteBox">
+          <div className={S.bulkDeleteBox}>
             <AlertTriangle size={16} />
             <span>Acciones masivas</span>
             <button
@@ -1019,13 +1021,13 @@ export function DocumentUpload() {
         </div>
 
         {documents.length === 0 ? (
-          <div className="emptyState">Aun no hay documentos registrados.</div>
+          <div className={C.emptyState}>Aun no hay documentos registrados.</div>
         ) : filteredDocuments.length === 0 ? (
-          <div className="emptyState">No hay documentos con esos filtros.</div>
+          <div className={C.emptyState}>No hay documentos con esos filtros.</div>
         ) : (
           filteredDocuments.map((document) => (
-            <article className="documentItem" key={document.id}>
-              <div className="documentIcon">
+            <article className={C.documentItem} key={document.id}>
+              <div className={C.documentIcon}>
                 <FileText size={18} />
               </div>
               <div>
@@ -1060,7 +1062,7 @@ export function DocumentUpload() {
                     {document.metadata.ocrPartial ? " · OCR parcial" : ""}
                   </span>
                 ) : null}
-                <div className="documentQuality">
+                <div className={S.documentQuality}>
                   <span data-ready={Boolean(document.metadata?.pageCount)}>
                     Paginas {document.metadata?.pageCount ?? "sin dato"}
                   </span>
@@ -1082,17 +1084,17 @@ export function DocumentUpload() {
                   </span>
                 ) : null}
                 {document.metadata?.amends ? (
-                  <span className="documentAmends">Modifica: {document.metadata.amends}</span>
+                  <span className={S.documentAmends}>Modifica: {document.metadata.amends}</span>
                 ) : null}
                 {document.metadata?.changeNote ? (
-                  <span className="documentAmends">Con modificaciones: {document.metadata.changeNote}</span>
+                  <span className={S.documentAmends}>Con modificaciones: {document.metadata.changeNote}</span>
                 ) : null}
                 {document.metadata?.summary ? <p>{document.metadata.summary}</p> : null}
                 {document.error_message ? (
-                  <span className="documentError">{document.error_message}</span>
+                  <span className={C.documentError}>{document.error_message}</span>
                 ) : null}
               </div>
-              <div className="documentActions">
+              <div className={C.documentActions}>
                 <small data-status={document.status}>{statusLabel(document.status)}</small>
                 <Link
                   aria-label={`Abrir PDF ${document.title}`}
@@ -1128,8 +1130,8 @@ export function DocumentUpload() {
 
       <Dialog.Root open={Boolean(pendingAction)} onOpenChange={(open) => !open && setPendingAction(null)}>
         <Dialog.Portal>
-          <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="dialogContent">
+          <Dialog.Overlay className={C.dialogOverlay} />
+          <Dialog.Content className={C.dialogContent}>
             <Dialog.Title>
               {pendingAction?.type === "delete" ? "Eliminar documento" : "Reindexar documento"}
             </Dialog.Title>
@@ -1139,7 +1141,7 @@ export function DocumentUpload() {
                 : "Se regeneraran fragmentos, paginas aproximadas, resumen y metadata sugerida por IA."}
             </Dialog.Description>
             <strong>{pendingAction?.document.title}</strong>
-            <div className="dialogActions">
+            <div className={C.dialogActions}>
               <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>
@@ -1169,8 +1171,8 @@ export function DocumentUpload() {
         onOpenChange={(open) => !open && setBulkDeleteTarget(null)}
       >
         <Dialog.Portal>
-          <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="dialogContent">
+          <Dialog.Overlay className={C.dialogOverlay} />
+          <Dialog.Content className={C.dialogContent}>
             <Dialog.Title>Eliminar documentos por proceso</Dialog.Title>
             <Dialog.Description>
               Se eliminaran PDFs de Storage, fragmentos en Supabase y vectores en Pinecone para el grupo seleccionado.
@@ -1180,7 +1182,7 @@ export function DocumentUpload() {
               {labelProcessType(bulkDeleteTarget?.processType) ?? "Sin proceso"}
             </strong>
             <p>{bulkDeleteTarget?.count ?? 0} documento(s) seran eliminados.</p>
-            <div className="dialogActions">
+            <div className={C.dialogActions}>
               <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>
@@ -1201,15 +1203,15 @@ export function DocumentUpload() {
         onOpenChange={(open) => !open && setBulkReindexTarget(null)}
       >
         <Dialog.Portal>
-          <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="dialogContent">
+          <Dialog.Overlay className={C.dialogOverlay} />
+          <Dialog.Content className={C.dialogContent}>
             <Dialog.Title>Reindexar documentos visibles</Dialog.Title>
             <Dialog.Description>
               Se regeneraran fragmentos, metadata juridica y vectores de Pinecone usando los PDF guardados en Supabase Storage.
             </Dialog.Description>
             <strong>{bulkReindexTarget?.count ?? 0} documento(s) seran reindexados.</strong>
             <p>Usa filtros antes de ejecutar si quieres limitarlo por tipo documental, proceso o estado.</p>
-            <div className="dialogActions">
+            <div className={C.dialogActions}>
               <Dialog.Close className={buttonClasses({ variant: "secondary" })} type="button">
                 Cancelar
               </Dialog.Close>

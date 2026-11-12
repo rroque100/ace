@@ -7,6 +7,7 @@ import {
   componerConsorcio,
   parseConsorcio,
 } from "@/lib/consorcio";
+import { S } from "./consorcio-editor-estilos";
 
 /**
  * Condiciones de participación en consorcio (Art. 72.3.d).
@@ -51,13 +52,13 @@ export const ConsorcioEditor = memo(function ConsorcioEditor({
   const ningunaMarcada = !cond.d1 && !cond.d2 && !cond.d3;
 
   return (
-    <div className="reqCalConsorcio">
+    <div className={S.reqCalConsorcio}>
       {/* El mensaje del formato mientras no se marca ninguna: es lo que iría en
           el documento, para que se vea que falta elegir las condiciones. */}
-      {ningunaMarcada ? <p className="reqCalConsorcioMsg">{MENSAJE_CONSORCIO}</p> : null}
+      {ningunaMarcada ? <p className={S.reqCalConsorcioMsg}>{MENSAJE_CONSORCIO}</p> : null}
       {filas.map((f) => (
-        <div className="reqCalConsorcioFila" key={f.clave}>
-          <label className="reqCalConsorcioCheck">
+        <div className={S.reqCalConsorcioFila} key={f.clave}>
+          <label className={S.reqCalConsorcioCheck}>
             <input
               checked={f.on}
               disabled={readOnly}
@@ -69,7 +70,7 @@ export const ConsorcioEditor = memo(function ConsorcioEditor({
             </span>
           </label>
           {f.on ? (
-            <span className="reqCalConsorcioNum">
+            <span className={S.reqCalConsorcioNum}>
               <input
                 aria-label={`Valor de ${f.clave}`}
                 disabled={readOnly}

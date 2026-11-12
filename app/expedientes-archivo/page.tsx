@@ -2,6 +2,7 @@ import { AppShell } from "../components/app-shell";
 import { ExpedientesArchivoWorkspace } from "../components/expedientes-archivo-workspace";
 import { getSessionUser } from "@/lib/auth";
 import { supabaseRest } from "@/lib/supabase-server";
+import { C } from "@/app/components/estilos-comunes";
 
 // Nombre de la OFICINA del usuario (ej. "Unidad de Abastecimiento"), no el de
 // la entidad/municipalidad entera (`user.entity`): el wizard de Subir precarga
@@ -37,7 +38,7 @@ export default async function ExpedientesArchivoPage() {
       eyebrow="Biblioteca de expedientes"
       title="Expedientes archivados"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <ExpedientesArchivoWorkspace canManage={canManage} isAdmin={isAdmin} userOficina={userOficina} />
       </section>
     </AppShell>

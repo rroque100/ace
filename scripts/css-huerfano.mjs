@@ -1,4 +1,4 @@
-// Lista las reglas de app/styles.css cuyas clases ya no usa ningún componente.
+// Lista las reglas de app/base.css cuyas clases ya no usa ningún componente.
 // Uso:  node scripts/css-huerfano.mjs            → resumen y rangos de líneas
 //       node scripts/css-huerfano.mjs --clase=toolPanel   → quién usa esa clase
 //
@@ -9,7 +9,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const RAIZ = process.cwd();
-const CSS = process.argv.find((a) => a.startsWith("--css="))?.slice(6) ?? "app/styles.css";
+const CSS = process.argv.find((a) => a.startsWith("--css="))?.slice(6) ?? "app/base.css";
 
 function ficheros(dir, ext) {
   return readdirSync(join(RAIZ, dir)).flatMap((n) => {

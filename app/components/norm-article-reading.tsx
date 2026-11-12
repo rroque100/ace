@@ -2,7 +2,6 @@
 import { useMemo,useState,useSyncExternalStore,type CSSProperties } from "react";
 import { ArrowLeft,ArrowRight,BookOpen,Minimize2,Minus,Plus,Settings2 } from "lucide-react";
 import { legalReadingBlocks,readingPreferences,type ReadingPreferences } from "@/lib/norm-reading";
-import "./norm-article-reading.css";
 import { S } from "./norm-article-reading-estilos";
 import { cn } from "@/lib/utils";
 const KEY="ace:norm-reading:1",EVENT="ace:norm-reading";
@@ -33,7 +32,7 @@ export function NormArticleReading({content,documentTitle,focus,onFocus,previous
       </div>
       <label className={S.normReadingFont}><span>Tipografía</span><select aria-label="Tipografía de lectura" value={preferences.font} onChange={e=>update({font:e.target.value as ReadingPreferences["font"]})}><option value="serif">Libro · Georgia</option><option value="sans">Inter</option></select></label>
       <details className={S.normReadingSettings}><summary aria-label="Más ajustes de lectura"><Settings2 size={17} aria-hidden/><span>Ajustes</span></summary><div>
-        <label>Espaciado<select aria-label="Espaciado de lectura" value={preferences.spacing} onChange={e=>update({spacing:e.target.value as ReadingPreferences["spacing"]})}><option value="comfortable">Cómodo</option><option value="compact">Compacto</option></select></label>
+        <label className={S.normReadingAjuste}>Espaciado<select aria-label="Espaciado de lectura" value={preferences.spacing} onChange={e=>update({spacing:e.target.value as ReadingPreferences["spacing"]})}><option value="comfortable">Cómodo</option><option value="compact">Compacto</option></select></label>
         <label className={S.normReadingContinuous}><input type="checkbox" checked={continuous} onChange={e=>setContinuous(e.target.checked)}/>Ver texto continuo</label>
         <button type="button" onClick={()=>update({size:18,font:"serif",spacing:"comfortable"})}>Restablecer lectura</button>
       </div></details>

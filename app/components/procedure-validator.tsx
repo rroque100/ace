@@ -19,6 +19,9 @@ import {
 import { OBJECT_TYPES, processTypeLabel } from "@/lib/legal-taxonomy";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
+import { S } from "./procedure-validator-estilos";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 type RuleFinding = {
   action: string;
@@ -541,9 +544,9 @@ export function ProcedureValidator() {
   }, [result]);
 
   return (
-    <div className="validatorLayout">
-      <section className="toolPanel">
-        <div className="toolPanelHeader">
+    <div className={S.validatorLayout}>
+      <section className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Agent Orchestrator</p>
             <h2>Validar procedimiento</h2>
@@ -551,8 +554,8 @@ export function ProcedureValidator() {
           <ShieldCheck size={21} />
         </div>
 
-        <form className="validatorForm" onSubmit={validateProcedure}>
-          <div className="validatorSteps" aria-label="Flujo de validacion">
+        <form className={S.validatorForm} onSubmit={validateProcedure}>
+          <div className={S.validatorSteps} aria-label="Flujo de validacion">
             <span data-active="true">
               <ClipboardCheck size={15} />
               Datos
@@ -567,7 +570,7 @@ export function ProcedureValidator() {
             </span>
           </div>
 
-          <div className="validationReadiness">
+          <div className={S.validationReadiness}>
             <div>
               <strong>{completion}% listo para validar</strong>
               <span>
@@ -579,7 +582,7 @@ export function ProcedureValidator() {
             <Gauge size={18} />
           </div>
 
-          <div className="validatorAssistPanel">
+          <div className={S.validatorAssistPanel}>
             <div>
               <span className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Guia del procedimiento</span>
               <strong>{guidance.title}</strong>
@@ -592,15 +595,15 @@ export function ProcedureValidator() {
             </ul>
           </div>
 
-          <div className="validatorSectionTitle">
+          <div className={S.validatorSectionTitle}>
             <span>1</span>
             Escoge un caso de trabajo
           </div>
 
-          <div className="procedurePresetGrid" aria-label="Ejemplos de validacion">
+          <div className={S.procedurePresetGrid} aria-label="Ejemplos de validacion">
             {presets.map((preset) => (
               <button
-                className="procedurePresetCard"
+                className={S.procedurePresetCard}
                 data-active={preset.procedureType === procedureType}
                 key={preset.label}
                 onClick={() => applyPreset(preset)}
@@ -612,7 +615,7 @@ export function ProcedureValidator() {
             ))}
           </div>
 
-          <div className="validatorSectionTitle">
+          <div className={S.validatorSectionTitle}>
             <span>2</span>
             Datos del caso
           </div>
@@ -634,7 +637,7 @@ export function ProcedureValidator() {
             <textarea value={query} onChange={(event) => setQuery(event.target.value)} />
           </label>
 
-          <div className="requiredChecklist" aria-label="Campos necesarios">
+          <div className={S.requiredChecklist} aria-label="Campos necesarios">
             {requiredChecklist.map((item) => (
               <span data-ready={item.done} key={item.label}>
                 {item.done ? <CheckCircle2 size={14} /> : <AlertTriangle size={14} />}
@@ -643,12 +646,12 @@ export function ProcedureValidator() {
             ))}
           </div>
 
-          <div className="validatorSectionTitle">
+          <div className={S.validatorSectionTitle}>
             <span>3</span>
             Condiciones verificables
           </div>
 
-          <div className="formGrid">
+          <div className={C.formGrid}>
             <label>
               <span>Procedimiento</span>
               <select value={procedureType} onChange={(event) => handleProcedureType(event.target.value)}>
@@ -717,7 +720,7 @@ export function ProcedureValidator() {
             ) : null}
           </div>
 
-          <div className="formActions">
+          <div className={C.formActions}>
             <button className={buttonClasses({ variant: "secondary" })} type="button" onClick={verifyCorpus} disabled={checkingCorpus}>
               <FileSearch size={16} />
               {checkingCorpus ? "Verificando..." : "Verificar corpus (admin)"}
@@ -727,13 +730,13 @@ export function ProcedureValidator() {
               {loading ? "Validando..." : "Validar"}
             </button>
           </div>
-          {error ? <p className="evalError">{error}</p> : null}
-          {savedMessage ? <p className="formMessage successText">{savedMessage}</p> : null}
+          {error ? <p className={C.evalError}>{error}</p> : null}
+          {savedMessage ? <p className={C.formMessage_successText}>{savedMessage}</p> : null}
         </form>
       </section>
 
-      <section className="toolPanel">
-        <div className="toolPanelHeader">
+      <section className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Resultado</p>
             <h2>{result?.rules ? conclusionLabel(result.rules.conclusion) : "Sin validar"}</h2>
@@ -742,7 +745,7 @@ export function ProcedureValidator() {
         </div>
 
         {!result ? (
-          <div className="validatorEmptyGuide">
+          <div className={S.validatorEmptyGuide}>
             <ShieldCheck size={28} />
             <strong>Listo para validar un procedimiento</strong>
             <p>
@@ -756,8 +759,8 @@ export function ProcedureValidator() {
             </div>
           </div>
         ) : (
-          <div className="validatorResult">
-            <div className="decisionGrid">
+          <div className={S.validatorResult}>
+            <div className={S.decisionGrid}>
               <article data-tone={result.rules?.conclusion ?? "requiere_revision"}>
                 <strong>{conclusionLabel(result.rules?.conclusion)}</strong>
                 <span>Conclusión operativa</span>
@@ -772,7 +775,7 @@ export function ProcedureValidator() {
               </article>
             </div>
 
-            <div className="validationBanner" data-tone={result.rules?.conclusion ?? "requiere_revision"}>
+            <div className={S.validationBanner} data-tone={result.rules?.conclusion ?? "requiere_revision"}>
               <strong>{result.rules?.procedureLabel ?? labelProcessType(result.inferredContext.procedureType)}</strong>
               <span>{result.plan.reason}</span>
               <span>
@@ -783,7 +786,7 @@ export function ProcedureValidator() {
                     ? "No procede"
                     : "Requiere subsanar/revision"}
               </span>
-              <div className="sourceCoverage">
+              <div className={C.sourceCoverage}>
                 {result.critical.required.map((item) => (
                   <span data-ready={!result.critical.missing.includes(item)} key={item}>
                     {item}: {result.critical.missing.includes(item) ? "falta" : "ok"}
@@ -791,7 +794,7 @@ export function ProcedureValidator() {
                 ))}
               </div>
               {result.critical.warning ? <small>{result.critical.warning}</small> : null}
-              <div className="sourceCoverage">
+              <div className={C.sourceCoverage}>
                 {sourceCoverage.map((item) => (
                   <span data-ready={item.count > 0} key={item.type}>
                     {item.label}: {item.count > 0 ? "si" : "no"}
@@ -801,7 +804,7 @@ export function ProcedureValidator() {
               <small>Bases integradas: apoyo operativo. No sustituyen Ley, Reglamento, Directiva u Opinion como fundamento normativo.</small>
             </div>
 
-            <div className="formActions compactActions">
+            <div className={cn(C.formActions, "compactActions")}>
               <button className={buttonClasses({ variant: "secondary" })} disabled={saving} onClick={saveValidation} type="button">
                 <Save size={16} />
                 {saving ? "Guardando..." : "Guardar validacion"}
@@ -816,9 +819,9 @@ export function ProcedureValidator() {
               </button>
             </div>
 
-            <div className="ruleList">
+            <div className={C.ruleList}>
               {result.rules?.findings.map((finding) => (
-                <article className="ruleItem" data-tone={statusTone(finding.status, finding.level)} key={finding.code}>
+                <article className={C.ruleItem} data-tone={statusTone(finding.status, finding.level)} key={finding.code}>
                   <div>
                     {finding.status === "cumple" ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
                     <strong>{finding.code}</strong>
@@ -832,7 +835,7 @@ export function ProcedureValidator() {
             </div>
 
             {result.rules?.nextSteps?.length ? (
-              <div className="sourcePanel">
+              <div className={S.sourcePanel}>
                 <strong>Que hacer despues</strong>
                 {result.rules.nextSteps.map((step) => (
                   <span key={step}>{step}</span>
@@ -840,7 +843,7 @@ export function ProcedureValidator() {
               </div>
             ) : null}
 
-            <div className="sourcePanel">
+            <div className={S.sourcePanel}>
               <strong>Fuentes recuperadas</strong>
               <span>
                 Confianza {result.legal?.assessment.confidence ?? "sin dato"} ·{" "}
@@ -848,14 +851,14 @@ export function ProcedureValidator() {
               </span>
               {result.legal?.assessment.reason ? <span>{result.legal.assessment.reason}</span> : null}
               {(result.legal?.sources ?? []).slice(0, 6).map((source) => (
-                <article className="sourceCard" key={`${source.documentTitle}-${source.article}-${source.pageStart}`}>
+                <article className={C.sourceCard} key={`${source.documentTitle}-${source.article}-${source.pageStart}`}>
                   <strong>{source.documentTitle}</strong>
                   <span>
                     {source.documentType} · {labelProcessType(source.processType) ?? "Todos los procesos"}
                     {source.article ? ` · articulo ${source.article}` : ""}
                     {source.pageStart ? ` · pagina ${source.pageStart}` : ""}
                   </span>
-                  <div className="sourceActions">
+                  <div className={C.sourceActions}>
                     <PdfCiteButton
                       documentId={source.documentId}
                       page={source.pageStart}
@@ -874,16 +877,16 @@ export function ProcedureValidator() {
       </section>
 
       {corpus ? (
-        <section className="toolPanel validatorWide">
-          <div className="toolPanelHeader">
+        <section className={S.toolPanel_validatorWide}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Corpus</p>
               <h2>{corpus.corpusReady ? "Listo para pruebas" : "Requiere ajustes"}</h2>
             </div>
           </div>
-          <div className="corpusGrid">
+          <div className={S.corpusGrid}>
             {corpus.documents.byType.map((item) => (
-              <article className="ruleItem" data-tone={item.indexed > 0 ? "ok" : "warn"} key={item.documentType}>
+              <article className={C.ruleItem} data-tone={item.indexed > 0 ? "ok" : "warn"} key={item.documentType}>
                 <div>
                   {item.indexed > 0 ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
                   <strong>{item.documentType}</strong>
@@ -895,7 +898,7 @@ export function ProcedureValidator() {
               </article>
             ))}
             {corpus.requirements.map((item) => (
-              <article className="ruleItem" data-tone={item.pass ? "ok" : "warn"} key={item.code}>
+              <article className={C.ruleItem} data-tone={item.pass ? "ok" : "warn"} key={item.code}>
                 <div>
                   {item.pass ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
                   <strong>{item.label}</strong>
@@ -904,9 +907,9 @@ export function ProcedureValidator() {
               </article>
             ))}
           </div>
-          <div className="criticalSearchList">
+          <div className={C.criticalSearchList}>
             {corpus.criticalSearches.map((item) => (
-              <article className="sourceCard" key={item.code}>
+              <article className={C.sourceCard} key={item.code}>
                 <strong>
                   {item.pass ? "OK" : "Falta"} · {item.expected}
                 </strong>
@@ -924,16 +927,16 @@ export function ProcedureValidator() {
       ) : null}
 
       {history.length > 0 ? (
-        <section className="toolPanel validatorWide">
-          <div className="toolPanelHeader">
+        <section className={S.toolPanel_validatorWide}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Historial</p>
               <h2>Validaciones guardadas</h2>
             </div>
           </div>
-          <div className="ruleList">
+          <div className={C.ruleList}>
             {history.map((item) => (
-              <article className="ruleItem" data-tone={item.metadata?.rules?.conclusion === "procede" ? "ok" : "warn"} key={item.id}>
+              <article className={C.ruleItem} data-tone={item.metadata?.rules?.conclusion === "procede" ? "ok" : "warn"} key={item.id}>
                 <div>
                   <ShieldCheck size={17} />
                   <strong>{item.title}</strong>

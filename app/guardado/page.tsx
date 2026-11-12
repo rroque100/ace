@@ -3,6 +3,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { FileSearch } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { SavedWorkspace } from "../components/saved-workspace";
+import { C } from "@/app/components/estilos-comunes";
 
 export default function GuardadoPage() {
   return (
@@ -17,7 +18,7 @@ export default function GuardadoPage() {
       eyebrow="Engagement"
       title="Mis carpetas y guardados"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <SavedWorkspace />
       </section>
     </AppShell>

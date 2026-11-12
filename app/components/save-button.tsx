@@ -4,6 +4,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useState } from "react";
 import { Bookmark, Check, FolderPlus, LoaderCircle, X } from "lucide-react";
+import { S } from "./save-button-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type SaveButtonProps = {
   itemType: "documento" | "articulo" | "mensaje";
@@ -85,9 +87,9 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="dialogOverlay" />
-        <Dialog.Content className="dialogContent" aria-describedby={undefined}>
-          <div className="pdfViewerBar">
+        <Dialog.Overlay className={C.dialogOverlay} />
+        <Dialog.Content className={C.dialogContent} aria-describedby={undefined}>
+          <div className={C.pdfViewerBar}>
             <Dialog.Title>Guardar en carpeta</Dialog.Title>
             <Dialog.Close asChild>
               <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" type="button">
@@ -96,12 +98,12 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
             </Dialog.Close>
           </div>
 
-          <p className="savedItemTitle">{title}</p>
-          <p className="dialogHelp">
+          <p className={C.savedItemTitle}>{title}</p>
+          <p className={S.dialogHelp}>
             Guarda esta respuesta en una carpeta para organizarla por expediente, tema o revision.
           </p>
 
-          <label className="promptInput">
+          <label className={C.promptInput}>
             <span>Carpeta</span>
             <select onChange={(event) => setFolderId(event.target.value)} value={folderId}>
               <option value="">Sin carpeta</option>
@@ -114,7 +116,7 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
           </label>
 
           {!folderId ? (
-            <label className="promptInput">
+            <label className={C.promptInput}>
               <span>
                 <FolderPlus size={13} /> O crear carpeta nueva
               </span>
@@ -122,17 +124,17 @@ export function SaveButton({ itemType, title, documentId, articleId, messageId, 
             </label>
           ) : null}
 
-          <label className="promptInput">
+          <label className={C.promptInput}>
             <span>Nota (opcional)</span>
             <textarea
-              className="noteTextarea"
+              className={C.noteTextarea}
               onChange={(event) => setNote(event.target.value)}
               placeholder="Ej. Usar como base para informe legal del expediente."
               value={note}
             />
           </label>
 
-          <div className="dialogActions">
+          <div className={C.dialogActions}>
             <button className={buttonClasses({ variant: "primary" })} disabled={saving} onClick={save} type="button">
               {saving ? <LoaderCircle size={16} /> : saved ? <Check size={16} /> : <Bookmark size={16} />}
               {saved ? "Guardado" : saving ? "Guardando..." : "Guardar"}

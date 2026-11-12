@@ -2,7 +2,8 @@ import { AppShell } from "../components/app-shell";
 import { DocumentSearchWorkspace } from "../components/document-search-workspace";
 import { getSessionUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import "../components/legal-workspace.css";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 export default async function BusquedaPage() {
   const user = await getSessionUser();
@@ -14,7 +15,7 @@ export default async function BusquedaPage() {
       eyebrow="Centro Jurídico"
       title="Búsqueda documental"
     >
-      <section className="singleWorkspace tw legalWorkspace min-w-0">
+      <section className={cn(C.legalWorkspace_singleWorkspace, "tw min-w-0")}>
         <DocumentSearchWorkspace ownerId={user.id} />
       </section>
     </AppShell>

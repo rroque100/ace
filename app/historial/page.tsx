@@ -4,6 +4,7 @@ import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { ChatHistory } from "../components/chat-history";
 import { LegalActivity } from "../components/legal-activity";
+import { S } from "./page-estilos";
 
 export default function HistorialPage() {
   return (
@@ -18,7 +19,7 @@ export default function HistorialPage() {
       eyebrow="Auditoria"
       title="Actividad jurídica, consultas y fuentes usadas"
     >
-      <section className="activityWorkspace">
+      <section className={S.activityWorkspace}>
         <LegalActivity />
         <ChatHistory />
       </section>

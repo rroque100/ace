@@ -5,6 +5,7 @@ import { AppShell } from "../../components/app-shell";
 import { ExpedienteProvider } from "../../components/expediente-contexto";
 import { ProcessDetail } from "../../components/process-detail";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function ExpedienteDetailPage({
   params,
@@ -34,7 +35,7 @@ export default async function ExpedienteDetailPage({
       eyebrow="Procedimiento"
       title="Detalle del expediente"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         {/* El proveedor carga el expediente UNA vez para toda la página: antes
             el detalle, los tres paneles de fase y el avance global lo pedían
             cada uno por su cuenta.

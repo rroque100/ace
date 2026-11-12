@@ -4,6 +4,7 @@ import { Lock, BarChart3 } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { AuditExplorer } from "../components/audit-explorer";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function AuditoriaPage() {
   const user = await getSessionUser();
@@ -21,11 +22,11 @@ export default async function AuditoriaPage() {
       eyebrow="Gobernanza"
       title="Auditoría del sistema"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         {isAdmin ? (
           <AuditExplorer />
         ) : (
-          <div className="emptyState">
+          <div className={C.emptyState}>
             <Lock size={20} />
             <p>El registro de auditoría está reservado a administradores.</p>
             <Link className={buttonClasses({ variant: "primary" })} href="/chat">

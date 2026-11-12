@@ -5,6 +5,8 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { Activity, CheckCircle2, Gauge, MessageSquareWarning, Play, Plus, Target, Trash2 } from "lucide-react";
 import { DOCUMENT_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
+import { S } from "./eval-dashboard-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type Question = {
   id: string;
@@ -54,9 +56,9 @@ function pct(value: number | null) {
 
 function scoreClass(score: number | null) {
   if (score === null) return "";
-  if (score >= 0.75) return "scoreGood";
-  if (score >= 0.45) return "scoreMid";
-  return "scoreBad";
+  if (score >= 0.75) return S.scoreGood;
+  if (score >= 0.45) return "";
+  return S.scoreBad;
 }
 
 export function EvalDashboard() {
@@ -187,48 +189,48 @@ export function EvalDashboard() {
 
   if (loading) {
     return (
-      <div className="emptyState">
+      <div className={C.emptyState}>
         <span>Cargando...</span>
       </div>
     );
   }
 
   return (
-    <div className="evalLayout">
-      <div className="evalStats">
-        <article className="statCard">
+    <div className={C.evalLayout}>
+      <div className={C.evalStats}>
+        <article className={C.statCard}>
           <Gauge size={18} />
-          <span className="statLabel">Score promedio</span>
+          <span className={C.statLabel}>Score promedio</span>
           <strong className={scoreClass(latest?.avgScore ?? null)}>{pct(latest?.avgScore ?? null)}</strong>
         </article>
-        <article className="statCard">
+        <article className={C.statCard}>
           <CheckCircle2 size={18} />
-          <span className="statLabel">Con fuentes suficientes</span>
+          <span className={C.statLabel}>Con fuentes suficientes</span>
           <strong>{successRate === null ? "—" : pct(successRate)}</strong>
         </article>
-        <article className="statCard">
+        <article className={C.statCard}>
           <Target size={18} />
-          <span className="statLabel">Cobertura de términos</span>
+          <span className={C.statLabel}>Cobertura de términos</span>
           <strong>{pct(latest?.avgKeywordHit ?? null)}</strong>
         </article>
-        <article className="statCard">
+        <article className={C.statCard}>
           <Activity size={18} />
-          <span className="statLabel">Feedback capturado</span>
+          <span className={C.statLabel}>Feedback capturado</span>
           <strong>{feedbackExamples.length}</strong>
         </article>
-        <article className="statCard">
+        <article className={C.statCard}>
           <MessageSquareWarning size={18} />
-          <span className="statLabel">Casos incorrectos</span>
+          <span className={C.statLabel}>Casos incorrectos</span>
           <strong>{incorrectFeedback}</strong>
         </article>
       </div>
 
-      <div className="toolPanelHeader">
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Calidad del RAG</p>
           <h2>Última corrida</h2>
         </div>
-        <div className="buttonCluster">
+        <div className={C.buttonCluster}>
           <button className={buttonClasses({ variant: "secondary" })} onClick={seedQuestions} type="button">
             <Plus size={16} />
             Set base
@@ -240,24 +242,24 @@ export function EvalDashboard() {
         </div>
       </div>
 
-      {error ? <p className="evalError">{error}</p> : null}
+      {error ? <p className={C.evalError}>{error}</p> : null}
 
-      <div className="evalGrid">
-        <section className="toolPanel">
-          <div className="documentList">
+      <div className={C.evalGrid}>
+        <section className={C.toolPanel}>
+          <div className={C.documentList}>
             {results.length === 0 ? (
-              <div className="emptyState">
+              <div className={C.emptyState}>
                 <Activity size={20} />
                 <span>Sin resultados. Agrega preguntas y corre la evaluación.</span>
               </div>
             ) : (
               results.map((result) => (
-                <article className="evalResult" key={result.id}>
-                  <div className="evalResultHead">
+                <article className={C.evalResult} key={result.id}>
+                  <div className={S.evalResultHead}>
                     <strong>{result.question}</strong>
-                    <span className={`evalScore ${scoreClass(result.score)}`}>{pct(result.score)}</span>
+                    <span className={`${S.evalScore} ${scoreClass(result.score)}`}>{pct(result.score)}</span>
                   </div>
-                  <div className="feedMeta">
+                  <div className={C.feedMeta}>
                     <span>Confianza: {result.confidence ?? "—"}</span>
                     <span>{result.sufficient ? "Suficiente" : "Insuficiente"}</span>
                     <span>{result.sources_count ?? 0} fuentes</span>
@@ -271,17 +273,17 @@ export function EvalDashboard() {
           </div>
         </section>
 
-        <aside className="toolPanel">
-          <div className="toolPanelHeader">
+        <aside className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Banco de preguntas</p>
               <h2>{questions.length} pregunta(s)</h2>
             </div>
           </div>
-          <div className="toolBody">
-            <div className="followForm">
+          <div className={C.toolBody}>
+            <div className={C.followForm}>
               <textarea
-                className="noteTextarea"
+                className={C.noteTextarea}
                 onChange={(event) => setQuestion(event.target.value)}
                 placeholder="¿Qué requisitos exige la Ley 32069 para...?"
                 value={question}
@@ -292,7 +294,7 @@ export function EvalDashboard() {
                 value={keywords}
               />
               <textarea
-                className="noteTextarea compactTextarea"
+                className={S.compactTextarea_noteTextarea}
                 onChange={(event) => setExpectedSources(event.target.value)}
                 placeholder='Fuentes esperadas JSON. Ej. [{"documentType":"reglamento","article":"144"}]'
                 value={expectedSources}
@@ -319,12 +321,12 @@ export function EvalDashboard() {
               </button>
             </div>
 
-            <div className="evalQuestionList">
+            <div className={S.evalQuestionList}>
               {questions.map((item) => (
-                <article className="evalQuestion" key={item.id}>
+                <article className={S.evalQuestion} key={item.id}>
                   <div>
                     <strong>{item.question}</strong>
-                    <div className="feedMeta">
+                    <div className={C.feedMeta}>
                       {item.document_type ? <span>{documentTypeLabel(item.document_type)}</span> : null}
                       {labelProcessType(item.process_type) ? <span>{labelProcessType(item.process_type)}</span> : null}
                       {(item.expected_keywords ?? []).length > 0 ? (
@@ -346,16 +348,16 @@ export function EvalDashboard() {
       </div>
 
       {runs.length > 1 ? (
-        <section className="toolPanel">
-          <div className="toolPanelHeader">
+        <section className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Histórico</p>
               <h2>Corridas recientes</h2>
             </div>
           </div>
-          <div className="evalHistory">
+          <div className={S.evalHistory}>
             {runs.map((run) => (
-              <div className="evalHistoryRow" key={run.id}>
+              <div className={S.evalHistoryRow} key={run.id}>
                 <span>{new Date(run.run_at).toLocaleString("es-PE")}</span>
                 <span className={scoreClass(run.summary.avgScore)}>Score {pct(run.summary.avgScore)}</span>
                 <span>
@@ -369,23 +371,23 @@ export function EvalDashboard() {
       ) : null}
 
       {feedbackExamples.length > 0 ? (
-        <section className="toolPanel">
-          <div className="toolPanelHeader">
+        <section className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Memoria institucional</p>
               <h2>Feedback reciente del chat</h2>
             </div>
           </div>
-          <div className="documentList">
+          <div className={C.documentList}>
             {feedbackExamples.map((item) => (
-              <article className="evalResult" key={item.id}>
-                <div className="evalResultHead">
+              <article className={C.evalResult} key={item.id}>
+                <div className={S.evalResultHead}>
                   <strong>{item.question}</strong>
-                  <span className={`evalScore ${item.feedback === "correct" ? "scoreGood" : "scoreBad"}`}>
+                  <span className={`${S.evalScore} ${item.feedback === "correct" ? S.scoreGood : S.scoreBad}`}>
                     {item.feedback === "correct" ? "Correcta" : "Incorrecta"}
                   </span>
                 </div>
-                <div className="feedMeta">
+                <div className={C.feedMeta}>
                   <span>{new Date(item.created_at).toLocaleString("es-PE")}</span>
                   <span>{item.recovered_sources?.length ?? 0} fuente(s) recuperada(s)</span>
                   <span>{item.expected_sources?.length ?? 0} fuente(s) esperada(s)</span>

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import type { PublicExam } from "@/lib/exam-policy";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import { examStudyReport, type StudyReview } from "@/lib/exam-learning-policy";
+import { C } from "@/app/components/estilos-comunes";
 export type SetAttempt = {
   setId: string;
   attemptId: string;
@@ -67,7 +68,7 @@ export function ExamLearningDashboard({
   return (
     <section
       id="exam-review"
-      className="examHistory space-y-4"
+      className={cn(C.examHistory, "space-y-4")}
       aria-labelledby="review-title"
     >
       <h2 id="review-title">Qué estudiar después</h2>
@@ -142,7 +143,7 @@ export function ExamLearningDashboard({
               </ul>
             </>
           )}
-          <details className="examDisclosure">
+          <details className={C.examDisclosure}>
             <summary>Mis resultados en balotarios</summary>
             {data.setAttempts.length ? (
               <ul className="mt-3 space-y-2">
@@ -210,7 +211,7 @@ export function ExamStudyReport({
   if (!rows) return null;
   const observed = activity?.reduce((n, x) => n + x.seconds, 0) ?? 0;
   return (
-    <section className="examHistory space-y-4" aria-labelledby="study-report">
+    <section className={cn(C.examHistory, "space-y-4")} aria-labelledby="study-report">
       <h2 id="study-report">Tu informe de estudio</h2>
       <p className="text-sm text-muted">
         {exam.attempt.preview
@@ -309,7 +310,7 @@ export function ExamTutor({
     }
   }
   return (
-    <details className="examDisclosure mt-5">
+    <details className={cn(C.examDisclosure, "mt-5")}>
       <summary>Tutor de estudio con IA</summary>
       <p className="mt-3 text-xs text-muted">
         Explicación asistida a partir de las fuentes de esta pregunta. La clave

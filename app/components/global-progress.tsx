@@ -4,6 +4,8 @@ import { useMemo } from "react";
 import { BarChart3, CheckCircle2, ClipboardCheck, FileCheck, Loader } from "lucide-react";
 import { FASES, hitosDeFase, progresoDeFase } from "@/lib/procurement-fases";
 import { useExpediente } from "./expediente-contexto";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 const FASE_META: Record<string, { label: string; icon: typeof ClipboardCheck; color: string }> = {
   F1: { label: "Actuaciones Preparatorias", icon: ClipboardCheck, color: "#0f766e" },
@@ -37,22 +39,22 @@ export function GlobalProgress() {
 
   if (loading) {
     return (
-      <section className="processPanel">
-        <div className="processPanelHead">
+      <section className={C.processPanel}>
+        <div className={C.processPanelHead}>
           <BarChart3 size={17} />
-          <h3 className="panelTitulo">Avance global del expediente</h3>
+          <h3 className={C.panelTitulo}>Avance global del expediente</h3>
         </div>
-        <p className="sideMuted"><Loader size={14} /> Cargando avance…</p>
+        <p className={C.sideMuted}><Loader size={14} /> Cargando avance…</p>
       </section>
     );
   }
 
   return (
-    <section className="processPanel mb-3">
-      <div className="processPanelHead">
+    <section className={cn(C.processPanel, "mb-3")}>
+      <div className={C.processPanelHead}>
         <BarChart3 size={17} />
-        <h3 className="panelTitulo">Avance global del expediente</h3>
-        <span className="faseUnoBadge">{total.porcentaje}% completo</span>
+        <h3 className={C.panelTitulo}>Avance global del expediente</h3>
+        <span className={C.faseUnoBadge}>{total.porcentaje}% completo</span>
       </div>
 
       <div className="mt-2">

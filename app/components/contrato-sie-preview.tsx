@@ -4,6 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { buttonClasses } from "@/app/components/ui/button";
 import { useState, useEffect } from "react";
 import { FileText, Download, X, LoaderCircle } from "lucide-react";
+import { C } from "@/app/components/estilos-comunes";
 
 type Bien = { paquete: string; descripcion: string; marca?: string; unidad: string; cantidad: string; entrega: string; nroEntrega: number };
 type PrecioItem = { concepto: string; marca: string; unidad: string; cantidad: string; precioUnitario: string; precioTotal: string };
@@ -124,30 +125,30 @@ export function VistaPreviaContrato(props: Props) {
   return (
     <Dialog.Root open={open} onOpenChange={(abierto) => { if (!abierto) onClose(); }}>
       <Dialog.Portal>
-        <Dialog.Overlay className="visorModalFondo" />
-        <Dialog.Content className="visorModal">
-          <div className="visorModalHead">
+        <Dialog.Overlay className={C.visorModalFondo} />
+        <Dialog.Content className={C.visorModal}>
+          <div className={C.visorModalHead}>
             <Dialog.Title asChild>
-              <h3 className="visorModalTitulo">
+              <h3 className={C.visorModalTitulo}>
                 <FileText size={20} /> Vista previa del contrato
               </h3>
             </Dialog.Title>
             <Dialog.Close asChild>
-              <button aria-label="Cerrar" className="visorModalCerrar" type="button">
+              <button aria-label="Cerrar" className={C.visorModalCerrar} type="button">
                 <X size={18} />
               </button>
             </Dialog.Close>
           </div>
 
-          <div className="visorModalCuerpo">
+          <div className={C.visorModalCuerpo}>
             {generando ? (
-              <div className="visorModalEstado">
+              <div className={C.visorModalEstado}>
                 <LoaderCircle className="animate-[spin_0.9s_linear_infinite]" size={32} />
                 <p>Generando documento PDF…</p>
               </div>
             ) : error ? (
-              <div className="visorModalEstado">
-                <p className="visorModalError">{error}</p>
+              <div className={C.visorModalEstado}>
+                <p className={C.visorModalError}>{error}</p>
                 <button className={buttonClasses({ variant: "secondary" })} onClick={generarPreview} type="button">
                   Reintentar
                 </button>
@@ -157,7 +158,7 @@ export function VistaPreviaContrato(props: Props) {
             ) : null}
           </div>
 
-          <div className="visorModalPie">
+          <div className={C.visorModalPie}>
             <button className={buttonClasses({ variant: "secondary" })} onClick={onClose} type="button">
               Cerrar
             </button>

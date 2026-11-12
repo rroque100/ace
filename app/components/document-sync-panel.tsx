@@ -4,6 +4,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 import { OFFICIAL_CORPUS_TYPES } from "@/lib/official-corpus";
 import { syncStateLabels } from "@/lib/document-sync-policy";
+import { S } from "./document-sync-panel-estilos";
 type Config = {
   enabled: boolean;
   document_types: string[];
@@ -235,7 +236,7 @@ export function DocumentSyncPanel() {
   }
   return (
     <section
-      className="documentSyncPanel tw my-4 rounded-2xl border border-brand/20 bg-panel p-4 sm:p-6"
+      className={cn(S.documentSyncPanel, "tw my-4 rounded-2xl border border-brand/20 bg-panel p-4 sm:p-6")}
       aria-labelledby="document-sync-title"
     >
       <p className="text-xs font-semibold uppercase tracking-wide text-brand-dark">

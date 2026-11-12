@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Calculator } from "lucide-react";
 import { calcularVencimiento } from "@/lib/cronograma-fechas";
 import { useFeriados } from "./use-feriados";
+import { S } from "./calculadora-plazos-estilos";
 
 /**
  * Calculadora de vencimientos reutilizable: dada una fecha de inicio y un número
@@ -38,12 +39,12 @@ export function CalculadoraPlazos() {
   }, [vencimiento]);
 
   return (
-    <div className="calcPlazos">
-      <div className="calcPlazosHead">
+    <div className={S.calcPlazos}>
+      <div className={S.calcPlazosHead}>
         <Calculator size={15} />
         <strong>Calculadora de plazos</strong>
       </div>
-      <div className="calcPlazosGrid">
+      <div className={S.calcPlazosGrid}>
         <label>
           <span>Fecha de inicio</span>
           <input onChange={(e) => setInicio(e.target.value)} type="date" value={inicio} />
@@ -58,7 +59,7 @@ export function CalculadoraPlazos() {
             value={dias}
           />
         </label>
-        <label className="calcPlazosTipo">
+        <label className={S.calcPlazosTipo}>
           <span>Tipo de plazo</span>
           <select onChange={(e) => setHabiles(e.target.value === "habiles")} value={habiles ? "habiles" : "calendario"}>
             <option value="habiles">Días hábiles (descuenta feriados)</option>
@@ -66,11 +67,11 @@ export function CalculadoraPlazos() {
           </select>
         </label>
       </div>
-      <p className="calcPlazosResultado">
+      <p className={S.calcPlazosResultado}>
         {vencimiento ? (
           <>
             Vence: <strong>{vencimiento}</strong>
-            {fechaLarga ? <span className="calcPlazosLarga"> · {fechaLarga}</span> : null}
+            {fechaLarga ? <span className={S.calcPlazosLarga}> · {fechaLarga}</span> : null}
           </>
         ) : (
           "Completa la fecha de inicio y los días para calcular el vencimiento."

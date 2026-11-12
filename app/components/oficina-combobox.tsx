@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, Search } from "lucide-react";
+import { S } from "./oficina-combobox-estilos";
 
 export type OficinaOpcion = {
   id: string;
@@ -107,9 +108,9 @@ export function OficinaCombobox({
   }
 
   return (
-    <div className="ofcbx" ref={rootRef}>
-      <div className="ofcbxField">
-        <Search size={14} className="ofcbxIcon" />
+    <div className={S.ofcbx} ref={rootRef}>
+      <div className={S.ofcbxField}>
+        <Search size={14} className={S.ofcbxIcon} />
         <input
           onChange={(e) => {
             setQuery(e.target.value);
@@ -122,14 +123,14 @@ export function OficinaCombobox({
           type="text"
           value={query}
         />
-        <ChevronDown size={14} className="ofcbxChevron" />
+        <ChevronDown size={14} className={S.ofcbxChevron} />
       </div>
       {open ? (
-        <ul className="ofcbxList" role="listbox">
+        <ul className={S.ofcbxList} role="listbox">
           {filtradas.length === 0 ? (
             allowFreeText && query.trim() ? (
               <li
-                className="ofcbxOption"
+                className={S.ofcbxOption}
                 onMouseDown={(e) => {
                   e.preventDefault();
                   commit(query.trim());
@@ -139,13 +140,13 @@ export function OficinaCombobox({
                 <span>Usar “{query.trim()}”</span>
               </li>
             ) : (
-              <li className="ofcbxEmpty">Sin coincidencias</li>
+              <li className={S.ofcbxEmpty}>Sin coincidencias</li>
             )
           ) : (
             filtradas.map((o, i) => (
               <li
                 aria-selected={o.nombre === value}
-                className={`ofcbxOption ${i === activo ? "activo" : ""}`}
+                className={`${S.ofcbxOption} ${i === activo ? S.activo : ""}`}
                 key={o.id}
                 onMouseDown={(e) => {
                   e.preventDefault();

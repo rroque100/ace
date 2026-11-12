@@ -4,6 +4,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, ExternalLink, FileSearch, LoaderCircle, X } from "lucide-react";
+import { S } from "./pdf-cite-viewer-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type PdfCiteButtonProps = {
   documentId: string;
@@ -188,11 +190,11 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        {!sidePanel ? <Dialog.Overlay className="dialogOverlay" /> : null}
-        <Dialog.Content className={`pdfViewerContent${sidePanel ? " searchPdfPanel" : ""}`} aria-describedby={undefined}>
-          <div className="pdfViewerBar">
+        {!sidePanel ? <Dialog.Overlay className={C.dialogOverlay} /> : null}
+        <Dialog.Content className={`${S.pdfViewerContent} ${sidePanel ? S.pdfViewerLateral : S.pdfViewerCentrado}`} aria-describedby={undefined}>
+          <div className={C.pdfViewerBar}>
             <Dialog.Title>{sidePanel ? "Lectura del documento" : "Cita en el documento"}</Dialog.Title>
-            <div className="pdfViewerControls">
+            <div className={`${S.pdfViewerControls}${sidePanel ? " flex-wrap" : ""}`}>
               <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-50" aria-label="Página anterior" disabled={status !== "ready" || currentPage <= 1} onClick={() => goTo(currentPage - 1)} type="button">
                 <ChevronLeft size={16} />
               </button>
@@ -214,32 +216,32 @@ export function PdfCiteButton({ documentId, page, quote, label = "Ver cita", sid
             </div>
           </div>
 
-          <div ref={stageRef} className="pdfViewerStage">
+          <div ref={stageRef} className={S.pdfViewerStage}>
             {status === "loading" ? (
-              <div className="emptyState">
+              <div className={C.emptyState}>
                 <LoaderCircle size={20} />
                 <span>Cargando documento...</span>
               </div>
             ) : null}
             {status === "error" ? (
-              <div className="emptyState">
+              <div className={C.emptyState}>
                 <span>No se pudo renderizar el visor.</span>
                 <a className={buttonClasses({ variant: "primary" })} href={fallbackHref} rel="noreferrer" target="_blank">
                   Abrir PDF en la página {page ?? 1}
                 </a>
               </div>
             ) : null}
-            <div className="pdfCanvasWrap" style={{ display: status === "ready" ? "block" : "none" }}>
+            <div className={S.pdfCanvasWrap} style={{ display: status === "ready" ? "block" : "none" }}>
               <canvas ref={canvasRef} />
               {highlights.map((rect, index) => (
                 <span
-                  className="pdfHighlight"
+                  className={S.pdfHighlight}
                   key={index}
                   style={{ left: rect.left, top: rect.top, width: rect.width, height: rect.height }}
                 />
               ))}
               {status === "ready" && highlights.length === 0 && quote ? (
-                <span className="pdfHint">No se pudo resaltar texto exacto; revise la pagina indicada.</span>
+                <span className={S.pdfHint}>No se pudo resaltar texto exacto; revise la pagina indicada.</span>
               ) : null}
             </div>
           </div>

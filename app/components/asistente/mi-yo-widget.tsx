@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Check, FileText, Loader2, MessageCircle, Send, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { AccionPropuesta } from "@/lib/mi-yo";
+import { C } from "@/app/components/estilos-comunes";
 
 const UUID_RE = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
 const RUTA_NECESIDAD = new RegExp(`^/necesidades/(${UUID_RE})(?:/|$)`, "i");
@@ -139,7 +140,7 @@ export function MiYoWidget({ initiallyOpen=false }: {initiallyOpen?:boolean} = {
   }
 
   return (
-    <div className="aceAssistantWidget tw fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+    <div className={cn(C.aceAssistantWidget, "tw fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3")}>
       {open ? (
         <div className="flex h-[min(600px,80vh)] w-[min(380px,92vw)] flex-col overflow-hidden rounded-xl border border-line bg-canvas shadow-pop">
           <header className="flex shrink-0 items-center justify-between gap-2 bg-brand px-4 py-3 text-on-brand">

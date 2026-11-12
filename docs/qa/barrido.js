@@ -118,14 +118,28 @@
           const antes = await leer(clave(etiqueta, r, a, k));
           if (!antes) { por[k] = "sin medición guardada"; continue; }
           const ahora = m[k];
-          if (antes.length !== ahora.length) { por[k] = "DOM " + antes.length + "→" + ahora.length; continue; }
-          const dif = []; let colores = 0;
-          antes.forEach((x, i) => {
-            const y = ahora[i], c = [];
+          // Pares de elementos a comparar. Si el DOM tiene otro tamaño (el historial o las búsquedas guardadas del
+          // usuario cambian entre mediciones), se alinean por el principio y por el final y se deja fuera lo del medio.
+          let pares = antes.map((x, i) => [x, ahora[i], i]);
+          let nota = "";
+          if (antes.length !== ahora.length) {
+            let p = 0;
+            while (p < antes.length && p < ahora.length && antes[p]._ === ahora[p]._) p++;
+            let s = 0;
+            while (s < antes.length - p && s < ahora.length - p && antes[antes.length - 1 - s]._ === ahora[ahora.length - 1 - s]._) s++;
+            pares = [
+              ...antes.slice(0, p).map((x, i) => [x, ahora[i], i]),
+              ...antes.slice(antes.length - s).map((x, i) => [x, ahora[ahora.length - s + i], antes.length - s + i]),
+            ];
+            nota = "DOM " + antes.length + "→" + ahora.length + " (se comparan " + pares.length + ")";
+          }
+          const dif = []; let colores = 0; const ejColores = [];
+          pares.forEach(([x, y, i]) => {
+            const c = [];
             for (const q of ["w", "h"]) if (Math.abs(x[q] - y[q]) > 1) c.push(q + ":" + x[q] + "→" + y[q]);
             for (const p of PROPS) {
               let u = x[p], v = y[p];
-              if (COLOR.has(p)) { if (u !== v) colores++; continue; }
+              if (COLOR.has(p)) { if (u !== v) { colores++; if (ejColores.length < 4) ejColores.push(i + ":" + x._ + " " + p + " " + u + "→" + v); } continue; }
               if (ALIN.has(p)) { u = u.replace(/flex-(end|start)/g, "$1"); v = v.replace(/flex-(end|start)/g, "$1"); }
               if (p === "border-top-left-radius" && parseFloat(u) >= 999 && parseFloat(v) >= 999) continue;
               if (u !== v) c.push(p + ":" + u + "→" + v);
@@ -135,7 +149,7 @@
             const propias = c.filter((z) => !/^[wh]:/.test(z));
             if (c.length) (propias.length ? dif.unshift : dif.push).call(dif, i + ":" + x._ + " {" + propias.concat(c.filter((z) => /^[wh]:/.test(z))).slice(0, 3).join(", ") + "}");
           });
-          if (dif.length || colores) por[k] = { estructura: dif.length, colores, ejemplos: dif.slice(0, 4) };
+          if (dif.length || colores || nota) por[k] = { estructura: dif.length, colores, nota, ejemplos: dif.slice(0, 4), ejColores };
         }
         informe[r + " @" + a] = Object.keys(por).length ? por : "idéntico";
       }

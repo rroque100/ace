@@ -21,6 +21,8 @@ import { processLabelFromOptions, useSettingsCatalog, withBlankProcessOption } f
 import {NormativeTextDiff} from "./normative-text-diff";
 import type {compareDocumentTexts} from "@/lib/normative-text-comparison";
 import { stripPageMarkers } from "@/lib/page-markers";
+import { S } from "./normative-compare-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type CompareSource = {
   article: string | null;
@@ -95,18 +97,6 @@ function emptySide(label: string): SideState {
   return { documentId: "", documentType: "", label, processType: "" };
 }
 
-function confidenceClass(confidence?: "alta" | "media" | "baja") {
-  if (confidence === "alta") {
-    return "confidencePill high";
-  }
-
-  if (confidence === "media") {
-    return "confidencePill medium";
-  }
-
-  return "confidencePill low";
-}
-
 function documentPdfUrl(source: Pick<CompareSource, "documentId" | "pageStart">) {
   return `/api/documents/${source.documentId}${source.pageStart ? `#page=${source.pageStart}` : ""}`;
 }
@@ -150,7 +140,7 @@ function renderInlineWithSources(
           nodes.push(
             <button
               aria-label={`Abrir fuente ${side}${sourceNumber}`}
-              className="sourceRefButton"
+              className={C.sourceRefButton}
               key={`ref-${index}-${matchIndex}`}
               onClick={() => onOpenSource({ number: sourceNumber, side, source })}
               type="button"
@@ -162,7 +152,7 @@ function renderInlineWithSources(
         } else {
           nodes.push(
             <span
-              className="sourceRefMissing"
+              className={C.sourceRefMissing}
               key={`missing-${index}-${matchIndex}`}
               title="Fuente citada no encontrada entre las fuentes recuperadas"
             >
@@ -194,7 +184,7 @@ function ComparisonContent({
   const lines = content.split(/\n+/).map((line) => line.trim()).filter(Boolean);
 
   return (
-    <div className="answerContent">
+    <div className={C.answerContent}>
       {lines.map((line, index) => {
         const heading = line.match(/^\*\*(.+)\*\*$/);
 
@@ -204,7 +194,7 @@ function ComparisonContent({
 
         if (/^[-*]\s+/.test(line)) {
           return (
-            <div className="answerBullet" key={`${line}-${index}`}>
+            <div className={C.answerBullet} key={`${line}-${index}`}>
               <span aria-hidden="true">•</span>
               <p>{renderInlineWithSources(line.replace(/^[-*]\s+/, ""), resolve, onOpenSource)}</p>
             </div>
@@ -233,8 +223,8 @@ function SideEditor({
   value: SideState;
 }) {
   return (
-    <div className="compareSide">
-      <div className="compareSideHeader">
+    <div className={S.compareSide}>
+      <div className={S.compareSideHeader}>
         <span>Lado {side}</span>
         <strong>{title}</strong>
       </div>
@@ -293,14 +283,14 @@ function EvidencePanel({
   title?: string;
 }) {
   return (
-    <div className="compareSide">
-      <div className="compareSideHeader">
+    <div className={S.compareSide}>
+      <div className={S.compareSideHeader}>
         <span>Evidencia {side}</span>
         <strong>{title ?? `Lado ${side}`}</strong>
       </div>
       {assessment ? (
-        <div className="evidenceMini">
-          <span className={confidenceClass(assessment.confidence)}>Confianza {assessment.confidence}</span>
+        <div className={S.evidenceMini}>
+          <span className={assessment.confidence === "alta" ? C.confidencePill_high : assessment.confidence === "media" ? C.confidencePill_medium : C.confidencePill_low}>Confianza {assessment.confidence}</span>
           <small>
             {assessment.uniqueDocuments} documento(s) · score {assessment.topScore.toFixed(3)} · calidad{" "}
             {assessment.evidenceQuality.toFixed(2)}
@@ -308,7 +298,7 @@ function EvidencePanel({
         </div>
       ) : null}
       {sources.length === 0 ? (
-        <p className="sideMuted">Sin fuentes recuperadas para este lado.</p>
+        <p className={C.sideMuted}>Sin fuentes recuperadas para este lado.</p>
       ) : (
         sources.map((source, index) => (
           <details key={source.chunkId}>
@@ -318,7 +308,7 @@ function EvidencePanel({
             </summary>
             <strong>{source.citation || `Fragmento ${source.chunkIndex + 1}`}</strong>
             <p>{stripPageMarkers(source.excerpt)}</p>
-            <a className="sourceLink" href={documentPdfUrl(source)} rel="noreferrer" target="_blank">
+            <a className={C.sourceLink} href={documentPdfUrl(source)} rel="noreferrer" target="_blank">
               <ExternalLink size={14} />
               {source.pageStart ? `Abrir pagina ${source.pageStart}` : "Abrir PDF"}
             </a>
@@ -430,8 +420,8 @@ export function NormativeCompare() {
   }
 
   return (
-    <div className="toolPanel">
-      <div className="toolPanelHeader">
+    <div className={C.toolPanel}>
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Comparacion normativa</p>
           <h2>Contrastar dos normas con fuentes</h2>
@@ -439,15 +429,15 @@ export function NormativeCompare() {
         <GitCompare size={22} />
       </div>
 
-      <form className="toolBody" onSubmit={submitComparison}>
+      <form className={C.toolBody} onSubmit={submitComparison}>
         <label>Tipo de comparación<select disabled={loading} value={comparisonKind} onChange={e=>{setComparisonKind(e.target.value as "tema"|"texto");setResponse(null);}}><option value="tema">Temática con IA · selección de pasajes</option><option value="texto">Todo el texto indexado · sin IA</option></select></label>
         <p>{comparisonKind==="texto"?"Selecciona dos documentos exactos. Se comparará todo su texto indexado disponible, sin certificar que la extracción cubra el PDF completo.":"La IA compara pasajes relacionados con un tema. Puede omitir diferencias de otras partes del documento."}</p>
-        <div className="compareColumns">
+        <div className={S.compareColumns}>
           <SideEditor documents={documents} onChange={setSideA} processTypes={processTypes} side="A" title="Norma A" value={sideA} />
           <SideEditor documents={documents} onChange={setSideB} processTypes={processTypes} side="B" title="Norma B" value={sideB} />
         </div>
 
-        {comparisonKind==="tema" ? <div><label className="promptInput">
+        {comparisonKind==="tema" ? <div><label className={C.promptInput}>
           <span>Tema a comparar</span>
           <textarea
             aria-label="Tema a comparar"
@@ -457,7 +447,7 @@ export function NormativeCompare() {
           />
         </label>
 
-        <div className="exampleQuestions">
+        <div className={S.exampleQuestions}>
           {exampleTopics.map((item) => (
             <button key={item} onClick={() => setTopic(item)} type="button">
               {item}
@@ -466,7 +456,7 @@ export function NormativeCompare() {
         </div>
 
         </div> : null}
-        <div className="formActions">
+        <div className={C.formActions}>
           <button className={buttonClasses({ variant: "secondary" })} onClick={resetComparison} type="button">
             <RotateCcw size={17} />
             Limpiar
@@ -477,11 +467,11 @@ export function NormativeCompare() {
           </button>
         </div>
 
-        {error ? <p className="formMessage errorText">{error}</p> : null}
+        {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
       </form>
 
       {loading ? (
-        <div className="emptyState">
+        <div className={C.emptyState}>
           <LoaderCircle size={20} />
           <span>{comparisonKind==="texto"?"Leyendo y comparando todo el texto indexado disponible…":"Recuperando pasajes y preparando la comparación temática…"}</span>
         </div>
@@ -490,8 +480,8 @@ export function NormativeCompare() {
       {response?.textComparison ? <NormativeTextDiff key={`${response.textComparison.a.id}-${response.textComparison.b.id}`} data={response.textComparison}/> : null}
       {response?.scopeNotice ? <p role="status">{response.scopeNotice}</p> : null}
       {response?.result ? (
-        <div className="documentList">
-          <div className="listHeader">
+        <div className={C.documentList}>
+          <div className={C.listHeader}>
             <div>
               <strong>Resultado de la comparacion</strong>
               <small>
@@ -499,14 +489,14 @@ export function NormativeCompare() {
               </small>
             </div>
             {response.assessment ? (
-              <span className={confidenceClass(response.assessment.overall)}>
+              <span className={response.assessment.overall === "alta" ? C.confidencePill_high : response.assessment.overall === "media" ? C.confidencePill_medium : C.confidencePill_low}>
                 Confianza {response.assessment.overall}
               </span>
             ) : null}
           </div>
 
           {response.assessment && !response.assessment.a.sufficient !== !response.assessment.b.sufficient ? (
-            <div className="warningList">
+            <div className={C.warningList}>
               <AlertTriangle size={15} />
               <span>
                 Cobertura asimetrica entre los dos lados: revisa el lado con menos evidencia antes de concluir.
@@ -516,7 +506,7 @@ export function NormativeCompare() {
 
           <ComparisonContent content={response.result} onOpenSource={setSelectedReference} resolve={resolveSource} />
 
-          <div className="compareColumns">
+          <div className={S.compareColumns}>
             <EvidencePanel assessment={response.assessment?.a} side="A" sources={sourcesA} title={response.labelA} />
             <EvidencePanel assessment={response.assessment?.b} side="B" sources={sourcesB} title={response.labelB} />
           </div>
@@ -525,23 +515,23 @@ export function NormativeCompare() {
 
       <Dialog.Root open={Boolean(selectedReference)} onOpenChange={(open) => !open && setSelectedReference(null)}>
         <Dialog.Portal>
-          <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="sourceModal">
+          <Dialog.Overlay className={C.dialogOverlay} />
+          <Dialog.Content className={C.sourceModal}>
             <Dialog.Title>
               Fuente {selectedReference?.side}
               {selectedReference?.number}
             </Dialog.Title>
             <Dialog.Description>Verificacion documental de la afirmacion seleccionada.</Dialog.Description>
             {selectedReference ? (
-              <div className="sourceModalBody">
-                <article className="sourceModalReference">
-                  <div className="sourceModalReferenceHeader">
+              <div className={C.sourceModalBody}>
+                <article className={C.sourceModalReference}>
+                  <div className={C.sourceModalReferenceHeader}>
                     <strong>
                       Lado {selectedReference.side} · Fuente {selectedReference.number}
                     </strong>
                     <span>{selectedReference.source.documentTitle}</span>
                   </div>
-                  <div className="sourceModalMeta">
+                  <div className={C.sourceModalMeta}>
                     <span>{selectedReference.source.documentType}</span>
                     <span>{selectedReference.source.sourceEntity ?? "Sin entidad"}</span>
                     {labelProcessType(selectedReference.source.processType) ? (
@@ -551,7 +541,7 @@ export function NormativeCompare() {
                     <span>Calidad {selectedReference.source.evidenceQuality.toFixed(2)}</span>
                   </div>
                   <strong>{selectedReference.source.citation}</strong>
-                  <div className="sourceQuote">
+                  <div className={C.sourceQuote}>
                     <Quote size={17} />
                     <p>{stripPageMarkers(selectedReference.source.excerpt)}</p>
                   </div>
@@ -567,7 +557,7 @@ export function NormativeCompare() {
                       : "Abrir PDF"}
                   </a>
                 </article>
-                <div className="dialogActions">
+                <div className={C.dialogActions}>
                   <Dialog.Close className={buttonClasses({ variant: "primary" })} type="button">
                     Entendido
                   </Dialog.Close>

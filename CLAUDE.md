@@ -113,18 +113,17 @@ mano en el SQL Editor de Supabase. Consecuencias:
 
 ## Tailwind: activación acotada, no global
 
-`app/styles.css` son ~11 300 líneas de CSS propio del que dependen decenas de
-páginas. Encender Tailwind entero inyectaría Preflight y las rompería todas. Por
-eso `app/tailwind.css`:
+Tailwind no activa Preflight global: inyectaría un reset que rompería las páginas
+que aún dependen de los estilos base. Por eso `app/tailwind.css`:
 
 - Carga solo las capas `theme` y `utilities`. **Sin Preflight global.**
 - El reset mínimo vive acotado al contenedor `.tw`: un componente que use
   utilidades debe quedar dentro de uno.
-- `styles.css` entra en la capa `legacy`, por debajo de las utilidades: una
-  utilidad gana a la clase vieja sin necesitar `!`. Lo que no está en capa
-  (`workspace.css`: tokens y reglas de modo oscuro) sí gana a las utilidades.
-- Los tokens `@theme` referencian las variables CSS de `styles.css`, no valores
-  fijos, para que la identidad visual sea la misma.
+- `base.css` (tokens, resets de elementos, keyframes) entra en la capa `legacy`, por
+  debajo de las utilidades: una utilidad gana sin necesitar `!`. Lo que no está en
+  capa (`workspace.css`: tokens y reglas de modo oscuro) sí gana a las utilidades.
+- Los tokens `@theme` referencian las variables CSS de `base.css` y `workspace.css`,
+  no valores fijos, para que la identidad visual sea la misma.
 - **Hay escaneo automático**: Tailwind recorre el repositorio (salvo lo ignorado
   por git y lo que `app/tailwind.css` excluye con `@source not`), así que un
   componente nuevo no hay que registrarlo en ninguna lista.
@@ -132,14 +131,38 @@ eso `app/tailwind.css`:
   nada de hex ni de la paleta por defecto. `tests/paleta-colores.test.ts` lo
   impide y comprueba el contraste de los tokens en claro y oscuro.
 
-Estado de la migración (medido el 2026-11-01): de 232 `.tsx`, 89 usan solo
-Tailwind, 30 mezclan y 86 siguen con CSS propio (el Centro Jurídico, los
-validadores y paneles de análisis, y Contratos con estilos en línea). El plan
-para terminarla, con el orden y las cifras por componente, está en
-`docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md`;
-`tests/tailwind-migracion.test.ts` impide que el CSS propio y los `style` en
-línea vuelvan a crecer. Todo componente nuevo se escribe con utilidades y
-tokens, sin crear clases en CSS.
+**No hay CSS de componente.** Los únicos `.css` de `app/` son `tailwind.css`,
+`workspace.css` y `base.css`; `tests/tailwind-migracion.test.ts` falla si aparece otro
+o si crece `base.css` o los `style={{}}` en línea. Todo componente nuevo se escribe con
+utilidades y tokens, sin crear clases en CSS.
+
+Cómo están escritos los estilos migrados: cada componente `x.tsx` tiene un
+`x-estilos.ts` (`S`) con una cadena de utilidades por clase, y las clases que usan
+varios componentes viven en `app/components/estilos-comunes.ts` (`C`). Ambos los generó
+`scripts/migrar-a-tailwind.mjs --todo` a partir del CSS que había. Dos detalles que
+importan al editarlos:
+
+- Una entrada puede llevar su propio nombre como palabra suelta (`"examWorkspace
+  flex …"`): es un **marcador**, porque otra utilidad nombra esa clase en una variante
+  (`[.examWorkspace_&]:p-5`) o el código la busca con `querySelector`. No lo quites.
+- `legado:` (variante de `app/tailwind.css`) mete la utilidad en la subcapa
+  `utilities.legado`: es lo que venía de la antigua `styles.css`, que estaba en una capa
+  por debajo de las utilidades. Por eso **cualquier utilidad escrita a mano gana a una
+  `legado:`**, tenga la especificidad que tenga, igual que antes. Quitar el prefijo
+  convierte esa regla en una utilidad normal: hazlo mirando el componente, no en bloque.
+- `fuera-tw:`, `fuera-tw-boton:` y `fuera-tw-texto:` solo se aplican fuera de un `.tw`:
+  son los bordes, fondos de botón y fuentes de campo que el reset de `.tw` anulaba.
+- `[html_&]:`, `[html_body_&]:`… son **escalones** de desempate: suman un selector de
+  etiqueta para que gane la regla que en el CSS original iba después con la misma
+  especificidad. No los quites sin comprobar con `docs/qa/barrido.js`.
+- Las utilidades que antes venían de un CSS sin capa llevan `!` (ganaban a todo lo que
+  estaba en una capa); quitarlo cambia qué regla gana.
+
+`scripts/css-podar.mjs` quita del CSS lo que ya no puede aplicarse,
+`docs/qa/barrido.js` compara estilos calculados entre dos versiones y
+`docs/qa/diferencias.js` dice qué regla causa cada diferencia. La migración se
+regenera con `bash scripts/tailwind-global/rehacer.sh` (ver el plan en
+`docs/superpowers/plans/2026-11-01-migracion-tailwind-completa.md`).
 
 ## Tests
 

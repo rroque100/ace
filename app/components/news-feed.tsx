@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { Bell, FileText, Plus, Star, Trash2 } from "lucide-react";
 import { DOCUMENT_TYPES, PROCESS_TYPES, documentTypeLabel, processTypeLabel } from "@/lib/legal-taxonomy";
+import { S } from "./news-feed-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type FeedEvent = {
   id: string;
@@ -91,44 +93,44 @@ export function NewsFeed() {
   );
 
   return (
-    <div className="newsGrid">
-      <div className="toolPanel">
-        <div className="toolPanelHeader">
+    <div className={S.newsGrid}>
+      <div className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Novedades</p>
             <h2>Boletín normativo</h2>
           </div>
           <Bell size={22} />
         </div>
-        <div className="toolBody">
-          <label className="vigenteToggle">
+        <div className={C.toolBody}>
+          <label className={C.vigenteToggle}>
             <input checked={onlyRelevant} onChange={(event) => setOnlyRelevant(event.target.checked)} type="checkbox" />
             Solo relevantes para mí
           </label>
         </div>
-        <div className="documentList">
+        <div className={C.documentList}>
           {loading ? (
-            <div className="emptyState">
+            <div className={C.emptyState}>
               <span>Cargando...</span>
             </div>
           ) : visible.length === 0 ? (
-            <div className="emptyState">
+            <div className={C.emptyState}>
               <Bell size={20} />
               <span>Sin novedades. Aparecerán al indexar documentos.</span>
             </div>
           ) : (
             visible.map((event) => (
-              <article className={`feedItem ${event.relevante ? "relevant" : ""}`} key={event.id}>
-                <div className="feedItemHeader">
-                  <span className="feedType">{eventLabels[event.event_type] ?? event.event_type}</span>
+              <article className={`${S.feedItem} ${event.relevante ? S.relevant : ""}`} key={event.id}>
+                <div className={S.feedItemHeader}>
+                  <span className={S.feedType}>{eventLabels[event.event_type] ?? event.event_type}</span>
                   {event.relevante ? (
-                    <span className="feedRelevant">
+                    <span className={S.feedRelevant}>
                       <Star size={13} /> Relevante
                     </span>
                   ) : null}
                 </div>
                 <strong>{event.title}</strong>
-                <div className="feedMeta">
+                <div className={C.feedMeta}>
                   {event.document_type ? <span>{documentTypeLabel(event.document_type)}</span> : null}
                   {processTypeLabel(event.process_type) ? <span>{processTypeLabel(event.process_type)}</span> : null}
                   {event.source_entity ? <span>{event.source_entity}</span> : null}
@@ -147,16 +149,16 @@ export function NewsFeed() {
         </div>
       </div>
 
-      <aside className="toolPanel">
-        <div className="toolPanelHeader">
+      <aside className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Seguimiento</p>
             <h2>Temas que sigo</h2>
           </div>
           <Star size={20} />
         </div>
-        <div className="toolBody">
-          <div className="followForm">
+        <div className={C.toolBody}>
+          <div className={C.followForm}>
             <select onChange={(event) => setKind(event.target.value)} value={kind}>
               {followKinds.map((item) => (
                 <option key={item.value} value={item.value}>
@@ -191,12 +193,12 @@ export function NewsFeed() {
             </button>
           </div>
 
-          <div className="followList">
+          <div className={S.followList}>
             {follows.length === 0 ? (
-              <span className="articleIndexEmpty">No sigues nada todavía.</span>
+              <span className={S.articleIndexEmpty}>No sigues nada todavía.</span>
             ) : (
               follows.map((follow) => (
-                <span className="followChip" key={follow.id ?? follow.kind + follow.value}>
+                <span className={S.followChip} key={follow.id ?? follow.kind + follow.value}>
                   {followLabel(follow)}
                   <button onClick={() => removeFollow(follow.id)} type="button" aria-label="Dejar de seguir">
                     <Trash2 size={13} />

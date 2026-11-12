@@ -26,6 +26,9 @@ import {
 } from "@/lib/legal-taxonomy";
 import { PdfCiteButton } from "./pdf-cite-viewer";
 import { processLabelFromOptions, useSettingsCatalog } from "./use-settings-catalog";
+import { S } from "./document-analyzer-estilos";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 type ClauseCheck = { evidence?: string; key: string; label: string; presente: boolean; nota: string };
 type Source = {
@@ -84,10 +87,6 @@ const analysisDocumentKinds = PROCESS_DOC_KINDS.filter((item) =>
     item.value,
   ),
 );
-
-function confidenceClass(value: Analysis["confidence"]) {
-  return value === "alta" ? "confidencePill high" : value === "media" ? "confidencePill medium" : "confidencePill low";
-}
 
 function findingTitle(value: AnalysisFinding["category"]) {
   if (value === "incumplimiento") return "Incumplimientos normativos";
@@ -302,9 +301,9 @@ export function DocumentAnalyzer() {
     : [];
 
   return (
-    <div className="analysisWorkspace">
-      <div className="toolPanel">
-        <div className="toolPanelHeader">
+    <div className={S.analysisWorkspace}>
+      <div className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Análisis documental</p>
             <h2>Revisión jurídica asistida</h2>
@@ -312,10 +311,10 @@ export function DocumentAnalyzer() {
           <ScanSearch size={22} />
         </div>
 
-        <div className="toolBody analyzerForm">
+        <div className={S.analyzerForm_toolBody}>
           {/* Elige de dónde sale el documento dentro del MISMO formulario: no
               hay dos paneles entre los que alternar. */}
-          <div className="analysisModeGrid" role="group" aria-label="Origen del documento">
+          <div className={S.analysisModeGrid} role="group" aria-label="Origen del documento">
             <button aria-pressed={mode === "indexed"} onClick={() => setMode("indexed")} type="button">
               <strong>Documento indexado</strong>
               <span>Usa biblioteca, páginas, chunks y Pinecone.</span>
@@ -326,7 +325,7 @@ export function DocumentAnalyzer() {
             </button>
           </div>
 
-          <div className="formGrid">
+          <div className={C.formGrid}>
             <label>
               <span>Tipo de documento</span>
               <select onChange={(event) => setDocumentKind(event.target.value)} value={documentKind}>
@@ -362,18 +361,18 @@ export function DocumentAnalyzer() {
 
           {mode === "upload" ? (
             <>
-              <label className="uploadField">
+              <label className={S.uploadField}>
                 <Upload size={18} />
                 <span>{file ? file.name : "Selecciona un PDF para análisis temporal"}</span>
                 <input accept="application/pdf" onChange={(event) => setFile(event.target.files?.[0] ?? null)} type="file" />
               </label>
-              <label className="inlineCheck">
+              <label className={S.inlineCheck}>
                 <input checked={saveToLibrary} onChange={(event) => setSaveToLibrary(event.target.checked)} type="checkbox" />
                 <span>Enviar también a biblioteca documental para Storage, chunks y Pinecone.</span>
               </label>
             </>
           ) : (
-            <label className="promptInput">
+            <label className={C.promptInput}>
               <span>Documento del corpus</span>
               <select onChange={(event) => setSelectedDoc(event.target.value)} value={selectedDoc}>
                 <option value="">Elige un documento...</option>
@@ -386,7 +385,7 @@ export function DocumentAnalyzer() {
             </label>
           )}
 
-          <div className="analysisHelpBox">
+          <div className={C.analysisHelpBox}>
             <ShieldCheck size={18} />
             <div>
               <strong>{labelProcessType(processType) ?? "Proceso"}</strong>
@@ -399,7 +398,7 @@ export function DocumentAnalyzer() {
             </div>
           </div>
 
-          <div className="formActions">
+          <div className={C.formActions}>
             <button className={buttonClasses({ variant: "primary" })} disabled={loading} onClick={runAnalysis} type="button">
               {loading ? <LoaderCircle size={18} /> : <ScanSearch size={18} />}
               {loading ? "Analizando..." : "Analizar documento"}
@@ -410,17 +409,17 @@ export function DocumentAnalyzer() {
             </button>
           </div>
 
-          {error ? <p className="formMessage errorText">{error}</p> : null}
-          {message ? <p className="formMessage successText">{message}</p> : null}
+          {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
+          {message ? <p className={C.formMessage_successText}>{message}</p> : null}
         </div>
       </div>
 
       {analysis ? (
-        <div className="analysisReport">
-          <div className="evidenceSummary">
-            <div className="evidenceSummaryHeader">
-              <span className={confidenceClass(analysis.confidence)}>Confianza {analysis.confidence}</span>
-              <span className={missingClauses > 0 ? "sourceBadge warning" : "sourceBadge valid"}>
+        <div className={S.analysisReport}>
+          <div className={S.evidenceSummary}>
+            <div className={S.evidenceSummaryHeader}>
+              <span className={analysis.confidence === "alta" ? C.confidencePill_high : analysis.confidence === "media" ? C.confidencePill_medium : C.confidencePill_low}>Confianza {analysis.confidence}</span>
+              <span className={missingClauses > 0 ? cn(S.sourceBadge, "warning") : S.sourceBadge_valid}>
                 {analysis.clausulas.length
                   ? missingClauses > 0
                     ? `${missingClauses} cláusula(s) faltante(s)`
@@ -430,7 +429,7 @@ export function DocumentAnalyzer() {
             </div>
             <p>{analysis.resumen}</p>
             <small>{analysis.confidenceReason}</small>
-            <div className="formActions compactActions">
+            <div className={cn(C.formActions, "compactActions")}>
               <button className={buttonClasses({ variant: "secondary" })} onClick={exportAnalysis} type="button">
                 <Download size={16} />
                 Exportar Word
@@ -438,11 +437,11 @@ export function DocumentAnalyzer() {
             </div>
           </div>
 
-          <section className="analysisSection">
+          <section className={S.analysisSection}>
             <h3>
               <ShieldCheck size={17} /> Fuentes críticas
             </h3>
-            <div className="sourceCoverage">
+            <div className={C.sourceCoverage}>
               {analysis.criticalSources.map((item) => (
                 <span data-ready={item.ok} key={item.code}>
                   {item.label}: {item.ok ? "ok" : "falta"}
@@ -450,7 +449,7 @@ export function DocumentAnalyzer() {
               ))}
             </div>
             {analysis.criticalSources.some((item) => !item.ok) ? (
-              <ul className="analysisList">
+              <ul className={S.analysisList}>
                 {analysis.criticalSources
                   .filter((item) => !item.ok)
                   .map((item) => (
@@ -458,7 +457,7 @@ export function DocumentAnalyzer() {
                   ))}
               </ul>
             ) : null}
-            <div className="sourceCoverage">
+            <div className={C.sourceCoverage}>
               {coverageEntries.map(([key, label, ready]) => (
                 <span data-ready={Boolean(ready)} key={String(key)}>
                   {label}: {ready ? "sí" : "no"}
@@ -467,13 +466,13 @@ export function DocumentAnalyzer() {
             </div>
           </section>
 
-          <section className="analysisSection">
+          <section className={S.analysisSection}>
             <h3>
               <ListChecks size={17} /> Checklist operativo
             </h3>
-            <div className="clauseList">
+            <div className={S.clauseList}>
               {analysis.checklist.map((item) => (
-                <div className={`clauseItem ${item.done ? "ok" : "missing"}`} key={item.label}>
+                <div className={`${S.clauseItem} ${item.done ? S.ok : S.missing}`} key={item.label}>
                   {item.done ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
                   <div>
                     <strong>{item.label}</strong>
@@ -485,13 +484,13 @@ export function DocumentAnalyzer() {
           </section>
 
           {analysis.clausulas.length ? (
-            <section className="analysisSection">
+            <section className={S.analysisSection}>
               <h3>
                 <ShieldCheck size={17} /> Cláusulas obligatorias del contrato
               </h3>
-              <div className="clauseList">
+              <div className={S.clauseList}>
                 {analysis.clausulas.map((clause) => (
-                  <div className={`clauseItem ${clause.presente ? "ok" : "missing"}`} key={clause.key}>
+                  <div className={`${S.clauseItem} ${clause.presente ? S.ok : S.missing}`} key={clause.key}>
                     {clause.presente ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
                     <div>
                       <strong>{clause.label}</strong>
@@ -506,13 +505,13 @@ export function DocumentAnalyzer() {
 
           {(["incumplimiento", "riesgo", "recomendacion", "revision_humana"] as const).map((category) =>
             groupedFindings[category].length ? (
-              <section className="analysisSection" key={category}>
+              <section className={S.analysisSection} key={category}>
                 <h3>
                   {findingIcon(category)} {findingTitle(category)}
                 </h3>
-                <div className="ruleList">
+                <div className={C.ruleList}>
                   {groupedFindings[category].map((finding, index) => (
-                    <article className="ruleItem" data-tone={category === "incumplimiento" ? "bad" : category === "recomendacion" ? "ok" : "warn"} key={`${category}-${index}`}>
+                    <article className={C.ruleItem} data-tone={category === "incumplimiento" ? "bad" : category === "recomendacion" ? "ok" : "warn"} key={`${category}-${index}`}>
                       <div>
                         <strong>{finding.severity}</strong>
                         {finding.sources.length ? <span>Fuentes: {finding.sources.map((source) => `F${source}`).join(", ")}</span> : null}
@@ -530,11 +529,11 @@ export function DocumentAnalyzer() {
           )}
 
           {analysis.riesgos.length > 0 ? (
-            <section className="analysisSection">
+            <section className={S.analysisSection}>
               <h3>
                 <AlertTriangle size={17} /> Riesgos adicionales
               </h3>
-              <ul className="analysisList">
+              <ul className={S.analysisList}>
                 {analysis.riesgos.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
@@ -543,11 +542,11 @@ export function DocumentAnalyzer() {
           ) : null}
 
           {analysis.recomendaciones.length > 0 ? (
-            <section className="analysisSection">
+            <section className={S.analysisSection}>
               <h3>
                 <Lightbulb size={17} /> Recomendaciones adicionales
               </h3>
-              <ul className="analysisList">
+              <ul className={S.analysisList}>
                 {analysis.recomendaciones.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
@@ -556,14 +555,14 @@ export function DocumentAnalyzer() {
           ) : null}
 
           {analysis.sources.length > 0 ? (
-            <section className="analysisSection">
+            <section className={S.analysisSection}>
               <h3>
                 <FileText size={17} /> Fuentes usadas
               </h3>
-              <div className="documentList">
+              <div className={C.documentList}>
                 {analysis.sources.map((source, index) => (
-                  <article className="sourceItem" key={source.documentId + source.chunkId + index}>
-                    <div className="sourceItemHeader">
+                  <article className={C.sourceItem} key={source.documentId + source.chunkId + index}>
+                    <div className={C.sourceItemHeader}>
                       <div>
                         <span>
                           [F{index + 1}] {documentTypeLabel(source.documentType)}
@@ -571,12 +570,12 @@ export function DocumentAnalyzer() {
                         <strong>{source.documentTitle}</strong>
                       </div>
                     </div>
-                    <div className="sourceMetaGrid">
+                    <div className={C.sourceMetaGrid}>
                       <span>{source.citation}</span>
                       <span>{source.vigencia === "derogado" ? "No vigente" : "Vigencia por verificar"}</span>
                     </div>
                     <p>{source.excerpt.slice(0, 360)}</p>
-                    <div className="sourceActions">
+                    <div className={C.sourceActions}>
                       <PdfCiteButton documentId={source.documentId} page={source.pageStart} quote={source.excerpt} />
                       <button
                         className={buttonClasses({ variant: "secondary", size: "sm" })}
@@ -600,7 +599,7 @@ export function DocumentAnalyzer() {
             </section>
           ) : null}
 
-          <p className="analysisDisclaimer">
+          <p className={S.analysisDisclaimer}>
             Análisis de apoyo generado con IA sobre el corpus indexado; no constituye asesoría legal vinculante. Verifica texto,
             página, artículo y vigencia antes de usarlo formalmente.
           </p>
@@ -608,17 +607,17 @@ export function DocumentAnalyzer() {
       ) : null}
 
       {history.length ? (
-        <section className="toolPanel analyzerHistory">
-          <div className="toolPanelHeader">
+        <section className={S.analyzerHistory_toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Historial</p>
               <h2>Últimos análisis</h2>
             </div>
             <History size={20} />
           </div>
-          <div className="ruleList">
+          <div className={C.ruleList}>
             {history.slice(0, 6).map((item) => (
-              <article className="ruleItem" data-tone={item.result?.confidence === "alta" ? "ok" : "warn"} key={item.id}>
+              <article className={C.ruleItem} data-tone={item.result?.confidence === "alta" ? "ok" : "warn"} key={item.id}>
                 <div>
                   <FileText size={16} />
                   <strong>{item.title}</strong>

@@ -4,6 +4,7 @@ import { Bot, Lock } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { DocumentUpload } from "../components/document-upload";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function DocumentosPage() {
   const user = await getSessionUser();
@@ -21,11 +22,11 @@ export default async function DocumentosPage() {
       eyebrow="Base documental"
       title="Carga, procesamiento e indexacion de PDFs"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         {canManage ? (
           <DocumentUpload />
         ) : (
-          <div className="emptyState">
+          <div className={C.emptyState}>
             <Lock size={20} />
             <p>
               La gestión del corpus normativo (carga, reindexado y borrado) requiere rol DEC o

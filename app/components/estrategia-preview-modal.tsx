@@ -5,7 +5,8 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { FileSpreadsheet, Loader } from "lucide-react";
 import type { CeldaPreview } from "@/lib/fase1-export";
 import { HojaPreview } from "./hoja-preview";
-import { ModalShell } from "./modal-shell";
+import { ModalShell, TARJETA_HOJA } from "./modal-shell";
+import { C } from "@/app/components/estilos-comunes";
 
 type Preview = {
   hoja: { titulo: string; filas: CeldaPreview[][]; anchos: number[] };
@@ -74,14 +75,14 @@ export function EstrategiaPreviewModal({
           </button>
         </>
       }
-      claseTarjeta="anexo1Preview"
+      claseTarjeta={TARJETA_HOJA}
       onClose={onClose}
       titulo="Vista previa · Formato de Estrategia"
     >
           {error ? (
             <p className="formError">{error}</p>
           ) : !preview ? (
-            <p className="anexo1PreviewCargando">
+            <p className={C.anexo1PreviewCargando}>
               <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Generando la vista previa…
             </p>
           ) : (
@@ -99,12 +100,12 @@ export function EstrategiaPreviewModal({
               {preview.sinResponder.length > 0 ? (
                 <section>
                   <h4>Ojo · preguntas sin responder ({preview.sinResponder.length})</h4>
-                  <p className="anexo1PreviewVacio">
+                  <p className={C.anexo1PreviewVacio}>
                     Estas preguntas SÍ/NO saldrían con las dos casillas en blanco, que no significa
                     “no”: significa “sin analizar”. En el formato firmado por la entidad están todas
                     marcadas.
                   </p>
-                  <ul className="anexo1PreviewMarcas">
+                  <ul className={C.anexo1PreviewMarcas}>
                     {preview.sinResponder.map((s) => (
                       <li key={s}>{s}</li>
                     ))}

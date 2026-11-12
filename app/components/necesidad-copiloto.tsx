@@ -5,13 +5,16 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { AlertTriangle, ClipboardCheck, Copy, Loader, Send, Sparkles, WandSparkles, X } from "lucide-react";
 import { markdownAHtmlSeguro } from "@/lib/markdown-seguro";
 import type { CopilotoFuente } from "@/lib/necesidad-copiloto";
+import { S } from "./necesidad-copiloto-estilos";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 function MarkdownTexto({ content }: { content: string }) {
   if (!content?.trim()) return null;
   const html = markdownAHtmlSeguro(content);
   return (
     <div
-      className="copilotoMsgTexto [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-line [&_th]:border [&_th]:border-line [&_th]:bg-panel [&_th]:px-2 [&_th]:py-1 [&_th]:text-left [&_th]:text-[11px] [&_th]:font-semibold [&_td]:border [&_td]:border-line [&_td]:px-2 [&_td]:py-1 [&_td]:text-[12px] [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_strong]:font-semibold [&_p]:mb-1.5 [&_p:last-child]:mb-0 [&_h1]:text-[14px] [&_h1]:font-bold [&_h1]:mb-1 [&_h2]:text-[13px] [&_h2]:font-semibold [&_h2]:mb-1"
+      className={cn(S.copilotoMsgTexto, "[&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-line [&_th]:border [&_th]:border-line [&_th]:bg-panel [&_th]:px-2 [&_th]:py-1 [&_th]:text-left [&_th]:text-[11px] [&_th]:font-semibold [&_td]:border [&_td]:border-line [&_td]:px-2 [&_td]:py-1 [&_td]:text-[12px] [&_ul]:list-disc [&_ul]:pl-4 [&_ol]:list-decimal [&_ol]:pl-4 [&_strong]:font-semibold [&_p]:mb-1.5 [&_p:last-child]:mb-0 [&_h1]:text-[14px] [&_h1]:font-bold [&_h1]:mb-1 [&_h2]:text-[13px] [&_h2]:font-semibold [&_h2]:mb-1")}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
@@ -236,9 +239,9 @@ export function NecesidadCopiloto({
   }
 
   return (
-    <aside className="copiloto" aria-label="Copiloto del requerimiento">
-      <header className="copilotoHead">
-        <span className="copilotoTitulo">
+    <aside className={C.copiloto} aria-label="Copiloto del requerimiento">
+      <header className={C.copilotoHead}>
+        <span className={C.copilotoTitulo}>
           <Sparkles size={15} /> Copiloto del requerimiento
         </span>
         <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" onClick={onCerrar} title="Cerrar" type="button">
@@ -246,14 +249,14 @@ export function NecesidadCopiloto({
         </button>
       </header>
 
-      <p className="copilotoSub">
+      <p className={C.copilotoSub}>
         {sinTipo
           ? "Elige el tipo de proceso de selección para que el copiloto se ancle a su guía oficial."
           : `Anclado a la guía de: ${tipoProcesoSeleccion}.`}
       </p>
 
       {/* Acciones rápidas */}
-      <div className="copilotoAcciones">
+      <div className={S.copilotoAcciones}>
         <button
           className={buttonClasses({ variant: "secondary", size: "sm" })}
           disabled={cargando}
@@ -262,7 +265,7 @@ export function NecesidadCopiloto({
         >
           <ClipboardCheck size={13} /> Revisar requerimiento
         </button>
-        <div className="copilotoRedactar">
+        <div className={S.copilotoRedactar}>
           <select
             aria-label="Campo a redactar"
             disabled={cargando}
@@ -291,35 +294,35 @@ export function NecesidadCopiloto({
       </div>
 
       {/* Conversación */}
-      <div className="copilotoLog" ref={logRef}>
+      <div className={C.copilotoLog} ref={logRef}>
         {mensajes.length === 0 && !parcial ? (
-          <p className="copilotoVacio">
+          <p className={C.copilotoVacio}>
             Pide una revisión, redacta un campo o escribe una consulta sobre el requerimiento.
           </p>
         ) : null}
 
         {mensajes.map((m, i) => (
-          <div className={`copilotoMsg ${m.role}`} key={i}>
+          <div className={`${S.copilotoMsg} ${m.role}`} key={i}>
             <MarkdownTexto content={m.content} />
             {/* Modo degradado a la vista. Sin este aviso, el respaldo lexico —un ilike
                 con OR entre palabras y sin orden por relevancia— se presentaba como
                 «fundamento normativo» y era indistinguible de una busqueda real. */}
             {m.degradada ? (
-              <p className="copilotoDegradada" role="status">
+              <p className={S.copilotoDegradada} role="status">
                 <AlertTriangle size={12} aria-hidden /> La búsqueda normativa está degradada: no se pudo
                 consultar el índice vectorial. Las referencias, si las hay, salen de una coincidencia por
                 palabras; puede que no haya ninguna. <strong>Verifica cada artículo antes de usarlo.</strong>
               </p>
             ) : null}
             {m.fuentes && m.fuentes.length > 0 ? (
-              <div className="copilotoFuentes">
-                <span className="copilotoFuentesLabel">Fundamento normativo:</span>
+              <div className={S.copilotoFuentes}>
+                <span className={S.copilotoFuentesLabel}>Fundamento normativo:</span>
                 {/* La cita se abre. Las normas van a /normas, que acepta `documentId` y
                     `article` y salta al articulo exacto; el PDF-modelo, a su descarga.
                     Una cita que no se puede comprobar obliga a creerle a la IA. */}
                 {m.fuentes.map((f, j) => (
                   <a
-                    className="copilotoFuente"
+                    className={S.copilotoFuente}
                     href={
                       f.rol === "norma"
                         ? `/normas?documentId=${encodeURIComponent(f.documentId)}${f.article ? `&article=${encodeURIComponent(f.article)}` : ""}`
@@ -337,9 +340,9 @@ export function NecesidadCopiloto({
               </div>
             ) : null}
             {m.role === "assistant" ? (
-              <div className="copilotoMsgAcc">
+              <div className={S.copilotoMsgAcc}>
                 <button
-                  className="copilotoLink"
+                  className={C.copilotoLink}
                   onClick={() => {
                     navigator.clipboard?.writeText(m.content);
                     setCopiado(i);
@@ -351,7 +354,7 @@ export function NecesidadCopiloto({
                 </button>
                 {m.campoKey ? (
                   <button
-                    className="copilotoLink"
+                    className={C.copilotoLink}
                     onClick={() => onAplicarCampo(m.campoKey!, m.content)}
                     type="button"
                   >
@@ -364,25 +367,25 @@ export function NecesidadCopiloto({
         ))}
 
         {parcial ? (
-          <div className="copilotoMsg assistant">
+          <div className={S.assistant_copilotoMsg}>
             <MarkdownTexto content={parcial} />
           </div>
         ) : null}
 
         {cargando && !parcial ? (
-          <div className="copilotoMsg assistant">
-            <div className="copilotoMsgTexto copilotoPensando">
-              <Loader className="spin" size={13} /> Pensando…
+          <div className={S.assistant_copilotoMsg}>
+            <div className={S.copilotoMsgTexto_copilotoPensando}>
+              <Loader className={C.spin} size={13} /> Pensando…
             </div>
           </div>
         ) : null}
       </div>
 
-      {error ? <p className="copilotoError">{error}</p> : null}
+      {error ? <p className={S.copilotoError}>{error}</p> : null}
 
       {/* Entrada libre */}
       <form
-        className="copilotoInput"
+        className={S.copilotoInput}
         onSubmit={(e) => {
           e.preventDefault();
           const q = pregunta.trim();
