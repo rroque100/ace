@@ -2,6 +2,8 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { S } from "./modal-shell-estilos";
+import { cn } from "@/lib/utils";
 
 /**
  * Envoltura común de los modales de la aplicación, sobre la primitiva `Dialog`
@@ -20,6 +22,9 @@ import { X } from "lucide-react";
  * Las clases son las mismas de siempre (`modalOverlay`, `modalCard`…), así que
  * el aspecto no cambia: esto es una migración de comportamiento, no de estilo.
  */
+// Vistas previa de hoja (tablas de ~10 columnas): casi pantalla completa; el cuerpo crece y la hoja deja su propio scroll.
+export const TARJETA_HOJA = "w-[min(1260px,86vw)]! h-[96vh]! max-h-[96vh]! [&_.modalBody]:flex-1 [&_.modalBody]:min-h-0 [&_.hojaPreview]:max-h-none [&_.hojaPreview]:overflow-visible";
+
 export function ModalShell({
   titulo,
   onClose,
@@ -65,7 +70,7 @@ export function ModalShell({
           {/* `modalBody`: gancho para que las vistas previa de hoja (que fijan una
               altura casi completa) hagan crecer el cuerpo y empujen los botones al
               borde inferior. En el resto de modales no hace nada (sin regla). */}
-          <div className="modalBody overflow-y-auto p-[18px] [&_section+section]:mt-[18px] [&_h4]:m-0 [&_h4]:mb-2 [&_h4]:text-[12px] [&_h4]:uppercase [&_h4]:tracking-[0.04em] [&_h4]:text-muted">
+          <div className={cn(S.modalBody, "overflow-y-auto p-[18px] [&_section+section]:mt-[18px] [&_h4]:m-0 [&_h4]:mb-2 [&_h4]:text-[12px] [&_h4]:uppercase [&_h4]:tracking-[0.04em] [&_h4]:text-muted")}>
             {children}
           </div>
 

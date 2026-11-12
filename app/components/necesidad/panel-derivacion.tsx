@@ -7,6 +7,7 @@ import { HITO_STATUS_META, type HitosMap, hitosDeFase, progresoDeFase } from "@/
 import { necesidadStatusLabel, necesidadStatusTono } from "@/lib/necesidad-workflow";
 import { cn } from "@/lib/utils";
 import { Badge, Button, buttonClasses } from "../ui";
+import { C } from "@/app/components/estilos-comunes";
 
 type AvanceFase1 = {
   completados: number;
@@ -112,7 +113,7 @@ export const PanelDerivacion = memo(function PanelDerivacion({
     <section id="sec-derivacion" className="grid grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-[14px] border border-line bg-panel p-3.5 shadow-card">
       <div className="flex flex-wrap items-center gap-2 text-ink">
         <ArrowRightCircle size={17} />
-        <h3 className="panelTitle">Derivación a expediente</h3>
+        <h3 className={C.panelTitle}>Derivación a expediente</h3>
       </div>
       {processId ? (
         <>

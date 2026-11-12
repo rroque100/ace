@@ -16,6 +16,8 @@ import {
   Users,
   ShieldCheck,
 } from "lucide-react";
+import { S } from "./metrics-dashboard-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type Metrics = {
   documents: { total: number; uploaded: number; processing: number; indexed: number; error: number };
@@ -109,9 +111,9 @@ type UsageSummary = {
 
 function CheckList({ checks }: { checks: VerificationCheck[] }) {
   return (
-    <div className="ruleList">
+    <div className={C.ruleList}>
       {checks.map((check) => (
-        <article className="ruleItem" data-tone={check.pass ? "ok" : "warn"} key={check.code}>
+        <article className={C.ruleItem} data-tone={check.pass ? "ok" : "warn"} key={check.code}>
           <div>
             {check.pass ? <CheckCircle2 size={17} /> : <AlertTriangle size={17} />}
             <strong>{check.label}</strong>
@@ -194,7 +196,7 @@ export function MetricsDashboard() {
 
   if (loading) {
     return (
-      <div className="emptyState">
+      <div className={C.emptyState}>
         <span>Cargando...</span>
       </div>
     );
@@ -202,7 +204,7 @@ export function MetricsDashboard() {
 
   if (!metrics) {
     return (
-      <div className="emptyState">
+      <div className={C.emptyState}>
         <AlertTriangle size={20} />
         <span>No se pudieron cargar las métricas.</span>
       </div>
@@ -219,28 +221,28 @@ export function MetricsDashboard() {
   ];
 
   return (
-    <div className="evalLayout">
-      <div className="evalStats">
+    <div className={C.evalLayout}>
+      <div className={C.evalStats}>
         {cards.map((card) => {
           const Icon = card.icon;
           return (
-            <article className="statCard" key={card.label}>
+            <article className={C.statCard} key={card.label}>
               <Icon size={18} />
-              <span className="statLabel">{card.label}</span>
+              <span className={C.statLabel}>{card.label}</span>
               <strong>{card.value}</strong>
-              <span className="statHint">{card.hint}</span>
+              <span className={S.statHint}>{card.hint}</span>
             </article>
           );
         })}
       </div>
 
-      <section className="toolPanel">
-        <div className="toolPanelHeader">
+      <section className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Cola de indexación</p>
             <h2>Estado del pipeline</h2>
           </div>
-          <div className="metricActions">
+          <div className={S.metricActions}>
             <button className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={reload} type="button">
               <RefreshCw size={15} />
               Refrescar
@@ -251,22 +253,22 @@ export function MetricsDashboard() {
             </button>
           </div>
         </div>
-        <div className="indexPipeline">
-          <span className="pipePill pipeUploaded">{metrics.documents.uploaded} en cola</span>
-          <span className="pipePill pipeProcessing">{metrics.documents.processing} procesando</span>
-          <span className="pipePill pipeIndexed">{metrics.documents.indexed} indexados</span>
-          <span className="pipePill pipeError">{metrics.documents.error} con error</span>
+        <div className={S.indexPipeline}>
+          <span className={S.pipePill_pipeUploaded}>{metrics.documents.uploaded} en cola</span>
+          <span className={S.pipePill_pipeProcessing}>{metrics.documents.processing} procesando</span>
+          <span className={S.pipeIndexed_pipePill}>{metrics.documents.indexed} indexados</span>
+          <span className={S.pipeError_pipePill}>{metrics.documents.error} con error</span>
           {metrics.stuck > 0 ? (
-            <span className="pipePill pipeStuck">
+            <span className={S.pipePill_pipeStuck}>
               <AlertTriangle size={13} /> {metrics.stuck} atascados
             </span>
           ) : null}
         </div>
-        {message ? <p className="metricMessage">{message}</p> : null}
+        {message ? <p className={S.metricMessage}>{message}</p> : null}
       </section>
 
-      <section className="toolPanel">
-        <div className="toolPanelHeader">
+      <section className={C.toolPanel}>
+        <div className={C.toolPanelHeader}>
           <div>
             <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Verificación operativa</p>
             <h2>{verification ? (verification.ok ? "Sistema verificado" : "Requiere atención") : "Roles, corpus y flujo end-to-end"}</h2>
@@ -276,14 +278,14 @@ export function MetricsDashboard() {
             {verifying ? "Verificando..." : "Ejecutar verificación"}
           </button>
         </div>
-        <p className="metricMessage">
+        <p className={S.metricMessage}>
           Ejecuta una prueba autenticada como admin: revisa matriz de roles, corpus crítico
           (Reglamento y Directiva SIE) y un dry-run de búsqueda + chat sin guardar historial.
         </p>
-        {verificationError ? <p className="evalError">{verificationError}</p> : null}
+        {verificationError ? <p className={C.evalError}>{verificationError}</p> : null}
         {verification ? (
-          <div className="operationalVerify">
-            <div className="sourceCoverage">
+          <div className={S.operationalVerify}>
+            <div className={C.sourceCoverage}>
               <span data-ready={verification.ok}>Resultado: {verification.ok ? "ok" : "pendiente"}</span>
               <span data-ready={verification.summary.failed === 0}>
                 Checks: {verification.summary.passed}/{verification.summary.total}
@@ -296,20 +298,20 @@ export function MetricsDashboard() {
               </span>
             </div>
 
-            <div className="verifyGrid">
+            <div className={S.verifyGrid}>
               <section>
                 <h3>Permisos por rol</h3>
                 <CheckList checks={verification.roles.checks} />
-                <div className="sourceMetaGrid">
+                <div className={C.sourceMetaGrid}>
                   {verification.roles.profilesByRole.map((role) => (
                     <span key={role.role}>
                       {role.label}: {role.count}
                     </span>
                   ))}
                 </div>
-                <div className="ruleList">
+                <div className={C.ruleList}>
                   {verification.roles.matrix.map((item) => (
-                    <article className="ruleItem" data-tone="ok" key={item.menu}>
+                    <article className={C.ruleItem} data-tone="ok" key={item.menu}>
                       <div>
                         <ShieldCheck size={17} />
                         <strong>{item.requirement}</strong>
@@ -326,7 +328,7 @@ export function MetricsDashboard() {
                 <h3>Flujo end-to-end</h3>
                 <CheckList checks={verification.endToEnd.checks} />
                 {verification.endToEnd.latestIndexed ? (
-                  <div className="evidenceCard">
+                  <div className={C.evidenceCard}>
                     <strong>Último documento indexado</strong>
                     <span>{verification.endToEnd.latestIndexed.title}</span>
                     <small>
@@ -341,9 +343,9 @@ export function MetricsDashboard() {
             <section>
               <h3>Corpus crítico</h3>
               <CheckList checks={verification.corpus.requirements} />
-              <div className="criticalSearchList">
+              <div className={C.criticalSearchList}>
                 {verification.corpus.criticalSearches.map((item) => (
-                  <article className="sourceCard" key={item.code}>
+                  <article className={C.sourceCard} key={item.code}>
                     <strong>
                       {item.pass ? "OK" : "Falta"} · {item.expected}
                     </strong>
@@ -362,44 +364,44 @@ export function MetricsDashboard() {
         ) : null}
       </section>
 
-      <div className="evalGrid">
-        <section className="toolPanel">
-          <div className="toolPanelHeader">
+      <div className={C.evalGrid}>
+        <section className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Indexación</p>
               <h2>Documentos con error</h2>
             </div>
           </div>
-          <div className="documentList">
+          <div className={C.documentList}>
             {errors.length === 0 ? (
-              <div className="emptyState">
+              <div className={C.emptyState}>
                 <span>Sin documentos en error.</span>
               </div>
             ) : (
               errors.map((doc) => (
-                <article className="evalResult" key={doc.id}>
+                <article className={C.evalResult} key={doc.id}>
                   <strong>{doc.title}</strong>
                   <p>{doc.error_message ?? "Error desconocido"}</p>
-                  <span className="statHint">{new Date(doc.updated_at).toLocaleString("es-PE")}</span>
+                  <span className={S.statHint}>{new Date(doc.updated_at).toLocaleString("es-PE")}</span>
                 </article>
               ))
             )}
           </div>
         </section>
 
-        <aside className="toolPanel">
-          <div className="toolPanelHeader">
+        <aside className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Trazabilidad</p>
               <h2>Actividad reciente</h2>
             </div>
           </div>
-          <div className="auditList">
+          <div className={C.auditList}>
             {activity.map((item) => (
-              <div className="auditRow" key={item.id}>
-                <span className="auditAction">{item.action}</span>
-                <span className="auditMeta">{item.entity_type}</span>
-                <span className="auditTime">{new Date(item.created_at).toLocaleString("es-PE")}</span>
+              <div className={C.auditRow} key={item.id}>
+                <span className={C.auditAction}>{item.action}</span>
+                <span className={C.auditMeta}>{item.entity_type}</span>
+                <span className={C.auditTime}>{new Date(item.created_at).toLocaleString("es-PE")}</span>
               </div>
             ))}
           </div>
@@ -407,8 +409,8 @@ export function MetricsDashboard() {
       </div>
 
       {usage ? (
-        <section className="toolPanel">
-          <div className="toolPanelHeader">
+        <section className={C.toolPanel}>
+          <div className={C.toolPanelHeader}>
             <div>
               <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Uso del sistema</p>
               <h2>Señales de adopción y calidad</h2>
@@ -418,7 +420,7 @@ export function MetricsDashboard() {
               Actualizar uso
             </button>
           </div>
-          <div className="sourceCoverage">
+          <div className={C.sourceCoverage}>
             <span data-ready={usage.chat.userMessages > 0}>Preguntas: {usage.chat.userMessages}</span>
             <span data-ready={usage.chat.assistantMessages > 0}>Respuestas: {usage.chat.assistantMessages}</span>
             <span data-ready={usage.chat.feedback.correct > 0}>Correctas: {usage.chat.feedback.correct}</span>
@@ -426,25 +428,25 @@ export function MetricsDashboard() {
             <span data-ready={usage.chat.feedback.notes > 0}>Notas: {usage.chat.feedback.notes}</span>
             <span data-ready={usage.chat.confidence.baja === 0}>Baja confianza: {usage.chat.confidence.baja}</span>
           </div>
-          <div className="verifyGrid">
+          <div className={S.verifyGrid}>
             <section>
               <h3>Acciones frecuentes</h3>
-              <div className="auditList">
+              <div className={C.auditList}>
                 {usage.actions.map((item) => (
-                  <div className="auditRow" key={item.action}>
-                    <span className="auditAction">{item.action}</span>
-                    <span className="auditMeta">{item.count}</span>
+                  <div className={C.auditRow} key={item.action}>
+                    <span className={C.auditAction}>{item.action}</span>
+                    <span className={C.auditMeta}>{item.count}</span>
                   </div>
                 ))}
               </div>
             </section>
             <section>
               <h3>Actividad diaria</h3>
-              <div className="auditList">
+              <div className={C.auditList}>
                 {usage.days.slice(-10).map((item) => (
-                  <div className="auditRow" key={item.day}>
-                    <span className="auditAction">{item.day}</span>
-                    <span className="auditMeta">{item.count} evento(s)</span>
+                  <div className={C.auditRow} key={item.day}>
+                    <span className={C.auditAction}>{item.day}</span>
+                    <span className={C.auditMeta}>{item.count} evento(s)</span>
                   </div>
                 ))}
               </div>

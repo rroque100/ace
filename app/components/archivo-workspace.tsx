@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 import { ARCHIVO_DOC_KINDS, ARCHIVO_DOC_KIND_LABELS, archivoDocKindLabel } from "@/lib/archivo";
 import { maxPdfSizeBytes, maxPdfSizeLabel } from "@/lib/upload-limits";
+import { S } from "./archivo-workspace-estilos";
+import { C } from "@/app/components/estilos-comunes";
+import { cn } from "@/lib/utils";
 
 type ArchivoItem = {
   id: string;
@@ -248,8 +251,8 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
   }
 
   return (
-    <div className="uploadPanel" id="archivo">
-      <div className="panelHeader">
+    <div className={C.uploadPanel} id="archivo">
+      <div className={C.panelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Archivo documental</p>
           <h2>Consulta y búsqueda en el archivo</h2>
@@ -257,20 +260,20 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
         <Archive size={22} />
       </div>
 
-      <form className="documentForm" onSubmit={runSearch}>
-        <div className="styleSelectors">
+      <form className={C.documentForm} onSubmit={runSearch}>
+        <div className={C.styleSelectors}>
           <div className="styleSelectorGroup">
-            <span className="styleSelectorsTitle">Modo</span>
-            <div className="pillGroup">
+            <span className={C.styleSelectorsTitle}>Modo</span>
+            <div className={S.pillGroup}>
               <button
-                className={mode === "buscar" ? "pill active" : "pill"}
+                className={mode === "buscar" ? cn(S.pill, "active") : S.pill}
                 onClick={() => setMode("buscar")}
                 type="button"
               >
                 <Search size={15} /> Buscar
               </button>
               <button
-                className={mode === "preguntar" ? "pill active" : "pill"}
+                className={mode === "preguntar" ? cn(S.pill, "active") : S.pill}
                 onClick={() => setMode("preguntar")}
                 type="button"
               >
@@ -280,8 +283,8 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
           </div>
         </div>
 
-        <div className="formGrid">
-          <label className="fullSpan">
+        <div className={C.formGrid}>
+          <label className={C.fullSpan}>
             <span>{mode === "buscar" ? "Buscar en el contenido" : "Pregunta en lenguaje natural"}</span>
             <input
               onChange={(event) => setQuery(event.target.value)}
@@ -306,29 +309,29 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
           </label>
         </div>
 
-        <div className="formActions">
+        <div className={C.formActions}>
           <button className={buttonClasses({ variant: "primary" })} disabled={searching} type="submit">
             {mode === "buscar" ? <Search size={17} /> : <Bot size={17} />}
             {searching ? "Consultando..." : mode === "buscar" ? "Buscar" : "Preguntar"}
           </button>
         </div>
-        {searchMessage ? <p className="formMessage">{searchMessage}</p> : null}
+        {searchMessage ? <p className={C.formMessage}>{searchMessage}</p> : null}
       </form>
 
       {answer ? (
-        <section className="archivoAnswer">
-          <div className="documentSectionTitle">
+        <section className={S.archivoAnswer}>
+          <div className={C.documentSectionTitle}>
             <div>
               <strong>Respuesta</strong>
               <span>Fundamentada en los documentos del archivo. Las citas [D#] corresponden a las fuentes.</span>
             </div>
           </div>
-          <p className="archivoAnswerText">{answer.answer}</p>
+          <p className={S.archivoAnswerText}>{answer.answer}</p>
           {answer.sources.length > 0 ? (
-            <div className="archivoSources">
+            <div className={S.archivoSources}>
               {answer.sources.map((source, index) => (
-                <article className="documentItem" key={`${source.documentId}-${index}`}>
-                  <div className="documentIcon">
+                <article className={C.documentItem} key={`${source.documentId}-${index}`}>
+                  <div className={C.documentIcon}>
                     <FileText size={18} />
                   </div>
                   <div>
@@ -338,7 +341,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                     <span>{source.citation}</span>
                     {source.excerpt ? <p>{source.excerpt}</p> : null}
                   </div>
-                  <div className="documentActions">
+                  <div className={C.documentActions}>
                     <a href={`/api/archivo/${source.documentId}`} target="_blank" rel="noreferrer" title="Abrir PDF">
                       <FileText size={16} />
                     </a>
@@ -351,19 +354,19 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
       ) : null}
 
       {results ? (
-        <section className="archivoResults">
-          <div className="documentSectionTitle">
+        <section className={S.archivoResults}>
+          <div className={C.documentSectionTitle}>
             <div>
               <strong>Resultados</strong>
               <span>{results.length} coincidencia(s) en el archivo</span>
             </div>
           </div>
           {results.length === 0 ? (
-            <div className="emptyState">Sin resultados.</div>
+            <div className={C.emptyState}>Sin resultados.</div>
           ) : (
             results.map((source, index) => (
-              <article className="documentItem" key={`${source.documentId}-${index}`}>
-                <div className="documentIcon">
+              <article className={C.documentItem} key={`${source.documentId}-${index}`}>
+                <div className={C.documentIcon}>
                   <FileText size={18} />
                 </div>
                 <div>
@@ -377,7 +380,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                   {source.asunto ? <span>Asunto: {source.asunto}</span> : null}
                   {source.excerpt ? <p>{source.excerpt}</p> : null}
                 </div>
-                <div className="documentActions">
+                <div className={C.documentActions}>
                   <a href={`/api/archivo/${source.documentId}`} target="_blank" rel="noreferrer" title="Abrir PDF">
                     <FileText size={16} />
                   </a>
@@ -390,14 +393,14 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
 
       {canManage ? (
         <>
-          <form className="documentForm" onSubmit={uploadDocument}>
-            <div className="documentSectionTitle">
+          <form className={C.documentForm} onSubmit={uploadDocument}>
+            <div className={C.documentSectionTitle}>
               <div>
                 <strong>Subir documento al archivo</strong>
                 <span>El PDF se indexa para poder ubicar número, fecha, asunto y cualquier parte del cuerpo.</span>
               </div>
             </div>
-            <label className="filePicker">
+            <label className={C.filePicker}>
               <UploadCloud size={28} />
               <strong>{file ? `${file.name} · ${formatBytes(file.size)}` : "Selecciona un PDF"}</strong>
               <span>Resoluciones, acuerdos, ordenanzas, oficios e informes. Máximo {maxPdfSizeLabel}.</span>
@@ -417,7 +420,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                 type="file"
               />
             </label>
-            <div className="formGrid">
+            <div className={C.formGrid}>
               <label>
                 <span>Tipo de documento</span>
                 <select onChange={(event) => setDocKind(event.target.value)} value={docKind}>
@@ -448,7 +451,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                   value={title}
                 />
               </label>
-              <label className="fullSpan">
+              <label className={C.fullSpan}>
                 <span>Asunto / sumilla (opcional)</span>
                 <input
                   onChange={(event) => setAsunto(event.target.value)}
@@ -457,7 +460,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                 />
               </label>
             </div>
-            <div className="formActions">
+            <div className={C.formActions}>
               <button className={buttonClasses({ variant: "secondary" })} onClick={() => void loadDocuments()} type="button">
                 <RefreshCw size={17} /> Actualizar
               </button>
@@ -465,22 +468,22 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                 <UploadCloud size={18} /> {uploading ? "Subiendo..." : "Subir al archivo"}
               </button>
             </div>
-            {uploadMessage ? <p className="formMessage">{uploadMessage}</p> : null}
+            {uploadMessage ? <p className={C.formMessage}>{uploadMessage}</p> : null}
           </form>
 
-          <div className="documentList">
-            <div className="documentSectionTitle">
+          <div className={C.documentList}>
+            <div className={C.documentSectionTitle}>
               <div>
                 <strong>Documentos del archivo</strong>
                 <span>{documents.length} documento(s)</span>
               </div>
             </div>
             {documents.length === 0 ? (
-              <div className="emptyState">Aún no hay documentos en el archivo.</div>
+              <div className={C.emptyState}>Aún no hay documentos en el archivo.</div>
             ) : (
               documents.map((doc) => (
-                <article className="documentItem" key={doc.id}>
-                  <div className="documentIcon">
+                <article className={C.documentItem} key={doc.id}>
+                  <div className={C.documentIcon}>
                     <FileText size={18} />
                   </div>
                   <div>
@@ -496,9 +499,9 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
                         {doc.metadata.pageCount ?? 0} páginas · {doc.metadata.chunkCount} fragmentos
                       </span>
                     ) : null}
-                    {doc.error_message ? <span className="documentError">{doc.error_message}</span> : null}
+                    {doc.error_message ? <span className={C.documentError}>{doc.error_message}</span> : null}
                   </div>
-                  <div className="documentActions">
+                  <div className={C.documentActions}>
                     <small data-status={doc.status}>{statusLabel(doc.status)}</small>
                     <a href={`/api/archivo/${doc.id}`} target="_blank" rel="noreferrer" title="Abrir PDF">
                       <FileText size={16} />
@@ -526,7 +529,7 @@ export function ArchivoWorkspace({ canManage }: { canManage: boolean }) {
           </div>
         </>
       ) : (
-        <div className="emptyState">
+        <div className={C.emptyState}>
           <Lock size={20} />
           <p>
             La carga y gestión del archivo requiere rol DEC/Editor o administrador. Puedes buscar y

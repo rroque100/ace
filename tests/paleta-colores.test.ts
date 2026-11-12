@@ -142,7 +142,7 @@ const TOPE = {
   // `background: #fff` / `white` en cualquier CSS de app/: quedan el papel de la hoja de informe y el módulo de expedientes (paleta propia). Un botón con `background: white` dejó «Anterior/Siguiente» ilegibles en oscuro.
   blancosFijosEnCss: 3,
   // `background: #rrggbb` (cualquier tono) en styles.css.
-  fondosHexEnStylesCss: 13,
+  fondosHexEnBaseCss: 13,
 };
 
 const CLASE_PALETA =
@@ -163,12 +163,12 @@ describe("paleta: colores escritos a mano", () => {
     expect(cuenta(HEX, ficheros("app", [".tsx", ".ts"]))).toBeLessThanOrEqual(TOPE.hexEnComponentes);
   });
 
-  it("los CSS no vuelven a fijar fondos blancos, y styles.css tampoco fondos hex", () => {
-    const css = leer("app/styles.css");
+  it("los CSS no vuelven a fijar fondos blancos, y base.css tampoco fondos hex", () => {
+    const css = leer("app/base.css");
     const blancos = ficheros("app", [".css"]).reduce((n, r) => n + (leer(r).match(/background(?:-color)?: ?(?:#fff(?:fff)?|white)\b/g) ?? []).length, 0);
     const fondos = (css.match(/^\s*background(?:-color)?: *#[0-9a-fA-F]{3,6};/gm) ?? []).length;
     expect(blancos).toBeLessThanOrEqual(TOPE.blancosFijosEnCss);
-    expect(fondos).toBeLessThanOrEqual(TOPE.fondosHexEnStylesCss);
+    expect(fondos).toBeLessThanOrEqual(TOPE.fondosHexEnBaseCss);
   });
 
   it("los controles de formulario usan border-line-strong, no el borde decorativo", () => {

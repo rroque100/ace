@@ -3,6 +3,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { NewsFeed } from "../components/news-feed";
+import { C } from "@/app/components/estilos-comunes";
 
 export default function AlertasPage() {
   return (
@@ -17,7 +18,7 @@ export default function AlertasPage() {
       eyebrow="Engagement"
       title="Alertas y boletín normativo"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <NewsFeed />
       </section>
     </AppShell>

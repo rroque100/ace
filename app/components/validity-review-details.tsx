@@ -1,7 +1,8 @@
 import { validityLabel, type ValidityRecord } from "@/lib/validity-review";
+import { S } from "./validity-review-details-estilos";
 
 export function ValidityReviewDetails({ review, documentId }: { review: ValidityRecord; documentId?: string }) {
-  return <details className="validityReviewDetails">
+  return <details className={S.validityReviewDetails}>
     <summary>{validityLabel(review)} · ver sustento</summary>
     <p>Versión revisada: {review.version}</p>
     <p>Comprobación al {review.asOf} · registrada por {review.reviewer}.</p>

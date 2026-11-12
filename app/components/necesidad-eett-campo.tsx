@@ -5,6 +5,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import type { ParrafoDocx } from "@/lib/docx-a-bloques";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Campo «Términos de referencia / Especificaciones técnicas» (sección 3.4).
@@ -184,7 +185,7 @@ function VistaPrevia({
 
   return (
     <div className="max-h-[62vh] overflow-y-auto rounded-[var(--radio-sm)] border border-line bg-panel p-4">
-      <div className="hojaInforme">
+      <div className={C.hojaInforme}>
         {parrafos.map((p, i) => (
           <ParrafoVista key={i} parrafo={p} />
         ))}
@@ -207,11 +208,11 @@ function ParrafoVista({ parrafo }: { parrafo: ParrafoDocx }) {
   // Un párrafo sin texto es un espacio de la maqueta: se conserva con altura
   // fija para no comerse la separación.
   if (parrafo.fragmentos.length === 0) {
-    return <p className="hojaParrafo hojaParrafoVacio" />;
+    return <p className={C.hojaParrafo_hojaParrafoVacio} />;
   }
 
   return (
-    <p className={`hojaParrafo ${alinear}`}>
+    <p className={`${C.hojaParrafo} ${alinear}`}>
       {parrafo.fragmentos.map((f, i) => {
         let nodo: React.ReactNode = f.texto;
         if (f.subrayado) nodo = <u key={`u${i}`}>{nodo}</u>;

@@ -7,6 +7,8 @@ import {
   type AdmisibilidadEstado,
   contarAdmisibilidad,
 } from "@/lib/necesidad-admisibilidad";
+import { S } from "./admisibilidad-dec-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Checklist de admisibilidad de la DEC (P3). La DEC marca los puntos del Art. 44
@@ -82,41 +84,41 @@ export function AdmisibilidadDec({
   const sinRegistro = !puedeEditar && done === 0 && Object.keys(estado).length === 0;
 
   return (
-    <div className="admisPanel" data-completo={done === total}>
-      <div className="admisHead">
+    <div className={S.admisPanel} data-completo={done === total}>
+      <div className={S.admisHead}>
         <ClipboardCheck size={16} aria-hidden />
-        <h3 className="panelTitle">Admisibilidad (DEC)</h3>
-        <span className="admisCount">{done}/{total}</span>
-        {guardando ? <span className="admisGuardando"><Loader size={13} /> guardando…</span> : null}
-        {!puedeEditar ? <span className="admisSoloLectura">solo lectura</span> : null}
+        <h3 className={C.panelTitle}>Admisibilidad (DEC)</h3>
+        <span className={S.admisCount}>{done}/{total}</span>
+        {guardando ? <span className={S.admisGuardando}><Loader size={13} /> guardando…</span> : null}
+        {!puedeEditar ? <span className={S.admisSoloLectura}>solo lectura</span> : null}
       </div>
 
       {cargando ? (
-        <p className="admisVacio">Cargando…</p>
+        <p className={S.admisVacio}>Cargando…</p>
       ) : sinRegistro ? (
-        <p className="admisVacio">La DEC aún no registró su verificación de admisibilidad.</p>
+        <p className={S.admisVacio}>La DEC aún no registró su verificación de admisibilidad.</p>
       ) : (
-        <ul className="admisLista">
+        <ul className={S.admisLista}>
           {ADMISIBILIDAD_ITEMS.map((item) => {
             const st = estado[item.key];
             const marcado = Boolean(st?.ok);
             return (
-              <li className="admisItem" data-ok={marcado} key={item.key}>
-                <label className="admisItemMarca">
+              <li className={S.admisItem} data-ok={marcado} key={item.key}>
+                <label className={S.admisItemMarca}>
                   <input
                     type="checkbox"
                     checked={marcado}
                     disabled={!puedeEditar}
                     onChange={(e) => alternar(item.key, e.target.checked)}
                   />
-                  <span className="admisItemTexto">
+                  <span className={S.admisItemTexto}>
                     {item.label}
-                    <span className="admisItemBase">{item.baseLegal}</span>
+                    <span className={S.admisItemBase}>{item.baseLegal}</span>
                   </span>
                 </label>
                 {puedeEditar ? (
                   <input
-                    className="admisItemNota"
+                    className={S.admisItemNota}
                     type="text"
                     maxLength={500}
                     placeholder="Nota (opcional)"
@@ -124,7 +126,7 @@ export function AdmisibilidadDec({
                     onChange={(e) => ponerNota(item.key, e.target.value)}
                   />
                 ) : st?.nota ? (
-                  <span className="admisItemNotaRO">{st.nota}</span>
+                  <span className={S.admisItemNotaRO}>{st.nota}</span>
                 ) : null}
               </li>
             );
@@ -133,7 +135,7 @@ export function AdmisibilidadDec({
       )}
 
       {actualizadoPor && !sinRegistro ? (
-        <p className="admisPie">Última actualización por {actualizadoPor}.</p>
+        <p className={S.admisPie}>Última actualización por {actualizadoPor}.</p>
       ) : null}
     </div>
   );

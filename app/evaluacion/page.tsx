@@ -5,6 +5,7 @@ import { Bot, Lock } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { EvalDashboard } from "../components/eval-dashboard";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function EvaluacionPage() {
   const user = await getSessionUser();
@@ -22,12 +23,12 @@ export default async function EvaluacionPage() {
       eyebrow="Calidad"
       title="Evaluación continua del asistente"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         {user?.isLegal || isAdmin ? <ChatQualityPanel/> : null}
         {isAdmin ? (
           <details><summary>Indicadores automáticos históricos · no miden precisión jurídica</summary><p>Los porcentajes siguientes corresponden a comprobaciones automáticas de recuperación y términos. No sustituyen la revisión jurídica humana.</p><EvalDashboard /></details>
         ) : !user?.isLegal ? (
-          <div className="emptyState">
+          <div className={C.emptyState}>
             <Lock size={20} />
             <p>
               La evaluación continua del RAG (banco de preguntas, corridas y métricas de calidad)

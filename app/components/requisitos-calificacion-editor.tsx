@@ -45,6 +45,8 @@ import { Sparkles } from "lucide-react";
 // campo ancho de la ficha, y con la estimación ancha un párrafo de 270
 // caracteres se quedaba en cuatro filas.
 import { filasTextarea } from "@/lib/textarea-alto";
+import { S } from "./requisitos-calificacion-editor-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 // ── Estilos migrados de styles.css (clases .reqCal*) ─────────────────────────
 // Conservan la nomenclatura original. Los <button>/<input>/<select>/<textarea>
@@ -625,7 +627,7 @@ export function RequisitosCalificacionEditor({
                             title="Que la IA proponga qué se considera similar, a partir del objeto de la contratación"
                             type="button"
                           >
-                            {proponiendo ? <Loader className="reqCalSpin" size={12} /> : <Sparkles size={12} />}
+                            {proponiendo ? <Loader className={S.reqCalSpin} size={12} /> : <Sparkles size={12} />}
                             {proponiendo ? "Proponiendo…" : "Proponer con IA"}
                           </button>
                         ) : null}
@@ -714,7 +716,7 @@ export function RequisitosCalificacionEditor({
                   para que el editor muestre solo lo que la DEC decide y exporta. */}
               {estado !== "no" && modo !== "decision" && !(tipo.key === "capacidad_tecnica" && onCampoFicha) ? (
                 <label className={RC_CAMPO}>
-                  <span className={tipo.key === "consorcio" ? "reqCalSpanConBoton" : undefined}>
+                  <span className={tipo.key === "consorcio" ? S.reqCalSpanConBoton : undefined}>
                     ¿Con qué se acredita?
                     {tipo.key === "consorcio" ? (
                       <button
@@ -1003,7 +1005,7 @@ export function RequisitosCalificacionEditor({
               {!readOnly ? (
                 <button
                   aria-label={`Eliminar ${item.nombre}`}
-                  className="segCronoRemove"
+                  className={C.segCronoRemove}
                   onClick={() =>
                     emit(
                       porTipo,

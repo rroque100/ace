@@ -1,6 +1,8 @@
 "use client";
 
 import type { CeldaPreview } from "@/lib/fase1-export";
+import { S } from "./hoja-preview-estilos";
+import { cn } from "@/lib/utils";
 
 /**
  * La hoja tal y como se exporta.
@@ -27,7 +29,7 @@ export function HojaPreview({ filas, anchos }: { filas: CeldaPreview[][]; anchos
     // tope de 460px y deja que desplace el CUERPO del modal —una sola barra de
     // scroll hasta el borde de los botones— en vez de esta caja anidada. En los
     // modales pequeños (sin esa clase de tarjeta) el tope de 460px sigue vigente.
-    <div className="hojaPreview max-h-[460px] overflow-auto rounded-[6px] border border-line [&_table]:w-full [&_table]:border-collapse [&_table]:text-[11px] [&_td]:border [&_td]:border-line [&_td]:px-[5px] [&_td]:py-[3px] [&_td]:align-top [&_td]:whitespace-pre-wrap [&_td]:[word-break:break-word]">
+    <div className={cn(S.hojaPreview, "max-h-[460px] overflow-auto rounded-[6px] border border-line [&_table]:w-full [&_table]:border-collapse [&_table]:text-[11px] [&_td]:border [&_td]:border-line [&_td]:px-[5px] [&_td]:py-[3px] [&_td]:align-top [&_td]:whitespace-pre-wrap [&_td]:[word-break:break-word]")}>
       <table style={total > 0 ? { tableLayout: "fixed" } : undefined}>
         {total > 0 ? (
           <colgroup>

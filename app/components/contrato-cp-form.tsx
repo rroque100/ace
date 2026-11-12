@@ -9,6 +9,7 @@ import { SectionBadge } from "./contrato-sie-section-badge";
 import { useAutoSave } from "./contrato-sie-autosave";
 import type { SectionStatus } from "./contrato-sie-validation";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 
 type Bien = { paquete: string; descripcion: string; marca: string; unidad: string; cantidad: string };
 type PrecioItem = { concepto: string; marca: string; unidad: string; cantidad: string; precioUnitario: string; precioTotal: string };
@@ -343,8 +344,8 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
   }
 
   return (
-    <div className="toolPanel">
-      <div className="toolPanelHeader">
+    <div className={C.toolPanel}>
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Comparación de Precios · Ley 32069 (2026)</p>
           <h2>Generar contrato de Comparación de Precios</h2>
@@ -352,9 +353,9 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
         <FileText size={22} />
       </div>
 
-      <div className="toolBody flex flex-col gap-3">
-        {error ? <p className="formMessage errorText">{error}</p> : null}
-        {ok ? <p className="formMessage">{ok}</p> : null}
+      <div className={cn(C.toolBody, "flex flex-col gap-3")}>
+        {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
+        {ok ? <p className={C.formMessage}>{ok}</p> : null}
 
         {showRestoreBanner ? (
           <div className="flex items-center justify-between rounded-md bg-success-soft px-3 py-2 text-[12.5px] font-medium text-success">
@@ -635,7 +636,7 @@ export function ContratoCpForm({ contratoId, onSaved }: { contratoId?: string | 
           </div>
         </Section>
 
-        <div className="formActions mt-2">
+        <div className={cn(C.formActions, "mt-2")}>
           <div className="flex flex-1 flex-wrap items-center gap-2">
             <div className="flex overflow-hidden rounded-sm border border-solid border-line">
               <button type="button" onClick={() => setFormato("docx")} className={cn("cursor-pointer border-0 px-3 py-1.5 text-xs", formato === "docx" ? "bg-brand font-bold text-white" : "bg-transparent font-normal text-ink")}>DOCX</button>

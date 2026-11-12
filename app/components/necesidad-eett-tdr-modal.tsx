@@ -18,6 +18,7 @@ import { numeroDesdeTexto, TrasladoPanel, type GrupoTraslado } from "./necesidad
 import { Button, IconButton, buttonClasses } from "./ui/button";
 import { Alert } from "./ui/alert";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 
 // Modal de revisión del EETT/TDR: visor del PDF subido a un lado y, al otro, la
 // PROPUESTA generada por IA (conforme al modelo OECE del proceso) + la REVISIÓN
@@ -850,7 +851,7 @@ export function EettTdrModal({
                               </span>
                               <button
                                 type="button"
-                                className="copilotoLink inline-flex items-center gap-1 text-[11.5px] text-accent"
+                                className={cn(C.copilotoLink, "inline-flex items-center gap-1 text-[11.5px] text-accent")}
                                 onClick={() => {
                                   navigator.clipboard?.writeText(h.propuesta);
                                   setCopiado(i);

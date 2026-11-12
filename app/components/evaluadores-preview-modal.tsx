@@ -5,6 +5,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { FileText, Loader } from "lucide-react";
 import type { ParrafoDocx } from "@/lib/docx-a-bloques";
 import { ModalShell } from "./modal-shell";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Vista previa de uno de los tres documentos de designación de evaluadores (A6)
@@ -115,11 +116,11 @@ export function EvaluadoresPreviewModal({
           {error ? (
             <p className="formError">{error}</p>
           ) : !parrafos ? (
-            <p className="anexo1PreviewCargando">
+            <p className={C.anexo1PreviewCargando}>
               <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Preparando la vista previa…
             </p>
           ) : (
-            <div className="hojaInforme">
+            <div className={C.hojaInforme}>
               {parrafos.map((p, i) => (
                 <ParrafoVista key={i} parrafo={p} />
               ))}
@@ -144,11 +145,11 @@ function ParrafoVista({ parrafo }: { parrafo: ParrafoDocx }) {
   // Un párrafo sin texto es un espacio de la maqueta (línea de firma, salto):
   // se conserva con una altura fija para no comerse la separación.
   if (parrafo.fragmentos.length === 0) {
-    return <p className="hojaParrafo hojaParrafoVacio" />;
+    return <p className={C.hojaParrafo_hojaParrafoVacio} />;
   }
 
   return (
-    <p className="hojaParrafo" style={{ textAlign }}>
+    <p className={C.hojaParrafo} style={{ textAlign }}>
       {parrafo.fragmentos.map((f, i) => {
         // Los saltos y tabulaciones que trae el fragmento se respetan con
         // white-space; aquí solo se aplica el énfasis.

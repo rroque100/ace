@@ -15,6 +15,7 @@ import type { TopesProcedimiento } from "@/lib/topes-procedimiento";
 import type { DiasCronogramaPorProcedimiento } from "@/lib/cronograma-dias";
 import { mismaPersona, nombreParaFirma, type Persona } from "@/lib/nombres";
 import { OficinaCombobox, type OficinaOpcion } from "../oficina-combobox";
+import { C } from "@/app/components/estilos-comunes";
 
 // ── Estilos migrados de styles.css (clases .seg*) ────────────────────────────
 // Los <input>/<select>/<textarea> nativos llevan `!` en tamaño/radio: la regla
@@ -1006,7 +1007,7 @@ export function SegmentacionForm({
                   value={item.fecha}
                 />
                 {!readOnly ? (
-                  <button className="segCronoRemove" onClick={() => {
+                  <button className={C.segCronoRemove} onClick={() => {
                     const next = (data.cronogramaItems as CronoItem[]).filter((_, j) => j !== i);
                     set({ cronogramaItems: next });
                   }} type="button">

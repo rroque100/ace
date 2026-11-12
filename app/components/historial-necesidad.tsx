@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { History, UserRound } from "lucide-react";
+import { S } from "./historial-necesidad-estilos";
 
 type Evento = {
   fecha: string;
@@ -54,28 +55,28 @@ export function HistorialNecesidad({ necesidadId, recarga }: { necesidadId: stri
   const ultimo = eventos[eventos.length - 1];
 
   return (
-    <div className="histNec">
+    <div className={S.histNec}>
       <button
         aria-expanded={abierto}
-        className="histNecToggle"
+        className={S.histNecToggle}
         onClick={() => setAbierto((v) => !v)}
         type="button"
       >
         <History size={13} /> Historial ({eventos.length})
-        {!abierto ? <span className="histNecUltimo">· último: {ultimo.etiqueta}</span> : null}
+        {!abierto ? <span className={S.histNecUltimo}>· último: {ultimo.etiqueta}</span> : null}
       </button>
       {abierto ? (
-        <ol className="histNecLista">
+        <ol className={S.histNecLista}>
           {eventos.map((e, i) => (
-            <li className="histNecItem" data-tono={e.tono} key={i}>
-              <span aria-hidden className="histNecPunto" />
-              <div className="histNecCuerpo">
-                <span className="histNecEtiqueta">{e.etiqueta}</span>
-                <span className="histNecMeta">
+            <li className={S.histNecItem} data-tono={e.tono} key={i}>
+              <span aria-hidden className={S.histNecPunto} />
+              <div className={S.histNecCuerpo}>
+                <span className={S.histNecEtiqueta}>{e.etiqueta}</span>
+                <span className={S.histNecMeta}>
                   <UserRound size={11} aria-hidden /> {e.actor} · {fmt(e.fecha)}
                 </span>
                 {e.sustento ? (
-                  <p className="histNecSustento">
+                  <p className={S.histNecSustento}>
                     “{e.sustento}”{e.mecanismo ? ` — ${e.mecanismo}` : ""}
                   </p>
                 ) : null}

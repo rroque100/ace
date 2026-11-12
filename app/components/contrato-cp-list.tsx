@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Database, Download, FileText, LoaderCircle, Search, Trash2 } from "lucide-react";
+import { C } from "@/app/components/estilos-comunes";
 
 type ContratoRow = {
   id: string;
@@ -92,7 +93,7 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
   // `border-solid` y los campos `box-border` explícitos (lo que `.tw` daría).
   return (
     <div className="flex flex-col gap-3">
-      <div className="toolPanelHeader">
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Contratos guardados</p>
           <h2>Mis contratos · Comparación de Precios</h2>
@@ -100,7 +101,7 @@ export function ContratoCpList({ onLoad }: { onLoad: (id: string) => void }) {
         <Database size={22} />
       </div>
 
-      {error ? <p className="formMessage errorText">{error}</p> : null}
+      {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
 
       <div className="flex items-center gap-2">
         <Search size={15} className="text-muted" />

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { buttonClasses } from "@/app/components/ui/button";
 import Link from "next/link";
 import { Check, History, LoaderCircle, MessageSquareText, NotebookText, RefreshCw, X } from "lucide-react";
+import { S } from "./chat-history-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type HistoryMessage = {
   id: string;
@@ -40,18 +42,6 @@ type HistoryResponse = {
   error?: string;
   sessions: HistorySession[];
 };
-
-function confidenceClass(confidence?: "alta" | "media" | "baja") {
-  if (confidence === "alta") {
-    return "confidencePill high";
-  }
-
-  if (confidence === "media") {
-    return "confidencePill medium";
-  }
-
-  return "confidencePill low";
-}
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("es-PE", {
@@ -169,8 +159,8 @@ export function ChatHistory() {
   }, []);
 
   return (
-    <div className="toolPanel">
-      <div className="toolPanelHeader">
+    <div className={C.toolPanel}>
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Trazabilidad</p>
           <h2>Historial de consultas</h2>
@@ -178,7 +168,7 @@ export function ChatHistory() {
         <History size={22} />
       </div>
 
-      <div className="historyStats">
+      <div className={S.historyStats}>
         <div>
           <span>Sesiones</span>
           <strong>{sessions.length}</strong>
@@ -196,7 +186,7 @@ export function ChatHistory() {
       {/* Filtros, no pestañas: estrechan una lista que sigue siendo la misma.
           `aria-pressed` dice lo que de verdad hacen; `role="tab"` prometía un
           panel asociado que nunca existió. */}
-      <div className="historyTabs" role="group" aria-label="Filtrar conversaciones">
+      <div className={C.historyTabs} role="group" aria-label="Filtrar conversaciones">
         <button aria-pressed={filter === "all"} onClick={() => setFilter("all")} type="button">
           Todas <span>{sessions.length}</span>
         </button>
@@ -211,7 +201,7 @@ export function ChatHistory() {
         </button>
       </div>
 
-      <div className="historyFilters">
+      <div className={S.historyFilters}>
         <label>
           <span>Buscar</span>
           <input
@@ -234,8 +224,8 @@ export function ChatHistory() {
         </label>
       </div>
 
-      <div className="documentList">
-        <div className="listHeader">
+      <div className={C.documentList}>
+        <div className={C.listHeader}>
           <div>
             <strong>Sesiones recientes</strong>
             <small>Preguntas, respuestas y fuentes persistidas</small>
@@ -243,12 +233,12 @@ export function ChatHistory() {
           <span>{filteredSessions.length}</span>
         </div>
 
-        {error ? <p className="formMessage errorText">{error}</p> : null}
+        {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
         {loading && sessions.length === 0 ? (
-          <div className="emptyState">Cargando historial...</div>
+          <div className={C.emptyState}>Cargando historial...</div>
         ) : null}
         {!loading && sessions.length === 0 ? (
-          <div className="emptyState">Aun no hay consultas guardadas.</div>
+          <div className={C.emptyState}>Aun no hay consultas guardadas.</div>
         ) : null}
 
         {filteredSessions.map((session) => {
@@ -257,15 +247,15 @@ export function ChatHistory() {
             assistant?.metadata.assessment?.confidence ?? assistant?.metadata.confidence;
 
           return (
-            <article className="historyItem" key={session.id}>
+            <article className={S.historyItem} key={session.id}>
               <Link className={buttonClasses({ variant: "secondary", size: "sm" })} href={`/chat?sessionId=${session.id}`}>Continuar conversación</Link>
-              <div className="historyItemHeader">
+              <div className={S.historyItemHeader}>
                 <div>
                   <span>{formatDate(session.updated_at)}</span>
                   <strong>{session.title ?? firstUserQuestion(session.messages)}</strong>
                 </div>
                 {assistant ? (
-                  <span className={confidenceClass(confidence)}>Confianza {confidence ?? "baja"}</span>
+                  <span className={confidence === "alta" ? C.confidencePill_high : confidence === "media" ? C.confidencePill_medium : C.confidencePill_low}>Confianza {confidence ?? "baja"}</span>
                 ) : null}
               </div>
               <p>{firstUserQuestion(session.messages)}</p>
@@ -274,8 +264,8 @@ export function ChatHistory() {
                   <strong>Pregunta original:</strong> {assistant.metadata.question}
                 </p>
               ) : null}
-              {assistant ? <p className="historyAnswer">{assistant.content}</p> : null}
-              <div className="sourceMetaGrid">
+              {assistant ? <p className={S.historyAnswer}>{assistant.content}</p> : null}
+              <div className={C.sourceMetaGrid}>
                 <span>{session.messageCount} mensaje(s)</span>
                 <span>{session.sourceCount} fuente(s)</span>
                 {assistant?.metadata.feedback === "correct" ? <span>Respuesta correcta</span> : null}
@@ -286,7 +276,7 @@ export function ChatHistory() {
                 ) : null}
               </div>
               {assistant?.metadata.note ? (
-                <div className="historyNote">
+                <div className={S.historyNote}>
                   <NotebookText size={15} />
                   <p>{assistant.metadata.note}</p>
                 </div>
@@ -296,7 +286,7 @@ export function ChatHistory() {
                   <MessageSquareText size={15} />
                   Ver mensajes
                 </summary>
-                <div className="historyMessages">
+                <div className={S.historyMessages}>
                   {session.messages.map((message) => (
                     <div key={message.id}>
                       <strong>{message.role === "user" ? "Usuario" : "Asistente"}</strong>

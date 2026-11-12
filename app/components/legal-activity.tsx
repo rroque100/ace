@@ -5,6 +5,8 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import { Activity, Bot, Bookmark, Briefcase, CheckCircle2, FileSearch, LoaderCircle, RefreshCw } from "lucide-react";
 import { processTypeLabel } from "@/lib/legal-taxonomy";
+import { S } from "./legal-activity-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type ActivityItem = {
   confidence?: string | null;
@@ -74,8 +76,8 @@ export function LegalActivity() {
   );
 
   return (
-    <div className="toolPanel legalActivity">
-      <div className="toolPanelHeader">
+    <div className={S.legalActivity_toolPanel}>
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Actividad jurídica</p>
           <h2>Trabajo integrado</h2>
@@ -84,7 +86,7 @@ export function LegalActivity() {
       </div>
 
       {/* Filtros sobre una única lista, no pestañas: ver [chat-history]. */}
-      <div className="historyTabs" role="group" aria-label="Filtrar por origen">
+      <div className={C.historyTabs} role="group" aria-label="Filtrar por origen">
         {(["all", "chat", "analiza", "validar", "expediente", "guardado"] as const).map((item) => (
           <button aria-pressed={filter === item} key={item} onClick={() => setFilter(item)} type="button">
             {item === "all" ? "Todo" : originLabels[item]}{" "}
@@ -97,22 +99,22 @@ export function LegalActivity() {
         </button>
       </div>
 
-      {error ? <p className="formMessage errorText">{error}</p> : null}
-      {loading && items.length === 0 ? <div className="emptyState">Cargando actividad...</div> : null}
-      {!loading && visible.length === 0 ? <div className="emptyState">Sin actividad para este filtro.</div> : null}
+      {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
+      {loading && items.length === 0 ? <div className={C.emptyState}>Cargando actividad...</div> : null}
+      {!loading && visible.length === 0 ? <div className={C.emptyState}>Sin actividad para este filtro.</div> : null}
 
-      <div className="activityTimeline">
+      <div className={S.activityTimeline}>
         {visible.map((item) => (
-          <article className="activityItem" data-origin={item.origin} key={item.id}>
-            <div className="activityIcon">{originIcon(item.origin)}</div>
+          <article className={S.activityItem} data-origin={item.origin} key={item.id}>
+            <div className={S.activityIcon}>{originIcon(item.origin)}</div>
             <div>
-              <div className="activityItemHead">
+              <div className={S.activityItemHead}>
                 <span>{originLabels[item.origin]}</span>
                 <small>{formatDate(item.createdAt)}</small>
               </div>
               <strong>{item.title}</strong>
               <p>{item.detail}</p>
-              <div className="sourceMetaGrid">
+              <div className={C.sourceMetaGrid}>
                 {item.confidence ? <span>Confianza {item.confidence}</span> : null}
                 {item.processType ? <span>{processTypeLabel(item.processType) ?? item.processType}</span> : null}
                 {typeof item.sourceCount === "number" ? <span>{item.sourceCount} fuente(s)</span> : null}

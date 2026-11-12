@@ -2,6 +2,7 @@ import { AppShell } from "../components/app-shell";
 import { NecesidadList } from "../components/necesidad-list";
 import { ErrorBoundary } from "../components/error-boundary";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function NecesidadesPage() {
   const user = await getSessionUser();
@@ -9,7 +10,7 @@ export default async function NecesidadesPage() {
 
   return (
     <AppShell active="necesidades" eyebrow="Módulo 1" title="Gestión de Necesidades">
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <ErrorBoundary>
           <NecesidadList canManage={canManage} role={user?.role ?? ""} />
         </ErrorBoundary>

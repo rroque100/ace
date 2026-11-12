@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { S } from "./case-attachments-estilos";
+import { C } from "@/app/components/estilos-comunes";
 type Item = {
   id: string;
   name: string;
@@ -83,7 +85,7 @@ export function CaseAttachments({
     }
   }
   return (
-    <details className="legalWorkspacePanel">
+    <details className={C.legalWorkspacePanel}>
       <summary>
         Adjuntar o elegir documentos{" "}
         {visibleItems.length ? `· ${visibleItems.length}` : ""}
@@ -92,7 +94,7 @@ export function CaseAttachments({
         PDF, PNG o JPEG · hasta 4 MiB. Selecciona hasta cuatro por consulta. Se
         guardan en esta conversación y no forman parte del corpus normativo.
       </p>
-      <label className="legalAttachmentUpload">
+      <label className={S.legalAttachmentUpload}>
         {busy
           ? "Leyendo y guardando el documento…"
           : "Añadir documento del caso"}
@@ -113,10 +115,10 @@ export function CaseAttachments({
         requieren revisión de la transcripción.
       </small>
       {error ? <p role="alert">{error}</p> : null}
-      <ul className="legalWorkspaceHistory">
+      <ul className={C.legalWorkspaceHistory}>
         {visibleItems.map((item) => (
           <li key={item.id}>
-            <label className="legalWorkspaceCheck">
+            <label className={C.legalWorkspaceCheck}>
               <input
                 type="checkbox"
                 checked={selected.includes(item.id)}

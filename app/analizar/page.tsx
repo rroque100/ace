@@ -3,6 +3,7 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { Bot } from "lucide-react";
 import { AppShell } from "../components/app-shell";
 import { DocumentAnalyzer } from "../components/document-analyzer";
+import { C } from "@/app/components/estilos-comunes";
 
 export default function AnalizarPage() {
   return (
@@ -17,7 +18,7 @@ export default function AnalizarPage() {
       eyebrow="Asistente"
       title="Analiza bases, contratos y expedientes contra la normativa"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <DocumentAnalyzer />
       </section>
     </AppShell>

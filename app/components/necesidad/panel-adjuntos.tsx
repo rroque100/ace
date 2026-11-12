@@ -6,6 +6,7 @@ import { NECESIDAD_DOC_KINDS, necesidadDocKindLabel } from "@/lib/legal-taxonomy
 import type { NecesidadDocumento } from "@/lib/necesidades";
 import { Button, IconButton } from "../ui";
 import { ConfirmDialog } from "../confirm-dialog";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Adjuntos de la necesidad: subir un PDF, listarlos, borrarlos.
@@ -115,7 +116,7 @@ export const PanelAdjuntos = memo(function PanelAdjuntos({
     <section id="sec-adjuntos" className="grid grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-[14px] border border-line bg-panel p-3.5 shadow-card">
       <div className="flex flex-wrap items-center gap-2 text-ink">
         <FileText size={17} />
-        <h3 className="panelTitle">Adjuntos</h3>
+        <h3 className={C.panelTitle}>Adjuntos</h3>
       </div>
 
       {puedeEditar ? (

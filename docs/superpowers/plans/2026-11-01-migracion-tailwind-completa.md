@@ -77,6 +77,47 @@ Los primitivos ya existen en `app/components/ui` (`Button`, `buttonClasses`, `Ca
 
 ---
 
+## Ejecución global (2026-11-01): las Fases 2 a 6 en una sola pasada
+
+Migrar componente a componente deja, en un mismo elemento, utilidades de una clase y CSS heredado de otra, y la capa gana
+siempre a la hoja: la cascada que decidían la especificidad y el orden se pierde. Por eso lo que quedaba (≈740 clases en 122
+ficheros, 137 compartidas) se migró de una vez con `node scripts/migrar-a-tailwind.mjs --todo`, que resuelve juntas las
+clases de cada elemento. Resultado:
+
+- **No queda CSS de componente.** `styles.css`, `legal-workspace.css`, `exam-ui.css`, `expedientes-archivo.css` y los otros
+  cuatro CSS pequeños desaparecen; lo que sobrevive (tokens, resets de elementos, keyframes) está en `app/base.css`
+  (≈650 líneas), importado en la capa `legacy` desde `tailwind.css`.
+- Estilos por componente en `x-estilos.ts` (`S`); los de varios componentes en `estilos-comunes.ts` (`C`).
+- Los `style={{}}` en línea ya bajaron a 72 (Contratos se migró a mano en paralelo); quedan los dinámicos y el trinquete
+  los sigue contando.
+
+Lo que la herramienta resuelve sola, y por qué (cada punto fue un fallo real al comparar con el original):
+
+1. **Marcadores.** Si una utilidad nombra otra clase (`[.padre_&]:p-5`, `[&_.hijo]:flex`) o el código la busca por nombre,
+   esa clase sigue en el DOM como palabra suelta de su entrada.
+2. **Clases de estado.** `compactSearchIntro`, `mobileOpen`… solo están a veces: no se pueden dar por siempre presentes al
+   fundir `.estado .hijo`. Se detectan por ir tras `?`, `&&` o `||`.
+3. **Ruta de antecesores.** En una regla con descendiente (`.a .b input`) se conserva la ruta completa: la especificidad decide
+   contra otra clase que apunte al mismo `input`.
+4. **Capas.** Lo que venía de CSS sin capa lleva `!` (ganaba a las utilidades); `@container` se escribe `@max-[Npx]`, que
+   Tailwind ordena por tamaño (la forma arbitraria se ordena como texto y rompe la cascada entre rangos).
+5. **Reset de `.tw`.** `.tw button { background:none; color:inherit; font:inherit }` ganaba a `styles.css` en botones y campos:
+   esas declaraciones se descartan según la etiqueta del elemento (como ya se hacía con los bordes).
+7. **Fuera de `.tw`.** El menú, la barra superior y los lanzadores del asistente no están dentro de `.tw`: ahí los bordes y botones
+   de `styles.css` sí se veían. `--sin-tw=clase` marca los elementos que llevan esa clase y conserva esas declaraciones
+   (`searchAssistantTrigger` es el único caso hoy; sale como entrada `…_fueraTw`).
+8. **Variantes escritas a mano.** Una clase que el código a mano nombra en una variante (`[&_.searchAssistantTrigger]:hidden`)
+   se conserva sola como marcador.
+6. **Plantillas.** `` `intro${x ? " compacta" : ""}` `` conserva el espacio y la clase pegada a `${…}`.
+
+Límites conocidos: dos utilidades de clases distintas con el mismo peso se desempatan por el orden que da Tailwind, no por el
+del CSS original (tres casos se corrigieron a mano en el guion de retoques); y los estados que piden pulsar algo
+(diálogos, popovers) no los cubre `docs/qa/barrido.js`. Verificación hecha contra el código ORIGINAL (commit `7afd32f`) en las
+pantallas de la cuenta externa (`/`, `/chat`, `/busqueda`, `/normas`, `/simulador`, `/cambiar-password`) a 1024 y 375 px,
+en claro y oscuro, con `<details>` cerrados y abiertos. Las pantallas internas (Necesidades, Expedientes, Contratos,
+Configuración, Validar, Analizar, Métricas, Documentos…) NO se han podido medir sin una sesión interna: hay que pasar
+`__barrido.guardar` con el código anterior y `__barrido.comparar` con el nuevo.
+
 ## Estado real y protocolo (actualizado tras ejecutar las Fases 0, 1 y parte de la 2)
 
 **Hecho y subido:** Fase 0 (guardas y herramientas), Fase 1 (código muerto), búsqueda documental (2.1), navegador de normas (parte de 2.3), chat jurídico (2.2) y simulador (`exam-workspace`). `styles.css` pasó de 11.344 a 9.048 líneas.
@@ -1572,3 +1613,50 @@ git commit -m "docs(tailwind): la migración termina y las guardas fijan el esta
 | Un componente migrado queda fuera de `.tw` y pierde el reset | Step 3 de cada tarea obliga a comprobar el contenedor; el síntoma es un botón con fondo gris o un `box-sizing` roto. |
 | Las cuentas externas no ven pantallas internas | Las Fases 3–5 requieren que el usuario inicie sesión con una cuenta interna; la Fase 2 se puede comprobar con la cuenta externa. |
 | `fase-panel.tsx` (4.178 líneas) | Se divide por pasos A1–A9 dentro de su tarea y no se mezcla con otros cambios. |
+
+## Segunda ejecución sobre `main` `e492f0d` (2026-11-12)
+
+La primera pasada (rama local `claude/migracion-tailwind-completa`, sobre `09e4d04`) se quedó 45 commits atrás y nunca se
+subió. Se regeneró desde el `main` de entonces, que ya traía migrados a mano Expedientes, Contratos, Fases, el chat, la
+búsqueda, las normas, el simulador y los botones (primitivo `Button`). A diferencia de la primera vez, esos componentes **no**
+se devolvieron a su estado original: se partió de lo que había en `main`.
+
+**Cómo se regenera:** `bash scripts/tailwind-global/rehacer.sh` (poda previa → retoques previos → `--todo --tw-condicional`
+→ quitar sufijos `_fueraTw` → retoques → poda final → `base.css` → retoques a mano). Produce siempre el mismo resultado.
+
+**Verificación:** `docs/qa/barrido.js` sobre 22 pantallas internas (sesión de administrador) a 1024 y 375 px, con los
+`<details>` cerrados y abiertos, en claro y en oscuro (el oscuro, con `exp:theme=dark` en localStorage ANTES de cargar cada
+pantalla: cambiar `data-theme` después daba mediciones distintas en cada pasada). Resultado final: estructura idéntica en todas;
+quedan diferencias que no se ven (un borde de ancho 0 que pasa de `none` a `solid`, radios `999px` frente a `9999px`, sombras
+iguales escritas de otra forma) y ruido de la medición (`<details open>` que React vuelve a abrir, la barra fija del móvil que
+depende del scroll). Los colores que cambian son hex que pasan a token, a propósito: en claro casi no se nota
+(`#0f766e` → `--brand` `#0e716b`) y en oscuro arreglan lo que antes se quedaba blanco. No se miden los estados que piden pulsar
+algo (diálogos, menús), ni las pantallas que no se abrieron (login, acceso, simulacro).
+
+**Lo que la comparación encontró, y cómo quedó resuelto en la herramienta** (cada punto era una diferencia real):
+
+1. *La herramienta suponía que todo vivía dentro de `.tw`* y descartaba bordes y fondos de botón (el reset de `.tw` los
+   anulaba). En el `main` actual casi nada estaba dentro de `.tw`, y además hay `.tw` anidados. Ahora esas declaraciones se
+   escriben con `fuera-tw:` / `fuera-tw-boton:` / `fuera-tw-texto:` (`:where(:not(.tw, .tw *))`, sin especificidad) y el
+   navegador decide elemento a elemento.
+2. *Las reglas heredadas ganaban a las utilidades escritas a mano.* En la capa `legacy` perdían siempre; como utilidades
+   competían por especificidad (`.historyTabs button` pisaba el `text-ink` del botón). Todo lo que viene de `styles.css` lleva
+   `legado:`, que lo mete en la subcapa `utilities.legado`.
+3. *Empates por orden.* Dos reglas de igual especificidad se desempataban por su orden en el CSS; como utilidades, por el orden
+   de Tailwind. Se resuelven con escalones `[html_&]`, `[html_body_&]`… en dos casos: en un mismo elemento con condiciones
+   distintas (`.evalStats .statCard` / `.statCard:nth-child(2)`), y entre contenedores anidados que apuntan al mismo
+   descendiente (`.documentItem span` / `.documentQuality span`), con el anidamiento leído del JSX (compilador de TypeScript).
+   No hay escalón si Tailwind ya ordena bien (base frente a `max-[640px]:`) ni entre condiciones excluyentes
+   (`:nth-child(2)` / `:nth-child(3)`).
+4. *Traducciones mal hechas:* `left:-50%` perdía el signo; `font-size: inherit` y `font-weight: var(--peso-medio)` salían como
+   `text-[inherit]` / `font-[var(…)]` (Tailwind los lee como color y tipo de letra); `border-[var(--x)]` era ambiguo;
+   `font: inherit; line-height: 1.5` en dos utilidades dejaba la abreviatura por encima; `#0002` (con alfa) iba a un token opaco
+   (la sombra de «Mi Yo» salió ámbar); y los bordes de color pleno salían al 30 %.
+5. *El resolvedor no veía que `[font-weight:…]` y `font-bold` fijan lo mismo* y dejaba los dos: las propiedades arbitrarias
+   comparten ahora ranura con su utilidad.
+6. `css-podar.mjs` contaba como muertas las clases mezcladas con utilidades (`"workspaceShell grid lg:…"`) y las que se añaden
+   dentro de un `${…}`: habría borrado CSS en uso.
+
+A mano (`scripts/tailwind-global/manual.mjs`): el visor PDF (reglas compuestas), la etiqueta de espaciado de la lectura de
+normas (su `[label&:not()]` era inválido y tumbaba `next dev` con un 500) y el borde del buscador de Normas (una regla sin capa
+y sin `!important` que, migrada con `!`, le ganaba).

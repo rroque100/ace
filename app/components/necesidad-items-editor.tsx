@@ -19,6 +19,8 @@ import {
   renumerar,
 } from "@/lib/necesidad-items";
 import { soles } from "@/lib/segmentacion-parametros";
+import { S } from "./necesidad-items-editor-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Cuadro de ítems del requerimiento (sección 3.2 de las Bases).
@@ -110,17 +112,17 @@ export function NecesidadItemsEditor({
   }
 
   return (
-    <div className="necItems" data-campo="items">
-      <div className="necItemsHead">
-        <span className="fichaSubgrupo">Ítems del requerimiento</span>
-        <span className="necItemsHint">
+    <div className={S.necItems} data-campo="items">
+      <div className={S.necItemsHead}>
+        <span className={S.fichaSubgrupo}>Ítems del requerimiento</span>
+        <span className={S.necItemsHint}>
           Desagrega aquí las prestaciones. Con una sola, el requerimiento va como está.
         </span>
       </div>
 
       {items.length > 0 ? (
-        <div className="necItemsTablaScroll">
-          <table className="necItemsTabla">
+        <div className={S.necItemsTablaScroll}>
+          <table className={S.necItemsTabla}>
             <thead>
               <tr>
                 {/* Primera columna: el paquete. Su celda se combina a lo alto de
@@ -141,7 +143,7 @@ export function NecesidadItemsEditor({
                 {/* Paquete: agrupa varios ítems en un solo objeto contractual
                     (Art. 52.1.a). Vacío = el ítem va suelto. */}
                 {puedeAgrupar ? <th scope="col">Paquete</th> : null}
-                {readOnly ? null : <th scope="col"><span className="visuallyHidden">Quitar</span></th>}
+                {readOnly ? null : <th scope="col"><span className={S.visuallyHidden}>Quitar</span></th>}
               </tr>
             </thead>
             <tbody>
@@ -157,7 +159,7 @@ export function NecesidadItemsEditor({
                         grupo y abarca las de sus ítems (Art. 52.1.a: forman un
                         único objeto contractual). Los sueltos no la llevan. */}
                     {puedeAgrupar && filasPaquete > 0 && paquete ? (
-                      <td className="necItemsPaqueteCelda" rowSpan={filasPaquete}>
+                      <td className={S.necItemsPaqueteCelda} rowSpan={filasPaquete}>
                         <strong>Paquete {paquete.nro}</strong>
                         <textarea
                           aria-label={`Descripción del paquete ${paquete.nro}`}
@@ -174,9 +176,9 @@ export function NecesidadItemsEditor({
                     ) : null}
                     {/* Los sueltos ocupan esa columna con una celda vacía para
                         que las demás no se desplacen. */}
-                    {puedeAgrupar && !paquete ? <td className="necItemsSinPaqueteCelda" /> : null}
-                    <td className="necItemsNro">{item.nro}</td>
-                    <td className="necItemsCodigo">
+                    {puedeAgrupar && !paquete ? <td className={S.necItemsSinPaqueteCelda} /> : null}
+                    <td className={S.necItemsNro}>{item.nro}</td>
+                    <td className={S.necItemsCodigo}>
                       <input
                         aria-label={`Código de catálogo del ítem ${item.nro}`}
                         disabled={readOnly}
@@ -186,7 +188,7 @@ export function NecesidadItemsEditor({
                         value={item.codigoCatalogo ?? ""}
                       />
                     </td>
-                    <td className="necItemsDesc">
+                    <td className={S.necItemsDesc}>
                       <input
                         aria-label={`Descripción del ítem ${item.nro}`}
                         disabled={readOnly}
@@ -202,7 +204,7 @@ export function NecesidadItemsEditor({
                         value={item.unidadMedida ?? ""}
                       />
                     </td>
-                    <td className="necItemsCifra">
+                    <td className={S.necItemsCifra}>
                       <input
                         aria-label={`Cantidad del ítem ${item.nro}`}
                         disabled={readOnly}
@@ -211,7 +213,7 @@ export function NecesidadItemsEditor({
                         value={item.cantidad ?? ""}
                       />
                     </td>
-                    <td className="necItemsCifra">
+                    <td className={S.necItemsCifra}>
                       <input
                         aria-label={`Costo unitario del ítem ${item.nro}`}
                         disabled={readOnly}
@@ -220,7 +222,7 @@ export function NecesidadItemsEditor({
                         value={item.costoUnitario ?? ""}
                       />
                     </td>
-                    <td className="necItemsCifra">
+                    <td className={S.necItemsCifra}>
                       <input
                         aria-label={`Importe del ítem ${item.nro}`}
                         disabled={readOnly}
@@ -230,7 +232,7 @@ export function NecesidadItemsEditor({
                         value={item.costoTotal ?? ""}
                       />
                       {calculado && importe !== null ? (
-                        <small className="necItemsCalculado">calculado</small>
+                        <small className={S.necItemsCalculado}>calculado</small>
                       ) : null}
                     </td>
                     <td>
@@ -264,7 +266,7 @@ export function NecesidadItemsEditor({
                       <td>
                         <button
                           aria-label={`Quitar el ítem ${item.nro}`}
-                          className="segCronoRemove"
+                          className={C.segCronoRemove}
                           onClick={() => quitar(item)}
                           type="button"
                         >
@@ -287,16 +289,16 @@ export function NecesidadItemsEditor({
       )}
 
       {items.length > 0 ? (
-        <div className="necItemsResumen">
+        <div className={S.necItemsResumen}>
           {sumatoria !== null ? (
-            <p className="necItemsSuma">
+            <p className={S.necItemsSuma}>
               <strong>Cuantía por sumatoria: {soles(sumatoria)}</strong>
               <span> — {items.length} ítem{items.length > 1 ? "s" : ""} (Art. 53.3).</span>
             </p>
           ) : null}
 
           {discrepancia ? (
-            <p className="aviso aviso--error">
+            <p className={S["aviso_aviso--error"]}>
               <TriangleAlert size={14} aria-hidden />
               <span>
                 El monto estimado registrado ({soles(discrepancia.declarado)}) no coincide con la
@@ -308,7 +310,7 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {agrupamiento.estado === "no_procede" ? (
-            <p className="aviso aviso--error">
+            <p className={S["aviso_aviso--error"]}>
               <TriangleAlert size={14} aria-hidden />
               <span>
                 No se puede convocar por ítems, lotes ni tramos:{" "}
@@ -326,7 +328,7 @@ export function NecesidadItemsEditor({
             // Nota, no aviso: no hay nada mal, falta valorizar. El pedido del
             // SIGA no trae precios, así que este es el estado normal justo
             // después de importar.
-            <p className="necItemsNota">
+            <p className={S.necItemsNota}>
               Falta valorizar: el pedido del SIGA no trae precios. Al poner los importes se
               comprueba solo si cabe convocar por ítems (cada uno debe superar el tope del contrato
               menor, Art. 52.1.b).
@@ -334,7 +336,7 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {sinCodigo.length > 0 ? (
-            <p className="aviso aviso--error">
+            <p className={S["aviso_aviso--error"]}>
               <TriangleAlert size={14} aria-hidden />
               <span>
                 La Subasta Inversa Electrónica se convoca sobre bienes o servicios comunes con
@@ -347,7 +349,7 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {agrupamiento.estado === "sin_uit" ? (
-            <p className="aviso">
+            <p className={S.aviso}>
               <TriangleAlert size={14} aria-hidden />
               <span>
                 No se puede comprobar el tope del contrato menor: falta el valor de la UIT en
@@ -357,8 +359,8 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {paquetes.length > 0 ? (
-            <div className="necItemsPaquetes">
-              <span className="fichaSubgrupo">
+            <div className={S.necItemsPaquetes}>
+              <span className={S.fichaSubgrupo}>
                 Paquetes — cada uno es un solo objeto contractual (Art. 52.1.a)
               </span>
               <ul>
@@ -370,7 +372,7 @@ export function NecesidadItemsEditor({
                   </li>
                 ))}
                 {sueltos.length > 0 ? (
-                  <li className="necItemsSueltos">
+                  <li className={S.necItemsSueltos}>
                     Sin empaquetar: ítems {sueltos.map((i) => i.nro).join(", ")}
                   </li>
                 ) : null}
@@ -379,7 +381,7 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {unSoloItem.length > 0 ? (
-            <p className="aviso aviso--error">
+            <p className={S["aviso_aviso--error"]}>
               <TriangleAlert size={14} aria-hidden />
               <span>
                 {unSoloItem.length > 1 ? "Los paquetes" : "El paquete"}{" "}
@@ -392,7 +394,7 @@ export function NecesidadItemsEditor({
           ) : null}
 
           {objeto?.hayVarios ? (
-            <p className="aviso">
+            <p className={S.aviso}>
               <span>
                 Hay prestaciones de distinta naturaleza. La de mayor costo es{" "}
                 <strong>{objeto.objeto}</strong> ({soles(objeto.monto)}), así que el objeto del

@@ -1,0 +1,17 @@
+// Estilos de necesidad-copiloto.tsx en utilidades de Tailwind. Generado por scripts/migrar-a-tailwind.mjs a partir de las
+// reglas CSS que tenía el componente; una cadena por clase, con el mismo nombre que tenía.
+export const S = {
+  copilotoMsgTexto: "legado:py-2 legado:px-[11px] legado:text-[12.5px] legado:leading-[1.5] legado:whitespace-pre-wrap legado:[word-break:break-word] legado:rounded-[10px] legado:[.copilotoMsg.user_&]:max-w-[90%] legado:[background:var(--surface-2,_var(--panel))] legado:text-ink legado:fuera-tw:border legado:fuera-tw:border-line legado:[[data-theme='dark']_&]:[background:color-mix(in_srgb,_var(--panel)_5%,_transparent)]",
+  copilotoAcciones: "legado:flex legado:flex-col legado:gap-1.5",
+  copilotoRedactar: "legado:flex legado:gap-1.5 legado:[&_select]:py-[5px] legado:[&_select]:px-[7px] legado:[&_select]:flex-1 legado:[&_select]:min-w-0 legado:[&_select]:rounded-[7px] legado:[&_select]:bg-surface legado:[&_select]:fuera-tw:border legado:[&_select]:fuera-tw:border-line legado:[&_select]:fuera-tw-texto:text-[12.5px] legado:[&_select]:fuera-tw-texto:text-ink",
+  copilotoMsg: "copilotoMsg legado:flex legado:flex-col legado:gap-1 legado:max-w-full legado:[&.user]:items-end",
+  copilotoDegradada: "legado:py-[7px] legado:px-[9px] legado:mt-1.5 legado:mb-0 legado:mx-0 legado:flex legado:items-start legado:gap-1.5 legado:rounded-[8px] legado:[background:var(--warning-soft,_color-mix(in_srgb,_var(--warning)_12%,_transparent))] legado:text-ink legado:text-[11.5px] legado:leading-[1.45] legado:fuera-tw:border legado:fuera-tw:border-[color:color-mix(in_srgb,_var(--warning)_40%,_transparent)] legado:[&_svg]:mt-0.5 legado:[&_svg]:shrink-0 legado:[&_svg]:text-warning",
+  copilotoFuentes: "legado:pl-1 legado:flex legado:flex-wrap legado:items-center legado:gap-[5px]",
+  copilotoFuentesLabel: "legado:text-[10.5px] legado:font-semibold legado:text-muted legado:uppercase legado:tracking-[0.03em]",
+  copilotoFuente: "legado:py-0.5 legado:px-2 legado:inline-flex legado:items-center legado:gap-1 legado:rounded-full legado:text-[11px] legado:font-semibold legado:[background:color-mix(in_srgb,_var(--brand,_var(--brand))_12%,_transparent)] legado:text-[color:var(--brand-ink,_var(--brand))] legado:cursor-default legado:[&_em]:not-italic legado:[&_em]:font-medium legado:[&_em]:text-[9.5px] legado:[&_em]:uppercase legado:[&_em]:opacity-70",
+  copilotoMsgAcc: "copilotoMsgAcc legado:pl-1 legado:flex legado:gap-2.5",
+  assistant_copilotoMsg: "assistant copilotoMsg legado:flex legado:flex-col legado:gap-1 legado:max-w-full legado:[&.user]:items-end",
+  copilotoMsgTexto_copilotoPensando: "legado:py-2 legado:px-[11px] legado:text-[12.5px] legado:leading-[1.5] legado:whitespace-pre-wrap legado:[word-break:break-word] legado:rounded-[10px] legado:inline-flex legado:items-center legado:gap-[7px] legado:[.copilotoMsg.user_&]:max-w-[90%] legado:[background:var(--surface-2,_var(--panel))] legado:text-ink legado:fuera-tw:border legado:fuera-tw:border-line legado:[[data-theme='dark']_&]:[background:color-mix(in_srgb,_var(--panel)_5%,_transparent)]",
+  copilotoError: "legado:m-0 legado:text-[12px] legado:text-danger",
+  copilotoInput: "legado:flex legado:gap-1.5 legado:[&_input]:py-2 legado:[&_input]:px-[11px] legado:[&_input]:flex-1 legado:[&_input]:min-w-0 legado:[&_input]:rounded-[8px] legado:[&_input]:bg-surface legado:[&_input]:fuera-tw:border legado:[&_input]:fuera-tw:border-line legado:[&_input]:fuera-tw-texto:text-[13px] legado:[&_input]:fuera-tw-texto:text-ink",
+} as const;

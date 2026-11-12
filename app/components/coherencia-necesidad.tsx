@@ -2,6 +2,8 @@
 
 import { AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import type { TarjetaCoherencia } from "@/lib/necesidad-coherencia";
+import { S } from "./coherencia-necesidad-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 /**
  * Torre de coherencia de la Necesidad (adaptada de la torre de control del
@@ -23,32 +25,32 @@ export function CoherenciaNecesidad({
   const hay = tarjetas.length > 0;
 
   return (
-    <section aria-label="Coherencia del requerimiento" className="cohNec">
-      <header className="cohNecHead">
+    <section aria-label="Coherencia del requerimiento" className={S.cohNec}>
+      <header className={S.cohNecHead}>
         <ShieldAlert size={15} aria-hidden />
-        <h3 className="panelTitle">Coherencia del requerimiento</h3>
+        <h3 className={C.panelTitle}>Coherencia del requerimiento</h3>
         {hay ? (
-          <span className="cohNecPill" data-stop={bloquean > 0 ? "true" : undefined}>
+          <span className={S.cohNecPill} data-stop={bloquean > 0 ? "true" : undefined}>
             {tarjetas.length === 1 ? "1 cosa que revisar" : `${tarjetas.length} cosas que revisar`}
           </span>
         ) : (
-          <span className="cohNecPill cohNecPillOk">
+          <span className={S.cohNecPill_cohNecPillOk}>
             <CheckCircle2 size={12} aria-hidden /> Sin contradicciones
           </span>
         )}
       </header>
 
       {hay ? (
-        <div className="cohNecGrid">
+        <div className={S.cohNecGrid}>
           {tarjetas.map((t) => (
-            <article className={`cohNecCard cohNecCard-${t.nivel}`} key={t.clave}>
-              <p className="cohNecLabel">
+            <article className={t.nivel === "stop" ? S["cohNecCard_cohNecCard-stop"] : S.cohNecCard} key={t.clave}>
+              <p className={S.cohNecLabel}>
                 <AlertTriangle size={12} aria-hidden /> {t.etiqueta}
               </p>
-              <p className="cohNecValor">{t.valor}</p>
-              <p className="cohNecNota">{t.nota}</p>
+              <p className={S.cohNecValor}>{t.valor}</p>
+              <p className={S.cohNecNota}>{t.nota}</p>
               {onIrACampo ? (
-                <button className="cohNecIr" onClick={() => onIrACampo(t.campo)} type="button">
+                <button className={S.cohNecIr} onClick={() => onIrACampo(t.campo)} type="button">
                   Ir al campo
                 </button>
               ) : null}

@@ -17,6 +17,7 @@ import {
   expBtnClass,
 } from "../estilos";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 
 type Props = {
   asunto: string;
@@ -278,23 +279,23 @@ export function DatosDocumento({
           }}
         >
           <Dialog.Portal>
-            <Dialog.Overlay className="visorModalFondo" />
-            <Dialog.Content className="visorModal">
-              <div className="visorModalHead">
+            <Dialog.Overlay className={C.visorModalFondo} />
+            <Dialog.Content className={C.visorModal}>
+              <div className={C.visorModalHead}>
                 <Dialog.Title asChild>
-                  <h3 className="visorModalTitulo">Así saldrá el documento</h3>
+                  <h3 className={C.visorModalTitulo}>Así saldrá el documento</h3>
                 </Dialog.Title>
                 <Dialog.Close asChild>
                   <button
                     aria-label="Cerrar vista previa"
-                    className="visorModalCerrar"
+                    className={C.visorModalCerrar}
                     type="button"
                   >
                     <X size={18} />
                   </button>
                 </Dialog.Close>
               </div>
-              <div className="visorModalCuerpo">
+              <div className={C.visorModalCuerpo}>
                 <iframe src={pdfUrl} title="Vista previa del PDF" />
               </div>
             </Dialog.Content>

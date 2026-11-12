@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
+import { S } from "./barra-filtros-estilos";
 
 // Barra de filtros compartida por los listados (necesidades, expedientes).
 //
@@ -71,9 +72,9 @@ export function BarraFiltros({
   }
 
   return (
-    <div className="filtrosZona">
-      <div className="filtrosBarra">
-        <div className="filtrosBuscador">
+    <div className={S.filtrosZona}>
+      <div className={S.filtrosBarra}>
+        <div className={S.filtrosBuscador}>
           <Search size={15} aria-hidden />
           <input
             aria-label={placeholderBusqueda}
@@ -84,7 +85,7 @@ export function BarraFiltros({
           {busqueda ? (
             <button
               aria-label="Borrar la búsqueda"
-              className="filtrosBuscadorLimpiar"
+              className={S.filtrosBuscadorLimpiar}
               onClick={() => onBusqueda("")}
               type="button"
             >
@@ -100,11 +101,11 @@ export function BarraFiltros({
           columnas y dejar el sexto solo en una fila, ocupando un quinto del
           ancho con hueco al lado. Seis divide bien entre 3, 2 y 1, así que
           fijando las columnas no queda ninguno huérfano en ningún ancho. */}
-      <div className="filtrosSelects">
+      <div className={S.filtrosSelects}>
         {filtros.map((filtro) => (
           <select
             aria-label={filtro.placeholder}
-            className="filtroSelect"
+            className={S.filtroSelect}
             data-activo={filtro.valor ? "true" : undefined}
             key={filtro.id}
             onChange={(e) => filtro.onChange(e.target.value)}
@@ -131,40 +132,40 @@ export function BarraFiltros({
           Con cinco o seis desplegables, "limpiar todo" es demasiado bruto y no se
           ve de un vistazo por qué la lista está casi vacía. */}
       {hayFiltros ? (
-        <div className="filtrosChips">
-          <span className="filtrosChipsTitulo">Filtrando por</span>
+        <div className={S.filtrosChips}>
+          <span className={S.filtrosChipsTitulo}>Filtrando por</span>
           {busqueda.trim() ? (
             <button
-              className="filtroChip"
+              className={S.filtroChip}
               onClick={() => onBusqueda("")}
               title="Quitar la búsqueda"
               type="button"
             >
-              <span className="filtroChipEtiqueta">Búsqueda:</span> {busqueda.trim()}
+              <span className={S.filtroChipEtiqueta}>Búsqueda:</span> {busqueda.trim()}
               <X size={12} aria-hidden />
             </button>
           ) : null}
           {activos.map((filtro) => (
             <button
-              className="filtroChip"
+              className={S.filtroChip}
               key={filtro.id}
               onClick={() => filtro.onChange("")}
               title={`Quitar el filtro de ${filtro.etiqueta.toLowerCase()}`}
               type="button"
             >
-              <span className="filtroChipEtiqueta">{filtro.etiqueta}:</span>{" "}
+              <span className={S.filtroChipEtiqueta}>{filtro.etiqueta}:</span>{" "}
               {etiquetaDelValor(filtro)}
               <X size={12} aria-hidden />
             </button>
           ))}
-          <button className="filtroChipLimpiar" onClick={limpiarTodo} type="button">
+          <button className={S.filtroChipLimpiar} onClick={limpiarTodo} type="button">
             Limpiar todo
           </button>
         </div>
       ) : null}
 
       {resultados ? (
-        <p className="filtrosResultados">
+        <p className={S.filtrosResultados}>
           {resultados.total}
           {resultados.hayMas ? "+" : ""}{" "}
           {resultados.total === 1 ? resultados.sustantivo[0] : resultados.sustantivo[1]}

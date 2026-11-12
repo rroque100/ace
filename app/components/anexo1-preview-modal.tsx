@@ -5,7 +5,9 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { CheckSquare, FileSpreadsheet, Loader } from "lucide-react";
 import type { CeldaPreview } from "@/lib/fase1-export";
 import { HojaPreview } from "./hoja-preview";
-import { ModalShell } from "./modal-shell";
+import { ModalShell, TARJETA_HOJA } from "./modal-shell";
+import { S } from "./anexo1-preview-modal-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 type Preview = {
   hoja: { titulo: string; filas: CeldaPreview[][] };
@@ -77,14 +79,14 @@ export function Anexo1PreviewModal({
           </button>
         </>
       }
-      claseTarjeta="anexo1Preview"
+      claseTarjeta={TARJETA_HOJA}
       onClose={onClose}
       titulo="Vista previa · Anexo N° 1"
     >
           {error ? (
             <p className="formError">{error}</p>
           ) : !preview ? (
-            <p className="anexo1PreviewCargando">
+            <p className={C.anexo1PreviewCargando}>
               <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Generando la vista previa…
             </p>
           ) : (
@@ -97,12 +99,12 @@ export function Anexo1PreviewModal({
               <section>
                 <h4>Casillas que se marcarán</h4>
                 {preview.marcas.length === 0 ? (
-                  <p className="anexo1PreviewVacio">
+                  <p className={C.anexo1PreviewVacio}>
                     Ninguna. Revisa el nivel de interacción y las fuentes o herramientas en A5: el
                     formato saldría sin una sola marca.
                   </p>
                 ) : (
-                  <ul className="anexo1PreviewMarcas">
+                  <ul className={C.anexo1PreviewMarcas}>
                     {preview.marcas.map((m) => (
                       <li key={m.celda}>
                         <CheckSquare size={13} /> {m.etiqueta}
@@ -115,17 +117,17 @@ export function Anexo1PreviewModal({
 
               <section>
                 <h4>Sustento · INDAGACIÓN</h4>
-                <pre className="anexo1PreviewTexto">{preview.sustentoIndagacion || "(vacío)"}</pre>
+                <pre className={S.anexo1PreviewTexto}>{preview.sustentoIndagacion || "(vacío)"}</pre>
               </section>
 
               <section>
                 <h4>Sustento · CONSULTA AL MERCADO</h4>
-                <pre className="anexo1PreviewTexto">{preview.sustentoConsulta || "(vacío)"}</pre>
+                <pre className={S.anexo1PreviewTexto}>{preview.sustentoConsulta || "(vacío)"}</pre>
               </section>
 
               <section>
                 <h4>Pie</h4>
-                <p className="anexo1PreviewPie">
+                <p className={S.anexo1PreviewPie}>
                   Fecha de elaboración: <strong>{preview.fecha || "—"}</strong>
                   <br />
                   Responsable de la DEC: <strong>{preview.responsable || "— sin registrar —"}</strong>

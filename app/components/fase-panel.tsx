@@ -149,6 +149,8 @@ import { PuntajesEditor } from "./puntajes-editor";
 import { RequisitosCalificacionEditor } from "./requisitos-calificacion-editor";
 import { VARIANTES_AMBIGUAS } from "@/lib/bases-plantillas";
 import { cn } from "@/lib/utils";
+import { S } from "./fase-panel-estilos";
+import { C } from "@/app/components/estilos-comunes";
 
 const STATUS_ORDER: HitoStatus[] = ["pendiente", "en_curso", "hecho", "na"];
 
@@ -2164,7 +2166,7 @@ function PasoCard({
               CÓMO se hace en este procedimiento, que es otra pregunta. Cuando los
               tres se veían iguales, la más decisiva se perdía entre las otras. */}
           {aplicabilidad?.estado === "no_aplica" ? (
-            <div className={cn(GATING, "pasoGatingNoAplica")}>
+            <div className={cn(GATING, S.pasoGatingNoAplica)}>
               <Ban size={13} />
               <span>
                 <strong>No corresponde a este expediente.</strong> {aplicabilidad.motivo}
@@ -2194,7 +2196,7 @@ function PasoCard({
           ) : null}
 
           {aplicabilidad?.nota && aplicabilidad.estado !== "no_aplica" ? (
-            <div className={cn(GATING, "pasoGatingComo")}>
+            <div className={cn(GATING, S.pasoGatingComo)}>
               <Lightbulb size={13} />
               <span>
                 <strong>Cómo se hace en este procedimiento.</strong>
@@ -3843,17 +3845,17 @@ export function FasePanel({
   })();
 
   return (
-    <section className="processPanel border-[color-mix(in_srgb,var(--brand)_22%,var(--line))]">
-      <div className="processPanelHead">
+    <section className={cn(C.processPanel, "border-[color-mix(in_srgb,var(--brand)_22%,var(--line))]")}>
+      <div className={C.processPanelHead}>
         <ClipboardCheck size={17} />
-        <h3 className="panelTitulo">
+        <h3 className={C.panelTitulo}>
           {faseId === "F1"
             ? "Fase 1 · Actuaciones Preparatorias"
             : faseId === "F2"
               ? "Fase 2 · Selección"
               : "Fase 3 · Ejecución Contractual"}
         </h3>
-        {faseId === "F1" ? <span className="faseUnoBadge">Guía R.D. 019-2026-EF/54.01</span> : null}
+        {faseId === "F1" ? <span className={C.faseUnoBadge}>Guía R.D. 019-2026-EF/54.01</span> : null}
         {faseId === "F1" && canManage ? (
           <button
             className={cn(buttonClasses({ variant: "secondary", size: "sm" }), "whitespace-nowrap")}
@@ -3869,7 +3871,7 @@ export function FasePanel({
         <button
           aria-controls={`fase-detalle-${faseId}`}
           aria-expanded={abierta}
-          className="panelToggle"
+          className={C.panelToggle}
           onClick={alternarPanel}
           type="button"
         >
@@ -3973,8 +3975,8 @@ export function FasePanel({
           pantalla no anuncia ni el error ni la confirmación. `alert` interrumpe
           para el fallo (hay que enterarse); `status`/polite no roba el foco para
           el aviso de éxito. */}
-      {error ? <p className="formMessage errorText" role="alert">{error}</p> : null}
-      {notice ? <p className="formMessage successText" role="status" aria-live="polite">{notice}</p> : null}
+      {error ? <p className={C.errorText_formMessage} role="alert">{error}</p> : null}
+      {notice ? <p className={C.formMessage_successText} role="status" aria-live="polite">{notice}</p> : null}
 
       {/* El estado del expediente va ANTES de los pasos: ninguna de las
           contradicciones que enseña vive dentro de un paso, así que dejarlas
@@ -4003,16 +4005,16 @@ export function FasePanel({
       ) : null}
 
       {chatAbierto ? (
-        <aside className="copiloto" aria-label="Copiloto del expediente">
-          <header className="copilotoHead">
-            <span className="copilotoTitulo">
+        <aside className={C.copiloto} aria-label="Copiloto del expediente">
+          <header className={C.copilotoHead}>
+            <span className={C.copilotoTitulo}>
               <Sparkles size={15} /> Copiloto del expediente
             </span>
             <button className="inline-grid size-10 place-items-center cursor-pointer rounded-full border border-solid border-line box-border bg-panel text-brand transition-colors hover:bg-brand-soft" onClick={() => setChatAbierto(false)} title="Cerrar" type="button">
               <X size={16} />
             </button>
           </header>
-          <p className="copilotoSub">
+          <p className={C.copilotoSub}>
             Pregunta sobre el estado de este expediente y sobre la norma. Responde con los datos
             reales del expediente; si algo no consta, lo dice.
           </p>
@@ -4038,13 +4040,13 @@ export function FasePanel({
               {chatCargando ? <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> : "Preguntar"}
             </button>
           </form>
-          <div className="copilotoLog">
+          <div className={C.copilotoLog}>
             {chatAnswer ? (
               <div className="mt-2.5 whitespace-pre-wrap rounded-[8px] border border-line bg-surface px-3 py-2.5 text-[12.8px] leading-[1.55] text-ink" role="status" aria-live="polite">
                 {chatAnswer}
               </div>
             ) : (
-              <p className="copilotoVacio">
+              <p className={C.copilotoVacio}>
                 Escribe una pregunta para empezar. P. ej. «¿qué falta para aprobar?» o «¿qué dice el
                 Art. 53 sobre la certificación?».
               </p>
@@ -4060,7 +4062,7 @@ export function FasePanel({
           detrás de un clic es la forma segura de que nadie la lea. */}
       <div className="grid gap-2.5 [&[hidden]]:hidden" hidden={!abierta} id={`fase-detalle-${faseId}`}>
       {loading ? (
-        <p className="sideMuted">
+        <p className={C.sideMuted}>
           <Loader size={14} /> Cargando pasos…
         </p>
       ) : faseId === "F1" ? (

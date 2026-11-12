@@ -49,6 +49,7 @@ import {
 
 import { S } from "./document-search-workspace-estilos";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 type CatalogueEntry = {
   title: string; documentNumber?: string | null;
   documentId: string;
@@ -197,7 +198,7 @@ function DocumentCard({
     .map((item) => item.label);
   return (
     <article className={S.documentResult}>
-      <label className="documentSelect"><input type="checkbox" checked={selected} disabled={!selected && selectionFull} onChange={onSelect} /> Seleccionar para consultar con IA · hasta 8</label>
+      <label className={S.documentSelect}><input type="checkbox" checked={selected} disabled={!selected && selectionFull} onChange={onSelect} /> Seleccionar para consultar con IA · hasta 8</label>
       <div className={S.documentResultMeta}>
         <span>{documentTypeLabel(document.documentType)}</span>
         <span>{document.sourceEntity || "Entidad sin registrar"}</span>
@@ -218,7 +219,7 @@ function DocumentCard({
       {document.dates?.version ? <small className={S.documentVersion}>Versión: {document.dates.version}</small> : null}
       {document.versionNote ? <p className={S.documentSearchHint}>{document.versionNote}</p> : null}
       {document.relatedVersions?.length ? <details className={S.documentVersions}><summary>Otras versiones ({document.relatedVersions.length})</summary>{document.relatedVersions.map(version => <Link key={version.documentId} href={legalCenterHref("normas",{documentId:version.documentId,documentType:document.documentType})}>{version.title}</Link>)}<small>La versión más reciente no confirma su aplicación al caso.</small></details> : null}
-      <div className="documentResultTags">
+      <div className={S.documentResultTags}>
         <LegalValidityBadge value={document.review?.validityRecord} review={document.review?.validity} />
         {objects.length || subjects.length ? (
           <span>
@@ -663,9 +664,9 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             </label></div>
   );
   return (
-    <div className="documentSearchWorkspace">
+    <div className={S.documentSearchWorkspace}>
       <LegalCenterNav active="busqueda" filters={filters} />
-      <section className={`${S.documentSearchIntro}${result ? " compactSearchIntro" : ""}`}>
+      <section className={`${S.documentSearchIntro}${result ? (" " + S.compactSearchIntro) : ""}`}>
         <div>
         <span className={S.documentSearchEyebrow}>TU BIBLIOTECA JURÍDICA</span>
         <h2>Encuentra el documento que necesitas</h2>
@@ -727,7 +728,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
         <label htmlFor="document-search-query">
           Busca una norma, un número o describe tu tema
         </label>
-        <div className="documentSearchComposer">
+        <div className={S.documentSearchComposer}>
           <textarea
             id="document-search-query"
             ref={inputRef}
@@ -755,7 +756,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
             }
           >
             {loading ? (
-              <LoaderCircle size={18} className="spin" />
+              <LoaderCircle size={18} className={C.spin} />
             ) : (
               <Search size={18} />
             )}{" "}
@@ -774,7 +775,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
         <details className={S.searchPublicationRange}><summary>Fecha de publicación original</summary><label>Desde<input type="date" value={filters.publishedFrom ?? ""} onChange={e=>setFilters(current=>({...current,publishedFrom:e.target.value}))}/></label><label>Hasta<input type="date" min={filters.publishedFrom || undefined} value={filters.publishedTo ?? ""} onChange={e=>setFilters(current=>({...current,publishedTo:e.target.value}))}/></label><small>Incluye solo documentos con fecha de publicación original registrada.</small></details>
         </details>
         <button type="button" className={cn(buttonClasses({ variant: "secondary" }), S.mobileFilterToggle)} onClick={()=>{setMobileFilters(true); if(filtersRef.current) filtersRef.current.open=true;}}>Más filtros</button>
-        <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`${S.documentSearchFilters}${mobileFilters ? " mobileOpen" : ""}`}>
+        <details ref={filtersRef} role={mobileFilters?"dialog":undefined} aria-modal={mobileFilters||undefined} aria-label={mobileFilters?"Filtros de búsqueda":undefined} className={`${S.documentSearchFilters}${mobileFilters ? (" " + S.mobileOpen) : ""}`}>
           <div className={S.mobileFilterHeader}><strong>Filtros</strong><button type="button" onClick={()=>setMobileFilters(false)} aria-label="Cerrar filtros">×</button></div>{mobileFilters ? primaryFilters : null}
           <summary>
             <SlidersHorizontal size={17} />
@@ -992,7 +993,7 @@ export function DocumentSearchWorkspace({ ownerId }: { ownerId: string }) {
           </div>
         ) : null}
       </form>
-      <div className="documentLibraryTools">
+      <div className={S.documentLibraryTools}>
       <LegalSearchHistory revision={historyRevision} onRestore={restore} />
       {savedSearch && !lastInput && !query ? <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={()=>{setQuery(savedSearch.input.query);setMode(savedSearch.input.mode);setFilters(savedSearch.input.filters);setSort(savedSearch.input.sort);setPageSize(savedSearch.input.pageSize);setSelected(savedSearch.selected);restoredScroll.current=savedSearch.scroll;void run(savedSearch.input.page,savedSearch.input);setSavedSearch(null);}}>Retomar búsqueda anterior</button> : null}
       <details className={S.documentCoverage}><summary>Cobertura de la biblioteca · {catalogueError ? "No disponible" : catalogueReady ? `${catalogue.length} documentos indexados` : "Cargando…"}</summary>{libraryCoverage?<p>Registrados: {libraryCoverage.registered} · Indexados: {libraryCoverage.indexed} · En procesamiento: {libraryCoverage.processing} · Por procesar: {libraryCoverage.uploaded} · Con error: {libraryCoverage.failed}. Publicación original registrada: {libraryCoverage.publicationDatesKnown}. Índice de texto: {libraryCoverage.textIndexDocuments} documentos.</p>:null}{coverageWarning?<p role="status">{coverageWarning}</p>:null}<p>Solo se buscan documentos institucionales con texto indexado. El catálogo puede no incluir todos los documentos publicados.</p>{OFFICIAL_CORPUS_TYPES.map(type=><span key={type.value}>{type.label}: {catalogue.filter(row=>row.documentType===type.value).length || "Sin documentos indexados"} </span>)}</details>

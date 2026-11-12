@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { AppShell } from "../components/app-shell";
 import { DocumentSyncPanel } from "../components/document-sync-panel";
-import "../components/legal-workspace.css";
 export default async function DocumentSyncPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=%2Factualizacion-documental");

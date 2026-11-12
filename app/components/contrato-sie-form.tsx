@@ -10,6 +10,7 @@ import { useContratoValidation } from "./contrato-sie-validation";
 import { SectionBadge } from "./contrato-sie-section-badge";
 import { parseSoles } from "@/lib/parse-soles";
 import { cn } from "@/lib/utils";
+import { C } from "@/app/components/estilos-comunes";
 
 // Estilos migrados de inline a utilidades. El formulario no vive dentro de un
 // contenedor `.tw` (aún usa clases compartidas: toolPanel, secondaryButton,
@@ -581,8 +582,8 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
   }
 
   return (
-    <div className="toolPanel">
-      <div className="toolPanelHeader">
+    <div className={C.toolPanel}>
+      <div className={C.toolPanelHeader}>
         <div>
           <p className="mb-[7px] text-[11px] font-bold uppercase tracking-[0.09em] text-brand">Subasta Inversa Electrónica · Ley 32069 (2026)</p>
           <h2>Contrato SIE con proforma oficial</h2>
@@ -590,7 +591,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
         <Gavel size={22} />
       </div>
 
-      <div className="toolBody flex flex-col gap-4">
+      <div className={cn(C.toolBody, "flex flex-col gap-4")}>
         {/* Banner de borrador restaurado */}
         {showRestoreBanner ? (
           <div className="flex items-center justify-between rounded-md bg-success-soft px-3 py-2 text-[12.5px] font-medium text-success">
@@ -992,7 +993,7 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
           </div>
         </Section>
 
-        <div className="formActions">
+        <div className={C.formActions}>
           <div className="flex flex-1 items-center gap-2">
             {/* Selector de formato */}
             <div className="flex overflow-hidden rounded-sm border border-solid border-line">
@@ -1025,8 +1026,8 @@ export function ContratoSieForm({ contratoId, onSaved }: { contratoId?: string |
           </button>
         </div>
 
-        {error ? <p className="formMessage errorText">{error}</p> : null}
-        {ok ? <p className="formMessage">{ok}</p> : null}
+        {error ? <p className={C.errorText_formMessage}>{error}</p> : null}
+        {ok ? <p className={C.formMessage}>{ok}</p> : null}
       </div>
 
       <VistaPreviaContrato

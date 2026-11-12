@@ -5,6 +5,8 @@ import { AppShell } from "./components/app-shell";
 import { getSessionUser, puedeUsarProcesos } from "@/lib/auth";
 import { workspaceNavigation } from "@/lib/workspace-navigation";
 import { supabaseRest } from "@/lib/supabase-server";
+import { S } from "./page-estilos";
+import { cn } from "@/lib/utils";
 
 const TASKS = [
   { href:"/chat", title:"Haz una consulta jurídica", description:"Explica tu caso y consulta la respuesta junto a sus fuentes.", icon:Bot, label:"Abrir Chat", tag:"Comprender" },
@@ -56,7 +58,7 @@ export default async function Home() {
         </div>
       </section>
       {work.length > 0 ? <section aria-labelledby="work-title">
-        <h2 id="work-title" className="homeSectionTitle m-0! mb-5!">Continúa tu trabajo</h2>
+        <h2 id="work-title" className={cn(S.homeSectionTitle, "m-0! mb-5!")}>Continúa tu trabajo</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{work.map(({href,title,description,icon:Icon})=><Link href={href} key={href} className="text-ink no-underline outline-offset-4 hover:border-brand hover:shadow-md focus-visible:outline-2 focus-visible:outline-brand motion-safe:hover:-translate-y-0.5 flex items-start gap-4 rounded-2xl border border-line bg-panel p-5 transition-[transform,border-color] duration-150"><Icon size={21} className="mt-1 shrink-0 text-brand" aria-hidden/><div><h3 className="m-0! text-[17px] font-semibold leading-snug tracking-tight text-ink text-[15px]!">{title}</h3><p className="m-0! mt-1! text-[13px] leading-6 text-muted">{description}</p></div></Link>)}</div>
       </section> : null}
       <section className="grid gap-5 rounded-2xl border border-line bg-panel p-5 sm:grid-cols-[auto_1fr] sm:p-6" aria-labelledby="guide-title">

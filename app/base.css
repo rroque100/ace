@@ -1,0 +1,468 @@
+/* CSS global que sobrevive a la migración a Tailwind: tokens, resets de elementos (h1, body, inputs, foco, scrollbar) y los
+   @keyframes que las utilidades `animate-[…]` referencian por nombre. NO hay clases de componente: eso va en utilidades.
+   Entra en la capa `legacy` (ver tailwind.css), por debajo de las utilidades. */
+:root {
+  --bg: #f8faf9;
+  --ink: #17211f;
+  --muted: #65758b;
+  --line: #e1e7e5;
+  --panel: #ffffff;
+  --brand: #12695d;
+  --brand-dark: #0d4e46;
+  --accent: #bd6b2f;
+  --soft: #eef6f4;
+  --surface: #fbfcfc;
+  --shadow: 0 10px 34px rgba(15, 23, 42, 0.06);
+
+  /* ── Escala de forma ───────────────────────────────────────────────────────
+     Sin una escala declarada, cada pantalla eligió su propio radio: hoy conviven
+     once valores distintos entre las clases de botón (999, 8, 10, 7, 12, 6, 9,
+     4, 13 px) y ocho entre las de tarjeta. La diferencia entre 7 y 8 px no la ve
+     nadie, pero la suma es lo que hace que la interfaz parezca ensamblada por
+     piezas de sitios distintos. Estos cuatro escalones son el vocabulario nuevo:
+     lo que se escriba a partir de ahora sale de aquí. */
+  --radio-sm: 8px;    /* controles pequeños, chips cuadrados, celdas */
+  --radio-md: 10px;   /* botones e inputs */
+  --radio-lg: 14px;   /* tarjetas y paneles */
+  --radio-pill: 999px;/* chips, insignias, contadores */
+
+  /* Elevación: tres niveles en vez de una sombra por componente. */
+  --elev-1: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --elev-2: 0 10px 34px rgba(15, 23, 42, 0.06);
+
+  /* Peso tipográfico: entre las clases de botón hay siete valores (500…900).
+     Con Inter, 600 y 700 cubren todo lo que la interfaz necesita distinguir. */
+  --peso-medio: 600;
+  --peso-fuerte: 700;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Suavizado y kerning: la diferencia se nota en textos pequeños de formulario. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  /* Inter la inyecta next/font (app/layout.tsx). El resto de la pila cubre el
+     instante previo a que cargue y los sistemas donde no llegue. */
+  font-family: var(--fuente-ui), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  /* Cifras de ancho fijo en TODA la interfaz: importes, RUC, DNI y correlativos
+     se alinean en columna en vez de bailar según los dígitos que toquen. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Los títulos con Inter piden algo menos de tracking para no verse sueltos. */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.015em;
+}
+
+/* ── Acabado de la interfaz ───────────────────────────────────────────────────
+   Detalles que no se ven por separado pero que, juntos, son la diferencia entre
+   una pantalla que parece una web y una que parece una aplicación. */
+
+/* Barra de desplazamiento delgada: la del sistema roba ancho y corta la
+   composición de las listas largas (oficinas, usuarios, expedientes). */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--muted) 35%, transparent);
+}
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--muted) 55%, transparent); }
+/* Firefox no soporta ::-webkit-scrollbar. */
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 35%, transparent) transparent; }
+
+/* Al tocar un botón en móvil, Android pinta un rectángulo azul propio que se
+   come el diseño del control. */
+button, a, label, [role="button"] { -webkit-tap-highlight-color: transparent; }
+
+/* Evita que al llegar al final de un panel el gesto arrastre la página de
+   detrás (el "rebote" encadenado en modales y listas con scroll propio). */
+body { overscroll-behavior-y: none; }
+
+/* Respeta a quien pide menos movimiento por accesibilidad: las transiciones se
+   reducen a un instante en vez de desaparecer, para no romper los estados. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 840px;
+  margin-bottom: 0;
+  font-size: 30px;
+  line-height: 1.18;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 21px;
+}
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ===== Visual refresh: interfaz juridica sobria, clara y operativa ===== */
+:root {
+  --bg: #f4f7f8;
+  --ink: #172033;
+  --muted: #687386;
+  --line: #dbe3e7;
+  --panel: #ffffff;
+  --brand: #0f766e;
+  --brand-dark: #0b4f4a;
+  --accent: #9a6a14;
+  --soft: #e8f4f2;
+  --surface: #f8fafb;
+  --nav-bg: #142532;
+  --nav-bg-2: #1b3140;
+  --nav-muted: #9fb0bd;
+  --nav-line: rgba(255, 255, 255, 0.08);
+  --success: #16724a;
+  --warning: #a16207;
+  --danger: #b42318;
+  --focus: 0 0 0 3px rgba(15, 118, 110, 0.18);
+  --shadow: 0 14px 38px rgba(23, 32, 51, 0.08);
+  --shadow-soft: 0 8px 22px rgba(23, 32, 51, 0.05);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background:
+    radial-gradient(circle at 30% 0%, rgba(15, 118, 110, 0.055), transparent 34%),
+    linear-gradient(180deg, #f7fafb 0%, var(--bg) 44%);
+  color: var(--ink);
+  font-family:
+    "Segoe UI",
+    "Inter",
+    "Roboto",
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* Área táctil cómoda SOLO donde se toca con el dedo.
+   Los controles compactos existen para densidad —listas de oficinas, filas de
+   usuarios— y con ratón 34 px está bien. En una tableta, en cambio, quedan por
+   debajo del mínimo cómodo (~44 px) y se falla el toque. `pointer: coarse`
+   distingue el dedo del ratón, así que se gana precisión sin perder densidad. */
+@media (pointer: coarse) {
+
+  input,
+  select,
+  textarea {
+    min-height: 40px;
+  }
+}
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(26px, 2.4vw, 36px);
+  font-weight: 780;
+  letter-spacing: 0;
+}
+
+h2 {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 780;
+}
+
+h3 {
+  color: var(--ink);
+  font-weight: 760;
+}
+
+input,
+select,
+textarea {
+  border-color: var(--line-strong);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+/* Advertencias que cambian cómo usar la respuesta (fuentes críticas ausentes,
+   vigencia sin confirmar): visibles en la propia tarjeta, no en un panel plegado. */
+
+@keyframes streamBlink {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+
+  h1 {
+    font-size: 27px;
+  }
+
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Ficha de Necesidad (Módulo 1) ===== */
+
+/* ===== Sistema visual refinado: ACE IA juridica ===== */
+:root {
+  --bg: #f3f6f7;
+  --ink: #172033;
+  --muted: #637083;
+  --line: #d9e2e7;
+  --panel: #ffffff;
+  --surface: #f7fafb;
+  --soft: #e9f4f2;
+  --brand: #0f766e;
+  --brand-dark: #0a5a54;
+  --brand-ink: #063f3b;
+  --accent: #a56b14;
+  --accent-soft: #fff7e6;
+  --nav-bg: #12212c;
+  --nav-bg-2: #18303e;
+  --nav-muted: #a9bac5;
+  --nav-line: rgba(255, 255, 255, 0.1);
+  --success: #176b49;
+  --warning: #9a5f08;
+  --danger: #b42318;
+  --focus: 0 0 0 3px rgba(15, 118, 110, 0.2);
+  --shadow: 0 18px 44px rgba(23, 32, 51, 0.09);
+  --shadow-soft: 0 9px 24px rgba(23, 32, 51, 0.06);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background:
+    radial-gradient(circle at 42% -8%, rgba(15, 118, 110, 0.08), transparent 33%),
+    linear-gradient(180deg, #fbfcfd 0%, var(--bg) 48%, #eef3f5 100%);
+  color: var(--ink);
+  font-family:
+    "Segoe UI",
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.56;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+::selection {
+  /* Del token de marca, no de un teal suelto parecido. */
+  background: color-mix(in srgb, var(--brand) 22%, transparent);
+}
+
+h1 {
+  color: var(--ink);
+  font-size: clamp(25px, 2vw, 34px);
+  font-weight: 780;
+  line-height: 1.14;
+}
+
+h2 {
+  font-size: 20px;
+  line-height: 1.24;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+p,
+li,
+small,
+span {
+  overflow-wrap: anywhere;
+}
+
+input,
+select,
+textarea {
+  min-height: 40px;
+  border-color: var(--line-strong);
+  border-radius: 10px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+input::placeholder,
+textarea::placeholder {
+  /* Token propio: el gris fijo anterior daba 2,6:1 sobre el panel (mínimo 4,5:1) y en oscuro no cambiaba. */
+  color: var(--placeholder);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--brand);
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@keyframes subirFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes subirSlideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes subirPopIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes reqCalGiro {
+  to { transform: rotate(360deg); }
+}
+
+/* Toast flotante de la Fase 1 (descargas por fetch). */
+
+
+
+
+
+
+@keyframes faseToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes copilotoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Mejoras NecesidadDetail ===== */
+@keyframes fichaShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Tarjeta de necesidad. */
+/* ── Rampa de tonos de estado ─────────────────────────────────────────────────
+   Deriva de los tokens del sistema (no colores sueltos) y agrupa por lo que el
+   estado SIGNIFICA en el flujo, para triar la cola de un vistazo. Es semántica,
+   separada del acento de marca. Cada tono trae un color pleno (`-ink`) para
+   texto/franja y uno tenue (`-bg`) para el fondo del chip. */
+:root {
+  --tono-neutral-ink: var(--muted);
+  --tono-neutral-bg: color-mix(in srgb, var(--muted) 12%, var(--surface));
+  --tono-progreso-ink: var(--brand);
+  --tono-progreso-bg: color-mix(in srgb, var(--brand) 12%, var(--surface));
+  --tono-atencion-ink: var(--warning);
+  --tono-atencion-bg: color-mix(in srgb, var(--warning) 14%, var(--surface));
+  --tono-exito-ink: var(--success);
+  --tono-exito-bg: color-mix(in srgb, var(--success) 13%, var(--surface));
+  --tono-terminal-ink: color-mix(in srgb, var(--muted) 70%, var(--ink));
+  --tono-terminal-bg: color-mix(in srgb, var(--muted) 10%, var(--surface));
+}
+
+/* Animaciones que citan las utilidades del Centro Jurídico. */
+@keyframes normShimmer { to { background-position:-200% 0; } }
+@keyframes chatAiSpinner { to {transform:rotate(360deg);} }

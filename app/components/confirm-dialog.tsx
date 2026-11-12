@@ -3,6 +3,7 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AlertCircle } from "lucide-react";
+import { S } from "./confirm-dialog-estilos";
 
 type Tone = "danger" | "warning" | "info";
 
@@ -55,19 +56,19 @@ export function ConfirmDialog({
       }}
     >
       <AlertDialog.Portal>
-        <AlertDialog.Overlay className="confirmOverlay" />
-        <AlertDialog.Content className="confirmDialog" data-tono={tone}>
-          <div className="confirmDialogHead">
+        <AlertDialog.Overlay className={S.confirmOverlay} />
+        <AlertDialog.Content className={S.confirmDialog} data-tono={tone}>
+          <div className={S.confirmDialogHead}>
             <AlertCircle aria-hidden size={20} />
             <div>
-              <AlertDialog.Title className="confirmDialogTitulo">{title}</AlertDialog.Title>
-              <AlertDialog.Description className="confirmDialogMensaje">
+              <AlertDialog.Title className={S.confirmDialogTitulo}>{title}</AlertDialog.Title>
+              <AlertDialog.Description className={S.confirmDialogMensaje}>
                 {message}
               </AlertDialog.Description>
             </div>
           </div>
 
-          <div className="confirmDialogPie">
+          <div className={S.confirmDialogPie}>
             {/* El foco entra en Cancelar: ante una acción destructiva, la tecla
                 Intro por inercia no debe ejecutarla. */}
             <AlertDialog.Cancel asChild>
@@ -76,7 +77,7 @@ export function ConfirmDialog({
               </button>
             </AlertDialog.Cancel>
             <AlertDialog.Action asChild>
-              <button className="confirmDialogAccion" onClick={onConfirm} type="button">
+              <button className={S.confirmDialogAccion} onClick={onConfirm} type="button">
                 {confirmLabel}
               </button>
             </AlertDialog.Action>

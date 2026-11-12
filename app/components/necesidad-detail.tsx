@@ -165,6 +165,7 @@ import { direccionDeLaEntidad } from "@/lib/configuracion-types";
 import { componerFormaPago } from "@/lib/forma-pago";
 import { componerPlazoRespuestas } from "@/lib/plazo-respuestas";
 import { areaQueOtorgaLaConformidad, componerRecepcionConformidad } from "@/lib/recepcion-conformidad";
+import { C } from "@/app/components/estilos-comunes";
 
 
 
@@ -2058,7 +2059,7 @@ export function NecesidadDetail({
         <section id="sec-ficha" className="grid grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-[14px] border border-line bg-panel p-3.5 shadow-card">
           <div className="flex flex-wrap items-center gap-2 text-ink">
             <FileText size={17} />
-            <h3 className="panelTitle">Ficha de Necesidad (Ampliada)</h3>
+            <h3 className={C.panelTitle}>Ficha de Necesidad (Ampliada)</h3>
             {!fichaEditable ? (
               permisos.manage ? (
                 <Button className="ml-auto" onClick={startFichaEdit} onFocus={precargarFicha} onMouseEnter={precargarFicha} type="button">
@@ -2230,7 +2231,7 @@ export function NecesidadDetail({
                 <section className="grid grid-cols-[minmax(0,1fr)] content-start gap-3 rounded-[14px] border border-line bg-panel p-3.5 shadow-card">
                   <div className="flex flex-wrap items-center gap-2 text-ink">
                     <WandSparkles size={17} />
-                    <h3 className="panelTitle">Autocompletar la ficha</h3>
+                    <h3 className={C.panelTitle}>Autocompletar la ficha</h3>
                   </div>
                   {puedeAdjuntar ? (
                     <Button

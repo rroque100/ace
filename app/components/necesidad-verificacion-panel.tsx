@@ -2,6 +2,7 @@
 
 import { AlertTriangle, Check, X } from "lucide-react";
 import type { ItemVerificacion, ResumenVerificacion } from "@/lib/necesidad-verificacion";
+import { S } from "./necesidad-verificacion-panel-estilos";
 
 const ICONO = { ok: Check, warn: AlertTriangle, stop: X } as const;
 
@@ -25,24 +26,24 @@ export function VerificacionNecesidad({
   onIrACampo?: (campo: string) => void;
 }) {
   return (
-    <section aria-label="Verificación de la necesidad" className="verif">
-      <header className="verifHead">
+    <section aria-label="Verificación de la necesidad" className={S.verif}>
+      <header className={S.verifHead}>
         <h3>¿Está lista para el expediente?</h3>
         {resumen.lista ? (
-          <span className="verifPill verifPillOk">Lista para remitir</span>
+          <span className={S.verifPill_verifPillOk}>Lista para remitir</span>
         ) : (
-          <span className="verifPill verifPillStop">
+          <span className={S.verifPill_verifPillStop}>
             {resumen.bloquean === 1 ? "1 cosa lo impide" : `${resumen.bloquean} cosas lo impiden`}
           </span>
         )}
-        <span className="verifCuenta">
+        <span className={S.verifCuenta}>
           {resumen.conformes} de {resumen.total} conformes
         </span>
       </header>
 
       {resumen.grupos.map((g) => (
-        <div className="verifGrupo" key={g.articulo}>
-          <p className="verifArticulo">{g.articulo}</p>
+        <div className={S.verifGrupo} key={g.articulo}>
+          <p className={S.verifArticulo}>{g.articulo}</p>
           {g.items.map((i) => (
             <Linea item={i} key={i.etiqueta} onIrACampo={onIrACampo} />
           ))}
@@ -61,17 +62,17 @@ function Linea({
 }) {
   const Icono = ICONO[item.nivel];
   return (
-    <div className={`verifItem verifItem-${item.nivel}`}>
-      <Icono className="verifIcono" size={13} />
-      <span className="verifEtiqueta">{item.etiqueta}</span>
+    <div className={`${S.verifItem} verifItem-${item.nivel}`}>
+      <Icono className={S.verifIcono} size={13} />
+      <span className={S.verifEtiqueta}>{item.etiqueta}</span>
       {/* Solo hay atajo si hay algo que arreglar: en una línea conforme sería
           una invitación a tocar lo que ya está bien. */}
       {item.campo && onIrACampo && item.nivel !== "ok" ? (
-        <button className="verifIr" onClick={() => onIrACampo(item.campo!)} type="button">
+        <button className={S.verifIr} onClick={() => onIrACampo(item.campo!)} type="button">
           Ir al campo
         </button>
       ) : null}
-      {item.porque ? <p className="verifPorque">{item.porque}</p> : null}
+      {item.porque ? <p className={S.verifPorque}>{item.porque}</p> : null}
     </div>
   );
 }

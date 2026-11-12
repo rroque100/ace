@@ -1,6 +1,7 @@
 import { AppShell } from "../components/app-shell";
 import { ProcessList } from "../components/process-list";
 import { getSessionUser } from "@/lib/auth";
+import { C } from "@/app/components/estilos-comunes";
 
 export default async function ExpedientesPage() {
   const user = await getSessionUser();
@@ -12,7 +13,7 @@ export default async function ExpedientesPage() {
       eyebrow="Procedimientos"
       title="Expedientes de contratación"
     >
-      <section className="singleWorkspace">
+      <section className={C.singleWorkspace}>
         <ProcessList canManage={canManage} />
       </section>
     </AppShell>

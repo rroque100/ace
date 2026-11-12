@@ -5,7 +5,8 @@ import { buttonClasses } from "@/app/components/ui/button";
 import { FileSpreadsheet, Loader } from "lucide-react";
 import type { CeldaPreview } from "@/lib/fase1-export";
 import { HojaPreview } from "./hoja-preview";
-import { ModalShell } from "./modal-shell";
+import { ModalShell, TARJETA_HOJA } from "./modal-shell";
+import { C } from "@/app/components/estilos-comunes";
 
 type Preview = { titulo: string; filas: CeldaPreview[][] };
 
@@ -69,14 +70,14 @@ export function CertificacionPreviewModal({
           </button>
         </>
       }
-      claseTarjeta="certificacionPreview"
+      claseTarjeta={TARJETA_HOJA}
       onClose={onClose}
       titulo="Vista previa · Solicitud de Certificación"
     >
       {error ? (
         <p className="formError">{error}</p>
       ) : !preview ? (
-        <p className="anexo1PreviewCargando">
+        <p className={C.anexo1PreviewCargando}>
           <Loader className="animate-[spin_0.9s_linear_infinite]" size={14} /> Generando la vista previa…
         </p>
       ) : (
