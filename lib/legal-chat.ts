@@ -3,7 +3,6 @@ import {activeValidityReview,reviewedValidity,type ValidityRecord} from "./valid
 import { comparisonDraft } from "./chat-comparison-draft";
 import { generationIncomplete, compactRetryParams } from "./chat-generation-completeness";
 import { planQuestion, adaptiveAnswerInstruction } from "./chat-question-plan";
-import { formatInstruction, formatOutputTokens, formatShowsEverything } from "./chat-answer-format";
 import { parseAlternatives, alternativeQueries, alternativeInstruction, prioritizeAlternativeSources, renderAlternativeDraft } from "./chat-alternatives";
 import {exactArticleEvidence} from "./normative-article-evidence";
 import { recoverSelectedSources, preserveSelectedSources } from "./chat-source-selection";
@@ -14,6 +13,7 @@ import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-rece
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
+import { formatInstruction, formatOutputTokens, formatShowsEverything } from "./chat-answer-format";
 import { stripModelSourceList, tidyModelPunctuation } from "./chat-answer-layout";
 import { createMemoAsync } from "./memo-async";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
