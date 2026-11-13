@@ -14,7 +14,7 @@ import { materialWarnings } from "@/lib/chat-signals";
 import { stripPageMarkers } from "@/lib/page-markers";
 import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
-import { CaseAttachments } from "./case-attachments";
+import { CaseAttachments, type CaseAttachmentsHandle } from "./case-attachments";
 import { VoiceDictation } from "./voice-dictation";
 import { useCaseProfile } from "./use-case-profile";
 import { describeProfile, describeProfileAge, isEmptyCommonContext, isStaleProfile, matchesProfile, profileToContext } from "@/lib/case-profile";
@@ -908,6 +908,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   // Los dos paneles de debajo del compositor se abren también desde la pantalla inicial.
   const [adjuntosAbierto, setAdjuntosAbierto] = useState(false);
   const [datosDelCasoAbierto, setDatosDelCasoAbierto] = useState(false);
+  const caseAttachmentsRef = useRef<CaseAttachmentsHandle>(null);
   const adjuntosRef = useRef<HTMLDivElement>(null);
   const continuity=useChatContinuity({owner:ownerId,session:sessionId??requestedSessionId,loading:loadingSession,question,onRestore:setQuestion,preferInitial:Boolean(initialQuestion)});
   function adoptSession(id:string){
@@ -1593,7 +1594,18 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   );
 
   return (
-    <div className={cn(S.legalTool, "chatRedesign", "chatAccessible")}>
+    <div className={cn(S.legalTool, "chatRedesign", "chatAccessible")}
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer?.files ?? []).filter((file) =>
+          ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
+        );
+        if (!files.length) return;
+        setAdjuntosAbierto(true);
+        caseAttachmentsRef.current?.uploadFiles(files);
+      }}
+    >
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
       {sourceSelection.selectedDocumentIds.length ? <p className="normScopeNote" role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className="chatUtilityRow"><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
@@ -1745,6 +1757,15 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               }
             }
           }}
+          onPaste={(event) => {
+            const files = Array.from(event.clipboardData?.files ?? []).filter((file) =>
+              ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
+            );
+            if (!files.length) return;
+            event.preventDefault();
+            setAdjuntosAbierto(true);
+            caseAttachmentsRef.current?.uploadFiles(files);
+          }}
           placeholder="Por ejemplo: ¿qué documentos necesito revisar para este caso?"
           ref={composerRef}
           rows={1}
@@ -1768,7 +1789,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       </form>
       <div className="chatComposeTools">
       <div ref={adjuntosRef}>
-        <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
+        <CaseAttachments ref={caseAttachmentsRef} sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
       </div>
       <section className={S.chatCaseContext} aria-label="Contexto del caso">
         {caseProfile ? (
