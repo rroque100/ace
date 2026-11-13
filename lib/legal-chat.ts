@@ -2,7 +2,8 @@ import {legalValidity} from "./legal-center";
 import {activeValidityReview,reviewedValidity,type ValidityRecord} from "./validity-review";
 import { comparisonDraft } from "./chat-comparison-draft";
 import { generationIncomplete, compactRetryParams } from "./chat-generation-completeness";
-import { planQuestion, adaptiveAnswerInstruction } from "./chat-question-plan";
+import { planQuestion, adaptiveAnswerInstruction, answerSourceLimit, questionParts } from "./chat-question-plan";
+import { bestCoveringSource, uncoveredParts, widenToArticles, type ArticleRow } from "./chat-article-window";
 import { parseAlternatives, alternativeQueries, alternativeInstruction, prioritizeAlternativeSources, renderAlternativeDraft } from "./chat-alternatives";
 import {exactArticleEvidence} from "./normative-article-evidence";
 import { recoverSelectedSources, preserveSelectedSources } from "./chat-source-selection";
@@ -1778,6 +1779,63 @@ async function maybePersist(auth: ChatAuthContext, args: Parameters<typeof persi
   });
 }
 
+/**
+ * Ventana del artículo completo (ver chat-article-window.ts). Las páginas se ensanchan a las del artículo y la cita se rehace con
+ * ellas. Si la lectura de `norma_articulos` falla se queda el extracto del fragmento, que es lo que había antes, y se registra.
+ */
+async function widenWithArticles(sources: LegalSource[], query: string): Promise<LegalSource[]> {
+  const withArticle = sources.filter((source) => source.article);
+  if (!withArticle.length) return sources;
+  try {
+    const documentIds = [...new Set(withArticle.map((source) => source.documentId))];
+    const articles = [...new Set(withArticle.map((source) => source.article!))];
+    const rows = await supabaseRest<ArticleRow[]>(
+      `norma_articulos?document_id=in.(${escapePostgrestIn(documentIds)})&article_number=in.(${encodeURIComponent(escapePostgrestIn(articles))})&select=document_id,article_number,content,page_start,page_end&limit=200`,
+    );
+    return widenToArticles(sources, rows, query, stripPageMarkers).map((source) => {
+      if (!("widenedToArticle" in source)) return source;
+      const { widenedToArticle: _widened, ...rest } = source;
+      const located = { ...rest, ...checkedSourcePages(rest.pageStart, rest.pageEnd, rest.pageCount) };
+      return { ...located, citation: buildCitation(located) };
+    });
+  } catch (error) {
+    tragarPeroRegistrar("articulo-completo")(error);
+    return sources;
+  }
+}
+
+/**
+ * Lo que se hace con las fuentes ya elegidas antes de responder: ventana del artículo completo y SEGUNDA VUELTA. Si una parte de
+ * una pregunta compuesta no tiene ninguna fuente que la cubra, se busca otra vez solo esa parte en el Reglamento (donde la Ley
+ * remite el detalle) y entra la que mejor la cubra, dejando sitio con la última de la lista si ya está el máximo. Caso: «¿qué
+ * porcentaje… y cuándo puede reducirse en obras?», donde la primera vuelta llenaba las fuentes con la garantía y ninguna hablaba de
+ * la reducción, y el modelo contestaba «no consta». Solo una vuelta más, y solo cuando falta algo: no añade tiempo a lo demás.
+ */
+export async function refineAnswerSources(base: LegalSource[], options: {
+  query: string; parts: string[]; limit: number;
+  search: (query: string) => Promise<LegalSource[]>;
+  accept: (source: LegalSource, current: LegalSource[]) => boolean;
+}): Promise<LegalSource[]> {
+  const sources = await widenWithArticles(base, options.query);
+  const missing = uncoveredParts(options.parts, sources.map((source) => source.excerpt));
+  if (!missing.length) return sources;
+  const found = await Promise.allSettled(missing.map((part) => options.search(part)));
+  const added: Array<{ source: LegalSource; part: string }> = [];
+  found.forEach((result, index) => {
+    if (result.status !== "fulfilled") { tragarPeroRegistrar("segunda-vuelta")(result.reason); return; }
+    const current = [...sources, ...added.map((item) => item.source)];
+    const fresh = result.value.filter((source) => !current.some((known) => known.chunkId === source.chunkId)
+      && uncoveredParts([options.parts[0], missing[index]], [source.excerpt]).length === 0
+      && options.accept(source, current));
+    const best = bestCoveringSource(fresh, missing[index]);
+    if (best) added.push({ source: best, part: missing[index] });
+  });
+  if (!added.length) return sources;
+  // La ventana del artículo de cada fuente añadida se elige por SU parte, no por la pregunta entera.
+  const widenedAdded = (await Promise.all(added.map((item) => widenWithArticles([item.source], item.part)))).flat();
+  return [...sources.slice(0, Math.max(0, options.limit - widenedAdded.length)), ...widenedAdded];
+}
+
 // Fase comun de recuperacion + gating. Devuelve una respuesta final determinista
 // (guards/gates) o los parametros listos para generar con el modelo.
 async function prepareLegalAnswer(
@@ -1818,7 +1876,11 @@ async function prepareLegalAnswer(
   if (conversacionNueva && isVagueQuestion(input.question)) {
     return { status: "final", answer: vagueQuestionAnswer(), model: MODELO_ACLARACION, assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
   }
-  const focusedQueries = alternatives ? alternativeQueries(alternatives) : questionPlan.subqueries;
+  // Primera vuelta por partes: cada parte de una pregunta compuesta se busca sola, también la escrita como una sola pregunta
+  // («¿qué porcentaje… y cuándo puede reducirse?»). Antes solo se partían las escritas con varios «?» (ver questionParts).
+  const parts = alternatives ? [] : questionParts(input.question, input.caseContext);
+  const focusedQueries = alternatives ? alternativeQueries(alternatives) : parts;
+  const sourceLimit = answerSourceLimit(input.question, input.caseContext);
   const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
   // Pregunta de vigencia de una norma concreta: la respuesta está en las
   // disposiciones derogatorias/transitorias de la que la sustituye, que la
@@ -1981,8 +2043,19 @@ async function prepareLegalAnswer(
     4,
   );
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
-  const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], 8);
-  const seeds = !alternatives ? alternativeResults.flatMap(result=>result.status==="fulfilled"?result.value.sources.slice(0,1):[]).filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source)) : [];
+  const hierarchical = selectHierarchicalAnswerSources([...candidateSources, ...scopedForSelection], sourceLimit);
+  // De cada parte entra la fuente que más cubre ESA parte (no solo la primera del ranking general de su búsqueda).
+  // Solo del régimen que pide la pregunta (sin pista, el vigente): la búsqueda por partes recorre todo el corpus y la mejor
+  // coincidencia literal puede ser de la norma derogada. Como semilla iba delante de todo y el filtro de coherencia se quedaba
+  // con SU familia: «¿quién asume el mayor costo de la supervisión…?» acabó respondida con el art. 189 del D.S. 344-2018 y sin
+  // ninguna fuente de la Ley 32069 (banco de oro, 2026-11-12).
+  const regimenPedido = (source: LegalSource) => regimeRankAdjustment(regimeIntentFor(contextualQuery), sourceRegime(source)) >= 0;
+  const seeds = !alternatives ? alternativeResults.flatMap((result,index)=>{
+    if(result.status!=="fulfilled")return [];
+    const usable=result.value.sources.filter(source=>sourceSupportsProcess(source,requestedProcessType) && generalUse(source) && regimenPedido(source));
+    const best=bestCoveringSource(usable,focusedQueries[index]);
+    return best?[best]:[];
+  }) : [];
   const selected = alternatives ? alternativePool.slice(0,12) : [...validityEvidence,...temporalEvidence,...comparisonEvidence,...seeds,...hierarchical].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index);
   const originals = searchResult.sources.filter((source) => source.requestedOriginal).slice(0, 3);
   // Nombrar una ley («¿puedo aplicar la Ley 30225?») trae los primeros fragmentos de ESA ley como
@@ -1994,15 +2067,26 @@ async function prepareLegalAnswer(
   const beforeCoherence = (answerFirst
     ? (selected.length >= 3 ? selected : [...selected, ...unusedOriginals])
     : [...originals, ...selected.filter((source) => !originals.some((original) => original.chunkId === source.chunkId))]
-  ).slice(0, alternatives || questionPlan.subqueries.length ? 12 : 8);
+  ).slice(0, sourceLimit);
   const coherent = originals.length ? beforeCoherence : selectCoherentEvidence(beforeCoherence, input.question, input.caseContext);
-  const sources = input.filters?.articleId ? exactArticle : selectedIds.length ? preserveSelectedSources(selectedRecovery.sources, coherent, selectedIds, input.filters?.expandCorpus===true) : coherent;
+  const selectedSources = input.filters?.articleId ? exactArticle : selectedIds.length ? preserveSelectedSources(selectedRecovery.sources, coherent, selectedIds, input.filters?.expandCorpus===true) : coherent;
+  // El artículo elegido en los filtros ya llega completo; las vueltas guiadas (vigencia, comparación, aplicación en el tiempo) y
+  // la selección del usuario tienen su propio criterio de qué fuentes entran: ahí no se busca más.
+  const sources = input.filters?.articleId ? selectedSources : await refineAnswerSources(selectedSources, {
+    query: normalizeQuestionForSearch(contextualQuery),
+    parts: !selectedIds.length && !answerFirst ? parts : [],
+    limit: sourceLimit,
+    search: (query) => searchLegalSources({ filters: { ...chatFilters, documentType: "reglamento", processType: "" }, query: caseSearchQuery(query, input.caseContext), topK: 4 }).then((result) => result.sources),
+    accept: (source, current) => sourceSupportsProcess(source, requestedProcessType) && generalUse(source) && regimenPedido(source)
+      && (originals.length > 0 || selectCoherentEvidence([...current, source], input.question, input.caseContext).includes(source)),
+  });
   const assessment = assessSources(sources, {
     processType: requestedProcessType,
     queryUsed: searchResult.assessment.queryUsed,
     scope: searchResult.assessment.scope,
   });
-  if (sources.length < beforeCoherence.length) assessment.evidenceWarnings.push("Se separaron fuentes de familias normativas distintas para evitar una conclusión combinada. La selección documental no confirma el régimen aplicable al caso.");
+  // Se compara con lo que filtró la coherencia, no con las fuentes finales: refineAnswerSources también puede quitar un duplicado.
+  if (!input.filters?.articleId && !selectedIds.length && coherent.length < beforeCoherence.length) assessment.evidenceWarnings.push("Se separaron fuentes de familias normativas distintas para evitar una conclusión combinada. La selección documental no confirma el régimen aplicable al caso.");
   if(input.filters?.articleId && !exactArticle.length)assessment.evidenceWarnings.push(articleFailed?"Falló la lectura del artículo seleccionado; no se sustituyó por otro artículo.":"El artículo seleccionado no está disponible en ese documento y cuerpo; no se sustituyó por otro con el mismo número.");
   if(selectedIds.length) {
     assessment.selection={requested:selectedIds.length,recovered:new Set(selectedRecovery.sources.map(source=>source.documentId)).size,missing:selectedRecovery.missing,failed:selectedRecovery.failed};

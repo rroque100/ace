@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isStructuralClaim } from "@/lib/chat-answer-layout";
+import { analyzeAnswerLayout, isStructuralClaim } from "@/lib/chat-answer-layout";
 import { auditEvidence } from "@/lib/chat-evidence-audit";
 import { publishEvidence } from "@/lib/chat-evidence-publication";
 import { reviewFooter } from "@/lib/chat-review-presentation";
@@ -22,6 +22,36 @@ describe("afirmación estructural (encabezado o frase de enlace)", () => {
       "## Procedimiento",
       "  **Penalidad Máxima por Mora y Otras Penalidades**  ",
     ]) expect(isStructuralClaim(texto), texto).toBe(true);
+  });
+
+  it("reconoce el rótulo de una lista, con viñeta y con los dos puntos dentro de la negrita", () => {
+    for (const texto of [
+      "*   **Para obras:**",
+      "*   **En contratos de bienes y servicios:**",
+      "*   **Para consultorías de obras**:",
+      "1.  **Solicitud del contratista**",
+      "- **Plazos:**",
+      "**Consideraciones adicionales:**",
+    ]) expect(isStructuralClaim(texto), texto).toBe(true);
+  });
+
+  it("una viñeta con contenido sigue siendo una afirmación", () => {
+    for (const texto of [
+      "*   **Para bienes y servicios**: F = 0.40",
+      "*   Plazos mayores a sesenta días: F = 0.25",
+      "4.  **Opinión de la supervisión:** La supervisión revisa la solicitud del contratista.",
+      "- La garantía se presenta antes de firmar.",
+    ]) expect(isStructuralClaim(texto), texto).toBe(false);
+  });
+
+  it("un título «###» se registra en negrita y cuenta como estructural", () => {
+    const { claims } = analyzeAnswerLayout("### Causales de resolución del contrato\nLa comisión sintética se calcula sobre el importe [F1]");
+    expect(claims[0].text).toBe("**Causales de resolución del contrato**");
+    expect(isStructuralClaim(claims[0].text)).toBe(true);
+    expect(claims[1].text).toBe("La comisión sintética se calcula sobre el importe [F1]");
+    expect(analyzeAnswerLayout("### **Nulidad del contrato**").claims[0].text).toBe("**Nulidad del contrato**");
+    // Con cita no es un título: se queda como afirmación, sin almohadillas.
+    expect(analyzeAnswerLayout("### La comisión es del 10% [F1]").claims[0].text).toBe("La comisión es del 10% [F1]");
   });
 
   it("reconoce la frase que solo anuncia lo siguiente", () => {
