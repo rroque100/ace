@@ -11,6 +11,7 @@ import { publishEvidence } from "./chat-evidence-publication";
 import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
+import { restaurarFormulas } from "./formulas-extraidas";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan, runLexicalPlan } from "./chat-lexical";
 import { EXCERPT_LIMIT, relevantExcerpt } from "./chat-excerpt";
 import { formatInstruction, formatOutputTokens, formatShowsEverything } from "./chat-answer-format";
@@ -1359,9 +1360,10 @@ function chunkToSource(
     regime: reviewedRegime(documentMetadata),
     regimeReviewed: reviewedRegime(documentMetadata) !== "no_determinado",
     evidenceQuality: 0,
-    // Sin el marcador interno de página: ni el modelo ni el usuario deben verlo.
-    excerpt: relevantExcerpt(stripPageMarkers(chunk.content), options.query),
-    rankingExcerpt: stripPageMarkers(chunk.content).slice(0, EXCERPT_LIMIT),
+    // Sin el marcador interno de página: ni el modelo ni el usuario deben verlo. Y con la fracción de la penalidad diaria
+    // restaurada (ver formulas-extraidas.ts): sin ella la fórmula se leía como una multiplicación.
+    excerpt: relevantExcerpt(restaurarFormulas(stripPageMarkers(chunk.content)), options.query),
+    rankingExcerpt: restaurarFormulas(stripPageMarkers(chunk.content)).slice(0, EXCERPT_LIMIT),
     fileName: chunk.documents?.file_name ?? "archivo.pdf",
     lexicalScore,
     rerankScore: 0,
