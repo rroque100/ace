@@ -36,7 +36,7 @@ import { getRegimeDocumentIds } from "./regime-documents";
 import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
-import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, MAX_ADJUNTOS_POR_CONSULTA, seleccionarVisionAdjuntos, readCaseFile, type CaseAttachment, type SelectedCaseAttachment } from "./chat-case-attachments";
+import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, buildCaseSearchQuery, MAX_ADJUNTOS_POR_CONSULTA, seleccionarVisionAdjuntos, readCaseFile, type SelectedCaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
@@ -1807,11 +1807,16 @@ async function prepareLegalAnswer(
   // Un seguimiento («¿y si fue en 2024?») se busca con el tema de la conversación; ver resolveFollowUp.
   const followup = resolveFollowUp(input.question, history);
   const contextualQuery = caseSearchQuery(followup.query, input.caseContext);
-  const alternatives = parseAlternatives(input.question);
-  const questionPlan = planQuestion(input.question,input.caseContext);
-  const retrievalQuery = alternatives ? caseSearchQuery(alternatives.stem, input.caseContext) : contextualQuery;
-  const likelyLegal = isLikelyLegalProcurementQuestion(contextualQuery);
-  const inferredProcessType = inferProcessTypeFromQuestion(contextualQuery);
+  const analysisQuestion = buildCaseSearchQuery(input.question, caseDocuments);
+  const retrievalContext = buildCaseSearchQuery(contextualQuery, caseDocuments);
+  const analysisOcrSuffix = analysisQuestion.slice(input.question.length);
+  const alternatives = parseAlternatives(analysisQuestion);
+  const questionPlan = planQuestion(analysisQuestion,input.caseContext);
+  const retrievalQuery = alternatives
+    ? buildCaseSearchQuery(caseSearchQuery(alternatives.stem, input.caseContext), caseDocuments)
+    : retrievalContext;
+  const likelyLegal = isLikelyLegalProcurementQuestion(retrievalContext);
+  const inferredProcessType = inferProcessTypeFromQuestion(retrievalContext);
   const normalizedChatFilters = normalizeChatAnswerFilters(input.filters);
   const chatFilters = {
     ...(normalizedChatFilters ?? {}),
@@ -1833,15 +1838,21 @@ async function prepareLegalAnswer(
     return { status: "final", answer: vagueQuestionAnswer(), model: MODELO_ACLARACION, assessment: assessSources([], { queryUsed: input.question }), sources: [], chatFilters, caseDocuments: [] };
   }
   const focusedQueries = alternatives ? alternativeQueries(alternatives) : questionPlan.subqueries;
-  const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:caseSearchQuery(query,input.caseContext),topK:3}))) : Promise.resolve([]);
+  const alternativeTask = focusedQueries.length && !input.filters?.articleId ? Promise.allSettled(focusedQueries.map(query => {
+    const focusedQuestion = analysisOcrSuffix && query.endsWith(analysisOcrSuffix)
+      ? query.slice(0, -analysisOcrSuffix.length)
+      : query;
+    return searchLegalSources({filters: {...chatFilters, ...(selectedIds.length && !input.filters?.expandCorpus ? {documentIds:selectedIds} : {})}, query:buildCaseSearchQuery(caseSearchQuery(focusedQuestion,input.caseContext),caseDocuments),topK:3});
+  })) : Promise.resolve([]);
   // Pregunta de vigencia de una norma concreta: la respuesta está en las
   // disposiciones derogatorias/transitorias de la que la sustituye, que la
   // recuperación abierta no sube (ver lib/chat-vigencia.ts). Pasadas dirigidas sin
   // el filtro de proceso: la derogatoria no pertenece a ningún proceso.
-  const validityTarget = alternatives || input.filters?.articleId ? null : detectValidityTarget(input.question);
+  const validityQuery = caseDocuments.some((document) => document.lectura.text.trim()) ? retrievalContext : input.question;
+  const validityTarget = alternatives || input.filters?.articleId ? null : detectValidityTarget(validityQuery);
   const validityTask = validityTarget
     ? Promise.allSettled(validityRetrievalQueries(validityTarget.norms).map(query =>
-        searchLegalSources({ filters: { ...chatFilters, processType: "" }, query, topK: 8 })))
+        searchLegalSources({ filters: { ...chatFilters, processType: "" }, query: buildCaseSearchQuery(query, caseDocuments), topK: 8 })))
     : Promise.resolve([]);
 
   // Régimen. Tres necesidades que la recuperación abierta no cubre (ver lib/chat-regime.ts):
@@ -1851,10 +1862,10 @@ async function prepareLegalAnswer(
   //  · si pregunta qué ley se aplica en el tiempo: la regla de transición (DCT Cuarta) y la
   //    fecha de vigencia dicha por una fuente;
   //  · si compara las dos leyes: una recuperación por ley, para que ninguna tape a la otra.
-  const regimeIntent = questionRegimeIntent(contextualQuery);
+  const regimeIntent = questionRegimeIntent(retrievalContext);
   const regimeGuided = !alternatives && !input.filters?.articleId && selectedIds.length === 0;
-  const temporal = regimeGuided && isTemporalApplicabilityQuestion(contextualQuery);
-  const comparison = regimeGuided && isComparisonOfRegimes(contextualQuery);
+  const temporal = regimeGuided && isTemporalApplicabilityQuestion(retrievalContext);
+  const comparison = regimeGuided && isComparisonOfRegimes(retrievalContext);
   const regimeIdsTask = regimeGuided ? getRegimeDocumentIds() : Promise.resolve(null);
   const searchInRegime = async (regime: Regime, query: string, topK: number): Promise<LegalSource[]> => {
     const documentIds = (await regimeIdsTask)?.[regime] ?? [];
@@ -1871,13 +1882,13 @@ async function prepareLegalAnswer(
         comparison ? Promise.resolve([]) : searchInRegime(regimeIntent.regime === "30225" ? "30225" : "32069", retrievalQuery, 6),
         comparison ? searchInRegime("30225", retrievalQuery, 5) : Promise.resolve([]),
         comparison ? searchInRegime("32069", retrievalQuery, 5) : Promise.resolve([]),
-        temporal ? searchInRegime("32069", temporalRetrievalQueries()[0], 6) : Promise.resolve([]),
+        temporal ? searchInRegime("32069", buildCaseSearchQuery(temporalRetrievalQueries()[0], caseDocuments), 6) : Promise.resolve([]),
         temporal
-          ? searchLegalSources({ filters: { ...chatFilters, processType: "" }, query: temporalRetrievalQueries()[1], topK: 6 }).then(result => result.sources).catch((error) => { tragarPeroRegistrar("fecha-de-vigencia")(error); return [] as LegalSource[]; })
+          ? searchLegalSources({ filters: { ...chatFilters, processType: "" }, query: buildCaseSearchQuery(temporalRetrievalQueries()[1], caseDocuments), topK: 6 }).then(result => result.sources).catch((error) => { tragarPeroRegistrar("fecha-de-vigencia")(error); return [] as LegalSource[]; })
           : Promise.resolve([]),
       ])
     : Promise.resolve([[], [], [], [], []] as LegalSource[][]);
-  const selectedRecoveryTask=recoverSelectedSources(selectedIds,id=>searchLegalSources({filters:{documentId:id},query:contextualQuery,topK:2},{allowedDocumentIds:[id],indexedLexical:true}));
+  const selectedRecoveryTask=recoverSelectedSources(selectedIds,id=>searchLegalSources({filters:{documentId:id},query:retrievalContext,topK:2},{allowedDocumentIds:[id],indexedLexical:true}));
   let exactArticle:LegalSource[]=[];let articleFailed=false;
   if(input.filters?.articleId)try{exactArticle=await exactArticleEvidence(input.filters.articleId,input.filters.documentId,input.filters.bodyId);}catch{articleFailed=true;}
 
@@ -1893,8 +1904,8 @@ async function prepareLegalAnswer(
       }
     : null;
   const anchoredQuery = requestedProcessType
-    ? buildProcessAnchoredQuery(contextualQuery, requestedProcessType)
-    : contextualQuery;
+    ? buildProcessAnchoredQuery(retrievalContext, requestedProcessType)
+    : retrievalContext;
   // Pasadas tipadas a la(s) fuente(s) critica(s) del procedimiento (reglamento /
   // directiva). En recuperacion abierta la Ley suele dominar y tapar al Reglamento
   // aunque sea la fuente que desarrolla las condiciones; forzar el documentType
@@ -1917,7 +1928,7 @@ async function prepareLegalAnswer(
   // volumen—, y el Reglamento no entraba aunque la pregunta lo nombrara
   // (medido: «artículo 113 del Reglamento» no recuperaba ningún fragmento suyo).
   // Por eso toda consulta jurídica lleva siempre una pasada tipada al Reglamento.
-  const alwaysScopedTypes = likelyLegal || /\breglamento\b/i.test(contextualQuery) ? ["reglamento"] : [];
+  const alwaysScopedTypes = likelyLegal || /\breglamento\b/i.test(retrievalContext) ? ["reglamento"] : [];
   const scopedTypes = Array.from(new Set([...criticalScopedTypes, ...alwaysScopedTypes]));
   const [searchResult, broadSearchResult, anchoredSearchResult, ...scopedResults] =
     await Promise.all([
@@ -1982,7 +1993,7 @@ async function prepareLegalAnswer(
       ...processRelevantAnchoredSources,
       ...processRelevantScopedSources,
     ].filter((source) => sourceSupportsProcess(source, requestedProcessType)),
-    normalizeQuestionForSearch(contextualQuery),
+    normalizeQuestionForSearch(retrievalContext),
     24,
   );
   // Garantiza que las mejores fuentes criticas tipadas (reglamento/directiva del
@@ -1991,7 +2002,7 @@ async function prepareLegalAnswer(
   // inyectan, el Reglamento se queda fuera (p. ej. licitacion, contratacion directa).
   const scopedForSelection = rerankSources(
     processRelevantScopedSources,
-    normalizeQuestionForSearch(contextualQuery),
+    normalizeQuestionForSearch(retrievalContext),
     4,
   );
   const alternativePool = alternatives ? prioritizeAlternativeSources([...candidateSources, ...alternativeSources].filter((source,index,rows)=>rows.findIndex(row=>row.chunkId===source.chunkId)===index), alternatives) : [];
@@ -2060,7 +2071,7 @@ async function prepareLegalAnswer(
 
   const missingSpecificRegulation =
     requestedProcessType &&
-    isRequirementsQuestion(contextualQuery) &&
+    isRequirementsQuestion(retrievalContext) &&
     !hasSpecificProcessRegulationSource(sources, requestedProcessType);
 
   if (missingSpecificRegulation) {

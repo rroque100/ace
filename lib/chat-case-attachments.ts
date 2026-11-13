@@ -240,6 +240,22 @@ export async function selectedCaseAttachments(
     lectura: seleccionarLecturaAdjunto(document, query ?? ""),
   }));
 }
+
+export function buildCaseSearchQuery(
+  question: string,
+  documents: SelectedCaseAttachment[],
+  maxChars = 4000,
+): string {
+  const ocr = documents
+    .map((document) => document.lectura.text.trim())
+    .filter(Boolean)
+    .join("\n")
+    .slice(0, Math.max(0, maxChars));
+  return ocr
+    ? `${question}\nTexto extraído de adjuntos privados (contexto de búsqueda, no norma):\n${ocr}`
+    : question;
+}
+
 export function caseAttachmentsPrompt(documents: SelectedCaseAttachment[]) {
   if (!documents.length) return "No hay documentos del caso seleccionados.";
   // Presupuesto total repartido en orden: el resto queda declarado, no oculto.
