@@ -143,9 +143,12 @@ type StreamEvent =
   | { type: "error"; error: string };
 
 type CaseDocumentReference = { id:string; name:string; sessionId:string; partial:boolean };
+/** Imagen/documento del caso adjuntado a ESTE turno (solo sesión en vivo; para la miniatura de la burbuja). */
+type MessageAttachment = { id: string; name: string; url: string; mime?: string };
 type ConversationMessage = {
   progress?: "drafting" | "checking";
   caseDocuments?: CaseDocumentReference[];
+  attachments?: MessageAttachment[];
   telemetry?: LegalResponseTelemetry;
   caseContext?: CaseContext;
   id: string;
@@ -864,6 +867,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [attachmentsBusy, setAttachmentsBusy] = useState(false);
   const [attachmentIds, setAttachmentIds] = useState<string[]>([]);
+  // Adjuntos seleccionados con su mime (del panel CaseAttachments): para las miniaturas del composer y de la burbuja enviada.
+  const [selectedAttachments, setSelectedAttachments] = useState<Array<{ id: string; name: string; mime: string }>>([]);
   const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
   const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
   // Caso activo: régimen, fecha de convocatoria y objeto recordados en este navegador (ver lib/case-profile.ts).
@@ -1083,11 +1088,17 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       return;
     }
 
+    // Imágenes/documentos que van ESTE turno (para las miniaturas de la burbuja): los adjuntos
+    // seleccionados ahora, que persisten para seguimientos pero se muestran en el mensaje enviado.
+    const imagenesDelTurno = selectedAttachments
+      .filter((item) => attachmentIds.includes(item.id))
+      .map((item) => ({ id: item.id, name: item.name, mime: item.mime, url: `/api/chat/attachments/${item.id}?sessionId=${sessionId ?? ""}` }));
     const userMessage: ConversationMessage = {
       caseContext: { ...(retryContext ?? caseContext) },
       content: normalizedQuestion,
       id: buildMessageId(),
       role: "user",
+      attachments: imagenesDelTurno,
     };
     const assistantId = buildMessageId();
     const assistantMessage: ConversationMessage = {
@@ -1582,6 +1593,22 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 </>
               ) : (
                 <>
+                  {message.attachments?.length ? (
+                    <div className={S.attachThumbs} role="list" aria-label="Imágenes de tu consulta">
+                      {message.attachments.map((attachment) => (
+                        attachment.mime === "image/png" || attachment.mime === "image/jpeg" ? (
+                          <figure className={S.attachThumb} key={attachment.id} role="listitem">
+                            <img alt={attachment.name} src={attachment.url} />
+                          </figure>
+                        ) : (
+                          <span className={S.attachThumbDoc} key={attachment.id} role="listitem" title={attachment.name}>
+                            <FileText size={18} />
+                            PDF adjunto
+                          </span>
+                        )
+                      ))}
+                    </div>
+                  ) : null}
                   <p>{message.content}</p>
                   {message.caseContext && Object.values(message.caseContext).some(Boolean) ? (
                     <details className={S.chatTurnContext}>
@@ -1761,11 +1788,27 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
       <form ref={composerDockRef} className={`${S.chatComposerBar}${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
         <label className={S.chatQuestionLabel} htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
-        {attachmentIds.length ? (
-          <button className={S.filterChip} onClick={() => setAdjuntosAbierto(true)} type="button">
-            <Paperclip size={13} />
-            {attachmentIds.length} documento(s) del caso · se enviarán con tu pregunta
-          </button>
+        {selectedAttachments.length ? (
+          <div className={S.attachThumbs} role="list" aria-label="Documentos del caso para esta consulta">
+            {selectedAttachments.map((item) => (
+              item.mime === "image/png" || item.mime === "image/jpeg" ? (
+                <figure className={S.attachThumb} key={item.id} role="listitem">
+                  {sessionId ? <img alt={item.name} loading="lazy" src={`/api/chat/attachments/${item.id}?sessionId=${sessionId}`} /> : null}
+                  <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
+                    <X size={12} />
+                  </button>
+                </figure>
+              ) : (
+                <span className={S.attachThumbDoc} key={item.id} role="listitem" title={item.name}>
+                  <FileText size={18} />
+                  PDF adjunto
+                  <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
+                    <X size={12} />
+                  </button>
+                </span>
+              )
+            ))}
+          </div>
         ) : null}
         <textarea
           id="legal-chat-question"
@@ -1805,7 +1848,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       </form>
       <div className="chatComposeTools">
       <div ref={adjuntosRef}>
-        <CaseAttachments ref={caseAttachmentsRef} sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
+        <CaseAttachments ref={caseAttachmentsRef} sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} onSelectionChange={setSelectedAttachments} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
       </div>
       <section className={S.chatCaseContext} aria-label="Contexto del caso">
         {caseProfile ? (

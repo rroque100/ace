@@ -6,6 +6,7 @@ type Item = {
   partial: boolean;
   pageCount: number | null;
   method: string;
+  mime: string;
 };
 export type CaseAttachmentsHandle = { uploadFiles: (files: File[]) => void };
 const FORMATOS = ["application/pdf", "image/png", "image/jpeg"];
@@ -19,6 +20,8 @@ type CaseAttachmentsProps = {
   /** Abre el panel desde fuera (la pantalla inicial del chat). Sin esta prop, el panel es autónomo. */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /** Notifica los adjuntos seleccionados (con mime) para miniaturas fuera del panel. */
+  onSelectionChange?: (items: Item[]) => void;
 };
 const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(function CaseAttachments({
   sessionId,
@@ -29,6 +32,8 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
   disabled = false,
   open,
   onOpenChange,
+  /** Notifica los adjuntos seleccionados (con mime) para miniaturas fuera del panel. */
+  onSelectionChange,
 }: CaseAttachmentsProps, ref) {
   const [items, setItems] = useState<Item[]>([]);
   const [itemsSession, setItemsSession] = useState<string | null>(sessionId);
@@ -36,6 +41,15 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const input = useRef<HTMLInputElement>(null);
+  // Selección en espejo: con varias subidas concurrentes (pegar varias imágenes a
+  // la vez), cada una añade SOBRE la lista más reciente y no se pisan entre sí.
+  const selectionRef = useRef<string[]>(selected);
+  useEffect(() => {
+    selectionRef.current = selected;
+  }, [selected]);
+  useEffect(() => {
+    if (onSelectionChange) onSelectionChange(visibleItems.filter((item) => selected.includes(item.id)));
+  }, [selected, items, itemsSession, sessionId, onSelectionChange]);
   useEffect(() => {
     let cancelled = false;
     if (sessionId)
@@ -80,7 +94,9 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
           itemsSession === p.sessionId ? [p.document, ...current] : [p.document],
         );
         setItemsSession(p.sessionId);
-        onChange([...selected, p.document.id].slice(-6));
+        const next = [...selectionRef.current, p.document.id].slice(-6);
+        selectionRef.current = next;
+        onChange(next);
       } catch (e) {
         setError(
           e instanceof Error ? e.message : "No se pudo cargar el archivo.",
@@ -92,7 +108,7 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
       }
     },
     // `itemsSession` entra en el cierre de `setItems` para no perder adjuntos si la sesión cambia mientras sube.
-    [sessionId, onSession, onChange, selected, itemsSession, onBusy],
+    [sessionId, onSession, onChange, itemsSession, onBusy],
   );
   useImperativeHandle(
     ref,

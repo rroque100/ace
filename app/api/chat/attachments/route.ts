@@ -39,12 +39,13 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         documents: documents.map(
-          ({ id, name, partial, pageCount, method }) => ({
+          ({ id, name, partial, pageCount, method, mime }) => ({
             id,
             name,
             partial,
             pageCount,
             method,
+            mime,
           }),
         ),
       },
@@ -208,7 +209,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({
       sessionId,
-      document: { id, name, partial, pageCount, method },
+      document: { id, name, partial, pageCount, method, mime: file.type },
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
