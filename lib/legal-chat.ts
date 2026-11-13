@@ -9,6 +9,7 @@ import {exactArticleEvidence} from "./normative-article-evidence";
 import { recoverSelectedSources, preserveSelectedSources } from "./chat-source-selection";
 import { canonicalSourceEntity } from "./search-document-metadata";
 import { publishEvidence } from "./chat-evidence-publication";
+import { auditCaseReading, splitCaseReading } from "./chat-case-evidence";
 import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
@@ -33,7 +34,7 @@ import {
   type RegimeIntent,
 } from "./chat-regime";
 import { getRegimeDocumentIds } from "./regime-documents";
-import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
+import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview, type ReviewCompletion } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
 import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, buildCaseSearchQuery, MAX_ADJUNTOS_POR_CONSULTA, seleccionarVisionAdjuntos, readCaseFile, type SelectedCaseAttachment } from "./chat-case-attachments";
@@ -913,18 +914,23 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     prep.assessment.evidenceWarnings = [];
     return { answer, review };
   }
-  answer = applySystemConfidence(answer, "baja");
+  const { reading, legalAnswer } = splitCaseReading(answer);
+  answer = applySystemConfidence(legalAnswer, "baja");
   const modeQuestion = prep.status === "generate" ? prep.analysisQuestion : input.question;
   const alternatives = parseAlternatives(modeQuestion);
   if(alternatives && prep.status === "generate") answer=renderAlternativeDraft(answer,alternatives,prep.sources);
   else if(planQuestion(modeQuestion,input.caseContext).tasks.includes("comparison")&&prep.status === "generate")answer=comparisonDraft(answer,prep.sources.length);
-  const review = prep.status === "generate" ? await auditEvidence(answer, prep.sources, input.caseContext, async (system, payload) => {
+  const complete: ReviewCompletion = async (system, payload) => {
     const response = await getOpenAIClient().responses.create({
       model: legalAnswerModel, temperature: 0, max_output_tokens: 4500,
       input: [{ role: "system", content: system }, { role: "user", content: payload }],
     }, { timeout: 25000, maxRetries: 0, signal: AbortSignal.timeout(25000) });
     return response.output_text;
-  }, modeQuestion) : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
+  };
+  const caseReview = reading ? await auditCaseReading(reading, prep.caseDocuments, complete)
+    : { published: "", unverified: "", warnings: [], supported: 0, omitted: 0 };
+  const review = prep.status === "generate" ? await auditEvidence(answer, prep.sources, input.caseContext, complete, modeQuestion)
+    : { ...initialEvidenceReview(input.caseContext), reviewStatus: "unavailable" as const,
     failureReason: prep.sources.length ? "no_claims" as const : "no_sources" as const };
   answer = publishEvidence(answer, prep.sources, review, modeQuestion, input.caseContext);
   // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
@@ -947,8 +953,10 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   // OCR guardada (ver chat-image-fidelity.ts). Con visión, el modelo lee los
   // píxeles; la transcripción puede no contener el dato incluso leído
   // correctamente, por eso es advertencia, no eliminación de la afirmación.
+  const legalPublishedAnswer = answer;
+  answer = [caseReview.published, caseReview.unverified, legalPublishedAnswer].filter(Boolean).join("\n\n");
   const imageWarnings = checkImageFaithfulness(answer, prep.caseDocuments);
-  review.warnings = [...new Set([...review.warnings, ...imageWarnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
+  review.warnings = [...new Set([...review.warnings, ...caseReview.warnings, ...imageWarnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
   prep.assessment.confidence = review.documentary === "checked" ? "media" : "baja";
   prep.assessment.evidenceWarnings = [...new Set([...prep.assessment.evidenceWarnings, ...review.warnings])];
@@ -956,13 +964,10 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     : review.presentation === "partial" ? "Se conservan únicamente las afirmaciones respaldadas."
     : review.presentation === "literal" ? "Se muestra un pasaje literal pertinente, sin confirmar una conclusión generada."
     : "No se obtuvo evidencia suficiente para responder.";
-  if (review.presentation !== "verified" && prep.caseDocuments.length) {
-    answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.lectura.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
-  }
   const answerPlan=planQuestion(modeQuestion,input.caseContext);
   if(answerPlan.tasks.includes("comparison")&&/completa|integra|todos los articulos/i.test(modeQuestion.normalize("NFD").replace(/[\u0300-\u036f]/g,"")))answer+="\n\n**Alcance de la comparación**\nEsta respuesta analiza pasajes recuperados; no certifica una comparación completa de todos los artículos. Puedes usar [Comparar texto de documentos](/comparar) para revisar el texto indexado disponible.";
   answer += caseAttachmentsFooter(prep.caseDocuments);
-  answer += reviewFooter(review, answer);
+  answer += reviewFooter(review, legalPublishedAnswer);
   answer += chatSourceLocations(answer, prep.sources, { compact: true });
   return { answer, review };
 }
