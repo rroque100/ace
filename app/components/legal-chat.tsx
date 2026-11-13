@@ -1596,6 +1596,18 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   return (
     <div className={cn(S.legalTool, "chatRedesign", "chatAccessible")}
       onDragOver={(event) => event.preventDefault()}
+      onPaste={(event) => {
+        // Paste en CUALQUIER parte del chat (el textarea incluido, por burbujeo):
+        // si el portapapeles trae una imagen o PDF se sube como documento del caso.
+        // El paste de texto no se toca (solo se intercepta con archivos).
+        const files = Array.from(event.clipboardData?.files ?? []).filter((file) =>
+          ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
+        );
+        if (!files.length) return;
+        event.preventDefault();
+        setAdjuntosAbierto(true);
+        caseAttachmentsRef.current?.uploadFiles(files);
+      }}
       onDrop={(event) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer?.files ?? []).filter((file) =>
@@ -1757,15 +1769,6 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               }
             }
           }}
-          onPaste={(event) => {
-            const files = Array.from(event.clipboardData?.files ?? []).filter((file) =>
-              ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
-            );
-            if (!files.length) return;
-            event.preventDefault();
-            setAdjuntosAbierto(true);
-            caseAttachmentsRef.current?.uploadFiles(files);
-          }}
           placeholder="Por ejemplo: ¿qué documentos necesito revisar para este caso?"
           ref={composerRef}
           rows={1}
@@ -1785,7 +1788,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             </button>
           )}
         </div>
-        <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
+        <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea · Pega una imagen con Ctrl+V o arrástrala aquí. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className="chatComposeTools">
       <div ref={adjuntosRef}>
