@@ -10,6 +10,8 @@ export const CASE_ATTACHMENT_LIMIT = 4 * 1024 * 1024;
 export const CASE_BUCKET = "ace-case-attachments";
 /** Adjuntos seleccionables por pregunta (antes 4; con lectura por páginas el presupuesto total limita el resto). */
 export const MAX_ADJUNTOS_POR_CONSULTA = 6;
+/** Tope de imágenes enviadas como visión (input_image) en UN turno de consulta. */
+export const MAX_VISION_POR_TURNO = 3;
 /** Tope de caracteres de UN adjunto en el prompt (las páginas sobrantes quedan fuera, identificadas). */
 const TOPE_POR_ADJUNTO = 9000;
 /** Presupuesto total de texto de adjuntos por pregunta (≈8k tokens). */
@@ -26,6 +28,8 @@ export type CaseAttachment = {
   partial: boolean;
   method: string;
   storagePath: string;
+  /** Fecha de creación de la fila del adjunto (chat_messages.created_at), para ordenar la visión por recencia. */
+  createdAt: string;
 };
 
 /** Lectura de un adjunto recortada a lo que la consulta hace relevante. */
@@ -176,10 +180,10 @@ export async function listCaseAttachments(
 ) {
   await ownedCaseSession(accessToken, ownerId, sessionId);
   const rows = await supabaseUserRest<
-    Array<{ id: string; metadata: Record<string, unknown> }>
+    Array<{ id: string; metadata: Record<string, unknown>; created_at?: string }>
   >(
     accessToken,
-    `chat_messages?session_id=eq.${sessionId}&metadata->>kind=eq.case_attachment&select=id,metadata&order=created_at.desc&limit=12`,
+    `chat_messages?session_id=eq.${sessionId}&metadata->>kind=eq.case_attachment&select=id,metadata,created_at&order=created_at.desc&limit=12`,
   );
   return rows.flatMap((row) => {
     const m = row.metadata;
@@ -205,6 +209,7 @@ export async function listCaseAttachments(
           (typeof m.text === "string" && m.text.length > 20000),
         method: String(m.method ?? "por_revisar"),
         storagePath: m.storagePath,
+        createdAt: typeof row.created_at === "string" ? row.created_at : "",
       } satisfies CaseAttachment,
     ];
   });
@@ -274,6 +279,31 @@ export function caseAttachmentsFooter(documents: SelectedCaseAttachment[]) {
   });
   return "\n\n**Documentos del caso · no son fuentes normativas**\n" + lineas.join("\n");
 }
+
+export type VisionSeleccion = {
+  vision: SelectedCaseAttachment[];
+  excluidas: Array<{ reference: string; name: string }>;
+};
+
+/**
+ * De los adjuntos seleccionados, las imágenes que van como visión real en ESTE
+ * turno: máximo MAX_VISION_POR_TURNO, las más recientes primero (createdAt).
+ * El resto de imágenes solo aporta su transcripción OCR; la excluida se
+ * declara (reference C#) para que el prompt lo diga y no se oculte.
+ */
+export function seleccionarVisionAdjuntos(documents: SelectedCaseAttachment[]): VisionSeleccion {
+  const imagenes = documents
+    .map((document, index) => ({ document, reference: `C${index + 1}` }))
+    .filter(({ document }) => document.mime === "image/png" || document.mime === "image/jpeg");
+  const ordenadas = [...imagenes].sort((a, b) => (b.document.createdAt || "").localeCompare(a.document.createdAt || ""));
+  const vision = ordenadas.slice(0, MAX_VISION_POR_TURNO).map((item) => item.document);
+  const elegidas = new Set(vision.map((document) => document.id));
+  const excluidas = ordenadas
+    .filter(({ document }) => !elegidas.has(document.id))
+    .map(({ reference, document }) => ({ reference, name: document.name }));
+  return { vision, excluidas };
+}
+
 async function storageRequest(path: string, options: RequestInit = {}) {
   const { supabaseUrl, serviceRoleKey } = getSupabaseServerConfig();
   return fetch(`${supabaseUrl}/storage/v1/${path}`, {
