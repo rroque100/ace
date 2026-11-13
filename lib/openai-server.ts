@@ -236,6 +236,24 @@ export const pdfOcrModel = elegirModelo(
   },
   { gemini: "gemini-2.5-flash", openai: "gpt-4o-mini", zai: "glm-4.5v" },
 );
+
+/**
+ * Modelo para turnos con imágenes del caso (partes input_image). Gemini y
+ * OpenAI ya usan un modelo con visión, así que mantiene el mismo. En Z.ai el
+ * modelo de respuesta (glm-4.5-flash) es texto puro: se escala a glm-4.5v solo
+ * cuando la consulta trae imágenes. Requiere env ZAI_VISION_MODEL si el
+ * despliegue de Z.ai usa otro nombre.
+ */
+export const legalAnswerVisionModel =
+  provider === "zai"
+    ? elegirModelo(
+        provider,
+        // Solo importa la entrada de zai: la rama no se evalúa con otro proveedor,
+        // pero elegirModelo pide un registro completo (misma firma que arriba).
+        { gemini: undefined, openai: undefined, zai: process.env.ZAI_VISION_MODEL },
+        { gemini: "gemini-2.5-flash", openai: "gpt-4.1-mini", zai: "glm-4.5v" },
+      )
+    : legalAnswerModel;
 // Embeddings: el índice de Pinecone se construyó con text-embedding-3-small
 // (1536 dim). Ni Gemini ni Z.ai producen ese formato/espacio vectorial, así que
 // el embedding sigue apuntando a OpenAI: requiere una OPENAI_API_KEY con cuota
