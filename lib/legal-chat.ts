@@ -890,6 +890,11 @@ ${caseInformationGaps(caseContext)}
 Nivel de confianza: baja`;
 }
 
+/** Cuando la generación con imágenes falla y se cae al extracto de fuentes, se declara que la imagen no se vio. */
+export function avisoDegradacionVision(avisos: string[], cantidad: number) {
+  if (cantidad > 0) avisos.push("La imagen no pudo analizarse visualmente en este turno; se usó su transcripción.");
+}
+
 function applySystemConfidence(answer: string, _confidence: SourceAssessment["confidence"]) {
   return canonicalSourceMarkers(answer.replace(/(?:^|\n)\s*(?:\*\*)?Nivel de confianza(?:\*\*)?\s*:\s*(alta|media|baja)\s*\.?\s*$/gim, "").trim());
 }
@@ -1547,6 +1552,7 @@ async function persistChatExchange(input: {
   role?: string;
   sessionId?: string;
   sources: LegalSource[];
+  visionImages?: number;
 }) {
   let sessionId = input.sessionId;
 
@@ -1598,6 +1604,7 @@ async function persistChatExchange(input: {
           attachmentIds: input.attachmentIds ?? [],
           caseDocuments: input.caseDocuments ?? [],
           question: input.question,
+          visionImages: input.visionImages ?? 0,
         },
         model: input.model,
         role: "assistant",
@@ -1744,7 +1751,7 @@ type PreparedAnswer =
     };
 
 export type ChatStreamEvent =
-  | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"]; caseDocuments?: Array<{ id:string; name:string; sessionId:string; partial:boolean }> }
+  | { type: "meta"; sources: LegalSource[]; assessment: SourceAssessment; confidence: SourceAssessment["confidence"]; caseDocuments?: Array<{ id:string; name:string; sessionId:string; partial:boolean }>; visionImages?: number }
   | { type: "delta"; text: string }
   | { type: "progress"; stage: "drafting" | "checking" }
   | {
@@ -2225,6 +2232,7 @@ export async function answerLegalQuestion(
       model = response.model || legalAnswerModel;
     } catch (error) {
       answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
+      if (prep.status === "generate") avisoDegradacionVision(prep.assessment.evidenceWarnings, prep.visionImages.length);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
     }
   }
@@ -2245,6 +2253,7 @@ export async function answerLegalQuestion(
     caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sessionId: input.sessionId,
     sources: prep.sources,
+    visionImages: prep.status === "generate" ? prep.visionImages.length : 0,
   });
 
   return {
@@ -2279,6 +2288,7 @@ export async function* streamLegalAnswer(
     sources: prep.sources,
     assessment: { ...prep.assessment, confidence: "baja", evidenceReview: initialEvidenceReview(input.caseContext) },
     confidence: "baja",
+    visionImages: prep.status === "generate" ? prep.visionImages.length : 0,
   };
 
   let answer: string;
@@ -2308,6 +2318,7 @@ export async function* streamLegalAnswer(
       model = actualModel;
     } catch (error) {
       answer = applySystemConfidence(buildFallbackAnswer(input.question, prep.sources, input.caseContext), prep.assessment.confidence);
+      if (prep.status === "generate") avisoDegradacionVision(prep.assessment.evidenceWarnings, prep.visionImages.length);
       model = `fallback-source-extract (${error instanceof Error ? error.message.slice(0, 90) : "OpenAI error"})`;
 
     }
@@ -2331,6 +2342,7 @@ export async function* streamLegalAnswer(
     caseDocuments: prep.caseDocuments.map(({id,name,sessionId,partial}) => ({id,name,sessionId,partial})),
     sessionId: input.sessionId,
     sources: prep.sources,
+    visionImages: prep.status === "generate" ? prep.visionImages.length : 0,
   });
 
   yield {
