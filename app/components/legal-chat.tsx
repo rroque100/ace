@@ -916,6 +916,16 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
     if(requestedSessionId!==id){onAdopt(id);window.history.replaceState(window.history.state,"",conversationUrl(window.location.href,id));}
   }
 
+  // Paste (Ctrl+V) y arrastre de imágenes/PDFs: reutilizan la subida del panel de
+  // adjuntos (mismo OCR y cifrado). El scroll lleva el panel a la vista para que
+  // la subida y la auto-selección se vean; sin este gesto parece que «no pegó nada».
+  function adjuntarDesdePasteODrop(files: File[]) {
+    if (!files.length) return;
+    setAdjuntosAbierto(true);
+    caseAttachmentsRef.current?.uploadFiles(files);
+    requestAnimationFrame(() => adjuntosRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }));
+  }
+
   const hasConversation = messages.length > 0;
   useEffect(() => {
     if (!hasConversation) return;
@@ -1605,17 +1615,14 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
         );
         if (!files.length) return;
         event.preventDefault();
-        setAdjuntosAbierto(true);
-        caseAttachmentsRef.current?.uploadFiles(files);
+        adjuntarDesdePasteODrop(files);
       }}
       onDrop={(event) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer?.files ?? []).filter((file) =>
           ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
         );
-        if (!files.length) return;
-        setAdjuntosAbierto(true);
-        caseAttachmentsRef.current?.uploadFiles(files);
+        adjuntarDesdePasteODrop(files);
       }}
     >
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
@@ -1754,6 +1761,12 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
       <form ref={composerDockRef} className={`${S.chatComposerBar}${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
         <label className={S.chatQuestionLabel} htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
+        {attachmentIds.length ? (
+          <button className={S.filterChip} onClick={() => setAdjuntosAbierto(true)} type="button">
+            <Paperclip size={13} />
+            {attachmentIds.length} documento(s) del caso · se enviarán con tu pregunta
+          </button>
+        ) : null}
         <textarea
           id="legal-chat-question"
           aria-describedby="chat-question-help"
