@@ -12,6 +12,7 @@ import {
   selectedCaseAttachments,
   storeCaseFile,
   CASE_ATTACHMENT_LIMIT,
+  MAX_ADJUNTOS_POR_CONSULTA,
   caseAttachmentsPrompt,
   encryptCaseBytes,
   decryptCaseBytes,
@@ -105,7 +106,7 @@ it("rechaza sesión ausente, ID manipulado y exceso de selección", async () => 
     selectedCaseAttachments("jwt", "alice", session, ["bad&owner_id=bob"]),
   ).rejects.toThrow();
   await expect(
-    selectedCaseAttachments("jwt", "alice", session, Array(5).fill(id)),
+    selectedCaseAttachments("jwt", "alice", session, Array(MAX_ADJUNTOS_POR_CONSULTA + 1).fill(id)),
   ).rejects.toThrow();
   expect(mocks.rest).not.toHaveBeenCalled();
 });
