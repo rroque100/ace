@@ -100,7 +100,7 @@ export function seleccionarLecturaAdjunto(
   const consulta = new Set(tokensAdjunto(query));
   const puntuadas = paginas.map((pagina, indice) => {
     if (consulta.size === 0) return { indice, page: pagina.page, texto: pagina.text, puntos: 0 };
-    const presentes = new Set(tokensAdjunto(pagina.texto).filter((token) => consulta.has(token)));
+    const presentes = new Set(tokensAdjunto(pagina.text).filter((token) => consulta.has(token)));
     // Términos distintos que aparecen, ponderados por longitud de página: evita que
     // una página enorme gane solo por repetir lo mismo muchas veces.
     const puntos = presentes.size;
