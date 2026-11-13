@@ -155,4 +155,8 @@ export const RATE_LIMITS = {
   export: { max: 10, windowMs: 60_000 },
   /** Reindex: costoso (re-procesa PDF) */
   reindex: { max: 5, windowMs: 60_000 },
+  /** Evaluación continua del chat: una pasada corre varios casos completos por el
+   *  pipeline real (recuperación + modelo + verificación); el cron diario ya corre
+   *  solo, así que una persona solo necesita dispararla de vez en cuando. */
+  qualityAuto: { max: 2, windowMs: 10 * 60_000 },
 } as const;

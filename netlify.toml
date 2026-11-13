@@ -15,6 +15,10 @@ directory = "netlify/functions"
 [functions."indexing-drain"]
 schedule = "*/5 * * * *"
 
+# Evaluación continua de calidad del chat jurídico: madrugada en Perú (04:00 PET).
+[functions."calidad-juridica"]
+schedule = "0 9 * * *"
+
 [[headers]]
   for = "/*"
   [headers.values]
