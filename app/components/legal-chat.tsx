@@ -1536,6 +1536,18 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                         <Download size={16} />
                         Exportar Word
                       </button>
+                      <button
+                        className="responseActionButton compactAction"
+                        onClick={() => {
+                          if (!message.persistedId) { setError("La respuesta aún no está lista para generar el informe."); return; }
+                          window.location.href = `/api/chat/messages/${message.persistedId}/informe`;
+                        }}
+                        title="Genera un informe técnico-jurídico en borrador (.docx) con consulta, respuesta, fundamento y contexto del caso"
+                        type="button"
+                      >
+                        <FileText size={16} />
+                        Informe jurídico
+                      </button>
                       </div></details>
                       <SaveButton
                         itemType="mensaje"
