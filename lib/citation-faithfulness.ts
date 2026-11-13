@@ -36,7 +36,7 @@ function digitsOf(value: string) {
 // identidad del documento (van en su titulo/metadata, no necesariamente en el
 // texto del chunk) y el modelo los toma del contexto legitimamente; ademas, citar
 // una norma derogada ya lo detecta el chequeo de grounding aparte.
-function extractSpecificData(claim: string): Array<{ raw: string; digits: string }> {
+export function extractSpecificData(claim: string): Array<{ raw: string; digits: string }> {
   const data: Array<{ raw: string; digits: string }> = [];
   const patterns = [
     /\d+(?:[.,]\d+)?\s*uit/gi, // 8 UIT, 8.5 UIT

@@ -13,6 +13,7 @@ import { reviewFooter } from "./chat-review-presentation";
 import { compareByQualityThenRecency, yearFromDocumentNumber } from "./chat-recency";
 import { stripPageMarkers } from "./page-markers";
 import { dedupeArticleCopies, fillWithDocumentCap, lexicalFilter, lexicalPlan } from "./chat-lexical";
+import { checkImageFaithfulness } from "./chat-image-fidelity";
 import { hasMissingCritical, reconcileAssessment, materialWarnings } from "./chat-signals";
 import { detectValidityTarget, pickValidityEvidence, validityInstruction, validityRetrievalQueries } from "./chat-vigencia";
 import {
@@ -940,7 +941,12 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   // Lo mismo con una norma pedida por su número (decreto, ley) que ninguna fuente recuperada lleva.
   if (!input.filters?.documentId && (input.filters?.selectedDocumentIds?.length ?? 0) === 0) answer = (missingNormNotice(missingRequestedNorms(input.question, prep.sources)) ?? "") + answer;
   if (prep.caseDocuments.length || input.attachmentIds?.length) review.queryScope = "case";
-  review.warnings = [...new Set([...review.warnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
+  // Cifras atribuidas a imágenes del caso: se contrastan contra la transcripción
+  // OCR guardada (ver chat-image-fidelity.ts). Con visión, el modelo lee los
+  // píxeles; la transcripción puede no contener el dato incluso leído
+  // correctamente, por eso es advertencia, no eliminación de la afirmación.
+  const imageWarnings = checkImageFaithfulness(answer, prep.caseDocuments);
+  review.warnings = [...new Set([...review.warnings, ...imageWarnings, ...materialWarnings(prep.assessment.evidenceWarnings)])];
   prep.assessment.evidenceReview = review;
   prep.assessment.confidence = review.documentary === "checked" ? "media" : "baja";
   prep.assessment.evidenceWarnings = [...new Set([...prep.assessment.evidenceWarnings, ...review.warnings])];
