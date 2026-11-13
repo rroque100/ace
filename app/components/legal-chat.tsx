@@ -25,6 +25,7 @@ import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
 import * as Dialog from "@radix-ui/react-dialog";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -1090,9 +1091,11 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
     // Imágenes/documentos que van ESTE turno (para las miniaturas de la burbuja): los adjuntos
     // seleccionados ahora, que persisten para seguimientos pero se muestran en el mensaje enviado.
-    const imagenesDelTurno = selectedAttachments
-      .filter((item) => attachmentIds.includes(item.id))
-      .map((item) => ({ id: item.id, name: item.name, mime: item.mime, url: `/api/chat/attachments/${item.id}?sessionId=${sessionId ?? ""}` }));
+    const imagenesDelTurno = attachmentIds
+      .flatMap((id) => {
+        const item = selectedAttachments.find((attachment) => attachment.id === id);
+        return item ? [{ id: item.id, name: item.name, mime: item.mime, url: `/api/chat/attachments/${item.id}?sessionId=${sessionId ?? ""}` }] : [];
+      });
     const userMessage: ConversationMessage = {
       caseContext: { ...(retryContext ?? caseContext) },
       content: normalizedQuestion,
@@ -1595,15 +1598,17 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 <>
                   {message.attachments?.length ? (
                     <div className={S.attachThumbs} role="list" aria-label="Imágenes de tu consulta">
-                      {message.attachments.map((attachment) => (
+                      {message.attachments.map((attachment, index) => (
                         attachment.mime === "image/png" || attachment.mime === "image/jpeg" ? (
                           <figure className={S.attachThumb} key={attachment.id} role="listitem">
-                            <img alt={attachment.name} src={attachment.url} />
+                            <Image alt={attachment.name} height={72} src={attachment.url} title={attachment.name} unoptimized width={72} />
+                            <span className={S.attachThumbBadge}>C{index + 1}</span>
                           </figure>
                         ) : (
                           <span className={S.attachThumbDoc} key={attachment.id} role="listitem" title={attachment.name}>
                             <FileText size={18} />
                             PDF adjunto
+                            <span className={S.attachThumbBadge}>C{index + 1}</span>
                           </span>
                         )
                       ))}
@@ -1788,12 +1793,13 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
       <form ref={composerDockRef} className={`${S.chatComposerBar}${hasConversation ? " chatComposerDock" : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?" chatComposerCompact":""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
         <label className={S.chatQuestionLabel} htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
-        {selectedAttachments.length ? (
+        {selectedAttachments.length || attachmentsBusy ? (
           <div className={S.attachThumbs} role="list" aria-label="Documentos del caso para esta consulta">
             {selectedAttachments.map((item) => (
               item.mime === "image/png" || item.mime === "image/jpeg" ? (
                 <figure className={S.attachThumb} key={item.id} role="listitem">
-                  {sessionId ? <img alt={item.name} loading="lazy" src={`/api/chat/attachments/${item.id}?sessionId=${sessionId}`} /> : null}
+                  {sessionId ? <Image alt={item.name} height={72} loading="lazy" src={`/api/chat/attachments/${item.id}?sessionId=${sessionId}`} title={item.name} unoptimized width={72} /> : null}
+                  <span className={S.attachThumbBadge}>C{attachmentIds.indexOf(item.id) + 1}</span>
                   <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
                     <X size={12} />
                   </button>
@@ -1802,12 +1808,14 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 <span className={S.attachThumbDoc} key={item.id} role="listitem" title={item.name}>
                   <FileText size={18} />
                   PDF adjunto
+                  <span className={S.attachThumbBadge}>C{attachmentIds.indexOf(item.id) + 1}</span>
                   <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
                     <X size={12} />
                   </button>
                 </span>
               )
             ))}
+            {attachmentsBusy ? <span className={S.attachThumbPending} role="status">Procesando<br />adjunto…</span> : null}
           </div>
         ) : null}
         <textarea

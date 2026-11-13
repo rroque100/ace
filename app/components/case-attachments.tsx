@@ -1,5 +1,5 @@
 "use client";
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 type Item = {
   id: string;
   name: string;
@@ -37,10 +37,11 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
 }: CaseAttachmentsProps, ref) {
   const [items, setItems] = useState<Item[]>([]);
   const [itemsSession, setItemsSession] = useState<string | null>(sessionId);
-  const visibleItems = itemsSession === sessionId ? items : [];
+  const visibleItems = useMemo(() => itemsSession === sessionId ? items : [], [items, itemsSession, sessionId]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const input = useRef<HTMLInputElement>(null);
+  const pendingUploads = useRef(0);
   // Selección en espejo: con varias subidas concurrentes (pegar varias imágenes a
   // la vez), cada una añade SOBRE la lista más reciente y no se pisan entre sí.
   const selectionRef = useRef<string[]>(selected);
@@ -49,7 +50,7 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
   }, [selected]);
   useEffect(() => {
     if (onSelectionChange) onSelectionChange(visibleItems.filter((item) => selected.includes(item.id)));
-  }, [selected, items, itemsSession, sessionId, onSelectionChange]);
+  }, [selected, visibleItems, onSelectionChange]);
   useEffect(() => {
     let cancelled = false;
     if (sessionId)
@@ -74,6 +75,7 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
   }, [sessionId]);
   const upload = useCallback(
     async (file: File) => {
+      pendingUploads.current += 1;
       setBusy(true);
       onBusy(true);
       setError("");
@@ -102,8 +104,10 @@ const CaseAttachments = forwardRef<CaseAttachmentsHandle, CaseAttachmentsProps>(
           e instanceof Error ? e.message : "No se pudo cargar el archivo.",
         );
       } finally {
-        setBusy(false);
-        onBusy(false);
+        pendingUploads.current = Math.max(0, pendingUploads.current - 1);
+        const stillBusy = pendingUploads.current > 0;
+        setBusy(stillBusy);
+        onBusy(stillBusy);
         if (input.current) input.current.value = "";
       }
     },
