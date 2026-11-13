@@ -1,4 +1,5 @@
 import {legalValidity} from "./legal-center";
+import {compactHistoryForPrompt} from "./chat-history";
 import {activeValidityReview,reviewedValidity,type ValidityRecord} from "./validity-review";
 import { comparisonDraft } from "./chat-comparison-draft";
 import { generationIncomplete, compactRetryParams } from "./chat-generation-completeness";
@@ -34,7 +35,7 @@ import { getRegimeDocumentIds } from "./regime-documents";
 import { auditEvidence, selectCoherentEvidence, initialEvidenceReview, type EvidenceReview } from "./chat-evidence-audit";
 import { diversifyDocumentCandidates } from './document-search-ranking';
 import { z } from "zod";
-import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, type CaseAttachment } from "./chat-case-attachments";
+import { selectedCaseAttachments, ownedCaseSession, caseAttachmentsPrompt, caseAttachmentsFooter, MAX_ADJUNTOS_POR_CONSULTA, type CaseAttachment, type SelectedCaseAttachment } from "./chat-case-attachments";
 import { extendedLegalFiltersSchema, matchesExtendedFilters, reviewedRegime } from "./legal-workspace-filters";
 import { chatSourceLocations, checkedSourcePages, recordedVersion, canonicalSourceMarkers } from "./chat-source-locations";
 import { documentReferences, matchesDocumentReference, resolveFollowUp } from "./legal-document-reference";
@@ -45,6 +46,8 @@ import { missingArticleNotice, missingNormNotice, missingRequestedArticles, miss
 import { withRetry } from "./retry";
 import { advertenciaRecuperacionParcial, clasificarFalloRecuperacion, detalleParaLog, type FallosRecuperacion } from "./retrieval-failure";
 import { caseContextSchema, caseContextPrompt, caseSearchQuery, caseEvidenceInstruction, caseInformationGaps, type CaseContext } from "./chat-case-context";
+import { detectarCalculoPlazo, bloqueCalculoPlazo } from "./chat-plazo-calculo";
+import { parseFeriados, setDeFeriados } from "./feriados";
 import { CORPUS_ANSWER_TYPES, corpusSourceKind, corpusOwnArticle } from "./official-corpus";
 import { getOpenAIClient, legalAnswerModel } from "./openai-server";
 import { type SearchFilters, rerankWithModel, searchTextRecords } from "./pinecone";
@@ -97,7 +100,7 @@ const legalSearchFiltersSchema = extendedLegalFiltersSchema.extend({
 });
 
 export const chatRequestSchema = z.object({
-  attachmentIds: z.array(z.string().uuid()).max(4).optional(),
+  attachmentIds: z.array(z.string().uuid()).max(MAX_ADJUNTOS_POR_CONSULTA).optional(),
   caseContext: caseContextSchema.optional(),
   filters: legalSearchFiltersSchema.optional(),
   mode: z.enum(["breve", "tecnica", "informe", "checklist"]).default("tecnica"),
@@ -919,6 +922,12 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   // Conclusión directa de una pregunta de aplicación en el tiempo, calculada en código (ver chat-regime.ts).
   // La fecha de convocatoria puede venir de «Datos del caso» y no de la pregunta: se mira con ambas.
   if (prep.status === "generate") answer = (temporalApplicationBlock(caseSearchQuery(prep.followupQuestion ?? input.question, input.caseContext), prep.sources) ?? "") + answer;
+  // Vencimiento aritmético con el plazo y la fecha QUE LA PREGUNTA trae (ver chat-plazo-calculo.ts):
+  // el número de días nunca sale del modelo ni de este código, y el bloque lo declara así.
+  if (prep.status === "generate") {
+    const calculo = detectarCalculoPlazo(input.question, input.caseContext);
+    if (calculo) answer = bloqueCalculoPlazo(calculo, await feriadosRegistrados()) + answer;
+  }
   // Si se pidió un artículo por su número y ninguna fuente lo es, se dice antes que nada (ver chat-article-check.ts).
   // Con un artículo elegido en los filtros no aplica: ahí la fuente es ese artículo por construcción. Vale también
   // para la salida «sin fuentes suficientes» (status final), que es justo donde un pedido inexistente suele acabar.
@@ -935,7 +944,7 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
     : review.presentation === "literal" ? "Se muestra un pasaje literal pertinente, sin confirmar una conclusión generada."
     : "No se obtuvo evidencia suficiente para responder.";
   if (review.presentation !== "verified" && prep.caseDocuments.length) {
-    answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
+    answer += `\n\n**Documentos del caso: lectura literal**\nNo son fuentes normativas ni hechos acreditados.\n${prep.caseDocuments.map((doc, i) => `> ${doc.lectura.text.slice(0, 500).replace(/\n/g, " ")} [C${i + 1}]`).join("\n\n")}`;
   }
   const answerPlan=planQuestion(input.question,input.caseContext);
   if(answerPlan.tasks.includes("comparison")&&/completa|integra|todos los articulos/i.test(input.question.normalize("NFD").replace(/[\u0300-\u036f]/g,"")))answer+="\n\n**Alcance de la comparación**\nEsta respuesta analiza pasajes recuperados; no certifica una comparación completa de todos los artículos. Puedes usar [Comparar texto de documentos](/comparar) para revisar el texto indexado disponible.";
@@ -945,6 +954,18 @@ async function finalizeLegalEvidence(answer: string, prep: PreparedAnswer, input
   return { answer, review };
 }
 
+// Feriados registrados en Configuración, para el cómputo de plazos del chat. La lectura
+// se cachea 5 minutos: cada pregunta con fecha volvería a leer entity_settings.
+let cacheFeriados: { valor: Set<string>; leidoEn: number } | null = null;
+async function feriadosRegistrados(): Promise<Set<string>> {
+  if (cacheFeriados && Date.now() - cacheFeriados.leidoEn < 300_000) return cacheFeriados.valor;
+  // Sin la columna aún (SQL sin ejecutar) o sin fila: sin feriados; el bloque de cálculo
+  // lo declara («solo se excluyeron sábados y domingos») en vez de callarse el dato.
+  const rows = await supabaseRest<Array<{ feriados: unknown }>>("entity_settings?id=eq.default&select=feriados&limit=1").catch(() => [] as Array<{ feriados: unknown }>);
+  cacheFeriados = { valor: setDeFeriados(parseFeriados(rows[0]?.feriados)), leidoEn: Date.now() };
+  return cacheFeriados.valor;
+}
+
 async function getRecentChatHistory(accessToken: string, ownerId: string, sessionId?: string) {
   if (!sessionId) {
     return [];
@@ -952,9 +973,12 @@ async function getRecentChatHistory(accessToken: string, ownerId: string, sessio
 
   await ownedCaseSession(accessToken, ownerId, sessionId);
   // Lectura con el JWT del usuario: el RLS garantiza que solo vea su sesion.
+  // Se traen hasta 20 turnos: el prompt recibe los recientes casi enteros y los
+  // antiguos compactados (ver lib/chat-history.ts). Antes eran 6 enteros y las
+  // conversaciones largas perdían el hilo.
   const messages = await supabaseUserRest<ChatMessageRecord[]>(
     accessToken,
-    `chat_messages?session_id=eq.${sessionId}&or=(metadata->>kind.is.null,metadata->>kind.neq.case_attachment)&select=role,content&order=created_at.desc&limit=6`,
+    `chat_messages?session_id=eq.${sessionId}&or=(metadata->>kind.is.null,metadata->>kind.neq.case_attachment)&select=role,content&order=created_at.desc&limit=20`,
   );
 
   return messages.reverse();
@@ -1104,13 +1128,7 @@ function rerankSources(sources: LegalSource[], query: string, topK: number) {
 }
 
 function buildHistoryContext(messages: ChatMessageRecord[]) {
-  if (messages.length === 0) {
-    return "Sin historial previo en esta sesion.";
-  }
-
-  return messages
-    .map((message) => `${message.role === "user" ? "Usuario" : "Asistente"}: ${message.content}`)
-    .join("\n\n");
+  return compactHistoryForPrompt(messages);
 }
 
 function assessSources(
@@ -1703,7 +1721,7 @@ type PreparedAnswer =
       assessment: SourceAssessment;
       sources: LegalSource[];
       chatFilters: ChatFilters;
-      caseDocuments: CaseAttachment[];
+      caseDocuments: SelectedCaseAttachment[];
     }
   | {
       status: "generate";
@@ -1711,7 +1729,7 @@ type PreparedAnswer =
       assessment: SourceAssessment;
       sources: LegalSource[];
       chatFilters: ChatFilters;
-      caseDocuments: CaseAttachment[];
+      caseDocuments: SelectedCaseAttachment[];
       /** Solo si el seguimiento cambia la fecha de convocatoria: la pregunta ya resuelta, para el bloque «Aplicación a tu caso». */
       followupQuestion?: string;
     };
@@ -1750,7 +1768,9 @@ async function prepareLegalAnswer(
   input: z.infer<typeof chatRequestSchema>,
   auth: ChatAuthContext,
 ): Promise<PreparedAnswer> {
-  const [history, caseDocuments] = await Promise.all([auth.history && auth.persist === false ? Promise.resolve(auth.history as ChatMessageRecord[]) : getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds)]);
+  // Las páginas de cada adjunto se eligen con la pregunta de ESTE turno (no con el
+  // historial, que aún no se ha leído aquí): la lectura queda acotada a lo relevante.
+  const [history, caseDocuments] = await Promise.all([auth.history && auth.persist === false ? Promise.resolve(auth.history as ChatMessageRecord[]) : getRecentChatHistory(auth.accessToken, auth.ownerId, input.sessionId), selectedCaseAttachments(auth.accessToken, auth.ownerId, input.sessionId, input.attachmentIds, caseSearchQuery(input.question, input.caseContext))]);
   // Un seguimiento («¿y si fue en 2024?») se busca con el tema de la conversación; ver resolveFollowUp.
   const followup = resolveFollowUp(input.question, history);
   const contextualQuery = caseSearchQuery(followup.query, input.caseContext);
@@ -2127,7 +2147,7 @@ Reglas anti-invencion (CRITICAS, materia legal):
 - AUTO-CHEQUEO OBLIGATORIO antes de escribir cualquier porcentaje (%), monto (S/), valor en UIT o plazo: localiza ese token EXACTO dentro del texto de la Fuente [F#] que vas a citar. Si no puedes copiarlo literalmente de ese fragmento, NO lo escribas: omite la cifra y describe la regla en palabras. Esto aplica especialmente a penalidades, garantias, adelantos y umbrales de competencia, donde la tentacion de poner el valor "de memoria" es alta.
 
 ${adaptiveAnswerInstruction(input.question,input.caseContext)}
-- El sistema añadirá ubicaciones y avisos; no generes apartados de confianza ni Verificación y límites.
+${detectarCalculoPlazo(input.question, input.caseContext) ? "- El sistema añadirá el bloque «Cálculo de fecha» con el vencimiento aritmético de los días que la pregunta indica. Tú cita la regla legal del plazo (día de inicio, cómputo y exclusiones) con sus fuentes; no calcules fechas de vencimiento por tu cuenta.\n" : ""}- El sistema añadirá ubicaciones y avisos; no generes apartados de confianza ni Verificación y límites.
 
 No escribas el nivel de confianza; el sistema lo agregara despues con una evaluacion independiente.`,
         role: "user",
