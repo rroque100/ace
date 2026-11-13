@@ -83,7 +83,7 @@ describe("evidencia privada C#", () => {
       reviewerPrompt = system;
       return verdict("supported", quote);
     });
-    expect(reviewerPrompt).toContain("No determina si el contenido es una obligación jurídica vigente o aplicable");
+    expect(reviewerPrompt).toContain("No determines si el contenido es una obligación jurídica vigente o aplicable");
   });
 
   it("omite marcadores C desconocidos sin presentar su afirmación", async () => {
