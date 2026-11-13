@@ -26,7 +26,7 @@ pueden pegar imágenes con Ctrl+V ni arrastrarlas al composer.
   visión del mismo proveedor solo para turnos con imágenes. Z.ai: `glm-4.5v` (el activo
   `glm-4.5-flash` es texto puro). Gemini `gemini-2.5-flash` y OpenAI `gpt-4.1-mini`
   soportan visión nativamente.
-- **Tope de 3 imágenes por turno**: se priorizan las más recientes/mencionadas; el resto de
+- **Tope de 3 imágenes por turno**: se priorizan las más recientes (por fecha de subida); el resto de
   imágenes seleccionadas aporta solo su transcripción, y el prompt lo declara.
 - **Verificación**: la transcripción OCR guardada es el ancla determinista. Cifras atribuidas
   a una imagen `[C#]` se contrastan contra la transcripción; si difieren o el OCR fue
@@ -55,7 +55,8 @@ Archivos: `app/components/legal-chat.tsx`, `app/components/case-attachments.tsx`
 Archivo: `lib/chat-case-attachments.ts`.
 
 - Nueva función `seleccionarVisionAdjuntos(attachments, question)`: de los adjuntos
-  seleccionados devuelve hasta 3 imágenes (más recientes primero) con su referencia `[C#]`.
+  seleccionados devuelve hasta 3 imágenes, ordenadas por fecha de subida (más recientes
+  primero), con su referencia `[C#]`.
 - Las imágenes fuera del tope conservan su transcripción en el prompt de adjuntos y el
   prompt declara: "imagen C4 no incluida visualmente en esta consulta".
 
