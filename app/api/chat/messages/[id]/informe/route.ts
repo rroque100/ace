@@ -161,7 +161,7 @@ export async function GET(
       parrafo(`Hechos declarados: ${textoPlano(caseContext.facts) || "No indicados"}`),
 
       seccion("V. Verificación y límites"),
-      ...(textoPlano(assessment.reason) ? [parrafo(assessment.reason)] : []),
+      ...(textoPlano(assessment.reason) ? [parrafo(textoPlano(assessment.reason))] : []),
       ...(assessment.evidenceWarnings?.length
         ? [
             parrafo("Advertencias de la revisión automática:", { bold: true }),

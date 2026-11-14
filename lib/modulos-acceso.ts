@@ -27,7 +27,7 @@ export const MODULOS_EXTERNOS = {
     descripcion: "Práctica del examen de certificación con corrección y cita de la norma.",
     inicio: "/simulacro",
     paginas: ["/simulacro", "/simulador"],
-    apis: ["/api/simulacro", "/api/exams"],
+    apis: ["/api/simulacro", "/api/exams", "/api/balotarios"],
   },
 } as const;
 

@@ -51,10 +51,12 @@ export function ExamWorkspace({
   isAdmin,
   storageScope,
   centerEnabled,
+  reviewAttemptId,
 }: {
   isAdmin: boolean;
   storageScope: string;
   centerEnabled: boolean;
+  reviewAttemptId?: string;
 }) {
   const [dash, setDash] = useState<Dashboard | null>(null),
     [exam, setExam] = useState<PublicExam | null>(null),
@@ -144,6 +146,9 @@ export function ExamWorkspace({
     },
     [accept, restoreLocal],
   );
+  useEffect(() => {
+    if (reviewAttemptId) void Promise.resolve().then(() => open(reviewAttemptId));
+  }, [reviewAttemptId, open]);
   useEffect(() => {
     const controller = new AbortController();
     const id = new URL(location.href).searchParams.get("attempt");
@@ -1151,7 +1156,7 @@ export function ExamWorkspace({
                 </p>
               </aside>
             </section>
-            <section id="exam-history" className="examHistory">
+            <section id="exam-history" className="scroll-mt-6 rounded-2xl border border-line bg-panel p-5 shadow-card sm:p-7">
               <h2 className="text-xl font-semibold">Mis intentos</h2>
               <p className="mt-1 text-sm text-muted">
                 Últimos 20 intentos. Las revisiones de borradores se identifican

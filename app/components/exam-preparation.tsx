@@ -89,7 +89,7 @@ export function ExamPreparationPanel({
           Ver temario oficial
         </a>
       </div>
-      <div className="examCoverage grid gap-3 sm:grid-cols-3">
+      <div className="my-6 grid gap-3 sm:grid-cols-3">
         {["1", "2", "3"].map((code) => {
           const rows = data.coverage.filter((c) => c.competency === code),
             required = rows.reduce((n, c) => n + c.quota, 0),

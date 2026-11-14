@@ -17,5 +17,5 @@ export function WorkspaceSearch(props:{ownerId:string;destinations:{href:string;
 }
 export function WorkspaceAssistant() {
   const [activated,setActivated]=useState(false);
-  return activated ? <MiYoWidget initiallyOpen/> : <div className="aceAssistantWidget workspaceAssistantLauncher"><button type="button" aria-label="Abrir Mi Yo" onClick={()=>setActivated(true)}><MessageCircle size={22} aria-hidden/></button></div>;
+  return <div className="contents group-has-[[data-examen-balotario=activo]]/workspace:hidden">{activated ? <MiYoWidget initiallyOpen/> : <div className="aceAssistantWidget workspaceAssistantLauncher"><button type="button" aria-label="Abrir Mi Yo" onClick={()=>setActivated(true)}><MessageCircle size={22} aria-hidden/></button></div>}</div>;
 }

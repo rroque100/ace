@@ -100,7 +100,7 @@ export async function POST(request: Request) {
         { accessToken, ownerId, persist: false, role: "admin" },
       );
 
-      const cobertura = sourceCoverage(caso.expected_sources ?? [], resultado.sources);
+      const cobertura = sourceCoverage(caso.expected_sources ?? [], resultado.sources.map(s => ({ ...s, article: s.article ?? undefined })));
       const fidelidad = checkCitationFaithfulness(resultado.answer, resultado.sources);
       const consulta = caseSearchQuery(caso.question, undefined);
       const grounding = detectGroundingViolations(resultado.answer, resultado.sources.length, [], consulta, groundingTexts(resultado.sources));

@@ -39,7 +39,7 @@ function rowToProfile(row: CaseProfileRow): CaseProfile {
   };
 }
 
-function contextToRow(context: CaseContext, savedAt: number, ownerId: string): CaseProfileRow {
+function contextToRow(context: Pick<CaseContext, "regime" | "dates"> & { object?: string | null }, savedAt: number, ownerId: string): CaseProfileRow {
   return {
     owner_id: ownerId,
     regime: context.regime.trim().slice(0, caseFieldLimits.regime),
@@ -88,7 +88,7 @@ export async function PUT(request: Request) {
   const row = contextToRow(parsed.data.caseContext, parsed.data.savedAt, auth.user.id);
   try {
     // Upsert por owner_id (PK). El Prefer combinado hace que PostgREST devuelva la fila.
-    const [saved] = await supabaseUserRest<CaseProfileRow[]>("case_profiles", {
+    const [saved] = await supabaseUserRest<CaseProfileRow[]>(auth.user.accessToken, "case_profiles", {
       method: "POST",
       headers: { Prefer: "resolution=merge-duplicates,return=representation" },
       body: JSON.stringify({ ...row, updated_at: new Date().toISOString() }),
