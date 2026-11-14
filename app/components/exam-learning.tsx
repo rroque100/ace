@@ -144,7 +144,7 @@ export function ExamLearningDashboard({
             </>
           )}
           <details className={C.examDisclosure}>
-            <summary>Mis resultados en balotarios</summary>
+            <summary>Resultados de simulaciones del banco</summary>
             {data.setAttempts.length ? (
               <ul className="mt-3 space-y-2">
                 {data.setAttempts.slice(0, 15).map((a) => (

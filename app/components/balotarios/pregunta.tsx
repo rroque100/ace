@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Flag, BookOpen } from "lucide-react";
 import type { PreguntaBalotario } from "@/lib/balotarios-policy";
-export const boton = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-line-strong bg-panel px-4 py-2 text-sm font-semibold text-ink transition-colors hover:border-brand focus-visible:outline-2 focus-visible:outline-brand disabled:opacity-50 disabled:cursor-not-allowed";
-export const primario = `${boton} border-brand bg-brand text-on-brand hover:bg-brand-dark`;
+const baseBoton = "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-brand disabled:opacity-50 disabled:cursor-not-allowed";
+export const boton = `${baseBoton} border-line-strong bg-panel text-ink hover:border-brand`;
+export const primario = `${baseBoton} border-brand bg-brand text-on-brand hover:bg-brand-dark`;
 export const campo = "mt-1 min-h-11 min-w-0 w-full rounded-xl border border-line-strong bg-panel px-3 py-2 text-base text-ink focus-visible:outline-2 focus-visible:outline-brand";
 
 export function Pregunta({ q, position, total, answer, reveal, locked, onAnswer }: {
