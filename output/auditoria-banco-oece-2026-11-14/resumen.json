@@ -1,0 +1,33 @@
+{
+  "preguntas": 242,
+  "citas": 247,
+  "fragmentos_citados": 109,
+  "sin_subcompetencia": 27,
+  "prioridades": {
+    "P2": 111,
+    "P3": 95,
+    "P1": 36
+  },
+  "alineacion": {
+    "Complementaria: sin correspondencia directa demostrada": 19,
+    "Sin clasificación registrada; propuesta por validar": 11,
+    "Compatible de forma preliminar": 143,
+    "Reclasificación recomendada": 63,
+    "Correspondencia parcial; delimitar objetivo": 6
+  },
+  "familias_de_objetivo_proximo": 45,
+  "publicadas": 11,
+  "publicadas_por_codigo": {
+    "3.10": 5,
+    "3.11": 4,
+    "3.12": 2
+  },
+  "cuota_cubierta_sin_reclasificar": 7,
+  "claves": {
+    "A": 70,
+    "B": 112,
+    "C": 54,
+    "D": 6
+  },
+  "pdf_sha256": "0b354cfa3358b75a70c57051a6090df6d400d30891707b1afccbd4ea36b10a0d"
+}
