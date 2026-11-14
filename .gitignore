@@ -1,6 +1,7 @@
 # Dependencias y build
 node_modules
 .next
+.next-*/
 out
 dist
 build
@@ -32,6 +33,12 @@ dev-server.log
 coverage
 tsconfig.tsbuildinfo
 .next-dev
+# Directorios de build sueltos (`next build --distDir`): no los usa ninguna
+# configuración y pesan casi 1 GB. Se ignoran por lo mismo que `.next`, y además
+# porque el escaneo automático de Tailwind solo salta lo que está en .gitignore:
+# cualquier build suelto que quede aquí entra en el rastreo de clases.
+.next-library-build
+.next-library-dev
 
 # Sistema
 .DS_Store
@@ -61,6 +68,10 @@ membrete/
 # —launch.json, settings— sí puede versionarse.
 .agents/
 .claude/skills/
+# Worktrees que crean las sesiones de agentes: son OTRO checkout del repo, con su
+# propio .next. Nunca van al repo, y así tampoco entran en el rastreo de clases de
+# Tailwind, que solo salta lo que está en .gitignore.
+.claude/worktrees/
 
 # Requerimientos generados para revisar el formato: son salida, no fuente.
 docs/requerimientos/

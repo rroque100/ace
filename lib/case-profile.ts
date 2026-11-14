@@ -18,23 +18,28 @@ const clean = (value: unknown, max: number) => (typeof value === "string" ? valu
 
 export const caseProfileKey = (ownerId: string) => `${CASE_PROFILE_PREFIX}${ownerId || "anonimo"}`;
 
-/** Lo que se lee del almacenamiento: texto cualquiera. Devuelve un perfil válido o null; nunca lanza. */
+/** Lo que se lee del almacenamiento o de la cuenta: texto cualquiera. Devuelve un perfil válido o null; nunca lanza. */
 export function parseCaseProfile(raw: string | null | undefined): CaseProfile | null {
   if (!raw) return null;
   try {
-    const value = JSON.parse(raw) as Record<string, unknown>;
-    if (!value || typeof value !== "object" || Array.isArray(value)) return null;
-    const profile = {
-      regime: clean(value.regime, caseFieldLimits.regime),
-      dates: clean(value.dates, caseFieldLimits.dates),
-      object: clean(value.object, caseFieldLimits.object),
-      savedAt: typeof value.savedAt === "number" && Number.isFinite(value.savedAt) && value.savedAt > 0 ? value.savedAt : 0,
-    };
-    // Sin ningún dato no hay perfil; sin fecha de guardado no se sabe cuánto de viejo es, y eso se muestra.
-    return profile.regime || profile.dates || profile.object ? profile : null;
+    return parseCaseProfileValue(JSON.parse(raw));
   } catch {
     return null;
   }
+}
+
+/** Lo mismo para un valor YA parseado (respuesta de /api/case-profile): se valida igual que una entrada de un tercero. */
+export function parseCaseProfileValue(value: unknown): CaseProfile | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const record = value as Record<string, unknown>;
+  const profile = {
+    regime: clean(record.regime, caseFieldLimits.regime),
+    dates: clean(record.dates, caseFieldLimits.dates),
+    object: clean(record.object, caseFieldLimits.object),
+    savedAt: typeof record.savedAt === "number" && Number.isFinite(record.savedAt) && record.savedAt > 0 ? record.savedAt : 0,
+  };
+  // Sin ningún dato no hay perfil; sin fecha de guardado no se sabe cuánto de viejo es, y eso se muestra.
+  return profile.regime || profile.dates || profile.object ? profile : null;
 }
 
 /** El perfil a guardar a partir del formulario, o null si no hay nada que guardar. Los hechos nunca se guardan. */
@@ -76,4 +81,17 @@ export const isStaleProfile = (profile: CaseProfile, now: number) => profileAgeD
 export function describeProfile(profile: CaseProfile): string {
   const line = [profile.object, profile.dates, profile.regime].filter(Boolean).join(" · ");
   return line.length > 140 ? `${line.slice(0, 137)}…` : line;
+}
+
+/**
+ * El perfil que queda al sincronizar cuenta y navegador: gana el guardado MÁS RECIENTE
+ * (savedAt mayor). Con la misma antigüedad gana el del servidor: la cuenta es la copia
+ * que viaja entre dispositivos y la que un segundo navegador irá a buscar.
+ * `null` cuando ninguna copia tiene datos: no hay nada que sincronizar.
+ */
+export function mergeCaseProfiles(local: CaseProfile | null, server: CaseProfile | null): CaseProfile | null {
+  if (!local) return server;
+  if (!server) return local;
+  if (server.savedAt >= local.savedAt) return server;
+  return local;
 }

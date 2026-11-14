@@ -4,6 +4,7 @@ import {ResponseAiBadge} from "./response-ai-badge";
 import { buttonClasses } from "@/app/components/ui/button";
 import {contextualFollowups,type FeedbackReason} from "@/lib/chat-experience";
 import {conversationUrl} from "@/lib/chat-continuity";
+import { COBERTURA_CHAT, EJEMPLOS_CHAT, PROMESA_SIN_RESPALDO } from "@/lib/chat-meta";
 import { esRespuestaFija } from "@/lib/chat-respuesta-fija";
 import {useChatContinuity} from "./use-chat-continuity";
 import {ChatWorkNote} from "./chat-work-note";
@@ -13,7 +14,7 @@ import { materialWarnings } from "@/lib/chat-signals";
 import { stripPageMarkers } from "@/lib/page-markers";
 import { chatAnswerSections, reviewSummary, reviewApplicability, reviewTechnicalNotes, consultedFragments } from "@/lib/chat-review-presentation";
 import type { EvidenceReview } from "@/lib/chat-evidence-audit";
-import { CaseAttachments } from "./case-attachments";
+import { CaseAttachments, type CaseAttachmentsHandle } from "./case-attachments";
 import { VoiceDictation } from "./voice-dictation";
 import { useCaseProfile } from "./use-case-profile";
 import { describeProfile, describeProfileAge, isEmptyCommonContext, isStaleProfile, matchesProfile, profileToContext } from "@/lib/case-profile";
@@ -24,6 +25,7 @@ import { LegalCenterNav } from "./legal-center-nav";
 import { LegalValidityBadge } from "./legal-validity-badge";
 import { legalCenterHref } from "@/lib/legal-center";
 import * as Dialog from "@radix-ui/react-dialog";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -33,11 +35,13 @@ import {
   Bot,
   Check,
   Clipboard,
+  ClipboardList,
   CopyCheck,
   Download,
   ExternalLink,
   FileText,
   LoaderCircle,
+  Paperclip,
   Pin,
   Quote,
   RotateCcw,
@@ -141,9 +145,12 @@ type StreamEvent =
   | { type: "error"; error: string };
 
 type CaseDocumentReference = { id:string; name:string; sessionId:string; partial:boolean };
+/** Imagen/documento del caso adjuntado a ESTE turno (solo sesión en vivo; para la miniatura de la burbuja). */
+type MessageAttachment = { id: string; name: string; url: string; mime?: string };
 type ConversationMessage = {
   progress?: "drafting" | "checking";
   caseDocuments?: CaseDocumentReference[];
+  attachments?: MessageAttachment[];
   telemetry?: LegalResponseTelemetry;
   caseContext?: CaseContext;
   id: string;
@@ -184,12 +191,6 @@ const formatOptions = [
   { hint: "Lista de verificación: requisitos y obligaciones numerados, cada uno con su fuente.", label: "Lista", value: "checklist" },
   { hint: "Informe con resumen, fundamento legal, análisis y conclusión.", label: "Informe", value: "informe" },
 ] as const;
-
-const exampleQuestions = [
-  "¿Cuáles son los requisitos para una compra por comparación de precios?",
-  "¿Cómo revisar si están bien hechas las especificaciones técnicas de subasta inversa electrónica?",
-  "¿Qué garantías y cláusulas obligatorias debe incluir un contrato?",
-];
 
 function followUpsFor(message:ConversationMessage){return contextualFollowups(message);}
 
@@ -877,6 +878,8 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const [extendedFilters, setExtendedFilters] = useState<ExtendedLegalFilters>(() => extendedFiltersFromParams(searchParams));
   const [attachmentsBusy, setAttachmentsBusy] = useState(false);
   const [attachmentIds, setAttachmentIds] = useState<string[]>([]);
+  // Adjuntos seleccionados con su mime (del panel CaseAttachments): para las miniaturas del composer y de la burbuja enviada.
+  const [selectedAttachments, setSelectedAttachments] = useState<Array<{ id: string; name: string; mime: string }>>([]);
   const [caseContext, setCaseContext] = useState<CaseContext>({ ...emptyCaseContext });
   const [loadingSession, setLoadingSession] = useState(Boolean(requestedSessionId));
   // Caso activo: régimen, fecha de convocatoria y objeto recordados en este navegador (ver lib/case-profile.ts).
@@ -919,10 +922,25 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   const abortRef = useRef<AbortController | null>(null);
   const hydratedSession=useRef<string|null>(null);
   const [composerFocused,setComposerFocused]=useState(false);
+  // Los dos paneles de debajo del compositor se abren también desde la pantalla inicial.
+  const [adjuntosAbierto, setAdjuntosAbierto] = useState(false);
+  const [datosDelCasoAbierto, setDatosDelCasoAbierto] = useState(false);
+  const caseAttachmentsRef = useRef<CaseAttachmentsHandle>(null);
+  const adjuntosRef = useRef<HTMLDivElement>(null);
   const continuity=useChatContinuity({owner:ownerId,session:sessionId??requestedSessionId,loading:loadingSession,question,onRestore:setQuestion,preferInitial:Boolean(initialQuestion)});
   function adoptSession(id:string){
     hydratedSession.current=id;setSessionId(id);
     if(requestedSessionId!==id){onAdopt(id);window.history.replaceState(window.history.state,"",conversationUrl(window.location.href,id));}
+  }
+
+  // Paste (Ctrl+V) y arrastre de imágenes/PDFs: reutilizan la subida del panel de
+  // adjuntos (mismo OCR y cifrado). El scroll lleva el panel a la vista para que
+  // la subida y la auto-selección se vean; sin este gesto parece que «no pegó nada».
+  function adjuntarDesdePasteODrop(files: File[]) {
+    if (!files.length) return;
+    setAdjuntosAbierto(true);
+    caseAttachmentsRef.current?.uploadFiles(files);
+    requestAnimationFrame(() => adjuntosRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }));
   }
 
   const hasConversation = messages.length > 0;
@@ -1082,11 +1100,19 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
       return;
     }
 
+    // Imágenes/documentos que van ESTE turno (para las miniaturas de la burbuja): los adjuntos
+    // seleccionados ahora, que persisten para seguimientos pero se muestran en el mensaje enviado.
+    const imagenesDelTurno = attachmentIds
+      .flatMap((id) => {
+        const item = selectedAttachments.find((attachment) => attachment.id === id);
+        return item ? [{ id: item.id, name: item.name, mime: item.mime, url: `/api/chat/attachments/${item.id}?sessionId=${sessionId ?? ""}` }] : [];
+      });
     const userMessage: ConversationMessage = {
       caseContext: { ...(retryContext ?? caseContext) },
       content: normalizedQuestion,
       id: buildMessageId(),
       role: "user",
+      attachments: imagenesDelTurno,
     };
     const assistantId = buildMessageId();
     const assistantMessage: ConversationMessage = {
@@ -1350,6 +1376,19 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
     const box = composerRef.current;
     if (box) { box.focus(); autoGrow(box); box.setSelectionRange(box.value.length, box.value.length); }
   }
+  // Las acciones de la pantalla inicial abren los paneles que YA existen debajo del compositor, en vez de
+  // duplicar controles. No se dispara el clic del input[type=file] desde aquí: eso depende de la activación
+  // transitoria del navegador y falla distinto en cada uno; se abre el panel, cuyo primer control es el de
+  // subida.
+  function abrirAdjuntos() {
+    setAdjuntosAbierto(true);
+    adjuntosRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  function abrirDatosDelCaso() {
+    setDatosDelCasoAbierto(true);
+    // El campo aún no es enfocable en este fotograma: el <details> se abre al pintar.
+    requestAnimationFrame(() => focusCaseField("object"));
+  }
 
   const wideChat = useSyncExternalStore(subscribeChatViewport, readChatWideViewport, readChatServerViewport);
   const lastAssistantId = [...messages].reverse().find((message) => message.role === "assistant")?.id;
@@ -1364,18 +1403,40 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
               </div>
               <strong>¿Qué necesitas resolver?</strong>
               <span>
-                Cuéntame tu duda sobre contrataciones públicas. Puedes empezar con una pregunta o adjuntar un documento de tu caso.
+                Cuéntame tu duda sobre contrataciones públicas: respondo con {COBERTURA_CHAT}, y te muestro la norma en la que se apoya cada respuesta.
               </span>
+              {/* La promesa de no inventar solo la veía quien escribía «hola»: es lo que distingue a este
+                  asistente, así que va donde se decide si preguntar o no. */}
+              <small className={S.chatEmptyPromise}>
+                <ShieldCheck size={15} aria-hidden="true" />
+                {PROMESA_SIN_RESPALDO}
+              </small>
             </div>
 
             <div className={S.chatEmptyExamples}>
-              <p>¿No sabes cómo empezar?</p>
+              <p>Prueba una de estas · cada una usa algo distinto de lo que sé hacer</p>
               <div className={S.exampleCards}>
-                {exampleQuestions.map((item) => (
+                {EJEMPLOS_CHAT.map((item) => (
                   <button key={item} onClick={() => { setQuestion(item); composerRef.current?.focus(); }} type="button">
                     {item}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            <div className={S.chatEmptyActions}>
+              <p>O dame contexto primero · opcional</p>
+              <div className={S.chatEmptyActionRow}>
+                <button onClick={abrirAdjuntos} type="button" disabled={isStreaming || loadingSession}>
+                  <Paperclip size={16} aria-hidden="true" />
+                  Adjuntar un documento del caso
+                </button>
+                {/* El mismo dictado del compositor: inserta en la caja y nunca envía solo. */}
+                <VoiceDictation onInsert={insertDictation} onAfterInsert={focusComposer} disabled={isStreaming || loadingSession} />
+                <button onClick={abrirDatosDelCaso} type="button" disabled={isStreaming || loadingSession}>
+                  <ClipboardList size={16} aria-hidden="true" />
+                  Añadir datos del caso
+                </button>
               </div>
             </div>
           </div>
@@ -1512,6 +1573,18 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                         <Download size={16} />
                         Exportar Word
                       </button>
+                      <button
+                        className={C.compactAction_responseActionButton}
+                        onClick={() => {
+                          if (!message.persistedId) { setError("La respuesta aún no está lista para generar el informe."); return; }
+                          window.location.href = `/api/chat/messages/${message.persistedId}/informe`;
+                        }}
+                        title="Genera un informe técnico-jurídico en borrador (.docx) con consulta, respuesta, fundamento y contexto del caso"
+                        type="button"
+                      >
+                        <FileText size={16} />
+                        Informe jurídico
+                      </button>
                       </div></details>
                       <SaveButton
                         itemType="mensaje"
@@ -1535,6 +1608,24 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
                 </>
               ) : (
                 <>
+                  {message.attachments?.length ? (
+                    <div className={S.attachThumbs} role="list" aria-label="Imágenes de tu consulta">
+                      {message.attachments.map((attachment, index) => (
+                        attachment.mime === "image/png" || attachment.mime === "image/jpeg" ? (
+                          <figure className={S.attachThumb} key={attachment.id} role="listitem">
+                            <Image alt={attachment.name} height={72} src={attachment.url} title={attachment.name} unoptimized width={72} />
+                            <span className={S.attachThumbBadge}>C{index + 1}</span>
+                          </figure>
+                        ) : (
+                          <span className={S.attachThumbDoc} key={attachment.id} role="listitem" title={attachment.name}>
+                            <FileText size={18} />
+                            PDF adjunto
+                            <span className={S.attachThumbBadge}>C{index + 1}</span>
+                          </span>
+                        )
+                      ))}
+                    </div>
+                  ) : null}
                   <p>{message.content}</p>
                   {message.caseContext && Object.values(message.caseContext).some(Boolean) ? (
                     <details className={S.chatTurnContext}>
@@ -1557,7 +1648,27 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
   );
 
   return (
-    <div className={cn(S.legalTool, S.chatRedesign, S.chatAccessible)}>
+    <div className={cn(S.legalTool, S.chatRedesign, S.chatAccessible)}
+      onDragOver={(event) => event.preventDefault()}
+      onPaste={(event) => {
+        // Paste en CUALQUIER parte del chat (el textarea incluido, por burbujeo):
+        // si el portapapeles trae una imagen o PDF se sube como documento del caso.
+        // El paste de texto no se toca (solo se intercepta con archivos).
+        const files = Array.from(event.clipboardData?.files ?? []).filter((file) =>
+          ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
+        );
+        if (!files.length) return;
+        event.preventDefault();
+        adjuntarDesdePasteODrop(files);
+      }}
+      onDrop={(event) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer?.files ?? []).filter((file) =>
+          ["image/png", "image/jpeg", "application/pdf"].includes(file.type),
+        );
+        adjuntarDesdePasteODrop(files);
+      }}
+    >
       <LegalCenterNav active="chat" filters={{ ...currentFilterValues, ...extendedFilters }} />
       {sourceSelection.selectedDocumentIds.length ? <p className={C.normScopeNote} role="status">{sourceSelection.selectedDocumentIds.length} fuentes iniciales · {sourceSelection.expandCorpus?"Se permiten fuentes adicionales, identificadas por separado.":"Consulta limitada a la selección."} <button type="button" className={buttonClasses({ variant: "secondary", size: "sm" })} onClick={()=>{setSourceSelection({selectedDocumentIds:[],expandCorpus:false});setDocumentIds([]);}}>Quitar selección inicial</button></p> : null}
       <div className={S.chatUtilityRow}><LegalChatRecent /><span>Tu historial y los archivos del caso son privados.</span></div>
@@ -1708,6 +1819,31 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
 
       <form ref={composerDockRef} className={`${S.chatComposerBar}${hasConversation ? (" " + S.chatComposerDock) : ""}${hasConversation&&!composerFocused&&!question.trim()&&!isStreaming?(" " + S.chatComposerCompact):""}`} onFocusCapture={()=>setComposerFocused(true)} onBlurCapture={event=>{if(!event.currentTarget.contains(event.relatedTarget as Node|null))setComposerFocused(false);}} onSubmit={submitQuestion}>
         <label className={S.chatQuestionLabel} htmlFor="legal-chat-question">¿Qué necesitas resolver?</label>
+        {selectedAttachments.length || attachmentsBusy ? (
+          <div className={S.attachThumbs} role="list" aria-label="Documentos del caso para esta consulta">
+            {selectedAttachments.map((item) => (
+              item.mime === "image/png" || item.mime === "image/jpeg" ? (
+                <figure className={S.attachThumb} key={item.id} role="listitem">
+                  {sessionId ? <Image alt={item.name} height={72} loading="lazy" src={`/api/chat/attachments/${item.id}?sessionId=${sessionId}`} title={item.name} unoptimized width={72} /> : null}
+                  <span className={S.attachThumbBadge}>C{attachmentIds.indexOf(item.id) + 1}</span>
+                  <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
+                    <X size={12} />
+                  </button>
+                </figure>
+              ) : (
+                <span className={S.attachThumbDoc} key={item.id} role="listitem" title={item.name}>
+                  <FileText size={18} />
+                  PDF adjunto
+                  <span className={S.attachThumbBadge}>C{attachmentIds.indexOf(item.id) + 1}</span>
+                  <button aria-label={`Quitar ${item.name}`} className={S.attachThumbRemove} onClick={() => setAttachmentIds(attachmentIds.filter((id) => id !== item.id))} title="Quitar de esta consulta" type="button">
+                    <X size={12} />
+                  </button>
+                </span>
+              )
+            ))}
+            {attachmentsBusy ? <span className={S.attachThumbPending} role="status">Procesando<br />adjunto…</span> : null}
+          </div>
+        ) : null}
         <textarea
           id="legal-chat-question"
           aria-describedby="chat-question-help"
@@ -1742,10 +1878,12 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             </button>
           )}
         </div>
-        <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea. Comprueba las normas antes de tomar una decisión.</small>
+        <small id="chat-question-help" className={S.chatQuestionHelp}>Enter para enviar · Mayús + Enter para otra línea · Pega una imagen con Ctrl+V o arrástrala aquí. Comprueba las normas antes de tomar una decisión.</small>
       </form>
       <div className={S.chatComposeTools}>
-      <CaseAttachments sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} disabled={isStreaming || loadingSession} />
+      <div ref={adjuntosRef}>
+        <CaseAttachments ref={caseAttachmentsRef} sessionId={sessionId} onSession={adoptSession} onBusy={setAttachmentsBusy} selected={attachmentIds} onChange={setAttachmentIds} onSelectionChange={setSelectedAttachments} disabled={isStreaming || loadingSession} open={adjuntosAbierto} onOpenChange={setAdjuntosAbierto} />
+      </div>
       <section className={S.chatCaseContext} aria-label="Contexto del caso">
         {caseProfile ? (
           <div className={S.caseProfileChip} role="status" data-stale={isStaleProfile(caseProfile, profileNow) ? "true" : undefined}>
@@ -1757,7 +1895,7 @@ function LegalChatSession({ownerId,onAdopt}:{ownerId:string;onAdopt:(id:string|n
             <button className={buttonClasses({ variant: "secondary", size: "sm" })} type="button" onClick={dropCaseProfile} disabled={isStreaming || loadingSession}>Quitar</button>
           </div>
         ) : null}
-        <details>
+        <details open={datosDelCasoAbierto} onToggle={(event) => setDatosDelCasoAbierto(event.currentTarget.open)}>
           <summary>Añadir datos del caso · opcional</summary>
           <p>Indica lo que conoces. Si aún no sabes el régimen o las fechas, puedes dejar esos campos vacíos.</p>
           <fieldset disabled={isStreaming || loadingSession}>

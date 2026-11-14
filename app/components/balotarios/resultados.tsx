@@ -1,0 +1,36 @@
+"use client";
+import { useEffect, useMemo, useState } from "react";
+import type { IntentoBalotario } from "@/lib/balotarios-policy";
+import { nivelBalotario } from "@/lib/balotarios-policy";
+import { estadisticasCompetencia } from "@/lib/balotarios-estadisticas";
+import { boton, campo } from "./pregunta";
+type ResultadoBanco = { id: string; started_at: string; finished_at?: string; mode: string; preview: boolean; state: string; result: { total: number; correct: number; incorrect: number; omitted: number } | null };
+const mesDe = (s: string) => { const d = new Date(s); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`; };
+export function Resultados({ history, onReview, onBank, onPracticeErrors }: { history: IntentoBalotario[]; onReview: (t: IntentoBalotario) => void; onBank: (id: string) => void; onPracticeErrors: (t: IntentoBalotario) => void }) {
+  const [bank, setBank] = useState<ResultadoBanco[]>([]); const [error, setError] = useState("");
+  const [mes, setMes] = useState(""); const [bal, setBal] = useState("todos");
+  useEffect(() => { const c = new AbortController(); fetch("/api/exams", { signal: c.signal, cache: "no-store" }).then(async r => { const x = await r.json(); if (!r.ok) throw Error(x.error); setBank(x.history ?? []); }).catch(e => { if (!c.signal.aborted) setError(e.message); }); return () => c.abort(); }, []);
+  const rows = useMemo(() => [
+    ...history.map(t => ({ id:t.id, date:t.finished_at || t.started_at, collection:`Balotario ${t.balotario}`, filter:String(t.balotario), draft:false, result:t.result!, seconds:t.result?.seconds, review:()=>onReview(t), practice:()=>onPracticeErrors(t) })),
+    ...bank.filter(t=>t.result).map(t=>({ id:t.id, date:t.finished_at || t.started_at, collection:t.preview ? "Banco · revisión de borradores" : "Banco revisado", filter:"banco", draft:t.preview, result:t.result!, seconds:undefined, review:()=>onBank(t.id), practice:undefined })),
+  ].sort((a,b)=>b.date.localeCompare(a.date)), [history,bank,onReview,onBank,onPracticeErrors]);
+  const meses=[...new Set(rows.map(r=>mesDe(r.date)))].sort().reverse();
+  const filtered=rows.filter(r=>(!mes || mesDe(r.date)===mes) && (bal==="todos" || r.filter===bal));
+  const measured=filtered.filter(r=>!r.draft);
+  const total=measured.reduce((s,r)=>s+r.result.total,0); const correct=measured.reduce((s,r)=>s+r.result.correct,0);
+  const best=measured.length ? Math.max(...measured.map(r=>Math.round(r.result.correct*100/r.result.total))) : 0;
+  const competencias=estadisticasCompetencia(history.filter(t=>(!mes||mesDe(t.finished_at||t.started_at)===mes)&&(bal==="todos"||bal===String(t.balotario))));
+  return <section className="space-y-5" aria-labelledby="resultados-titulo">
+    <div><h2 id="resultados-titulo" className="text-2xl font-semibold text-ink">Mis resultados</h2><p className="mt-2 text-base text-muted">Exámenes de balotarios y sesiones del banco revisado. Filtra una colección para comparar el mismo material.</p></div>
+    {error && <p role="alert" className="rounded-xl bg-warning-soft p-4 text-warning">No se pudo consultar el banco: {error}.</p>}
+    <div className="grid gap-3 sm:grid-cols-3">{[["Intentos", filtered.length],["Acierto global",total?`${Math.round(correct*100/total)}%`:"—"],["Mejor resultado",measured.length?`${best}%`:"—"]].map(([label,value])=><div key={label} className="rounded-2xl border border-line bg-panel p-4"><p className="text-sm text-muted">{label}</p><p className="mt-2 text-2xl font-semibold text-ink">{value}</p></div>)}</div>
+    {filtered.some(r=>r.draft)&&<p className="text-sm text-muted">Las revisiones administrativas de borradores se conservan en el historial y se excluyen del acierto global y del mejor resultado.</p>}
+    <div className="grid gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-ink">Mes<select value={mes} onChange={e=>setMes(e.target.value)} className={campo}><option value="">Todos los meses</option>{meses.map(m=><option key={m} value={m}>{new Date(`${m}-01T12:00:00`).toLocaleDateString("es-PE",{month:"long",year:"numeric"})}</option>)}</select></label><label className="text-sm font-medium text-ink">Colección<select className={campo} value={bal} onChange={e=>setBal(e.target.value)}><option value="todos">Todas las colecciones</option><option value="banco">Banco revisado y borradores</option>{[1,2,3,4,5].map(n=><option key={n} value={n}>Balotario {n}</option>)}</select></label></div>
+    {filtered.length===0 ? <div className="rounded-2xl border border-dashed border-line p-8 text-center text-muted">No hay intentos para estos filtros. Completa un examen para registrar tu avance.</div> : <>
+      <details className="rounded-2xl border border-line bg-panel p-5"><summary className="min-h-11 cursor-pointer font-semibold text-ink">Ver evolución · últimos 10 intentos</summary><ol className="mt-3 space-y-3">{filtered.slice(0,10).reverse().map(r=><li key={r.id} className="grid gap-2 sm:grid-cols-[14rem_1fr_4rem]"><span className="text-sm text-muted">{new Date(r.date).toLocaleDateString("es-PE")} · {r.collection}</span><progress aria-label={`${r.collection}: ${r.result.correct} de ${r.result.total}`} className="h-4 w-full accent-brand" value={r.result.correct} max={r.result.total}/><span className="text-sm font-semibold text-ink">{Math.round(r.result.correct*100/r.result.total)}%</span></li>)}</ol></details>
+      {filtered.map(r=><article key={r.id} className="rounded-2xl border border-line bg-panel p-4 sm:p-5"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-ink">{r.collection}</h3><p className="mt-1 text-sm text-muted">{new Date(r.date).toLocaleString("es-PE")} {r.seconds!=null?`· ${Math.floor(r.seconds/60)} min ${r.seconds%60} s`:null}</p></div><span className="rounded-xl bg-brand-soft px-3 py-2 font-semibold text-brand-dark">{r.result.correct}/{r.result.total} · {nivelBalotario(r.result.correct,r.result.total)}</span></div><p className="mt-4 text-sm text-muted">{r.result.correct} correctas · {r.result.incorrect} incorrectas · {r.result.omitted} sin responder</p><div className="mt-4 flex flex-wrap gap-2"><button type="button" className={boton} onClick={r.review}>Ver resultado</button>{r.practice && (r.result.incorrect+r.result.omitted>0) && <button type="button" className={boton} onClick={r.practice}>Repasar falladas y omitidas</button>}</div></article>)}
+    </>}
+    {competencias.length>0&&<section className="rounded-2xl border border-line bg-panel p-5"><h3 className="font-semibold text-ink">Dónde reforzar · balotarios</h3><ul className="mt-4 space-y-3">{competencias.map(c=><li key={c.competencia}><div className="flex flex-wrap justify-between gap-2 text-sm text-ink"><span>{c.competencia}</span><span>{c.correctas}/{c.total} aciertos · {c.incorrectas} errores · {c.omitidas} omitidas</span></div><progress className="mt-2 h-3 w-full accent-brand" aria-label={`Aciertos en ${c.competencia}`} value={c.correctas} max={c.total}/></li>)}</ul></section>}
+    <p className="text-sm text-muted">Se muestran los últimos 200 exámenes de balotarios y 20 del banco. Los resultados remotos pertenecen a tu cuenta. El historial antiguo de este navegador no se importa automáticamente porque no identifica a su propietario.</p>
+  </section>;
+}

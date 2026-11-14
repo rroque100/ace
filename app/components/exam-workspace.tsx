@@ -52,10 +52,12 @@ export function ExamWorkspace({
   isAdmin,
   storageScope,
   centerEnabled,
+  reviewAttemptId,
 }: {
   isAdmin: boolean;
   storageScope: string;
   centerEnabled: boolean;
+  reviewAttemptId?: string;
 }) {
   const [dash, setDash] = useState<Dashboard | null>(null),
     [exam, setExam] = useState<PublicExam | null>(null),
@@ -145,6 +147,9 @@ export function ExamWorkspace({
     },
     [accept, restoreLocal],
   );
+  useEffect(() => {
+    if (reviewAttemptId) void Promise.resolve().then(() => open(reviewAttemptId));
+  }, [reviewAttemptId, open]);
   useEffect(() => {
     const controller = new AbortController();
     const id = new URL(location.href).searchParams.get("attempt");

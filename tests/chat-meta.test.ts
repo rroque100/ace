@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isMetaQuestion, metaQuestionAnswer } from "@/lib/chat-meta";
+import { EJEMPLOS_CHAT, isMetaQuestion, metaQuestionAnswer } from "@/lib/chat-meta";
 import { isVagueQuestion } from "@/lib/chat-vague";
 import { esRespuestaFija, MODELO_ACLARACION, MODELO_GUIA } from "@/lib/chat-respuesta-fija";
 
@@ -42,6 +42,19 @@ describe("preguntas sobre el propio asistente", () => {
     expect(guia).not.toMatch(/\[F\d+\]|artículo \d|\d+ ?%|\d+ días/i);
     // Promete no inventar, que es lo que distingue a este asistente.
     expect(guia).toMatch(/en lugar de inventar/);
+  });
+
+  // Recorre el catálogo entero, no un ejemplo suelto: la pantalla inicial y la guía tienen que ofrecer
+  // exactamente los mismos ejemplos, que es lo que se desincronizó cuando cada una tenía su propia lista.
+  it("la guía ofrece todos los ejemplos de la pantalla inicial, y ninguno afirma un dato jurídico", () => {
+    const guia = metaQuestionAnswer();
+    expect(EJEMPLOS_CHAT.length).toBeGreaterThanOrEqual(5);
+    for (const ejemplo of EJEMPLOS_CHAT) {
+      expect(guia, ejemplo).toContain(ejemplo);
+      // Un ejemplo con «8 días» o «10 %» se leería como respuesta, no como pregunta.
+      expect(ejemplo, ejemplo).not.toMatch(/\[F\d+\]|artículo \d|\d+ ?%|\d+ días/i);
+      expect(ejemplo, ejemplo).toMatch(/\?$/);
+    }
   });
 
   it("servidor y pantalla coinciden en qué son respuestas fijas", () => {

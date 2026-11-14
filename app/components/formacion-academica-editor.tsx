@@ -57,7 +57,7 @@ export const FormacionAcademicaEditor = memo(function FormacionAcademicaEditor({
   }, [value]);
   // Y cuando cambian las actividades heredadas (se añadió/quitó un puesto en el
   // cuadro de experiencia): se rehacen las filas conservando grado/puesto.
-  const actKey = actividades.join("");
+  const actKey = actividades.join("\u0001");
   const actRef = useRef(actKey);
   useEffect(() => {
     if (actKey === actRef.current) return;

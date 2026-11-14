@@ -33,7 +33,7 @@ function limpiarViñeta(linea: string): string {
 // que nunca aparece en prosa; se restauran al parsear. Nunca llega al DOM ni a
 // las exportaciones: el editor siempre parsea el valor, y el export vuelca por
 // celda pasando también por parseRequisitos.
-const SALTO_INTERNO = "";
+const SALTO_INTERNO = "\u0001";
 
 function escaparSaltos(s: string): string {
   return s.replace(/\r\n|\r|\n/g, SALTO_INTERNO);
