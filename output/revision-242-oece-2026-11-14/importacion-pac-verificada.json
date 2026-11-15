@@ -1,0 +1,28 @@
+{
+  "batch": "banco-oece-pac-2026-11-15",
+  "entries": [
+    {
+      "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+      "type": "resolucion",
+      "publicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7562884-0041-2025-ef-54-01",
+      "pdfUrl": "https://busquedas.elperuano.pe/api/archivo/file/0Dt5Ms5tawW8JG5rhC4YOI/*/2471743-1.PDF",
+      "sourceEntity": "Ministerio de Economía y Finanzas",
+      "number": "0041-2025-EF/54.01",
+      "year": 2025,
+      "versionLabel": "Texto publicado el 25.12.2025",
+      "selectionNote": "Incorporación autorizada expresamente por administrador para completar subcompetencia1.6. Fe de erratas07.01.2026corrige sumilla; no modifica el numeral utilizado.",
+      "regime": "32069",
+      "status": "indexed",
+      "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914",
+      "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+      "verification": {
+        "pages": 3,
+        "chunks": 14,
+        "pineconeHits": 3,
+        "complete": true,
+        "sha256Verified": true,
+        "verifiedAt": "2026-11-15T11:49:52.442Z"
+      }
+    }
+  ]
+}

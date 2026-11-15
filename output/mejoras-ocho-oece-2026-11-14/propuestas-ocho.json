@@ -1,0 +1,546 @@
+[
+  {
+    "numero": "R01",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "3b65b9f3-8212-4003-84d8-20cdeda2e7ed",
+      "revision": 1,
+      "prompt": "En una obra de solo construcción, la revisión documental inicial del contratista detecta una omisión que podría exigir una prestación adicional. Según el artículo 171.1, ¿cómo debe tratarse ese hallazgo en el informe de revisión del expediente técnico?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reservarlo para la liquidación, porque el informe inicial solo verifica la programación de la obra."
+        },
+        {
+          "id": "B",
+          "text": "Incluirlo como posible deficiencia, junto con las posibles prestaciones adicionales y riesgos advertidos."
+        },
+        {
+          "id": "C",
+          "text": "Presentarlo como una prestación adicional ya aprobada por la sola emisión del informe técnico."
+        },
+        {
+          "id": "D",
+          "text": "Excluirlo del informe y limitar este a las deficiencias que no puedan originar modificaciones contractuales."
+        }
+      ],
+      "explanation": "El informe busca detectar deficiencias u omisiones e incluye posibles prestaciones adicionales, riesgos y otros aspectos advertidos en la revisión documental. Identificar un posible adicional no equivale a aprobarlo.",
+      "regime": "32069",
+      "topic": "Expediente técnico de obra",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "Este informe tiene como objetivo detectar posibles deficiencias u omisiones en el expediente técnico, e incluye las posibles prestaciones adicionales, riesgos y otros aspectos que puedan ser advertidos de la sola revisión documental por parte del contratista.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "171",
+          "chunkId": "c1a3d4f1-7ee0-4a3e-95e4-b0ad864819ba",
+          "pageEnd": 92,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 91,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:17827515-1f64-4b68-a40d-1c2d3ecb1825",
+      "correctOption": "B",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.7",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El artículo 171.1 contempla la detección temprana de omisiones; no dispone reservarlas para la liquidación.",
+        "B": "El informe busca detectar deficiencias u omisiones e incluye posibles prestaciones adicionales, riesgos y otros aspectos advertidos en la revisión documental. Identificar un posible adicional no equivale a aprobarlo.",
+        "C": "El pasaje habla de posibles prestaciones adicionales; no confiere aprobación por emitir el informe.",
+        "D": "El informe incluye posibles adicionales; no se limita a hallazgos sin consecuencias contractuales."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R02",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "efe7e424-2738-47e5-9b98-f016630af918",
+      "revision": 1,
+      "prompt": "En una obra de solo construcción, la entidad recibe el informe inicial del contratista. Posteriormente recibe el informe técnico del supervisor. Según el artículo 171.3, ¿qué hito inicia el cómputo del plazo máximo para notificar el pronunciamiento de la entidad?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La recepción del informe del contratista, contando cinco días desde el día siguiente."
+        },
+        {
+          "id": "B",
+          "text": "La suscripción del contrato, contando doce días desde el día siguiente."
+        },
+        {
+          "id": "C",
+          "text": "La recepción del informe del supervisor, contando cinco días desde el día siguiente."
+        },
+        {
+          "id": "D",
+          "text": "La recepción del informe del supervisor, contando diez días desde el día siguiente."
+        }
+      ],
+      "explanation": "La entidad notifica su pronunciamiento en un máximo de diez días, contabilizados desde el día siguiente de recibido el informe técnico del supervisor. El informe inicial del contratista no es el hito de este cómputo.",
+      "regime": "32069",
+      "topic": "Expediente técnico de obra",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "La entidad contratante, a través del órgano de la entidad encargado de la elaboración, aprobación o conformidad de los expedientes técnicos, evalúa la información recibida por el contratista y la supervisión y les notifica su pronunciamiento en el p lazo máximo de diez días contabilizados desde el día siguiente de recibido el informe técnico del supervisor.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "171",
+          "chunkId": "c1a3d4f1-7ee0-4a3e-95e4-b0ad864819ba",
+          "pageEnd": 92,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 91,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:e1916b63-468f-4587-ba1b-75f0f272c04f",
+      "correctOption": "D",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.7",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Confunde el plazo y el documento de referencia: los cinco días del numeral 171.2 corresponden al supervisor.",
+        "B": "Los doce días del numeral 171.1 corresponden al informe inicial del contratista, no al pronunciamiento de la entidad.",
+        "C": "Identifica el documento correcto, pero usa cinco días en lugar de los diez del numeral 171.3.",
+        "D": "La entidad notifica su pronunciamiento en un máximo de diez días, contabilizados desde el día siguiente de recibido el informe técnico del supervisor. El informe inicial del contratista no es el hito de este cómputo."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R03",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "ca02e45b-88a1-4b9d-a6b5-cc93ca01e972",
+      "revision": 1,
+      "prompt": "Por retraso injustificado en los avances de una obra, el supervisor ordenó presentar un nuevo programa de ejecución acelerado y un nuevo calendario de avance de obra valorizado acelerado. El contratista no presenta ninguno dentro de los siete días siguientes. Según el artículo 207.3, ¿qué medida puede tener como causal esa omisión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La intervención económica de la obra o la resolución del contrato."
+        },
+        {
+          "id": "B",
+          "text": "La aprobación de una ampliación de plazo para ejecutar el programa omitido."
+        },
+        {
+          "id": "C",
+          "text": "La aprobación del nuevo calendario por el transcurso del plazo de presentación."
+        },
+        {
+          "id": "D",
+          "text": "La sustitución del programa vigente por el calendario originalmente presentado."
+        }
+      ],
+      "explanation": "El artículo 207.3 establece que la falta de presentación de los documentos dentro del plazo puede ser causal de intervención económica o resolución. Es una consecuencia posible; el pasaje no establece una resolución automática.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "La falta de presentación de dichos documentos dentro del plazo señalado en el numeral precedente puede ser causal para que opere la intervención económica de la obra o la resolución del contrato.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "207",
+          "chunkId": "e9a300a4-d938-400a-824f-fa13f7f4a9ba",
+          "pageEnd": 117,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 116,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:bb315881-ca07-4e4b-b367-9100262b5c8b",
+      "correctOption": "A",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El artículo 207.3 establece que la falta de presentación de los documentos dentro del plazo puede ser causal de intervención económica o resolución. Es una consecuencia posible; el pasaje no establece una resolución automática.",
+        "B": "El artículo 207.3 no concede una ampliación por no presentar los documentos exigidos.",
+        "C": "No presentar documentos no equivale a su aprobación: el supuesto de aprobación del numeral 207.2 se refiere al trámite de documentos presentados.",
+        "D": "La norma citada prevé intervención económica o resolución; no establece esa sustitución como efecto de la omisión."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R04",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "cecfed34-ddbf-42cc-bf96-77904bfdc56c",
+      "revision": 1,
+      "prompt": "En una obra de solo construcción, el procedimiento de revisión del expediente técnico del artículo 171 detecta omisiones que impactan en el Programa de Ejecución. Según el numeral 171.4, ¿qué pueden acordar las partes?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Suspender el plazo hasta que el contratista apruebe por sí mismo las adecuaciones del expediente."
+        },
+        {
+          "id": "B",
+          "text": "Reemplazar el expediente técnico por el informe inicial del contratista, sin adecuaciones de la entidad."
+        },
+        {
+          "id": "C",
+          "text": "Suspender el plazo de ejecución hasta que la entidad efectúe las adecuaciones correspondientes."
+        },
+        {
+          "id": "D",
+          "text": "Considerar que la presentación del informe suspende automáticamente el plazo, sin acuerdo de las partes."
+        }
+      ],
+      "explanation": "Cuando las omisiones o errores se detectan a partir del procedimiento de revisión y afectan el Programa de Ejecución, las partes pueden acordar la suspensión hasta que la entidad efectúe las adecuaciones. No se trata de una suspensión automática.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "En caso a partir del referido procedimiento se detecte omisiones o errores en el expediente técnico que impacten en el Programa de Ejecución, las partes pueden acordar la suspensión del plazo de ejecución de la obra hasta que la entidad contratante efectúe las adecuaciones correspondientes.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "171",
+          "chunkId": "c1a3d4f1-7ee0-4a3e-95e4-b0ad864819ba",
+          "pageEnd": 92,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 91,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:bb315881-ca07-4e4b-b367-9100262b5c8b",
+      "correctOption": "C",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El numeral 171.4 atribuye a la entidad las adecuaciones correspondientes, no al contratista su aprobación unilateral.",
+        "B": "El informe identifica hallazgos; el numeral citado no lo convierte en sustituto del expediente técnico.",
+        "C": "Cuando las omisiones o errores se detectan a partir del procedimiento de revisión y afectan el Programa de Ejecución, las partes pueden acordar la suspensión hasta que la entidad efectúe las adecuaciones. No se trata de una suspensión automática.",
+        "D": "El pasaje exige la posibilidad de un acuerdo entre las partes; no establece suspensión automática al presentar el informe."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R05",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "91b420c5-1e86-4a26-a7ae-2f81197b09b3",
+      "revision": 1,
+      "prompt": "En una obra, al preparar una valorización el contratista consulta si puede solicitar en ella los reajustes que correspondan o si debe esperar a la liquidación. Según el artículo 209.4, ¿cuál es la respuesta?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Debe esperar a la liquidación, aunque ya existan reajustes que correspondan a la valorización."
+        },
+        {
+          "id": "B",
+          "text": "Puede solicitarlos en las valorizaciones o en la liquidación, conforme a las reglas aplicables al reajuste."
+        },
+        {
+          "id": "C",
+          "text": "Debe solicitarlos en cada valorización, pues omitirlos extingue la posibilidad de pedirlos en la liquidación."
+        },
+        {
+          "id": "D",
+          "text": "Puede elegir la oportunidad, pero ello lo exime de aplicar las fórmulas previstas para los reajustes."
+        }
+      ],
+      "explanation": "El artículo 209.4 permite solicitar la aplicación y pago de reajustes en las valorizaciones o en la liquidación. La elección de la oportunidad no elimina las reglas de cálculo previstas en el artículo 209.",
+      "regime": "32069",
+      "topic": "Valorización, recepción y liquidación",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "Es potestad del contratista solicitar la aplicación y pago de los reajustes en las valorizaciones o en la liquidación.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "209",
+          "chunkId": "9b488d02-5f67-49f1-9a79-98735c2b4d20",
+          "pageEnd": 118,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 118,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b7f678c6-df7f-43a4-ad06-2b672e81559f",
+      "correctOption": "B",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.11",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El numeral 209.4 reconoce ambas oportunidades; no obliga a esperar a la liquidación.",
+        "B": "El artículo 209.4 permite solicitar la aplicación y pago de reajustes en las valorizaciones o en la liquidación. La elección de la oportunidad no elimina las reglas de cálculo previstas en el artículo 209.",
+        "C": "El pasaje permite solicitar en la liquidación; no establece la pérdida de esa posibilidad por omitir una valorización.",
+        "D": "El numeral 209.4 regula la oportunidad de solicitud, no una exención de las reglas de cálculo del propio artículo."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R06",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "4f6bfda2-ad35-40b2-a75b-e42b9b748b9f",
+      "revision": 1,
+      "prompt": "En la amortización de un adelanto directo de obra mediante descuentos proporcionales en valorizaciones o pagos, se detecta que en una valorización se descontaron S/ 18 000 en lugar de los S/ 20 000 que correspondían. Según el artículo 180.4, ¿cómo se trata la diferencia de S/ 2 000?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Se mantiene sin ajuste, porque la aprobación de la valorización extingue esa diferencia."
+        },
+        {
+          "id": "B",
+          "text": "Se convierte en un reajuste de precios y se aplica mediante la fórmula polinómica de la obra."
+        },
+        {
+          "id": "C",
+          "text": "Se considera necesariamente una penalidad, independiente del saldo del adelanto pendiente."
+        },
+        {
+          "id": "D",
+          "text": "Se toma en cuenta en una valorización posterior y/o en la liquidación del contrato."
+        }
+      ],
+      "explanation": "La diferencia es S/ 2 000. El artículo 180.4 dispone tomar cualquier diferencia de amortización en una valorización posterior y/o en la liquidación; no la convierte en reajuste ni penalidad.",
+      "regime": "32069",
+      "topic": "Adelantos y amortización",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "Cualquier diferencia de monto que se produzca respecto de la amortización del adelanto en una valorización, se toma en cuenta en una valorización posterior y/o en la liquidación del contrato.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "180",
+          "chunkId": "cf28fb4f-590a-4703-b130-785bcc00809f",
+          "pageEnd": 98,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 97,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b7f678c6-df7f-43a4-ad06-2b672e81559f",
+      "correctOption": "D",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.9",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El numeral 180.4 dispone tener en cuenta la diferencia posteriormente; no extinguirla al aprobar la valorización.",
+        "B": "Una diferencia de amortización de adelanto no es el reajuste de precios regulado por las fórmulas del artículo 209.",
+        "C": "El numeral citado regula el ajuste de la amortización y no califica esa diferencia como penalidad.",
+        "D": "La diferencia es S/ 2 000. El artículo 180.4 dispone tomar cualquier diferencia de amortización en una valorización posterior y/o en la liquidación; no la convierte en reajuste ni penalidad."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R07",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "4080132f-ba85-466f-bdff-f5e87993f613",
+      "revision": 1,
+      "prompt": "Durante la selección para un contrato estandarizado de ingeniería y construcción de uso internacional, un proveedor identifica determinada información como confidencial. Según el artículo 218.3, ¿qué criterio debe seguir la entidad para tratarla?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aplicar la normativa de la materia para determinar el tratamiento que corresponde a esa información."
+        },
+        {
+          "id": "B",
+          "text": "Considerar que la sola declaración del proveedor impide toda divulgación, sin contrastarla con la normativa."
+        },
+        {
+          "id": "C",
+          "text": "Postergar su tratamiento hasta la ejecución contractual, porque la confidencialidad no opera en selección."
+        },
+        {
+          "id": "D",
+          "text": "Tratarla como información ordinaria, porque la identificación del proveedor solo produce efectos en actuaciones preparatorias."
+        }
+      ],
+      "explanation": "El artículo 218.3 permite identificar información como confidencial en las tres fases y exige a la entidad darle el tratamiento correspondiente conforme a la normativa de la materia. La sola cita no determina una reserva absoluta ni resuelve un caso concreto de acceso a información.",
+      "regime": "32069",
+      "topic": "Contratos estandarizados",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "En las tres fases del proceso de contratación, los proveedores identifican como confidencial la información que consideren. La entidad contratante da el tratamiento correspondiente a dicha información de acuerdo con la normativa de la materia.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "218",
+          "chunkId": "034dd02b-abb8-49f9-8233-a6a7aaf1879c",
+          "pageEnd": 125,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 124,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:52b5f134-72ee-410e-b815-3b6f06d0573d",
+      "correctOption": "A",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.12",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "El artículo 218.3 permite identificar información como confidencial en las tres fases y exige a la entidad darle el tratamiento correspondiente conforme a la normativa de la materia. La sola cita no determina una reserva absoluta ni resuelve un caso concreto de acceso a información.",
+        "B": "El artículo remite a la normativa aplicable; la declaración del proveedor no reemplaza esa evaluación.",
+        "C": "El numeral 218.3 comprende las tres fases y no posterga su aplicación hasta la ejecución.",
+        "D": "La norma incluye la fase de selección; no limita sus efectos a las actuaciones preparatorias."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  },
+  {
+    "numero": "R08",
+    "estadoAnterior": "published",
+    "input": {
+      "id": "01f663d5-0eeb-48c8-a2cd-3ae2163f0ff5",
+      "revision": 2,
+      "prompt": "Durante la ejecución de un contrato estandarizado de ingeniería y construcción de uso internacional surge una controversia de interpretación. Se propone un mecanismo previsto en ese contrato distinto de la JPRD, conciliación y arbitraje. Según el artículo 76.1 de la Ley 32069, ¿qué criterio corresponde aplicar?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Descartarlo por no estar incluido en los tres mecanismos expresamente nombrados en los literales a), b) y c)."
+        },
+        {
+          "id": "B",
+          "text": "Aceptarlo por estar en el contrato, sin contrastarlo con las disposiciones de la Ley y su Reglamento."
+        },
+        {
+          "id": "C",
+          "text": "Considerarlo admisible como otro mecanismo previsto en ese contrato, de acuerdo con la Ley y su Reglamento."
+        },
+        {
+          "id": "D",
+          "text": "Remitir necesariamente la controversia al Poder Judicial por tratarse de interpretación contractual."
+        }
+      ],
+      "explanation": "El literal d) del artículo 76.1 admite otros mecanismos previstos en contratos estandarizados de ingeniería y construcción de uso internacional, de acuerdo con la Ley y su Reglamento. Su inclusión contractual no permite prescindir de esas disposiciones.",
+      "regime": "32069",
+      "topic": "Contratos estandarizados",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "sources": [
+        {
+          "quote": "Las controversias surgidas durante la ejecución contractual se resuelven mediante: a) La junta de prevención y resolución de disputas. b) Conciliación. c) Arbitraje. d) Otros que se prevean en los contratos estandarizados de ingeniería y construcción de uso internacional, de acuerdo con las disposiciones de la presente ley y su reglamento.",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7",
+          "article": "76",
+          "chunkId": "ce61a772-1181-4ad7-baf2-749cb77f5b74",
+          "pageEnd": 37,
+          "version": "Texto actualizado al 19.07.2026",
+          "pageStart": 37,
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df"
+        }
+      ],
+      "origin": "IA:gemini:gemini-2.5-flash:lote:52b5f134-72ee-410e-b815-3b6f06d0573d",
+      "correctOption": "C",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.12",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Omite el literal d), que contempla otros mecanismos para estos contratos.",
+        "B": "El literal d) exige concordancia con la Ley y el Reglamento; la previsión contractual no basta para apartarse de ellos.",
+        "C": "El literal d) del artículo 76.1 admite otros mecanismos previstos en contratos estandarizados de ingeniería y construcción de uso internacional, de acuerdo con la Ley y su Reglamento. Su inclusión contractual no permite prescindir de esas disposiciones.",
+        "D": "La interpretación contractual no convierte por sí sola al Poder Judicial en vía necesaria según el numeral citado."
+      },
+      "reviewChecks": {
+        "sources": false,
+        "conditions": false,
+        "exceptions": false,
+        "distractors": false,
+        "unambiguous": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Mejora editorial asistida autorizada el 14/11/2026. Enunciado, alternativas y clave contrastados con el corpus citado. Pendiente aprobación editorial; se conserva el corte declarado sin certificar vigencia posterior."
+    }
+  }
+]

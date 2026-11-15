@@ -1,0 +1,79 @@
+{
+  "numero": "Q073",
+  "id": "83158864-0829-4535-a7ee-2da4ee3aed17",
+  "decision": "approve",
+  "motivo": "Reescrita una pregunta complementaria para evaluar inclusión de un ítem desierto en PAC, con necesidad y presupuesto explícitos, conforme al7.1.c modificado. Fuente oficial incorporada con autorización expresa y verificada mediante el importador normal.",
+  "evidencia": [
+    {
+      "chunkId": "c56b45bb-2f8d-43f5-9407-5af2b95fd63a",
+      "chunk_index": 7,
+      "article": "7",
+      "quote": "Artículo 7.- Del contenido del PAC a aprobar 7.1. En el PAC se incluyen todas las contrataciones que realiza la entidad contratante bajo el ámbito de aplicación de la Ley y el Reglamento, con excepción de los contratos menores, según el siguiente detalle: (...) c) Los procedimientos de selección convocados bajo la Ley, que fueron declarados desiertos o nulos y siempre que persista la necesidad y se cuente con el presupuesto respectivo. En los casos de procedimientos de selección según relación de ítems o paquetes, la inclusión en el PAC solo aplicará para los ítems o paquetes declarados desiertos o nulos, según corresponda. (...) 7.2. Adicionalmente, incluye las contrataciones previstas en los literales f), j), k), I), n), o) y q) del numeral 7.1 del artículo 7 de la Ley. En el caso de las contrataciones previstas en el literal q), éstas se incluyen en el PAC, de corresponder. (....)”. “"
+    }
+  ],
+  "input": {
+    "id": "83158864-0829-4535-a7ee-2da4ee3aed17",
+    "revision": 1,
+    "prompt": "En un procedimiento por relación de ítems convocado bajo la Ley 32069, solo el ítem 2 fue declarado desierto. Su necesidad persiste y cuenta con presupuesto. Según el numeral 7.1.c de la Directiva 0002-2025-EF/54.01, modificado por el artículo 2 de la RD0041-2025-EF/54.01, ¿qué corresponde incluir en el PAC?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Todos los ítems del procedimiento, incluidos los ya adjudicados."
+      },
+      {
+        "id": "B",
+        "text": "Solo el ítem declarado desierto, al persistir su necesidad y contar con presupuesto."
+      },
+      {
+        "id": "C",
+        "text": "Ningún ítem, porque la declaración de desierto impide incluirlo en el PAC."
+      },
+      {
+        "id": "D",
+        "text": "Todos los contratos de la entidad, incluidos los menores, por el solo hecho del desierto."
+      }
+    ],
+    "correctOption": "B",
+    "explanation": "El numeral 7.1.c modificado incluye procedimientos declarados desiertos o nulos cuando persiste la necesidad y existe presupuesto. En relación de ítems o paquetes, la inclusión se limita a los declarados desiertos o nulos; no se extiende a los ya adjudicados. El encabezado 7.1 exceptúa los contratos menores.",
+    "regime": "32069",
+    "topic": "Plan Anual y necesidades",
+    "competency": "Actuaciones preparatorias",
+    "difficulty": "intermediate",
+    "curriculumVersion": "oece-2025-04-25",
+    "competencyCode": "1",
+    "subcompetencyCode": "1.6",
+    "cognitiveLevel": "apply",
+    "optionRationales": {
+      "A": "El numeral 7.1.c limita la inclusión a los ítems o paquetes declarados desiertos o nulos, sin extenderla a los adjudicados.",
+      "B": "El caso cumple persistencia de necesidad y presupuesto; solo corresponde incluir el ítem declarado desierto.",
+      "C": "La declaración de desierto es un supuesto expreso de inclusión cuando se cumplen necesidad y presupuesto.",
+      "D": "El encabezado 7.1 excluye contratos menores; el desierto de un ítem no incorpora todos los contratos de la entidad."
+    },
+    "reviewChecks": {
+      "unambiguous": true,
+      "distractors": true,
+      "conditions": true,
+      "exceptions": true,
+      "sources": true
+    },
+    "sourceCutoff": "2026-10-29",
+    "origin": "IA:gemini:gemini-2.5-flash:lote:3d3be616-8201-4a98-8709-9fa6e15e7d85",
+    "sources": [
+      {
+        "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+        "chunkId": "c56b45bb-2f8d-43f5-9407-5af2b95fd63a",
+        "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+        "article": "7",
+        "pageStart": 2,
+        "pageEnd": 2,
+        "quote": "Artículo 7.- Del contenido del PAC a aprobar 7.1. En el PAC se incluyen todas las contrataciones que realiza la entidad contratante bajo el ámbito de aplicación de la Ley y el Reglamento, con excepción de los contratos menores, según el siguiente detalle: (...) c) Los procedimientos de selección convocados bajo la Ley, que fueron declarados desiertos o nulos y siempre que persista la necesidad y se cuente con el presupuesto respectivo. En los casos de procedimientos de selección según relación de ítems o paquetes, la inclusión en el PAC solo aplicará para los ítems o paquetes declarados desiertos o nulos, según corresponda. (...) 7.2. Adicionalmente, incluye las contrataciones previstas en los literales f), j), k), I), n), o) y q) del numeral 7.1 del artículo 7 de la Ley. En el caso de las contrataciones previstas en el literal q), éstas se incluyen en el PAC, de corresponder. (....)”. “",
+        "version": "Texto publicado el 25.12.2025",
+        "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914"
+      }
+    ],
+    "status": "published",
+    "confirmReview": true,
+    "reviewBasis": "Reescritura y revisión asistida por IA el 15/11/2026, por encargo y autorización expresa del administrador para incorporar la norma PAC y completar el simulacro. Caso de inclusión por ítem desierto, con necesidad y presupuesto. Fuente: numeral 7.1.c de la Directiva 0002-2025-EF/54.01 reproducido en su modificatoria RD0041-2025-EF/54.01, PDF oficial página 2, chunk 7. La fe de erratas 07.01.2026 corrige la sumilla, no el pasaje. No constituye aprobación oficial del OECE ni revisión humana independiente."
+  },
+  "estadoAnterior": "draft"
+}

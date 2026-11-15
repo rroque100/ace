@@ -1,0 +1,161 @@
+{
+  "documento": {
+    "id": "e638f467-b991-445b-8f26-eb198ee1cc64",
+    "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+    "status": "indexed",
+    "es_institucional": true,
+    "metadata": {
+      "ai": {
+        "suggestedDocumentType": "resolucion",
+        "suggestedSourceEntity": "Ministerio de Economía y Finanzas (MEF)",
+        "classificationConfidence": "alta"
+      },
+      "year": 2025,
+      "topic": "Contrataciones Públicas - Plan Anual de Contrataciones (PAC)",
+      "amends": "Modifica los artículos 6, 7, 8, 9, 10, 11 y 13 e incorpora el artículo 15 a la Directiva N° 0002-2025-EF/54.01, “Directiva que establece disposiciones para la elaboración del Plan Anual de Contrataciones”, aprobada mediante Resolución Directoral N° 0010-2025-EF/54.01.",
+      "number": "0041-2025-EF/54.01",
+      "regime": "32069",
+      "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914",
+      "status": "revision_pendiente",
+      "summary": "Esta Resolución Directoral modifica e incorpora artículos a la Directiva N° 0002-2025-EF/54.01, que establece disposiciones para la elaboración del Plan Anual de Contrataciones (PAC). Los cambios buscan actualizar los indicadores de evaluación del PAC, definir la rectificación del mismo y aclarar aspectos relacionados con su contenido, insumos y oportunidad de evaluación. Se enfatiza que la necesidad de contratación debe estar prevista en el Cuadro Multianual de Necesidades (CMN), aunque no sea requisito que el procedimiento de selección esté programado en el PAC para su convocatoria. Además, se establece que las contrataciones no programadas se agregan automáticamente al PAC sin constituir una modificación.",
+      "pinecone": {
+        "batches": 1,
+        "upserted": 14,
+        "namespace": "legal-documents-gemini",
+        "recordCount": 14,
+        "verification": {
+          "attempts": 1,
+          "hitCount": 10,
+          "verified": true
+        }
+      },
+      "vigencia": "desconocida",
+      "pageCount": 3,
+      "sourceUrl": "https://busquedas.elperuano.pe/api/archivo/file/0Dt5Ms5tawW8JG5rhC4YOI/*/2471743-1.PDF",
+      "chunkCount": 14,
+      "importedAt": "2026-11-15T11:49:35.778Z",
+      "ocrPartial": false,
+      "sourceRole": "interpretativo",
+      "textLength": 20441,
+      "contentHash": "58bd35d5b7bb8d2d18cce7fd5c3abef0b526833c70c4f2c0fbdc75c8e8a5a07b",
+      "importBatch": "banco-oece-pac-2026-11-15",
+      "ocrMaxPages": 25,
+      "processType": null,
+      "articleCount": 11,
+      "uploadSource": "official-import",
+      "hierarchyRank": 1,
+      "selectionNote": "Incorporación autorizada expresamente por administrador para completar subcompetencia1.6. Fe de erratas07.01.2026corrige sumilla; no modifica el numeral utilizado.",
+      "detectedIssuer": "Peruano / de Asistencia Solidaria “Pensión 65” con la finalidad de otorgar la subvención económica a los adultos en condició",
+      "documentNumber": "0041-2025-EF/54.01",
+      "processAliases": [],
+      "processAnchors": [],
+      "officialVersion": "Texto publicado el 25.12.2025",
+      "practicalImpact": "Para los usuarios de la biblioteca de contrataciones públicas, este documento es crucial porque actualiza las reglas para la elaboración, aprobación, registro, publicación y evaluación del Plan Anual de Contrataciones. Permite entender los nuevos indicadores de desempeño, la flexibilidad para convocar procedimientos no programados en el PAC (siempre que estén en el CMN) y la posibilidad de rectificar errores materiales. Facilita la correcta gestión de los procesos de contratación pública al proporcionar mayor claridad y adaptabilidad en la planificación.",
+      "relatedArticles": [
+        "Artículo 6 (numerales 6.1 y 6.3)",
+        "Artículo 7 (numerales 7.1 y 7.2)",
+        "Artículo 8 (numeral 8.1)",
+        "Artículo 9 (numeral 9.1)",
+        "Artículo 10 (numeral 10.2)",
+        "Artículo 11",
+        "Artículo 13 (numeral 13.3)",
+        "Artículo 15 (incorporado)"
+      ],
+      "detectedArticles": [
+        "8",
+        "9",
+        "72",
+        "78",
+        "1",
+        "2",
+        "3",
+        "6",
+        "171",
+        "178",
+        "7",
+        "10",
+        "11",
+        "13",
+        "15",
+        "4"
+      ],
+      "detectedNumerals": [
+        "72.2",
+        "78.1",
+        "78.2",
+        "54.01",
+        "1.2",
+        "6.1",
+        "6.3",
+        "7.1",
+        "7.2",
+        "8.1",
+        "9.1",
+        "10.2",
+        "13.3",
+        "5.5",
+        "5.6",
+        "5.7"
+      ],
+      "extractionMethod": "pdf-text",
+      "detectedRelations": [
+        {
+          "text": "de acuerdo con las disposiciones que emita la Dirección General de Abastecimiento mediante resolución directoral; Que, adicionalmente, la Tercera Disposición Complementaria Final del Reglamento, establece que las entidades contratante",
+          "relationType": "remite"
+        },
+        {
+          "text": "de acuerdo con lo dispuesto en el artículo 171 del Texto Integrado Actualizado del Reglamento de Organización y Funciones del Ministerio de Economía y",
+          "relationType": "remite"
+        },
+        {
+          "text": "de acuerdo con lo previsto en la Directiva N° 0007-2025-EF/54",
+          "relationType": "remite"
+        }
+      ],
+      "legalReviewStatus": "pendiente",
+      "indexedTextComplete": true,
+      "chunkInsertBatchSize": 100,
+      "detectedDispositions": [
+        "Disposición Complementaria Transitoria del Reglamento de la Ley N° 32069, Ley General de Contrataciones Públicas, aprobado por Decreto Supremo Nº 009-2025-EF (en adelante, Reglamento), señala que en",
+        "Disposición Complementaria Final del Reglamento, establece que las entidades contratantes que no se encuentren bajo el ámbito de aplicación de la Directiva para la Programación Multianual de Bi",
+        "Anexo Nº 1) 1",
+        "Anexo Nº 2) 2",
+        "Anexo Nº 3) 3"
+      ],
+      "maxChunksPerDocument": "unlimited",
+      "embeddingTextStrategy": "legal-context-header-plus-page-chunk",
+      "officialPublicationUrl": "https://www.gob.pe/institucion/mef/normas-legales/7562884-0041-2025-ef-54-01",
+      "detectedValiditySignals": [
+        "vigente sobre la materia; Que, estando a las competencias de la Dirección Ejecutiva y con el visado del Jefe de la Unidad de Asesoría Jurídica del Programa Nacional de Asistencia Solidari",
+        "modificado por las Resoluciones Ministeriales N° 062-2015-MINEDU y N° 601-2015-MINEDU; Que, con la Resolución Viceministerial N° 326-2019-MINEDU, se aprueba la Norma Técnica denominada “Disp",
+        "modificada mediante las Resoluciones Viceministeriales N° 161-2020-MINEDU, N° 165-2021-MINEDU y N° 340-2021-MINEDU; Que, a través de la Resolución Viceministerial N° 079-2023-MINEDU, se apru"
+      ],
+      "indexingPipelineVersion": "legal-page-aware-v2",
+      "structuredExtractionVersion": "legal-structure-v1"
+    }
+  },
+  "fragmento": {
+    "id": "c56b45bb-2f8d-43f5-9407-5af2b95fd63a",
+    "document_id": "e638f467-b991-445b-8f26-eb198ee1cc64",
+    "chunk_index": 7,
+    "content": "Artículo 7.- Del contenido del PAC a aprobar 7.1. En el PAC se incluyen todas las contrataciones que realiza la entidad contratante bajo el ámbito de aplicación de la Ley y el Reglamento, con excepción de los contratos menores, según el siguiente detalle: (...) c) Los procedimientos de selección convocados bajo la Ley, que fueron declarados desiertos o nulos y siempre que persista la necesidad y se cuente con el presupuesto respectivo. En los casos de procedimientos de selección según relación de ítems o paquetes, la inclusión en el PAC solo aplicará para los ítems o paquetes declarados desiertos o nulos, según corresponda. (...) 7.2. Adicionalmente, incluye las contrataciones previstas en los literales f), j), k), I), n), o) y q) del numeral 7.1 del artículo 7 de la Ley. En el caso de las contrataciones previstas en el literal q), éstas se incluyen en el PAC, de corresponder. (....)”. “",
+    "page_start": 2,
+    "page_end": 2,
+    "metadata": {
+      "article": "7",
+      "pageEnd": 2,
+      "pageCount": 3,
+      "pageStart": 2,
+      "ocrPartial": false,
+      "sourceRole": "interpretativo",
+      "processType": null,
+      "documentType": "resolucion",
+      "sectionTitle": null,
+      "hierarchyRank": 1,
+      "documentNumber": "0041-2025-EF/54.01",
+      "processAliases": [],
+      "processAnchors": [],
+      "extractionMethod": "pdf-text"
+    }
+  }
+}
