@@ -84,7 +84,7 @@ export function examError(error: unknown) {
     };
   if (e.code === "P0002")
     return { status: 404, message: "No se encontró este intento." };
-  if (e.code === "40001")
+  if (e.code === "40001" || e.code === "55000")
     return {
       status: 409,
       message:

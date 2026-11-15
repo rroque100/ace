@@ -13,9 +13,16 @@ export const examStartSchema = z
     regime: z.enum(["32069", "30225"]),
     topic: z.string().trim().max(160).default(""),
     competency: z.enum(["", "1", "2", "3"]).default(""),
+    difficulty: z.enum(["", "basic", "intermediate", "advanced"]).default(""),
     preview: z.boolean().default(false),
   })
   .superRefine((v, c) => {
+    if (v.profile !== "custom" && v.difficulty !== "")
+      c.addIssue({
+        code: "custom",
+        path: ["difficulty"],
+        message: "La dificultad se elige en prácticas y simulacros personalizados.",
+      });
     if (
       (v.profile === "oece" || v.profile === "balotario") &&
       (v.mode !== "exam" ||
@@ -204,6 +211,7 @@ export type RawExam = {
     regime: string;
     question_count: number;
     profile?: string;
+    difficulty_filter?: string;
     review_context?: { updated: number; unavailable: number } | null;
     state: string;
     revision: number;

@@ -71,7 +71,7 @@ it("el actor se toma de la sesión y no del cuerpo", async () => {
     ).status,
   ).toBe(200);
   expect(m.rpc).toHaveBeenCalledWith(
-    "ace_exam_start_prepared",
+    "ace_exam_start_filtered",
     expect.objectContaining({ p_actor: id }),
   );
 });
@@ -83,8 +83,26 @@ it("el intento requiere UUID y sesión propia para la consulta", async () => {
   ).toBe(400);
   expect(m.get).not.toHaveBeenCalled();
 });
+it("envía juntos todos los filtros del examen personalizado", async () => {
+  m.auth.mockResolvedValue({ user: { id, isAdmin: false } });
+  m.rpc.mockResolvedValue(id);
+  expect((await POST(request({ mode: "practice", count: 4, regime: "32069", competency: "1", topic: "Planificación", difficulty: "basic" }))).status).toBe(200);
+  expect(m.rpc).toHaveBeenCalledWith("ace_exam_start_filtered", expect.objectContaining({ p_actor: id, p_difficulty: "basic", p_competency: "1", p_topic: "Planificación", p_count: 4, p_preview: false }));
+});
+it("no aplica un nivel personalizado al perfil OECE", async () => {
+  m.auth.mockResolvedValue({ user: { id, isAdmin: false } });
+  expect((await POST(request({ mode: "exam", profile: "oece", count: 72, minutes: 120, regime: "32069", difficulty: "basic" }))).status).toBe(400);
+  expect(m.rpc).not.toHaveBeenCalled();
+});
+it("conserva el generador OECE sin filtros personalizados", async () => {
+  m.auth.mockResolvedValue({ user: { id, isAdmin: false } });
+  m.rpc.mockResolvedValue(id);
+  expect((await POST(request({ mode: "exam", profile: "oece", count: 72, minutes: 120, regime: "32069" }))).status).toBe(200);
+  expect(m.rpc).toHaveBeenCalledWith("ace_exam_start_prepared", expect.objectContaining({ p_profile: "oece" }));
+});
 it("el catálogo personal no se almacena en caché", async () => {
   m.auth.mockResolvedValue({ user: { id, isAdmin: false } });
   m.rpc.mockResolvedValue({ available: [], history: [] });
   expect((await GET()).headers.get("cache-control")).toBe("no-store");
+  expect(m.rpc).toHaveBeenCalledWith("ace_exam_availability_by_difficulty", { p_admin: false });
 });

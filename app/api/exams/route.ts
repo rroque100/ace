@@ -15,7 +15,7 @@ export async function GET() {
           p_admin: a.user.isAdmin,
         })),
         isAdmin: a.user.isAdmin,
-        available: await examRpc("ace_exam_availability", {
+        available: await examRpc("ace_exam_availability_by_difficulty", {
           p_admin: a.user.isAdmin,
         }),
       },
@@ -37,10 +37,11 @@ export async function POST(request: Request) {
         { status: 403 },
       );
     const id =
-      p.profile === "custom" && p.competency
-        ? await examRpc("ace_exam_start_competency", {
+      p.profile === "custom"
+        ? await examRpc("ace_exam_start_filtered", {
             p_actor: a.user.id,
-            p_code: p.competency,
+            p_competency: p.competency,
+            p_difficulty: p.difficulty,
             p_mode: p.mode,
             p_count: p.count,
             p_minutes: p.minutes,

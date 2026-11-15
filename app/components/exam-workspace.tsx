@@ -13,6 +13,13 @@ import {
   recoverPendingAnswer,
 } from "@/lib/exam-learning-policy";
 import { COMPETENCIES } from "@/lib/exam-curriculum";
+import {
+  EXAM_DIFFICULTIES,
+  availableExamQuestions,
+  examDifficultyLabel,
+  type ExamAvailability,
+  type ExamDifficulty,
+} from "@/lib/exam-difficulty";
 import { ExamPreparationPanel } from "./exam-preparation";
 import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
@@ -21,13 +28,7 @@ import { S } from "./exam-workspace-estilos";
 import { cn } from "@/lib/utils";
 import { C } from "@/app/components/estilos-comunes";
 type Dashboard = {
-  available: Array<{
-    regime: string;
-    topic: string;
-    published: number;
-    drafts: number;
-    competency?: string;
-  }>;
+  available: ExamAvailability[];
   active: { id: string; mode: string; preview: boolean; count: number } | null;
   history: Array<{
     id: string;
@@ -68,6 +69,7 @@ export function ExamWorkspace({
     [regime, setRegime] = useState("32069"),
     [topic, setTopic] = useState(""),
     [competency, setCompetency] = useState(""),
+    [difficulty, setDifficulty] = useState<ExamDifficulty>(""),
     [setAttempts, setSetAttempts] = useState<SetAttempt[]>([]),
     [positionNotice, setPositionNotice] = useState(""),
     [online, setOnline] = useState(true),
@@ -250,18 +252,15 @@ export function ExamWorkspace({
   useEffect(() => {
     if (confirmation) dialog.current?.showModal();
   }, [confirmation]);
-  const available =
-    dash?.available
-      .filter(
-        (x) =>
-          x.regime === regime &&
-          (!competency || x.competency === competency) &&
-          (!topic || x.topic === topic),
-      )
-      .reduce(
-        (n, x) => n + Number(x.published) + (preview ? Number(x.drafts) : 0),
-        0,
-      ) ?? 0;
+  const selection = { regime, competency, topic, difficulty, preview };
+  const available = availableExamQuestions(dash?.available ?? [], selection);
+  const difficultyOptions = EXAM_DIFFICULTIES.map((item) => ({
+    ...item,
+    count: availableExamQuestions(dash?.available ?? [], { ...selection, difficulty: item.value }),
+  }));
+  const topics = [...new Set((dash?.available ?? [])
+    .filter((group) => group.regime === regime && (!competency || group.competency === competency))
+    .map((group) => group.topic))].sort((a, b) => a.localeCompare(b, "es"));
   async function start(
     profile: "custom" | "oece" | "review" | "balotario" = "custom",
     balotarioId?: string,
@@ -303,6 +302,7 @@ export function ExamWorkspace({
                   topic,
                   preview,
                   competency,
+                  difficulty,
                 },
         ),
       });
@@ -550,6 +550,7 @@ export function ExamWorkspace({
                   ? "Práctica con explicación"
                   : "Simulacro con tiempo"}{" "}
               · Ley {a.regime}
+              {a.difficulty_filter && ` · ${examDifficultyLabel(a.difficulty_filter)}`}
             </p>
           </div>
           {a.profile === "review" && a.review_context && (
@@ -966,7 +967,7 @@ export function ExamWorkspace({
                   Prepara tu práctica
                 </h2>
                 <p className="mt-2 text-sm text-muted">
-                  Elige una modalidad, competencia y tema. Las sesiones cortas
+                  Elige una modalidad, competencia, tema y dificultad. Las sesiones cortas
                   comienzan con 10 preguntas; ajusta la cantidad a las
                   disponibles.
                 </p>
@@ -1047,20 +1048,37 @@ export function ExamWorkspace({
                       onChange={(e) => setTopic(e.target.value)}
                     >
                       <option value="">Todos los temas disponibles</option>
-                      {dash.available
-                        .filter(
-                          (x) =>
-                            x.regime === regime &&
-                            (!competency || x.competency === competency),
-                        )
-                        .map((x) => (
-                          <option key={x.topic} value={x.topic}>
-                            {x.topic}
+                      {topics.map((name) => (
+                          <option key={name} value={name}>
+                            {name}
                           </option>
                         ))}
                     </select>
                   </label>
                   <label className="text-sm font-medium">
+                    Dificultad
+                    <select
+                      className={field}
+                      value={difficulty}
+                      aria-describedby="difficulty-help"
+                      onChange={(event) => {
+                        const next = event.target.value as ExamDifficulty;
+                        const total = availableExamQuestions(dash.available, { ...selection, difficulty: next });
+                        setDifficulty(next);
+                        if (total > 0) setCount((current) => Math.min(current, total, 72));
+                      }}
+                    >
+                      {difficultyOptions.map((item) => (
+                        <option key={item.value} value={item.value} disabled={item.value !== "" && item.count === 0}>
+                          {item.label} ({item.count})
+                        </option>
+                      ))}
+                    </select>
+                    <span id="difficulty-help" className="mt-1 block text-xs font-normal text-muted">
+                      Nivel orientativo según la revisión del banco.
+                    </span>
+                  </label>
+                  <label className={cn("text-sm font-medium", mode === "practice" && "sm:col-span-2")}>
                     Número de preguntas
                     <input
                       className={field}
@@ -1108,10 +1126,12 @@ export function ExamWorkspace({
                 </p>
                 {!available && (
                   <p className="mt-3 rounded-xl bg-surface p-3 text-sm">
-                    El banco de esta selección está en preparación.
-                    {isAdmin
+                    {difficulty
+                      ? "No hay preguntas de esta dificultad con los filtros elegidos. Prueba otro nivel o amplía la selección."
+                      : "El banco de esta selección está en preparación."}
+                    {!difficulty && (isAdmin
                       ? " Revisa los borradores y publica las preguntas antes de ofrecerlas a los usuarios."
-                      : " Puedes volver cuando se publiquen preguntas revisadas."}
+                      : " Puedes volver cuando se publiquen preguntas revisadas.")}
                   </p>
                 )}
                 <button
@@ -1135,7 +1155,7 @@ export function ExamWorkspace({
                 </button>
                 {count > available && available > 0 && (
                   <p className="mt-2 text-xs text-warning">
-                    Elige hasta {available} preguntas o amplía el tema.
+                    Elige hasta {available} preguntas o amplía los filtros.
                   </p>
                 )}
               </div>
