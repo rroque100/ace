@@ -1,0 +1,302 @@
+[
+  {
+    "code": "1.1",
+    "label": "Expediente de contratación",
+    "quota": 6,
+    "drafts": 0,
+    "target": 30,
+    "version": "oece-2025-04-25",
+    "published": 7,
+    "competency": "1"
+  },
+  {
+    "code": "1.2",
+    "label": "Requerimiento, estrategia y mercado",
+    "quota": 13,
+    "drafts": 0,
+    "target": 65,
+    "version": "oece-2025-04-25",
+    "published": 41,
+    "competency": "1"
+  },
+  {
+    "code": "1.3",
+    "label": "Tipos y perfiles de evaluadores",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 9,
+    "competency": "1"
+  },
+  {
+    "code": "1.4",
+    "label": "Documentos estandarizados",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 4,
+    "competency": "1"
+  },
+  {
+    "code": "1.5",
+    "label": "Modificación del Plan Anual",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 3,
+    "competency": "1"
+  },
+  {
+    "code": "1.6",
+    "label": "Plan Anual y necesidades",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 3,
+    "competency": "1"
+  },
+  {
+    "code": "1.7",
+    "label": "Actores de la contratación",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "1"
+  },
+  {
+    "code": "1.8",
+    "label": "PLADICOP en actuaciones preparatorias",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 3,
+    "competency": "1"
+  },
+  {
+    "code": "2.1",
+    "label": "Procedimientos y modalidades",
+    "quota": 5,
+    "drafts": 0,
+    "target": 25,
+    "version": "oece-2025-04-25",
+    "published": 9,
+    "competency": "2"
+  },
+  {
+    "code": "2.10",
+    "label": "Requisitos y plazos de perfeccionamiento",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "2"
+  },
+  {
+    "code": "2.2",
+    "label": "Etapas, plazos y condiciones",
+    "quota": 8,
+    "drafts": 0,
+    "target": 40,
+    "version": "oece-2025-04-25",
+    "published": 24,
+    "competency": "2"
+  },
+  {
+    "code": "2.3",
+    "label": "Evaluación, principios y criterios",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 2,
+    "competency": "2"
+  },
+  {
+    "code": "2.4",
+    "label": "Consentimiento y firmeza de la buena pro",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 2,
+    "competency": "2"
+  },
+  {
+    "code": "2.5",
+    "label": "Pérdida de la buena pro",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 2,
+    "competency": "2"
+  },
+  {
+    "code": "2.6",
+    "label": "PLADICOP en selección",
+    "quota": 2,
+    "drafts": 0,
+    "target": 10,
+    "version": "oece-2025-04-25",
+    "published": 4,
+    "competency": "2"
+  },
+  {
+    "code": "2.7",
+    "label": "Interposición de apelaciones",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "2"
+  },
+  {
+    "code": "2.8",
+    "label": "Resolución de apelaciones",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 9,
+    "competency": "2"
+  },
+  {
+    "code": "2.9",
+    "label": "Condiciones para perfeccionar el contrato",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "2"
+  },
+  {
+    "code": "3.1",
+    "label": "Contenido y vigencia del contrato",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "3"
+  },
+  {
+    "code": "3.10",
+    "label": "Modificaciones de obras",
+    "quota": 5,
+    "drafts": 0,
+    "target": 25,
+    "version": "oece-2025-04-25",
+    "published": 14,
+    "competency": "3"
+  },
+  {
+    "code": "3.11",
+    "label": "Valorización, recepción y liquidación",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 4,
+    "competency": "3"
+  },
+  {
+    "code": "3.12",
+    "label": "Contratos estandarizados",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 5,
+    "competency": "3"
+  },
+  {
+    "code": "3.2",
+    "label": "Modificaciones contractuales",
+    "quota": 6,
+    "drafts": 0,
+    "target": 30,
+    "version": "oece-2025-04-25",
+    "published": 19,
+    "competency": "3"
+  },
+  {
+    "code": "3.3",
+    "label": "Penalidades, garantías, resolución y nulidad",
+    "quota": 3,
+    "drafts": 0,
+    "target": 15,
+    "version": "oece-2025-04-25",
+    "published": 12,
+    "competency": "3"
+  },
+  {
+    "code": "3.4",
+    "label": "Entrega, conformidad y observaciones",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 7,
+    "competency": "3"
+  },
+  {
+    "code": "3.5",
+    "label": "Controversias y solución de conflictos",
+    "quota": 3,
+    "drafts": 0,
+    "target": 15,
+    "version": "oece-2025-04-25",
+    "published": 17,
+    "competency": "3"
+  },
+  {
+    "code": "3.6",
+    "label": "Requisitos de ejecución de obras",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 2,
+    "competency": "3"
+  },
+  {
+    "code": "3.7",
+    "label": "Expediente técnico de obra",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 4,
+    "competency": "3"
+  },
+  {
+    "code": "3.8",
+    "label": "Residente, supervisor y responsables",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 4,
+    "competency": "3"
+  },
+  {
+    "code": "3.9",
+    "label": "Adelantos y amortización",
+    "quota": 1,
+    "drafts": 0,
+    "target": 5,
+    "version": "oece-2025-04-25",
+    "published": 7,
+    "competency": "3"
+  }
+]
