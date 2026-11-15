@@ -1,0 +1,31 @@
+{
+  "id": "661cfc23-506f-5543-a9c1-1ceba3965934",
+  "document_id": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+  "page_start": 93,
+  "page_end": 97,
+  "content": "178.2. En consultoría de obras solo proceden los adelantos directos. No procede la constitución de fideicomisos por adelantos en consultorías de obra.",
+  "metadata": {
+    "article": "178",
+    "pageEnd": 97,
+    "pageCount": 249,
+    "pageStart": 93,
+    "ocrPartial": false,
+    "sourceRole": "normativo",
+    "processType": "todos",
+    "documentType": "reglamento",
+    "sectionTitle": null,
+    "hierarchyRank": 3,
+    "documentNumber": "009-2025-EF",
+    "processAliases": [
+      "todos los procesos",
+      "aplicacion general"
+    ],
+    "processAnchors": [
+      "norma general aplicable a todos los procesos de contratacion publica"
+    ],
+    "extractionMethod": "pdf-text",
+    "derivedFromChunkId": "3623f7e9-0844-427e-b5e9-7b7bb51d9bf4",
+    "editorialSourceOnly": true,
+    "provenance": "Extracto literal 178.2 para corregir Q220; no sustituye fragmentos existentes."
+  }
+}

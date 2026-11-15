@@ -1,0 +1,2530 @@
+[
+  {
+    "numero": "Q023",
+    "input": {
+      "id": "b1fe719e-f34d-4c60-91ca-f6d235036f1c",
+      "revision": 0,
+      "prompt": "Una contratación no programada tiene su necesidad incluida en el CMN respectivo y la DEC recibe el requerimiento del área usuaria. Según el numeral 42.3 modificado, ¿cuándo efectúa la segmentación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Luego de recibir el requerimiento."
+        },
+        {
+          "id": "B",
+          "text": "Después de otorgar la buena pro."
+        },
+        {
+          "id": "C",
+          "text": "Al finalizar la ejecución contractual."
+        },
+        {
+          "id": "D",
+          "text": "Solo al aprobar una nueva modificación del CMN."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Con la necesidad incluida en el CMN respectivo, la DEC efectúa la segmentación luego de recibir el requerimiento. No basta una mera solicitud de modificación del CMN ni se espera a la selección.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Con la necesidad incluida en el CMN respectivo, la DEC efectúa la segmentación luego de recibir el requerimiento. No basta una mera solicitud de modificación del CMN ni se espera a la selección.",
+        "B": "No corresponde: la buena pro es posterior al hito consultado.",
+        "C": "No corresponde: la ejecución contractual no es el hito de segmentación.",
+        "D": "No corresponde: no se exige otra modificación si la necesidad ya está incluida."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:d0d33e34-988f-4c22-bf94-617ea347a237",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "2af95311-29f7-4432-9c43-9abfad7ba2c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "42",
+          "pageStart": 22,
+          "pageEnd": 23,
+          "quote": "42.3. En el caso de contrataciones no programadas y, siempre que la necesidad esté incluida en el CMN respectivo , la DEC efectúa la segmentación de la contratación luego de la recepción del requerimiento .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q023, auditoría 14/11/2026. La clave A exige aprobación; su explicación/cita habla de solicitud. Además usa la redacción anterior del art. 42.3. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "La clave A exige aprobación; su explicación/cita habla de solicitud. Además usa la redacción anterior del art. 42.3."
+  },
+  {
+    "numero": "Q027",
+    "input": {
+      "id": "3a48ab4e-713f-47d0-93f5-3bfb57076c20",
+      "revision": 0,
+      "prompt": "Según el numeral 49.2 de la Ley 32069, ¿qué debe reflejar el perfil de riesgos que comprende la estrategia de contratación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La eliminación previa de toda incertidumbre."
+        },
+        {
+          "id": "B",
+          "text": "La transferencia automática de todos los riesgos al proveedor."
+        },
+        {
+          "id": "C",
+          "text": "Una correcta asignación de riesgos de acuerdo con los objetivos de la adquisición."
+        },
+        {
+          "id": "D",
+          "text": "Exclusivamente una reserva para aplicar penalidades."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El perfil de riesgos refleja una correcta asignación de riesgos de acuerdo con los objetivos de la adquisición. Se evalúa esa inclusión en la estrategia, sin enseñar que los riesgos están excluidos de su análisis.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: se exige asignar riesgos, no eliminar toda incertidumbre previamente.",
+        "B": "No corresponde: la asignación no implica una transferencia automática de todos los riesgos.",
+        "C": "El perfil de riesgos refleja una correcta asignación de riesgos de acuerdo con los objetivos de la adquisición. Se evalúa esa inclusión en la estrategia, sin enseñar que los riesgos están excluidos de su análisis.",
+        "D": "No corresponde: el perfil no se limita a reservar montos para penalidades."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b95e9e5b-e46c-4275-8846-ec9669284bc2",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "aa37b746-f9de-4e7f-bc0f-94a69465b088",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "49",
+          "pageStart": 24,
+          "pageEnd": 24,
+          "quote": "49.2. La estrategia debe comprender, además, una correcta asignación de riesgos, reflejada en el perfil de riesgos de la contratación, de acuerdo con los objetivos de la adquisición, sea de bienes, servicios u obras.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q027, auditoría 14/11/2026. Pregunta negativa sobre exclusión de riesgos en la estrategia; la cita solo enumera el primer literal y la Ley 49.2 sí exige perfil de riesgos. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Pregunta negativa sobre exclusión de riesgos en la estrategia; la cita solo enumera el primer literal y la Ley 49.2 sí exige perfil de riesgos."
+  },
+  {
+    "numero": "Q032",
+    "input": {
+      "id": "ee750c2c-0608-4112-8ca9-1d75d416330f",
+      "revision": 0,
+      "prompt": "En una contratación por catálogo electrónico de acuerdo marco, ¿qué conjunto de actuaciones está expresamente excluido por el numeral 277.2 modificado de las reglas de actuaciones preparatorias aplicables?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El requerimiento y toda estrategia de contratación."
+        },
+        {
+          "id": "B",
+          "text": "Solo la elaboración del requerimiento."
+        },
+        {
+          "id": "C",
+          "text": "La aceptación de la orden y la recepción del bien."
+        },
+        {
+          "id": "D",
+          "text": "La segmentación, la interacción con el mercado y la aprobación del expediente de contratación."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El numeral 277.2 modificado excluye segmentación, interacción con el mercado y aprobación del expediente. Mantiene las disposiciones del requerimiento y una estrategia adecuada a las particularidades del catálogo.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: el requerimiento sigue siendo aplicable y se contempla una estrategia particular.",
+        "B": "No corresponde: la regla no excluye el requerimiento.",
+        "C": "No corresponde: no es el conjunto de exclusiones de actuaciones preparatorias enumerado.",
+        "D": "El numeral 277.2 modificado excluye segmentación, interacción con el mercado y aprobación del expediente. Mantiene las disposiciones del requerimiento y una estrategia adecuada a las particularidades del catálogo."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b95e9e5b-e46c-4275-8846-ec9669284bc2",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7693fa25-455a-4427-91e3-a0fa5ab5a652",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "277",
+          "pageStart": 146,
+          "pageEnd": 147,
+          "quote": "277.2. Para las contrataciones mediante catálogo electrónico de acuerdo marco, en las actuaciones preparatorias solo resultan aplicables las disposiciones referidas al requerimiento según lo previsto en el artículo 44. A dichas contrataciones no les resultan aplicables las disposiciones sobre segmentación, interacción con el mercado ni aprobación del expediente de contratación. La estrategia de contratación se realiza considerando las particularidades de los catálogos electrónicos de acuerdo marco.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q032, auditoría 14/11/2026. B y C expresan exclusiones que la propia cita 277.2 confirma; D niega genéricamente las disposiciones generales aunque sí aplica requerimiento. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "B y C expresan exclusiones que la propia cita 277.2 confirma; D niega genéricamente las disposiciones generales aunque sí aplica requerimiento."
+  },
+  {
+    "numero": "Q034",
+    "input": {
+      "id": "7106aaef-c9c7-4c5d-bb50-22649232052e",
+      "revision": 0,
+      "prompt": "Para una contratación no programada, ¿qué situación reúne los presupuestos del numeral 42.3 modificado para que la DEC efectúe la segmentación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Solo se solicitó modificar el CMN, sin incluir aún la necesidad ni recibir el requerimiento."
+        },
+        {
+          "id": "B",
+          "text": "La necesidad está incluida en el CMN y la DEC recibió el requerimiento."
+        },
+        {
+          "id": "C",
+          "text": "La buena pro quedó consentida, sin haberse recibido el requerimiento."
+        },
+        {
+          "id": "D",
+          "text": "El contrato culminó, aunque la necesidad nunca fue incluida en el CMN."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La regla modificada requiere necesidad incluida en el CMN respectivo y sitúa la segmentación luego de recibir el requerimiento. La sola solicitud de modificación del CMN no reúne esos presupuestos.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la solicitud por sí sola no acredita inclusión ni recepción del requerimiento.",
+        "B": "La regla modificada requiere necesidad incluida en el CMN respectivo y sitúa la segmentación luego de recibir el requerimiento. La sola solicitud de modificación del CMN no reúne esos presupuestos.",
+        "C": "No corresponde: el consentimiento no sustituye los presupuestos de la actuación preparatoria.",
+        "D": "No corresponde: la culminación del contrato no es el hito de segmentación."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b95e9e5b-e46c-4275-8846-ec9669284bc2",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "2af95311-29f7-4432-9c43-9abfad7ba2c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "42",
+          "pageStart": 22,
+          "pageEnd": 23,
+          "quote": "42.3. En el caso de contrataciones no programadas y, siempre que la necesidad esté incluida en el CMN respectivo , la DEC efectúa la segmentación de la contratación luego de la recepción del requerimiento .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q034, auditoría 14/11/2026. Clave basada en el texto anterior de 42.3 (solicitud de modificación del CMN), pese a corte 2026-10-29. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Clave basada en el texto anterior de 42.3 (solicitud de modificación del CMN), pese a corte 2026-10-29."
+  },
+  {
+    "numero": "Q054",
+    "input": {
+      "id": "23c7980a-cab9-412b-94e7-518e9ced3ba9",
+      "revision": 0,
+      "prompt": "La entidad ha sustentado y aplicado temporalmente la inaplicación de un impedimento de un proveedor por riesgo de desabastecimiento, cumpliendo el artículo 40 del Reglamento. Suscrito el contrato, ¿qué debe publicar en Pladicop conforme al numeral 40.5?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El informe de evaluación y el contrato suscrito."
+        },
+        {
+          "id": "B",
+          "text": "Solo el nombre del proveedor, sin informe ni contrato."
+        },
+        {
+          "id": "C",
+          "text": "Únicamente la solicitud inicial del área usuaria."
+        },
+        {
+          "id": "D",
+          "text": "Una constancia interna de la DEC, sin publicar el contrato."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Dentro del supuesto de inaplicación temporal de impedimentos, la entidad publica en la Pladicop el informe de evaluación y el contrato suscrito. La pregunta no deriva esta obligación de la sola existencia de un proveedor único.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Dentro del supuesto de inaplicación temporal de impedimentos, la entidad publica en la Pladicop el informe de evaluación y el contrato suscrito. La pregunta no deriva esta obligación de la sola existencia de un proveedor único.",
+        "B": "No corresponde: omite los documentos expresamente requeridos.",
+        "C": "No corresponde: la solicitud inicial no sustituye informe y contrato.",
+        "D": "No corresponde: una constancia interna no cumple la publicación exigida."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b44a05f5-2db0-487b-8791-73c3cdb1cc0f",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "76b37b31-dd8e-4875-97d0-9e945a162e34",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "40",
+          "pageStart": 21,
+          "pageEnd": 22,
+          "quote": "40.1. La entidad contratante puede inaplicar temporalmente el impedimento para contratar con un proveedor conforme al numeral 30.2 del artículo 30 de la Ley, cuando exista el riesgo de desabastecimiento debidamente sustentado por la DEC. 40.2. Para acreditar esta inaplicación temporal del impedimento se debe tener en cuenta lo siguiente: a) La DEC sustenta que en la estrategia de contratación se ha verificado que el proveedor es el único con habilitación legal o con capacidad de brindar el servicio o con capacidad para proveer bienes en el momento de la contratación. b) Que exista un riesgo de desabastecimiento de servicios públicos esenciales a cargo de la entidad contratante, o cuyo desabastecimiento ponga en peligro la salud, la vida o la integridad de las personas o el medio ambiente. 40.3. La inaplicación del impedimento es sustentada por la entidad contratante previo a la aprobación del procedimiento de selección no competitivo por causal de desabastecimiento inminente o proveedor único, siempre que se cumplan las demás condiciones es tablecidas en los artículos 101, 102 y 103, según corresponda.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "76b37b31-dd8e-4875-97d0-9e945a162e34",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "40",
+          "pageStart": 21,
+          "pageEnd": 22,
+          "quote": "40.5. La entidad contratante publica en la Pladicop el informe de evaluación y el contrato suscrito.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q054, auditoría 14/11/2026. Pregunta por publicar informe/contrato por desabastecimiento, pero no informa que se está inaplicando temporalmente un impedimento (art. 40 del Reglamento). Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Pregunta por publicar informe/contrato por desabastecimiento, pero no informa que se está inaplicando temporalmente un impedimento (art. 40 del Reglamento)."
+  },
+  {
+    "numero": "Q059",
+    "input": {
+      "id": "b9c7a5a0-1303-443d-9ec1-2e404ade8249",
+      "revision": 0,
+      "prompt": "En un procedimiento competitivo no abreviado que contempla consultas y observaciones a las bases, ¿cuál es el plazo mínimo para formularlas desde el día siguiente de la convocatoria?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Tres días hábiles."
+        },
+        {
+          "id": "B",
+          "text": "Siete días hábiles."
+        },
+        {
+          "id": "C",
+          "text": "Diez días hábiles."
+        },
+        {
+          "id": "D",
+          "text": "Veintidós días hábiles."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 66.1 establece un mínimo de siete días hábiles para la etapa indicada. Distingue el mínimo de tres días hábiles de modalidades abreviadas, expresamente excluidas del caso.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: es el mínimo de modalidades abreviadas, excluidas del supuesto.",
+        "B": "El numeral 66.1 establece un mínimo de siete días hábiles para la etapa indicada. Distingue el mínimo de tres días hábiles de modalidades abreviadas, expresamente excluidas del caso.",
+        "C": "No corresponde: no es el mínimo normativo de la etapa consultada.",
+        "D": "No corresponde: se confunde con un plazo general diferente del cronograma."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:a026ce8b-9a0a-4d99-ac09-e44fe71d3c3e",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "66",
+          "pageStart": 36,
+          "pageEnd": 36,
+          "quote": "66.1. Los participantes pueden formular consultas y/o (*) NOTA SPIJ1 observaciones a las bases en los procedimientos de selección que contemplen dicha etapa, a través de la Pladicop, en un plazo no menor a siete días hábiles contabilizados desde el día siguiente de la convocatoria. En las modalidades abreviadas este plazo es no menor a tres días hábiles contabilizados desde el día siguiente de la convocatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q059, auditoría 14/11/2026. Plazo planteado para todo procedimiento competitivo; art. 66.1 distingue la modalidad abreviada. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Plazo planteado para todo procedimiento competitivo; art. 66.1 distingue la modalidad abreviada."
+  },
+  {
+    "numero": "Q065",
+    "input": {
+      "id": "8e60d033-d8e9-41bb-a13f-b81777ba5d25",
+      "revision": 0,
+      "prompt": "En un procedimiento competitivo no abreviado con consultas y observaciones, sin reducción por anuncio de contratación futura, ¿cuál es el mínimo entre convocatoria y presentación de ofertas o documentos para precalificación según el numeral 64.1?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Diez días hábiles."
+        },
+        {
+          "id": "B",
+          "text": "Quince días hábiles."
+        },
+        {
+          "id": "C",
+          "text": "Veintidós días hábiles."
+        },
+        {
+          "id": "D",
+          "text": "Treinta días hábiles."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El mínimo general es veintidós días hábiles. El caso excluye modalidades abreviadas, procedimientos sin consultas y observaciones y reducción por anuncio de contratación futura, sin presentar la regla como universal.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: no es el mínimo general para este procedimiento.",
+        "B": "No corresponde: no coincide con el mínimo del numeral 64.1.",
+        "C": "El mínimo general es veintidós días hábiles. El caso excluye modalidades abreviadas, procedimientos sin consultas y observaciones y reducción por anuncio de contratación futura, sin presentar la regla como universal.",
+        "D": "No corresponde: supera el mínimo y no responde cuál es el mínimo exigido."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:a026ce8b-9a0a-4d99-ac09-e44fe71d3c3e",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "64",
+          "pageStart": 35,
+          "pageEnd": 35,
+          "quote": "64.1. En los procedimientos de selección competitivos el plazo entre la fecha de convocatoria y la presentación de ofertas o la presentación de los documentos para la precalificación no puede ser menor de veintidós días hábiles, salvo en el caso de las mod alidades abreviadas y aquellas que no contemplen etapas de consultas y observaciones.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q065, auditoría 14/11/2026. Plazo general sin las excepciones de modalidades abreviadas y procedimientos sin consultas/observaciones (art. 64.1). Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Plazo general sin las excepciones de modalidades abreviadas y procedimientos sin consultas/observaciones (art. 64.1)."
+  },
+  {
+    "numero": "Q067",
+    "input": {
+      "id": "e53cd7ac-7d20-49db-9ae4-a1439962f727",
+      "revision": 0,
+      "prompt": "La DEC define la estrategia de contratación. ¿Qué variable está expresamente enumerada en el numeral 46.1 del Reglamento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La designación del tribunal arbitral de una controversia futura todavía inexistente."
+        },
+        {
+          "id": "B",
+          "text": "El resultado definitivo de liquidar un contrato aún no ejecutado."
+        },
+        {
+          "id": "C",
+          "text": "El tipo de evaluador y su perfil."
+        },
+        {
+          "id": "D",
+          "text": "La sanción que necesariamente recibirá quien no gane la buena pro."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El tipo de evaluador y su perfil es una variable expresamente enumerada. Se pregunta por una inclusión concreta, sin convertir la ausencia de una expresión en prohibición de analizarla en la estrategia.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: no es la variable enumerada que se consulta.",
+        "B": "No corresponde: el resultado de una futura liquidación no es esa variable de estrategia.",
+        "C": "El tipo de evaluador y su perfil es una variable expresamente enumerada. Se pregunta por una inclusión concreta, sin convertir la ausencia de una expresión en prohibición de analizarla en la estrategia.",
+        "D": "No corresponde: no hay una sanción necesaria por no ganar la buena pro como variable enumerada."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b24193f0-9eb8-4b75-9db5-c38d3dbc7f2d",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "46",
+          "pageStart": 25,
+          "pageEnd": 27,
+          "quote": "d) Posibilidad de utilizar una modalidad de la contratación pública eficiente. e) Tipo de evaluador y su perfil.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q067, auditoría 14/11/2026. Inferir que una variable NO se analiza de una cita que solo contiene el primer literal no demuestra exclusión. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Inferir que una variable NO se analiza de una cita que solo contiene el primer literal no demuestra exclusión."
+  },
+  {
+    "numero": "Q086",
+    "input": {
+      "id": "3319a126-97b3-41d1-9d6f-b4e3e50c7f57",
+      "revision": 0,
+      "prompt": "La autoridad de la gestión administrativa designó un jurado para un procedimiento competitivo. Según la distribución de funciones de ese evaluador, ¿qué corresponde al jurado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Elaborar por sí solo las bases y realizar todas las actuaciones del procedimiento."
+        },
+        {
+          "id": "B",
+          "text": "Evaluar las ofertas, mientras la DEC realiza las demás actuaciones que le corresponden."
+        },
+        {
+          "id": "C",
+          "text": "Recibir ofertas y otorgar la buena pro en sustitución de la DEC."
+        },
+        {
+          "id": "D",
+          "text": "Modificar por sí solo el requerimiento sin intervención de los actores competentes."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La autoridad de la gestión administrativa designa al jurado, que evalúa las ofertas. La DEC asume las demás actuaciones previstas para el procedimiento. Se separan competencia de designación y funciones de evaluación.",
+      "regime": "32069",
+      "topic": "Tipos y perfiles de evaluadores",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.3",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: confunde evaluación de ofertas con todas las actuaciones del procedimiento.",
+        "B": "La autoridad de la gestión administrativa designa al jurado, que evalúa las ofertas. La DEC asume las demás actuaciones previstas para el procedimiento. Se separan competencia de designación y funciones de evaluación.",
+        "C": "No corresponde: recepción de ofertas y buena pro corresponden a la DEC según el numeral 60.5.",
+        "D": "No corresponde: evaluar no confiere poder de modificar unilateralmente el requerimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:68ea393c-6723-4f8b-8922-613f9f47227e",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f913c8c7-867d-46d9-952b-1017b00bdeab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "60",
+          "pageStart": 33,
+          "pageEnd": 34,
+          "quote": "60.1. La autoridad de la gestión administrativa designa a los expertos integrantes del jurado. En el mismo acto de designación se incluye a un suplente, quien participa en ausencia de alguno de los demás miembros del jurado, tomando su lugar en adelante. 60.2. Al elaborar las bases, la DEC puede solicitar la opinión y aportes de los miembros del jurado. 60.3. Los jurados realizan individualmente la evaluación técnica y económica y remiten los puntajes asignados a la DEC. El puntaje total del postor se determina considerando los puntajes asignados individualmente por cada jurado. En caso requieran una prór roga para realizar la evaluación, lo comunican a la DEC para que ésta la registre en la Pladicop. 60.4. En los procedimientos de selección con subetapas de negociación o diálogo competitivo, el jurado conduce las rondas a realizarse y determina de forma colegiada y por mayoría las decisiones que se adoptan en éstas. En estos casos, el jurado está confo rmado por al menos un servidor o funcionario del área usuaria, que para todos los efectos la representa con sus decisiones y emite la no objeción a las modificaciones al requerimiento en representación del área usuaria. 60.5. La DEC se encarga de la recepción de ofertas, su remisión a cada uno de los jurados, así como del otorgamiento de la buena pro. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"60.5. La DEC se encarga de la recepción de ofertas y su remisión a cada uno de los jurados, previa revisión de los documentos para la admisión y de los requisitos de calificación, o los documentos de precalificación presentados en la fase inicial de la precalificación, cuando corresponda. Asimismo, la DEC se encarga del otorgamiento de la buena pro.” Reglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 34 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q086, auditoría 14/11/2026. Atribuye a la DEC la designación del jurado; art. 60.1 atribuye designación a autoridad de gestión administrativa. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Atribuye a la DEC la designación del jurado; art. 60.1 atribuye designación a autoridad de gestión administrativa."
+  },
+  {
+    "numero": "Q092",
+    "input": {
+      "id": "cb2a0e59-a4e5-4bc5-ae98-5956ff299476",
+      "revision": 0,
+      "prompt": "Se requiere designar a los expertos integrantes del jurado de un procedimiento de selección. Según el numeral 60.1, ¿qué autoridad realiza esa designación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El proveedor que obtuvo el mayor puntaje."
+        },
+        {
+          "id": "B",
+          "text": "La autoridad de la gestión administrativa."
+        },
+        {
+          "id": "C",
+          "text": "La DEC por su sola decisión, sustituyendo a la autoridad competente."
+        },
+        {
+          "id": "D",
+          "text": "Los integrantes del jurado mediante autoelección."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La autoridad de la gestión administrativa designa a los expertos del jurado. El numeral 60.1 no atribuye esa designación a la DEC actuando por su sola decisión.",
+      "regime": "32069",
+      "topic": "Tipos y perfiles de evaluadores",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.3",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: el proveedor no designa a los expertos del jurado.",
+        "B": "La autoridad de la gestión administrativa designa a los expertos del jurado. El numeral 60.1 no atribuye esa designación a la DEC actuando por su sola decisión.",
+        "C": "No corresponde: la disposición identifica otra autoridad competente para la designación.",
+        "D": "No corresponde: la designación no se realiza por autoelección."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:efaaf2b4-dfb4-4e72-b0ce-a78eebe51d81",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f913c8c7-867d-46d9-952b-1017b00bdeab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "60",
+          "pageStart": 33,
+          "pageEnd": 34,
+          "quote": "60.1. La autoridad de la gestión administrativa designa a los expertos integrantes del jurado. En el mismo acto de designación se incluye a un suplente, quien participa en ausencia de alguno de los demás miembros del jurado, tomando su lugar en adelante.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q092, auditoría 14/11/2026. Atribuye a DEC la designación del jurado. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Atribuye a DEC la designación del jurado."
+  },
+  {
+    "numero": "Q095",
+    "input": {
+      "id": "965e3c24-fc6d-4b73-a3cb-8aa21ecc6d8d",
+      "revision": 0,
+      "prompt": "El área usuaria objeta sustentadamente una modificación del requerimiento porque no satisface su necesidad. Según el numeral 66.5, ¿qué alternativa recoge las dos opciones que tienen los evaluadores?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Ignorar la objeción y mantener obligatoriamente la modificación propuesta."
+        },
+        {
+          "id": "B",
+          "text": "Modificar conforme a lo solicitado por el área usuaria o devolver el expediente a la DEC para evaluar la nulidad."
+        },
+        {
+          "id": "C",
+          "text": "Declarar automáticamente la nulidad sin evaluación de la DEC."
+        },
+        {
+          "id": "D",
+          "text": "Encargar al proveedor que decida la necesidad del área usuaria."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 66.5 permite modificar conforme a lo solicitado por el área usuaria o devolver el expediente a la DEC para evaluar la nulidad. Ambas posibilidades se reúnen en una respuesta, sin separarlas en dos alternativas simultáneamente correctas.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la regla no dispone ignorar la objeción sustentada.",
+        "B": "El numeral 66.5 permite modificar conforme a lo solicitado por el área usuaria o devolver el expediente a la DEC para evaluar la nulidad. Ambas posibilidades se reúnen en una respuesta, sin separarlas en dos alternativas simultáneamente correctas.",
+        "C": "No corresponde: se devuelve para evaluar la nulidad, no para declararla automáticamente.",
+        "D": "No corresponde: la disposición no traslada al proveedor la decisión sobre la necesidad pública."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:f5ad814e-6c61-4b59-8a95-cda7770e6e8d",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "66",
+          "pageStart": 36,
+          "pageEnd": 36,
+          "quote": "En caso el área usuaria objete la modificación del requerimiento de manera sustentada, indicando que esta no satisface su necesidad, los evaluadores pueden optar por modificar el requerimiento conforme lo solicitado por el área usuaria, o devolver el expediente de contratación a la DEC a fin de que se evalúe la nulidad del procedimiento de selección por no satisfacer la necesidad de la entidad contratante y, por ende, su finalidad pública.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q095, auditoría 14/11/2026. A y B son opciones permitidas expresamente por art. 66.5; no hay respuesta única. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "A y B son opciones permitidas expresamente por art. 66.5; no hay respuesta única."
+  },
+  {
+    "numero": "Q099",
+    "input": {
+      "id": "c3883f7c-7ec3-4f15-9899-4da443c48398",
+      "revision": 0,
+      "prompt": "Al formular la estrategia conforme al numeral 46.1 del Reglamento, ¿qué principio se menciona expresamente como marco de la evaluación integral de las variables del proceso?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Publicidad como único criterio, excluyendo evaluar resultados."
+        },
+        {
+          "id": "B",
+          "text": "Predictibilidad como sustituto de analizar las variables."
+        },
+        {
+          "id": "C",
+          "text": "Neutralidad tecnológica como única variable, sin atender al requerimiento."
+        },
+        {
+          "id": "D",
+          "text": "Valor por dinero."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El numeral 46.1 menciona expresamente el principio de valor por dinero para analizar y evaluar integralmente las variables. No se enfrenta esa respuesta específica a otra genérica compatible sobre todos los principios.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: el artículo no sustituye el análisis integral por publicidad como único criterio.",
+        "B": "No corresponde: la predictibilidad no reemplaza analizar las variables consultadas.",
+        "C": "No corresponde: la disposición no se limita a una variable omitiendo el requerimiento.",
+        "D": "El numeral 46.1 menciona expresamente el principio de valor por dinero para analizar y evaluar integralmente las variables. No se enfrenta esa respuesta específica a otra genérica compatible sobre todos los principios."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:33a77d85-711b-4159-b17f-35894f0ebded",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "46",
+          "pageStart": 25,
+          "pageEnd": 27,
+          "quote": "46.1. La estrategia de contratación es un proceso mediante el cual la DEC, con base en el requerimiento, analiza y evalúa de manera integral las variables que influyen en el proceso de contratación, en aplicación del principio de valor por dinero, consider ando la información obtenida en la interacción con el mercado y aquella proporcionada por el área usuaria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q099, auditoría 14/11/2026. C es una respuesta genérica sobre principios y D invoca valor por dinero; el caso no justifica una prioridad única. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "C es una respuesta genérica sobre principios y D invoca valor por dinero; el caso no justifica una prioridad única."
+  },
+  {
+    "numero": "Q108",
+    "input": {
+      "id": "ade97ca1-ad98-4fab-b6fd-bf0f1d873f01",
+      "revision": 0,
+      "prompt": "La buena pro quedó administrativamente firme y la entidad se niega a contratar por desaparición de la necesidad debidamente acreditada. Según el numeral 86.2, ¿qué consecuencia tiene esa causal respecto del mismo objeto contractual?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Debe convocarlo nuevamente dentro de treinta días."
+        },
+        {
+          "id": "B",
+          "text": "No puede convocar el mismo objeto durante el mismo ejercicio presupuestal."
+        },
+        {
+          "id": "C",
+          "text": "Puede convocarlo en el mismo ejercicio si cambia el procedimiento."
+        },
+        {
+          "id": "D",
+          "text": "Puede convocarlo en el mismo ejercicio si otro postor acepta las condiciones."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La negativa fundada en desaparición de la necesidad debidamente acreditada impide convocar el mismo objeto durante el mismo ejercicio presupuestal. Cambiar de procedimiento o contar con otro postor no elimina esa consecuencia.",
+      "regime": "32069",
+      "topic": "Condiciones para perfeccionar el contrato",
+      "competency": "Selección",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.9",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: no se impone esa obligación de nueva convocatoria en treinta días.",
+        "B": "La negativa fundada en desaparición de la necesidad debidamente acreditada impide convocar el mismo objeto durante el mismo ejercicio presupuestal. Cambiar de procedimiento o contar con otro postor no elimina esa consecuencia.",
+        "C": "No corresponde: el cambio de procedimiento no elimina la prohibición para el mismo objeto.",
+        "D": "No corresponde: la aceptación de otro postor no desvirtúa la causal acreditada."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:68d3ab22-8831-4de0-a658-4f03bc4c73d4",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "300f00fd-2b53-49dc-9117-c18bd96983ca",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "86",
+          "pageStart": 48,
+          "pageEnd": 48,
+          "quote": "86.2. La entidad contratante no puede negarse a contratar, a excepción de que ocurra alguno de los siguientes supuestos: i) recorte presupuestal correspondiente al objeto materia del procedimiento de selección, debidamente acreditado, ii) por disposición d e norma expresa o, iii) por desaparición de la necesidad, debidamente acreditada. La negativa a contratar basada en el último supuesto implica la imposibilidad de convocar el mismo objeto contractual durante el mismo ejercicio presupuestal.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q108, auditoría 14/11/2026. B y D afirman sustancialmente que no puede convocarse en el mismo ejercicio. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "B y D afirman sustancialmente que no puede convocarse en el mismo ejercicio."
+  },
+  {
+    "numero": "Q109",
+    "input": {
+      "id": "84a87cb8-a810-470b-bb0d-8580047838d1",
+      "revision": 0,
+      "prompt": "El contrato no se perfecciona por causa imputable al postor ganador y terminó el plazo de consentimiento de la pérdida de buena pro. Según el numeral 91.3 modificado, ¿en qué plazo máximo la DEC requiere al segundo lugar que presente requisitos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dos días hábiles desde la finalización del plazo de consentimiento de la pérdida."
+        },
+        {
+          "id": "B",
+          "text": "Cinco días hábiles desde que el segundo postor recibe el requerimiento."
+        },
+        {
+          "id": "C",
+          "text": "Ocho días calendario desde la convocatoria original."
+        },
+        {
+          "id": "D",
+          "text": "Solo después de declarar desierto todo el procedimiento."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La DEC tiene dos días hábiles desde la finalización del plazo de consentimiento de la pérdida para requerir al segundo lugar. Es el plazo de actuación de la DEC, no el plazo para presentar los requisitos, que remite al numeral 90.1 según el texto modificado.",
+      "regime": "32069",
+      "topic": "Pérdida de la buena pro",
+      "competency": "Selección",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.5",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "La DEC tiene dos días hábiles desde la finalización del plazo de consentimiento de la pérdida para requerir al segundo lugar. Es el plazo de actuación de la DEC, no el plazo para presentar los requisitos, que remite al numeral 90.1 según el texto modificado.",
+        "B": "No corresponde: confunde el plazo de requerir con un cómputo desde la recepción por el postor.",
+        "C": "No corresponde: la convocatoria no es el hito del cómputo consultado.",
+        "D": "No corresponde: se requiere al siguiente postor antes de la eventual declaratoria de desierto."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:60e49530-0d6c-4127-8534-a28c0d849d5d",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q109, auditoría 14/11/2026. No se fija causa imputable al postor; además se confunde plazo para requerir al segundo con plazo para presentar requisitos. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "No se fija causa imputable al postor; además se confunde plazo para requerir al segundo con plazo para presentar requisitos."
+  },
+  {
+    "numero": "Q123",
+    "input": {
+      "id": "c6e71d3d-719e-4208-a95b-1e557edcd401",
+      "revision": 0,
+      "prompt": "Se otorgó la buena pro en una licitación pública no abreviada de bienes. No es subasta inversa ni otra modalidad con plazo especial. Según el numeral 304.1, ¿cuál es el plazo máximo de apelación desde la notificación de buena pro en Pladicop?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cinco días hábiles."
+        },
+        {
+          "id": "B",
+          "text": "Ocho días hábiles."
+        },
+        {
+          "id": "C",
+          "text": "Diez días hábiles."
+        },
+        {
+          "id": "D",
+          "text": "Quince días hábiles."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Al procedimiento identificado le corresponde el plazo de ocho días hábiles siguientes a la notificación de buena pro en Pladicop. Se delimita la modalidad para no confundirla con los supuestos especiales de los numerales 304.2 y 304.3.",
+      "regime": "32069",
+      "topic": "Interposición de apelaciones",
+      "competency": "Selección",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.7",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: es un plazo de supuestos especiales excluidos del caso.",
+        "B": "Al procedimiento identificado le corresponde el plazo de ocho días hábiles siguientes a la notificación de buena pro en Pladicop. Se delimita la modalidad para no confundirla con los supuestos especiales de los numerales 304.2 y 304.3.",
+        "C": "No corresponde: no es el plazo máximo del numeral aplicable.",
+        "D": "No corresponde: no coincide con el plazo máximo de la modalidad indicada."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:fe28a4d9-d94a-49e5-af95-5b2746b388b5",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "af233927-3908-4032-ab7e-a5c63c4d7b28",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "304",
+          "pageStart": 160,
+          "pageEnd": 160,
+          "quote": "304.1. La apelación contra el otorgamiento de la buena pro o contra los actos dictados con anterioridad a ella en los procedimientos de selección competitivos, debe interponerse, como máximo, dentro de los ocho días hábiles siguientes de haberse notificado el otorgamiento de la buena pro a través de la Pladicop. 304.2. En los casos de concurso público abreviado, licitación pública abreviada, selección de expertos y comparación de precios, la apelación se presenta dentro de los cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro. 304.3. En el caso de Subasta Inversa Electrónica, el plazo para la interposición del recurso de apelación es de cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro, salvo que su cuantía corresponda a la de una licitación púb lica o un concurso público, en cuyo caso el plazo es de ocho días hábiles.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q123, auditoría 14/11/2026. Plazo de apelación sin identificar modalidad; art. 304.2/304.3 establece excepciones. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Plazo de apelación sin identificar modalidad; art. 304.2/304.3 establece excepciones."
+  },
+  {
+    "numero": "Q150",
+    "input": {
+      "id": "72cb376d-0a46-4f5b-b711-06c03acd8afb",
+      "revision": 0,
+      "prompt": "En un contrato de servicios acaba de finalizar un hecho generador de atraso no imputable al contratista. No se trata de una prestación adicional aprobada. Según el numeral 142.3, ¿desde qué hito se cuenta el plazo para solicitar ampliación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Desde una notificación posterior que declare finalizado el hecho, aunque demore su emisión."
+        },
+        {
+          "id": "B",
+          "text": "Desde la finalización del hecho, dentro de los diez días hábiles siguientes."
+        },
+        {
+          "id": "C",
+          "text": "Desde el pago final, sin importar cuándo terminó el hecho."
+        },
+        {
+          "id": "D",
+          "text": "Desde que el contratista elija registrar la solicitud, sin límite desde la finalización."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Para atrasos o paralizaciones, se cuentan diez días hábiles siguientes a la finalización del hecho generador. La notificación corresponde a la aprobación del adicional en el otro supuesto; no se añade una notificación de finalización del hecho.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: añade una notificación que no es el hito de este supuesto.",
+        "B": "Para atrasos o paralizaciones, se cuentan diez días hábiles siguientes a la finalización del hecho generador. La notificación corresponde a la aprobación del adicional en el otro supuesto; no se añade una notificación de finalización del hecho.",
+        "C": "No corresponde: el pago final no inicia el cómputo para solicitar ampliación.",
+        "D": "No corresponde: el cómputo no queda a libre elección del solicitante."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:4e3b145f-454c-4adb-8409-f7f93b2a415a",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "13d1629f-d63e-4e7f-ba8b-20318b260981",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "142",
+          "pageStart": 75,
+          "pageEnd": 76,
+          "quote": "142.3. El contratista solicita la ampliación de plazo dentro de los diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. Dentro de dicho plazo, el contratis ta puede pedir una prórroga de hasta diez días hábiles adicionales para presentar la solicitud de ampliación de plazo. Las solicitudes extemporáneas de ampliación de plazo se tienen por no presentadas.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q150, auditoría 14/11/2026. El cómputo se vincula a «notificación de finalizado» el hecho; la cita habla de finalizado el hecho generador. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "El cómputo se vincula a «notificación de finalizado» el hecho; la cita habla de finalizado el hecho generador."
+  },
+  {
+    "numero": "Q161",
+    "input": {
+      "id": "73a2789f-b9e0-43ad-bc28-0f3377510409",
+      "revision": 0,
+      "prompt": "En una obra de diseño y construcción, el presupuesto propuesto para el componente obra supone un incremento del 60% sobre el monto original de ese componente. Según el artículo 175, ¿qué condición se configura por superar el incremento permitido?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Pérdida de viabilidad del proyecto, aunque no se haya acreditado tal pérdida."
+        },
+        {
+          "id": "B",
+          "text": "Terminación anticipada por motivos presupuestales."
+        },
+        {
+          "id": "C",
+          "text": "Una prestación adicional que necesariamente se aprueba como tal."
+        },
+        {
+          "id": "D",
+          "text": "Una modificación sin límite si el contratista la acepta."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 175.1 contempla un incremento de hasta 50% del monto original del componente, bajo sus condiciones, sin calificarlo como adicional. Superar ese incremento configura el supuesto presupuestal del numeral 175.2.b. No se confunde incremento con presupuesto total.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: el incremento presupuestal no demuestra por sí mismo pérdida de viabilidad.",
+        "B": "El numeral 175.1 contempla un incremento de hasta 50% del monto original del componente, bajo sus condiciones, sin calificarlo como adicional. Superar ese incremento configura el supuesto presupuestal del numeral 175.2.b. No se confunde incremento con presupuesto total.",
+        "C": "No corresponde: el artículo distingue este supuesto de las prestaciones adicionales.",
+        "D": "No corresponde: la aceptación del contratista no suprime el límite."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:156475ac-5bf2-44ef-93a2-4b62903763e3",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "2f330b2c-eb46-4552-92eb-332e1d31f4e6",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "175",
+          "pageStart": 93,
+          "pageEnd": 93,
+          "quote": "175.1. En los contratos de diseño y construcción, el expediente técnico puede ser aprobado con un presupuesto de obra con un incremento de hasta el 50% del monto considerado en el contrato original respecto a dicho componente, siempre que la entidad contra tante cuente con la previsión y/o certificación presupuestal correspondiente, además, debe de realizar las actualizaciones correspondientes en consistencia con las actualizaciones de costo que conlleve el contrato. Lo regulado en este artículo no califica como prestaciones adicionales. 175.2. Los contratos de obra bajo el sistema de entrega de diseño y construcción contemplan dos cláusulas de resolución por terminación anticipada a solicitud de la entidad contratante: a) Terminación anticipada por perdida de viabilidad sobreviniente, cuando durante el diseño se verifica que el proyecto de inversión ha perdido las condiciones que sustentaron la viabilidad con la alternativa seleccionada, por causas no atribuibles al cont ratista. b) Terminación anticipada por motivos presupuestales, en caso la entidad contratante no tenga recursos presupuestales suficientes para financiar la ejecución de la obra considerando el presupuesto del expediente técnico elaborado por el contratista o cuand o éste supere el porcentaje señalado en el numeral 175.1. Para prevenir este incremento, las partes establecen buenas prácticas nacionales e internacionales respecto a la gestión de costos.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q161, auditoría 14/11/2026. Dice presupuesto «supera el 50%» del monto original; art. 175 trata incremento de hasta 50%, no presupuesto total de 50%. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Dice presupuesto «supera el 50%» del monto original; art. 175 trata incremento de hasta 50%, no presupuesto total de 50%."
+  },
+  {
+    "numero": "Q162",
+    "input": {
+      "id": "8cd10ba8-a164-48a6-8f42-6fe8ac4610e8",
+      "revision": 0,
+      "prompt": "En un contrato estandarizado de ingeniería y construcción de uso internacional sujeto al artículo 221, las modificaciones del monto exceden el 50% de la base aplicable, sin incluir gastos por cambios del plazo. ¿Qué consecuencia prevé el numeral 221.2.d?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Continuar automáticamente con cargo a presupuestos futuros."
+        },
+        {
+          "id": "B",
+          "text": "La condición de terminación anticipada que ocasiona la resolución del contrato."
+        },
+        {
+          "id": "C",
+          "text": "Convertir automáticamente el exceso en ampliación del plazo."
+        },
+        {
+          "id": "D",
+          "text": "Validar las modificaciones por el solo acuerdo de las partes."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "En el régimen estandarizado identificado, exceder el 50% indicado por el numeral 221.2.d configura la condición de terminación anticipada que ocasiona la resolución. Dicho porcentaje no comprende gastos por modificaciones del plazo de ejecución.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la disposición no habilita esa continuación automática.",
+        "B": "En el régimen estandarizado identificado, exceder el 50% indicado por el numeral 221.2.d configura la condición de terminación anticipada que ocasiona la resolución. Dicho porcentaje no comprende gastos por modificaciones del plazo de ejecución.",
+        "C": "No corresponde: el exceso del límite no se transforma en ampliación del plazo.",
+        "D": "No corresponde: el acuerdo no suprime el límite de la regla aplicable."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:156475ac-5bf2-44ef-93a2-4b62903763e3",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "900981dc-e619-49ba-b194-aaacd667c991",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "221",
+          "pageStart": 125,
+          "pageEnd": 126,
+          "quote": "d) Las partes pueden acordar modificaciones al contrato suscrito que inciden en el monto contractual siempre que la entidad contratante cuente con los recursos necesarios conforme a la normativa del Sistema Nacional de Presupuesto Público. Las modificacion es que incidan en el monto contractual no pueden exceder el 50% del valor del presupuesto de obra consignado en el expediente técnico aprobado o, en el caso del sistema de entrega de solo construcción, del monto del contrato de obra original. En caso las m odificaciones excedan el 50% señalado, se configura la condición de terminación anticipada que ocasiona la resolución del contrato. Dicho porcentaje no comprende los gastos por las modificaciones que afecten el plazo de ejecución.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q162, auditoría 14/11/2026. Aplica art. 221 sobre contratos estandarizados a un contrato genérico de diseño y construcción. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Aplica art. 221 sobre contratos estandarizados a un contrato genérico de diseño y construcción."
+  },
+  {
+    "numero": "Q165",
+    "input": {
+      "id": "59a89771-c6eb-40c6-a27b-df64cd17731b",
+      "revision": 0,
+      "prompt": "En un contrato estandarizado de ingeniería y construcción de uso internacional, faltan recursos para compromisos de una modificación del monto. No se ha excedido el límite del numeral 221.2.d. ¿Qué alternativas contempla el literal f) para esa falta de financiamiento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Continuar sin financiamiento y regularizarlo al culminar la obra."
+        },
+        {
+          "id": "B",
+          "text": "Suspender por acuerdo hasta contar con financiamiento o proceder a resolución por terminación anticipada."
+        },
+        {
+          "id": "C",
+          "text": "Resolver necesariamente por incumplimiento del contratista, aunque el problema sea presupuestal de la entidad."
+        },
+        {
+          "id": "D",
+          "text": "Permitir que el contratista apruebe por sí mismo el financiamiento público."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El literal f) permite suspender hasta contar con financiamiento conforme al acuerdo de las partes o proceder a resolución por configurarse la terminación anticipada. Las dos posibilidades se reúnen en una sola respuesta y el régimen contractual está expresamente identificado.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: no se habilita ejecutar compromisos sin los recursos exigidos.",
+        "B": "El literal f) permite suspender hasta contar con financiamiento conforme al acuerdo de las partes o proceder a resolución por configurarse la terminación anticipada. Las dos posibilidades se reúnen en una sola respuesta y el régimen contractual está expresamente identificado.",
+        "C": "No corresponde: el supuesto no atribuye automáticamente incumplimiento al contratista.",
+        "D": "No corresponde: el contratista no aprueba por sí solo el financiamiento público."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:5f7ad23c-fd5c-465a-abdf-6ba178fa4fed",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1eea072c-47c2-4980-8267-8712117ea44f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "221",
+          "pageStart": 125,
+          "pageEnd": 126,
+          "quote": "f) En caso la entidad contratante no cuente con la capacidad presupuestal o con los recursos en su presupuesto institucional, según corresponda, para asumir los compromisos de las modificaciones al contrato que inciden en el monto contractual, puede optar por suspender el contrato hasta contar con el financiamiento correspondiente, conforme lo que acuerden las partes, o proceder a su resolución por configurarse la condición de terminación anticipada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q165, auditoría 14/11/2026. Mezcla art. 175 y art. 221; suspensión y resolución aparecen como opciones válidas de la propia fuente. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Mezcla art. 175 y art. 221; suspensión y resolución aparecen como opciones válidas de la propia fuente."
+  },
+  {
+    "numero": "Q167",
+    "input": {
+      "id": "7cef6b1c-d5b8-48e8-92d0-7e7059fc8386",
+      "revision": 0,
+      "prompt": "Las partes de un contrato estandarizado de ingeniería y construcción de uso internacional acuerdan suspenderlo por falta de financiamiento de una modificación del monto, al amparo del artículo 221.2.f. ¿Hasta qué momento contempla esa norma la suspensión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Hasta cambiar al supervisor, aunque siga faltando financiamiento."
+        },
+        {
+          "id": "B",
+          "text": "Hasta contar con el financiamiento correspondiente, conforme al acuerdo de las partes."
+        },
+        {
+          "id": "C",
+          "text": "Hasta que el contratista renuncie a todos sus derechos."
+        },
+        {
+          "id": "D",
+          "text": "Hasta que se resuelva automáticamente por incumplimiento del contratista."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La suspensión presupuestal de la regla especial se contempla hasta contar con financiamiento, conforme al acuerdo de las partes. El supuesto no extiende esa regla automáticamente a cualquier contrato de diseño y construcción.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: cambiar al supervisor no reemplaza contar con financiamiento.",
+        "B": "La suspensión presupuestal de la regla especial se contempla hasta contar con financiamiento, conforme al acuerdo de las partes. El supuesto no extiende esa regla automáticamente a cualquier contrato de diseño y construcción.",
+        "C": "No corresponde: esa renuncia no es condición prevista para esta suspensión.",
+        "D": "No corresponde: la suspensión no equivale a resolución automática por incumplimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:9d451b94-9169-4b2b-bb96-fb5e3562b7f4",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1eea072c-47c2-4980-8267-8712117ea44f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "221",
+          "pageStart": 125,
+          "pageEnd": 126,
+          "quote": "f) En caso la entidad contratante no cuente con la capacidad presupuestal o con los recursos en su presupuesto institucional, según corresponda, para asumir los compromisos de las modificaciones al contrato que inciden en el monto contractual, puede optar por suspender el contrato hasta contar con el financiamiento correspondiente, conforme lo que acuerden las partes, o proceder a su resolución por configurarse la condición de terminación anticipada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q167, auditoría 14/11/2026. Invoca suspensión de art. 221 para diseño y construcción sin identificar contrato estandarizado. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Invoca suspensión de art. 221 para diseño y construcción sin identificar contrato estandarizado."
+  },
+  {
+    "numero": "Q173",
+    "input": {
+      "id": "078e6182-0295-40b0-8e1e-316e51a2a97d",
+      "revision": 0,
+      "prompt": "En una conciliación sobre un contrato menor se requiere resolución autoritativa para llegar al acuerdo. Según el numeral 330.2, ¿cuál es la suspensión y su posible ampliación por acuerdo de ambas partes?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Treinta días hábiles, ampliables por otros treinta."
+        },
+        {
+          "id": "B",
+          "text": "Quince días hábiles, ampliables por otros quince."
+        },
+        {
+          "id": "C",
+          "text": "Sesenta días hábiles, sin ampliación."
+        },
+        {
+          "id": "D",
+          "text": "Diez días hábiles, sin ampliación."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "En contratos menores los dos plazos del numeral 330.2 se reducen a quince días hábiles: suspensión inicial y posible ampliación si ambas partes lo acuerdan. El caso consulta conciliación sin suponer arbitraje posterior del contrato menor.",
+      "regime": "32069",
+      "topic": "Controversias y solución de conflictos",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.5",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: omite la reducción especial para contratos menores.",
+        "B": "En contratos menores los dos plazos del numeral 330.2 se reducen a quince días hábiles: suspensión inicial y posible ampliación si ambas partes lo acuerdan. El caso consulta conciliación sin suponer arbitraje posterior del contrato menor.",
+        "C": "No corresponde: no es el régimen especial ni recoge la ampliación prevista.",
+        "D": "No corresponde: no coincide con el plazo especial que se consulta."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:d4a866a3-678b-4ba7-ade8-75f94bde13c0",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c4dc3266-782c-47bf-b7b2-34aac4e6af02",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "330",
+          "pageStart": 174,
+          "pageEnd": 174,
+          "quote": "330.2. De ser necesario contar con una resolución autoritativa para arribar a un acuerdo conciliatorio, el procedimiento conciliatorio se puede suspender hasta por un plazo de treinta días hábiles. Si ambas partes lo acuerdan, dicho plazo puede ser ampliad o por treinta días hábiles adicionales. Si vencidos los plazos señalados la entidad contratante no presenta la resolución autoritativa ante el centro de conciliación, se entiende que no existe acuerdo y se concluye el procedimiento conciliatorio. En el cas o de las contrataciones menores los indicados plazos se reducen a quince días hábiles.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q173, auditoría 14/11/2026. El supuesto dice conciliación previa al arbitraje, pero termina tratándose de contrato menor. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "El supuesto dice conciliación previa al arbitraje, pero termina tratándose de contrato menor."
+  },
+  {
+    "numero": "Q176",
+    "input": {
+      "id": "73704513-bb28-4c4c-8bf1-c700fcd295d9",
+      "revision": 0,
+      "prompt": "En una obra con JPRD, esta resuelve una controversia técnica de su competencia, no relativa a validez, nulidad o eficacia contractual. Nadie comunica desacuerdo dentro de veinte días hábiles desde la notificación. Según el numeral 80.2 de la Ley, ¿qué efecto tiene la decisión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Se anula por falta de desacuerdo."
+        },
+        {
+          "id": "B",
+          "text": "Adquiere mérito ejecutivo."
+        },
+        {
+          "id": "C",
+          "text": "Obliga a iniciar arbitraje aunque ambas partes la acepten."
+        },
+        {
+          "id": "D",
+          "text": "Traslada automáticamente el fondo al Poder Judicial para decidirlo nuevamente."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 80.2 prevé mérito ejecutivo si no se comunica oportunamente el desacuerdo. El caso se limita a una obra y una materia de competencia de JPRD, sin atribuirle asuntos de validez, nulidad o eficacia excluidos por el artículo 79.",
+      "regime": "32069",
+      "topic": "Controversias y solución de conflictos",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.5",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la ausencia de desacuerdo no causa esa nulidad automática.",
+        "B": "El numeral 80.2 prevé mérito ejecutivo si no se comunica oportunamente el desacuerdo. El caso se limita a una obra y una materia de competencia de JPRD, sin atribuirle asuntos de validez, nulidad o eficacia excluidos por el artículo 79.",
+        "C": "No corresponde: no se obliga a arbitrar una decisión aceptada por las partes.",
+        "D": "No corresponde: no se dispone ese traslado automático para volver a decidir el fondo."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:d4a866a3-678b-4ba7-ade8-75f94bde13c0",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "dd7999ce-12fb-455b-9f64-61b3d5eff15d",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "79",
+          "pageStart": 39,
+          "pageEnd": 39,
+          "quote": "79.1. La junta de prevención y resolución de disputas promueve que las partes logren prevenir o resolver eficientemente las controversias surgidas en contratos de suministro y de obras de acuerdo con lo establecido en el reglamento. 79.2. La junta de prevención y resolución de disputas tiene competencia para las siguientes acciones: a) Absolver consultas planteadas por las partes respecto de algún aspecto contractual o técnico. b) Resolver controversias técnicas y contractuales. c) Otras establecidas en el reglamento. 79.3. La junta de prevención y resolución de disputas resuelve controversias a través de decisiones. No puede conocer controversias relativas a la validez, nulidad, o eficacia del contrato. Sus decisiones son obligatorias y son de inmediato cumplimiento.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "f508917a-498f-4867-a44f-38a6a2de5f89",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "80",
+          "pageStart": 39,
+          "pageEnd": 40,
+          "quote": "80.2. Si ninguna de las partes comunica por escrito a la otra y a la junta de prevención y resolución de disputas su desacuerdo total o parcial con la decisión en un plazo de veinte días hábiles computados desde el día de notificación o si habiendo comunic ado tal desacuerdo, no se inicia el respectivo arbitraje dentro de los plazos de caducidad regulados en el artículo 84 de la presente ley, la decisión de la junta de prevención y resolución de disputas adquiere mérito ejecutivo.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q176, auditoría 14/11/2026. JPRD en consultoría genérica y controversia sobre validez; Ley 79 limita suministro/obras y excluye validez/nulidad/eficacia. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "JPRD en consultoría genérica y controversia sobre validez; Ley 79 limita suministro/obras y excluye validez/nulidad/eficacia."
+  },
+  {
+    "numero": "Q188",
+    "input": {
+      "id": "fd62f380-fe02-423e-afc4-f6adf22adb40",
+      "revision": 0,
+      "prompt": "Para una contratación no programada solo se solicitó modificar el CMN: la necesidad aún no está incluida y la DEC no recibió el requerimiento. ¿Esa sola solicitud basta para segmentar según el numeral 42.3 modificado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Sí, basta la intención de contratar aunque la necesidad no esté incluida."
+        },
+        {
+          "id": "B",
+          "text": "No; la necesidad debe estar incluida en CMN y se segmenta luego de recibir el requerimiento."
+        },
+        {
+          "id": "C",
+          "text": "Sí, siempre que se segmente durante la ejecución del contrato."
+        },
+        {
+          "id": "D",
+          "text": "No; siempre debe esperarse a la buena pro consentida."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La sola solicitud de modificación del CMN no reúne los presupuestos de la redacción modificada: necesidad incluida en el CMN respectivo y segmentación luego de recibir el requerimiento.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la intención no acredita inclusión ni recepción del requerimiento.",
+        "B": "La sola solicitud de modificación del CMN no reúne los presupuestos de la redacción modificada: necesidad incluida en el CMN respectivo y segmentación luego de recibir el requerimiento.",
+        "C": "No corresponde: la ejecución contractual no es la oportunidad de esta actuación preparatoria.",
+        "D": "No corresponde: el consentimiento de buena pro no es el hito para segmentar."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:cf94b24d-0b37-4b86-aca9-1525b19f75cd",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "2af95311-29f7-4432-9c43-9abfad7ba2c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "42",
+          "pageStart": 22,
+          "pageEnd": 23,
+          "quote": "42.3. En el caso de contrataciones no programadas y, siempre que la necesidad esté incluida en el CMN respectivo , la DEC efectúa la segmentación de la contratación luego de la recepción del requerimiento .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q188, auditoría 14/11/2026. Segmentación según redacción anterior de 42.3, pese a corte 2026-10-29. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Segmentación según redacción anterior de 42.3, pese a corte 2026-10-29."
+  },
+  {
+    "numero": "Q193",
+    "input": {
+      "id": "1045e8b6-f5ce-4fe4-ad76-1de53ef534f5",
+      "revision": 0,
+      "prompt": "En un procedimiento de selección abreviado que contempla consultas y observaciones a las bases, ¿cuál es el mínimo para formularlas desde el día siguiente de la convocatoria según el numeral 66.1?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Tres días hábiles."
+        },
+        {
+          "id": "B",
+          "text": "Siete días hábiles."
+        },
+        {
+          "id": "C",
+          "text": "Seis días hábiles."
+        },
+        {
+          "id": "D",
+          "text": "Veintidós días hábiles."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Para modalidades abreviadas el numeral 66.1 fija un mínimo de tres días hábiles. El caso se delimita para no trasladarle el mínimo general de siete días hábiles.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "Para modalidades abreviadas el numeral 66.1 fija un mínimo de tres días hábiles. El caso se delimita para no trasladarle el mínimo general de siete días hábiles.",
+        "B": "No corresponde: es el mínimo general, no el especial de la modalidad indicada.",
+        "C": "No corresponde: no es el mínimo fijado para la etapa consultada.",
+        "D": "No corresponde: se confunde con una regla general distinta de cronograma."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:78051880-54d5-4566-ae72-ca7eb6c17495",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "66",
+          "pageStart": 36,
+          "pageEnd": 36,
+          "quote": "66.1. Los participantes pueden formular consultas y/o (*) NOTA SPIJ1 observaciones a las bases en los procedimientos de selección que contemplen dicha etapa, a través de la Pladicop, en un plazo no menor a siete días hábiles contabilizados desde el día siguiente de la convocatoria. En las modalidades abreviadas este plazo es no menor a tres días hábiles contabilizados desde el día siguiente de la convocatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q193, auditoría 14/11/2026. Plazo general sin excluir modalidades abreviadas (art. 66.1). Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Plazo general sin excluir modalidades abreviadas (art. 66.1)."
+  },
+  {
+    "numero": "Q194",
+    "input": {
+      "id": "a711b872-67f0-45b7-9a68-eb48b06fcd30",
+      "revision": 0,
+      "prompt": "En un procedimiento con jurado y subetapas de negociación o diálogo competitivo al que se aplica el numeral 60.4, ¿quién conduce las rondas y cómo adopta las decisiones que ese numeral prevé?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El área usuaria por sí sola y unilateralmente."
+        },
+        {
+          "id": "B",
+          "text": "La DEC por sí sola y sin el jurado."
+        },
+        {
+          "id": "C",
+          "text": "El jurado, de forma colegiada y por mayoría."
+        },
+        {
+          "id": "D",
+          "text": "El oficial de compra por sí solo, pese a haberse previsto jurado."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La regla especial del numeral 60.4 atribuye al jurado las rondas y las decisiones colegiadas por mayoría. No se usa una referencia genérica a evaluadores para extender esa atribución a cualquier actor indistintamente.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: no se atribuye esa decisión al área usuaria actuando por sí sola.",
+        "B": "No corresponde: no se elimina al jurado previsto en el procedimiento.",
+        "C": "La regla especial del numeral 60.4 atribuye al jurado las rondas y las decisiones colegiadas por mayoría. No se usa una referencia genérica a evaluadores para extender esa atribución a cualquier actor indistintamente.",
+        "D": "No corresponde: no corresponde sustituir al jurado por otro evaluador en este caso."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:78051880-54d5-4566-ae72-ca7eb6c17495",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f913c8c7-867d-46d9-952b-1017b00bdeab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "60",
+          "pageStart": 33,
+          "pageEnd": 34,
+          "quote": "60.4. En los procedimientos de selección con subetapas de negociación o diálogo competitivo, el jurado conduce las rondas a realizarse y determina de forma colegiada y por mayoría las decisiones que se adoptan en éstas. En estos casos, el jurado está confo rmado por al menos un servidor o funcionario del área usuaria, que para todos los efectos la representa con sus decisiones y emite la no objeción a las modificaciones al requerimiento en representación del área usuaria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q194, auditoría 14/11/2026. Cita general 76 sobre evaluadores no justifica ampliar la atribución colegiada del jurado de 60.4 a oficial/comité indistintamente. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Cita general 76 sobre evaluadores no justifica ampliar la atribución colegiada del jurado de 60.4 a oficial/comité indistintamente."
+  },
+  {
+    "numero": "Q196",
+    "input": {
+      "id": "400acecf-c394-40b6-80a8-f8c41e3ad3e2",
+      "revision": 0,
+      "prompt": "¿Qué supuesto está expresamente exceptuado del mínimo general de veintidós días hábiles entre convocatoria y ofertas o documentos para precalificación del numeral 64.1?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Un procedimiento competitivo no abreviado con consultas y observaciones, sin otra reducción aplicable."
+        },
+        {
+          "id": "B",
+          "text": "Una modalidad abreviada."
+        },
+        {
+          "id": "C",
+          "text": "Cualquier procedimiento por el solo hecho de estar registrado en Pladicop."
+        },
+        {
+          "id": "D",
+          "text": "Cualquier procedimiento que el área usuaria pida acelerar sin otra habilitación normativa."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 64.1 exceptúa a modalidades abreviadas y a procedimientos sin etapas de consultas y observaciones. Se pregunta por una excepción expresa, sin presentar el mínimo general como universal.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: el supuesto está dentro del mínimo general, no de la excepción consultada.",
+        "B": "El numeral 64.1 exceptúa a modalidades abreviadas y a procedimientos sin etapas de consultas y observaciones. Se pregunta por una excepción expresa, sin presentar el mínimo general como universal.",
+        "C": "No corresponde: el registro en Pladicop por sí solo no genera una excepción.",
+        "D": "No corresponde: una solicitud del área usuaria no sustituye la habilitación normativa."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:9813a32d-8c48-436a-a131-b7992d527843",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "64",
+          "pageStart": 35,
+          "pageEnd": 35,
+          "quote": "64.1. En los procedimientos de selección competitivos el plazo entre la fecha de convocatoria y la presentación de ofertas o la presentación de los documentos para la precalificación no puede ser menor de veintidós días hábiles, salvo en el caso de las mod alidades abreviadas y aquellas que no contemplen etapas de consultas y observaciones.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q196, auditoría 14/11/2026. Plazo general sin excepciones de 64.1; repetición de Q065. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Plazo general sin excepciones de 64.1; repetición de Q065."
+  },
+  {
+    "numero": "Q200",
+    "input": {
+      "id": "fd8dd330-26b2-4daf-9b91-d987ad99fefc",
+      "revision": 0,
+      "prompt": "En servicios, eventos no atribuibles a las partes interrumpen las prestaciones y ambas acuerdan por escrito suspender el plazo hasta que culmine el evento. Según el numeral 107.1, ¿qué ocurre con mayores gastos generales y costos directos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Se reconocen todos, aunque no sean necesarios para viabilizar la suspensión."
+        },
+        {
+          "id": "B",
+          "text": "No se reconocen, salvo los necesarios para viabilizar la suspensión."
+        },
+        {
+          "id": "C",
+          "text": "Se reconocen todos los costos directos por el solo hecho de serlo, sin examinar su necesidad."
+        },
+        {
+          "id": "D",
+          "text": "No se reconoce ninguno, ni siquiera los necesarios para viabilizar la suspensión."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La suspensión acordada no supone reconocer mayores gastos generales o costos directos, salvo los necesarios para viabilizarla. Los demás distractores eliminan la excepción o permiten reconocimientos indiscriminados.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: amplía el reconocimiento a conceptos fuera de la excepción.",
+        "B": "La suspensión acordada no supone reconocer mayores gastos generales o costos directos, salvo los necesarios para viabilizarla. Los demás distractores eliminan la excepción o permiten reconocimientos indiscriminados.",
+        "C": "No corresponde: ser costo directo no basta sin la necesidad que prevé la regla.",
+        "D": "No corresponde: suprime una excepción expresamente contemplada."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:0dfaf627-6044-43db-a58e-1d0f9b095da3",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "92c1115c-1842-4c80-9031-1baa27aa310e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "107",
+          "pageStart": 59,
+          "pageEnd": 60,
+          "quote": "107.1. Cuando se produzcan eventos no atribuibles a las partes que originen la interrupción de la ejecución de las prestaciones, estas pueden acordar por escrito la suspensión del plazo de ejecución contractual, hasta la culminación de dicho evento, sin qu e ello suponga el reconocimiento de mayores gastos generales y/o costos directos; salvo aquellos que resulten necesarios para viabilizar la suspensión.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q200, auditoría 14/11/2026. A reconoce costos necesarios para viabilizar suspensión y B niega costos salvo esos necesarios: ambas son compatibles. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "A reconoce costos necesarios para viabilizar suspensión y B niega costos salvo esos necesarios: ambas son compatibles."
+  },
+  {
+    "numero": "Q214",
+    "input": {
+      "id": "f8f71c64-4bd2-496a-abf6-bc392af3d919",
+      "revision": 0,
+      "prompt": "Durante la elaboración del expediente técnico de un sistema de entrega que incluye ese componente, ¿quiénes pueden anotar en el cuaderno de incidencias según el numeral 188.2 modificado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El jefe de elaboración del expediente técnico y el supervisor o líder revisor."
+        },
+        {
+          "id": "B",
+          "text": "El residente en sustitución automática del jefe de elaboración en todos los casos."
+        },
+        {
+          "id": "C",
+          "text": "Solo el contratista, sin intervención de los profesionales del numeral."
+        },
+        {
+          "id": "D",
+          "text": "Cualquier postor que participó en la selección."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El numeral 188.2 modificado autoriza al jefe de elaboración del expediente técnico y al supervisor o líder revisor. Esta etapa se distingue del componente de ejecución de obra y de sus actores.",
+      "regime": "32069",
+      "topic": "Residente, supervisor y responsables",
+      "competency": "Ejecución contractual",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.8",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "El numeral 188.2 modificado autoriza al jefe de elaboración del expediente técnico y al supervisor o líder revisor. Esta etapa se distingue del componente de ejecución de obra y de sus actores.",
+        "B": "No corresponde: confunde los actores de ejecución con los de elaboración del expediente.",
+        "C": "No corresponde: omite a los profesionales autorizados por el numeral.",
+        "D": "No corresponde: haber sido postor no autoriza a anotar en ese cuaderno."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:5cef8a22-644d-410b-bb43-10069042ecd5",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8438e364-371c-4665-877a-db5ab3ee7205",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "188",
+          "pageStart": 103,
+          "pageEnd": 105,
+          "quote": "188.2. En caso el sistema de entrega incluya el componente elaboración de expediente técnico, el cuaderno de incidencias se apertura al día siguiente del perfeccionamiento del contrato y cierra con la anotación de la aprobación final del expediente técnic o o con la anotación de cierre, en caso el contrato culmine antes de la aprobación final. Los autorizados para las anotaciones son el jefe de elaboración de expediente técnico y el supervisor o líder revisor.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q214, auditoría 14/11/2026. Cita la versión anterior de 188.2; texto modificado incorpora supervisor o líder revisor. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Cita la versión anterior de 188.2; texto modificado incorpora supervisor o líder revisor."
+  },
+  {
+    "numero": "Q215",
+    "input": {
+      "id": "225f1093-5971-4d1e-8f2f-3c857e4871b8",
+      "revision": 0,
+      "prompt": "Una entidad aplica un contrato estandarizado de ingeniería y construcción de uso internacional sujeto al artículo 222. ¿Qué profesional debe asignar para gestionar las actividades conforme a las facultades del contrato?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Un residente como sustituto automático del gestor previsto en el artículo."
+        },
+        {
+          "id": "B",
+          "text": "El proveedor que quedó segundo en la selección."
+        },
+        {
+          "id": "C",
+          "text": "Un gerente de proyecto."
+        },
+        {
+          "id": "D",
+          "text": "El oficial de compra como gestor obligatorio de toda la ejecución."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 222 requiere un gerente de proyecto para el contrato estandarizado, con las facultades que establezca el contrato. Se identifica ese régimen sin extenderlo por el solo uso del sistema diseño y construcción.",
+      "regime": "32069",
+      "topic": "Residente, supervisor y responsables",
+      "competency": "Ejecución contractual",
+      "difficulty": "basic",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.8",
+      "cognitiveLevel": "understand",
+      "optionRationales": {
+        "A": "No corresponde: el residente no sustituye automáticamente al gerente previsto para este régimen.",
+        "B": "No corresponde: la prelación de proveedores no determina esa asignación profesional.",
+        "C": "El artículo 222 requiere un gerente de proyecto para el contrato estandarizado, con las facultades que establezca el contrato. Se identifica ese régimen sin extenderlo por el solo uso del sistema diseño y construcción.",
+        "D": "No corresponde: el artículo no convierte al oficial de compra en gestor obligatorio de la ejecución."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:22f0f357-dfc1-4122-9407-3f6760c0a939",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "98b39f6f-4212-44f0-8cee-ea63cd0874ea",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "222",
+          "pageStart": 126,
+          "pageEnd": 126,
+          "quote": "222.1. La aplicación de estos contratos requiere que la entidad contratante asigne al contrato un gerente de proyecto, quien se encarga de gestionar las actividades correspondientes de acuerdo con las facultades que el contrato suscrito establezca.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q215, auditoría 14/11/2026. Obligación del gerente tomada de art. 222 para contratos estandarizados, aplicada a diseño/construcción genérico. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Obligación del gerente tomada de art. 222 para contratos estandarizados, aplicada a diseño/construcción genérico."
+  },
+  {
+    "numero": "Q216",
+    "input": {
+      "id": "b896133d-d6aa-4b1b-bc0a-d434c6d5d584",
+      "revision": 0,
+      "prompt": "Se examina solo la vía de dos años de experiencia como adjudicador o supervisor de obras del literal 77.7.d. Una persona acredita un año como supervisor y cuatro como residente, sin experiencia como adjudicador. Sin evaluar la vía alternativa de requisitos de árbitro, ¿pueden sumarse automáticamente los años de residente para cumplir esa vía?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Sí, cualquier experiencia en obra equivale a supervisión."
+        },
+        {
+          "id": "B",
+          "text": "Sí, basta ejercer de residente más de dos años."
+        },
+        {
+          "id": "C",
+          "text": "No; no se equipara automáticamente experiencia de residente con la de adjudicador o supervisor de esa vía."
+        },
+        {
+          "id": "D",
+          "text": "No; la Ley prohíbe para siempre a cualquier residente llegar a ser adjudicador."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La vía examinada exige experiencia como adjudicador o supervisor. No se acredita sumando automáticamente experiencia de residente tomada de requisitos de otro cargo. No se decide elegibilidad integral: se excluye del análisis la vía alternativa de requisitos de árbitro.",
+      "regime": "32069",
+      "topic": "Controversias y solución de conflictos",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.5",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: los roles no se asimilan por estar vinculados a una obra.",
+        "B": "No corresponde: los años de residente no acreditan por sí solos los roles de la vía examinada.",
+        "C": "La vía examinada exige experiencia como adjudicador o supervisor. No se acredita sumando automáticamente experiencia de residente tomada de requisitos de otro cargo. No se decide elegibilidad integral: se excluye del análisis la vía alternativa de requisitos de árbitro.",
+        "D": "No corresponde: la insuficiencia por una vía no constituye una prohibición absoluta de acceso al cargo."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:22f0f357-dfc1-4122-9407-3f6760c0a939",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "45c14651-0658-462d-b38f-aa7aa7ca631d",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "77",
+          "pageStart": 37,
+          "pageEnd": 39,
+          "quote": "77.7. Los profesionales deben cumplir, como mínimo, con los siguientes requisitos: a) Contar con título profesional o equivalente, registrado en la Superintendencia Nacional de Educación Superior Universitaria - Sunedu. b) Para ser árbitro, experiencia no menor de tres años según las siguientes condiciones: i) en el sector público desempeñándose en materia de contratación pública, o ii) en el sector privado como árbitro o secretario arbitral de la presente Ley o profesion al con experiencia en contratación pública. c) En caso de árbitro único o presidente del tribunal arbitral, ser profesional en derecho con especialización acreditada en derecho administrativo, arbitraje y contrataciones públicas. d) Para ser adjudicador, experiencia no menor de dos años como adjudicador o como supervisor de obras, o cumplir con los requisitos para ser árbitro conforme al literal b) del presente párrafo.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q216, auditoría 14/11/2026. Suma experiencia de residente y supervisor para requisito de adjudicador, usando otra norma sobre un cargo diferente. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Suma experiencia de residente y supervisor para requisito de adjudicador, usando otra norma sobre un cargo diferente."
+  },
+  {
+    "numero": "Q218",
+    "input": {
+      "id": "fc23d239-96d3-4c0a-bd59-e56b196ef6b2",
+      "revision": 0,
+      "prompt": "Para gestionar un contrato estandarizado de ingeniería y construcción de uso internacional, una persona cumple titulación y experiencia del numeral 222.2, pero carece de certificación oficial en el contrato elegido. ¿Cumple ese numeral solo con la experiencia?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Sí; la experiencia permite prescindir de la certificación."
+        },
+        {
+          "id": "B",
+          "text": "Sí; basta que el contratista acepte su designación."
+        },
+        {
+          "id": "C",
+          "text": "No; también se exige certificación oficial en el contrato estandarizado elegido."
+        },
+        {
+          "id": "D",
+          "text": "No; únicamente se admite experiencia con el nombre exacto de cargo gerente de proyecto."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El numeral 222.2 exige experiencia en los roles que enumera y certificación oficial en el contrato estandarizado elegido. La experiencia no elimina la certificación; tampoco se restringe toda la experiencia al único cargo llamado gerente de proyecto.",
+      "regime": "32069",
+      "topic": "Residente, supervisor y responsables",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.8",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: la disposición no permite reemplazar certificación por experiencia.",
+        "B": "No corresponde: la aceptación del contratista no elimina un requisito normativo.",
+        "C": "El numeral 222.2 exige experiencia en los roles que enumera y certificación oficial en el contrato estandarizado elegido. La experiencia no elimina la certificación; tampoco se restringe toda la experiencia al único cargo llamado gerente de proyecto.",
+        "D": "No corresponde: se admiten otros roles de experiencia además del gerente de proyecto."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:2fc76de6-6c0b-4e0e-9ecb-f94dad61e4ef",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "98b39f6f-4212-44f0-8cee-ea63cd0874ea",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "222",
+          "pageStart": 126,
+          "pageEnd": 126,
+          "quote": "222.2. El gerente de proyecto es un profesional colegiado y habilitado de la carrera de ingeniería, arquitectura o afines a la gestión de proyectos, con no menos de cinco años de experiencia como gerente de proyecto, coordinador de obra, coordinador de pro yecto, administrador de obra, administrador de proyecto y/o similares que cuenta con certificación oficial en el contrato estandarizado elegido.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q218, auditoría 14/11/2026. Clave A considera suficiente experiencia y omite certificación oficial exigida por la propia cita 222.2. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Clave A considera suficiente experiencia y omite certificación oficial exigida por la propia cita 222.2."
+  },
+  {
+    "numero": "Q220",
+    "input": {
+      "id": "9bd28f98-e85f-4d5c-8286-fe3dae5f844c",
+      "revision": 0,
+      "prompt": "En una consultoría de obra se otorgará un adelanto directo previsto en las bases. Considerando su garantía por idéntico monto y la prohibición especial del numeral 178.2, ¿qué alternativa es coherente con las reglas aplicables?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Fideicomiso, carta fianza financiera o seguro, indistintamente."
+        },
+        {
+          "id": "B",
+          "text": "Carta fianza financiera o contrato de seguro, por un monto idéntico al adelanto."
+        },
+        {
+          "id": "C",
+          "text": "Solo retención de pagos por el saldo pendiente del contrato."
+        },
+        {
+          "id": "D",
+          "text": "Carta fianza financiera inferior al adelanto si lo pide el contratista."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 113 exige garantizar el adelanto por idéntico monto. La regla especial del numeral 178.2 excluye fideicomisos en adelantos de consultoría de obra; en este caso corresponde carta fianza financiera o contrato de seguro por idéntico monto.",
+      "regime": "32069",
+      "topic": "Adelantos y amortización",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.9",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: incluye el mecanismo excluido por la regla especial.",
+        "B": "El artículo 113 exige garantizar el adelanto por idéntico monto. La regla especial del numeral 178.2 excluye fideicomisos en adelantos de consultoría de obra; en este caso corresponde carta fianza financiera o contrato de seguro por idéntico monto.",
+        "C": "No corresponde: la retención no sustituye los mecanismos de garantía del adelanto consultado.",
+        "D": "No corresponde: la solicitud del contratista no permite garantizar un monto inferior."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:74480f38-ff69-4082-a637-86d57fa9662f",
+      "sources": [
+        {
+          "quote": "La entidad contratante sólo puede entregar los adelantos contemplados en los artículos 137 , 178 y 179 del Reglamento cuando estos se garanticen por idéntico monto, sin excepción, que puede ser: (i) fideicomiso, (ii) carta fianza financiera o (iii) contrato de seguro.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "113",
+          "chunkId": "65b9890f-e7e3-4d96-987b-b57754badc9f",
+          "pageEnd": 63,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 62,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "661cfc23-506f-5543-a9c1-1ceba3965934",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "178",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": "178.2. En consultoría de obras solo proceden los adelantos directos. No procede la constitución de fideicomisos por adelantos en consultorías de obra.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q220, auditoría 14/11/2026. Clave A permite fideicomiso en consultoría de obra pese a excepción expresa de su segunda fuente. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Clave A permite fideicomiso en consultoría de obra pese a excepción expresa de su segunda fuente."
+  },
+  {
+    "numero": "Q223",
+    "input": {
+      "id": "14c8c2b2-5b45-4ea6-8a5d-fdced4ccc5a3",
+      "revision": 0,
+      "prompt": "Se presenta una garantía de adelanto con vigencia inicial de tres meses para un contrato de seis meses. Según el artículo 113, ¿qué alternativa describe su renovación y la posible reducción del monto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es renovable por plazo idéntico hasta amortizar totalmente el adelanto y, a solicitud del contratista, puede reducirse al saldo pendiente."
+        },
+        {
+          "id": "B",
+          "text": "Debe extinguirse a los tres meses aunque quede adelanto por amortizar."
+        },
+        {
+          "id": "C",
+          "text": "No puede reducirse del monto inicial, ni después de amortizaciones parciales."
+        },
+        {
+          "id": "D",
+          "text": "Puede reducirse por debajo del saldo pendiente si mantiene el plazo inicial."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La garantía tiene vigencia mínima de tres meses, renovable por plazo idéntico hasta amortizar totalmente el adelanto. A solicitud del contratista puede reducirse hasta el monto pendiente. No se aplica al caso la excepción de ejecución contractual menor al plazo mínimo.",
+      "regime": "32069",
+      "topic": "Adelantos y amortización",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.9",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "La garantía tiene vigencia mínima de tres meses, renovable por plazo idéntico hasta amortizar totalmente el adelanto. A solicitud del contratista puede reducirse hasta el monto pendiente. No se aplica al caso la excepción de ejecución contractual menor al plazo mínimo.",
+        "B": "No corresponde: dejar saldo pendiente sin garantía contradice la renovación hasta amortización total.",
+        "C": "No corresponde: la disposición permite reducir hasta el saldo pendiente a solicitud del contratista.",
+        "D": "No corresponde: la reducción no debe dejar sin garantía parte del saldo pendiente."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:74480f38-ff69-4082-a637-86d57fa9662f",
+      "sources": [
+        {
+          "quote": "La garantía tiene un plazo mínimo de vigencia de tres meses, renovable por un plazo idéntico hasta la amortización total del adelanto otorgado, salvo que el plazo de ejecución contractual sea menor, e n cuyo caso pueden ser emitidas con una vigencia menor, siempre que cubran la fecha prevista para la amortización total del adelanto otorgado. Dicha garantía puede reducirse a solicitud del contratista hasta el monto pendiente de amortizar.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "113",
+          "chunkId": "65b9890f-e7e3-4d96-987b-b57754badc9f",
+          "pageEnd": 63,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 62,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q223, auditoría 14/11/2026. Caso de garantía por tres meses con ejecución de seis: clave no explica renovación y otra alternativa recoge esa renovación. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "draft",
+    "observacion": "Caso de garantía por tres meses con ejecución de seis: clave no explica renovación y otra alternativa recoge esa renovación."
+  },
+  {
+    "numero": "Q236",
+    "input": {
+      "id": "aeb2ddf6-671c-40ed-bd4e-49e9b3e09378",
+      "revision": 1,
+      "prompt": "En una obra hay retraso injustificado en avances parciales. El supervisor verifica valorización acumulada ejecutada menor al 80% de la programada o atraso en ruta crítica al realizar la valorización. Según el numeral 207.1 modificado, ¿qué ordena presentar?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La resolución inmediata del contrato sin el procedimiento correspondiente."
+        },
+        {
+          "id": "B",
+          "text": "La suspensión definitiva por el solo resultado porcentual."
+        },
+        {
+          "id": "C",
+          "text": "Un nuevo programa de ejecución acelerado y un nuevo calendario de avance de obra valorizado acelerado."
+        },
+        {
+          "id": "D",
+          "text": "Solo una carta de compromiso, sin documentos de programación."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Ante el retraso injustificado descrito, el numeral 207.1 modificado requiere programa de ejecución acelerado y calendario de avance de obra valorizado acelerado para acelerar trabajos y cumplir el plazo, anotando el hecho en el cuaderno de incidencias.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "No corresponde: el numeral ordena documentos de programación, no esa resolución inmediata.",
+        "B": "No corresponde: no dispone una suspensión definitiva automática por ese resultado.",
+        "C": "Ante el retraso injustificado descrito, el numeral 207.1 modificado requiere programa de ejecución acelerado y calendario de avance de obra valorizado acelerado para acelerar trabajos y cumplir el plazo, anotando el hecho en el cuaderno de incidencias.",
+        "D": "No corresponde: una carta no sustituye los dos documentos exigidos."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:17827515-1f64-4b68-a40d-1c2d3ecb1825",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e9a300a4-d938-400a-824f-fa13f7f4a9ba",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "207",
+          "pageStart": 116,
+          "pageEnd": 117,
+          "quote": "207.1. La supervisión emplea herramientas para realizar el monitoreo y control conforme al literal i) del numeral 187.3 del artículo 187. En caso de retraso injustificado, en los avances parciales, cuando el supervisor verifique que la valorización acumula da ejecutada sea menor al 80% de la valorización acumulada programada o exista atraso en la ruta crítica al momento de realizada dicha valorización, ordena la presentación de un nuevo programa de ejecución acelerado y un nuevo calendario de avance de obra valorizado acelerado que contemple la aceleración de trabajos que garantice el cumplimiento de la obra dentro del plazo previsto, anotando ese hecho en el cuaderno de incidencias.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q236, auditoría 14/11/2026. Omisión de «retraso injustificado»; además no incluye el calendario valorizado acelerado del texto modificado 207.1. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "published",
+    "observacion": "Omisión de «retraso injustificado»; además no incluye el calendario valorizado acelerado del texto modificado 207.1."
+  },
+  {
+    "numero": "Q237",
+    "input": {
+      "id": "50ce1421-ca07-4c7c-9d89-14e604380947",
+      "revision": 1,
+      "prompt": "En una obra, atrasos por causas imputables al contratista extienden los servicios de supervisión y generan mayor costo. Según el artículo 210, ¿quién asume definitivamente ese costo y cómo se hace efectivo?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El contratista ejecutor, deduciéndose de valorizaciones y/o liquidación; la entidad puede asumirlo provisionalmente."
+        },
+        {
+          "id": "B",
+          "text": "El supervisor por el solo hecho de extenderse sus servicios."
+        },
+        {
+          "id": "C",
+          "text": "La entidad siempre de forma definitiva, sin deducción al contratista."
+        },
+        {
+          "id": "D",
+          "text": "Ambas partes por mitades, sin considerar imputabilidad."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Si la extensión se debe a causas imputables al contratista, este asume el mayor costo de supervisión mediante deducción en valorizaciones y/o liquidación. La entidad puede asumirlo provisionalmente, sin cambiar la atribución definitiva prevista.",
+      "regime": "32069",
+      "topic": "Valorización, recepción y liquidación",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.11",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Si la extensión se debe a causas imputables al contratista, este asume el mayor costo de supervisión mediante deducción en valorizaciones y/o liquidación. La entidad puede asumirlo provisionalmente, sin cambiar la atribución definitiva prevista.",
+        "B": "No corresponde: la extensión no atribuye al supervisor el costo causado por el contratista.",
+        "C": "No corresponde: confunde asunción provisional con responsabilidad definitiva.",
+        "D": "No corresponde: la disposición no establece reparto obligatorio por mitades."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b7f678c6-df7f-43a4-ad06-2b672e81559f",
+      "sources": [
+        {
+          "quote": "En caso de atrasos en la ejecución de la obra por causas imputables al contratista, que produzcan una extensión de los servicios de supervisión, generando un mayor costo, el contratista ejecutor de la obra asume el pago del monto correspondiente a d icha extensión, que se hace efectivo deduciendo dicho monto de las valorizaciones y/o de la liquidación del contrato de ejecución de obra. La entidad contratante puede asumir provisionalmente dichos costos durante la ejecución de la obra.",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830",
+          "article": "210",
+          "chunkId": "8045ecb6-71d6-4eba-963b-9a3ec6d9b6f0",
+          "pageEnd": 119,
+          "version": "Texto actualizado al 09.01.2026",
+          "pageStart": 118,
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q237, auditoría 14/11/2026. Para atribuir el mayor costo debe explicitarse que la causa del atraso es imputable al contratista. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "published",
+    "observacion": "Para atribuir el mayor costo debe explicitarse que la causa del atraso es imputable al contratista."
+  },
+  {
+    "numero": "Q240",
+    "input": {
+      "id": "4ce66458-d982-41bf-bc87-6627ae55f064",
+      "revision": 1,
+      "prompt": "Una obra fue recibida y las penalidades aplicadas hasta ese hito se dedujeron de las valorizaciones. Su garantía de fiel cumplimiento es carta fianza financiera. Según los numerales 183.2.a y 183.3 modificado, ¿qué permite tramitar su devolución al reducir la garantía?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Presentar previamente un mecanismo de garantía equivalente al 5% del monto del contrato vigente de obra."
+        },
+        {
+          "id": "B",
+          "text": "Sustituirla por un mecanismo de solo el 5% del importe de la propia carta, sin atender al contrato."
+        },
+        {
+          "id": "C",
+          "text": "No presentar garantía porque recibir la obra siempre extingue toda obligación garantizada."
+        },
+        {
+          "id": "D",
+          "text": "Calcular la reducción sobre el monto contractual original aunque difiera del vigente."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Cumplidas recepción y deducción de penalidades, se mantiene el mecanismo equivalente al 5% del monto vigente de obra. Para carta fianza financiera, el numeral 183.3 modificado exige presentarlo previamente para tramitar devolución. No se calcula 5% del importe de la garantía ni se elimina todo respaldo.",
+      "regime": "32069",
+      "topic": "Valorización, recepción y liquidación",
+      "competency": "Ejecución contractual",
+      "difficulty": "intermediate",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.11",
+      "cognitiveLevel": "apply",
+      "optionRationales": {
+        "A": "Cumplidas recepción y deducción de penalidades, se mantiene el mecanismo equivalente al 5% del monto vigente de obra. Para carta fianza financiera, el numeral 183.3 modificado exige presentarlo previamente para tramitar devolución. No se calcula 5% del importe de la garantía ni se elimina todo respaldo.",
+        "B": "No corresponde: confunde porcentaje del monto contractual vigente con porcentaje del importe de garantía.",
+        "C": "No corresponde: la recepción no elimina la condición de conservar el mecanismo exigido.",
+        "D": "No corresponde: la base requerida es el monto vigente, no el original si difiere."
+      },
+      "reviewChecks": {
+        "unambiguous": false,
+        "distractors": false,
+        "conditions": false,
+        "exceptions": false,
+        "sources": false
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "IA:gemini:gemini-2.5-flash:lote:b7f678c6-df7f-43a4-ad06-2b672e81559f",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f6436470-9666-4ce1-882e-b75c94f3bd82",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "183",
+          "pageStart": 98,
+          "pageEnd": 99,
+          "quote": "183.2. Las garantías de fiel cumplimiento en obras y consultoría de obras se reducen en 5% de acuerdo con lo siguiente: a) Para obras, a partir de la recepción de la obra y siempre que las penalidades aplicadas a ese hito hayan sido deducidas de las valorizaciones, el contratista puede solicitar la reducción de la garantía de fiel cumplimiento equivalente al 5% del monto vi gente de la obra, siempre que mantenga un mecanismo de garantía equivalente al 5% del monto vigente de la obra. Reglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 99 de 249 b) Para consultoría de obras, a partir de la conformidad de la recepción de la prestación y siempre que se hayan deducido las penalidades correspondientes, para lo cual el contratista solicita la reducción de la garantía siempre que mantenga un mecanismo d e garantía equivalente al 5% del monto del contrato vigente.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "87b3da2b-28fd-4ac8-9c3a-814bbc6c1ec3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "183",
+          "pageStart": 98,
+          "pageEnd": 99,
+          "quote": "183.3. Para esta reducción, en el caso de cartas fianzas financieras o contratos de seguro, el contratista solicita su devolución previa presentación de un mecanismo de garantía equivalente del 5% del monto del contrato vigente de obra o consultoría de obra . En caso de fideicomiso, la entidad contratante autoriza la disminución del 5% del monto del contrato vigente de obra o consultoría de obra al contratista. En caso de la retención , la entidad contratante devuelve el 5% del monto del contrato vigente de obra o consultoría de obra .",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "draft",
+      "confirmReview": false,
+      "reviewBasis": "Corrección editorial asistida de Q240, auditoría 14/11/2026. Confunde 5% de la garantía con 5% del monto vigente de obra y omite mantener garantía equivalente y la excepción de retención. Pasajes contrastados; pendiente de aprobación editorial/jurídica. Comprobaciones reiniciadas. Se conserva el corte declarado, sin certificar vigencia posterior."
+    },
+    "estadoAnterior": "published",
+    "observacion": "Confunde 5% de la garantía con 5% del monto vigente de obra y omite mantener garantía equivalente y la excepción de retención."
+  }
+]
