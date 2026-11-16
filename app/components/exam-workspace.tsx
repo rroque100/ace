@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { buttonClasses } from "@/app/components/ui/button";
+import { ExamActiveNotice } from "./exam-active-notice";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   type SetAttempt,
@@ -131,7 +132,7 @@ export function ExamWorkspace({
     setTick(Date.now());
   }, []);
   const open = useCallback(
-    async (id: string) => {
+    async (id: string, action?: "cancel") => {
       setBusy(true);
       setError("");
       try {
@@ -149,6 +150,9 @@ export function ExamWorkspace({
         u.searchParams.set("attempt", id);
         u.hash = `q=${resumeQuestionIndex(x.attempt.questions, "", localQuestionId ?? x.attempt.last_question_id) + 1}`;
         history.replaceState(null, "", u);
+        if (action === "cancel" && x.attempt.state === "active") {
+          setConfirmation("cancel");
+        }
         return true;
       } catch (e) {
         setError((e as Error).message);
@@ -1173,8 +1177,17 @@ export function ExamWorkspace({
                       : " Puedes volver cuando se publiquen preguntas revisadas.")}
                   </p>
                 )}
-                {dash.active && <p className="mt-4 rounded-lg bg-brand-soft p-3 text-sm text-brand-dark">Continúa o finaliza tu intento en curso antes de empezar otra sesión.</p>}
+                {dash.active && (
+                  <ExamActiveNotice
+                    count={dash.active.count}
+                    preview={dash.active.preview}
+                    busy={busy}
+                    onContinue={() => void open(dash.active!.id)}
+                    onCancel={() => void open(dash.active!.id, "cancel")}
+                  />
+                )}
                 <button
+                  aria-describedby={dash.active ? "exam-active-description" : undefined}
                   className={cn(buttonClasses({ variant: "primary" }), "mt-5")}
                   disabled={
                     busy ||
