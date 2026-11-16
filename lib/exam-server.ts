@@ -76,6 +76,7 @@ export function examError(error: unknown) {
     issues?: Array<{ message: string }>;
   };
   if (e.issues?.length) return { status: 400, message: e.issues[0].message };
+  if (e.code === "57014") return { status: 503, message: "La consulta del simulador tardó demasiado. Vuelve a intentarlo." };
   if (e.code === "23505")
     return {
       status: 409,

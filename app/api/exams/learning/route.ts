@@ -3,6 +3,7 @@ import { z } from "zod";
 import { requireUser } from "@/lib/auth";
 import { examRpc, examError, getExam } from "@/lib/exam-server";
 import { ownStudyHistory } from "@/lib/exam-learning-server";
+import { buildExamCoaching } from "@/lib/exam-coaching";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
@@ -114,6 +115,7 @@ export async function GET(request: Request) {
         limited: history.limited,
         tasks,
         setAttempts,
+        coaching: buildExamCoaching(history.attempts, history.answers),
       },
       { headers: { "Cache-Control": "no-store" } },
     );

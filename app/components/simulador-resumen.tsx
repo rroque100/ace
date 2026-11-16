@@ -48,11 +48,10 @@ export function ResumenDelBanco({ activo }: { activo: boolean }) {
   }, [activo, version]);
   return <section className="space-y-3" aria-labelledby="banco-titulo">
     <h2 id="banco-titulo" className="text-2xl font-semibold text-ink">Banco de preguntas</h2>
-    <p className="max-w-3xl text-base leading-relaxed text-muted">Prepara sesiones con preguntas publicadas que tienen revisión registrada y fuentes disponibles. El banco también contiene preguntas pendientes.</p>
+    <p className="max-w-3xl text-base leading-relaxed text-muted">Entrena por temas, refuerza tus errores y comprueba tus conocimientos con un simulacro.</p>
     {error ? <div role="alert" className="rounded-xl bg-warning-soft p-4 text-warning"><p>{error}</p><button type="button" className={`${boton} mt-3`} onClick={() => { setError(""); setVersion(v => v + 1); }}>Reintentar consulta</button></div> : data ? <>
-      <p className="text-sm text-muted">{data.total} preguntas en el banco · todas las competencias y regímenes</p>
-      <dl className="grid gap-3 sm:grid-cols-3">{[["Revisadas disponibles", data.reviewed, "text-success"], ["Pendientes de revisión", data.pending, "text-warning"], ["Retiradas", data.retired, "text-muted"]].map(([label, value, color]) => <div key={label} className="rounded-xl border border-line bg-panel p-4"><dt className="text-sm text-muted">{label}</dt><dd className={`mt-2 text-2xl font-semibold ${color}`}>{value}</dd></div>)}</dl>
-      <p className="text-sm leading-relaxed text-muted">Las pendientes incluyen borradores y preguntas cuya revisión o fuente necesita actualizarse. Las retiradas no están disponibles para practicar.</p>
+      <dl aria-label="Disponibilidad del banco" className="flex flex-wrap gap-2">{[["Revisadas disponibles", data.reviewed, "text-success"], ["Pendientes de revisión", data.pending, "text-warning"], ["Retiradas", data.retired, "text-muted"]].map(([label, value, color]) => <div key={label} className="flex items-center gap-2 rounded-lg border border-line bg-panel px-3 py-2 text-sm"><dt className="order-2 text-muted">{label}</dt><dd className={`order-1 font-semibold tabular-nums ${color}`}>{value}</dd></div>)}</dl>
+      <details className="text-sm text-muted"><summary className="min-h-11 cursor-pointer py-2.5">Qué incluyen estas cantidades</summary><p className="pb-2 leading-relaxed">{data.total} preguntas entre todas las leyes y competencias. Estas cifras describen la disponibilidad del banco; tu avance se calcula con tus intentos entregados. Las pendientes requieren revisión editorial o actualización de sus fuentes y las retiradas no se usan para practicar.</p></details>
     </> : <p role="status" className="text-sm text-muted">Consultando revisión y disponibilidad del banco…</p>}
   </section>;
 }

@@ -8,16 +8,15 @@ export async function GET() {
   const a = await requireUser({usesAI:false});
   if ("error" in a) return a.error;
   try {
+    const [dashboard, available] = await Promise.all([
+      examRpc("ace_exam_workspace", { p_actor: a.user.id }),
+      examRpc("ace_exam_availability_by_difficulty", { p_admin: a.user.isAdmin }),
+    ]);
     return NextResponse.json(
       {
-        ...(await examRpc("ace_exam_dashboard", {
-          p_actor: a.user.id,
-          p_admin: a.user.isAdmin,
-        })),
+        ...dashboard,
         isAdmin: a.user.isAdmin,
-        available: await examRpc("ace_exam_availability_by_difficulty", {
-          p_admin: a.user.isAdmin,
-        }),
+        available,
       },
       { headers: { "Cache-Control": "no-store" } },
     );

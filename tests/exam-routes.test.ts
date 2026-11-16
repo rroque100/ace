@@ -105,4 +105,6 @@ it("el catálogo personal no se almacena en caché", async () => {
   m.rpc.mockResolvedValue({ available: [], history: [] });
   expect((await GET()).headers.get("cache-control")).toBe("no-store");
   expect(m.rpc).toHaveBeenCalledWith("ace_exam_availability_by_difficulty", { p_admin: false });
+  expect(m.rpc).toHaveBeenCalledWith("ace_exam_workspace", { p_actor: id });
+  expect(m.rpc).not.toHaveBeenCalledWith("ace_exam_dashboard", expect.anything());
 });

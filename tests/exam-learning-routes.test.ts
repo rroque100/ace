@@ -74,8 +74,31 @@ it("no entrega claves ni intentos privados en el plan", async () => {
   });
   const r = await GET(new Request("https://ace.test/api/exams/learning"));
   expect(r.status).toBe(200);
-  expect(JSON.stringify(await r.json())).not.toContain("SECRETO");
+  const data = await r.json();
+  expect(JSON.stringify(data)).not.toContain("SECRETO");
+  expect(data.coaching).toMatchObject({ practiced: 0, correct: 0, accuracy: null });
+  expect(data.coaching.competencies).toHaveLength(3);
   expect(m.history).toHaveBeenCalledWith(actor);
+  expect(m.history).toHaveBeenCalledTimes(1);
+});
+it("el GET normal agrega coaching reutilizando el historial propio", async () => {
+  m.history.mockResolvedValue({ reviews: [], limited: true, answers: [], attempts: [{
+    id, regime: "32069", state: "submitted", preview: false,
+    started_at: "2020-01-01", finished_at: "2020-01-02",
+    questions: [{ id: question, correct_option: "SECRETO", competency_code: "2",
+      subcompetency_code: "2.1", topic: "Selección" }],
+  }] });
+  const response = await GET(new Request("https://ace.test/api/exams/learning"));
+  expect(response.status).toBe(200);
+  expect(response.headers.get("Cache-Control")).toBe("no-store");
+  const data = await response.json();
+  expect(data.coaching).toMatchObject({ practiced: 1, correct: 0, accuracy: 0,
+    recommendation: { competency: "2", topic: "Selección", reason: "errors" } });
+  expect(data.limited).toBe(true);
+  expect(JSON.stringify(data)).not.toContain("SECRETO");
+  expect(m.history).toHaveBeenCalledTimes(1);
+  expect(m.model).not.toHaveBeenCalled();
+  expect(m.rpc).not.toHaveBeenCalled();
 });
 it("la cola editorial exige administración", async () => {
   expect(

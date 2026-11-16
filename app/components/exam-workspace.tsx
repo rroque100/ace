@@ -21,6 +21,10 @@ import {
   type ExamDifficulty,
 } from "@/lib/exam-difficulty";
 import { ExamPreparationPanel } from "./exam-preparation";
+import {
+  ACTIVITY_TARGETS, activityFromHash, ExamCoachingPanel, ExamStartBriefing,
+  ExamTrainingNavigation, type CoachingState, type PreparationActivity,
+} from "./exam-training";
 import { ExamQuestionTools } from "./exam-question-tools";
 import type { PublicExam, ExamResult } from "@/lib/exam-policy";
 import { remainingSeconds } from "@/lib/exam-policy";
@@ -38,6 +42,7 @@ type Dashboard = {
     regime: string;
     question_count: number;
     started_at: string;
+    difficulty_filter?: string;
     result: ExamResult | null;
   }>;
 };
@@ -60,6 +65,9 @@ export function ExamWorkspace({
   centerEnabled: boolean;
   reviewAttemptId?: string;
 }) {
+  const [activity, setActivity] = useState<PreparationActivity>("practice");
+  const [coaching, setCoaching] = useState<CoachingState>({ data: null });
+  const [startRequest, setStartRequest] = useState<{ profile: "custom" | "oece" | "balotario"; balotarioId?: string } | null>(null);
   const [dash, setDash] = useState<Dashboard | null>(null),
     [exam, setExam] = useState<PublicExam | null>(null),
     [error, setError] = useState(""),
@@ -141,8 +149,10 @@ export function ExamWorkspace({
         u.searchParams.set("attempt", id);
         u.hash = `q=${resumeQuestionIndex(x.attempt.questions, "", localQuestionId ?? x.attempt.last_question_id) + 1}`;
         history.replaceState(null, "", u);
+        return true;
       } catch (e) {
         setError((e as Error).message);
+        return false;
       } finally {
         setBusy(false);
       }
@@ -153,15 +163,20 @@ export function ExamWorkspace({
     if (reviewAttemptId) void Promise.resolve().then(() => open(reviewAttemptId));
   }, [reviewAttemptId, open]);
   useEffect(() => {
-    const controller = new AbortController();
+    const sync = () => setActivity(activityFromHash(location.hash));
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
+  const loadWorkspace = useCallback(async (signal?: AbortSignal) => {
     const id = new URL(location.href).searchParams.get("attempt");
-    Promise.all([
-      read<Dashboard>("/api/exams", { signal: controller.signal }),
+    const [d, x] = await Promise.all([
+      read<Dashboard>("/api/exams", { signal }),
       id
-        ? read<PublicExam>(`/api/exams/${id}`, { signal: controller.signal })
+        ? read<PublicExam>(`/api/exams/${id}`, { signal })
         : Promise.resolve(null),
-    ])
-      .then(([d, x]) => {
+    ]);
+    if (signal?.aborted) return;
         setDash(d);
         if (x) {
           accept(x);
@@ -174,12 +189,14 @@ export function ExamWorkspace({
             ),
           );
         }
-      })
-      .catch((e) => {
+  }, [accept, restoreLocal]);
+  useEffect(() => {
+    const controller = new AbortController();
+    void Promise.resolve().then(() => loadWorkspace(controller.signal)).catch((e) => {
         if (!controller.signal.aborted) setError(e.message);
       });
     return () => controller.abort();
-  }, [accept, restoreLocal]);
+  }, [loadWorkspace]);
   useEffect(() => {
     if (exam?.attempt.state !== "active" || !exam.attempt.deadline_at) return;
     const t = setInterval(() => setTick(Date.now()), 1000);
@@ -261,7 +278,41 @@ export function ExamWorkspace({
   const topics = [...new Set((dash?.available ?? [])
     .filter((group) => group.regime === regime && (!competency || group.competency === competency))
     .map((group) => group.topic))].sort((a, b) => a.localeCompare(b, "es"));
-  async function start(
+  function selectActivity(next: PreparationActivity) {
+    setActivity(next);
+    const u = new URL(location.href);
+    u.hash = next === "oece" ? "oece-preparation-title" : next === "review" ? "exam-review" : "exam-custom";
+    history.replaceState(null, "", u);
+    requestAnimationFrame(() => {
+      const target = document.getElementById(ACTIVITY_TARGETS[next]);
+      target?.focus({ preventScroll: true });
+      target?.scrollIntoView({ block: "nearest" });
+    });
+  }
+  function updateFilters(changes: Partial<typeof selection>) {
+    const next = { ...selection, ...changes };
+    setRegime(next.regime);
+    setCompetency(next.competency);
+    setTopic(next.topic);
+    setDifficulty(next.difficulty);
+    setPreview(next.preview);
+    const total = availableExamQuestions(dash?.available ?? [], next);
+    if (total > 0) setCount(current => Math.min(current, total, 72));
+  }
+  function start(
+    profile: "custom" | "oece" | "review" | "balotario" = "custom",
+    balotarioId?: string,
+  ) {
+    if (dash?.active) {
+      setError("Continúa o finaliza tu intento en curso antes de iniciar otro.");
+      return;
+    }
+    setError("");
+    if (profile === "oece" || profile === "balotario" || (profile === "custom" && mode === "exam")) {
+      setStartRequest({ profile, balotarioId });
+    } else void createAttempt(profile, balotarioId);
+  }
+  async function createAttempt(
     profile: "custom" | "oece" | "review" | "balotario" = "custom",
     balotarioId?: string,
   ) {
@@ -306,9 +357,12 @@ export function ExamWorkspace({
                 },
         ),
       });
-      await open(x.id);
+      const loaded = await open(x.id);
+      if (!loaded) await dashboard();
+      return true;
     } catch (e) {
       setError((e as Error).message);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -386,22 +440,20 @@ export function ExamWorkspace({
       setBusy(false);
     }
   }
-  function studyTopic(topic: string) {
+  function studyTopic(topic: string, sourceRegime = "32069") {
     setExam(null);
     setMode("practice");
-    setCount(10);
+    setRegime(sourceRegime);
+    setDifficulty("");
+    const total = availableExamQuestions(dash?.available ?? [], { regime: sourceRegime, topic, competency: "", difficulty: "", preview: false });
+    setCount(Math.max(1, Math.min(10, total || 10)));
     setCompetency("");
     setTopic(topic);
     setPreview(false);
     const u = new URL(location.href);
     u.searchParams.delete("attempt");
-    u.hash = "exam-custom";
     history.replaceState(null, "", u);
-    requestAnimationFrame(() =>
-      document
-        .getElementById("exam-custom")
-        ?.scrollIntoView({ block: "start" }),
-    );
+    selectActivity("practice");
   }
   async function startScheduled(regime: string) {
     setBusy(true);
@@ -460,7 +512,7 @@ export function ExamWorkspace({
     answered = exam?.answers.filter((x) => x.option).length ?? 0;
   return (
     <div className={cn("tw", S.examWorkspace, "mx-auto max-w-7xl space-y-6 pb-8 text-ink")}>
-      <div className={S.examWelcome}>
+      {exam && <div className={S.examWelcome}>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-brand-dark">
             Tu espacio de preparación
@@ -482,7 +534,7 @@ export function ExamWorkspace({
             </Link>
           )}
         </div>
-      </div>
+      </div>}
       {!online && (
         <p
           role="status"
@@ -503,6 +555,12 @@ export function ExamWorkspace({
           className="rounded-xl border border-warning/40 bg-warning-soft p-4 text-sm"
         >
           <p>{error}</p>
+          {!dash && !exam && <button type="button" disabled={busy} className={cn(buttonClasses({ variant: "secondary" }), "mt-3")}
+            onClick={() => {
+              setBusy(true);
+              setError("");
+              void loadWorkspace().catch(e => setError((e as Error).message)).finally(() => setBusy(false));
+            }}>{busy ? "Consultando…" : "Volver a cargar el simulador"}</button>}
           {pending && (
             <div className="mt-2 flex flex-wrap gap-2">
               <button
@@ -910,66 +968,45 @@ export function ExamWorkspace({
                 </button>
               </div>
             )}
-            <nav
-              aria-label="Cómo quieres practicar"
-              className="grid gap-3 sm:grid-cols-3"
-            >
-              <button
-                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
-                disabled={busy}
-                onClick={() => studyTopic("")}
-              >
-                <strong>Estudiar</strong>
-                <span className="mt-2 block text-sm text-muted">
-                  Sesiones de 10 preguntas con explicación inmediata.
-                </span>
-              </button>
-              <a
-                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
-                href="#oece-preparation-title"
-              >
-                <strong>Rendir simulacro</strong>
-                <span className="mt-2 block text-sm text-muted">
-                  72 preguntas, 120 minutos y corrección al entregar.
-                </span>
-              </a>
-              <a
-                className={cn(S.examMode, "rounded-xl", "border", "border-line", "bg-panel", "p-5", "text-left")}
-                href="#exam-review"
-              >
-                <strong>Repasar errores</strong>
-                <span className="mt-2 block text-sm text-muted">
-                  Vuelve a los temas pendientes y a tu plan de repaso.
-                </span>
-              </a>
-            </nav>
-            <ExamLearningDashboard
-              key={dash.history.map((h) => h.id).join()}
-              busy={busy}
-              onSets={setSetAttempts}
-              onScheduled={(r) => void startScheduled(r)}
-              onOpen={(id) => void open(id)}
-              onTopic={studyTopic}
-            />
-            <ExamPreparationPanel
-              setAttempts={setAttempts}
-              busy={busy}
-              isAdmin={isAdmin}
-              onStart={(profile, id) => void start(profile, id)}
-            />
+            <ExamCoachingPanel state={coaching} onPractice={(code, topic) => {
+              studyTopic(topic);
+              setCompetency(code);
+              const total = availableExamQuestions(dash.available, { regime: "32069", competency: code, topic, difficulty: "", preview: false });
+              setCount(Math.max(1, Math.min(10, total || 10)));
+            }} />
+            <ExamTrainingNavigation activity={activity} onChange={selectActivity} />
+            <div id="preparation-review" hidden={activity !== "review"}>
+              <ExamLearningDashboard
+                key={dash.history.map((h) => h.id).join()}
+                busy={busy || Boolean(dash.active)}
+                onSets={setSetAttempts}
+                onCoaching={setCoaching}
+                onScheduled={(r) => void startScheduled(r)}
+                onOpen={(id) => void open(id)}
+                onTopic={studyTopic}
+              />
+            </div>
+            <div id="preparation-oece" hidden={activity !== "oece"}>
+              <ExamPreparationPanel
+                setAttempts={setAttempts}
+                busy={busy}
+                activeAttempt={Boolean(dash.active)}
+                isAdmin={isAdmin}
+                onStart={(profile, id) => start(profile, id)}
+              />
+            </div>
+            <div id="preparation-practice" hidden={activity !== "practice"}>
             <section
               id="exam-custom"
               aria-labelledby="exam-custom-title"
               className={S.examCustomLayout}
             >
               <div className={S.examCustomPanel}>
-                <h2 id="exam-custom-title" className="text-xl font-semibold">
-                  Prepara tu práctica
+                <h2 id="exam-custom-title" tabIndex={-1} className="text-xl font-semibold">
+                  Configura tu sesión
                 </h2>
                 <p className="mt-2 text-sm text-muted">
-                  Elige una modalidad, competencia, tema y dificultad. Las sesiones cortas
-                  comienzan con 10 preguntas; ajusta la cantidad a las
-                  disponibles.
+                  Practica con explicación inmediata o comprueba tus conocimientos con tiempo. Elige la dificultad que necesitas reforzar.
                 </p>
                 <fieldset className="mt-5 grid gap-3 sm:grid-cols-2">
                   <legend className="sr-only">Modalidad</legend>
@@ -1014,8 +1051,7 @@ export function ExamWorkspace({
                       className={field}
                       value={regime}
                       onChange={(e) => {
-                        setRegime(e.target.value);
-                        setTopic("");
+                        updateFilters({ regime: e.target.value, topic: "", competency: "" });
                       }}
                     >
                       <option value="32069">Ley 32069</option>
@@ -1028,8 +1064,7 @@ export function ExamWorkspace({
                       className={field}
                       value={competency}
                       onChange={(e) => {
-                        setCompetency(e.target.value);
-                        setTopic("");
+                        updateFilters({ competency: e.target.value, topic: "" });
                       }}
                     >
                       <option value="">Todas las competencias</option>
@@ -1045,7 +1080,7 @@ export function ExamWorkspace({
                     <select
                       className={field}
                       value={topic}
-                      onChange={(e) => setTopic(e.target.value)}
+                      onChange={(e) => updateFilters({ topic: e.target.value })}
                     >
                       <option value="">Todos los temas disponibles</option>
                       {topics.map((name) => (
@@ -1062,10 +1097,7 @@ export function ExamWorkspace({
                       value={difficulty}
                       aria-describedby="difficulty-help"
                       onChange={(event) => {
-                        const next = event.target.value as ExamDifficulty;
-                        const total = availableExamQuestions(dash.available, { ...selection, difficulty: next });
-                        setDifficulty(next);
-                        if (total > 0) setCount((current) => Math.min(current, total, 72));
+                        updateFilters({ difficulty: event.target.value as ExamDifficulty });
                       }}
                     >
                       {difficultyOptions.map((item) => (
@@ -1075,7 +1107,7 @@ export function ExamWorkspace({
                       ))}
                     </select>
                     <span id="difficulty-help" className="mt-1 block text-xs font-normal text-muted">
-                      Nivel orientativo según la revisión del banco.
+                      {difficulty ? "Nivel de las preguntas; no equivale al nivel de certificación." : "Mezcla de niveles disponibles, sin una proporción fija por dificultad."}
                     </span>
                   </label>
                   <label className={cn("text-sm font-medium", mode === "practice" && "sm:col-span-2")}>
@@ -1084,7 +1116,7 @@ export function ExamWorkspace({
                       className={field}
                       type="number"
                       min={1}
-                      max={72}
+                      max={Math.min(72, available || 72)}
                       value={count}
                       onChange={(e) => setCount(Number(e.target.value))}
                     />
@@ -1111,7 +1143,7 @@ export function ExamWorkspace({
                     <input
                       type="checkbox"
                       checked={preview}
-                      onChange={(e) => setPreview(e.target.checked)}
+                      onChange={(e) => updateFilters({ preview: e.target.checked })}
                     />
                     Probar borradores del banco (solo administración)
                   </label>
@@ -1124,6 +1156,13 @@ export function ExamWorkspace({
                   en esta selección. Cada pregunta se utiliza una vez por
                   intento.
                 </p>
+                <div className="mt-3 flex flex-wrap gap-2" aria-label="Cantidades sugeridas">
+                  {[10, 20, 30, 72].map(n => <button key={n} type="button" disabled={n > available || busy}
+                    aria-pressed={count === n} onClick={() => setCount(n)}
+                    className={cn("min-h-11 rounded-lg border px-3 text-sm font-medium", count === n ? "border-brand bg-brand-soft text-brand-dark" : "border-line text-muted hover:text-ink")}>
+                    {n} preguntas
+                  </button>)}
+                </div>
                 {!available && (
                   <p className="mt-3 rounded-xl bg-surface p-3 text-sm">
                     {difficulty
@@ -1134,6 +1173,7 @@ export function ExamWorkspace({
                       : " Puedes volver cuando se publiquen preguntas revisadas.")}
                   </p>
                 )}
+                {dash.active && <p className="mt-4 rounded-lg bg-brand-soft p-3 text-sm text-brand-dark">Continúa o finaliza tu intento en curso antes de empezar otra sesión.</p>}
                 <button
                   className={cn(buttonClasses({ variant: "primary" }), "mt-5")}
                   disabled={
@@ -1141,7 +1181,8 @@ export function ExamWorkspace({
                     Boolean(dash.active) ||
                     count < 1 ||
                     count > available ||
-                    count > 72
+                    count > 72 ||
+                    !Number.isInteger(count)
                   }
                   onClick={() => void start()}
                 >
@@ -1160,23 +1201,24 @@ export function ExamWorkspace({
                 )}
               </div>
               <aside className={S.examStudyGuide}>
-                <p className="text-xs uppercase tracking-wider text-teal-200">
+                <p className="text-xs uppercase tracking-wider text-brand-dark">
                   Aprendizaje con fundamento
                 </p>
-                <h2 className="mt-3 text-2xl font-semibold">
-                  Comprende la respuesta, encuentra su fuente.
-                </h2>
-                <ol className="mt-5 space-y-4 text-sm text-slate-200">
-                  <li>1. Responde y marca tus dudas.</li>
-                  <li>2. Revisa la explicación y el pasaje original.</li>
-                  <li>3. Continúa el estudio en Normativa o Chat.</li>
-                </ol>
-                <p className="mt-6 border-t border-slate-700 pt-4 text-xs text-slate-300">
+                <h2 className="mt-3 text-xl font-semibold">Tu sesión de estudio</h2>
+                <dl className="my-5 space-y-3 text-sm">
+                  <div><dt className="text-muted">Modalidad</dt><dd className="mt-1 font-semibold">{mode === "practice" ? "Práctica con explicación" : "Simulacro personalizado"}</dd></div>
+                  <div><dt className="text-muted">Configuración</dt><dd className="mt-1 font-semibold">{count} preguntas{mode === "exam" ? ` · ${minutes} minutos` : " · sin cronómetro"}</dd></div>
+                  <div><dt className="text-muted">Dificultad</dt><dd className="mt-1 font-semibold">{examDifficultyLabel(difficulty)}</dd></div>
+                  <div><dt className="text-muted">Competencia</dt><dd className="mt-1 font-semibold">{COMPETENCIES[competency] ?? "Todas las competencias"}</dd></div>
+                </dl>
+                <p>{mode === "practice" ? "Lee la explicación y el pasaje normativo después de cada respuesta. Termina la sesión para registrar tus resultados." : "Las claves se muestran al entregar. Puedes recorrer las preguntas y marcar las que quieras revisar."}</p>
+                <p className="mt-6 border-t border-line pt-4 text-xs text-muted">
                   El examen y su corrección funcionan sin IA. El Chat es una
                   ayuda adicional.
                 </p>
               </aside>
             </section>
+            </div>
             <section id="exam-history" className={C.examHistory}>
               <h2 className="text-xl font-semibold">Mis intentos</h2>
               <p className="mt-1 text-sm text-muted">
@@ -1202,6 +1244,7 @@ export function ExamWorkspace({
                               ? "Simulacro"
                               : "Práctica"}{" "}
                           · Ley {h.regime}
+                          {h.difficulty_filter && ` · ${examDifficultyLabel(h.difficulty_filter)}`}
                         </p>
                         <p className="mt-1 text-xs text-muted">
                           {new Date(h.started_at).toLocaleString("es-PE", {
@@ -1228,6 +1271,17 @@ export function ExamWorkspace({
           </>
         )
       )}
+      {startRequest && <ExamStartBriefing
+        title={startRequest.profile === "custom" ? "Simulacro personalizado" : startRequest.profile === "balotario" ? "Examen del balotario" : "Simulacro completo OECE"}
+        count={startRequest.profile === "custom" ? count : 72}
+        minutes={startRequest.profile === "custom" ? minutes : 120}
+        regime={startRequest.profile === "custom" ? regime : "32069"}
+        selection={startRequest.profile === "custom"
+          ? `${examDifficultyLabel(difficulty)} · ${topic || COMPETENCIES[competency] || "Todas las competencias"}`
+          : "Distribución por temario: 25 actuaciones preparatorias, 22 selección y 25 ejecución contractual. Dificultad combinada."}
+        busy={busy} error={error} onClose={() => { setStartRequest(null); setError(""); }}
+        onConfirm={() => void createAttempt(startRequest.profile, startRequest.balotarioId).then(created => { if (created) setStartRequest(null); })}
+      />}
       {confirmation && (
         <dialog
           ref={dialog}

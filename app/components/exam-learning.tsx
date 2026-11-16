@@ -6,6 +6,8 @@ import type { PublicExam } from "@/lib/exam-policy";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import { examStudyReport, type StudyReview } from "@/lib/exam-learning-policy";
 import { C } from "@/app/components/estilos-comunes";
+import type { ExamCoaching } from "@/lib/exam-coaching";
+import type { CoachingState } from "./exam-training";
 export type SetAttempt = {
   setId: string;
   attemptId: string;
@@ -13,6 +15,7 @@ export type SetAttempt = {
   result: { correct: number; total: number };
 };
 type Learning = {
+  coaching: ExamCoaching;
   reviews: Array<StudyReview & { available: boolean; updated: boolean }>;
   limited: boolean;
   tasks: EditorialTask[];
@@ -39,11 +42,13 @@ export function ExamLearningDashboard({
   onTopic,
   busy,
   onSets,
+  onCoaching,
 }: {
   onSets: (sets: SetAttempt[]) => void;
+  onCoaching: (state: CoachingState) => void;
   onScheduled: (regime: string) => void;
   onOpen: (id: string) => void;
-  onTopic: (topic: string) => void;
+  onTopic: (topic: string, regime?: string) => void;
   busy: boolean;
 }) {
   const [data, setData] = useState<Learning | null>(null),
@@ -59,19 +64,23 @@ export function ExamLearningDashboard({
       .then((x) => {
         setData(x);
         onSets(x.setAttempts);
+        onCoaching({ data: x.coaching, limited: x.limited });
       })
       .catch((e) => {
-        if (!c.signal.aborted) setError(e.message);
+        if (!c.signal.aborted) {
+          setError(e.message);
+          onCoaching({ data: null, error: e.message });
+        }
       });
     return () => c.abort();
-  }, [onSets]);
+  }, [onSets, onCoaching]);
   return (
     <section
       id="exam-review"
       className={cn(C.examHistory, "space-y-4")}
       aria-labelledby="review-title"
     >
-      <h2 id="review-title">Qué estudiar después</h2>
+      <h2 id="review-title" tabIndex={-1}>Repasa tus errores</h2>
       <p className="text-sm text-muted">
         Repasos de 1, 3, 7, 14 y 30 días según tus respuestas. Repetir varias
         veces el mismo día no demuestra retención.
@@ -134,7 +143,7 @@ export function ExamLearningDashboard({
                     </div>
                     <button
                       className={buttonClasses({ variant: "secondary" })}
-                      onClick={() => onTopic(r.topic)}
+                      onClick={() => onTopic(r.topic, r.regime)}
                     >
                       Estudiar tema
                     </button>
@@ -182,7 +191,7 @@ export function ExamStudyReport({
   onTopic,
 }: {
   exam: PublicExam;
-  onTopic: (topic: string) => void;
+  onTopic: (topic: string, regime?: string) => void;
 }) {
   const rows = examStudyReport(exam);
   const [activity, setActivity] = useState<Array<{
@@ -239,7 +248,7 @@ export function ExamStudyReport({
               </div>
               <button
                 className={buttonClasses({ variant: "secondary" })}
-                onClick={() => onTopic(row.topic)}
+                onClick={() => onTopic(row.topic, exam.attempt.regime)}
               >
                 Practicar este tema
               </button>
