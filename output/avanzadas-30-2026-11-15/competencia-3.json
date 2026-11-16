@@ -1,0 +1,538 @@
+[
+  {
+    "numero": "A17",
+    "objetivo": "Reformular el alcance de una subcontratación al variar la base del límite y existir importes ya comprometidos.",
+    "criterioAvanzado": "Reconstruye el saldo del límite global sobre el contrato vigente y lo cruza con la parte materialmente subcontratable de una sola solicitud; ninguna comprobación aislada permite elegir la ruta.",
+    "input": {
+      "prompt": "Un contrato de servicios tenía monto original de S/1 000 000 y fue reducido válidamente a S/800 000. Permanecen S/260 000 de prestaciones subcontratadas con autorización previa, sin liberaciones ni otros subcontratos. Se solicita añadir S/100 000: S/20 000 de diagnóstico esencial expresamente excluido por las bases y S/80 000 de soporte permitido. El soporte es divisible. El RNP está vigente y la entidad aún no autoriza esta nueva solicitud. El contratista propone retirar solo el diagnóstico y ejecutar de inmediato el resto, pues el pedido inicial era apenas el 10% del contrato original. ¿Qué reformulación sería compatible con el artículo 108 antes de solicitar su aprobación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Retirar el diagnóstico y mantener S/80 000 de soporte, pues solo la nueva solicitud se compara con el 40%."
+        },
+        {
+          "id": "B",
+          "text": "Mantener los S/100 000, porque el total de S/360 000 no supera el 40% del monto original."
+        },
+        {
+          "id": "C",
+          "text": "Retirar el diagnóstico y limitar el soporte adicional a S/60 000; ese alcance reformulado todavía requiere aprobación previa."
+        },
+        {
+          "id": "D",
+          "text": "Retirar el diagnóstico y limitar el soporte a S/60 000, importe que puede ejecutarse sin aprobación por quedar dentro del límite."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El límite debe calcularse sobre S/800 000: 40% = S/320 000. Los S/260 000 ya autorizados consumen parte de ese límite; el margen es S/60 000. Eliminar los S/20 000 esenciales deja un pedido de S/80 000, que todavía excede el margen en S/20 000. Debe limitarse el soporte adicional a S/60 000 y obtener aprobación previa. La reducción de monto, la acumulación y la delimitación del alcance hacen insuficiente tanto el porcentaje de la solicitud aislada como el simple retiro de la prestación excluida.",
+      "regime": "32069",
+      "topic": "Contenido y vigencia del contrato",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Ignora el monto ya subcontratado: S/260 000 más S/80 000 da S/340 000, superior al límite vigente de S/320 000.",
+        "B": "Usa una base contractual que dejó de estar vigente y además conserva la prestación esencial excluida por las bases.",
+        "C": "Calcula el margen acumulado de S/60 000 sobre el monto vigente, elimina el alcance prohibido y conserva el requisito de autorización previa.",
+        "D": "El cumplimiento del límite y del alcance permitido no sustituye la aprobación previa exigida para la nueva subcontratación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "42c27b36-062a-4ea7-b180-7a12ab09096b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "108",
+          "pageStart": 60,
+          "pageEnd": 60,
+          "quote": "Artículo 108. Subcontratación 108.1. Se puede subcontratar por un máximo del 40% del monto del contrato vigente de bienes, servicios u obras. En el caso de bienes y servicios las bases pueden especificar las prestaciones esenciales que no pueden ser materia de subcontratación o, de así haberse evaluado en la estrategia de contratación, que no se permite la subcontratación, con el sustento correspondiente. 108.2. El contratista presenta a la entidad contratante la solicitud de subcontratación que contiene como mínimo lo siguiente: a) El alcance de la subcontratación. b) RNP vigente del subcontratista. 108.3. La entidad contratante aprueba o deniega la subcontratación de manera previa, en un plazo de cinco días hábiles contabilizados desde el día siguiente de formulado el pedido, sustentando su decisión. De no pronunciarse en dicho plazo, se entiende den egada la solicitud. 108.4. No cabe subcontratación en la contratación de evaluadores expertos o especialistas técnicos de los contratos estandarizados.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Reformular el alcance de una subcontratación al variar la base del límite y existir importes ya comprometidos. Criterio de análisis: Reconstruye el saldo del límite global sobre el contrato vigente y lo cruza con la parte materialmente subcontratable de una sola solicitud; ninguna comprobación aislada permite elegir la ruta."
+    }
+  },
+  {
+    "numero": "A18",
+    "objetivo": "Depurar los días de mora después de una subsanación insuficiente y una revisión intermedia de la entidad.",
+    "criterioAvanzado": "Reconstruye la secuencia de subsanaciones, determina qué plazo inicia la mora y separa de ese intervalo los días consumidos por la entidad; la selección cambia según la atribución temporal.",
+    "input": {
+      "prompt": "Un servicio con plazo de entregable de treinta días fue entregado oportunamente con defectos subsanables, sin incumplimiento manifiesto. La DEC otorgó nueve días para subsanar. Al terminar el noveno día, el contratista presentó una corrección que seguía siendo insuficiente. La entidad ocupó los cuatro días siguientes exclusivamente en revisarla y notificar las observaciones pendientes; después concedió un periodo adicional. El contratista necesitó dos días más desde esa notificación para subsanar cabalmente, dentro de ese periodo adicional. No hay otras demoras. La entidad propone penalizar los seis días transcurridos entre ambas presentaciones; el proveedor pide cero porque cumplió el segundo plazo. ¿Cuántos días de mora corresponden según el artículo 144?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cero días, porque la subsanación final se presentó dentro del periodo adicional concedido."
+        },
+        {
+          "id": "B",
+          "text": "Dos días: el periodo adicional no reinicia la franquicia y los cuatro días de revisión de la entidad se excluyen."
+        },
+        {
+          "id": "C",
+          "text": "Seis días, porque todo el tiempo transcurrido después del primer plazo corresponde al contratista."
+        },
+        {
+          "id": "D",
+          "text": "Once días: los nueve del primer plazo más los dos usados después de la nueva notificación."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El primer plazo de nueve días respeta el máximo de 30% de treinta días. La subsanación no quedó completa dentro de él; al concederse un periodo adicional, la mora se cuenta desde el vencimiento del primer plazo, sin excluirla por haber cumplido después el nuevo periodo. Sin embargo, el numeral 144.7 excluye los días empleados por la entidad en revisar y notificar. De los seis días transcurridos, cuatro son de revisión de la entidad y dos de subsanación del contratista: corresponden dos días de mora. Los nueve días iniciales no se agregan a la penalidad.",
+      "regime": "32069",
+      "topic": "Entrega, conformidad y observaciones",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el cumplimiento del periodo adicional con una subsanación completa dentro del primer plazo, que es la que evita penalidad.",
+        "B": "Relaciona la subsanación inicial insuficiente con el inicio de la mora y descuenta los cuatro días de revisión y notificación de la entidad.",
+        "C": "Incluye cuatro días de actuación de la entidad que el numeral 144.7 ordena no considerar en el cómputo de mora.",
+        "D": "Carga indebidamente el primer plazo de subsanación; la regla sitúa el inicio de la mora después de su vencimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "75408d51-d4b5-402c-9fc3-3cccd43a8dd0",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "144",
+          "pageStart": 76,
+          "pageEnd": 77,
+          "quote": "144.4. De existir observaciones, la DEC las comunica al contratista, indicando claramente el sentido de estas, otorgándole un plazo para subsanar dependiendo de la complejidad o sofisticación de las subsanaciones a realizar. El plazo de subsanación no debe ser mayor del 30% del plazo del entregable correspondiente. Subsanadas las observaciones dentro del plazo otorgado, no corresponde la aplicación de penalidades. 144.5. El mismo plazo establecido para la subsanación de observaciones resulta aplicable para que la entidad contratante se pronuncie sobre el levantamiento de observaciones. 144.6. Cuando la entidad contratante exceda el plazo previsto para emitir la conformidad o pronunciarse sobre el levantamiento de las observaciones, los días de retraso no pueden ser imputados al contratista a efectos de la aplicación de penalidades. 144.7 Si pese al plazo otorgado, el contratista no cumpliese a cabalidad con la subsanación, la entidad contratante puede otorgar al contratista periodos adicionales, conforme a lo señalado en el numeral 144.4, u optar por resolver el contrato, de acuerdo con el supuesto de resolución establecido en el literal b) del numeral 68.1 del artículo 68 de la Ley. En caso otorgue periodos adicionales corresponde aplicar la penalidad por mora desde el vencimiento del plazo inicial para subsanar, sin considerar los d ías en los que pudiera incurrir la entidad contratante para efectuar las revisiones y notificar las observaciones correspondientes. (*)RECTIFICADO POR FE DE ERRATAS",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Depurar los días de mora después de una subsanación insuficiente y una revisión intermedia de la entidad. Criterio de análisis: Reconstruye la secuencia de subsanaciones, determina qué plazo inicia la mora y separa de ese intervalo los días consumidos por la entidad; la selección cambia según la atribución temporal."
+    }
+  },
+  {
+    "numero": "A19",
+    "objetivo": "Seleccionar la dimensión viable de un adicional al combinar precios contractuales y límite acumulado original.",
+    "criterioAvanzado": "La valoración de unidades alternativas determina cuál cabe en el margen restante; usar el contrato vigente o evaluar solo el nuevo pedido cambia la decisión.",
+    "input": {
+      "prompt": "En un contrato ordinario de servicios de monto original S/800 000 ya se aprobó y ejecutó un adicional de S/120 000, por lo que el monto vigente es S/920 000. Aparece una nueva necesidad; el informe técnico acredita que puede satisfacerse íntegramente con cualquiera de dos diseños alternativos: 400 unidades o 500 unidades del mismo servicio, a precio contractual aplicable de S/200 por unidad. Para ambos hay sustento técnico y legal y crédito presupuestario; no se han ejecutado ni hay reducciones o régimen especial. La DEC prefiere 500 unidades porque S/100 000 es menos del 25% de S/920 000. ¿Qué diseño puede aprobarse como nuevo adicional bajo el artículo 141?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El de 500 unidades, porque su costo representa menos del 25% del monto vigente."
+        },
+        {
+          "id": "B",
+          "text": "Ambos, porque cada diseño considerado por separado cuesta menos de S/200 000."
+        },
+        {
+          "id": "C",
+          "text": "Ninguno, porque haber aprobado un adicional impide aprobar otro, aunque quede margen."
+        },
+        {
+          "id": "D",
+          "text": "Solo el de 400 unidades: agota el margen de S/80 000 y requiere la resolución publicada en Pladicop antes de ejecutarse."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El tope acumulado de adicionales es 25% del monto original: S/200 000. Restando S/120 000 ya aprobados, quedan S/80 000. A precio pactado de S/200, 400 unidades cuestan S/80 000 y 500 cuestan S/100 000. El primer diseño lleva los adicionales a S/200 000; el segundo los elevaría a S/220 000, excediendo el máximo en S/20 000. Como ambos diseños satisfacen íntegramente la necesidad según el informe, es viable elegir el de 400. Su ejecución exige aprobación mediante resolución publicada; no se obtiene un margen mayor por usar S/920 000 como base.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El límite se refiere al monto original y debe considerar los S/120 000 ya aprobados, no únicamente el porcentaje del nuevo pedido sobre el monto vigente.",
+        "B": "El límite no se reinicia para cada solicitud: los adicionales anteriores y el nuevo deben evaluarse acumuladamente.",
+        "C": "El artículo 141 no establece una prohibición por el número de adicionales; el diseño de S/80 000 cabe en el margen restante.",
+        "D": "Valora las dos alternativas con el precio pactado y selecciona la única cuyo costo acumulado no excede S/200 000, conservando la aprobación previa."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "141",
+          "pageStart": 75,
+          "pageEnd": 75,
+          "quote": "Artículo 141. Prestaciones adicionales en bienes y servicios 141.1. La autoridad de la gestión administrativa puede aprobar, mediante resolución publicada en la Pladicop, la ejecución de prestaciones adicionales en bienes y servicios hasta por el 25% del monto del contrato original que sean indispensables para el cu mplimiento de la finalidad pública del contrato, siempre que se cuente con previo sustento técnico y legal y con la previsión y/o certificación de crédito presupuestario correspondiente. 141.2. El costo de la prestación adicional se determina sobre la base de las especificaciones técnicas del bien o términos de referencia del servicio y de las condiciones y precios pactados en el contrato; en defecto de estos, la DEC, previo sustento y coo rdinación con el área usuaria, determina el monto a acordar con el contratista, considerando la estructura de costos y/o sustento presentado por el contratista. 141.3. No corresponde suscribir una adenda al contrato por la aprobación de un adicional, bastando con la publicación de la resolución en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Seleccionar la dimensión viable de un adicional al combinar precios contractuales y límite acumulado original. Criterio de análisis: La valoración de unidades alternativas determina cuál cabe en el margen restante; usar el contrato vigente o evaluar solo el nuevo pedido cambia la decisión."
+    }
+  },
+  {
+    "numero": "A20",
+    "objetivo": "Planificar la corrección de una amortización para hacer viable la cancelación del saldo en una valorización posterior.",
+    "criterioAvanzado": "Compara dos rutas de arrastre del error: corregirlo en la valorización intermedia cambia el saldo que se contrasta con la última valorización y altera la obligación de aceptar su amortización total.",
+    "input": {
+      "prompt": "En una obra se entregó un adelanto para materiales de S/96 000. En la primera valorización se descontaron S/30 000 cuando correspondían S/36 000; la diferencia de S/6 000 está reconocida. Para la segunda valorización, de S/50 000, la amortización ordinaria ya determinada conforme a la regla aplicable es S/30 000, sin incluir esa corrección. Se prevé una última valorización de S/35 000. El contratista desea que en esa última se acepte su solicitud de amortizar todo el saldo, sin pagos externos ni diferencias trasladadas a la liquidación. Hay dos rutas: corregir los S/6 000 en la segunda valorización o postergarlos hasta la liquidación. Con esos importes invariables y sin otras deducciones, ¿qué ruta logra ese objetivo según 180.2 y 180.4?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Ambas rutas: la última valorización debe aceptar todo saldo, aunque sea mayor que S/35 000."
+        },
+        {
+          "id": "B",
+          "text": "Corregir en la segunda: descontar S/36 000 deja S/30 000, que cabe en la última; descontar solo S/30 000 dejaría S/36 000, que la supera."
+        },
+        {
+          "id": "C",
+          "text": "Postergar a la liquidación: la corrección debe restarse del saldo como si ya hubiese sido descontada, y la última recibe un saldo de S/30 000."
+        },
+        {
+          "id": "D",
+          "text": "Corregir en la segunda: descontar S/42 000, sumando dos veces la diferencia para compensar tanto el error anterior como el saldo futuro."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Después del descuento efectivo inicial quedan S/96 000 − S/30 000 = S/66 000. Si la segunda valorización aplica S/30 000 ordinarios más S/6 000 de corrección, descuenta S/36 000 y deja S/30 000. Ese saldo no supera la última valorización de S/35 000, por lo que la entidad debe aceptar la amortización total solicitada. Si se posterga la corrección, la segunda descuenta solo S/30 000 y deja S/36 000: excede la última valorización y activa la excepción de 180.2. El numeral 180.4 permite considerar la diferencia en una valorización posterior o en la liquidación; ambas ubicaciones son posibles en abstracto, pero solo la corrección en la segunda satisface el objetivo financiero planteado con estos importes.",
+      "regime": "32069",
+      "topic": "Adelantos y amortización",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.9",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Desconoce la excepción expresa cuando el saldo pendiente supera la valorización; la ruta sin corrección deja S/36 000 frente a S/35 000.",
+        "B": "Arrastra el descuento realmente efectuado y relaciona la corrección intermedia con el saldo que determina la procedencia de amortización total en la última valorización.",
+        "C": "La posibilidad de postergar no equivale a haber descontado los S/6 000; hasta su cobro integran el saldo y no permiten reducirlo ficticiamente.",
+        "D": "La diferencia omitida es de S/6 000 una sola vez: el descuento necesario es S/30 000 más S/6 000, no S/42 000."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "cf28fb4f-590a-4703-b130-785bcc00809f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "180",
+          "pageStart": 97,
+          "pageEnd": 98,
+          "quote": "180.2. La amortización del adelanto para materiales, insumos, equipamiento y mobiliario para obras se realiza de acuerdo con lo dispuesto en la directiva que la DGA emita sobre fórmulas polinómicas. La entidad contratante acepta la amortización total del a delanto, a solicitud del contratista, salvo que el saldo pendiente de amortizar sea mayor que el monto de la valorización.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 98 de 249 180.3. La amortización del adelanto por avance dispuesto en el numeral 178.5 del artículo 178 se realiza mediante descuentos proporcionales en cada una de las valorizaciones del componente, desde la entrega del adelanto. 180.4. Cualquier diferencia de monto que se produzca respecto de la amortización del adelanto en una valorización, se toma en cuenta en una valorización posterior y/o en la liquidación del contrato.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Planificar la corrección de una amortización para hacer viable la cancelación del saldo en una valorización posterior. Criterio de análisis: Compara dos rutas de arrastre del error: corregirlo en la valorización intermedia cambia el saldo que se contrasta con la última valorización y altera la obligación de aceptar su amortización total."
+    }
+  },
+  {
+    "numero": "A21",
+    "objetivo": "Clasificar la sustitución según el plazo contractual vigente y su causa laboral antes de decidir la penalidad.",
+    "criterioAvanzado": "El retorno ocurre después del término originalmente pactado pero dentro del plazo ampliado; esa relación temporal cambia la calificación del reemplazo y desplaza la penalidad por reiteración permanente.",
+    "input": {
+      "prompt": "Una consultoría de obra tenía como término original el 30 de septiembre. Antes de tramitar un reemplazo, se aprobó válidamente una ampliación hasta el 30 de noviembre. Por licencia prevista en su régimen laboral, un profesional clave se ausentará y retornará el 15 de octubre. La solicitud documenta ese retorno, cumple la anticipación aplicable y propone un reemplazante que conserva el perfil y las condiciones de puntaje; la entidad lo autoriza. El mismo puesto ya tuvo dos sustituciones permanentes anteriores. La oficina de contratos quiere calificar esta como otra sustitución permanente y penalizarla porque el retorno es posterior al 30 de septiembre. ¿Qué evaluación corresponde según el artículo 189?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es temporal y no genera esa penalidad: el retorno por causa laboral cae dentro del plazo vigente ampliado, aunque sea posterior al término original."
+        },
+        {
+          "id": "B",
+          "text": "Es permanente y penalizable porque el retorno ocurre después del término pactado al adjudicar la consultoría."
+        },
+        {
+          "id": "C",
+          "text": "Es temporal, pero la existencia de dos sustituciones permanentes anteriores vuelve obligatoria la penalidad en este cambio."
+        },
+        {
+          "id": "D",
+          "text": "Debe rechazarse el reemplazo porque una ampliación del contrato no puede influir en la clasificación de una sustitución del personal."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La calificación temporal depende de que el retorno esté dentro del plazo de ejecución y se deba al régimen laboral aplicable. La ampliación ya estaba aprobada cuando se tramitó el cambio: el plazo vigente termina el 30 de noviembre y comprende el retorno del 15 de octubre. Por ello se aplica el numeral 189.4, que excluye penalidades para este cambio temporal. La reiteración de sustituciones permanentes anteriores no transforma el cambio actual en permanente ni permite desconocer la regla específica; el cumplimiento del perfil, puntaje, documentación y anticipación elimina otros motivos de rechazo.",
+      "regime": "32069",
+      "topic": "Residente, supervisor y responsables",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.8",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Relaciona el plazo contractual ya ampliado con la fecha de retorno y aplica la regla especial del cambio temporal por causa laboral.",
+        "B": "Congela la clasificación en el plazo original, ignorando que la ampliación ya integraba el contrato al solicitarse el reemplazo.",
+        "C": "Extiende la penalidad propia de sustituciones permanentes a un cambio que reúne las condiciones del numeral 189.4.",
+        "D": "La definición de temporalidad usa el plazo de ejecución vigente; no exige comparar siempre con la fecha original."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "dba573cc-5ffe-4f24-8794-6bdedfb1ef85",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "189",
+          "pageStart": 105,
+          "pageEnd": 105,
+          "quote": "Artículo 189. Sustitución de integrante del plantel técnico en obras o consultoría de obras 189.1. Es responsabilidad del contratista ejecutar su prestación con el personal considerado en la oferta durante el procedimiento de selección. 189.2. El contratista puede solicitar sustituir al personal clave de su plantel técnico, excepcionalmente y con el sustento debido, siempre que quien lo sustituya tenga un perfil igual o mayor a lo establecido en las bases y, en caso de haberse otorgado pu ntaje por el profesional reemplazado, el reemplazante debe cumplir las mismas condiciones que le ameritaron el puntaje al proveedor. 189.3. La sustitución permanente del personal clave del plantel técnico debe solicitarse a la entidad contratante diez días hábiles antes de la fecha en la que operaría la sustitución. En caso ésta no se pronuncie en el plazo, se considera autorizada la sustitución. La entidad contratante aplica una penalidad al contratista si se produce una sustitución del mismo integrante del plantel técnico por segunda vez. El plazo y penalidad señalados no aplican cuando la sustitució n se origine por caso fortuito o fue rza mayor o por un hecho sobreviniente no imputable al contratista. (*) (*)RECTIFICADO POR FE DE ERRATAS (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"189.3. La sustitución permanente del personal clave del plantel técnico debe solicitarse a la entidad contratante diez días hábiles antes de la fecha en la que operaría la sustitución. En caso ésta no se pronuncie en el plazo del numeral 189.5 , se considera autorizada la sustitución. La entidad contratante aplica una penalidad al contratista si se produce una sustitución del mismo integrante del plantel técnico a partir de la segunda vez. El plazo y penalidad señalados no aplican cuando la sustitución se o rigine por caso fortuito o fuerza mayor o por un hecho sobreviniente no imputable al contratista.\" 189.4. La sustitución es temporal cuando la fecha de retorno se encuentra dentro del plazo de ejecución y se debe al régimen laboral aplicable del integrante. El contratista presenta su solicitud a la entidad contratante cumpliendo el plazo indicado en el numeral precedente, adjuntando la documentación de sustento. En este caso, el cambio no ocasiona la aplicación de penalidades. 189.5. La entidad contratante autoriza o rechaza la solicitud de sustitución, de manera sustentada, en el plazo máximo de cinco días hábiles, contabilizados desde el día siguiente de presentada la solicitud.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Clasificar la sustitución según el plazo contractual vigente y su causa laboral antes de decidir la penalidad. Criterio de análisis: El retorno ocurre después del término originalmente pactado pero dentro del plazo ampliado; esa relación temporal cambia la calificación del reemplazo y desplaza la penalidad por reiteración permanente."
+    }
+  },
+  {
+    "numero": "A22",
+    "objetivo": "Determinar inicio y efectos económicos de suspensión por valorizaciones impagas.",
+    "criterioAvanzado": "Ordena la secuencia requerimiento-vencimiento-anotación y distingue el régimen económico especial de la suspensión por impago.",
+    "input": {
+      "prompt": "En una obra de solo construcción hay dos valorizaciones consecutivas impagas. El contratista requiere pagar por lo menos una dentro de diez días. El plazo vence sin pago y el residente anota la suspensión en el cuaderno de incidencias ese mismo día. Se acreditan costos directos y mayores gastos generales vinculados a la suspensión. La entidad sostiene que esta empezó con el requerimiento y que solo reconocerá seguridad de obra, como en una suspensión por evento no atribuible. ¿Qué conclusión corresponde según el artículo 202?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La suspensión empieza con el requerimiento y solo se reconocen los costos necesarios de seguridad."
+        },
+        {
+          "id": "B",
+          "text": "La suspensión empieza al día siguiente de la anotación y deben reconocerse los costos directos y mayores gastos generales vinculados y acreditados."
+        },
+        {
+          "id": "C",
+          "text": "La suspensión empieza el día de la anotación y no permite reconocer mayores gastos generales."
+        },
+        {
+          "id": "D",
+          "text": "La suspensión requiere un nuevo acuerdo escrito después de la anotación y todo reconocimiento económico queda excluido."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El numeral 202.3 exige requerir el pago de al menos una de las dos valorizaciones y que venza el plazo otorgado. Luego el residente anota la suspensión, cuyo inicio es el día siguiente de esa anotación. Para esta causa específica, la entidad reconoce los costos directos y mayores gastos generales vinculados y acreditados. No corresponde trasladar la limitación económica prevista para la suspensión regulada en el numeral 202.1.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Adelanta el inicio al requerimiento y aplica a la falta de pago una restricción económica que desconoce su regla especial.",
+        "B": "Respeta la secuencia del numeral 202.3 y el reconocimiento económico específico de la suspensión por impago.",
+        "C": "La anotación produce inicio al día siguiente y el numeral 202.3 sí contempla mayores gastos generales acreditados.",
+        "D": "Introduce un acuerdo posterior como condición adicional y elimina el reconocimiento expresamente previsto para este supuesto."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "5f741890-df7e-4e99-99b5-a0c6e38b20a9",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "202",
+          "pageStart": 114,
+          "pageEnd": 115,
+          "quote": "Artículo 202. Suspensión de plazo en ejecución de obras bajo los sistemas de entrega de solo construcción y diseño y construcción 202.1. La suspensión de plazo de ejecución de obra se realiza de acuerdo con el artículo 107 y no supone el reconocimiento de mayores gastos generales y/o costos directos, salvo los que\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 115 de 249 sean necesarios para viabilizar la suspensión, lo que incluye la seguridad de la obra y la integridad de las personas, de acuerdo con los términos en los que se acuerda la suspensión. 202.2. Reiniciado el plazo de ejecución del contrato, la entidad contratante comunica al contratista la modificación de las fechas del programa de ejecución actualizado y de los calendarios correspondientes, respetando los términos en los que se acordó la suspensión. 202.3. La falta de pago de dos valorizaciones consecutivas ocasiona la suspensión del plazo de ejecución contractual, para lo cual el contratista requiere a la entidad contratante el pago de por lo menos una valorización pendiente en un plazo no mayor de d iez días. Vencido el plazo otorgado por el contratista, el residente anota en el cuaderno de incidencias la suspensión, que inicia desde el día siguiente de realizada la anotación. En este caso, la entidad contratante reconoce al contratista los costos dir ectos y/o mayores gastos generales vinculados y acreditados. 202.4. En caso se resuelva un contrato principal, las partes pueden acordar suspender el plazo de ejecución del contrato directamente vinculado al contrato resuelto hasta que se suscriba un nuevo contrato principal para ejecutar la prestación. 202.5. Cuando se resuelva un contrato directamente vinculado, las partes pueden acordar suspender el plazo de ejecución del contrato principal, hasta que se perfeccione un nuevo contrato directamente vinculado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste literal con corpus.json y documentos.json de tmp/revision-61; corte documental 2026-10-29. Se confirma la regla citada en el fragmento real. Revisión de clave única, condiciones, excepciones y motivos de descarte sin referencias a letras. Comparación editorial con las 242 preguntas de despues.json: objetivo y decisión nuevos, no mera sustitución de cifras. Objetivo: Determinar inicio y efectos económicos de suspensión por valorizaciones impagas. Análisis exigido: Ordena la secuencia requerimiento-vencimiento-anotación y distingue el régimen económico especial de la suspensión por impago."
+    }
+  },
+  {
+    "numero": "A23",
+    "objetivo": "Determinar qué presentación inicia el procedimiento y cómo una liquidación posterior opera como observaciones a la primera.",
+    "criterioAvanzado": "Reconstruye la secuencia tras vencer el turno inicial del contratista: la entidad presenta primero, el documento posterior del contratista cuestiona esa liquidación dentro de cincuenta días y la falta de subsanación de la entidad activa un régimen distinto al silencio del receptor inicial.",
+    "input": {
+      "prompt": "En una obra recibida, el contratista dejó vencer sin presentar liquidación sus treinta días de presentación, correctamente computados. La entidad presentó y notificó su liquidación en el décimo día de su propio plazo, con saldo de S/90 000 a favor del contratista. Cuarenta días calendario después de recibirla, el contratista entregó un documento titulado «Mi liquidación»: identifica expresamente la liquidación de la entidad, objeta dos descuentos y adjunta cálculos que elevan el saldo a S/125 000. No es una nueva prestación ni un reclamo ajeno a la liquidación. La entidad dejó pasar, sin subsanar ni contestar, los quince días aplicables contados desde recibir ese documento, todos correctamente computados. No existen controversias pendientes. ¿Qué resultado procede según el artículo 215?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Queda consentido el saldo de S/90 000, porque el contratista perdió toda posibilidad de observar cuando vencieron sus treinta días iniciales."
+        },
+        {
+          "id": "B",
+          "text": "Queda consentido el saldo de S/90 000, porque un documento titulado liquidación no puede funcionar como observaciones a la entidad."
+        },
+        {
+          "id": "C",
+          "text": "Queda consentida la liquidación con las observaciones que llevan el saldo a S/125 000: la entidad fue quien presentó la liquidación y luego no atendió las objeciones oportunas del contratista."
+        },
+        {
+          "id": "D",
+          "text": "Deben tramitarse dos liquidaciones autónomas y esperar una aceptación expresa de ambas partes antes de poder cerrar el contrato."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El vencimiento de los treinta días iniciales habilitó el turno de la entidad, que presentó primero dentro de su plazo. El contratista pasó a ser receptor de esa liquidación; para ejecución de obra disponía de cincuenta días calendario para pronunciarse. Su documento llegó a los cuarenta días y, por su contenido expreso, formula observaciones a la liquidación de la entidad aunque lleve otro título. Así, quien debía atenderlas era la entidad como presentante, dentro de quince días. Su falta de subsanación activa 215.4: queda consentida la liquidación con las observaciones formuladas, que llevan el saldo a S/125 000. No se activa 215.3 a favor de S/90 000, pues el contratista sí se pronunció oportunamente. El cierre sigue a ese consentimiento conforme a 215.5.",
+      "regime": "32069",
+      "topic": "Valorización, recepción y liquidación",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.11",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el plazo inicial para presentar con el plazo posterior para pronunciarse como receptor de la liquidación elaborada por la entidad.",
+        "B": "Atiende solo al título y desconoce que el documento individualiza y objeta de modo expreso la liquidación notificada dentro de los cincuenta días calendario.",
+        "C": "Identifica a la entidad como presentante, al contratista como observante oportuno y el efecto de que la presentante no subsane en quince días.",
+        "D": "El documento posterior tiene contenido de observaciones a la liquidación presentada primero; no crea por su título dos procedimientos autónomos ni exige aceptación expresa adicional."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8954622e-092d-46a9-b4db-c5b65f797de3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "215",
+          "pageStart": 121,
+          "pageEnd": 123,
+          "quote": "\"215.2. De no hacerlo, al día siguiente de vencido el plazo indicado, inicia el plazo de la entidad contratante para presentar la liquidación. Los gastos incurridos en la elaboración de la liquidación son de cargo del contratista. Cuando concluya el plazo de cada una de las partes sin que ninguna haya presentado la liquidación, cualquiera de ellas puede presentarla sujetándose a los plazos indicados en el numeral 215.6.\" 215.3. La parte que recibe la liquidación notifica su conformidad u observaciones, en el plazo indicado en el numeral 215.6. De no pronunciarse dentro del plazo, la liquidación se considera consentida o aprobada. 215.4. La parte que presenta la liquidación y recibe observaciones dentro del plazo, subsana las mismas en el plazo indicado en el numeral 215.6. De no hacerlo, la liquidación se considera consentida o aprobada con las observaciones formuladas. 215.5. Consentida la liquidación, se realiza el pago final, la devolución de la garantía de fiel cumplimiento y se cierra el expediente de contratación respectivo. 215.6. Los plazos máximos aplicables al procedimiento de liquidación son los siguientes: Plazo de ejecución contractual Plazo de presentación de la liquidación Plazo para pronunciarse sobre la liquidación Plazo para contestar el pronunciamiento Consultoría de obra quince días treinta días calendario quince días Ejecución de obra treinta días cincuenta días calendario quince días\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 123 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial solicitada tras revisión independiente; esta versión queda pendiente de nueva evaluación independiente y no se ha publicado en la base de datos. Corte documental 2026-10-29. Citas y metadatos contrastados con corpus.json y documentos.json de tmp/revision-61. Clave y distractores revisados contra los numerales completos. Comparación con las 242 preguntas de despues.json: la decisión requiere relacionar los datos y no reproducir una regla aislada ni cambiar cifras de un caso existente. Objetivo: Determinar qué presentación inicia el procedimiento y cómo una liquidación posterior opera como observaciones a la primera. Criterio de análisis: Reconstruye la secuencia tras vencer el turno inicial del contratista: la entidad presenta primero, el documento posterior del contratista cuestiona esa liquidación dentro de cincuenta días y la falta de subsanación de la entidad activa un régimen distinto al silencio del receptor inicial."
+    }
+  },
+  {
+    "numero": "A24",
+    "objetivo": "Evaluar una cláusula de límite indemnizatorio en una obra de gran monto.",
+    "criterioAvanzado": "Combina habilitación por monto original, cálculo sobre valor actualizado y exclusión de dolo o culpa inexcusable.",
+    "input": {
+      "prompt": "Un contrato ordinario de ejecución de obra, sin formato estandarizado internacional, tiene monto original de S/50 000 000 y valor actualizado de S/60 000 000. Incluye un límite indemnizatorio de S/10 000 000 que pretende abarcar también daños causados por dolo o culpa inexcusable. La obra fue recibida conforme y luego aparecen indicios de vicios ocultos. Al revisar exclusivamente las condiciones del artículo 216, ¿cuál es el diagnóstico correcto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El monto original habilita pactar un límite, pero este no puede ser inferior a S/12 000 000; debe excluir del límite el dolo y la culpa inexcusable, y la recepción no impide reclamar vicios ocultos."
+        },
+        {
+          "id": "B",
+          "text": "El límite de S/10 000 000 cumple porque equivale al 20% del monto original; la recepción no impide reclamar, incluso si se incluye el dolo en ese límite."
+        },
+        {
+          "id": "C",
+          "text": "No cabe límite indemnizatorio porque el contrato no es estandarizado internacional, aunque el monto original alcance S/50 000 000."
+        },
+        {
+          "id": "D",
+          "text": "El límite debe elevarse a S/12 000 000 e incluir todo daño, pero la recepción conforme impide reclamar posteriormente por vicios ocultos."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El monto original alcanza S/50 000 000, lo que satisface la vía de habilitación del numeral 216.3 sin exigir además contrato estandarizado. El mínimo del límite se calcula sobre el valor actualizado: 20% de S/60 000 000 = S/12 000 000. Los daños por dolo o culpa inexcusable no se consideran dentro del límite. Además, según 216.1, la recepción conforme no obsta al reclamo posterior por defectos o vicios ocultos.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Aplica correctamente la habilitación alternativa, la base actualizada del cálculo, la exclusión de conductas graves y el efecto de la recepción.",
+        "B": "Usa el monto original para calcular el mínimo y admite incluir el dolo, contradiciendo ambas condiciones del numeral 216.3.",
+        "C": "Transforma los supuestos alternativos del literal de habilitación en requisitos acumulativos.",
+        "D": "Acertar en el cálculo no permite incluir el dolo o la culpa inexcusable ni atribuir a la recepción efecto liberatorio por vicios ocultos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "38814af9-7856-4c4c-990c-151bf4202c8a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "216",
+          "pageStart": 123,
+          "pageEnd": 123,
+          "quote": "Artículo 216. Vicios ocultos en la ejecución de obras 216.1. La recepción conforme de la obra, otorgada por la entidad contratante no obsta su derecho a reclamar posteriormente por defectos o vicios ocultos. 216.2. En el caso de los componentes de mobiliario y equipamiento o contratos que correspondan sólo a la adquisición y entrega de mobiliario y/o equipamiento, el contratista es responsable por la garantía del mobiliario y equipamiento implementado por un p lazo que no puede ser superior a dos años. 216.3. Los contratos de ejecución de obra o con componente de obra pueden incluir límites a la indemnización derivados de la responsabilidad por vicios ocultos o de cualquier incumplimiento del contratista o de la entidad contratante, de acuerdo con lo señ alado literal f) del numeral 69.2 del artículo 69 de la Ley, siempre que cumplan con los siguientes criterios: a) El monto del contrato original sea igual o mayor a S/ 50 000 000,00 (cincuenta millones y 00/100 soles) y/o se trate de un contrato estandarizado de ingeniería y construcción de uso internacional. b) El límite a la indemnización no puede ser menor al 20% del valor del contrato actualizado. Los daños y perjuicios causados por dolo o culpa inexcusable no se consideran dentro de dicho límite.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste literal con corpus.json y documentos.json de tmp/revision-61; corte documental 2026-10-29. Se confirma la regla citada en el fragmento real. Revisión de clave única, condiciones, excepciones y motivos de descarte sin referencias a letras. Comparación editorial con las 242 preguntas de despues.json: objetivo y decisión nuevos, no mera sustitución de cifras. Objetivo: Evaluar una cláusula de límite indemnizatorio en una obra de gran monto. Análisis exigido: Combina habilitación por monto original, cálculo sobre valor actualizado y exclusión de dolo o culpa inexcusable."
+    }
+  }
+]

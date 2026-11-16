@@ -1,0 +1,20 @@
+{
+  "fecha": "2026-11-15",
+  "nuevasPublicadas": 24,
+  "totalPublicadas": 266,
+  "dificultad": {
+    "basic": 81,
+    "intermediate": 155,
+    "advanced": 30
+  },
+  "avanzadasPorCompetencia": {
+    "1": 9,
+    "2": 10,
+    "3": 11
+  },
+  "preguntasAnterioresIdenticas": 242,
+  "borradores": 0,
+  "sesionDe30AvanzadasVerificadaEnTransaccionRevertida": true,
+  "tipoRevision": "asistida por IA por encargo del administrador",
+  "corteDocumental": "2026-10-29"
+}

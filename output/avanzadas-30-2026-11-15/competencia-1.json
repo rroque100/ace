@@ -1,0 +1,659 @@
+[
+  {
+    "numero": "A01",
+    "objetivo": "Decidir la reaprobación del expediente ante una declaratoria de desierto y cambios documentales.",
+    "criterioAvanzado": "Integra la excepción de nueva aprobación con la actualización de cuantía y respaldo presupuestario.",
+    "input": {
+      "prompt": "Un procedimiento de bienes queda desierto. El informe de evaluación determina que la cuantía aprobada omitió instalación indispensable y ordena corregirla de S/180 000 a S/210 000. La certificación vigente solo cubre S/180 000; la necesidad sigue en el CMN. No hay otra previsión presupuestal aplicable. La DEC propone conservar la aprobación anterior y corregir solo las bases. ¿Qué curso corresponde antes de la siguiente convocatoria?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Conservar la aprobación anterior: la excepción por desierto permite cambiar la cuantía directamente en las bases."
+        },
+        {
+          "id": "B",
+          "text": "Actualizar la cuantía y gestionar el respaldo presupuestario por el monto corregido, sometiendo el expediente a nueva aprobación."
+        },
+        {
+          "id": "C",
+          "text": "Solicitar nueva aprobación manteniendo cuantía y certificación originales, pues la instalación puede regularizarse después de convocar."
+        },
+        {
+          "id": "D",
+          "text": "Actualizar cuantía y respaldo presupuestario, sin nueva aprobación, porque la necesidad permanece en el CMN."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La dispensa de nueva aprobación tras un desierto cesa cuando el informe exige modificar documentos que sustentaron la aprobación. Aquí cambia la cuantía y el respaldo disponible resulta insuficiente para el monto corregido. La cuantía debe incluir todos los conceptos aplicables y el expediente debe contener el respaldo presupuestario correspondiente antes de su nueva aprobación.",
+      "regime": "32069",
+      "topic": "Expediente de contratación",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La dispensa tiene una excepción expresa cuando el informe exige modificar documentos que sustentaron la aprobación.",
+        "B": "Integra el cambio exigido por el informe con la cuantía completa y el respaldo presupuestario del expediente.",
+        "C": "Reaprobar sin corregir los documentos afectados mantiene la omisión y el desajuste presupuestario identificados.",
+        "D": "La permanencia en el CMN cumple una condición de programación, pero no elimina la excepción a la dispensa de reaprobación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "54",
+          "pageStart": 30,
+          "pageEnd": 30,
+          "quote": "Artículo 54. Expediente de contratación 54.1. El expediente de contratación incluye toda la información correspondiente al proceso de contratación, privilegiándose el uso de medios electrónicos para su custodia y resguardo. La DEC es responsable de que toda la información se encuentre en el expe diente de contratación, así como de su disponibilidad para aquellos que lo requieran. 54.2. La autoridad de la gestión administrativa, previo a la fase de selección, aprueba el expediente de contratación, el cual contiene: a) El requerimiento final, indicando si se encuentra estandarizado. b) El documento que aprueba la compatibilización del requerimiento, cuando corresponda. c) La estrategia de contratación, que incluye la interacción con el mercado realizada, según corresponda. d) La cuantía de la contratación. e) El documento mediante el cual se han designado a los evaluadores. f) La certificación de crédito presupuestario y/o la previsión presupuestal, de acuerdo con la normativa vigente. g) Otra documentación necesaria conforme a la normativa que regula el objeto de la contratación. 54.3. Para aprobar un expediente de contratación la necesidad debe encontrarse prevista en el CMN aprobado del año fiscal correspondiente o su modificatoria. 54.4. Cuando un procedimiento de selección sea declarado desierto, la siguiente convocatoria no requiere contar con una nueva aprobación del expediente de contratación, salvo cuando el informe de evaluación de las razones que motivaron la declaratoria de d esierto advierta que se requiere modificar alguno de los documentos que motivó su aprobación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "53",
+          "pageStart": 29,
+          "pageEnd": 30,
+          "quote": "53.2. La cuantía de la contratación incluye todos los conceptos que sean aplicables al bien, servicio u obra a contratar.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste directo con corpus.json y documentos.json de tmp/revision-61; corte documental 2026-10-29. Se confirma el criterio en los fragmentos citados. Se revisaron condiciones, excepciones, clave única y plausibilidad de distractores. Diferenciación frente al banco de 242 preguntas: El banco trata la dispensa cuando no hay cambios; este caso exige resolver su excepción y el efecto simultáneo sobre cuantía y presupuesto."
+    }
+  },
+  {
+    "numero": "A02",
+    "objetivo": "Reconstruir la cuantía del alcance final a partir de una cotización condicionada y decidir el trámite del expediente.",
+    "criterioAvanzado": "El cambio de cantidad modifica la cobertura de la instalación incluida; exige descomponer la cotización antes de determinar suficiencia presupuestaria.",
+    "input": {
+      "prompt": "Para abastecer cuatro sedes, la interacción con el mercado arroja una cotización vigente: cada equipo cuesta S/8 000, con transporte incluido; si se compran al menos diez, se incluye la instalación de los primeros cuatro y cada instalación restante cuesta S/1 500. Por debajo de diez, se cobra S/1 500 por instalar cada equipo. Todos los importes incluyen tributos. El área usuaria reduce de doce a nueve los equipos del requerimiento final, mantiene la instalación de todos y otorga su no objeción. La estrategia utiliza esta cotización como único referente de cuantía, por decisión motivada que no se discute. La necesidad está en el CMN; existe certificación por S/82 000 y el expediente aún no se aprueba. ¿Qué propuesta corresponde elevar a aprobación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cuantía de S/79 500, conservando la certificación, al descontar las cuatro instalaciones incluidas en la oferta inicial."
+        },
+        {
+          "id": "B",
+          "text": "Cuantía de S/85 500, gestionando el respaldo presupuestario de los S/3 500 faltantes antes de elevar el expediente."
+        },
+        {
+          "id": "C",
+          "text": "Cuantía de S/72 000, conservando la certificación, pues transporte e instalación quedan absorbidos por el precio unitario."
+        },
+        {
+          "id": "D",
+          "text": "Cuantía de S/85 500, elevando el expediente con los S/82 000 certificados y dejando el saldo para después de convocar."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Con nueve equipos deja de cumplirse la condición comercial que incluía cuatro instalaciones. El alcance final cuesta 9 × S/8 000 + 9 × S/1 500 = S/85 500; el transporte ya está incluido y no se suma nuevamente. Frente a S/82 000 certificados faltan S/3 500. La cuantía y su respaldo deben responder al requerimiento final que se incorpora al expediente, no a las condiciones de la cotización para una cantidad distinta.",
+      "regime": "32069",
+      "topic": "Expediente de contratación",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Mantiene indebidamente un beneficio condicionado a adquirir al menos diez equipos, aunque el alcance final es de nueve.",
+        "B": "Recalcula la cobertura de la oferta al cambiar el alcance y deriva de ello el ajuste presupuestario previo a la aprobación.",
+        "C": "Confunde transporte incluido con instalación incluida; al bajar de diez se paga la instalación de todos los equipos.",
+        "D": "El importe está bien calculado, pero el expediente debe contener el respaldo presupuestario correspondiente al alcance que se somete a aprobación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "53",
+          "pageStart": 29,
+          "pageEnd": 30,
+          "quote": "53.1. A fin de gestionar la certificación y/o previsión presupuestal correspondiente, la DEC considera la cuantía de la contratación establecida en el PAC del CMN, la cual puede ser actualizada producto de la interacción con el mercado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 30 de 249 53.2. La cuantía de la contratación incluye todos los conceptos que sean aplicables al bien, servicio u obra a contratar.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "54",
+          "pageStart": 30,
+          "pageEnd": 30,
+          "quote": "54.2. La autoridad de la gestión administrativa, previo a la fase de selección, aprueba el expediente de contratación, el cual contiene: a) El requerimiento final, indicando si se encuentra estandarizado. b) El documento que aprueba la compatibilización del requerimiento, cuando corresponda. c) La estrategia de contratación, que incluye la interacción con el mercado realizada, según corresponda. d) La cuantía de la contratación. e) El documento mediante el cual se han designado a los evaluadores. f) La certificación de crédito presupuestario y/o la previsión presupuestal, de acuerdo con la normativa vigente. g) Otra documentación necesaria conforme a la normativa que regula el objeto de la contratación. 54.3. Para aprobar un expediente de contratación la necesidad debe encontrarse prevista en el CMN aprobado del año fiscal correspondiente o su modificatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observación de revisión independiente. Veredicto documental: se confirma el criterio normativo con los chunks reales de tmp/revision-61/corpus.json y metadatos de documentos.json, sin importar fuentes. Los datos técnicos, monetarios y calendarios son supuestos del caso, no valores atribuidos a la norma. Corte documental: 2026-10-29. Se revisaron clave única, condiciones, excepciones y razones por distractor. Diferenciación respecto de las 242 preguntas: No suma rubros independientes ya dados: la reducción del requerimiento activa una condición comercial distinta y revierte la aparente suficiencia presupuestaria."
+    }
+  },
+  {
+    "numero": "A03",
+    "objetivo": "Comparar configuraciones de adquisición a partir de vida útil, continuidad y costos de reposición.",
+    "criterioAvanzado": "Normaliza horizontes temporales distintos: una alternativa barata requiere reposición y genera una interrupción que cambia la viabilidad de la estrategia.",
+    "input": {
+      "prompt": "La estrategia de una compra de bombas debe garantizar cuatro años continuos de servicio; no se admiten interrupciones superiores a dos días. La alternativa X cuesta S/90 000 instalada, dura exactamente dos años y cuesta S/6 000 anuales de operación y mantenimiento. Al final del segundo año requiere otra bomba X: su precio instalado será el mismo y sustituirla interrumpe el servicio cinco días. La alternativa Y cuesta S/140 000 instalada, dura cuatro años y cuesta S/13 000 anuales de operación y mantenimiento; no requiere sustitución en ese periodo. En ambas, el mantenimiento ordinario no interrumpe el servicio. No hay valor residual, descuento financiero ni otros costos. Ambos tipos tienen varios proveedores. Antes de formular las especificaciones finales, ¿qué conclusión sustenta mejor la estrategia con estos datos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Orientar el requerimiento a X: su costo de S/114 000 en cuatro años es menor y la reposición no integra el análisis preparatorio."
+        },
+        {
+          "id": "B",
+          "text": "Descartar Y: aunque satisface la continuidad, su operación cuesta S/28 000 más y eso la hace necesariamente menos económica."
+        },
+        {
+          "id": "C",
+          "text": "Exigir la marca de Y: su costo de S/192 000 justifica automáticamente restringir el requerimiento a un fabricante."
+        },
+        {
+          "id": "D",
+          "text": "Orientar el requerimiento por prestaciones hacia una solución con el desempeño de Y: cuesta S/192 000 frente a S/204 000 de X y satisface la continuidad exigida."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "La comparación debe cubrir el mismo horizonte y la finalidad pública. X requiere dos adquisiciones: 2 × S/90 000 + 4 × S/6 000 = S/204 000, y su sustitución excede los dos días tolerados. Y cuesta S/140 000 + 4 × S/13 000 = S/192 000 y no tiene esa interrupción. La estrategia puede justificar prestaciones funcionales equivalentes a Y; estos datos no habilitan por sí mismos una exigencia de marca ni constituyen una adjudicación.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El cálculo omite la segunda adquisición de X y el efecto de la interrupción sobre la necesidad de servicio continuo.",
+        "B": "El mayor gasto operativo de Y se compensa con evitar la reposición; debe compararse el costo integral y la continuidad.",
+        "C": "La ventaja de una configuración funcional no aprueba por sí sola compatibilización ni habilita direccionar hacia una marca.",
+        "D": "Compara cuatro años para ambas soluciones e integra costo de reposición y continuidad antes de formular prestaciones funcionales."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "26f53c83-1cdf-4b72-8967-598ab7a20102",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "5",
+          "pageStart": 3,
+          "pageEnd": 5,
+          "quote": "c) Valor por dinero: las entidades contratantes maximizan el valor de lo que obtienen en cada contratación, en términos de eficiencia, eficacia y economía, lo cual implica que se contrate a quien asegure el cumplimiento de la finalidad pública de la contratación, considerando la calidad, la sostenibilidad de la oferta y la evaluación de los costos y plazos, entre otros aspectos vinculados a la naturaleza de lo que se contrate, y que no procure únicamente el menor precio.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "e3299fa5-887e-4271-abf1-bafd52dbbe39",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "46",
+          "pageStart": 23,
+          "pageEnd": 24,
+          "quote": "46.2. Las entidades contratantes gestionan las contrataciones considerando todo el ciclo de vida de los bienes, servicios y obras, los cuales se orientan a prevenir o atender una necesidad, o a afrontar un problema relevante para el cumplimiento de los fines públicos. 46.3. El requerimiento permite el acceso de los proveedores al proceso de contratación en condiciones de igualdad, sin obstaculizar la competencia o direccionar el proceso de contratación a un determinado proveedor. 46.4. El requerimiento se formula de manera clara y objetiva, y debe expresar el bien, servicio u obra a contratar, preferentemente, en función a su desempeño y funcionalidad. El requerimiento de bienes se plasma en especificaciones técnicas; el de servicios, en términos de referencia; y el de obras, en el expediente técnico de obra o en los objetivos funci onales, según el sistema de entrega utilizado. En los documentos integrantes del expediente de contratación, según corresponda, se aplica expresamente el principio de valor por dinero. Con respecto a los contratos estandarizados de ingeniería y construcción de uso internacional, el requerimiento puede plasmarse en aquellos documentos que precisen su alcance.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "44",
+          "pageStart": 24,
+          "pageEnd": 25,
+          "quote": "44.4. Asimismo, en el caso de bienes y obras, se evalúa la necesidad de contar con prestaciones accesorias como el mantenimiento y la operación, considerando el ciclo de vida del activo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observación de revisión independiente. Veredicto documental: se confirma el criterio normativo con los chunks reales de tmp/revision-61/corpus.json y metadatos de documentos.json, sin importar fuentes. Los datos técnicos, monetarios y calendarios son supuestos del caso, no valores atribuidos a la norma. Corte documental: 2026-10-29. Se revisaron clave única, condiciones, excepciones y razones por distractor. Diferenciación respecto de las 242 preguntas: Reemplaza el objetivo de normas voluntarias: el horizonte de vida útil transforma el orden de costos y una reposición altera además el cumplimiento de la finalidad, sin anunciar un incumplimiento jurídico."
+    }
+  },
+  {
+    "numero": "A04",
+    "objetivo": "Diseñar una actuación de mercado que cambie el alcance de la información y la clasificación de la consulta.",
+    "criterioAvanzado": "Selecciona la herramienta que simultáneamente resuelve una incertidumbre técnica específica y completa una consulta avanzada, sin confundir fuentes con herramientas.",
+    "input": {
+      "prompt": "Para comprar equipos conectados a una red existente, la DEC realizó un taller con seis fabricantes y repitió el mismo taller, con igual contenido y dinámica, para otros seis. También analizó dos fuentes históricas distintas: contratos propios y contratos de otras entidades obtenidos de Pladicop. El taller permitió conocer el mercado, pero cada fabricante usa una arquitectura diferente y el equipo técnico necesita examinar cómo se integraría cada solución con la red, con detalles no públicos de configuración. Hay recursos para agregar una sola herramienta de consulta. Se busca obtener ese detalle y que la consulta sea avanzada. ¿Qué actuación responde mejor a ambos objetivos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Agregar reuniones individuales con los fabricantes para examinar cada arquitectura, resguardando los detalles no públicos; mantener la indagación como insumo complementario."
+        },
+        {
+          "id": "B",
+          "text": "Consultar una tercera fuente histórica: elevar a tres las fuentes convierte automáticamente los talleres en consulta avanzada y reemplaza el análisis de integración."
+        },
+        {
+          "id": "C",
+          "text": "Repetir por tercera vez el mismo taller general: el número de sesiones y proveedores basta para que la consulta sea avanzada."
+        },
+        {
+          "id": "D",
+          "text": "Solicitar a un fabricante su configuración y distribuirla íntegramente entre los demás para que la validen en el mismo taller general."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Las fuentes históricas permiten una indagación avanzada, pero no agregan por sí mismas otra herramienta a la consulta. Repetir el mismo taller general no cambia la herramienta utilizada. Las reuniones uno a uno añaden una herramienta distinta y permiten examinar directamente la integración particular de cada solución, haciendo avanzada la consulta junto con el taller ya realizado. La información no pública obtenida durante la interacción debe mantenerse confidencial conforme a la normativa de la materia.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Introduce una herramienta diferente que atiende precisamente la incertidumbre de integración y conserva la confidencialidad de la información no pública.",
+        "B": "Confunde fuentes de indagación con herramientas de consulta y no permite examinar directamente las configuraciones particulares pendientes.",
+        "C": "Repetir la misma herramienta no satisface por sí mismo el uso de dos o más herramientas ni obtiene el detalle particular buscado.",
+        "D": "La difusión íntegra de configuraciones no públicas desconoce la confidencialidad y no constituye una solución válida para compartir el análisis técnico."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "059e3aeb-6b60-416a-a044-abcfeee25863",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "48",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "48.3. La indagación puede ser básica o avanzada. Para la indagación básica se utilizan como mínimo una fuente de información, mientras que para la indagación avanzada se utilizan dos o más fuentes.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "dc353985-af23-42bb-9012-4e5e06e55c9b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "49",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "Artículo 49. Consulta al mercado 49.1. Mediante la consulta al mercado, se propicia el intercambio de información de manera abierta y transparente con los proveedores. 49.2. La consulta al mercado puede ser básica o avanzada. En el caso de la consulta al mercado básica, se emplea una sola herramienta de interacción, sea escrita o reuniones, mientras que para la avanzada se utilizan dos o más herramientas de la misma o di stinta clasificación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "b0c4df12-e98f-48a8-821c-196bc315d20a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "50",
+          "pageStart": 27,
+          "pageEnd": 28,
+          "quote": "50.1. Las herramientas de las consultas al mercado tienen la siguiente clasificación: a) Escrita: se utiliza para obtener retroalimentación de varios proveedores, como la difusión del requerimiento conforme a lo dispuesto en el artículo 51 o solicitudes de información a los proveedores, entre otros.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 28 de 249 b) Reuniones: b.1 Uno a muchos: se utiliza para comunicar aspectos clave de la contratación a varios proveedores o a la industria, como reuniones informativas, talleres con la industria o eventos de exposición de proveedores o de proyectos de la entidad contratante, ent re otros. Esta herramienta puede emplearse para atender varios requerimientos. b.2 Uno a uno: se utiliza para obtener información detallada de una manera directa con el proveedor a través de reuniones individuales. 50.2. De manera complementaria a las herramientas señaladas, la DEC puede realizar una indagación de conformidad con el artículo 48.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "47",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "47.2. La entidad contratante guarda confidencialidad respecto de toda información, datos o documentación que no sea de acceso público, a la que tenga acceso directa o indirectamente como consecuencia del desarrollo de la interacción con el mercado, conform e a la normativa de la materia.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observación de revisión independiente. Veredicto documental: se confirma el criterio normativo con los chunks reales de tmp/revision-61/corpus.json y metadatos de documentos.json, sin importar fuentes. Los datos técnicos, monetarios y calendarios son supuestos del caso, no valores atribuidos a la norma. Corte documental: 2026-10-29. Se revisaron clave única, condiciones, excepciones y razones por distractor. Diferenciación respecto de las 242 preguntas: No pide nombrar ni clasificar una herramienta ya seleccionada: exige diseñar el siguiente paso con recursos limitados, separar dos dimensiones de avance y resolver la incertidumbre técnica sin divulgar configuraciones."
+    }
+  },
+  {
+    "numero": "A05",
+    "objetivo": "Resolver sustitución y votación válida de un comité durante la preparación de bases.",
+    "criterioAvanzado": "Integra ausencia de titular, continuidad del suplente, quórum total, mayoría y prohibición de abstención.",
+    "input": {
+      "prompt": "Un comité válidamente designado de tres integrantes está preparando las bases. Una titular falta; ingresa su suplente y quedan presentes los tres miembros habilitados. No hay conflicto de intereses. En una propuesta sobre las bases, dos integrantes votan a favor y el tercero pretende abstenerse por discrepancia técnica. La titular anuncia que volverá a la siguiente reunión. ¿Qué tratamiento respeta las reglas del comité?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Adoptar el acuerdo con dos votos y registrar una abstención; devolver el puesto a la titular en la reunión siguiente."
+        },
+        {
+          "id": "B",
+          "text": "Exigir que el tercer integrante vote y fundamente su discordia si discrepa; puede decidirse por mayoría y la suplente ocupa el lugar en adelante, evaluándose el motivo de ausencia."
+        },
+        {
+          "id": "C",
+          "text": "Suspender toda decisión hasta el regreso de la titular, porque el suplente solo completa el quórum y no vota."
+        },
+        {
+          "id": "D",
+          "text": "Permitir que la suplente vote, pero exigir unanimidad y alternar titular y suplente según asistencia en cada sesión."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El reemplazo por ausencia permite completar el quórum con la suplente, que toma el lugar en adelante; corresponde evaluar el motivo de la ausencia y la eventual responsabilidad. Con el número total de integrantes se puede decidir por mayoría. Nadie puede abstenerse: la discrepancia se expresa mediante voto en discordia sustentado en acta.",
+      "regime": "32069",
+      "topic": "Tipos y perfiles de evaluadores",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La mayoría es admisible, pero la abstención y el retorno automático de la titular contradicen las reglas de funcionamiento y sustitución.",
+        "B": "Combina quórum completo, voto obligatorio, mayoría y continuidad de la suplente conforme al artículo 59.",
+        "C": "La suplente reemplaza a la titular y participa en la decisión; no se limita a completar una presencia formal.",
+        "D": "No se exige unanimidad en todos los casos y la suplencia por ausencia no configura alternancia sesión por sesión."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e76cd1ef-49bd-419e-b063-18191098b6c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "59",
+          "pageStart": 32,
+          "pageEnd": 33,
+          "quote": "Artículo 59. Comité 59.1. La autoridad de la gestión administrativa designa a los integrantes titulares y suplentes de los comités. Los suplentes solo actúan en ausencia de los titulares, tomando su lugar en adelante. En dicho caso, la autoridad de la gestión administrativa e valúa el motivo de la ausencia del titular a efectos de determinar su responsabilidad, si la hubiere.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 33 de 249 59.2. Los integrantes del comité sólo pueden ser removidos por caso fortuito o fuerza mayor, por cese en el servicio, conflicto de intereses u otra situación justificada, mediante documento debidamente motivado. En el mismo documento puede designarse a un nuevo integrante. 59.3. Los integrantes del comité que son compradores públicos de la entidad contratante no pueden renunciar al cargo encomendado, salvo conflicto de intereses debidamente acreditado. Incurre en responsabilidad quien alega un conflicto de intereses inexiste nte con la finalidad de sustraerse del cumplimiento de sus obligaciones como evaluador. 59.4. Cuando la evaluación está a cargo de un comité, sus integrantes actúan y evalúan en forma colegiada, siendo solidariamente responsables por su actuación, salvo señalen en el acta correspondiente su voto en discordia con el respectivo sustento. 59.5. Las sesiones o reuniones del comité pueden ser presenciales o mediante el uso de medios digitales. Para sesionar y adoptar acuerdos válidos, el comité se sujeta a las siguientes reglas: a) El quórum para su funcionamiento se da con la presencia del número total de integrantes. En caso de ausencia de alguno de los titulares, se procede a su reemplazo con el respectivo suplente. b) Los acuerdos se adoptan por unanimidad o por mayoría. No cabe la abstención por parte de ninguno de los integrantes. c) Los acuerdos que adopte y los votos en discordia, con su respectiva fundamentación, constan en actas que se registran en la Pladicop.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste directo con corpus.json y documentos.json de tmp/revision-61; corte documental 2026-10-29. Se confirma el criterio en los fragmentos citados. Se revisaron condiciones, excepciones, clave única y plausibilidad de distractores. Diferenciación frente al banco de 242 preguntas: Introduce un problema de composición efectiva y decisión colegiada que no aparece en los enunciados actuales de perfiles y roles."
+    }
+  },
+  {
+    "numero": "A06",
+    "objetivo": "Evaluar una modificación del requerimiento mediante su efecto en capacidad efectiva y competencia.",
+    "criterioAvanzado": "La reducción de una especificación mejora concurrencia, pero su aceptación depende de transformar velocidades nominales y tiempos de parada en servicio efectivo.",
+    "input": {
+      "prompt": "Un laboratorio necesita procesar 1 800 muestras en una jornada de ocho horas; no puede trasladar muestras al día siguiente ni usar equipos paralelos. El requerimiento inicial exige un analizador de 300 muestras por hora y tolera hasta dos horas diarias de calibración sin procesamiento; solo dos proveedores lo cumplen. La interacción identifica cinco proveedores de equipos de 270 muestras por hora que requieren una hora diaria de calibración. Para este caso, fuera de la calibración cada equipo mantiene su velocidad nominal toda la jornada y no existen otras pérdidas; ambos tipos cumplen las demás condiciones técnicas. La DEC propone sustituir conjuntamente velocidad mínima y tiempo máximo de calibración por los de la segunda solución. El área usuaria debe decidir su no objeción. ¿Qué análisis corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Objetar: reducir de 300 a 270 muestras por hora disminuye necesariamente la atención diaria en 10 %."
+        },
+        {
+          "id": "B",
+          "text": "Aceptar la reducción a 270 muestras por hora, pero mantener las dos horas máximas de calibración originales para no añadir otra exigencia."
+        },
+        {
+          "id": "C",
+          "text": "No objetar la modificación conjunta: permite 1 890 muestras diarias frente a 1 800 del diseño inicial; trasladar a la estrategia la combinación funcional que amplía la concurrencia."
+        },
+        {
+          "id": "D",
+          "text": "No objetar solo la nueva velocidad: la mayor concurrencia hace innecesario verificar el tiempo de calibración y la producción diaria."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La capacidad efectiva inicial es 300 × (8 − 2) = 1 800 muestras. La propuesta conjunta permite 270 × (8 − 1) = 1 890, por lo que satisface la necesidad con mayor concurrencia bajo los supuestos del caso. Si se bajara solo la velocidad manteniendo dos horas de calibración se admitirían equipos de 1 620 muestras diarias. La no objeción debe recaer sobre la combinación de parámetros que satisface la finalidad, no sobre una reducción aislada ni sobre el número de proveedores por sí solo.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Compara velocidades nominales sin descontar las horas de calibración, cuyo cambio compensa y supera la reducción nominal.",
+        "B": "La combinación de 270 muestras por hora y dos horas de calibración permitiría solo 1 620 muestras, insuficientes para la necesidad diaria.",
+        "C": "Verifica el efecto conjunto de los parámetros y justifica la no objeción en cumplimiento funcional y mayor concurrencia.",
+        "D": "La concurrencia es relevante, pero no sustituye comprobar que la configuración modificada satisface la necesidad y finalidad pública."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "44",
+          "pageStart": 24,
+          "pageEnd": 25,
+          "quote": ". La DEC verifica que el requerimiento cumpla las disposiciones de la Ley y el Reglamento y, de ser el caso, propone mejoras considerando sus funciones y especialidad, pudiendo modificar su contenido en cualquier momento de las actuaciones preparatoria s, para lo cual solicita al área usuaria la no objeción al requerimiento modificado, a fin de que continúe con el trámite correspondiente. 44.8. El área usuaria puede objetar la modificación del requerimiento propuesto por la DEC sólo cuando exista el riesgo de que no se satisfaga su necesidad y no se cumpla la finalidad pública de la contratación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "e3299fa5-887e-4271-abf1-bafd52dbbe39",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "46",
+          "pageStart": 23,
+          "pageEnd": 24,
+          "quote": "46.3. El requerimiento permite el acceso de los proveedores al proceso de contratación en condiciones de igualdad, sin obstaculizar la competencia o direccionar el proceso de contratación a un determinado proveedor. 46.4. El requerimiento se formula de manera clara y objetiva, y debe expresar el bien, servicio u obra a contratar, preferentemente, en función a su desempeño y funcionalidad. El requerimiento de bienes se plasma en especificaciones técnicas; el de servicios, en términos de referencia; y el de obras, en el expediente técnico de obra o en los objetivos funci onales, según el sistema de entrega utilizado. En los documentos integrantes del expediente de contratación, según corresponda, se aplica expresamente el principio de valor por dinero. Con respecto a los contratos estandarizados de ingeniería y construcción de uso internacional, el requerimiento puede plasmarse en aquellos documentos que precisen su alcance.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "47",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "47.1. La interacción con el mercado consiste en un conjunto de actividades que sirven de insumo y forman parte de la estrategia de contratación y permite a la entidad contratante perfeccionar su requerimiento, actualizar la cuantía de la contratación consi derada en el PAC del CMN, medir la existencia de oferta existente en el mercado y competencia y el riesgo de la frustración del procedimiento de selección, pudiendo considerar la capacidad, tamaño y tendencias del mercado. Los tipos de interacción con el m ercado son los siguientes: i) indagación; y, ii) consulta al mercado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observación de revisión independiente. Veredicto documental: se confirma el criterio normativo con los chunks reales de tmp/revision-61/corpus.json y metadatos de documentos.json, sin importar fuentes. Los datos técnicos, monetarios y calendarios son supuestos del caso, no valores atribuidos a la norma. Corte documental: 2026-10-29. Se revisaron clave única, condiciones, excepciones y razones por distractor. Diferenciación respecto de las 242 preguntas: Reemplaza el objetivo de revisión de bases: la decisión sobre no objeción depende del cálculo de capacidad efectiva y de mantener vinculados dos cambios; el riesgo no se califica por anticipado."
+    }
+  },
+  {
+    "numero": "A07",
+    "objetivo": "Reconstruir un cronograma de difusión del requerimiento con hitos dependientes y efecto sobre la programación.",
+    "criterioAvanzado": "Encadena cierre de consultas, absolución modificada, reunión y acta; identifica el hito desplazado y calcula una corrección de fecha sin acortar plazos.",
+    "input": {
+      "prompt": "La DEC difunde el requerimiento el lunes de la semana 1 y concede exactamente cinco días hábiles para consultas. Todas las consultas del caso se formulan el último día de ese periodo. Para programar recursos, la entidad decide utilizar íntegramente los máximos del texto modificado del artículo 51: seis días hábiles para absolver y tres días hábiles desde la publicación de la absolución para celebrar la reunión de confirmación. El acta se publicará al día hábil siguiente de la reunión. Solo son hábiles lunes a viernes y no hay feriados; cada cómputo comienza el día hábil siguiente a su hito. La aprobación del expediente se agenda para el día hábil siguiente de publicada el acta, porque la estrategia incorporará sus resultados. El cronograma preliminar la sitúa el viernes de la semana 3. Sin acortar los plazos adoptados y manteniendo las demás condiciones, ¿qué reprogramación corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mantener el viernes de la semana 3: absolver el jueves de la semana 2, reunirse el martes de la semana 3 y publicar el acta el miércoles."
+        },
+        {
+          "id": "B",
+          "text": "Mover la aprobación al martes de la semana 4: absolver el martes de la semana 3, reunirse el viernes, publicar el acta el lunes siguiente y aprobar al día siguiente."
+        },
+        {
+          "id": "C",
+          "text": "Mover la aprobación al lunes de la semana 4: absolver el martes de la semana 3, reunirse el viernes y publicar el acta ese mismo viernes."
+        },
+        {
+          "id": "D",
+          "text": "Mover la aprobación al lunes de la semana 4: absolver el lunes de la semana 3, reunirse el jueves, publicar el acta el viernes y aprobar el lunes siguiente."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Las consultas cierran el lunes de la semana 2. Los seis días de absolución son martes a viernes de esa semana y lunes y martes de la semana 3. Publicada la absolución el martes, los tres días para la reunión vencen el viernes de la semana 3. El acta se publica el lunes de la semana 4. Como el caso agenda la aprobación al día hábil siguiente del acta para incorporar los resultados, corresponde el martes de la semana 4. La fecha de aprobación vinculada al acta es una regla operativa del caso; los plazos de difusión, absolución, reunión y acta proceden del artículo 51.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Adelanta la absolución sin consumir los seis días adoptados; reproduce un calendario que no respeta la duración de las actuaciones programadas.",
+        "B": "Encadena correctamente los cuatro hitos normativos y deriva la fecha de aprobación de la dependencia operativa expresamente fijada en el caso.",
+        "C": "Publicar el acta el mismo día de la reunión contradice el hito del día hábil siguiente previsto en el numeral 51.5.",
+        "D": "La cadena posterior es coherente, pero adelanta un día la absolución al contar como primer día el propio lunes de formulación de consultas; el caso exige iniciar el cómputo al día hábil siguiente."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "59c25e30-8138-44d3-900a-d0094fb64cdb",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "51",
+          "pageStart": 28,
+          "pageEnd": 29,
+          "quote": "51.2. La formulación de consultas y/o comentarios técnicos se realiza a través de la Pladicop en un plazo no menor de cinco días hábiles, contabilizados desde el día siguiente a la publicación de la difusión del requerimiento.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "b34a6545-afc5-4d9d-aeb6-e63d6c7d79ea",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "51",
+          "pageStart": 28,
+          "pageEnd": 29,
+          "quote": "\"51.3. En el plazo máximo de seis días hábiles de formuladas las referidas consultas y/o comentarios técnicos, el área usuaria y la DEC realizan la absolución, publicando en la Pladicop un acta que contenga el resultado de este proceso.\" 51.4. Dentro de un plazo máximo de tres días hábiles de publicada la absolución de consultas y/o comentarios técnicos, la entidad contratante realiza una reunión de confirmación y/o aclaración, a fin de corroborar el correcto entendimiento de los proveedor es sobre la absolución efectuada. La DEC es la encargada de dirigir la reunión y establece el orden de participación de los proveedores. El área usuaria absuelve y de ser necesario amplía el sustento técnico de la absolución preliminar. La reunión puede se r presencial o mediante el uso de plataformas digitales. 51.5. Se elabora un acta de la reunión que es publicada en la Pladicop al día hábil siguiente de realizada la reunión.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observación de revisión independiente. Veredicto documental: se confirma el criterio normativo con los chunks reales de tmp/revision-61/corpus.json y metadatos de documentos.json, sin importar fuentes. Los datos técnicos, monetarios y calendarios son supuestos del caso, no valores atribuidos a la norma. Corte documental: 2026-10-29. Se revisaron clave única, condiciones, excepciones y razones por distractor. Diferenciación respecto de las 242 preguntas: Reemplaza el objetivo de rectificación del PAC. No pregunta por el vencimiento aislado de consultas: exige detectar un desfase en una cadena de actuaciones y trasladarlo a la aprobación prevista por la entidad."
+    }
+  },
+  {
+    "numero": "A08",
+    "objetivo": "Articular disponibilidad del CMN, plazo de aprobación del PAC y plazo de publicación.",
+    "criterioAvanzado": "Calcula dos plazos consecutivos con hitos diferentes y evita reiniciar el primero por aprobación tardía del CMN.",
+    "input": {
+      "prompt": "En una secuencia sin feriados, el PIA se aprueba el lunes de la semana 1. El CMN queda aprobado el viernes de la semana 3. Solo son hábiles los días de lunes a viernes. La DEC ya tiene formulado el PAC y la autoridad competente puede aprobarlo el lunes de la semana 4. La entidad cuenta con sede digital. Aplicando los numerales 8.1 y 9.1 de la Directiva del PAC modificados por la RD 0041-2025-EF/54.01, ¿qué alternativa identifica correctamente el último día para aprobar el PAC y el último día para completar su registro y publicación si se aprueba en esa fecha límite?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aprobar el lunes de la semana 7, contando quince días hábiles desde el CMN, y publicar dentro de los cinco días hábiles siguientes."
+        },
+        {
+          "id": "B",
+          "text": "Aprobar el lunes de la semana 4 y publicar como máximo el viernes de esa misma semana, contando la aprobación como primer día de publicación."
+        },
+        {
+          "id": "C",
+          "text": "Aprobar el lunes de la semana 4 y completar el registro y publicación en Seace de la Pladicop y la publicación del formato en la sede digital hasta el lunes de la semana 5."
+        },
+        {
+          "id": "D",
+          "text": "Aprobar el lunes de la semana 4 y completar el registro y las publicaciones hasta el viernes de la semana 5, considerando que el plazo de publicación comienza al día siguiente del cierre de la semana de aprobación."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Los quince días hábiles siguientes al PIA transcurren así: cuatro en la semana 1, cinco en la semana 2, cinco en la semana 3 y el decimoquinto el lunes de la semana 4. El CMN ya está aprobado entonces; su aprobación no reinicia el plazo. Desde la aprobación del PAC, los cinco días hábiles siguientes son martes a viernes de la semana 4 y lunes de la semana 5. El plazo de publicación comprende Seace de la Pladicop y, si existe, sede digital.",
+      "regime": "32069",
+      "topic": "Plan Anual y necesidades",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El plazo de aprobación se ancla en la aprobación del PIA; no se reinicia por la fecha del CMN.",
+        "B": "Contar la propia fecha de aprobación como primer día adelanta incorrectamente el vencimiento máximo de publicación, aunque publicar antes sería posible.",
+        "C": "Identifica correctamente ambos vencimientos y la obligación de publicar también en la sede digital existente.",
+        "D": "Desplaza el inicio del plazo hasta el cierre semanal sin base en el numeral 9.1; los cinco días hábiles se computan desde la aprobación del PAC, no desde el fin de esa semana."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+          "chunkId": "f7403660-520c-4980-97fb-ebca6b0b3a79",
+          "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+          "article": "8",
+          "pageStart": 2,
+          "pageEnd": 2,
+          "quote": "Artículo 8.- De la aprobación del PAC 8.1. Dentro de los quince (15) días hábiles siguientes a la aprobación del PIA, y con el CMN aprobado, la autoridad de la gestión administrativa, o a quien esta delegue, aprueba el PAC formulado por la DEC, mediante la suscripción del formato PAC correspondiente que publique el OECE. (...)” “",
+          "version": "Texto publicado el 25.12.2025",
+          "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914"
+        },
+        {
+          "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+          "chunkId": "44c4b53a-b7f3-4081-ab74-665ecbb9cca9",
+          "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+          "article": "9",
+          "pageStart": 2,
+          "pageEnd": 2,
+          "quote": "Artículo 9.- Del registro y publicación del PAC 9.1. La DEC registra y publica el PAC en el Seace de la Pladicop, usando el Catálogo Único de Bienes, Servicios y Obras (CUBSO) del referido sistema; asimismo, publica el formato PAC en la sede digital de la entidad contratante en caso cuente con ella, en un plazo no mayor a cinco (05) días hábiles de aprobado, conforme a las disposiciones operativas que publique el OECE. (...)” “",
+          "version": "Texto publicado el 25.12.2025",
+          "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste directo con corpus.json y documentos.json de tmp/revision-61; corte documental 2026-10-29. Se confirma el criterio en los fragmentos citados. Se revisaron condiciones, excepciones, clave única y plausibilidad de distractores. Diferenciación frente al banco de 242 preguntas: El banco no contiene el cálculo encadenado del plazo de aprobación desde el PIA y del de publicación desde el PAC, condicionado a disponer del CMN."
+    }
+  }
+]

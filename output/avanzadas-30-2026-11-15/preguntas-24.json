@@ -1,0 +1,1911 @@
+[
+  {
+    "numero": "A01",
+    "objetivo": "Decidir la reaprobación del expediente ante una declaratoria de desierto y cambios documentales.",
+    "criterioAvanzado": "Integra la excepción de nueva aprobación con la actualización de cuantía y respaldo presupuestario.",
+    "input": {
+      "prompt": "Un procedimiento de bienes queda desierto. El informe de evaluación determina que la cuantía aprobada omitió instalación indispensable y ordena corregirla de S/180 000 a S/210 000. La certificación vigente solo cubre S/180 000; la necesidad sigue en el CMN. No hay otra previsión presupuestal aplicable. La DEC propone conservar la aprobación anterior y corregir solo las bases. ¿Qué curso corresponde antes de la siguiente convocatoria?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Actualizar la cuantía y gestionar el respaldo presupuestario por el monto corregido, sometiendo el expediente a nueva aprobación."
+        },
+        {
+          "id": "B",
+          "text": "Conservar la aprobación anterior: la excepción por desierto permite cambiar la cuantía directamente en las bases."
+        },
+        {
+          "id": "C",
+          "text": "Solicitar nueva aprobación manteniendo cuantía y certificación originales, pues la instalación puede regularizarse después de convocar."
+        },
+        {
+          "id": "D",
+          "text": "Actualizar cuantía y respaldo presupuestario, sin nueva aprobación, porque la necesidad permanece en el CMN."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La dispensa de nueva aprobación tras un desierto cesa cuando el informe exige modificar documentos que sustentaron la aprobación. Aquí cambia la cuantía y el respaldo disponible resulta insuficiente para el monto corregido. La cuantía debe incluir todos los conceptos aplicables y el expediente debe contener el respaldo presupuestario correspondiente antes de su nueva aprobación.",
+      "regime": "32069",
+      "topic": "Expediente de contratación",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Integra el cambio exigido por el informe con la cuantía completa y el respaldo presupuestario del expediente.",
+        "B": "La dispensa tiene una excepción expresa cuando el informe exige modificar documentos que sustentaron la aprobación.",
+        "C": "Reaprobar sin corregir los documentos afectados mantiene la omisión y el desajuste presupuestario identificados.",
+        "D": "La permanencia en el CMN cumple una condición de programación, pero no elimina la excepción a la dispensa de reaprobación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "54",
+          "pageStart": 30,
+          "pageEnd": 30,
+          "quote": "Artículo 54. Expediente de contratación 54.1. El expediente de contratación incluye toda la información correspondiente al proceso de contratación, privilegiándose el uso de medios electrónicos para su custodia y resguardo. La DEC es responsable de que toda la información se encuentre en el expe diente de contratación, así como de su disponibilidad para aquellos que lo requieran. 54.2. La autoridad de la gestión administrativa, previo a la fase de selección, aprueba el expediente de contratación, el cual contiene: a) El requerimiento final, indicando si se encuentra estandarizado. b) El documento que aprueba la compatibilización del requerimiento, cuando corresponda. c) La estrategia de contratación, que incluye la interacción con el mercado realizada, según corresponda. d) La cuantía de la contratación. e) El documento mediante el cual se han designado a los evaluadores. f) La certificación de crédito presupuestario y/o la previsión presupuestal, de acuerdo con la normativa vigente. g) Otra documentación necesaria conforme a la normativa que regula el objeto de la contratación. 54.3. Para aprobar un expediente de contratación la necesidad debe encontrarse prevista en el CMN aprobado del año fiscal correspondiente o su modificatoria. 54.4. Cuando un procedimiento de selección sea declarado desierto, la siguiente convocatoria no requiere contar con una nueva aprobación del expediente de contratación, salvo cuando el informe de evaluación de las razones que motivaron la declaratoria de d esierto advierta que se requiere modificar alguno de los documentos que motivó su aprobación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "53",
+          "pageStart": 29,
+          "pageEnd": 30,
+          "quote": "53.2. La cuantía de la contratación incluye todos los conceptos que sean aplicables al bien, servicio u obra a contratar.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Integra la excepción de nueva aprobación con la actualización de cuantía y respaldo presupuestario. Objetivo: Decidir la reaprobación del expediente ante una declaratoria de desierto y cambios documentales. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "9bb9c18b-d6df-5c33-bbf0-a66cc333f872",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A02",
+    "objetivo": "Reconstruir la cuantía del alcance final a partir de una cotización condicionada y decidir el trámite del expediente.",
+    "criterioAvanzado": "El cambio de cantidad modifica la cobertura de la instalación incluida; exige descomponer la cotización antes de determinar suficiencia presupuestaria.",
+    "input": {
+      "prompt": "Para abastecer cuatro sedes, la interacción con el mercado arroja una cotización vigente: cada equipo cuesta S/8 000, con transporte incluido; si se compran al menos diez, se incluye la instalación de los primeros cuatro y cada instalación restante cuesta S/1 500. Por debajo de diez, se cobra S/1 500 por instalar cada equipo. Todos los importes incluyen tributos. El área usuaria reduce de doce a nueve los equipos del requerimiento final, mantiene la instalación de todos y otorga su no objeción. La estrategia utiliza esta cotización como único referente de cuantía, por decisión motivada que no se discute. La necesidad está en el CMN; existe certificación por S/82 000 y el expediente aún no se aprueba. ¿Qué propuesta corresponde elevar a aprobación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Cuantía de S/79 500, conservando la certificación, al descontar las cuatro instalaciones incluidas en la oferta inicial."
+        },
+        {
+          "id": "B",
+          "text": "Cuantía de S/72 000, conservando la certificación, pues transporte e instalación quedan absorbidos por el precio unitario."
+        },
+        {
+          "id": "C",
+          "text": "Cuantía de S/85 500, gestionando el respaldo presupuestario de los S/3 500 faltantes antes de elevar el expediente."
+        },
+        {
+          "id": "D",
+          "text": "Cuantía de S/85 500, elevando el expediente con los S/82 000 certificados y dejando el saldo para después de convocar."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Con nueve equipos deja de cumplirse la condición comercial que incluía cuatro instalaciones. El alcance final cuesta 9 × S/8 000 + 9 × S/1 500 = S/85 500; el transporte ya está incluido y no se suma nuevamente. Frente a S/82 000 certificados faltan S/3 500. La cuantía y su respaldo deben responder al requerimiento final que se incorpora al expediente, no a las condiciones de la cotización para una cantidad distinta.",
+      "regime": "32069",
+      "topic": "Expediente de contratación",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Mantiene indebidamente un beneficio condicionado a adquirir al menos diez equipos, aunque el alcance final es de nueve.",
+        "B": "Confunde transporte incluido con instalación incluida; al bajar de diez se paga la instalación de todos los equipos.",
+        "C": "Recalcula la cobertura de la oferta al cambiar el alcance y deriva de ello el ajuste presupuestario previo a la aprobación.",
+        "D": "El importe está bien calculado, pero el expediente debe contener el respaldo presupuestario correspondiente al alcance que se somete a aprobación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "53",
+          "pageStart": 29,
+          "pageEnd": 30,
+          "quote": "53.1. A fin de gestionar la certificación y/o previsión presupuestal correspondiente, la DEC considera la cuantía de la contratación establecida en el PAC del CMN, la cual puede ser actualizada producto de la interacción con el mercado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 30 de 249 53.2. La cuantía de la contratación incluye todos los conceptos que sean aplicables al bien, servicio u obra a contratar.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "54",
+          "pageStart": 30,
+          "pageEnd": 30,
+          "quote": "54.2. La autoridad de la gestión administrativa, previo a la fase de selección, aprueba el expediente de contratación, el cual contiene: a) El requerimiento final, indicando si se encuentra estandarizado. b) El documento que aprueba la compatibilización del requerimiento, cuando corresponda. c) La estrategia de contratación, que incluye la interacción con el mercado realizada, según corresponda. d) La cuantía de la contratación. e) El documento mediante el cual se han designado a los evaluadores. f) La certificación de crédito presupuestario y/o la previsión presupuestal, de acuerdo con la normativa vigente. g) Otra documentación necesaria conforme a la normativa que regula el objeto de la contratación. 54.3. Para aprobar un expediente de contratación la necesidad debe encontrarse prevista en el CMN aprobado del año fiscal correspondiente o su modificatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. El cambio de cantidad modifica la cobertura de la instalación incluida; exige descomponer la cotización antes de determinar suficiencia presupuestaria. Objetivo: Reconstruir la cuantía del alcance final a partir de una cotización condicionada y decidir el trámite del expediente. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "847fbceb-0d98-5e59-8eb3-4341f23a848a",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A03",
+    "objetivo": "Comparar configuraciones de adquisición a partir de vida útil, continuidad y costos de reposición.",
+    "criterioAvanzado": "Normaliza horizontes temporales distintos: una alternativa barata requiere reposición y genera una interrupción que cambia la viabilidad de la estrategia.",
+    "input": {
+      "prompt": "La estrategia de una compra de bombas debe garantizar cuatro años continuos de servicio; no se admiten interrupciones superiores a dos días. La alternativa X cuesta S/90 000 instalada, dura exactamente dos años y cuesta S/6 000 anuales de operación y mantenimiento. Al final del segundo año requiere otra bomba X: su precio instalado será el mismo y sustituirla interrumpe el servicio cinco días. La alternativa Y cuesta S/140 000 instalada, dura cuatro años y cuesta S/13 000 anuales de operación y mantenimiento; no requiere sustitución en ese periodo. En ambas, el mantenimiento ordinario no interrumpe el servicio. No hay valor residual, descuento financiero ni otros costos. Ambos tipos tienen varios proveedores. Antes de formular las especificaciones finales, ¿qué conclusión sustenta mejor la estrategia con estos datos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Orientar el requerimiento a X: su costo de S/114 000 en cuatro años es menor y la reposición no integra el análisis preparatorio."
+        },
+        {
+          "id": "B",
+          "text": "Orientar el requerimiento por prestaciones hacia una solución con el desempeño de Y: cuesta S/192 000 frente a S/204 000 de X y satisface la continuidad exigida."
+        },
+        {
+          "id": "C",
+          "text": "Descartar Y: aunque satisface la continuidad, su operación cuesta S/28 000 más y eso la hace necesariamente menos económica."
+        },
+        {
+          "id": "D",
+          "text": "Exigir la marca de Y: su costo de S/192 000 justifica automáticamente restringir el requerimiento a un fabricante."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La comparación debe cubrir el mismo horizonte y la finalidad pública. X requiere dos adquisiciones: 2 × S/90 000 + 4 × S/6 000 = S/204 000, y su sustitución excede los dos días tolerados. Y cuesta S/140 000 + 4 × S/13 000 = S/192 000 y no tiene esa interrupción. La estrategia puede justificar prestaciones funcionales equivalentes a Y; estos datos no habilitan por sí mismos una exigencia de marca ni constituyen una adjudicación.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El cálculo omite la segunda adquisición de X y el efecto de la interrupción sobre la necesidad de servicio continuo.",
+        "B": "Compara cuatro años para ambas soluciones e integra costo de reposición y continuidad antes de formular prestaciones funcionales.",
+        "C": "El mayor gasto operativo de Y se compensa con evitar la reposición; debe compararse el costo integral y la continuidad.",
+        "D": "La ventaja de una configuración funcional no aprueba por sí sola compatibilización ni habilita direccionar hacia una marca."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "26f53c83-1cdf-4b72-8967-598ab7a20102",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "5",
+          "pageStart": 3,
+          "pageEnd": 5,
+          "quote": "c) Valor por dinero: las entidades contratantes maximizan el valor de lo que obtienen en cada contratación, en términos de eficiencia, eficacia y economía, lo cual implica que se contrate a quien asegure el cumplimiento de la finalidad pública de la contratación, considerando la calidad, la sostenibilidad de la oferta y la evaluación de los costos y plazos, entre otros aspectos vinculados a la naturaleza de lo que se contrate, y que no procure únicamente el menor precio.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "e3299fa5-887e-4271-abf1-bafd52dbbe39",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "46",
+          "pageStart": 23,
+          "pageEnd": 24,
+          "quote": "46.2. Las entidades contratantes gestionan las contrataciones considerando todo el ciclo de vida de los bienes, servicios y obras, los cuales se orientan a prevenir o atender una necesidad, o a afrontar un problema relevante para el cumplimiento de los fines públicos. 46.3. El requerimiento permite el acceso de los proveedores al proceso de contratación en condiciones de igualdad, sin obstaculizar la competencia o direccionar el proceso de contratación a un determinado proveedor. 46.4. El requerimiento se formula de manera clara y objetiva, y debe expresar el bien, servicio u obra a contratar, preferentemente, en función a su desempeño y funcionalidad. El requerimiento de bienes se plasma en especificaciones técnicas; el de servicios, en términos de referencia; y el de obras, en el expediente técnico de obra o en los objetivos funci onales, según el sistema de entrega utilizado. En los documentos integrantes del expediente de contratación, según corresponda, se aplica expresamente el principio de valor por dinero. Con respecto a los contratos estandarizados de ingeniería y construcción de uso internacional, el requerimiento puede plasmarse en aquellos documentos que precisen su alcance.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "44",
+          "pageStart": 24,
+          "pageEnd": 25,
+          "quote": "44.4. Asimismo, en el caso de bienes y obras, se evalúa la necesidad de contar con prestaciones accesorias como el mantenimiento y la operación, considerando el ciclo de vida del activo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Normaliza horizontes temporales distintos: una alternativa barata requiere reposición y genera una interrupción que cambia la viabilidad de la estrategia. Objetivo: Comparar configuraciones de adquisición a partir de vida útil, continuidad y costos de reposición. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "0020c967-c311-5408-9667-0e1061e741de",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A04",
+    "objetivo": "Diseñar una actuación de mercado que cambie el alcance de la información y la clasificación de la consulta.",
+    "criterioAvanzado": "Selecciona la herramienta que simultáneamente resuelve una incertidumbre técnica específica y completa una consulta avanzada, sin confundir fuentes con herramientas.",
+    "input": {
+      "prompt": "Para comprar equipos conectados a una red existente, la DEC realizó un taller con seis fabricantes y repitió el mismo taller, con igual contenido y dinámica, para otros seis. También analizó dos fuentes históricas distintas: contratos propios y contratos de otras entidades obtenidos de Pladicop. El taller permitió conocer el mercado, pero cada fabricante usa una arquitectura diferente y el equipo técnico necesita examinar cómo se integraría cada solución con la red, con detalles no públicos de configuración. Hay recursos para agregar una sola herramienta de consulta. Se busca obtener ese detalle y que la consulta sea avanzada. ¿Qué actuación responde mejor a ambos objetivos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Agregar reuniones individuales con los fabricantes para examinar cada arquitectura, resguardando los detalles no públicos; mantener la indagación como insumo complementario."
+        },
+        {
+          "id": "B",
+          "text": "Consultar una tercera fuente histórica: elevar a tres las fuentes convierte automáticamente los talleres en consulta avanzada y reemplaza el análisis de integración."
+        },
+        {
+          "id": "C",
+          "text": "Repetir por tercera vez el mismo taller general: el número de sesiones y proveedores basta para que la consulta sea avanzada."
+        },
+        {
+          "id": "D",
+          "text": "Solicitar a un fabricante su configuración y distribuirla íntegramente entre los demás para que la validen en el mismo taller general."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Las fuentes históricas permiten una indagación avanzada, pero no agregan por sí mismas otra herramienta a la consulta. Repetir el mismo taller general no cambia la herramienta utilizada. Las reuniones uno a uno añaden una herramienta distinta y permiten examinar directamente la integración particular de cada solución, haciendo avanzada la consulta junto con el taller ya realizado. La información no pública obtenida durante la interacción debe mantenerse confidencial conforme a la normativa de la materia.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Introduce una herramienta diferente que atiende precisamente la incertidumbre de integración y conserva la confidencialidad de la información no pública.",
+        "B": "Confunde fuentes de indagación con herramientas de consulta y no permite examinar directamente las configuraciones particulares pendientes.",
+        "C": "Repetir la misma herramienta no satisface por sí mismo el uso de dos o más herramientas ni obtiene el detalle particular buscado.",
+        "D": "La difusión íntegra de configuraciones no públicas desconoce la confidencialidad y no constituye una solución válida para compartir el análisis técnico."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "059e3aeb-6b60-416a-a044-abcfeee25863",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "48",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "48.3. La indagación puede ser básica o avanzada. Para la indagación básica se utilizan como mínimo una fuente de información, mientras que para la indagación avanzada se utilizan dos o más fuentes.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "dc353985-af23-42bb-9012-4e5e06e55c9b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "49",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "Artículo 49. Consulta al mercado 49.1. Mediante la consulta al mercado, se propicia el intercambio de información de manera abierta y transparente con los proveedores. 49.2. La consulta al mercado puede ser básica o avanzada. En el caso de la consulta al mercado básica, se emplea una sola herramienta de interacción, sea escrita o reuniones, mientras que para la avanzada se utilizan dos o más herramientas de la misma o di stinta clasificación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "b0c4df12-e98f-48a8-821c-196bc315d20a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "50",
+          "pageStart": 27,
+          "pageEnd": 28,
+          "quote": "50.1. Las herramientas de las consultas al mercado tienen la siguiente clasificación: a) Escrita: se utiliza para obtener retroalimentación de varios proveedores, como la difusión del requerimiento conforme a lo dispuesto en el artículo 51 o solicitudes de información a los proveedores, entre otros.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 28 de 249 b) Reuniones: b.1 Uno a muchos: se utiliza para comunicar aspectos clave de la contratación a varios proveedores o a la industria, como reuniones informativas, talleres con la industria o eventos de exposición de proveedores o de proyectos de la entidad contratante, ent re otros. Esta herramienta puede emplearse para atender varios requerimientos. b.2 Uno a uno: se utiliza para obtener información detallada de una manera directa con el proveedor a través de reuniones individuales. 50.2. De manera complementaria a las herramientas señaladas, la DEC puede realizar una indagación de conformidad con el artículo 48.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "47",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "47.2. La entidad contratante guarda confidencialidad respecto de toda información, datos o documentación que no sea de acceso público, a la que tenga acceso directa o indirectamente como consecuencia del desarrollo de la interacción con el mercado, conform e a la normativa de la materia.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Selecciona la herramienta que simultáneamente resuelve una incertidumbre técnica específica y completa una consulta avanzada, sin confundir fuentes con herramientas. Objetivo: Diseñar una actuación de mercado que cambie el alcance de la información y la clasificación de la consulta. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "041b8c7f-eb42-5802-b23b-4eb7670f2496",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A05",
+    "objetivo": "Resolver sustitución y votación válida de un comité durante la preparación de bases.",
+    "criterioAvanzado": "Integra ausencia de titular, continuidad del suplente, quórum total, mayoría y prohibición de abstención.",
+    "input": {
+      "prompt": "Un comité válidamente designado de tres integrantes está preparando las bases. Una titular falta; ingresa su suplente y quedan presentes los tres miembros habilitados. No hay conflicto de intereses. En una propuesta sobre las bases, dos integrantes votan a favor y el tercero pretende abstenerse por discrepancia técnica. La titular anuncia que volverá a la siguiente reunión. ¿Qué tratamiento respeta las reglas del comité?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Adoptar el acuerdo con dos votos y registrar una abstención; devolver el puesto a la titular en la reunión siguiente."
+        },
+        {
+          "id": "B",
+          "text": "Suspender toda decisión hasta el regreso de la titular, porque el suplente solo completa el quórum y no vota."
+        },
+        {
+          "id": "C",
+          "text": "Exigir que el tercer integrante vote y fundamente su discordia si discrepa; puede decidirse por mayoría y la suplente ocupa el lugar en adelante, evaluándose el motivo de ausencia."
+        },
+        {
+          "id": "D",
+          "text": "Permitir que la suplente vote, pero exigir unanimidad y alternar titular y suplente según asistencia en cada sesión."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El reemplazo por ausencia permite completar el quórum con la suplente, que toma el lugar en adelante; corresponde evaluar el motivo de la ausencia y la eventual responsabilidad. Con el número total de integrantes se puede decidir por mayoría. Nadie puede abstenerse: la discrepancia se expresa mediante voto en discordia sustentado en acta.",
+      "regime": "32069",
+      "topic": "Tipos y perfiles de evaluadores",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La mayoría es admisible, pero la abstención y el retorno automático de la titular contradicen las reglas de funcionamiento y sustitución.",
+        "B": "La suplente reemplaza a la titular y participa en la decisión; no se limita a completar una presencia formal.",
+        "C": "Combina quórum completo, voto obligatorio, mayoría y continuidad de la suplente conforme al artículo 59.",
+        "D": "No se exige unanimidad en todos los casos y la suplencia por ausencia no configura alternancia sesión por sesión."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e76cd1ef-49bd-419e-b063-18191098b6c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "59",
+          "pageStart": 32,
+          "pageEnd": 33,
+          "quote": "Artículo 59. Comité 59.1. La autoridad de la gestión administrativa designa a los integrantes titulares y suplentes de los comités. Los suplentes solo actúan en ausencia de los titulares, tomando su lugar en adelante. En dicho caso, la autoridad de la gestión administrativa e valúa el motivo de la ausencia del titular a efectos de determinar su responsabilidad, si la hubiere.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 33 de 249 59.2. Los integrantes del comité sólo pueden ser removidos por caso fortuito o fuerza mayor, por cese en el servicio, conflicto de intereses u otra situación justificada, mediante documento debidamente motivado. En el mismo documento puede designarse a un nuevo integrante. 59.3. Los integrantes del comité que son compradores públicos de la entidad contratante no pueden renunciar al cargo encomendado, salvo conflicto de intereses debidamente acreditado. Incurre en responsabilidad quien alega un conflicto de intereses inexiste nte con la finalidad de sustraerse del cumplimiento de sus obligaciones como evaluador. 59.4. Cuando la evaluación está a cargo de un comité, sus integrantes actúan y evalúan en forma colegiada, siendo solidariamente responsables por su actuación, salvo señalen en el acta correspondiente su voto en discordia con el respectivo sustento. 59.5. Las sesiones o reuniones del comité pueden ser presenciales o mediante el uso de medios digitales. Para sesionar y adoptar acuerdos válidos, el comité se sujeta a las siguientes reglas: a) El quórum para su funcionamiento se da con la presencia del número total de integrantes. En caso de ausencia de alguno de los titulares, se procede a su reemplazo con el respectivo suplente. b) Los acuerdos se adoptan por unanimidad o por mayoría. No cabe la abstención por parte de ninguno de los integrantes. c) Los acuerdos que adopte y los votos en discordia, con su respectiva fundamentación, constan en actas que se registran en la Pladicop.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Integra ausencia de titular, continuidad del suplente, quórum total, mayoría y prohibición de abstención. Objetivo: Resolver sustitución y votación válida de un comité durante la preparación de bases. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "e1d5a37e-77f1-52af-8e14-d570a10eb800",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A06",
+    "objetivo": "Evaluar una modificación del requerimiento mediante su efecto en capacidad efectiva y competencia.",
+    "criterioAvanzado": "La reducción de una especificación mejora concurrencia, pero su aceptación depende de transformar velocidades nominales y tiempos de parada en servicio efectivo.",
+    "input": {
+      "prompt": "Un laboratorio necesita procesar 1 800 muestras en una jornada de ocho horas; no puede trasladar muestras al día siguiente ni usar equipos paralelos. El requerimiento inicial exige un analizador de 300 muestras por hora y tolera hasta dos horas diarias de calibración sin procesamiento; solo dos proveedores lo cumplen. La interacción identifica cinco proveedores de equipos de 270 muestras por hora que requieren una hora diaria de calibración. Para este caso, fuera de la calibración cada equipo mantiene su velocidad nominal toda la jornada y no existen otras pérdidas; ambos tipos cumplen las demás condiciones técnicas. La DEC propone sustituir conjuntamente velocidad mínima y tiempo máximo de calibración por los de la segunda solución. El área usuaria debe decidir su no objeción. ¿Qué análisis corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Objetar: reducir de 300 a 270 muestras por hora disminuye necesariamente la atención diaria en 10 %."
+        },
+        {
+          "id": "B",
+          "text": "No objetar la modificación conjunta: permite 1 890 muestras diarias frente a 1 800 del diseño inicial; trasladar a la estrategia la combinación funcional que amplía la concurrencia."
+        },
+        {
+          "id": "C",
+          "text": "Aceptar la reducción a 270 muestras por hora, pero mantener las dos horas máximas de calibración originales para no añadir otra exigencia."
+        },
+        {
+          "id": "D",
+          "text": "No objetar solo la nueva velocidad: la mayor concurrencia hace innecesario verificar el tiempo de calibración y la producción diaria."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La capacidad efectiva inicial es 300 × (8 − 2) = 1 800 muestras. La propuesta conjunta permite 270 × (8 − 1) = 1 890, por lo que satisface la necesidad con mayor concurrencia bajo los supuestos del caso. Si se bajara solo la velocidad manteniendo dos horas de calibración se admitirían equipos de 1 620 muestras diarias. La no objeción debe recaer sobre la combinación de parámetros que satisface la finalidad, no sobre una reducción aislada ni sobre el número de proveedores por sí solo.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Compara velocidades nominales sin descontar las horas de calibración, cuyo cambio compensa y supera la reducción nominal.",
+        "B": "Verifica el efecto conjunto de los parámetros y justifica la no objeción en cumplimiento funcional y mayor concurrencia.",
+        "C": "La combinación de 270 muestras por hora y dos horas de calibración permitiría solo 1 620 muestras, insuficientes para la necesidad diaria.",
+        "D": "La concurrencia es relevante, pero no sustituye comprobar que la configuración modificada satisface la necesidad y finalidad pública."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "44",
+          "pageStart": 24,
+          "pageEnd": 25,
+          "quote": ". La DEC verifica que el requerimiento cumpla las disposiciones de la Ley y el Reglamento y, de ser el caso, propone mejoras considerando sus funciones y especialidad, pudiendo modificar su contenido en cualquier momento de las actuaciones preparatoria s, para lo cual solicita al área usuaria la no objeción al requerimiento modificado, a fin de que continúe con el trámite correspondiente. 44.8. El área usuaria puede objetar la modificación del requerimiento propuesto por la DEC sólo cuando exista el riesgo de que no se satisfaga su necesidad y no se cumpla la finalidad pública de la contratación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "e3299fa5-887e-4271-abf1-bafd52dbbe39",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "46",
+          "pageStart": 23,
+          "pageEnd": 24,
+          "quote": "46.3. El requerimiento permite el acceso de los proveedores al proceso de contratación en condiciones de igualdad, sin obstaculizar la competencia o direccionar el proceso de contratación a un determinado proveedor. 46.4. El requerimiento se formula de manera clara y objetiva, y debe expresar el bien, servicio u obra a contratar, preferentemente, en función a su desempeño y funcionalidad. El requerimiento de bienes se plasma en especificaciones técnicas; el de servicios, en términos de referencia; y el de obras, en el expediente técnico de obra o en los objetivos funci onales, según el sistema de entrega utilizado. En los documentos integrantes del expediente de contratación, según corresponda, se aplica expresamente el principio de valor por dinero. Con respecto a los contratos estandarizados de ingeniería y construcción de uso internacional, el requerimiento puede plasmarse en aquellos documentos que precisen su alcance.",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "47",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "47.1. La interacción con el mercado consiste en un conjunto de actividades que sirven de insumo y forman parte de la estrategia de contratación y permite a la entidad contratante perfeccionar su requerimiento, actualizar la cuantía de la contratación consi derada en el PAC del CMN, medir la existencia de oferta existente en el mercado y competencia y el riesgo de la frustración del procedimiento de selección, pudiendo considerar la capacidad, tamaño y tendencias del mercado. Los tipos de interacción con el m ercado son los siguientes: i) indagación; y, ii) consulta al mercado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. La reducción de una especificación mejora concurrencia, pero su aceptación depende de transformar velocidades nominales y tiempos de parada en servicio efectivo. Objetivo: Evaluar una modificación del requerimiento mediante su efecto en capacidad efectiva y competencia. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "b451f976-e64b-5943-9de4-afd479cb0772",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A07",
+    "objetivo": "Reconstruir un cronograma de difusión del requerimiento con hitos dependientes y efecto sobre la programación.",
+    "criterioAvanzado": "Encadena cierre de consultas, absolución modificada, reunión y acta; identifica el hito desplazado y calcula una corrección de fecha sin acortar plazos.",
+    "input": {
+      "prompt": "La DEC difunde el requerimiento el lunes de la semana 1 y concede exactamente cinco días hábiles para consultas. Todas las consultas del caso se formulan el último día de ese periodo. Para programar recursos, la entidad decide utilizar íntegramente los máximos del texto modificado del artículo 51: seis días hábiles para absolver y tres días hábiles desde la publicación de la absolución para celebrar la reunión de confirmación. El acta se publicará al día hábil siguiente de la reunión. Solo son hábiles lunes a viernes y no hay feriados; cada cómputo comienza el día hábil siguiente a su hito. La aprobación del expediente se agenda para el día hábil siguiente de publicada el acta, porque la estrategia incorporará sus resultados. El cronograma preliminar la sitúa el viernes de la semana 3. Sin acortar los plazos adoptados y manteniendo las demás condiciones, ¿qué reprogramación corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mover la aprobación al martes de la semana 4: absolver el martes de la semana 3, reunirse el viernes, publicar el acta el lunes siguiente y aprobar al día siguiente."
+        },
+        {
+          "id": "B",
+          "text": "Mantener el viernes de la semana 3: absolver el jueves de la semana 2, reunirse el martes de la semana 3 y publicar el acta el miércoles."
+        },
+        {
+          "id": "C",
+          "text": "Mover la aprobación al lunes de la semana 4: absolver el martes de la semana 3, reunirse el viernes y publicar el acta ese mismo viernes."
+        },
+        {
+          "id": "D",
+          "text": "Mover la aprobación al lunes de la semana 4: absolver el lunes de la semana 3, reunirse el jueves, publicar el acta el viernes y aprobar el lunes siguiente."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Las consultas cierran el lunes de la semana 2. Los seis días de absolución son martes a viernes de esa semana y lunes y martes de la semana 3. Publicada la absolución el martes, los tres días para la reunión vencen el viernes de la semana 3. El acta se publica el lunes de la semana 4. Como el caso agenda la aprobación al día hábil siguiente del acta para incorporar los resultados, corresponde el martes de la semana 4. La fecha de aprobación vinculada al acta es una regla operativa del caso; los plazos de difusión, absolución, reunión y acta proceden del artículo 51.",
+      "regime": "32069",
+      "topic": "Requerimiento, estrategia y mercado",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Encadena correctamente los cuatro hitos normativos y deriva la fecha de aprobación de la dependencia operativa expresamente fijada en el caso.",
+        "B": "Adelanta la absolución sin consumir los seis días adoptados; reproduce un calendario que no respeta la duración de las actuaciones programadas.",
+        "C": "Publicar el acta el mismo día de la reunión contradice el hito del día hábil siguiente previsto en el numeral 51.5.",
+        "D": "La cadena posterior es coherente, pero adelanta un día la absolución al contar como primer día el propio lunes de formulación de consultas; el caso exige iniciar el cómputo al día hábil siguiente."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "59c25e30-8138-44d3-900a-d0094fb64cdb",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "51",
+          "pageStart": 28,
+          "pageEnd": 29,
+          "quote": "51.2. La formulación de consultas y/o comentarios técnicos se realiza a través de la Pladicop en un plazo no menor de cinco días hábiles, contabilizados desde el día siguiente a la publicación de la difusión del requerimiento.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "b34a6545-afc5-4d9d-aeb6-e63d6c7d79ea",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "51",
+          "pageStart": 28,
+          "pageEnd": 29,
+          "quote": "\"51.3. En el plazo máximo de seis días hábiles de formuladas las referidas consultas y/o comentarios técnicos, el área usuaria y la DEC realizan la absolución, publicando en la Pladicop un acta que contenga el resultado de este proceso.\" 51.4. Dentro de un plazo máximo de tres días hábiles de publicada la absolución de consultas y/o comentarios técnicos, la entidad contratante realiza una reunión de confirmación y/o aclaración, a fin de corroborar el correcto entendimiento de los proveedor es sobre la absolución efectuada. La DEC es la encargada de dirigir la reunión y establece el orden de participación de los proveedores. El área usuaria absuelve y de ser necesario amplía el sustento técnico de la absolución preliminar. La reunión puede se r presencial o mediante el uso de plataformas digitales. 51.5. Se elabora un acta de la reunión que es publicada en la Pladicop al día hábil siguiente de realizada la reunión.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Encadena cierre de consultas, absolución modificada, reunión y acta; identifica el hito desplazado y calcula una corrección de fecha sin acortar plazos. Objetivo: Reconstruir un cronograma de difusión del requerimiento con hitos dependientes y efecto sobre la programación. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "30c2f7fa-985a-579d-985a-04a5750e5202",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A08",
+    "objetivo": "Articular disponibilidad del CMN, plazo de aprobación del PAC y plazo de publicación.",
+    "criterioAvanzado": "Calcula dos plazos consecutivos con hitos diferentes y evita reiniciar el primero por aprobación tardía del CMN.",
+    "input": {
+      "prompt": "En una secuencia sin feriados, el PIA se aprueba el lunes de la semana 1. El CMN queda aprobado el viernes de la semana 3. Solo son hábiles los días de lunes a viernes. La DEC ya tiene formulado el PAC y la autoridad competente puede aprobarlo el lunes de la semana 4. La entidad cuenta con sede digital. Aplicando los numerales 8.1 y 9.1 de la Directiva del PAC modificados por la RD 0041-2025-EF/54.01, ¿qué alternativa identifica correctamente el último día para aprobar el PAC y el último día para completar su registro y publicación si se aprueba en esa fecha límite?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aprobar el lunes de la semana 7, contando quince días hábiles desde el CMN, y publicar dentro de los cinco días hábiles siguientes."
+        },
+        {
+          "id": "B",
+          "text": "Aprobar el lunes de la semana 4 y publicar como máximo el viernes de esa misma semana, contando la aprobación como primer día de publicación."
+        },
+        {
+          "id": "C",
+          "text": "Aprobar el lunes de la semana 4 y completar el registro y publicación en Seace de la Pladicop y la publicación del formato en la sede digital hasta el lunes de la semana 5."
+        },
+        {
+          "id": "D",
+          "text": "Aprobar el lunes de la semana 4 y completar el registro y las publicaciones hasta el viernes de la semana 5, considerando que el plazo de publicación comienza al día siguiente del cierre de la semana de aprobación."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Los quince días hábiles siguientes al PIA transcurren así: cuatro en la semana 1, cinco en la semana 2, cinco en la semana 3 y el decimoquinto el lunes de la semana 4. El CMN ya está aprobado entonces; su aprobación no reinicia el plazo. Desde la aprobación del PAC, los cinco días hábiles siguientes son martes a viernes de la semana 4 y lunes de la semana 5. El plazo de publicación comprende Seace de la Pladicop y, si existe, sede digital.",
+      "regime": "32069",
+      "topic": "Plan Anual y necesidades",
+      "competency": "Actuaciones preparatorias",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "1",
+      "subcompetencyCode": "1.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El plazo de aprobación se ancla en la aprobación del PIA; no se reinicia por la fecha del CMN.",
+        "B": "Contar la propia fecha de aprobación como primer día adelanta incorrectamente el vencimiento máximo de publicación, aunque publicar antes sería posible.",
+        "C": "Identifica correctamente ambos vencimientos y la obligación de publicar también en la sede digital existente.",
+        "D": "Desplaza el inicio del plazo hasta el cierre semanal sin base en el numeral 9.1; los cinco días hábiles se computan desde la aprobación del PAC, no desde el fin de esa semana."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+          "chunkId": "f7403660-520c-4980-97fb-ebca6b0b3a79",
+          "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+          "article": "8",
+          "pageStart": 2,
+          "pageEnd": 2,
+          "quote": "Artículo 8.- De la aprobación del PAC 8.1. Dentro de los quince (15) días hábiles siguientes a la aprobación del PIA, y con el CMN aprobado, la autoridad de la gestión administrativa, o a quien esta delegue, aprueba el PAC formulado por la DEC, mediante la suscripción del formato PAC correspondiente que publique el OECE. (...)” “",
+          "version": "Texto publicado el 25.12.2025",
+          "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914"
+        },
+        {
+          "documentId": "e638f467-b991-445b-8f26-eb198ee1cc64",
+          "chunkId": "44c4b53a-b7f3-4081-ab74-665ecbb9cca9",
+          "title": "Resolución Directoral N.° 0041-2025-EF/54.01 — modificatoria de la Directiva del PAC",
+          "article": "9",
+          "pageStart": 2,
+          "pageEnd": 2,
+          "quote": "Artículo 9.- Del registro y publicación del PAC 9.1. La DEC registra y publica el PAC en el Seace de la Pladicop, usando el Catálogo Único de Bienes, Servicios y Obras (CUBSO) del referido sistema; asimismo, publica el formato PAC en la sede digital de la entidad contratante en caso cuente con ella, en un plazo no mayor a cinco (05) días hábiles de aprobado, conforme a las disposiciones operativas que publique el OECE. (...)” “",
+          "version": "Texto publicado el 25.12.2025",
+          "sha256": "0962d2b62f3a0d28ed8ecb84319ca4bbfc5f34e0057ce328f78fca8a26c6c914"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Calcula dos plazos consecutivos con hitos diferentes y evita reiniciar el primero por aprobación tardía del CMN. Objetivo: Articular disponibilidad del CMN, plazo de aprobación del PAC y plazo de publicación. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "102fc6fb-6df3-5cfb-ad7d-313d5a37444e",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A09",
+    "objetivo": "Distinguir invitación, calificación y desempate en comparación de precios.",
+    "criterioAvanzado": "Integra el mínimo de invitados, el mínimo de ofertas calificadas y la regla especial de desempate.",
+    "input": {
+      "prompt": "En una comparación de precios válidamente elegida, el oficial registra la convocatoria en Pladicop e invita a tres proveedores. Los tres ofertan: Norte y Sur cumplen los requisitos de calificación y ofrecen S/48 000 cada uno; Centro ofrece S/46 500, pero no cumple un requisito de calificación no subsanable. Norte es MYPE acreditada y Sur no lo es. No hay otros impedimentos. ¿Cómo debe decidir el oficial?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Declarar desierto porque deben existir tres ofertas calificadas, además de tres invitados."
+        },
+        {
+          "id": "B",
+          "text": "Evaluar económicamente las dos ofertas calificadas y resolver su empate mediante sorteo."
+        },
+        {
+          "id": "C",
+          "text": "Adjudicar a Norte por su condición de MYPE, aplicando el desempate general."
+        },
+        {
+          "id": "D",
+          "text": "Adjudicar a Centro porque la comparación de precios prioriza el menor monto ofertado."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Invitar al menos a tres proveedores no equivale a exigir tres ofertas calificadas. Hay dos ofertas que cumplen los requisitos, suficientes para la evaluación económica. La oferta más barata que no cumple la calificación no integra esa comparación. Entre los dos menores montos válidos, iguales, corresponde el sorteo específico de comparación de precios del artículo 98.3, sin aplicar la preferencia MYPE del régimen general de empate.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el mínimo de proveedores invitados con el mínimo de ofertas que cumplen los requisitos de calificación.",
+        "B": "Integra correctamente los dos mínimos distintos y aplica la regla especial de sorteo entre ofertas económicas empatadas.",
+        "C": "Traslada una preferencia del desempate general a una modalidad que dispone expresamente el sorteo.",
+        "D": "Prescinde de la calificación previa: el menor monto solo puede compararse entre ofertas que cumplen los requisitos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "fb9848df-bd5a-4856-96fb-e5f841e2e2ee",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "97",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 97. Convocatoria en comparación de precios 97.1. Para aplicar el procedimiento de selección de comparación de precios, la DEC elabora un informe que sustente el cumplimiento de las condiciones para utilizar dicho procedimiento de selección. 97.2. El oficial de compra registra la convocatoria en la Pladicop y remite invitación a un mínimo de tres proveedores a fin de que presenten sus ofertas, adjuntando las bases conforme al formato aprobado en las bases estándar por la DGA.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "98",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 98. Evaluación de ofertas en la comparación de precios 98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores consi derando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores cons iderando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación; de lo contrario, el procedimiento de selección se declara de sierto.\" 98.2. El otorgamiento de la buena pro lo realiza el oficial de compra mediante su publicación en la Pladicop. 98.3. En el supuesto que dos o más ofertas empaten, el otorgamiento de la buena pro se efectúa a través de sorteo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Integra el mínimo de invitados, el mínimo de ofertas calificadas y la regla especial de desempate. Objetivo: Distinguir invitación, calificación y desempate en comparación de precios. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "9f69f02e-17f8-5222-a3b4-1930a9726c08",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A10",
+    "objetivo": "Determinar qué oferta conserva validez tras una subsanación y cómo ello condiciona la continuidad de la selección.",
+    "criterioAvanzado": "La diferencia entre acreditar una situación preexistente y sustituir el objeto ofertado determina cuál oferta puede continuar; exige descartar la declaratoria de desierto y la selección automática por menor precio.",
+    "input": {
+      "prompt": "En una licitación pública de bienes sin precalificación se reciben únicamente las ofertas de Atlas y Brisa. Las bases exigen un equipo con autonomía mínima de ocho horas y una autorización pública de comercialización vigente a la fecha de ofertas. Atlas ofrece por S/90 000 el modelo AX, cuya ficha declara seis horas; Brisa ofrece por S/96 000 un modelo que cumple toda la especificación, pero omite adjuntar su autorización, emitida y vigente desde un mes antes del cierre. En la misma etapa se solicita aclaración a Atlas y subsanación a Brisa por Pladicop. Dentro de los dos días hábiles concedidos, Atlas presenta una ficha de otro modelo, AY, de nueve horas, manteniendo el precio; Brisa presenta la autorización preexistente. Los documentos son auténticos y Brisa satisface todos los demás requisitos de admisión, calificación y evaluación. ¿Qué decisión corresponde antes de adjudicar?",
+      "options": [
+        {
+          "id": "A",
+          "text": "No aceptar la sustitución de modelo de Atlas; tener por subsanada la omisión de Brisa y continuar con esta oferta válida, sin declarar desierto por quedar una sola."
+        },
+        {
+          "id": "B",
+          "text": "Conservar ambas ofertas y adjudicar a Atlas por su menor precio, porque ambas respuestas llegaron dentro del plazo."
+        },
+        {
+          "id": "C",
+          "text": "Excluir ambas ofertas y declarar desierto, porque ningún documento omitido o diferente puede presentarse después del cierre."
+        },
+        {
+          "id": "D",
+          "text": "Mantener vigente a Atlas mientras se evalúa el modelo AY y dejar a Brisa en espera, pues la aclaración del menor precio tiene preferencia."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La puntualidad de la respuesta no convierte cualquier cambio en subsanación admisible. Atlas ofertó un modelo que no cumple la autonomía y pretende sustituirlo por otro: cambia el contenido esencial del equipo ofrecido y no corrige un error formal. Brisa acredita una autorización pública emitida antes del cierre, cuya presentación omitió, y la aporta dentro del plazo; su oferta conserva vigencia por la subsanación efectiva. Descartado el cambio esencial de Atlas, procede continuar con Brisa, que satisface los restantes controles. La existencia de una oferta válida impide declarar desierto por inexistencia de ofertas válidas; la regla de un mínimo de dos ofertas de otras modalidades no se traslada a esta licitación.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Relaciona la subsanabilidad con la validez: rechaza el cambio de objeto, conserva la acreditación preexistente y permite continuar con la oferta válida.",
+        "B": "Equipara respuesta oportuna con subsanación válida e ignora que cambiar el modelo modifica el contenido esencial del objeto ofertado.",
+        "C": "Desconoce la subsanación de la omisión de una autorización pública preexistente y elimina indebidamente la oferta válida.",
+        "D": "Da prioridad a una oferta que requiere un cambio esencial para cumplir las bases y mantiene pendiente una omisión ya subsanada."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "Artículo 78. Subsanación de las ofertas 78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos presentados en la precalificación y/o presentación de ofertas, sie mpre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos emitidos por privados o entidades públicas presentados en la precalificación y/o presentación de ofertas, siempre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop.\" 78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\" 78.3. En las modalidades de pago a precios unitarios, esquema mixto, pago por consumo y tarifas, cuando se advierta errores aritméticos, corresponde su corrección a los evaluadores, debiendo constar dicha rectificación en el acta respectiva; dicha correcci ón no implica la variación de los precios unitarios ofertados. 78.4. Cuando se requiera subsanación, la oferta continúa vigente para todo efecto, a condición de la efectiva subsanación dentro el plazo de dos días hábiles contabilizados desde el día siguiente de la notificación al postor, pudiendo la entidad contratant e otorgar al postor un plazo adicional de dos días hábiles para la subsanación pertinente a solicitud del postor. La solicitud de ampliación de plazo se otorga en un plazo no mayor de dos días hábiles de recibida, caso contrario se considera autorizada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "84",
+          "pageStart": 47,
+          "pageEnd": 47,
+          "quote": "84.1. Un procedimiento de selección queda desierto total o parcialmente cuando no se reciban ofertas o cuando no exista ninguna oferta válida o cuando no se perfeccione el contrato de acuerdo con lo establecido en el artículo 91.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. La diferencia entre acreditar una situación preexistente y sustituir el objeto ofertado determina cuál oferta puede continuar; exige descartar la declaratoria de desierto y la selección automática por menor precio. Objetivo: Determinar qué oferta conserva validez tras una subsanación y cómo ello condiciona la continuidad de la selección. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "f61aa850-5a6b-5a60-8466-ffb5045c53ab",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A11",
+    "objetivo": "Determinar la prelación mediante evaluación económica posterior y ponderación.",
+    "criterioAvanzado": "Excluye una oferta sin mínimo técnico y combina proporcionalidad inversa y promedio ponderado.",
+    "input": {
+      "prompt": "En un procedimiento con evaluación económica posterior a la técnica, las bases aplicables fijan mínimo técnico de 80 puntos, coeficientes técnico 0,70 y económico 0,30, y máximo económico de 100 puntos. No hay bonificaciones ni reglas especiales de precio. Los tres postores están admitidos y calificados: Alfa obtiene 90 puntos técnicos y ofrece S/120 000; Beta obtiene 84 y ofrece S/100 000; Gamma obtiene 79 y ofrece S/80 000. ¿Cuál es la prelación correcta tras aplicar los artículos 74 y 75?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Gamma primero con 85,30; Alfa segundo con 83,00; Beta tercero con 82,80."
+        },
+        {
+          "id": "B",
+          "text": "Alfa primero con 93,00 y Beta segundo con 88,80; Gamma no pasa a evaluación económica."
+        },
+        {
+          "id": "C",
+          "text": "Alfa primero con 83,00 y Beta segundo con 82,80; Gamma no pasa a evaluación económica, pero fija el menor precio de referencia."
+        },
+        {
+          "id": "D",
+          "text": "Beta primero con 88,80 y Alfa segundo con 88,00; Gamma no pasa a evaluación económica."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "Gamma no alcanza el mínimo técnico y su oferta económica no se evalúa ni integra el menor monto de la fórmula. El menor monto evaluable es S/100 000. Beta obtiene 100 puntos económicos y Alfa obtiene 100 000/120 000 × 100 = 83,3333. Los totales ponderados son: Beta, 0,70 × 84 + 0,30 × 100 = 88,80; Alfa, 0,70 × 90 + 0,30 × 83,3333 = 88,00. Por ello Beta precede a Alfa.",
+      "regime": "32069",
+      "topic": "Evaluación, principios y criterios",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Evalúa económicamente una oferta que no alcanzó el mínimo técnico e incorpora indebidamente su menor precio al cálculo.",
+        "B": "Asigna indebidamente el máximo económico a la oferta de S/120 000, pese a existir una oferta evaluable de menor monto.",
+        "C": "Excluye formalmente a Gamma, pero utiliza su monto como referencia económica, contradiciendo la evaluación solo de quienes superan el mínimo.",
+        "D": "Excluye correctamente la oferta bajo el mínimo técnico y obtiene los puntajes ponderados con el menor monto evaluable."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "89168888-e1cb-4e7b-ad6a-3bfd4cfb56cc",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "74",
+          "pageStart": 42,
+          "pageEnd": 42,
+          "quote": "Artículo 74. Evaluación económica de la oferta 74.1. La evaluación económica, de acuerdo con el tipo de procedimiento de selección o sus modalidades, puede ser de los siguientes tipos: a) De manera simultánea a la evaluación técnica: la oferta económica es un factor de evaluación. b) De manera posterior a la evaluación técnica: la oferta económica se evalúa luego de realizada la evaluación técnica de la oferta y solo respecto de aquellos proveedores que hubieran obtenido un puntaje mínimo en dicha evaluación. c) Con lances: se permite a los postores mejorar los montos de sus ofertas a través de lances sucesivos en línea. La mejora de precios de la oferta queda a criterio de cada postor. 74.2. A fin de determinar el puntaje de la oferta económica a evaluar, el mayor puntaje se otorga al menor monto ofertado, y se otorga a las demás ofertas económicas puntajes inversamente proporcionales a sus respectivos montos ofertados, según la siguient e fórmula: Po= Mb x Pmax Mo Donde: Po = Puntaje de la oferta económica a evaluar Mo = Monto de la oferta económica Mb = Monto de la oferta económica más baja Pmax = Puntaje máximo 74.3. La fórmula señalada en el numeral precedente no es aplicable a la subasta inversa ni a la comparación de precios, en las que la evaluación económica consiste en establecer el orden de prelación de los postores considerando que la buena pro se otorga al menor monto ofertado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "95e9d1bf-f30a-4357-8c61-bb7acb645ed8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "75",
+          "pageStart": 42,
+          "pageEnd": 43,
+          "quote": "75.2. En el caso que la evaluación económica de las ofertas se realice de manera posterior a la evaluación técnica, el puntaje máximo de cada una de estas evaluaciones es equivalente a cien puntos.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 43 de 249 75.3. El puntaje total de las ofertas en el caso que la evaluación económica se realice de manera posterior a la evaluación técnica es el promedio ponderado de la evaluación técnica y la evaluación económica, aplicándose la siguiente fórmula: PTP = C1 PT+ C2 Pe Donde: PTP = Puntaje total del postor a evaluar Pt = Puntaje de la evaluación técnica del postor a evaluar Pe = Puntaje de la evaluación económica del postor a evaluar C1 = Coeficiente de ponderación para la evaluación técnica c2 = Coeficiente de ponderación para la evaluación económica 75.4. Las bases estándar determinan los coeficientes de ponderación en los procedimientos de selección con evaluación posterior de ofertas económicas, de acuerdo con el objeto contractual. 75.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Excluye una oferta sin mínimo técnico y combina proporcionalidad inversa y promedio ponderado. Objetivo: Determinar la prelación mediante evaluación económica posterior y ponderación. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "1715dd63-c049-5b63-81ea-2a052cd2efd4",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A12",
+    "objetivo": "Vincular el consentimiento con el hito que inicia el plazo de requisitos.",
+    "criterioAvanzado": "Distingue ofertas presentadas de admitidas y encadena apelación, registro y cómputo sin garantía.",
+    "input": {
+      "prompt": "En una licitación pública no abreviada de bienes se presentan tres ofertas; dos no son admitidas y la restante recibe la buena pro. No se interpone apelación. Para este caso se aplica el artículo 82 modificado que reproduce el corpus. El plazo de ocho días hábiles para apelar vence un viernes. El día siguiente, sábado, la entidad produce y registra el consentimiento en Pladicop. No se exige garantía de fiel cumplimiento; no hay feriados y los días hábiles son de lunes a viernes. ¿Cuál es el plazo final del ganador para presentar los requisitos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El quinto día hábil desde el día siguiente de notificarse la buena pro, porque solo quedó una oferta admitida."
+        },
+        {
+          "id": "B",
+          "text": "El miércoles posterior al registro, contando sábado y domingo como parte del plazo de cinco días."
+        },
+        {
+          "id": "C",
+          "text": "El viernes posterior al registro, porque se presentaron varias ofertas y los cinco días hábiles se cuentan desde el día siguiente del registro."
+        },
+        {
+          "id": "D",
+          "text": "El miércoles de la segunda semana posterior al registro, aplicando ocho días hábiles por tratarse de licitación pública."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El supuesto de una sola oferta presentada no se configura: se presentaron tres, aunque solo una fue admitida. Conforme al texto modificado del artículo 82.1, sin apelación el consentimiento se produce y registra al día siguiente de vencer el plazo impugnatorio. Para presentar requisitos, el artículo 90.1 toma como hito el registro y el 90.2 reduce el plazo a cinco días hábiles si no se exige garantía. Desde el día siguiente del registro del sábado, los cinco días hábiles son lunes a viernes; el último es el viernes posterior.",
+      "regime": "32069",
+      "topic": "Consentimiento y firmeza de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Equipara una oferta admitida con una sola oferta presentada y anticipa el consentimiento y el inicio del plazo documental.",
+        "B": "Cuenta días no hábiles dentro de un plazo expresamente fijado en días hábiles.",
+        "C": "Distingue el número de ofertas presentadas y aplica el hito de registro junto con el plazo especial de cinco días hábiles.",
+        "D": "Mantiene el plazo general de ocho días pese a la excepción de cinco días cuando no se exige garantía de fiel cumplimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c32f3a5a-70eb-487a-8f0e-c88ac2151ece",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "82",
+          "pageStart": 46,
+          "pageEnd": 46,
+          "quote": "Artículo 82. Consentimiento del otorgamiento de la buena pro 82.1. Cuando se hayan presentado dos o más ofertas, el consentimiento de la buena pro se produce y registra en la Pladicop al día siguiente de vencido el plazo correspondiente para interponer recurso de apelación, sin que los postores hubieran ejercido ese derecho. 82.2. En caso de que se haya presentado una sola oferta, el consentimiento de la buena pro se produce el mismo día de la notificación de su otorgamiento y se registra en la Pladicop al día siguiente .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "af233927-3908-4032-ab7e-a5c63c4d7b28",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "304",
+          "pageStart": 160,
+          "pageEnd": 160,
+          "quote": "304.1. La apelación contra el otorgamiento de la buena pro o contra los actos dictados con anterioridad a ella en los procedimientos de selección competitivos, debe interponerse, como máximo, dentro de los ocho días hábiles siguientes de haberse notificado el otorgamiento de la buena pro a través de la Pladicop.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "90.1. El postor ganador de la buena pro presenta los requisitos para perfeccionar el contrato dentro del plazo de ocho días hábiles contabilizados desde el día siguiente al registro del consentimiento de la buena pro en la Pladicop o de que ésta haya queda do administrativamente firme.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 50 de 249 90.2. En caso no se requiera de la presentación de la garantía de fiel cumplimiento, el postor ganador presenta los requisitos para perfeccionar el contrato dentro del plazo de cinco días hábiles.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Distingue ofertas presentadas de admitidas y encadena apelación, registro y cómputo sin garantía. Objetivo: Vincular el consentimiento con el hito que inicia el plazo de requisitos. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "5a7d9e00-026e-5a56-914c-6471f70b2e71",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A13",
+    "objetivo": "Evaluar una negociación presupuestal y la publicidad de sus acuerdos.",
+    "criterioAvanzado": "Combina secuencia de negociación, prestaciones protegidas, participación y registro de actas.",
+    "input": {
+      "prompt": "En una contratación de bienes, el mejor puntaje total corresponde a una oferta de S/540 000 frente a una cuantía de S/500 000. Presupuesto deniega la ampliación. El postor rechaza reducir el precio manteniendo todo lo ofertado, pero acepta S/500 000 si se elimina una capacitación adicional que le otorgó puntaje. El área usuaria da su no objeción y propone dejar el acuerdo solo en un correo interno. ¿Qué decisión respeta integralmente el artículo 132?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptar el acuerdo porque alcanzar la cuantía y obtener no objeción permite eliminar cualquier prestación; archivar el correo."
+        },
+        {
+          "id": "B",
+          "text": "Descartar esa reducción porque afecta una condición que dio puntaje; negociar una alternativa permitida y, si el postor no la acepta, continuar según la prelación, con participación del área usuaria y actas publicadas en Pladicop."
+        },
+        {
+          "id": "C",
+          "text": "Aceptar la eliminación de la capacitación, siempre que se publique el correo como acta en Pladicop."
+        },
+        {
+          "id": "D",
+          "text": "Adjudicar por S/540 000 sin ampliación presupuestal, pues el mejor puntaje obliga a conservar íntegra la oferta."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La denegatoria presupuestal habilita negociar primero precio y luego determinadas prestaciones o condiciones, previa no objeción del área usuaria, pero no condiciones que otorgaron puntaje. La capacitación puntuada no puede eliminarse aunque exista no objeción. Corresponde buscar una reducción permitida; si el mejor postor no acepta una solución admisible, se negocia con los siguientes en prelación. El área usuaria participa y las decisiones deben constar en actas publicadas en Pladicop; el correo interno no satisface esa exigencia.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La no objeción no elimina la prohibición de negociar condiciones que dieron puntaje, ni sustituye la publicación de actas.",
+        "B": "Respeta el límite sustantivo de la negociación, la eventual continuidad por prelación y la participación y publicidad exigidas.",
+        "C": "La publicidad del acuerdo no sanea una reducción que afecta una condición puntuada y expresamente protegida.",
+        "D": "El mejor puntaje no habilita adjudicar por encima de la cuantía sin los recursos y la ampliación presupuestal correspondientes."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "459b9601-f640-4f2e-9863-c8031f3e4afb",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "132",
+          "pageStart": 71,
+          "pageEnd": 72,
+          "quote": "132.1. Si la oferta económica del postor que obtiene el mejor puntaje total supera la cuantía del procedimiento de selección, la DEC gestiona la solicitud de la ampliación de la certificación o previsión presupuestal correspondiente. En caso la oficina de planeamiento y presupuesto, o la que haga sus veces, indique que no se cuenta con los recursos necesarios, previamente a la adjudicación de la buena pro los evaluadores negocian con el postor que obtuvo el mejor puntaje total lo siguiente, en este orden: a) La reducción de su oferta económica. b) La reducción de determinadas prestaciones o condiciones del requerimiento, previa no objeción del área usuaria. No puede negociarse las condiciones que dieron lugar al otorgamiento de puntaje en los factores de evaluación. 132.2. En caso el postor con el mejor puntaje no acepte la reducción del monto o la reducción de las prestaciones o condiciones del requerimiento, se procede a negociar con los siguientes postores en el orden de prelación que obtuvieron. 132.3. Si producto de la negociación el postor reduce la oferta económica a un monto superior al de la cuantía del procedimiento de selección, se vuelve a solicitar a la oficina de planeamiento y presupuesto o quien haga sus veces la ampliación de la certi ficación de crédito presupuestario y/o previsión presupuestal correspondiente. En caso no se cuente con los recursos necesarios, se puede optar por negociar con los siguientes postores en el orden de prelación o declarar desierto el procedimiento de selecc ión. 132.4. La negociación se realiza preferentemente mediante medios digitales. En esta negociación participa el área usuaria. Las decisiones adoptadas por los evaluadores en la negociación constan en actas que se publican en la Pladicop y se sustentan en el p rincipio de valor por dinero, priorizando el cumplimiento de la finalidad pública de la contratación, de conformidad con el artículo 27 de la Ley.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Combina secuencia de negociación, prestaciones protegidas, participación y registro de actas. Objetivo: Evaluar una negociación presupuestal y la publicidad de sus acuerdos. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "1db23c22-49f3-5c42-b3d1-68123d56f2bb",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A14",
+    "objetivo": "Identificar el plazo y su hito inicial al impugnar un acto posterior a la buena pro en un procedimiento derivado.",
+    "criterioAvanzado": "La clasificación temporal del acto y el régimen del procedimiento derivado deben resolverse conjuntamente para determinar oportunidad, sin trasladar el plazo del procedimiento original ni el hito de la adjudicación.",
+    "input": {
+      "prompt": "Una licitación pública no abreviada queda desierta y se convoca válidamente un procedimiento derivado como licitación pública abreviada. En este último se notifica la buena pro el lunes de la semana 1. El martes de la semana 3 la DEC comunica al ganador, que ese mismo día toma conocimiento por primera vez, la pérdida de su buena pro por una supuesta presentación tardía de requisitos. El postor cuestiona exclusivamente esa pérdida y aporta el cargo que acredita la presentación dentro del plazo; no impugna la adjudicación inicial. Presenta su apelación ante la instancia competente el lunes de la semana 4. Todos los días de lunes a viernes son hábiles, sin feriados, y se cumplen los restantes requisitos. ¿Cómo debe analizarse la oportunidad del recurso, sin resolver todavía si el cargo demuestra su pretensión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es oportuno: el plazo vence el martes de la semana 4, porque se aplica el plazo del procedimiento abreviado desde el conocimiento de la pérdida."
+        },
+        {
+          "id": "B",
+          "text": "Es oportuno: el plazo vence el viernes de la semana 4 porque el procedimiento original conserva los ocho días hábiles para toda apelación derivada."
+        },
+        {
+          "id": "C",
+          "text": "Es extemporáneo: el plazo venció el lunes de la semana 2, cinco días hábiles después de la notificación de la buena pro."
+        },
+        {
+          "id": "D",
+          "text": "Es improcedente por provenir del ganador inicial, aunque recurra contra el acto que le quitó esa condición y haya respetado el plazo."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "La pretensión se dirige contra la pérdida de la buena pro, acto posterior a su otorgamiento, por lo que el cómputo parte del conocimiento de esa pérdida y no de la adjudicación inicial. El procedimiento derivado se rige por el plazo del nuevo procedimiento convocado: cinco días hábiles para licitación pública abreviada. Desde el martes de la semana 3, el cómputo es miércoles, jueves, viernes, lunes y martes de la semana 4. La apelación presentada el lunes es oportuna. El cargo deberá examinarse al resolver el fondo; no altera el plazo de interposición. La prohibición de apelar como ganador no puede aplicarse mecánicamente a quien impugna precisamente el acto posterior que le hizo perder la buena pro.",
+      "regime": "32069",
+      "topic": "Interposición de apelaciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.7",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Integra el hito propio del acto posterior con el plazo del procedimiento derivado y distingue oportunidad de la decisión de fondo.",
+        "B": "Acierta al partir del acto posterior, pero mantiene indebidamente el plazo del procedimiento original en lugar del nuevo procedimiento abreviado.",
+        "C": "Usa la notificación de la adjudicación como hito para un acto posterior que aún no existía y no podía impugnarse entonces.",
+        "D": "Trata al recurrente como si conservara la adjudicación que pretende recuperar e impediría recurrir contra la pérdida, pese a la regulación de actos posteriores."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "af233927-3908-4032-ab7e-a5c63c4d7b28",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "304",
+          "pageStart": 160,
+          "pageEnd": 160,
+          "quote": "Artículo 304. Plazo de interposición 304.1. La apelación contra el otorgamiento de la buena pro o contra los actos dictados con anterioridad a ella en los procedimientos de selección competitivos, debe interponerse, como máximo, dentro de los ocho días hábiles siguientes de haberse notificado el otorgamiento de la buena pro a través de la Pladicop. 304.2. En los casos de concurso público abreviado, licitación pública abreviada, selección de expertos y comparación de precios, la apelación se presenta dentro de los cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro. 304.3. En el caso de Subasta Inversa Electrónica, el plazo para la interposición del recurso de apelación es de cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro, salvo que su cuantía corresponda a la de una licitación púb lica o un concurso público, en cuyo caso el plazo es de ocho días hábiles. 304.4 En el caso de la apelación contra los actos dictados con posterioridad al otorgamiento de la buena pro, contra la declaración de nulidad, cancelación y declaratoria de desierto del procedimiento, los plazos indicados en los numerales precedentes se c ontabilizan desde que se toma conocimiento del acto que se desea impugnar. (*)RECTIFICADO POR FE DE ERRATAS 304.5. En caso de la implementación, extensión de vigencia o incorporación en los catálogos electrónicos de acuerdo marco, el plazo para la interposición del recurso de apelación es de ocho días hábiles contabilizados desde la publicación de los resultados . 304.6. El plazo para interponer el recurso de apelación en el caso de un procedimiento de selección, derivado de uno declarado desierto, se rige por las disposiciones del nuevo procedimiento de selección convocado. 304.7. Los plazos indicados resultan aplicables a todo recurso de apelación, sea que se interponga ante la entidad contratante o ante el TCP, según corresponda.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1cf4c64c-dc1a-444d-aa86-f68a4439f29f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "308",
+          "pageStart": 162,
+          "pageEnd": 162,
+          "quote": "h) Sea interpuesto por el postor ganador de la buena pro.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. La clasificación temporal del acto y el régimen del procedimiento derivado deben resolverse conjuntamente para determinar oportunidad, sin trasladar el plazo del procedimiento original ni el hito de la adjudicación. Objetivo: Identificar el plazo y su hito inicial al impugnar un acto posterior a la buena pro en un procedimiento derivado. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "858ffcf2-d4b0-5c28-b522-f431539a7b9d",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A15",
+    "objetivo": "Calificar la procedencia de una pretensión de adjudicación que no logra revertir la exclusión propia y determinar el destino de la garantía.",
+    "criterioAvanzado": "Debe resolver primero la imposibilidad de subsanar una autorización posterior, luego la barrera procesal pese al error del rival y finalmente distinguir ejecución parcial de desistimiento, desestimación de fondo o estimación.",
+    "input": {
+      "prompt": "Una MYPE acreditada apela su descalificación y la buena pro de un rival en un ítem de S/800 000. Las bases exigían autorización pública vigente al cierre de ofertas. La MYPE no la tenía entonces: la obtuvo por primera vez dos días después y sostiene que presentarla en apelación subsana su falta de habilitación; el expediente acredita esas fechas sin controversia. También demuestra un error de evaluación de la oferta rival, pero no existen vicios de nulidad y ese error no modifica la situación de la propia recurrente. En su escrito final pide: «Retirar la buena pro al adjudicatario y otorgármela»; mantiene su recurso y todas sus pretensiones. La garantía correctamente constituida asciende a S/4 000, sin alcanzar el tope aplicable. ¿Qué resolución y consecuencia sobre la garantía corresponden?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Declarar fundado en parte por el error de evaluación del rival y devolver íntegramente los S/4 000, aunque la recurrente siga descalificada."
+        },
+        {
+          "id": "B",
+          "text": "Tener por desistido el recurso porque solicita retirar la buena pro y ejecutar íntegramente los S/4 000."
+        },
+        {
+          "id": "C",
+          "text": "Declarar infundado el recurso por la autorización posterior y ejecutar íntegramente los S/4 000 como consecuencia de resolver el fondo."
+        },
+        {
+          "id": "D",
+          "text": "Declarar improcedente el recurso al no poder revertir la descalificación propia y ejecutar S/2 000 de la garantía."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "La autorización obtenida por primera vez después del cierre no acredita una habilitación preexistente omitida: no es subsanable bajo el artículo 78.2. Aunque cuestiona su descalificación, la MYPE no logra revertirla. El artículo 308.g impide entonces que prospere su impugnación de la adjudicación del rival, aun cuando detecte un error en esta. Corresponde improcedencia, con ejecución del 50% de la garantía: S/4 000 × 0,50 = S/2 000. Pedir retirar la buena pro al rival y adjudicársela es mantener la pretensión impugnatoria, no desistirse del recurso. No corresponde equiparar esta barrera de procedencia con una declaración de infundado ni devolver la garantía por una estimación parcial que no procede.",
+      "regime": "32069",
+      "topic": "Resolución de apelaciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.8",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Salta la exigencia de revertir previamente la exclusión propia y convierte el error del rival en una estimación que el artículo 308.g impide.",
+        "B": "Confunde retirar la adjudicación del rival con abandonar el recurso: el escrito mantiene expresamente la solicitud de adjudicación propia.",
+        "C": "Sustituye la causal expresa de improcedencia por una desestimación de fondo y aplica por ello una ejecución íntegra que no corresponde.",
+        "D": "Identifica la falta de habilitación preexistente, aplica la barrera de procedencia y deduce la ejecución del 50% de la garantía."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*)",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\"",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1cf4c64c-dc1a-444d-aa86-f68a4439f29f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "308",
+          "pageStart": 162,
+          "pageEnd": 162,
+          "quote": "Artículo 308. Improcedencia del recurso El recurso de apelación presentado ante la entidad contratante o ante el TCP es declarado improcedente cuando: a) La entidad contratante o el TCP carezca de competencia para resolverlo, de acuerdo con lo establecido en el artículo 74 de la Ley. No aplica en estos casos lo establecido en el artículo 130 de la LPAG, o disposición que la sustituya, referido a la prese ntación de escritos ante entidades que no resultan competentes. b) Sea interpuesto contra alguno de los actos que no son impugnables. c) Sea interpuesto fuera del plazo. d) El que suscriba el recurso no sea el impugnante o su representante. e) El impugnante se encuentre impedido para participar en los procedimientos de selección y/o contratar con el Estado, conforme al artículo 30 de la Ley. f) El impugnante se encuentre incapacitado legalmente para ejercer actos civiles. g) El proveedor impugne la adjudicación de la buena pro, sin cuestionar la no admisión o descalificación de su oferta o, aun cuestionándola, no logra revertir de forma previa su condición de no admitido o descalificado del procedimiento. h) Sea interpuesto por el postor ganador de la buena pro. i) No exista conexión lógica entre los hechos expuestos en el recurso y su petitorio. j) El impugnante carezca de interés para obrar o legitimidad procesal.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "23efcaec-9a1c-49c2-a6a1-58a189eed8c1",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "315",
+          "pageStart": 165,
+          "pageEnd": 166,
+          "quote": "Artículo 314. Desistimiento 314.1. El apelante puede desistirse del recurso de apelación mediante escrito con firma legalizada notarialmente o certificada ante el TCP, presentado ante la entidad contratante o ante el TCP, según corresponda, siempre y cuando la respectiva solicitud de desistimiento haya sido formulada hasta antes de haberse declarado que el expediente está listo para resolver y no comprometa el interés público. 314.2. El desistimiento es aceptado por el TCP o la autoridad de la gestión administrativa de la entidad contratante, mediante resolución, y pone fin al procedimiento administrativo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 166 de 249 Artículo 315. Ejecución y devolución de la garantía 315.1. Cuando el recurso de apelación sea declarado infundado o el impugnante se desista, se procede a ejecutar el íntegro de la garantía. 315.2. En caso el recurso de apelación sea declarado improcedente, se ejecuta el 50% de la garantía. 315.3. Procede la devolución total de la garantía cuando: a) El recurso sea declarado fundado en todo o en parte. b) Se declare la nulidad y/o carece de objeto pronunciarse sobre el fondo del asunto. c) Con posterioridad a la interposición del recurso de apelación sobrevenga un impedimento para contratar con el Estado aplicable al Impugnante. d) Opere la denegatoria ficta por no resolver y notificar la resolución dentro del plazo legal.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Debe resolver primero la imposibilidad de subsanar una autorización posterior, luego la barrera procesal pese al error del rival y finalmente distinguir ejecución parcial de desistimiento, desestimación de fondo o estimación. Objetivo: Calificar la procedencia de una pretensión de adjudicación que no logra revertir la exclusión propia y determinar el destino de la garantía. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "b4ac93d0-75bd-5f2e-8920-169c909c87e5",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A16",
+    "objetivo": "Distinguir el plazo de corrección documental de la ampliación exclusiva para la garantía y decidir si procede perfeccionar el contrato.",
+    "criterioAvanzado": "La subsanación exige comprobar integrantes y obligaciones además de porcentajes; una garantía presentada en la ampliación no sanea una corrección sustantiva del contrato de consorcio fuera del plazo documental.",
+    "input": {
+      "prompt": "La promesa del consorcio ganador establece Delta 60% a cargo del suministro y Épsilon 40% a cargo de instalación y puesta en marcha. El contrato de consorcio presentado oportunamente tiene firmas legalizadas, pero asigna a Delta 80% y también la instalación, dejando a Épsilon 20% y solo la puesta en marcha. La DEC observa porcentajes y obligaciones un lunes y concede el máximo de cuatro días hábiles para subsanar. La garantía de fiel cumplimiento está en trámite; a petición expresa, la DEC concede para presentarla cuatro días hábiles adicionales contados desde el día siguiente del vencimiento del plazo de subsanación. El viernes de esa semana el representante común presenta un contrato con firmas legalizadas y porcentajes 60/40, pero mantiene la instalación a cargo de Delta. El miércoles siguiente presenta simultáneamente la garantía y otro contrato, también con firmas legalizadas, que restituye por fin todas las obligaciones de la promesa. No hay otros defectos ni días inhábiles entre lunes y viernes. ¿Qué debe concluir la DEC?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Todos los requisitos quedaron completos el miércoles dentro del plazo ampliado, por lo que debe perfeccionarse hasta el lunes siguiente."
+        },
+        {
+          "id": "B",
+          "text": "La subsanación se completó el viernes con los porcentajes y desde entonces corre el plazo para perfeccionar, aunque la garantía aún no se hubiera presentado."
+        },
+        {
+          "id": "C",
+          "text": "No se subsanó el contrato de consorcio dentro del plazo: la ampliación para la garantía no amplía el plazo documental; corresponde la pérdida automática de la buena pro por causa imputable al postor."
+        },
+        {
+          "id": "D",
+          "text": "El miércoles debe iniciarse un nuevo plazo de cuatro días para corregir el consorcio, porque presentar la garantía reabre la revisión de los demás requisitos."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Los cuatro días hábiles para la subsanación documental, contados desde el martes, vencen el viernes. El contrato presentado ese viernes conserva una distribución de obligaciones distinta de la promesa: restituir solo los porcentajes no satisface el artículo 89.1. La ampliación del artículo 90.4 está concedida para la garantía en trámite y no prorroga la corrección del contrato de consorcio. Aunque la garantía se entrega el miércoles dentro de su ampliación, la primera corrección completa del consorcio llega después del plazo documental. Por ello no se configura una subsanación efectiva que active el plazo de perfeccionamiento del artículo 90.5. El defecto no corregido oportunamente es imputable al postor y determina la pérdida automática prevista en el artículo 91.3.",
+      "regime": "32069",
+      "topic": "Requisitos y plazos de perfeccionamiento",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Extiende indebidamente a todos los requisitos una ampliación otorgada solo para presentar la garantía de fiel cumplimiento en trámite.",
+        "B": "Reduce la identidad con la promesa a los porcentajes, ignorando las obligaciones, y pretende perfeccionar con una garantía exigible pendiente.",
+        "C": "Comprueba obligaciones y porcentajes, distingue el objeto de cada plazo y concluye que la entrega oportuna de la garantía no sana la corrección documental tardía.",
+        "D": "Inventa una reapertura del plazo de subsanación por la presentación de la garantía, sin sustento en el procedimiento de perfeccionamiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8e871ce9-2bb8-4c4d-82cc-9ce6f6f00915",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "89",
+          "pageStart": 49,
+          "pageEnd": 49,
+          "quote": "Artículo 89. Contrato de consorcio 89.1. El contrato de consorcio se formaliza mediante documento privado con firmas legalizadas de cada uno de los integrantes ante notario público, señalando en dicho documento al representante común. No tienen eficacia legal frente a la entidad contratante o el OECE los actos realizados por personas distintas al representante común. Este contrato mantiene el contenido respecto a los integrantes, obligaciones y el porcentaje de participación consignados en la promesa de consorcio. 89.2. Las disposiciones aplicables a consorcios son establecidas en las bases estándar correspondientes.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "90.3. En un plazo no mayor a tres días hábiles contabilizados desde el día siguiente de la presentación de los requisitos por parte del postor ganador de la buena pro, se perfecciona el contrato, con su suscripción o con la recepción de la orden de compra o de servicio, según corresponda. En el mismo plazo, la DEC puede notificar la observación de los requisitos, otorgando un plazo máximo de cuatro días hábiles contabilizados desde el día siguiente de la notificación, para la subsanación. 90.4. En caso la garantía de fiel cumplimiento se encuentre en trámite, a solicitud expresa del postor ganador de la buena pro, la DEC puede otorgar un plazo adicional de hasta cuatro días hábiles contabilizados desde el día siguiente al vencimiento del pl azo indicado en el numeral anterior para su presentación. 90.5. En un plazo máximo de tres días hábiles contabilizados desde el día siguiente de haberse subsanado las observaciones o presentado la garantía se perfecciona el contrato.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "\"91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.\"",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. La subsanación exige comprobar integrantes y obligaciones además de porcentajes; una garantía presentada en la ampliación no sanea una corrección sustantiva del contrato de consorcio fuera del plazo documental. Objetivo: Distinguir el plazo de corrección documental de la ampliación exclusiva para la garantía y decidir si procede perfeccionar el contrato. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "9bd509dd-c7cb-5a6c-9fcd-70deb444824e",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A17",
+    "objetivo": "Reformular el alcance de una subcontratación al variar la base del límite y existir importes ya comprometidos.",
+    "criterioAvanzado": "Reconstruye el saldo del límite global sobre el contrato vigente y lo cruza con la parte materialmente subcontratable de una sola solicitud; ninguna comprobación aislada permite elegir la ruta.",
+    "input": {
+      "prompt": "Un contrato de servicios tenía monto original de S/1 000 000 y fue reducido válidamente a S/800 000. Permanecen S/260 000 de prestaciones subcontratadas con autorización previa, sin liberaciones ni otros subcontratos. Se solicita añadir S/100 000: S/20 000 de diagnóstico esencial expresamente excluido por las bases y S/80 000 de soporte permitido. El soporte es divisible. El RNP está vigente y la entidad aún no autoriza esta nueva solicitud. El contratista propone retirar solo el diagnóstico y ejecutar de inmediato el resto, pues el pedido inicial era apenas el 10% del contrato original. ¿Qué reformulación sería compatible con el artículo 108 antes de solicitar su aprobación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Retirar el diagnóstico y mantener S/80 000 de soporte, pues solo la nueva solicitud se compara con el 40%."
+        },
+        {
+          "id": "B",
+          "text": "Retirar el diagnóstico y limitar el soporte adicional a S/60 000; ese alcance reformulado todavía requiere aprobación previa."
+        },
+        {
+          "id": "C",
+          "text": "Mantener los S/100 000, porque el total de S/360 000 no supera el 40% del monto original."
+        },
+        {
+          "id": "D",
+          "text": "Retirar el diagnóstico y limitar el soporte a S/60 000, importe que puede ejecutarse sin aprobación por quedar dentro del límite."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El límite debe calcularse sobre S/800 000: 40% = S/320 000. Los S/260 000 ya autorizados consumen parte de ese límite; el margen es S/60 000. Eliminar los S/20 000 esenciales deja un pedido de S/80 000, que todavía excede el margen en S/20 000. Debe limitarse el soporte adicional a S/60 000 y obtener aprobación previa. La reducción de monto, la acumulación y la delimitación del alcance hacen insuficiente tanto el porcentaje de la solicitud aislada como el simple retiro de la prestación excluida.",
+      "regime": "32069",
+      "topic": "Contenido y vigencia del contrato",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Ignora el monto ya subcontratado: S/260 000 más S/80 000 da S/340 000, superior al límite vigente de S/320 000.",
+        "B": "Calcula el margen acumulado de S/60 000 sobre el monto vigente, elimina el alcance prohibido y conserva el requisito de autorización previa.",
+        "C": "Usa una base contractual que dejó de estar vigente y además conserva la prestación esencial excluida por las bases.",
+        "D": "El cumplimiento del límite y del alcance permitido no sustituye la aprobación previa exigida para la nueva subcontratación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "42c27b36-062a-4ea7-b180-7a12ab09096b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "108",
+          "pageStart": 60,
+          "pageEnd": 60,
+          "quote": "Artículo 108. Subcontratación 108.1. Se puede subcontratar por un máximo del 40% del monto del contrato vigente de bienes, servicios u obras. En el caso de bienes y servicios las bases pueden especificar las prestaciones esenciales que no pueden ser materia de subcontratación o, de así haberse evaluado en la estrategia de contratación, que no se permite la subcontratación, con el sustento correspondiente. 108.2. El contratista presenta a la entidad contratante la solicitud de subcontratación que contiene como mínimo lo siguiente: a) El alcance de la subcontratación. b) RNP vigente del subcontratista. 108.3. La entidad contratante aprueba o deniega la subcontratación de manera previa, en un plazo de cinco días hábiles contabilizados desde el día siguiente de formulado el pedido, sustentando su decisión. De no pronunciarse en dicho plazo, se entiende den egada la solicitud. 108.4. No cabe subcontratación en la contratación de evaluadores expertos o especialistas técnicos de los contratos estandarizados.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Reconstruye el saldo del límite global sobre el contrato vigente y lo cruza con la parte materialmente subcontratable de una sola solicitud; ninguna comprobación aislada permite elegir la ruta. Objetivo: Reformular el alcance de una subcontratación al variar la base del límite y existir importes ya comprometidos. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "bb6c5d08-7a61-5a57-944a-4c565efbe695",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A18",
+    "objetivo": "Depurar los días de mora después de una subsanación insuficiente y una revisión intermedia de la entidad.",
+    "criterioAvanzado": "Reconstruye la secuencia de subsanaciones, determina qué plazo inicia la mora y separa de ese intervalo los días consumidos por la entidad; la selección cambia según la atribución temporal.",
+    "input": {
+      "prompt": "Un servicio con plazo de entregable de treinta días fue entregado oportunamente con defectos subsanables, sin incumplimiento manifiesto. La DEC otorgó nueve días para subsanar. Al terminar el noveno día, el contratista presentó una corrección que seguía siendo insuficiente. La entidad ocupó los cuatro días siguientes exclusivamente en revisarla y notificar las observaciones pendientes; después concedió un periodo adicional. El contratista necesitó dos días más desde esa notificación para subsanar cabalmente, dentro de ese periodo adicional. No hay otras demoras. La entidad propone penalizar los seis días transcurridos entre ambas presentaciones; el proveedor pide cero porque cumplió el segundo plazo. ¿Cuántos días de mora corresponden según el artículo 144?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dos días: el periodo adicional no reinicia la franquicia y los cuatro días de revisión de la entidad se excluyen."
+        },
+        {
+          "id": "B",
+          "text": "Cero días, porque la subsanación final se presentó dentro del periodo adicional concedido."
+        },
+        {
+          "id": "C",
+          "text": "Seis días, porque todo el tiempo transcurrido después del primer plazo corresponde al contratista."
+        },
+        {
+          "id": "D",
+          "text": "Once días: los nueve del primer plazo más los dos usados después de la nueva notificación."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El primer plazo de nueve días respeta el máximo de 30% de treinta días. La subsanación no quedó completa dentro de él; al concederse un periodo adicional, la mora se cuenta desde el vencimiento del primer plazo, sin excluirla por haber cumplido después el nuevo periodo. Sin embargo, el numeral 144.7 excluye los días empleados por la entidad en revisar y notificar. De los seis días transcurridos, cuatro son de revisión de la entidad y dos de subsanación del contratista: corresponden dos días de mora. Los nueve días iniciales no se agregan a la penalidad.",
+      "regime": "32069",
+      "topic": "Entrega, conformidad y observaciones",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Relaciona la subsanación inicial insuficiente con el inicio de la mora y descuenta los cuatro días de revisión y notificación de la entidad.",
+        "B": "Confunde el cumplimiento del periodo adicional con una subsanación completa dentro del primer plazo, que es la que evita penalidad.",
+        "C": "Incluye cuatro días de actuación de la entidad que el numeral 144.7 ordena no considerar en el cómputo de mora.",
+        "D": "Carga indebidamente el primer plazo de subsanación; la regla sitúa el inicio de la mora después de su vencimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "75408d51-d4b5-402c-9fc3-3cccd43a8dd0",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "144",
+          "pageStart": 76,
+          "pageEnd": 77,
+          "quote": "144.4. De existir observaciones, la DEC las comunica al contratista, indicando claramente el sentido de estas, otorgándole un plazo para subsanar dependiendo de la complejidad o sofisticación de las subsanaciones a realizar. El plazo de subsanación no debe ser mayor del 30% del plazo del entregable correspondiente. Subsanadas las observaciones dentro del plazo otorgado, no corresponde la aplicación de penalidades. 144.5. El mismo plazo establecido para la subsanación de observaciones resulta aplicable para que la entidad contratante se pronuncie sobre el levantamiento de observaciones. 144.6. Cuando la entidad contratante exceda el plazo previsto para emitir la conformidad o pronunciarse sobre el levantamiento de las observaciones, los días de retraso no pueden ser imputados al contratista a efectos de la aplicación de penalidades. 144.7 Si pese al plazo otorgado, el contratista no cumpliese a cabalidad con la subsanación, la entidad contratante puede otorgar al contratista periodos adicionales, conforme a lo señalado en el numeral 144.4, u optar por resolver el contrato, de acuerdo con el supuesto de resolución establecido en el literal b) del numeral 68.1 del artículo 68 de la Ley. En caso otorgue periodos adicionales corresponde aplicar la penalidad por mora desde el vencimiento del plazo inicial para subsanar, sin considerar los d ías en los que pudiera incurrir la entidad contratante para efectuar las revisiones y notificar las observaciones correspondientes. (*)RECTIFICADO POR FE DE ERRATAS",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Reconstruye la secuencia de subsanaciones, determina qué plazo inicia la mora y separa de ese intervalo los días consumidos por la entidad; la selección cambia según la atribución temporal. Objetivo: Depurar los días de mora después de una subsanación insuficiente y una revisión intermedia de la entidad. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "6adc4209-c0ea-5c17-a23a-eea3bf4b0c16",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A19",
+    "objetivo": "Seleccionar la dimensión viable de un adicional al combinar precios contractuales y límite acumulado original.",
+    "criterioAvanzado": "La valoración de unidades alternativas determina cuál cabe en el margen restante; usar el contrato vigente o evaluar solo el nuevo pedido cambia la decisión.",
+    "input": {
+      "prompt": "En un contrato ordinario de servicios de monto original S/800 000 ya se aprobó y ejecutó un adicional de S/120 000, por lo que el monto vigente es S/920 000. Aparece una nueva necesidad; el informe técnico acredita que puede satisfacerse íntegramente con cualquiera de dos diseños alternativos: 400 unidades o 500 unidades del mismo servicio, a precio contractual aplicable de S/200 por unidad. Para ambos hay sustento técnico y legal y crédito presupuestario; no se han ejecutado ni hay reducciones o régimen especial. La DEC prefiere 500 unidades porque S/100 000 es menos del 25% de S/920 000. ¿Qué diseño puede aprobarse como nuevo adicional bajo el artículo 141?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El de 500 unidades, porque su costo representa menos del 25% del monto vigente."
+        },
+        {
+          "id": "B",
+          "text": "Ambos, porque cada diseño considerado por separado cuesta menos de S/200 000."
+        },
+        {
+          "id": "C",
+          "text": "Ninguno, porque haber aprobado un adicional impide aprobar otro, aunque quede margen."
+        },
+        {
+          "id": "D",
+          "text": "Solo el de 400 unidades: agota el margen de S/80 000 y requiere la resolución publicada en Pladicop antes de ejecutarse."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El tope acumulado de adicionales es 25% del monto original: S/200 000. Restando S/120 000 ya aprobados, quedan S/80 000. A precio pactado de S/200, 400 unidades cuestan S/80 000 y 500 cuestan S/100 000. El primer diseño lleva los adicionales a S/200 000; el segundo los elevaría a S/220 000, excediendo el máximo en S/20 000. Como ambos diseños satisfacen íntegramente la necesidad según el informe, es viable elegir el de 400. Su ejecución exige aprobación mediante resolución publicada; no se obtiene un margen mayor por usar S/920 000 como base.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El límite se refiere al monto original y debe considerar los S/120 000 ya aprobados, no únicamente el porcentaje del nuevo pedido sobre el monto vigente.",
+        "B": "El límite no se reinicia para cada solicitud: los adicionales anteriores y el nuevo deben evaluarse acumuladamente.",
+        "C": "El artículo 141 no establece una prohibición por el número de adicionales; el diseño de S/80 000 cabe en el margen restante.",
+        "D": "Valora las dos alternativas con el precio pactado y selecciona la única cuyo costo acumulado no excede S/200 000, conservando la aprobación previa."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "141",
+          "pageStart": 75,
+          "pageEnd": 75,
+          "quote": "Artículo 141. Prestaciones adicionales en bienes y servicios 141.1. La autoridad de la gestión administrativa puede aprobar, mediante resolución publicada en la Pladicop, la ejecución de prestaciones adicionales en bienes y servicios hasta por el 25% del monto del contrato original que sean indispensables para el cu mplimiento de la finalidad pública del contrato, siempre que se cuente con previo sustento técnico y legal y con la previsión y/o certificación de crédito presupuestario correspondiente. 141.2. El costo de la prestación adicional se determina sobre la base de las especificaciones técnicas del bien o términos de referencia del servicio y de las condiciones y precios pactados en el contrato; en defecto de estos, la DEC, previo sustento y coo rdinación con el área usuaria, determina el monto a acordar con el contratista, considerando la estructura de costos y/o sustento presentado por el contratista. 141.3. No corresponde suscribir una adenda al contrato por la aprobación de un adicional, bastando con la publicación de la resolución en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. La valoración de unidades alternativas determina cuál cabe en el margen restante; usar el contrato vigente o evaluar solo el nuevo pedido cambia la decisión. Objetivo: Seleccionar la dimensión viable de un adicional al combinar precios contractuales y límite acumulado original. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "616cb8ff-54c5-56c3-ad89-f483cda2f2e2",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A20",
+    "objetivo": "Planificar la corrección de una amortización para hacer viable la cancelación del saldo en una valorización posterior.",
+    "criterioAvanzado": "Compara dos rutas de arrastre del error: corregirlo en la valorización intermedia cambia el saldo que se contrasta con la última valorización y altera la obligación de aceptar su amortización total.",
+    "input": {
+      "prompt": "En una obra se entregó un adelanto para materiales de S/96 000. En la primera valorización se descontaron S/30 000 cuando correspondían S/36 000; la diferencia de S/6 000 está reconocida. Para la segunda valorización, de S/50 000, la amortización ordinaria ya determinada conforme a la regla aplicable es S/30 000, sin incluir esa corrección. Se prevé una última valorización de S/35 000. El contratista desea que en esa última se acepte su solicitud de amortizar todo el saldo, sin pagos externos ni diferencias trasladadas a la liquidación. Hay dos rutas: corregir los S/6 000 en la segunda valorización o postergarlos hasta la liquidación. Con esos importes invariables y sin otras deducciones, ¿qué ruta logra ese objetivo según 180.2 y 180.4?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Ambas rutas: la última valorización debe aceptar todo saldo, aunque sea mayor que S/35 000."
+        },
+        {
+          "id": "B",
+          "text": "Postergar a la liquidación: la corrección debe restarse del saldo como si ya hubiese sido descontada, y la última recibe un saldo de S/30 000."
+        },
+        {
+          "id": "C",
+          "text": "Corregir en la segunda: descontar S/36 000 deja S/30 000, que cabe en la última; descontar solo S/30 000 dejaría S/36 000, que la supera."
+        },
+        {
+          "id": "D",
+          "text": "Corregir en la segunda: descontar S/42 000, sumando dos veces la diferencia para compensar tanto el error anterior como el saldo futuro."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Después del descuento efectivo inicial quedan S/96 000 − S/30 000 = S/66 000. Si la segunda valorización aplica S/30 000 ordinarios más S/6 000 de corrección, descuenta S/36 000 y deja S/30 000. Ese saldo no supera la última valorización de S/35 000, por lo que la entidad debe aceptar la amortización total solicitada. Si se posterga la corrección, la segunda descuenta solo S/30 000 y deja S/36 000: excede la última valorización y activa la excepción de 180.2. El numeral 180.4 permite considerar la diferencia en una valorización posterior o en la liquidación; ambas ubicaciones son posibles en abstracto, pero solo la corrección en la segunda satisface el objetivo financiero planteado con estos importes.",
+      "regime": "32069",
+      "topic": "Adelantos y amortización",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.9",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Desconoce la excepción expresa cuando el saldo pendiente supera la valorización; la ruta sin corrección deja S/36 000 frente a S/35 000.",
+        "B": "La posibilidad de postergar no equivale a haber descontado los S/6 000; hasta su cobro integran el saldo y no permiten reducirlo ficticiamente.",
+        "C": "Arrastra el descuento realmente efectuado y relaciona la corrección intermedia con el saldo que determina la procedencia de amortización total en la última valorización.",
+        "D": "La diferencia omitida es de S/6 000 una sola vez: el descuento necesario es S/30 000 más S/6 000, no S/42 000."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "cf28fb4f-590a-4703-b130-785bcc00809f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "180",
+          "pageStart": 97,
+          "pageEnd": 98,
+          "quote": "180.2. La amortización del adelanto para materiales, insumos, equipamiento y mobiliario para obras se realiza de acuerdo con lo dispuesto en la directiva que la DGA emita sobre fórmulas polinómicas. La entidad contratante acepta la amortización total del a delanto, a solicitud del contratista, salvo que el saldo pendiente de amortizar sea mayor que el monto de la valorización.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 98 de 249 180.3. La amortización del adelanto por avance dispuesto en el numeral 178.5 del artículo 178 se realiza mediante descuentos proporcionales en cada una de las valorizaciones del componente, desde la entrega del adelanto. 180.4. Cualquier diferencia de monto que se produzca respecto de la amortización del adelanto en una valorización, se toma en cuenta en una valorización posterior y/o en la liquidación del contrato.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Compara dos rutas de arrastre del error: corregirlo en la valorización intermedia cambia el saldo que se contrasta con la última valorización y altera la obligación de aceptar su amortización total. Objetivo: Planificar la corrección de una amortización para hacer viable la cancelación del saldo en una valorización posterior. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "f7d9c49a-1c78-5a04-8b46-eb664c0b7e06",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A21",
+    "objetivo": "Clasificar la sustitución según el plazo contractual vigente y su causa laboral antes de decidir la penalidad.",
+    "criterioAvanzado": "El retorno ocurre después del término originalmente pactado pero dentro del plazo ampliado; esa relación temporal cambia la calificación del reemplazo y desplaza la penalidad por reiteración permanente.",
+    "input": {
+      "prompt": "Una consultoría de obra tenía como término original el 30 de septiembre. Antes de tramitar un reemplazo, se aprobó válidamente una ampliación hasta el 30 de noviembre. Por licencia prevista en su régimen laboral, un profesional clave se ausentará y retornará el 15 de octubre. La solicitud documenta ese retorno, cumple la anticipación aplicable y propone un reemplazante que conserva el perfil y las condiciones de puntaje; la entidad lo autoriza. El mismo puesto ya tuvo dos sustituciones permanentes anteriores. La oficina de contratos quiere calificar esta como otra sustitución permanente y penalizarla porque el retorno es posterior al 30 de septiembre. ¿Qué evaluación corresponde según el artículo 189?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es permanente y penalizable porque el retorno ocurre después del término pactado al adjudicar la consultoría."
+        },
+        {
+          "id": "B",
+          "text": "Es temporal y no genera esa penalidad: el retorno por causa laboral cae dentro del plazo vigente ampliado, aunque sea posterior al término original."
+        },
+        {
+          "id": "C",
+          "text": "Es temporal, pero la existencia de dos sustituciones permanentes anteriores vuelve obligatoria la penalidad en este cambio."
+        },
+        {
+          "id": "D",
+          "text": "Debe rechazarse el reemplazo porque una ampliación del contrato no puede influir en la clasificación de una sustitución del personal."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La calificación temporal depende de que el retorno esté dentro del plazo de ejecución y se deba al régimen laboral aplicable. La ampliación ya estaba aprobada cuando se tramitó el cambio: el plazo vigente termina el 30 de noviembre y comprende el retorno del 15 de octubre. Por ello se aplica el numeral 189.4, que excluye penalidades para este cambio temporal. La reiteración de sustituciones permanentes anteriores no transforma el cambio actual en permanente ni permite desconocer la regla específica; el cumplimiento del perfil, puntaje, documentación y anticipación elimina otros motivos de rechazo.",
+      "regime": "32069",
+      "topic": "Residente, supervisor y responsables",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.8",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Congela la clasificación en el plazo original, ignorando que la ampliación ya integraba el contrato al solicitarse el reemplazo.",
+        "B": "Relaciona el plazo contractual ya ampliado con la fecha de retorno y aplica la regla especial del cambio temporal por causa laboral.",
+        "C": "Extiende la penalidad propia de sustituciones permanentes a un cambio que reúne las condiciones del numeral 189.4.",
+        "D": "La definición de temporalidad usa el plazo de ejecución vigente; no exige comparar siempre con la fecha original."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "dba573cc-5ffe-4f24-8794-6bdedfb1ef85",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "189",
+          "pageStart": 105,
+          "pageEnd": 105,
+          "quote": "Artículo 189. Sustitución de integrante del plantel técnico en obras o consultoría de obras 189.1. Es responsabilidad del contratista ejecutar su prestación con el personal considerado en la oferta durante el procedimiento de selección. 189.2. El contratista puede solicitar sustituir al personal clave de su plantel técnico, excepcionalmente y con el sustento debido, siempre que quien lo sustituya tenga un perfil igual o mayor a lo establecido en las bases y, en caso de haberse otorgado pu ntaje por el profesional reemplazado, el reemplazante debe cumplir las mismas condiciones que le ameritaron el puntaje al proveedor. 189.3. La sustitución permanente del personal clave del plantel técnico debe solicitarse a la entidad contratante diez días hábiles antes de la fecha en la que operaría la sustitución. En caso ésta no se pronuncie en el plazo, se considera autorizada la sustitución. La entidad contratante aplica una penalidad al contratista si se produce una sustitución del mismo integrante del plantel técnico por segunda vez. El plazo y penalidad señalados no aplican cuando la sustitució n se origine por caso fortuito o fue rza mayor o por un hecho sobreviniente no imputable al contratista. (*) (*)RECTIFICADO POR FE DE ERRATAS (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"189.3. La sustitución permanente del personal clave del plantel técnico debe solicitarse a la entidad contratante diez días hábiles antes de la fecha en la que operaría la sustitución. En caso ésta no se pronuncie en el plazo del numeral 189.5 , se considera autorizada la sustitución. La entidad contratante aplica una penalidad al contratista si se produce una sustitución del mismo integrante del plantel técnico a partir de la segunda vez. El plazo y penalidad señalados no aplican cuando la sustitución se o rigine por caso fortuito o fuerza mayor o por un hecho sobreviniente no imputable al contratista.\" 189.4. La sustitución es temporal cuando la fecha de retorno se encuentra dentro del plazo de ejecución y se debe al régimen laboral aplicable del integrante. El contratista presenta su solicitud a la entidad contratante cumpliendo el plazo indicado en el numeral precedente, adjuntando la documentación de sustento. En este caso, el cambio no ocasiona la aplicación de penalidades. 189.5. La entidad contratante autoriza o rechaza la solicitud de sustitución, de manera sustentada, en el plazo máximo de cinco días hábiles, contabilizados desde el día siguiente de presentada la solicitud.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. El retorno ocurre después del término originalmente pactado pero dentro del plazo ampliado; esa relación temporal cambia la calificación del reemplazo y desplaza la penalidad por reiteración permanente. Objetivo: Clasificar la sustitución según el plazo contractual vigente y su causa laboral antes de decidir la penalidad. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "c028e0da-c0e3-5975-956e-5adc969ed34d",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A22",
+    "objetivo": "Determinar inicio y efectos económicos de suspensión por valorizaciones impagas.",
+    "criterioAvanzado": "Ordena la secuencia requerimiento-vencimiento-anotación y distingue el régimen económico especial de la suspensión por impago.",
+    "input": {
+      "prompt": "En una obra de solo construcción hay dos valorizaciones consecutivas impagas. El contratista requiere pagar por lo menos una dentro de diez días. El plazo vence sin pago y el residente anota la suspensión en el cuaderno de incidencias ese mismo día. Se acreditan costos directos y mayores gastos generales vinculados a la suspensión. La entidad sostiene que esta empezó con el requerimiento y que solo reconocerá seguridad de obra, como en una suspensión por evento no atribuible. ¿Qué conclusión corresponde según el artículo 202?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La suspensión empieza al día siguiente de la anotación y deben reconocerse los costos directos y mayores gastos generales vinculados y acreditados."
+        },
+        {
+          "id": "B",
+          "text": "La suspensión empieza con el requerimiento y solo se reconocen los costos necesarios de seguridad."
+        },
+        {
+          "id": "C",
+          "text": "La suspensión empieza el día de la anotación y no permite reconocer mayores gastos generales."
+        },
+        {
+          "id": "D",
+          "text": "La suspensión requiere un nuevo acuerdo escrito después de la anotación y todo reconocimiento económico queda excluido."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El numeral 202.3 exige requerir el pago de al menos una de las dos valorizaciones y que venza el plazo otorgado. Luego el residente anota la suspensión, cuyo inicio es el día siguiente de esa anotación. Para esta causa específica, la entidad reconoce los costos directos y mayores gastos generales vinculados y acreditados. No corresponde trasladar la limitación económica prevista para la suspensión regulada en el numeral 202.1.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Respeta la secuencia del numeral 202.3 y el reconocimiento económico específico de la suspensión por impago.",
+        "B": "Adelanta el inicio al requerimiento y aplica a la falta de pago una restricción económica que desconoce su regla especial.",
+        "C": "La anotación produce inicio al día siguiente y el numeral 202.3 sí contempla mayores gastos generales acreditados.",
+        "D": "Introduce un acuerdo posterior como condición adicional y elimina el reconocimiento expresamente previsto para este supuesto."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "5f741890-df7e-4e99-99b5-a0c6e38b20a9",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "202",
+          "pageStart": 114,
+          "pageEnd": 115,
+          "quote": "Artículo 202. Suspensión de plazo en ejecución de obras bajo los sistemas de entrega de solo construcción y diseño y construcción 202.1. La suspensión de plazo de ejecución de obra se realiza de acuerdo con el artículo 107 y no supone el reconocimiento de mayores gastos generales y/o costos directos, salvo los que\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 115 de 249 sean necesarios para viabilizar la suspensión, lo que incluye la seguridad de la obra y la integridad de las personas, de acuerdo con los términos en los que se acuerda la suspensión. 202.2. Reiniciado el plazo de ejecución del contrato, la entidad contratante comunica al contratista la modificación de las fechas del programa de ejecución actualizado y de los calendarios correspondientes, respetando los términos en los que se acordó la suspensión. 202.3. La falta de pago de dos valorizaciones consecutivas ocasiona la suspensión del plazo de ejecución contractual, para lo cual el contratista requiere a la entidad contratante el pago de por lo menos una valorización pendiente en un plazo no mayor de d iez días. Vencido el plazo otorgado por el contratista, el residente anota en el cuaderno de incidencias la suspensión, que inicia desde el día siguiente de realizada la anotación. En este caso, la entidad contratante reconoce al contratista los costos dir ectos y/o mayores gastos generales vinculados y acreditados. 202.4. En caso se resuelva un contrato principal, las partes pueden acordar suspender el plazo de ejecución del contrato directamente vinculado al contrato resuelto hasta que se suscriba un nuevo contrato principal para ejecutar la prestación. 202.5. Cuando se resuelva un contrato directamente vinculado, las partes pueden acordar suspender el plazo de ejecución del contrato principal, hasta que se perfeccione un nuevo contrato directamente vinculado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Ordena la secuencia requerimiento-vencimiento-anotación y distingue el régimen económico especial de la suspensión por impago. Objetivo: Determinar inicio y efectos económicos de suspensión por valorizaciones impagas. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "d74b22b7-0305-5e0f-9443-e850095eae23",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A23",
+    "objetivo": "Determinar qué presentación inicia el procedimiento y cómo una liquidación posterior opera como observaciones a la primera.",
+    "criterioAvanzado": "Reconstruye la secuencia tras vencer el turno inicial del contratista: la entidad presenta primero, el documento posterior del contratista cuestiona esa liquidación dentro de cincuenta días y la falta de subsanación de la entidad activa un régimen distinto al silencio del receptor inicial.",
+    "input": {
+      "prompt": "En una obra recibida, el contratista dejó vencer sin presentar liquidación sus treinta días de presentación, correctamente computados. La entidad presentó y notificó su liquidación en el décimo día de su propio plazo, con saldo de S/90 000 a favor del contratista. Cuarenta días calendario después de recibirla, el contratista entregó un documento titulado «Mi liquidación»: identifica expresamente la liquidación de la entidad, objeta dos descuentos y adjunta cálculos que elevan el saldo a S/125 000. No es una nueva prestación ni un reclamo ajeno a la liquidación. La entidad dejó pasar, sin subsanar ni contestar, los quince días aplicables contados desde recibir ese documento, todos correctamente computados. No existen controversias pendientes. ¿Qué resultado procede según el artículo 215?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Queda consentido el saldo de S/90 000, porque el contratista perdió toda posibilidad de observar cuando vencieron sus treinta días iniciales."
+        },
+        {
+          "id": "B",
+          "text": "Queda consentido el saldo de S/90 000, porque un documento titulado liquidación no puede funcionar como observaciones a la entidad."
+        },
+        {
+          "id": "C",
+          "text": "Deben tramitarse dos liquidaciones autónomas y esperar una aceptación expresa de ambas partes antes de poder cerrar el contrato."
+        },
+        {
+          "id": "D",
+          "text": "Queda consentida la liquidación con las observaciones que llevan el saldo a S/125 000: la entidad fue quien presentó la liquidación y luego no atendió las objeciones oportunas del contratista."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El vencimiento de los treinta días iniciales habilitó el turno de la entidad, que presentó primero dentro de su plazo. El contratista pasó a ser receptor de esa liquidación; para ejecución de obra disponía de cincuenta días calendario para pronunciarse. Su documento llegó a los cuarenta días y, por su contenido expreso, formula observaciones a la liquidación de la entidad aunque lleve otro título. Así, quien debía atenderlas era la entidad como presentante, dentro de quince días. Su falta de subsanación activa 215.4: queda consentida la liquidación con las observaciones formuladas, que llevan el saldo a S/125 000. No se activa 215.3 a favor de S/90 000, pues el contratista sí se pronunció oportunamente. El cierre sigue a ese consentimiento conforme a 215.5.",
+      "regime": "32069",
+      "topic": "Valorización, recepción y liquidación",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.11",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el plazo inicial para presentar con el plazo posterior para pronunciarse como receptor de la liquidación elaborada por la entidad.",
+        "B": "Atiende solo al título y desconoce que el documento individualiza y objeta de modo expreso la liquidación notificada dentro de los cincuenta días calendario.",
+        "C": "El documento posterior tiene contenido de observaciones a la liquidación presentada primero; no crea por su título dos procedimientos autónomos ni exige aceptación expresa adicional.",
+        "D": "Identifica a la entidad como presentante, al contratista como observante oportuno y el efecto de que la presentante no subsane en quince días."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8954622e-092d-46a9-b4db-c5b65f797de3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "215",
+          "pageStart": 121,
+          "pageEnd": 123,
+          "quote": "\"215.2. De no hacerlo, al día siguiente de vencido el plazo indicado, inicia el plazo de la entidad contratante para presentar la liquidación. Los gastos incurridos en la elaboración de la liquidación son de cargo del contratista. Cuando concluya el plazo de cada una de las partes sin que ninguna haya presentado la liquidación, cualquiera de ellas puede presentarla sujetándose a los plazos indicados en el numeral 215.6.\" 215.3. La parte que recibe la liquidación notifica su conformidad u observaciones, en el plazo indicado en el numeral 215.6. De no pronunciarse dentro del plazo, la liquidación se considera consentida o aprobada. 215.4. La parte que presenta la liquidación y recibe observaciones dentro del plazo, subsana las mismas en el plazo indicado en el numeral 215.6. De no hacerlo, la liquidación se considera consentida o aprobada con las observaciones formuladas. 215.5. Consentida la liquidación, se realiza el pago final, la devolución de la garantía de fiel cumplimiento y se cierra el expediente de contratación respectivo. 215.6. Los plazos máximos aplicables al procedimiento de liquidación son los siguientes: Plazo de ejecución contractual Plazo de presentación de la liquidación Plazo para pronunciarse sobre la liquidación Plazo para contestar el pronunciamiento Consultoría de obra quince días treinta días calendario quince días Ejecución de obra treinta días cincuenta días calendario quince días\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 123 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Reconstruye la secuencia tras vencer el turno inicial del contratista: la entidad presenta primero, el documento posterior del contratista cuestiona esa liquidación dentro de cincuenta días y la falta de subsanación de la entidad activa un régimen distinto al silencio del receptor inicial. Objetivo: Determinar qué presentación inicia el procedimiento y cómo una liquidación posterior opera como observaciones a la primera. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "db56d9c4-273f-5eeb-a140-22f02bd84354",
+      "revision": 0
+    }
+  },
+  {
+    "numero": "A24",
+    "objetivo": "Evaluar una cláusula de límite indemnizatorio en una obra de gran monto.",
+    "criterioAvanzado": "Combina habilitación por monto original, cálculo sobre valor actualizado y exclusión de dolo o culpa inexcusable.",
+    "input": {
+      "prompt": "Un contrato ordinario de ejecución de obra, sin formato estandarizado internacional, tiene monto original de S/50 000 000 y valor actualizado de S/60 000 000. Incluye un límite indemnizatorio de S/10 000 000 que pretende abarcar también daños causados por dolo o culpa inexcusable. La obra fue recibida conforme y luego aparecen indicios de vicios ocultos. Al revisar exclusivamente las condiciones del artículo 216, ¿cuál es el diagnóstico correcto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El límite de S/10 000 000 cumple porque equivale al 20% del monto original; la recepción no impide reclamar, incluso si se incluye el dolo en ese límite."
+        },
+        {
+          "id": "B",
+          "text": "No cabe límite indemnizatorio porque el contrato no es estandarizado internacional, aunque el monto original alcance S/50 000 000."
+        },
+        {
+          "id": "C",
+          "text": "El monto original habilita pactar un límite, pero este no puede ser inferior a S/12 000 000; debe excluir del límite el dolo y la culpa inexcusable, y la recepción no impide reclamar vicios ocultos."
+        },
+        {
+          "id": "D",
+          "text": "El límite debe elevarse a S/12 000 000 e incluir todo daño, pero la recepción conforme impide reclamar posteriormente por vicios ocultos."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El monto original alcanza S/50 000 000, lo que satisface la vía de habilitación del numeral 216.3 sin exigir además contrato estandarizado. El mínimo del límite se calcula sobre el valor actualizado: 20% de S/60 000 000 = S/12 000 000. Los daños por dolo o culpa inexcusable no se consideran dentro del límite. Además, según 216.1, la recepción conforme no obsta al reclamo posterior por defectos o vicios ocultos.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Usa el monto original para calcular el mínimo y admite incluir el dolo, contradiciendo ambas condiciones del numeral 216.3.",
+        "B": "Transforma los supuestos alternativos del literal de habilitación en requisitos acumulativos.",
+        "C": "Aplica correctamente la habilitación alternativa, la base actualizada del cálculo, la exclusión de conductas graves y el efecto de la recepción.",
+        "D": "Acertar en el cálculo no permite incluir el dolo o la culpa inexcusable ni atribuir a la recepción efecto liberatorio por vicios ocultos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "38814af9-7856-4c4c-990c-151bf4202c8a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "216",
+          "pageStart": 123,
+          "pageEnd": 123,
+          "quote": "Artículo 216. Vicios ocultos en la ejecución de obras 216.1. La recepción conforme de la obra, otorgada por la entidad contratante no obsta su derecho a reclamar posteriormente por defectos o vicios ocultos. 216.2. En el caso de los componentes de mobiliario y equipamiento o contratos que correspondan sólo a la adquisición y entrega de mobiliario y/o equipamiento, el contratista es responsable por la garantía del mobiliario y equipamiento implementado por un p lazo que no puede ser superior a dos años. 216.3. Los contratos de ejecución de obra o con componente de obra pueden incluir límites a la indemnización derivados de la responsabilidad por vicios ocultos o de cualquier incumplimiento del contratista o de la entidad contratante, de acuerdo con lo señ alado literal f) del numeral 69.2 del artículo 69 de la Ley, siempre que cumplan con los siguientes criterios: a) El monto del contrato original sea igual o mayor a S/ 50 000 000,00 (cincuenta millones y 00/100 soles) y/o se trate de un contrato estandarizado de ingeniería y construcción de uso internacional. b) El límite a la indemnización no puede ser menor al 20% del valor del contrato actualizado. Los daños y perjuicios causados por dolo o culpa inexcusable no se consideran dentro de dicho límite.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA el 15/11/2026 por encargo del administrador del banco. Combina habilitación por monto original, cálculo sobre valor actualizado y exclusión de dolo o culpa inexcusable. Objetivo: Evaluar una cláusula de límite indemnizatorio en una obra de gran monto. Clave, distractores y condiciones contrastados con los pasajes institucionales citados. Caso hipotético de entrenamiento; no es un expediente real documentado, certificación OECE ni revisión humana independiente. Corte documental: 2026-10-29.",
+      "id": "d3f5b8e4-bc12-5a4e-bc73-be1843e27702",
+      "revision": 0
+    }
+  }
+]

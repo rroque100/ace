@@ -1,0 +1,11 @@
+{
+  "fecha": "2026-11-15",
+  "contratoEditorialYCobertura": { "pruebas": 2, "aprobadas": 2 },
+  "citasLiteralesYMetadatos": "confirmados contra corpus y documentos institucionales; comprobados de nuevo en SQL",
+  "revisionDeContenido": { "rondas": 2, "casosAprobadosFinales": 24, "reformuladosTrasObservaciones": 15 },
+  "simulacionRevertida": { "publicacion": "correcta", "sesionDe30AvanzadasDistintas": "correcta", "cambiosDePruebaPersistidos": false },
+  "publicacion": { "altas": 24, "revisionesEditorialesNuevas": 24, "avanzadasDisponibles": 30, "totalDisponibles": 266 },
+  "integridad": { "preguntasAnterioresIdenticas": 242, "intentosConservados": true },
+  "preview": { "dificultadVisible": "Avanzada (30)", "cantidadElegida": 30, "captura": "preview-30-avanzadas.png" },
+  "tipoRevision": "asistida por IA; no revisión humana independiente"
+}

@@ -1,0 +1,670 @@
+[
+  {
+    "numero": "A09",
+    "objetivo": "Distinguir invitación, calificación y desempate en comparación de precios.",
+    "criterioAvanzado": "Integra el mínimo de invitados, el mínimo de ofertas calificadas y la regla especial de desempate.",
+    "input": {
+      "prompt": "En una comparación de precios válidamente elegida, el oficial registra la convocatoria en Pladicop e invita a tres proveedores. Los tres ofertan: Norte y Sur cumplen los requisitos de calificación y ofrecen S/48 000 cada uno; Centro ofrece S/46 500, pero no cumple un requisito de calificación no subsanable. Norte es MYPE acreditada y Sur no lo es. No hay otros impedimentos. ¿Cómo debe decidir el oficial?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Declarar desierto porque deben existir tres ofertas calificadas, además de tres invitados."
+        },
+        {
+          "id": "B",
+          "text": "Adjudicar a Norte por su condición de MYPE, aplicando el desempate general."
+        },
+        {
+          "id": "C",
+          "text": "Evaluar económicamente las dos ofertas calificadas y resolver su empate mediante sorteo."
+        },
+        {
+          "id": "D",
+          "text": "Adjudicar a Centro porque la comparación de precios prioriza el menor monto ofertado."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "Invitar al menos a tres proveedores no equivale a exigir tres ofertas calificadas. Hay dos ofertas que cumplen los requisitos, suficientes para la evaluación económica. La oferta más barata que no cumple la calificación no integra esa comparación. Entre los dos menores montos válidos, iguales, corresponde el sorteo específico de comparación de precios del artículo 98.3, sin aplicar la preferencia MYPE del régimen general de empate.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el mínimo de proveedores invitados con el mínimo de ofertas que cumplen los requisitos de calificación.",
+        "B": "Traslada una preferencia del desempate general a una modalidad que dispone expresamente el sorteo.",
+        "C": "Integra correctamente los dos mínimos distintos y aplica la regla especial de sorteo entre ofertas económicas empatadas.",
+        "D": "Prescinde de la calificación previa: el menor monto solo puede compararse entre ofertas que cumplen los requisitos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "fb9848df-bd5a-4856-96fb-e5f841e2e2ee",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "97",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 97. Convocatoria en comparación de precios 97.1. Para aplicar el procedimiento de selección de comparación de precios, la DEC elabora un informe que sustente el cumplimiento de las condiciones para utilizar dicho procedimiento de selección. 97.2. El oficial de compra registra la convocatoria en la Pladicop y remite invitación a un mínimo de tres proveedores a fin de que presenten sus ofertas, adjuntando las bases conforme al formato aprobado en las bases estándar por la DGA.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "98",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 98. Evaluación de ofertas en la comparación de precios 98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores consi derando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores cons iderando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación; de lo contrario, el procedimiento de selección se declara de sierto.\" 98.2. El otorgamiento de la buena pro lo realiza el oficial de compra mediante su publicación en la Pladicop. 98.3. En el supuesto que dos o más ofertas empaten, el otorgamiento de la buena pro se efectúa a través de sorteo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste offline con los fragmentos y metadatos de corpus.json y documentos.json; revisión de clave única, condiciones, excepciones, distractores y novedad frente a las 242 preguntas de despues.json. Fecha de corte editorial: 2026-10-29; alcance documental limitado a las versiones identificadas en las fuentes."
+    }
+  },
+  {
+    "numero": "A10",
+    "objetivo": "Determinar qué oferta conserva validez tras una subsanación y cómo ello condiciona la continuidad de la selección.",
+    "criterioAvanzado": "La diferencia entre acreditar una situación preexistente y sustituir el objeto ofertado determina cuál oferta puede continuar; exige descartar la declaratoria de desierto y la selección automática por menor precio.",
+    "input": {
+      "prompt": "En una licitación pública de bienes sin precalificación se reciben únicamente las ofertas de Atlas y Brisa. Las bases exigen un equipo con autonomía mínima de ocho horas y una autorización pública de comercialización vigente a la fecha de ofertas. Atlas ofrece por S/90 000 el modelo AX, cuya ficha declara seis horas; Brisa ofrece por S/96 000 un modelo que cumple toda la especificación, pero omite adjuntar su autorización, emitida y vigente desde un mes antes del cierre. En la misma etapa se solicita aclaración a Atlas y subsanación a Brisa por Pladicop. Dentro de los dos días hábiles concedidos, Atlas presenta una ficha de otro modelo, AY, de nueve horas, manteniendo el precio; Brisa presenta la autorización preexistente. Los documentos son auténticos y Brisa satisface todos los demás requisitos de admisión, calificación y evaluación. ¿Qué decisión corresponde antes de adjudicar?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Conservar ambas ofertas y adjudicar a Atlas por su menor precio, porque ambas respuestas llegaron dentro del plazo."
+        },
+        {
+          "id": "B",
+          "text": "Excluir ambas ofertas y declarar desierto, porque ningún documento omitido o diferente puede presentarse después del cierre."
+        },
+        {
+          "id": "C",
+          "text": "Mantener vigente a Atlas mientras se evalúa el modelo AY y dejar a Brisa en espera, pues la aclaración del menor precio tiene preferencia."
+        },
+        {
+          "id": "D",
+          "text": "No aceptar la sustitución de modelo de Atlas; tener por subsanada la omisión de Brisa y continuar con esta oferta válida, sin declarar desierto por quedar una sola."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "La puntualidad de la respuesta no convierte cualquier cambio en subsanación admisible. Atlas ofertó un modelo que no cumple la autonomía y pretende sustituirlo por otro: cambia el contenido esencial del equipo ofrecido y no corrige un error formal. Brisa acredita una autorización pública emitida antes del cierre, cuya presentación omitió, y la aporta dentro del plazo; su oferta conserva vigencia por la subsanación efectiva. Descartado el cambio esencial de Atlas, procede continuar con Brisa, que satisface los restantes controles. La existencia de una oferta válida impide declarar desierto por inexistencia de ofertas válidas; la regla de un mínimo de dos ofertas de otras modalidades no se traslada a esta licitación.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Equipara respuesta oportuna con subsanación válida e ignora que cambiar el modelo modifica el contenido esencial del objeto ofertado.",
+        "B": "Desconoce la subsanación de la omisión de una autorización pública preexistente y elimina indebidamente la oferta válida.",
+        "C": "Da prioridad a una oferta que requiere un cambio esencial para cumplir las bases y mantiene pendiente una omisión ya subsanada.",
+        "D": "Relaciona la subsanabilidad con la validez: rechaza el cambio de objeto, conserva la acreditación preexistente y permite continuar con la oferta válida."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "Artículo 78. Subsanación de las ofertas 78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos presentados en la precalificación y/o presentación de ofertas, sie mpre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos emitidos por privados o entidades públicas presentados en la precalificación y/o presentación de ofertas, siempre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop.\" 78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\" 78.3. En las modalidades de pago a precios unitarios, esquema mixto, pago por consumo y tarifas, cuando se advierta errores aritméticos, corresponde su corrección a los evaluadores, debiendo constar dicha rectificación en el acta respectiva; dicha correcci ón no implica la variación de los precios unitarios ofertados. 78.4. Cuando se requiera subsanación, la oferta continúa vigente para todo efecto, a condición de la efectiva subsanación dentro el plazo de dos días hábiles contabilizados desde el día siguiente de la notificación al postor, pudiendo la entidad contratant e otorgar al postor un plazo adicional de dos días hábiles para la subsanación pertinente a solicitud del postor. La solicitud de ampliación de plazo se otorga en un plazo no mayor de dos días hábiles de recibida, caso contrario se considera autorizada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "84",
+          "pageStart": 47,
+          "pageEnd": 47,
+          "quote": "84.1. Un procedimiento de selección queda desierto total o parcialmente cuando no se reciban ofertas o cuando no exista ninguna oferta válida o cuando no se perfeccione el contrato de acuerdo con lo establecido en el artículo 91.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observaciones del revisor independiente sobre el nivel cognitivo. Contraste offline con corpus.json y documentos.json, revisión de condiciones interdependientes, clave única, distractores y novedad frente a despues.json (242 preguntas). Fecha de corte editorial: 2026-10-29; alcance limitado a las versiones documentales citadas. La reformulación queda pendiente de nueva evaluación por el revisor independiente."
+    }
+  },
+  {
+    "numero": "A11",
+    "objetivo": "Determinar la prelación mediante evaluación económica posterior y ponderación.",
+    "criterioAvanzado": "Excluye una oferta sin mínimo técnico y combina proporcionalidad inversa y promedio ponderado.",
+    "input": {
+      "prompt": "En un procedimiento con evaluación económica posterior a la técnica, las bases aplicables fijan mínimo técnico de 80 puntos, coeficientes técnico 0,70 y económico 0,30, y máximo económico de 100 puntos. No hay bonificaciones ni reglas especiales de precio. Los tres postores están admitidos y calificados: Alfa obtiene 90 puntos técnicos y ofrece S/120 000; Beta obtiene 84 y ofrece S/100 000; Gamma obtiene 79 y ofrece S/80 000. ¿Cuál es la prelación correcta tras aplicar los artículos 74 y 75?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Gamma primero con 85,30; Alfa segundo con 83,00; Beta tercero con 82,80."
+        },
+        {
+          "id": "B",
+          "text": "Beta primero con 88,80 y Alfa segundo con 88,00; Gamma no pasa a evaluación económica."
+        },
+        {
+          "id": "C",
+          "text": "Alfa primero con 93,00 y Beta segundo con 88,80; Gamma no pasa a evaluación económica."
+        },
+        {
+          "id": "D",
+          "text": "Alfa primero con 83,00 y Beta segundo con 82,80; Gamma no pasa a evaluación económica, pero fija el menor precio de referencia."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Gamma no alcanza el mínimo técnico y su oferta económica no se evalúa ni integra el menor monto de la fórmula. El menor monto evaluable es S/100 000. Beta obtiene 100 puntos económicos y Alfa obtiene 100 000/120 000 × 100 = 83,3333. Los totales ponderados son: Beta, 0,70 × 84 + 0,30 × 100 = 88,80; Alfa, 0,70 × 90 + 0,30 × 83,3333 = 88,00. Por ello Beta precede a Alfa.",
+      "regime": "32069",
+      "topic": "Evaluación, principios y criterios",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Evalúa económicamente una oferta que no alcanzó el mínimo técnico e incorpora indebidamente su menor precio al cálculo.",
+        "B": "Excluye correctamente la oferta bajo el mínimo técnico y obtiene los puntajes ponderados con el menor monto evaluable.",
+        "C": "Asigna indebidamente el máximo económico a la oferta de S/120 000, pese a existir una oferta evaluable de menor monto.",
+        "D": "Excluye formalmente a Gamma, pero utiliza su monto como referencia económica, contradiciendo la evaluación solo de quienes superan el mínimo."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "89168888-e1cb-4e7b-ad6a-3bfd4cfb56cc",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "74",
+          "pageStart": 42,
+          "pageEnd": 42,
+          "quote": "Artículo 74. Evaluación económica de la oferta 74.1. La evaluación económica, de acuerdo con el tipo de procedimiento de selección o sus modalidades, puede ser de los siguientes tipos: a) De manera simultánea a la evaluación técnica: la oferta económica es un factor de evaluación. b) De manera posterior a la evaluación técnica: la oferta económica se evalúa luego de realizada la evaluación técnica de la oferta y solo respecto de aquellos proveedores que hubieran obtenido un puntaje mínimo en dicha evaluación. c) Con lances: se permite a los postores mejorar los montos de sus ofertas a través de lances sucesivos en línea. La mejora de precios de la oferta queda a criterio de cada postor. 74.2. A fin de determinar el puntaje de la oferta económica a evaluar, el mayor puntaje se otorga al menor monto ofertado, y se otorga a las demás ofertas económicas puntajes inversamente proporcionales a sus respectivos montos ofertados, según la siguient e fórmula: Po= Mb x Pmax Mo Donde: Po = Puntaje de la oferta económica a evaluar Mo = Monto de la oferta económica Mb = Monto de la oferta económica más baja Pmax = Puntaje máximo 74.3. La fórmula señalada en el numeral precedente no es aplicable a la subasta inversa ni a la comparación de precios, en las que la evaluación económica consiste en establecer el orden de prelación de los postores considerando que la buena pro se otorga al menor monto ofertado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "95e9d1bf-f30a-4357-8c61-bb7acb645ed8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "75",
+          "pageStart": 42,
+          "pageEnd": 43,
+          "quote": "75.2. En el caso que la evaluación económica de las ofertas se realice de manera posterior a la evaluación técnica, el puntaje máximo de cada una de estas evaluaciones es equivalente a cien puntos.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 43 de 249 75.3. El puntaje total de las ofertas en el caso que la evaluación económica se realice de manera posterior a la evaluación técnica es el promedio ponderado de la evaluación técnica y la evaluación económica, aplicándose la siguiente fórmula: PTP = C1 PT+ C2 Pe Donde: PTP = Puntaje total del postor a evaluar Pt = Puntaje de la evaluación técnica del postor a evaluar Pe = Puntaje de la evaluación económica del postor a evaluar C1 = Coeficiente de ponderación para la evaluación técnica c2 = Coeficiente de ponderación para la evaluación económica 75.4. Las bases estándar determinan los coeficientes de ponderación en los procedimientos de selección con evaluación posterior de ofertas económicas, de acuerdo con el objeto contractual. 75.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste offline con los fragmentos y metadatos de corpus.json y documentos.json; revisión de clave única, condiciones, excepciones, distractores y novedad frente a las 242 preguntas de despues.json. Fecha de corte editorial: 2026-10-29; alcance documental limitado a las versiones identificadas en las fuentes."
+    }
+  },
+  {
+    "numero": "A12",
+    "objetivo": "Vincular el consentimiento con el hito que inicia el plazo de requisitos.",
+    "criterioAvanzado": "Distingue ofertas presentadas de admitidas y encadena apelación, registro y cómputo sin garantía.",
+    "input": {
+      "prompt": "En una licitación pública no abreviada de bienes se presentan tres ofertas; dos no son admitidas y la restante recibe la buena pro. No se interpone apelación. Para este caso se aplica el artículo 82 modificado que reproduce el corpus. El plazo de ocho días hábiles para apelar vence un viernes. El día siguiente, sábado, la entidad produce y registra el consentimiento en Pladicop. No se exige garantía de fiel cumplimiento; no hay feriados y los días hábiles son de lunes a viernes. ¿Cuál es el plazo final del ganador para presentar los requisitos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El quinto día hábil desde el día siguiente de notificarse la buena pro, porque solo quedó una oferta admitida."
+        },
+        {
+          "id": "B",
+          "text": "El miércoles posterior al registro, contando sábado y domingo como parte del plazo de cinco días."
+        },
+        {
+          "id": "C",
+          "text": "El miércoles de la segunda semana posterior al registro, aplicando ocho días hábiles por tratarse de licitación pública."
+        },
+        {
+          "id": "D",
+          "text": "El viernes posterior al registro, porque se presentaron varias ofertas y los cinco días hábiles se cuentan desde el día siguiente del registro."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El supuesto de una sola oferta presentada no se configura: se presentaron tres, aunque solo una fue admitida. Conforme al texto modificado del artículo 82.1, sin apelación el consentimiento se produce y registra al día siguiente de vencer el plazo impugnatorio. Para presentar requisitos, el artículo 90.1 toma como hito el registro y el 90.2 reduce el plazo a cinco días hábiles si no se exige garantía. Desde el día siguiente del registro del sábado, los cinco días hábiles son lunes a viernes; el último es el viernes posterior.",
+      "regime": "32069",
+      "topic": "Consentimiento y firmeza de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Equipara una oferta admitida con una sola oferta presentada y anticipa el consentimiento y el inicio del plazo documental.",
+        "B": "Cuenta días no hábiles dentro de un plazo expresamente fijado en días hábiles.",
+        "C": "Mantiene el plazo general de ocho días pese a la excepción de cinco días cuando no se exige garantía de fiel cumplimiento.",
+        "D": "Distingue el número de ofertas presentadas y aplica el hito de registro junto con el plazo especial de cinco días hábiles."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c32f3a5a-70eb-487a-8f0e-c88ac2151ece",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "82",
+          "pageStart": 46,
+          "pageEnd": 46,
+          "quote": "Artículo 82. Consentimiento del otorgamiento de la buena pro 82.1. Cuando se hayan presentado dos o más ofertas, el consentimiento de la buena pro se produce y registra en la Pladicop al día siguiente de vencido el plazo correspondiente para interponer recurso de apelación, sin que los postores hubieran ejercido ese derecho. 82.2. En caso de que se haya presentado una sola oferta, el consentimiento de la buena pro se produce el mismo día de la notificación de su otorgamiento y se registra en la Pladicop al día siguiente .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "af233927-3908-4032-ab7e-a5c63c4d7b28",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "304",
+          "pageStart": 160,
+          "pageEnd": 160,
+          "quote": "304.1. La apelación contra el otorgamiento de la buena pro o contra los actos dictados con anterioridad a ella en los procedimientos de selección competitivos, debe interponerse, como máximo, dentro de los ocho días hábiles siguientes de haberse notificado el otorgamiento de la buena pro a través de la Pladicop.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "90.1. El postor ganador de la buena pro presenta los requisitos para perfeccionar el contrato dentro del plazo de ocho días hábiles contabilizados desde el día siguiente al registro del consentimiento de la buena pro en la Pladicop o de que ésta haya queda do administrativamente firme.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 50 de 249 90.2. En caso no se requiera de la presentación de la garantía de fiel cumplimiento, el postor ganador presenta los requisitos para perfeccionar el contrato dentro del plazo de cinco días hábiles.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste offline con los fragmentos y metadatos de corpus.json y documentos.json; revisión de clave única, condiciones, excepciones, distractores y novedad frente a las 242 preguntas de despues.json. Fecha de corte editorial: 2026-10-29; alcance documental limitado a las versiones identificadas en las fuentes."
+    }
+  },
+  {
+    "numero": "A13",
+    "objetivo": "Evaluar una negociación presupuestal y la publicidad de sus acuerdos.",
+    "criterioAvanzado": "Combina secuencia de negociación, prestaciones protegidas, participación y registro de actas.",
+    "input": {
+      "prompt": "En una contratación de bienes, el mejor puntaje total corresponde a una oferta de S/540 000 frente a una cuantía de S/500 000. Presupuesto deniega la ampliación. El postor rechaza reducir el precio manteniendo todo lo ofertado, pero acepta S/500 000 si se elimina una capacitación adicional que le otorgó puntaje. El área usuaria da su no objeción y propone dejar el acuerdo solo en un correo interno. ¿Qué decisión respeta integralmente el artículo 132?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptar el acuerdo porque alcanzar la cuantía y obtener no objeción permite eliminar cualquier prestación; archivar el correo."
+        },
+        {
+          "id": "B",
+          "text": "Aceptar la eliminación de la capacitación, siempre que se publique el correo como acta en Pladicop."
+        },
+        {
+          "id": "C",
+          "text": "Descartar esa reducción porque afecta una condición que dio puntaje; negociar una alternativa permitida y, si el postor no la acepta, continuar según la prelación, con participación del área usuaria y actas publicadas en Pladicop."
+        },
+        {
+          "id": "D",
+          "text": "Adjudicar por S/540 000 sin ampliación presupuestal, pues el mejor puntaje obliga a conservar íntegra la oferta."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La denegatoria presupuestal habilita negociar primero precio y luego determinadas prestaciones o condiciones, previa no objeción del área usuaria, pero no condiciones que otorgaron puntaje. La capacitación puntuada no puede eliminarse aunque exista no objeción. Corresponde buscar una reducción permitida; si el mejor postor no acepta una solución admisible, se negocia con los siguientes en prelación. El área usuaria participa y las decisiones deben constar en actas publicadas en Pladicop; el correo interno no satisface esa exigencia.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La no objeción no elimina la prohibición de negociar condiciones que dieron puntaje, ni sustituye la publicación de actas.",
+        "B": "La publicidad del acuerdo no sanea una reducción que afecta una condición puntuada y expresamente protegida.",
+        "C": "Respeta el límite sustantivo de la negociación, la eventual continuidad por prelación y la participación y publicidad exigidas.",
+        "D": "El mejor puntaje no habilita adjudicar por encima de la cuantía sin los recursos y la ampliación presupuestal correspondientes."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "459b9601-f640-4f2e-9863-c8031f3e4afb",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "132",
+          "pageStart": 71,
+          "pageEnd": 72,
+          "quote": "132.1. Si la oferta económica del postor que obtiene el mejor puntaje total supera la cuantía del procedimiento de selección, la DEC gestiona la solicitud de la ampliación de la certificación o previsión presupuestal correspondiente. En caso la oficina de planeamiento y presupuesto, o la que haga sus veces, indique que no se cuenta con los recursos necesarios, previamente a la adjudicación de la buena pro los evaluadores negocian con el postor que obtuvo el mejor puntaje total lo siguiente, en este orden: a) La reducción de su oferta económica. b) La reducción de determinadas prestaciones o condiciones del requerimiento, previa no objeción del área usuaria. No puede negociarse las condiciones que dieron lugar al otorgamiento de puntaje en los factores de evaluación. 132.2. En caso el postor con el mejor puntaje no acepte la reducción del monto o la reducción de las prestaciones o condiciones del requerimiento, se procede a negociar con los siguientes postores en el orden de prelación que obtuvieron. 132.3. Si producto de la negociación el postor reduce la oferta económica a un monto superior al de la cuantía del procedimiento de selección, se vuelve a solicitar a la oficina de planeamiento y presupuesto o quien haga sus veces la ampliación de la certi ficación de crédito presupuestario y/o previsión presupuestal correspondiente. En caso no se cuente con los recursos necesarios, se puede optar por negociar con los siguientes postores en el orden de prelación o declarar desierto el procedimiento de selecc ión. 132.4. La negociación se realiza preferentemente mediante medios digitales. En esta negociación participa el área usuaria. Las decisiones adoptadas por los evaluadores en la negociación constan en actas que se publican en la Pladicop y se sustentan en el p rincipio de valor por dinero, priorizando el cumplimiento de la finalidad pública de la contratación, de conformidad con el artículo 27 de la Ley.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Contraste offline con los fragmentos y metadatos de corpus.json y documentos.json; revisión de clave única, condiciones, excepciones, distractores y novedad frente a las 242 preguntas de despues.json. Fecha de corte editorial: 2026-10-29; alcance documental limitado a las versiones identificadas en las fuentes."
+    }
+  },
+  {
+    "numero": "A14",
+    "objetivo": "Identificar el plazo y su hito inicial al impugnar un acto posterior a la buena pro en un procedimiento derivado.",
+    "criterioAvanzado": "La clasificación temporal del acto y el régimen del procedimiento derivado deben resolverse conjuntamente para determinar oportunidad, sin trasladar el plazo del procedimiento original ni el hito de la adjudicación.",
+    "input": {
+      "prompt": "Una licitación pública no abreviada queda desierta y se convoca válidamente un procedimiento derivado como licitación pública abreviada. En este último se notifica la buena pro el lunes de la semana 1. El martes de la semana 3 la DEC comunica al ganador, que ese mismo día toma conocimiento por primera vez, la pérdida de su buena pro por una supuesta presentación tardía de requisitos. El postor cuestiona exclusivamente esa pérdida y aporta el cargo que acredita la presentación dentro del plazo; no impugna la adjudicación inicial. Presenta su apelación ante la instancia competente el lunes de la semana 4. Todos los días de lunes a viernes son hábiles, sin feriados, y se cumplen los restantes requisitos. ¿Cómo debe analizarse la oportunidad del recurso, sin resolver todavía si el cargo demuestra su pretensión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es oportuno: el plazo vence el viernes de la semana 4 porque el procedimiento original conserva los ocho días hábiles para toda apelación derivada."
+        },
+        {
+          "id": "B",
+          "text": "Es oportuno: el plazo vence el martes de la semana 4, porque se aplica el plazo del procedimiento abreviado desde el conocimiento de la pérdida."
+        },
+        {
+          "id": "C",
+          "text": "Es extemporáneo: el plazo venció el lunes de la semana 2, cinco días hábiles después de la notificación de la buena pro."
+        },
+        {
+          "id": "D",
+          "text": "Es improcedente por provenir del ganador inicial, aunque recurra contra el acto que le quitó esa condición y haya respetado el plazo."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "La pretensión se dirige contra la pérdida de la buena pro, acto posterior a su otorgamiento, por lo que el cómputo parte del conocimiento de esa pérdida y no de la adjudicación inicial. El procedimiento derivado se rige por el plazo del nuevo procedimiento convocado: cinco días hábiles para licitación pública abreviada. Desde el martes de la semana 3, el cómputo es miércoles, jueves, viernes, lunes y martes de la semana 4. La apelación presentada el lunes es oportuna. El cargo deberá examinarse al resolver el fondo; no altera el plazo de interposición. La prohibición de apelar como ganador no puede aplicarse mecánicamente a quien impugna precisamente el acto posterior que le hizo perder la buena pro.",
+      "regime": "32069",
+      "topic": "Interposición de apelaciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.7",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Acierta al partir del acto posterior, pero mantiene indebidamente el plazo del procedimiento original en lugar del nuevo procedimiento abreviado.",
+        "B": "Integra el hito propio del acto posterior con el plazo del procedimiento derivado y distingue oportunidad de la decisión de fondo.",
+        "C": "Usa la notificación de la adjudicación como hito para un acto posterior que aún no existía y no podía impugnarse entonces.",
+        "D": "Trata al recurrente como si conservara la adjudicación que pretende recuperar e impediría recurrir contra la pérdida, pese a la regulación de actos posteriores."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "af233927-3908-4032-ab7e-a5c63c4d7b28",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "304",
+          "pageStart": 160,
+          "pageEnd": 160,
+          "quote": "Artículo 304. Plazo de interposición 304.1. La apelación contra el otorgamiento de la buena pro o contra los actos dictados con anterioridad a ella en los procedimientos de selección competitivos, debe interponerse, como máximo, dentro de los ocho días hábiles siguientes de haberse notificado el otorgamiento de la buena pro a través de la Pladicop. 304.2. En los casos de concurso público abreviado, licitación pública abreviada, selección de expertos y comparación de precios, la apelación se presenta dentro de los cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro. 304.3. En el caso de Subasta Inversa Electrónica, el plazo para la interposición del recurso de apelación es de cinco días hábiles siguientes de haberse notificado el otorgamiento de la buena pro, salvo que su cuantía corresponda a la de una licitación púb lica o un concurso público, en cuyo caso el plazo es de ocho días hábiles. 304.4 En el caso de la apelación contra los actos dictados con posterioridad al otorgamiento de la buena pro, contra la declaración de nulidad, cancelación y declaratoria de desierto del procedimiento, los plazos indicados en los numerales precedentes se c ontabilizan desde que se toma conocimiento del acto que se desea impugnar. (*)RECTIFICADO POR FE DE ERRATAS 304.5. En caso de la implementación, extensión de vigencia o incorporación en los catálogos electrónicos de acuerdo marco, el plazo para la interposición del recurso de apelación es de ocho días hábiles contabilizados desde la publicación de los resultados . 304.6. El plazo para interponer el recurso de apelación en el caso de un procedimiento de selección, derivado de uno declarado desierto, se rige por las disposiciones del nuevo procedimiento de selección convocado. 304.7. Los plazos indicados resultan aplicables a todo recurso de apelación, sea que se interponga ante la entidad contratante o ante el TCP, según corresponda.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1cf4c64c-dc1a-444d-aa86-f68a4439f29f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "308",
+          "pageStart": 162,
+          "pageEnd": 162,
+          "quote": "h) Sea interpuesto por el postor ganador de la buena pro.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observaciones del revisor independiente sobre el nivel cognitivo. Contraste offline con corpus.json y documentos.json, revisión de condiciones interdependientes, clave única, distractores y novedad frente a despues.json (242 preguntas). Fecha de corte editorial: 2026-10-29; alcance limitado a las versiones documentales citadas. La reformulación queda pendiente de nueva evaluación por el revisor independiente."
+    }
+  },
+  {
+    "numero": "A15",
+    "objetivo": "Calificar la procedencia de una pretensión de adjudicación que no logra revertir la exclusión propia y determinar el destino de la garantía.",
+    "criterioAvanzado": "Debe resolver primero la imposibilidad de subsanar una autorización posterior, luego la barrera procesal pese al error del rival y finalmente distinguir ejecución parcial de desistimiento, desestimación de fondo o estimación.",
+    "input": {
+      "prompt": "Una MYPE acreditada apela su descalificación y la buena pro de un rival en un ítem de S/800 000. Las bases exigían autorización pública vigente al cierre de ofertas. La MYPE no la tenía entonces: la obtuvo por primera vez dos días después y sostiene que presentarla en apelación subsana su falta de habilitación; el expediente acredita esas fechas sin controversia. También demuestra un error de evaluación de la oferta rival, pero no existen vicios de nulidad y ese error no modifica la situación de la propia recurrente. En su escrito final pide: «Retirar la buena pro al adjudicatario y otorgármela»; mantiene su recurso y todas sus pretensiones. La garantía correctamente constituida asciende a S/4 000, sin alcanzar el tope aplicable. ¿Qué resolución y consecuencia sobre la garantía corresponden?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Declarar fundado en parte por el error de evaluación del rival y devolver íntegramente los S/4 000, aunque la recurrente siga descalificada."
+        },
+        {
+          "id": "B",
+          "text": "Tener por desistido el recurso porque solicita retirar la buena pro y ejecutar íntegramente los S/4 000."
+        },
+        {
+          "id": "C",
+          "text": "Declarar improcedente el recurso al no poder revertir la descalificación propia y ejecutar S/2 000 de la garantía."
+        },
+        {
+          "id": "D",
+          "text": "Declarar infundado el recurso por la autorización posterior y ejecutar íntegramente los S/4 000 como consecuencia de resolver el fondo."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La autorización obtenida por primera vez después del cierre no acredita una habilitación preexistente omitida: no es subsanable bajo el artículo 78.2. Aunque cuestiona su descalificación, la MYPE no logra revertirla. El artículo 308.g impide entonces que prospere su impugnación de la adjudicación del rival, aun cuando detecte un error en esta. Corresponde improcedencia, con ejecución del 50% de la garantía: S/4 000 × 0,50 = S/2 000. Pedir retirar la buena pro al rival y adjudicársela es mantener la pretensión impugnatoria, no desistirse del recurso. No corresponde equiparar esta barrera de procedencia con una declaración de infundado ni devolver la garantía por una estimación parcial que no procede.",
+      "regime": "32069",
+      "topic": "Resolución de apelaciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.8",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Salta la exigencia de revertir previamente la exclusión propia y convierte el error del rival en una estimación que el artículo 308.g impide.",
+        "B": "Confunde retirar la adjudicación del rival con abandonar el recurso: el escrito mantiene expresamente la solicitud de adjudicación propia.",
+        "C": "Identifica la falta de habilitación preexistente, aplica la barrera de procedencia y deduce la ejecución del 50% de la garantía.",
+        "D": "Sustituye la causal expresa de improcedencia por una desestimación de fondo y aplica por ello una ejecución íntegra que no corresponde."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*)",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\"",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1cf4c64c-dc1a-444d-aa86-f68a4439f29f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "308",
+          "pageStart": 162,
+          "pageEnd": 162,
+          "quote": "Artículo 308. Improcedencia del recurso El recurso de apelación presentado ante la entidad contratante o ante el TCP es declarado improcedente cuando: a) La entidad contratante o el TCP carezca de competencia para resolverlo, de acuerdo con lo establecido en el artículo 74 de la Ley. No aplica en estos casos lo establecido en el artículo 130 de la LPAG, o disposición que la sustituya, referido a la prese ntación de escritos ante entidades que no resultan competentes. b) Sea interpuesto contra alguno de los actos que no son impugnables. c) Sea interpuesto fuera del plazo. d) El que suscriba el recurso no sea el impugnante o su representante. e) El impugnante se encuentre impedido para participar en los procedimientos de selección y/o contratar con el Estado, conforme al artículo 30 de la Ley. f) El impugnante se encuentre incapacitado legalmente para ejercer actos civiles. g) El proveedor impugne la adjudicación de la buena pro, sin cuestionar la no admisión o descalificación de su oferta o, aun cuestionándola, no logra revertir de forma previa su condición de no admitido o descalificado del procedimiento. h) Sea interpuesto por el postor ganador de la buena pro. i) No exista conexión lógica entre los hechos expuestos en el recurso y su petitorio. j) El impugnante carezca de interés para obrar o legitimidad procesal.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "23efcaec-9a1c-49c2-a6a1-58a189eed8c1",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "315",
+          "pageStart": 165,
+          "pageEnd": 166,
+          "quote": "Artículo 314. Desistimiento 314.1. El apelante puede desistirse del recurso de apelación mediante escrito con firma legalizada notarialmente o certificada ante el TCP, presentado ante la entidad contratante o ante el TCP, según corresponda, siempre y cuando la respectiva solicitud de desistimiento haya sido formulada hasta antes de haberse declarado que el expediente está listo para resolver y no comprometa el interés público. 314.2. El desistimiento es aceptado por el TCP o la autoridad de la gestión administrativa de la entidad contratante, mediante resolución, y pone fin al procedimiento administrativo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 166 de 249 Artículo 315. Ejecución y devolución de la garantía 315.1. Cuando el recurso de apelación sea declarado infundado o el impugnante se desista, se procede a ejecutar el íntegro de la garantía. 315.2. En caso el recurso de apelación sea declarado improcedente, se ejecuta el 50% de la garantía. 315.3. Procede la devolución total de la garantía cuando: a) El recurso sea declarado fundado en todo o en parte. b) Se declare la nulidad y/o carece de objeto pronunciarse sobre el fondo del asunto. c) Con posterioridad a la interposición del recurso de apelación sobrevenga un impedimento para contratar con el Estado aplicable al Impugnante. d) Opere la denegatoria ficta por no resolver y notificar la resolución dentro del plazo legal.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observaciones del revisor independiente sobre el nivel cognitivo. Contraste offline con corpus.json y documentos.json, revisión de condiciones interdependientes, clave única, distractores y novedad frente a despues.json (242 preguntas). Fecha de corte editorial: 2026-10-29; alcance limitado a las versiones documentales citadas. La reformulación queda pendiente de nueva evaluación por el revisor independiente."
+    }
+  },
+  {
+    "numero": "A16",
+    "objetivo": "Distinguir el plazo de corrección documental de la ampliación exclusiva para la garantía y decidir si procede perfeccionar el contrato.",
+    "criterioAvanzado": "La subsanación exige comprobar integrantes y obligaciones además de porcentajes; una garantía presentada en la ampliación no sanea una corrección sustantiva del contrato de consorcio fuera del plazo documental.",
+    "input": {
+      "prompt": "La promesa del consorcio ganador establece Delta 60% a cargo del suministro y Épsilon 40% a cargo de instalación y puesta en marcha. El contrato de consorcio presentado oportunamente tiene firmas legalizadas, pero asigna a Delta 80% y también la instalación, dejando a Épsilon 20% y solo la puesta en marcha. La DEC observa porcentajes y obligaciones un lunes y concede el máximo de cuatro días hábiles para subsanar. La garantía de fiel cumplimiento está en trámite; a petición expresa, la DEC concede para presentarla cuatro días hábiles adicionales contados desde el día siguiente del vencimiento del plazo de subsanación. El viernes de esa semana el representante común presenta un contrato con firmas legalizadas y porcentajes 60/40, pero mantiene la instalación a cargo de Delta. El miércoles siguiente presenta simultáneamente la garantía y otro contrato, también con firmas legalizadas, que restituye por fin todas las obligaciones de la promesa. No hay otros defectos ni días inhábiles entre lunes y viernes. ¿Qué debe concluir la DEC?",
+      "options": [
+        {
+          "id": "A",
+          "text": "No se subsanó el contrato de consorcio dentro del plazo: la ampliación para la garantía no amplía el plazo documental; corresponde la pérdida automática de la buena pro por causa imputable al postor."
+        },
+        {
+          "id": "B",
+          "text": "Todos los requisitos quedaron completos el miércoles dentro del plazo ampliado, por lo que debe perfeccionarse hasta el lunes siguiente."
+        },
+        {
+          "id": "C",
+          "text": "La subsanación se completó el viernes con los porcentajes y desde entonces corre el plazo para perfeccionar, aunque la garantía aún no se hubiera presentado."
+        },
+        {
+          "id": "D",
+          "text": "El miércoles debe iniciarse un nuevo plazo de cuatro días para corregir el consorcio, porque presentar la garantía reabre la revisión de los demás requisitos."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Los cuatro días hábiles para la subsanación documental, contados desde el martes, vencen el viernes. El contrato presentado ese viernes conserva una distribución de obligaciones distinta de la promesa: restituir solo los porcentajes no satisface el artículo 89.1. La ampliación del artículo 90.4 está concedida para la garantía en trámite y no prorroga la corrección del contrato de consorcio. Aunque la garantía se entrega el miércoles dentro de su ampliación, la primera corrección completa del consorcio llega después del plazo documental. Por ello no se configura una subsanación efectiva que active el plazo de perfeccionamiento del artículo 90.5. El defecto no corregido oportunamente es imputable al postor y determina la pérdida automática prevista en el artículo 91.3.",
+      "regime": "32069",
+      "topic": "Requisitos y plazos de perfeccionamiento",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Comprueba obligaciones y porcentajes, distingue el objeto de cada plazo y concluye que la entrega oportuna de la garantía no sana la corrección documental tardía.",
+        "B": "Extiende indebidamente a todos los requisitos una ampliación otorgada solo para presentar la garantía de fiel cumplimiento en trámite.",
+        "C": "Reduce la identidad con la promesa a los porcentajes, ignorando las obligaciones, y pretende perfeccionar con una garantía exigible pendiente.",
+        "D": "Inventa una reapertura del plazo de subsanación por la presentación de la garantía, sin sustento en el procedimiento de perfeccionamiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8e871ce9-2bb8-4c4d-82cc-9ce6f6f00915",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "89",
+          "pageStart": 49,
+          "pageEnd": 49,
+          "quote": "Artículo 89. Contrato de consorcio 89.1. El contrato de consorcio se formaliza mediante documento privado con firmas legalizadas de cada uno de los integrantes ante notario público, señalando en dicho documento al representante común. No tienen eficacia legal frente a la entidad contratante o el OECE los actos realizados por personas distintas al representante común. Este contrato mantiene el contenido respecto a los integrantes, obligaciones y el porcentaje de participación consignados en la promesa de consorcio. 89.2. Las disposiciones aplicables a consorcios son establecidas en las bases estándar correspondientes.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "90.3. En un plazo no mayor a tres días hábiles contabilizados desde el día siguiente de la presentación de los requisitos por parte del postor ganador de la buena pro, se perfecciona el contrato, con su suscripción o con la recepción de la orden de compra o de servicio, según corresponda. En el mismo plazo, la DEC puede notificar la observación de los requisitos, otorgando un plazo máximo de cuatro días hábiles contabilizados desde el día siguiente de la notificación, para la subsanación. 90.4. En caso la garantía de fiel cumplimiento se encuentre en trámite, a solicitud expresa del postor ganador de la buena pro, la DEC puede otorgar un plazo adicional de hasta cuatro días hábiles contabilizados desde el día siguiente al vencimiento del pl azo indicado en el numeral anterior para su presentación. 90.5. En un plazo máximo de tres días hábiles contabilizados desde el día siguiente de haberse subsanado las observaciones o presentado la garantía se perfecciona el contrato.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "\"91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.\"",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador; no es revisión humana independiente ni certificación OECE. Reformulación sustancial tras observaciones del revisor independiente sobre el nivel cognitivo. Contraste offline con corpus.json y documentos.json, revisión de condiciones interdependientes, clave única, distractores y novedad frente a despues.json (242 preguntas). Fecha de corte editorial: 2026-10-29; alcance limitado a las versiones documentales citadas. La reformulación queda pendiente de nueva evaluación por el revisor independiente."
+    }
+  }
+]
