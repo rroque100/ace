@@ -1,0 +1,12 @@
+{
+  "totalImportadas": 360,
+  "fuentesVerificadasEnBaseDeDatos": 0,
+  "sinExplicacion": 360,
+  "sinCompetencia": 144,
+  "sinFuentes": 360,
+  "estructuraInvalida": 0,
+  "gruposExactamenteDuplicados": 0,
+  "ocurrenciasEnDuplicados": 0,
+  "gruposConClavesContradictorias": 0,
+  "referenciasDuplicadas": []
+}
