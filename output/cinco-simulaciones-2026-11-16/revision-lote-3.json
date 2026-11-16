@@ -1,0 +1,365 @@
+{
+  "lote": 3,
+  "sha256": "532f3ed426a5f8380e91c20f3f4ea7687741c31d5ec40a68452616da3a3e91c3",
+  "items": [
+    {
+      "numero": "N048",
+      "verdict": "approve",
+      "reason": "Se levanta la observación de aplicación mecánica: la autorización pública preexiste y puede subsanarse; los días iniciales son martes y miércoles, la prórroga se pide oportunamente el miércoles y la presentación del viernes queda dentro de los dos días adicionales, autorizados al vencer sin respuesta el plazo previsto. La revisión sigue abierta. Esa secuencia conserva a Lince, mantiene dos ofertas calificadas y determina adjudicar al menor precio; no permite otorgar la buena pro al único calificado si se lo excluyera. La clave es única y el caso añade a la subsanación del banco previo una prórroga tácita que cambia el resultado de la subasta.",
+      "evidence": [
+        {
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "article": "78",
+          "numeral": "78.1-78.2 modificados"
+        },
+        {
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "article": "78",
+          "numeral": "78.2 modificado, continuación; 78.4"
+        },
+        {
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "article": "96",
+          "numeral": "96.5 modificado"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N049",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La única oferta calificada hace aplicable el desierto del texto modificado; ese resultado activa el análisis del siguiente procedimiento y el riesgo sustentado permite la vía abreviada para servicios. La clave enlaza consecuencias dependientes y los demás cursos no resultan habilitados por los hechos. No es la mera repetición de la pregunta previa sobre qué sigue a una subasta ya declarada desierta.",
+      "evidence": [
+        {
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "article": "96",
+          "numeral": "96.5 modificado y 96.6"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N050",
+      "verdict": "approve",
+      "reason": "Se levanta la insuficiencia de complejidad: la decisión exige homogeneizar unidades y alcance logístico antes de aplicar la negociación sanitaria. Son 1 000 / 50 = 20 cajas. La primera propuesta completa cuesta (550 + 100) × 20 = S/13 000 y la final 600 × 20 = S/12 000, igual al referente de 1 000 × 12. El aumento nominal de un componente no es rechazo del ajuste; por esa razón no procede el desierto. La respuesta no impone adjudicación automática y mantiene las condiciones de la oferta única. Los distractores representan errores diferentes de alcance, comparación y conversión.",
+      "evidence": [
+        {
+          "chunkId": "1e3545b9-41b1-426d-93c9-45c2ded112fd",
+          "article": "301",
+          "numeral": "encabezado modificado y literales a)-c)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N051",
+      "verdict": "approve",
+      "reason": "Se levanta el conteo elemental de la versión inicial: ahora debe clasificarse la participación de los consorciados para determinar experiencia, aptitud y luego prelación. Pacto computa S/180 000, no S/380 000, porque quien acredita S/200 000 solo financia. Trama suma S/330 000 de ejecutores y Sol S/320 000: ambos superan S/300 000. Con dos calificados puede evaluarse el precio y gana Trama por S/47 000. La experiencia computable funciona como condición de entrada y no como preferencia por mayor monto. Se desarrolla la regla del banco previo en una decisión de adjudicación distinta.",
+      "evidence": [
+        {
+          "chunkId": "85238aa1-a1c3-4dc8-9ca6-babf5b343909",
+          "article": "72",
+          "numeral": "72.3.c)"
+        },
+        {
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "article": "98",
+          "numeral": "98.1 modificado"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N052",
+      "verdict": "approve",
+      "reason": "Se levanta la observación de selección mecánica del precio ya dado: hay que reconstruir el costo obligatorio antes de determinar qué oferta es compatible con el precio fijo. Cuatro visitas cuestan S/4 800. Julia totaliza S/184 800, Iván S/180 000 y Elena S/174 800. El 134.1 excluye diferencias por encima y por debajo; solo Iván coincide. La superior puntuación de Elena y los honorarios aislados de Julia no alteran el resultado. Cada distractor cambia una operación o un presupuesto legal determinante.",
+      "evidence": [
+        {
+          "chunkId": "c0f4c18d-7d43-47b2-a761-f373ee5c308e",
+          "article": "69",
+          "numeral": "69.4"
+        },
+        {
+          "chunkId": "ec0c1904-c111-44b7-972e-b766777e201e",
+          "article": "134",
+          "numeral": "134.1-134.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N053",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. El cambio de sistema de entrega obliga primero a reclasificar la contratación como consultoría de solo diseño y luego a aplicar el mínimo de ochenta, distinto del de cincuenta. La distribución inicial de sesenta/cuarenta deja un déficit de veinte que debe redistribuirse dentro de cien. La clave es única para la corrección mínima preguntada.",
+      "evidence": [
+        {
+          "chunkId": "5f1070ea-2b65-40b3-9868-6c04055dae7b",
+          "article": "135",
+          "numeral": "135.1 y 135.6"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N054",
+      "verdict": "approve",
+      "reason": "Se levanta la objeción por finalidad caricaturesca y distractores obvios. Debe distinguirse el medio instrumental del resultado esencial, calculando cobertura y latencia de cada solución: seis sensores de dos zonas cubren doce laderas y 2 + 3 = 5 minutos cumplen; conservar doce aparatos no evita que 3 + 3 + 1 = 7 minutos frustre la evacuación. El máximo de cinco es un parámetro hipotético expreso, no un umbral legal atribuido a la norma. La clasificación funcional cambia qué ajuste puede desarrollarse y la clave no adjudica ni elimina las etapas posteriores.",
+      "evidence": [
+        {
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "article": "77",
+          "numeral": "77.1-77.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N055",
+      "verdict": "approve",
+      "reason": "Se levanta la objeción de mera enumeración de materias negociables. Un segundo cambio material comunica un contenido distinto que exige nuevo tiempo de preparación; por 76.5 el plazo se vincula a su comunicación, no a la aprobación interna ni al plazo del cambio anterior. Desde el lunes de semana 2 se cuentan martes a viernes y lunes a miércoles de semana 3: siete días hábiles. El cierre más temprano es miércoles de semana 3. Las alternativas reflejan hitos iniciales o unidades de cómputo diferentes y solo una preserva el mínimo para la condición definitiva.",
+      "evidence": [
+        {
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "article": "76",
+          "numeral": "76.2 y 76.5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N056",
+      "verdict": "approve",
+      "reason": "Se levantan ambas observaciones iniciales. La aptitud ya no viene resuelta: deben sumarse operaciones sucesivas, Altura 130 + 100 + 40 = 270 y Bruma 100 + 80 + 40 = 220, frente al máximo hipotético de 250. Bruma satisface funcionalmente la necesidad y descarta proveedor único, aunque Origen sea exclusivo en su marca y más rápido. Se retiró el comentario sobre metadata de la explicación. La cita es literal y el campo article=102 conserva la metadata de origen; la regla sustantiva se identifica correctamente como artículo 100, literal d), sin alterar el OCR.",
+      "evidence": [
+        {
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "article": "100",
+          "numeral": "literal d) Proveedor único"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N057",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La regla cuenta suscripciones del mismo objeto dentro de doce meses, no contratos aún en ejecución. Hay que depurar dos antecedentes de Aurora por objeto y fecha y mantener los tres de Horizonte aunque dos concluyeron. El resultado de ese filtrado cambia la elegibilidad bajo la causal: dos no exceden el umbral; tres sí.",
+      "evidence": [
+        {
+          "chunkId": "28f797fa-1203-4e3a-a340-2232d13da1a8",
+          "article": "100",
+          "numeral": "literal a) Contratación entre entidades"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N058",
+      "verdict": "approve",
+      "reason": "Se levanta la observación editorial: se retiró el comentario técnico de la explicación sin falsear la metadata ni alterar la cita. Se confirma la decisión analítica previamente considerada suficiente: 40 días de demanda menos 10 cubiertos por existencias dejan 30 × 20 = 600 unidades. El descuento por mil unidades no amplía la cobertura permitida. Se contrastó el texto modificado y su continuación con las exclusiones de exceso y regularización; no concurren las condiciones de esas exclusiones en las 600 unidades propuestas.",
+      "evidence": [
+        {
+          "chunkId": "5a753f70-7576-4539-83d8-e039bb88e559",
+          "article": "100",
+          "numeral": "literal c), texto modificado"
+        },
+        {
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "article": "100",
+          "numeral": "continuación de c), exclusiones (ii)-(iv)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N059",
+      "verdict": "approve",
+      "reason": "Se levanta la observación editorial inicial al retirar la referencia a chunk y metadata de la explicación. El diagnóstico sigue siendo parte indispensable del servicio personalísimo y condición para intervenir: encomendarlo como subcontrato infringe la prohibición y eliminarlo impide satisfacer la necesidad. Por ello no pueden aprobarse ni el paquete descrito ni su supresión propuesta. La clave no inventa una causal alternativa ni prohíbe toda reformulación posible. La cita literal conserva la prohibición del artículo 100, literal e), aunque su metadata señale 102.",
+      "evidence": [
+        {
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "article": "100",
+          "numeral": "literal e) Servicios personalísimos"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N060",
+      "verdict": "approve",
+      "reason": "Se levantan las objeciones iniciales de cambio evidente de finalidad, repetición con N054 y comentario técnico innecesario. El nuevo caso clasifica lo conservable, lo deficientemente ejecutado y lo entregado aprovechable para calcular dos saldos interdependientes: 120 − 20 = 100 instalaciones o reinstalaciones; 100 − 30 módulos útiles = 70 compras nuevas. El artículo 100.k permite incluir deficiencias sin duplicar lo ya útil y sin cambiar objeto. Las otras combinaciones confunden suministro con instalación o excluyen la reparación necesaria; la clave es única.",
+      "evidence": [
+        {
+          "chunkId": "4283ed73-aee8-4015-bac3-45b755092836",
+          "article": "100",
+          "numeral": "literal k) Prestaciones no ejecutadas"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N061",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La secuencia I+D seguida de contratación de solución identifica una API; esa clasificación determina que la comparación final se limite a quienes alcanzaron el último hito y lograron los mínimos. Solo entonces opera el factor de precio dado por las bases: Boreal supera a Aster y Cénit no es elegible. El 252.6 permite precio como factor final; el precio fijo de 252.2 corresponde al rubro solución en la evaluación de primera fase y no invalida este supuesto.",
+      "evidence": [
+        {
+          "chunkId": "f2f8c9d4-4b40-4b45-ba75-2cd7d02c3566",
+          "article": "247",
+          "numeral": "247.3.a)-b)"
+        },
+        {
+          "chunkId": "f21a4af4-d79c-4d1d-a8a1-e5f71bcee2e3",
+          "article": "252",
+          "numeral": "252.2 y 252.6-252.8"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N062",
+      "verdict": "approve",
+      "reason": "Se levanta la objeción de controles independientes: la clasificación del rubro evaluable modifica directamente los puntajes y el ganador. El 252.2 limita la evaluación al I+D, excluyendo la solución fija. El texto de 74.2 expresa en palabras puntajes inversamente proporcionales a los montos y máximo al menor; ello sustenta inequívocamente cien para S/240 000 y ochenta para S/300 000, sin depender de reconstruir la fracción mal representada en la línea de fórmula. El 75.3 expresa el promedio ponderado: 0,70 × 90 + 0,30 × 100 = 93 y 0,70 × 95 + 0,30 × 80 = 90,5. Incluir el rubro fijo daría noventa y seis económicos y 95,3 totales a Belda: el error sí cambia la adjudicación. También se verificaron 97 y 84,5 del distractor de coeficientes invertidos.",
+      "evidence": [
+        {
+          "chunkId": "f21a4af4-d79c-4d1d-a8a1-e5f71bcee2e3",
+          "article": "252",
+          "numeral": "252.2"
+        },
+        {
+          "chunkId": "89168888-e1cb-4e7b-ad6a-3bfd4cfb56cc",
+          "article": "74",
+          "numeral": "74.1.b), 74.2 y 74.3"
+        },
+        {
+          "chunkId": "95e9d1bf-f30a-4357-8c61-bb7acb645ed8",
+          "article": "75",
+          "numeral": "75.2-75.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N063",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. Primero se determina el domicilio elegible con la constancia RNP y la colindancia aun entre departamentos; la oficina temporal del competidor no altera ese dato. Esa calificación determina a quién aplicar el 10% y cambia la prelación: 90 × 1,10 = 99 frente a 96. Cuantía y lugar se encuadran en los límites del numeral citado.",
+      "evidence": [
+        {
+          "chunkId": "f97b7be3-14bc-41d6-834f-ce4e6784c7a3",
+          "article": "75",
+          "numeral": "75.6"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N064",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La igualdad técnica obliga a pasar al siguiente nivel del orden legal. La composición mixta impide la preferencia por discapacidad y también impide tratar ese consorcio como totalmente MYPE; el consorcio íntegramente MYPE sí satisface el siguiente criterio antes del sorteo. Hay una secuencia dependiente y una distinción de composición que modifica quién gana; no se limita al desempate técnico/MYPE del banco previo.",
+      "evidence": [
+        {
+          "chunkId": "5600f03b-7e9c-4b40-b372-d4f7d42aa0cf",
+          "article": "81",
+          "numeral": "literales a), b), c) y d)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N065",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. El recurso oportuno incumple la condición necesaria para el consentimiento, pese al registro erróneo. Ese hecho produce además la suspensión del único ítem e impide usar el asiento para seguir perfeccionando. El vínculo entre recurso, condición de consentimiento y trámite posterior es causal; no son dos controles independientes. La excepción para catálogos no corresponde al caso.",
+      "evidence": [
+        {
+          "chunkId": "c32f3a5a-70eb-487a-8f0e-c88ac2151ece",
+          "article": "82",
+          "numeral": "82.1 modificado"
+        },
+        {
+          "chunkId": "f328ca47-7be7-4822-8e54-60488ad7c726",
+          "article": "305",
+          "numeral": "305.1-305.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N066",
+      "verdict": "approve",
+      "reason": "Se levanta la observación de recuerdo directo: ahora debe distinguirse firmeza por resolución notificada de registro de consentimiento, aplicar el plazo especial sin garantía y comprobar el efecto de la demanda sobre una fecha propuesta. La resolución notificada el miércoles agota la vía; la anotación del viernes no sustituye ese hito de 90.1. Por 90.2 se cuentan jueves y viernes de semana 1, y lunes a miércoles de semana 2: vence el miércoles. La sola demanda no suspende por 317.2. El viernes propuesto es tardío; las otras alternativas aplican registro, plazo general o suspensión que no corresponden.",
+      "evidence": [
+        {
+          "chunkId": "72a752b7-8867-44b5-a11c-94dd009bca64",
+          "article": "317",
+          "numeral": "317.1-317.2"
+        },
+        {
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "article": "90",
+          "numeral": "90.1-90.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N067",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La respuesta exige computar cinco días hábiles desde el día siguiente al requerimiento y luego identificar el cambio de obligación al vencer sin perfeccionamiento. El martes siguiente el ganador ya está liberado, por lo que su negativa no demuestra por sí sola causa imputable. La fecha y la atribución de responsabilidad dependen una de otra.",
+      "evidence": [
+        {
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "article": "91",
+          "numeral": "91.1-91.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N068",
+      "verdict": "approve",
+      "reason": "Se levanta la aplicación directa del límite del tercer lugar: ahora debe reconstruirse el cambio válido de subasta a licitación abreviada por 96.6 para identificar el régimen de reemplazo vigente. En esta licitación rige 91.4 y puede requerirse al cuarto calificado; el límite especial de 91.5 no se hereda por el origen del objeto en una subasta ya desierta. Se dieron por cumplidos los trámites previos y no se inventa traslado de ofertas ni requisito de participar en la convocatoria anterior. La clasificación procedimental previa cambia la decisión.",
+      "evidence": [
+        {
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "article": "96",
+          "numeral": "96.6"
+        },
+        {
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "article": "91",
+          "numeral": "91.3 modificado y 91.4-91.5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N069",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. En procedimiento ordinario la sucesión puede alcanzar al tercero, pero el plazo depende de la excepción por ausencia de garantía, no del plazo general invocado por el postor. La remisión del 91.3 modificado, integrada con 90.2, conduce a cinco días hábiles: martes a viernes y lunes. Distingue fecha oportuna de fundamento equivocado y la clave es única.",
+      "evidence": [
+        {
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "article": "91",
+          "numeral": "91.3 modificado y 91.4"
+        },
+        {
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "article": "90",
+          "numeral": "90.1-90.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N070",
+      "verdict": "approve",
+      "reason": "Revisión final: se mantiene la aprobación inicial tras releer enunciado, cuatro opciones, clave, razones y fuentes. La información debe desagregarse según su función: el ajuste de interfaz es común y condiciona el desarrollo de las demás propuestas, mientras el algoritmo reservado no es necesario para describirlo. Esa distinción permite cumplir comunicación y trazabilidad sin divulgar la solución confidencial. El voto del área usuaria y la publicación final están cubiertos; la clave no autoriza omitir las actas de cada ronda.",
+      "evidence": [
+        {
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "article": "77",
+          "numeral": "77.4 y 77.7-77.8"
+        }
+      ],
+      "issues": []
+    }
+  ]
+}

@@ -1,0 +1,1686 @@
+[
+  {
+    "numero": "N048",
+    "objetivo": "Determinar si una subsanación conserva la competencia mínima de una subasta.",
+    "criterioAvanzado": "El cómputo de la ampliación tácita determina si subsiste una oferta y, por ello, si se adjudica o se declara desierto.",
+    "input": {
+      "prompt": "En una subasta inversa de bienes ordinarios solo participan en los lances Lince por S/90 000 y Roble por S/95 000. Roble cumple todo. Lince omitió adjuntar una autorización pública de calificación, emitida un mes antes de las ofertas y vigente desde entonces. El lunes se le notifica subsanar; el miércoles solicita por Pladicop dos días hábiles adicionales. La entidad no responde. Lince presenta la autorización el viernes. Al terminar ese viernes sigue sin pronunciamiento sobre la ampliación y aún está abierta la misma revisión de calificación. No hay feriados ni otros defectos; son hábiles lunes a viernes. El oficial propone excluir a Lince por haber presentado después del miércoles y adjudicar a Roble como único calificado. ¿Qué decisión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Excluir a Lince y adjudicar a Roble: los dos participantes en lances bastan aunque solo uno califique."
+        },
+        {
+          "id": "B",
+          "text": "Excluir a Lince y declarar desierto: una ampliación sin respuesta nunca permite subsanar después del plazo inicial."
+        },
+        {
+          "id": "C",
+          "text": "Tener por subsanada oportunamente a Lince y adjudicarle: la ampliación queda autorizada por falta de respuesta y subsisten dos ofertas calificadas."
+        },
+        {
+          "id": "D",
+          "text": "Reconocer la ampliación, pero conservar a Lince solo como suplente porque Roble ya cumplía al vencer el plazo inicial."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 78.2 modificado permite subsanar la omisión de una autorización pública emitida antes de presentar ofertas. Según 78.4, los dos días iniciales son martes y miércoles; los dos adicionales solicitados oportunamente son jueves y viernes. La entidad tenía jueves y viernes para resolver la solicitud y, al no hacerlo, se considera autorizada. La presentación del viernes satisface la subsanación dentro de la misma revisión. Por 96.3 y 96.5 modificado, después de los lances quedan dos calificados y gana Lince por el menor precio; no procede adjudicar a un único calificado en esta subasta ordinaria.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Si se excluyera a Lince, una sola oferta calificada no permitiría adjudicar esta subasta ordinaria; además, su subsanación resulta oportuna.",
+        "B": "La norma atribuye autorización a la falta de pronunciamiento en el plazo; no exige una respuesta expresa para que opere ese efecto.",
+        "C": "Relaciona el permiso preexistente con la ampliación tácita, calcula su vencimiento y conserva dos calificados, entre los que Lince tiene el menor precio.",
+        "D": "La subsanación oportuna conserva la oferta y su precio para todo efecto; no convierte al postor más barato en suplente por cumplir después del plazo inicial."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "Artículo 78. Subsanación de las ofertas 78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos presentados en la precalificación y/o presentación de ofertas, sie mpre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos emitidos por privados o entidades públicas presentados en la precalificación y/o presentación de ofertas, siempre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop.\" 78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\" 78.3. En las modalidades de pago a precios unitarios, esquema mixto, pago por consumo y tarifas, cuando se advierta errores aritméticos, corresponde su corrección a los evaluadores, debiendo constar dicha rectificación en el acta respectiva; dicha correcci ón no implica la variación de los precios unitarios ofertados. 78.4. Cuando se requiera subsanación, la oferta continúa vigente para todo efecto, a condición de la efectiva subsanación dentro el plazo de dos días hábiles contabilizados desde el día siguiente de la notificación al postor, pudiendo la entidad contratant e otorgar al postor un plazo adicional de dos días hábiles para la subsanación pertinente a solicitud del postor. La solicitud de ampliación de plazo se otorga en un plazo no mayor de dos días hábiles de recibida, caso contrario se considera autorizada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "eac1ab4a-6e1e-4f39-a922-8a72c17dc52b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": "Artículo 96. Evaluación de ofertas en subasta inversa electrónica 96.1. Mediante subasta inversa electrónica se contratan bienes y servicios comunes que cuenten con ficha técnica. La utilización del procedimiento de selección puede ser opcional u obligatoria conforme lo determine Perú Compras en el documento que aprueba la referida ficha. CONCORDANCIAS: R.J.N° 000048 - 2025 - PERÚ COMPRAS - JEFATURA (Aprueban la “Directiva para la Gestión de la Lista de Fichas Técnicas”) 96.2. En el requerimiento de bienes y servicios comunes con ficha técnica, no se pueden incluir requisitos de calificación adicionales o diferentes a aquellos contemplados en la ficha técnica o en los documentos de información complementaria, salvo que la normativa específica que regula el objeto de la convocatoria exija algún requisito obligatorio. 96.3. En la subasta inversa electrónica no se realiza la evaluación técnica de las ofertas, y la revisión de los requisitos de calificación se realiza posteriormente a la evaluación económica. 96.4. La evaluación de ofertas económicas se realiza mediante lances en línea a través de la Pladicop, otorgándose la buena pro al postor que oferte el menor precio, conforme al procedimiento establecido en la directiva y las bases estándar. 96.5. El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar al menos tres postores que cumplan estos requisitos, asig nándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos de calificación de estos. En caso un solo postor hubiera participado de la evaluación económica, el procedimiento de selección se declara desierto. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"96.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": ". El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar , de ser el caso, tres postores que cumplan estos requisitos, asignándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos d e calificación de estos. El procedimien to de selección se declara desierto si solo un postor hubiera participado en la evaluación económica o si no se cuenta con al menos dos ofertas que cumplan con los requisitos de calificación.\" 96.6. En caso una subasta inversa electrónica se declare desierta, la siguiente convocatoria se realiza mediante el mismo procedimiento de selección, salvo que la DEC sustente en el informe de declaratoria de desierto que existe un riesgo de que el procedi miento de selección se vuelva a declarar desierto, en cuyo caso se puede convocar una licitación pública o un concurso público abreviado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 53 de 249 SUBCAPÍTULO 2 Comparación de precios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N049",
+    "objetivo": "Decidir la salida de una subasta con competencia válida insuficiente.",
+    "criterioAvanzado": "El número de calificados determina el desierto y el riesgo sustentado permite elegir la vía siguiente.",
+    "input": {
+      "prompt": "Una subasta de un servicio común de limpieza recibe tres ofertas económicas. Dos no cumplen requisitos de calificación no subsanables y solo una queda válida. El informe de desierto sustenta, con los resultados de esta convocatoria y la capacidad disponible en el mercado, un riesgo concreto de repetir el desierto. El servicio no pertenece a un régimen especial ni se ha acreditado una causal no competitiva. ¿Qué curso corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Adjudicar al único calificado y negociar por analogía con productos farmacéuticos."
+        },
+        {
+          "id": "B",
+          "text": "Adjudicar al único calificado porque hubo tres participantes económicos."
+        },
+        {
+          "id": "C",
+          "text": "Declarar desierto y cambiar obligatoriamente a contratación directa por proveedor único."
+        },
+        {
+          "id": "D",
+          "text": "Declarar desierto y poder convocar un concurso público abreviado con el sustento del riesgo indicado."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 96.5 modificado exige al menos dos ofertas calificadas. El artículo 96.6 permite, ante riesgo sustentado de nuevo desierto, pasar a licitación pública o concurso público abreviado según el objeto; aquí se trata de servicios. La insuficiencia competitiva no acredita por sí misma otra causal no competitiva.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La excepción sanitaria no se extiende por analogía a un servicio de limpieza.",
+        "B": "El mínimo se comprueba con ofertas calificadas, no solo contando participantes económicos.",
+        "C": "El desierto no transforma automáticamente el caso en una causal de proveedor único.",
+        "D": "Conecta el mínimo incumplido con la alternativa abreviada de servicios y su sustento previo."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": ". El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar , de ser el caso, tres postores que cumplan estos requisitos, asignándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos d e calificación de estos. El procedimien to de selección se declara desierto si solo un postor hubiera participado en la evaluación económica o si no se cuenta con al menos dos ofertas que cumplan con los requisitos de calificación.\" 96.6. En caso una subasta inversa electrónica se declare desierta, la siguiente convocatoria se realiza mediante el mismo procedimiento de selección, salvo que la DEC sustente en el informe de declaratoria de desierto que existe un riesgo de que el procedi miento de selección se vuelva a declarar desierto, en cuyo caso se puede convocar una licitación pública o un concurso público abreviado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 53 de 249 SUBCAPÍTULO 2 Comparación de precios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N050",
+    "objetivo": "Comparar propuestas sucesivas con el referente competitivo de una oferta sanitaria única.",
+    "criterioAvanzado": "La normalización del alcance y la unidad de precio determina si la segunda ronda ajusta realmente la oferta o procede desierto.",
+    "input": {
+      "prompt": "En una subasta de un dispositivo médico con ficha técnica solo queda una oferta válida. La urgencia y el análisis costo-beneficio están aprobados y registrados; se cumplen las demás condiciones para negociar. El requerimiento es de 1 000 unidades con cadena de frío hasta el hospital. La DEC fija como referente competitivo S/12 por unidad, con toda esa logística incluida. En la primera ronda el proveedor propone S/550 por caja de 50 unidades, más S/100 por caja por cadena de frío. En la segunda presenta como oferta definitiva S/600 por caja de 50, ahora con toda la cadena de frío incluida, sin alterar cantidad ni características. La entidad propone declarar desierto porque el precio por caja subió de 550 a 600. ¿Qué conclusión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptar la primera propuesta: S/550 dividido entre 50 es menor que S/12 y la logística no debe computarse."
+        },
+        {
+          "id": "B",
+          "text": "La propuesta final ajusta el costo completo al referente: son veinte cajas y S/12 000 en total; puede continuarse hacia la buena pro si se mantienen las condiciones indicadas."
+        },
+        {
+          "id": "C",
+          "text": "Declarar desierto por el aumento nominal por caja, aunque la segunda propuesta incluya un concepto antes separado."
+        },
+        {
+          "id": "D",
+          "text": "Exigir mantener S/550 por caja con frío incluido y declarar desierto si no acepta: el menor componente propuesto se convierte en límite obligatorio."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 301.b exige negociar el ajuste conforme a los precios referenciales competitivos del producto a contratar. El alcance comprende la cadena de frío: la primera propuesta cuesta (550 + 100) / 50 = S/13 por unidad, o S/13 000 por veinte cajas. La segunda cuesta 600 / 50 = S/12 por unidad y S/12 000 en total, coincidiendo con el referente completo. El aumento de una cifra que antes excluía logística no prueba rechazo a ajustar la oferta. No se activa por ese motivo el desierto de 301.c; la oferta única puede adjudicarse bajo las condiciones descritas.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Excluye S/100 por caja que integra expresamente el alcance y compara un componente parcial con un referente completo.",
+        "B": "Homogeneiza unidad y alcance: el precio final completo baja de trece a doce por unidad y cumple el referente determinado para la negociación.",
+        "C": "Compara importes nominales con alcances distintos y confunde un aumento parcial con una subida del costo completo.",
+        "D": "El artículo no convierte el menor componente parcial de una ronda en un nuevo tope universal; el referente del caso es doce por unidad con logística."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "1e3545b9-41b1-426d-93c9-45c2ded112fd",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "301",
+          "pageStart": 159,
+          "pageEnd": 159,
+          "quote": "Artículo 301. Negociación en caso de subastas inversas electrónicas de productos farmacéuticos y dispositivos médicos que cuenten con una sola oferta. Los productos farmacéuticos y dispositivos médicos que cuenten con ficha técnica y que se convoquen por subasta inversa electrónica conforme a lo dispuesto en el artículo 96, en las cuales solo quede una sola oferta válida, pueden otorgar la buena pro pese a ello, conforme a las siguientes condiciones: (*) (*) Encabezado modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"Los productos farmacéuticos y dispositivos médicos que cuenten con ficha técnica y se convoquen por subasta inversa electrónica conforme a lo dispuesto en el artículo 96, en las cuales solo se presente una oferta o quede una sola oferta válida, pueden otorgar la buena pro, conforme a las siguientes condiciones:\" a) El área usuaria debe sustentar ante la autoridad de la gestión administrativa la urgencia de la contratación del producto farmacéutico o dispositivo médico, considerando el tiempo necesario para llevar a cabo un nuevo procedimiento de selección y el imp acto en los beneficiarios de la tecnología sanitaria a adquirir. Este análisis costo beneficio y su aprobación por parte de la autoridad de la gestión administrativa se registran en la Pladicop. b) Se lleva a cabo una etapa de negociación con el proveedor que presentó la única oferta valida, a fin de que ajuste su oferta económica conforme los precios referenciales del producto farmacéutico o dispositivo médico a contratar en un contexto competiti vo, determinado por la DEC. Las actas de esta etapa de negociación se publican en la Pladicop. c) En caso de las negociaciones realizadas el proveedor no acceda a actualizar su oferta económica, el procedimiento de selección se declara desierto. La entidad contratante puede realizar la siguiente convocatoria a través de una licitación pública abrevi ada. TÍTULO X SOLUCIÓN DE CONTROVERSIAS PREVIAS AL PERFECCIONAMIENTO DEL CONTRATO",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N051",
+    "objetivo": "Determinar qué experiencia de consorcio habilita la comparación económica.",
+    "criterioAvanzado": "La clasificación de las obligaciones de los integrantes cambia la experiencia computable y, con ella, la prelación entre ofertas.",
+    "input": {
+      "prompt": "En una comparación de precios válidamente elegida, las bases exigen S/300 000 de experiencia del postor en la especialidad. Se reciben tres ofertas admitidas: Pacto por S/45 000, Trama por S/47 000 y Sol por S/49 000. Pacto presenta un consorcio: su ejecutor acredita S/180 000 y otro integrante acredita S/200 000, pero este último solo aporta financiamiento y no ejecutará el objeto. En Trama, ambos integrantes ejecutarán conjuntamente el objeto y acreditan S/250 000 y S/80 000. Sol, postor individual, acredita S/320 000. Las promesas y comprobantes son auténticos, sus funciones están claramente definidas y los demás requisitos se cumplen. No hay errores subsanables ni empates. ¿Qué decisión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Adjudicar a Pacto: la suma de sus dos integrantes es S/380 000 y presenta el menor precio."
+        },
+        {
+          "id": "B",
+          "text": "Declarar desierto: ningún integrante de Trama alcanza por sí solo S/300 000 y solo Sol quedaría calificado."
+        },
+        {
+          "id": "C",
+          "text": "Adjudicar a Sol: debe compararse primero la mayor experiencia y solo después el precio."
+        },
+        {
+          "id": "D",
+          "text": "Excluir la experiencia del financiador de Pacto y adjudicar a Trama, que suma S/330 000 de ejecutores y ofrece el menor precio entre los calificados."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 72.3.c permite computar en consorcios solo la experiencia de integrantes que ejecutan conjuntamente el objeto. Pacto tiene únicamente S/180 000 computables y no alcanza el requisito. Trama sí suma S/250 000 + S/80 000 = S/330 000; Sol también califica con S/320 000. Con dos calificados puede realizarse la evaluación económica del artículo 98.1 modificado y gana Trama por S/47 000. La experiencia funciona aquí como requisito de calificación, no como factor para preferir la mayor.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Suma experiencia de quien solo financia, pese a que no ejecutará el objeto y no puede aportar experiencia computable bajo la regla citada.",
+        "B": "Desconoce que la experiencia de ambos ejecutores de Trama es computable; no se exige que cada uno alcance individualmente el total del caso.",
+        "C": "Convierte un requisito de aptitud en un criterio de preferencia por mayor experiencia que no rige esta comparación económica.",
+        "D": "Depura la experiencia según las obligaciones del consorcio; esa clasificación excluye al más barato y deja dos calificados entre los que Trama gana por precio."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "85238aa1-a1c3-4dc8-9ca6-babf5b343909",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "72",
+          "pageStart": 40,
+          "pageEnd": 41,
+          "quote": ". c) Experiencia del postor en la especialidad: referida a la destreza adquirida por el postor en el desempeño de las labores consideradas iguales o similares al objeto de contratación. En el caso de obras y consultoría de obras, dicha experiencia correspond e a la acreditada en la especialidad y subespecialidad conforme a lo dispuesto en el artículo 157. Las personas jurídicas resultantes de un proceso de reorganización societaria no pueden acreditar como experiencia del postor en la especialidad que le hubiesen transmitido como parte de dicha reorganización las personas jurídicas sancionadas con inhabilit ación vigente o definitiva. En el caso de consorcios, solo se considera la experiencia de aquellos integrantes que ejecutan conjuntamente el objeto del contrato. d) Condiciones de participación en consorcio: número máximo de consorciados en función a la naturaleza de la prestación, porcentaje mínimo de participación de cada consorciado y/o que el integrante del consorcio que acredite mayor experiencia cumpla con un determinado porcentaje de participación. e) Capacidad económica: condición obtenida a partir de la evaluación de los antecedentes financieros que demuestre que se encuentra posibilitado para cumplir con las obligaciones contractuales. Solo se aplica en procedimientos de selección con etapa de pre calificación. Se sustenta con el volumen de ventas, estados financieros auditados u otros que establezcan las bases estándar. 72.4. Las bases estándar determinan los tipos de requisitos de calificación a considerar dependiendo de la modalidad del procedimiento de selección.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "98",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 98. Evaluación de ofertas en la comparación de precios 98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores consi derando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores cons iderando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación; de lo contrario, el procedimiento de selección se declara de sierto.\" 98.2. El otorgamiento de la buena pro lo realiza el oficial de compra mediante su publicación en la Pladicop. 98.3. En el supuesto que dos o más ofertas empaten, el otorgamiento de la buena pro se efectúa a través de sorteo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N052",
+    "objetivo": "Determinar la oferta económica fija a partir del costo completo comprometido.",
+    "criterioAvanzado": "El alcance de la oferta y los conceptos incluidos determinan quién puede competir por puntaje técnico; un descuento parcial no equivale a cumplir el precio fijo.",
+    "input": {
+      "prompt": "En un concurso público para contratar a un gerente de proyecto, la cuantía fija es S/180 000 y se requieren cuatro visitas presenciales. Las bases válidas adjudican al mayor puntaje técnico entre las ofertas económicamente compatibles. Las ofertas incluyen obligatoriamente las visitas y sus importes finales se forman exactamente así: Julia, 96 puntos, cobra S/180 000 de honorarios más S/1 200 por cada visita; Iván, 92 puntos, S/175 200 de honorarios más S/1 200 por visita; Elena, 98 puntos, S/170 000 de honorarios más S/1 200 por visita. Son conceptos separados, todos con tributos incluidos, sin otros costos, exoneraciones ni bonificaciones. ¿A quién corresponde adjudicar con esos datos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "A Iván: su importe completo es S/180 000; las ofertas de Julia y Elena no coinciden con la cuantía fija."
+        },
+        {
+          "id": "B",
+          "text": "A Elena: su menor importe completo y su mayor puntaje técnico compensan la diferencia respecto de la cuantía."
+        },
+        {
+          "id": "C",
+          "text": "A Julia: sus honorarios ya coinciden con la cuantía y los viajes exigidos pueden cobrarse fuera de la oferta económica fija."
+        },
+        {
+          "id": "D",
+          "text": "Mantener a las tres y pedir que ajusten los honorarios a la cuantía antes de comparar sus puntajes técnicos."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 69.4 incorpora a la oferta económica los conceptos que inciden en el costo del servicio; las visitas son parte obligatoria del alcance. Las cuatro suman S/4 800: Julia ofrece S/184 800, Iván S/180 000 y Elena S/174 800. En esta modalidad, el artículo 134.1 exige igualdad con la cuantía y descalifica cualquier diferencia, tanto superior como inferior. Solo Iván permanece económicamente compatible; la mayor puntuación técnica de Elena no compensa un precio distinto ni habilita una renegociación para igualarlo.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Calcula el costo íntegro de las cuatro visitas, identifica al único postor que coincide con el precio fijo y no permite que un puntaje técnico subsane esa incompatibilidad.",
+        "B": "El menor costo total y el mejor puntaje no sustituyen la igualdad con la cuantía que exige esta modalidad de expertos o gerentes.",
+        "C": "Excluye de la oferta fija un costo expresamente necesario del servicio y confunde honorarios con el importe económico completo.",
+        "D": "Introduce un ajuste posterior de precios incompatibles que el artículo 134.1 no prevé: su consecuencia es la descalificación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c0f4c18d-7d43-47b2-a761-f373ee5c308e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "69",
+          "pageStart": 38,
+          "pageEnd": 39,
+          "quote": ". Asi mismo, puede contener documentación que acredite el cumplimiento de las especificaciones técnicas, de haberse determinado así en la estrategia de contratación. 69.3. La oferta económica y sus subtotales se expresan en dos decimales y todos sus valores desagregados pueden ser expresados con más de dos decimales. 69.4. La oferta económica incluye todos los tributos, seguros, transporte, inspecciones, pruebas y, de ser el caso, los costos laborales conforme a la legislación vigente, así como cualquier otro concepto que pueda tener incidencia sobre el costo del bien, servicio en general, consultoría u obra a contratar. Los postores que gocen de alguna exoneración legal tributaria no incluyen en su oferta los tributos respectivos. 69.5. Los documentos que presentan los participantes en la fase de selección, incluyendo las ofertas, son presentadas en idioma español o con la respectiva traducción por traductor público juramentado o traductor colegiado certificado, salvo el caso de la información técnica complementaria contenida en folletos, instructivos, catálogos o similares, que puede ser presentada en el idioma original.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ec0c1904-c111-44b7-972e-b766777e201e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "134",
+          "pageStart": 73,
+          "pageEnd": 73,
+          "quote": "Artículo 134. Disposiciones especiales para el Concurso Público para la contratación de expertos o gerentes de proyecto 134.1. La oferta económica de los postores es fija y corresponde a la cuantía de la contratación, por lo que los evaluadores descalifican las ofertas que no correspondan a dicha cuantía. 134.2. La evaluación de ofertas técnicas en el concurso público para la contratación de expertos y gerentes de proyecto se realiza sobre cien puntos, considerando los factores de evaluación obligatorios señalados en las bases estándar.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N053",
+    "objetivo": "Revisar ponderaciones al cambiar el sistema de entrega en concurso arquitectónico.",
+    "criterioAvanzado": "La clasificación del contrato cambia el mínimo del factor y obliga a redistribuir puntos.",
+    "input": {
+      "prompt": "Un concurso de proyectos arquitectónicos se preparó para diseño y construcción: de cien puntos técnicos, sesenta corresponden a propuesta arquitectónica y cuarenta a otros factores. Antes de convocar se cambia a consultoría de obra bajo solo diseño; se mantiene la modalidad de concurso y la suma de cien puntos. Se pretende conservar la distribución anterior. ¿Cuál es la corrección mínima exigida únicamente por el peso de la propuesta arquitectónica?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mantener sesenta y cuarenta, pues el mínimo no depende del sistema de entrega."
+        },
+        {
+          "id": "B",
+          "text": "Reducir la propuesta arquitectónica a cincuenta y elevar los demás factores a cincuenta."
+        },
+        {
+          "id": "C",
+          "text": "Asignar cien a propuesta arquitectónica y eliminar necesariamente cualquier otro factor."
+        },
+        {
+          "id": "D",
+          "text": "Elevar la propuesta arquitectónica al menos a ochenta y reducir los demás factores a un máximo conjunto de veinte."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 135.1 admite el concurso tanto en consultoría de solo diseño como en diseño y construcción. Según el numeral 135.6, el mínimo arquitectónico es ochenta puntos en consultoría de obra y cincuenta en obras de diseño y construcción. Al pasar a solo diseño, sesenta deja de bastar: faltan veinte puntos, que deben redistribuirse dentro de los cien.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el mínimo aplicable a diseño y construcción con el de consultoría de obra.",
+        "B": "Cincuenta es el mínimo de ejecución mediante diseño y construcción, no de solo diseño.",
+        "C": "La norma exige un mínimo de ochenta, sin imponer que el factor absorba los cien puntos.",
+        "D": "Reclasifica el objeto y calcula la redistribución mínima requerida dentro del total técnico."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "5f1070ea-2b65-40b3-9868-6c04055dae7b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "135",
+          "pageStart": 73,
+          "pageEnd": 73,
+          "quote": "Artículo 135. Disposiciones especiales para el concurso de proyectos arquitectónicos y urbanísticos 135.1. El Concurso de Proyectos Arquitectónicos y Urbanísticos es una modalidad diferenciada mediante la cual se evalúa principalmente la propuesta arquitectónica durante la selección de la contratación de consultorías de obra bajo los sistemas de entrega de solo diseño o de formulación y diseño, así como la ejecución de obras mediante el sistema de entrega de diseño y construcción. 135.2. La fase de selección está a cargo de un jurado que, de acuerdo con lo determinado en la estrategia de contratación, está compuesto por tres o cinco arquitectos. 135.3. La selección de los jurados se realiza a solicitud de la entidad contratante, a partir de una lista de profesionales habilitados recomendada por el Colegio de Arquitectos del Perú o de la región que corresponda a la ubicación de la obra. La entidad contratante verifica que los profesionales cumplan, como mínimo, con los siguientes requisitos: a) Ser profesional colegiado y habilitado de la carrera de arquitectura; b) Tener experiencia profesional no menor de diez años como arquitecto en el ejercicio profesional y/o haber participado como jurado en concursos o premios de arquitectura. La lista de profesionales recomendados por el Colegio de Arquitectos incluye las tarifas de honorarios propuestas para el jurado. 135.4. La entidad contratante puede designar a uno de los miembros del jurado calificador fuera de la lista recomendada por el Colegio de Arquitectos, de considerarlo pertinente. En este caso, debe cumplir los requisitos para experto establecidos en el art ículo 57. 135.5. Asimismo, de así haberse evaluado en la estrategia de contratación por la envergadura del concurso, puede designar como jurado a un experto internacional, en cuyo caso el profesional cumple con la equivalencia a los requisitos indicados y cuenta con un premio o reconocimiento internacional en la profesión de arquitectura. 135.6. La evaluación de ofertas técnicas, cuyo puntaje total es equivalente a cien puntos, considera como factor de evaluación obligatorio la propuesta arquitectónica, el cual no puede ser menor de ochenta puntos del total de puntaje de la oferta técnica, en el caso de consultorías de obra, y no menor a cincuenta puntos, en el caso obras bajo el sistema de entrega de diseño y construcción. El jurado emite un informe que sustente la asignación de puntaje en este factor a las ofertas presentadas. La calificac ión que asignen los miembros del jurado a los postores por este factor de evaluación no es apelable. CAPÍTULO III DISPOSICIONES ESPECÍFICAS DE LA FASE DE EJECUCIÓN CONTRACTUAL PARA BIENES Y SERVICIOS SUBCAPÍTULO 1 Consideraciones sobre el contrato de bienes y servicios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N054",
+    "objetivo": "Distinguir una solución técnica ajustable de una alteración del resultado esencial en diálogo competitivo.",
+    "criterioAvanzado": "La cobertura y el tiempo completo de alerta determinan si cambiar la instrumentación conserva la finalidad, en vez de decidir por el número nominal de equipos.",
+    "input": {
+      "prompt": "Un diálogo competitivo válidamente habilitado busca alertar sobre movimientos en doce laderas para evacuar poblados. El plan técnico de evacuación exige que las doce queden vigiladas y que la alerta llegue como máximo cinco minutos después del primer indicio; fuera de ese margen la evacuación ya no cumple su finalidad. El requerimiento preliminar propone doce sensores, uno por ladera. Una solución usa seis sensores multizona: cada uno vigila simultáneamente dos laderas y, ante un indicio, tarda dos minutos en detectarlo y tres adicionales en comunicarlo. Otra conserva doce sensores, pero antes de comunicar espera dos ventanas sucesivas de confirmación de tres minutos cada una y tarda un minuto más en transmitir. Son tiempos máximos verificados, sin solapamiento; ambas cumplen lo demás. ¿Qué conclusión puede guiar el ajuste del requerimiento definitivo?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Conservar solo la solución de doce sensores, porque mantener la cantidad preliminar basta para preservar la finalidad."
+        },
+        {
+          "id": "B",
+          "text": "Descartar ambas: ningún detalle del requerimiento preliminar puede ajustarse durante el diálogo."
+        },
+        {
+          "id": "C",
+          "text": "Desarrollar la solución multizona, que mantiene doce laderas y alerta en cinco minutos; no aceptar la otra como satisfacción equivalente, porque tarda siete minutos."
+        },
+        {
+          "id": "D",
+          "text": "Aceptar ambas como equivalentes: el tiempo de alerta puede ampliarse libremente por ser un parámetro técnico del requerimiento preliminar."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 77.1 y 77.2 permite desarrollar soluciones y llegar a un requerimiento definitivo, pero excluye alterar el alcance esencial y la finalidad pública. El resultado necesario del caso es vigilar doce laderas y alertar dentro de cinco minutos, no conservar doce aparatos por sí mismos. Seis sensores de dos zonas cubren las doce y la secuencia de detección y comunicación suma 2 + 3 = 5 minutos. La alternativa de doce sensores suma 3 + 3 + 1 = 7 y no satisface el margen indispensable de evacuación. Por eso el cambio instrumental puede desarrollarse, pero conservar el número inicial no salva una solución que pierde el resultado esencial.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La cantidad de equipos no demuestra cumplimiento del resultado: sus dos ventanas y transmisión suman siete minutos, fuera del margen indispensable.",
+        "B": "El diálogo precisamente permite ajustar el requerimiento preliminar y las soluciones; no congela toda especificación inicial.",
+        "C": "Relaciona cobertura real y secuencia temporal con el resultado esencial: cambiar el número de sensores puede conservar la finalidad y mantenerlo puede incumplirla.",
+        "D": "Confunde una especificación instrumental discutible con el resultado indispensable que el caso vincula a la finalidad pública; el ajuste no permite vaciar esa finalidad."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "77",
+          "pageStart": 44,
+          "pageEnd": 45,
+          "quote": "Artículo 77. Diálogo competitivo 77.1. En caso la precalificación incluya esta subetapa, los evaluadores entablan un dialogo con los postores seleccionados en la etapa de precalificación, con el fin de identificar y desarrollar soluciones idóneas para satisfacer las necesidades de la enti dad contratante, a partir de un requerimiento preliminar. Para realizar el dialogo competitivo deben quedar como mínimo dos postores precalificados. 77.2. En el transcurso de este diálogo se debaten los aspectos del requerimiento preliminar con los postores para obtener la mejor solución a la necesidad de la entidad contratante, salvo el alcance esencial del objeto contractual y su finalidad pública. E l objetivo del dialogo competitivo es obtener un requerimiento definitivo a partir de las rondas realizadas. 77.3. Un representante del Órgano de Control Institucional (OCI) de la entidad contratante puede participar como asistente en las rondas del diálogo competitivo. 77.4. El requerimiento preliminar es ajustado por los evaluadores durante el transcurso del dialogo competitivo, conforme vaya definiéndose la solución más conveniente para llevar a cabo el objeto del contrato, y poniendo en conocimiento de las modificacio nes adoptadas a todos los postores. Cuando se ajuste el requerimiento, el voto del miembro del jurado que es servidor o funcionario del área usuaria hace las veces de la no objeción correspondiente. 77.5. El diálogo se lleva a cabo de manera bilateral con cada uno de los postores seleccionados, los cuales presentan propuestas de solución que pueden modificarse y actualizarse según avance el dialogo. El número de rondas de diálogo puede variar respecto de cada uno de los postores, ya que se llevan a cabo las que sean necesarias hasta que, a juicio de los evaluadores, se haya aclarado las soluciones planteadas por cada postor. 77.6. El procedimiento puede articularse en fases sucesivas, a fin de reducir progresivamente el número de ofertas a examinar durante la fase de diálogo, mediante la aplicación de los criterios de adjudicación previamente establecidos en las bases. 77.7. Los evaluadores no pueden revelar a los demás participantes las soluciones propuestas por un postor u otros datos confidenciales que este les comunique sin previo consentimiento de éste. 77.8. Se emiten tantas actas como rondas de diálogo se efectúen que suscriben todos los que han participado en ésta. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, public ada por la DEC en la Pladicop, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas definitivas para la respectiva evaluación técnica y económica. En esta oportunidad se publican las bases integradas definitivas, que incluyan t odas las modificaciones adoptadas durante el transcurso del diálogo y el requerimiento definitivo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 45 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N055",
+    "objetivo": "Recalcular el plazo común de ajuste de ofertas tras modificaciones sucesivas en negociación.",
+    "criterioAvanzado": "La segunda modificación vuelve a alterar las condiciones de preparación y exige un plazo íntegro desde su comunicación, no el saldo del primero.",
+    "input": {
+      "prompt": "En una negociación válidamente prevista, los plazos de entrega son negociables y no se modifican factores ni mínimos protegidos. El martes de la semana 1 se comunica por Pladicop, con no objeción, el cambio de entrega de sesenta a cincuenta días y se fija el cierre de ofertas ajustadas para el jueves de la semana 2. Antes de ese cierre, el viernes de la semana 1 se aprueba con no objeción un segundo cambio material: entrega en cuarenta días, que exige recalcular transporte y precios. Este cambio se comunica a todos por Pladicop el lunes de la semana 2. La DEC propone mantener el cierre inicial porque ya concedió siete días para el primer cambio. Solo son hábiles lunes a viernes y no hay feriados; los cómputos comienzan al día siguiente del hito. ¿Cuál es el cierre más temprano compatible con el plazo mínimo por el segundo cambio?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El jueves de la semana 2: el plazo del primer cambio absorbe las modificaciones comunicadas antes de su vencimiento."
+        },
+        {
+          "id": "B",
+          "text": "El miércoles de la semana 3: deben concederse siete días hábiles completos desde el día siguiente de comunicar el segundo cambio."
+        },
+        {
+          "id": "C",
+          "text": "El martes de la semana 3: el segundo plazo parte de la aprobación interna del viernes, aunque se comunicara el lunes."
+        },
+        {
+          "id": "D",
+          "text": "El lunes de la semana 3: bastan siete días calendario desde que se comunicó la condición definitiva."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 76.5 exige informar por Pladicop las modificaciones, luego de obtener no objeción, y brindar un plazo no menor de siete días hábiles para modificar ofertas. El segundo cambio vuelve a modificar el requerimiento que debe cotizarse: no queda cubierto por los días otorgados para una condición distinta. Desde la comunicación del lunes de la semana 2 se cuentan martes, miércoles, jueves y viernes de esa semana, y lunes, martes y miércoles de la semana 3: siete. La aprobación interna del viernes no sustituye la comunicación común; el cierre más temprano es el miércoles de la semana 3.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Permite cotizar la condición de cuarenta días con solo tres días hábiles tras su comunicación y usa indebidamente el plazo concedido para una condición anterior.",
+        "B": "Vincula el nuevo contenido material con un plazo íntegro de ajuste y lo computa desde la comunicación a quienes deben preparar sus ofertas.",
+        "C": "Anticipa el cómputo a una actuación interna anterior al conocimiento común del cambio por Pladicop.",
+        "D": "Sustituye el mínimo de días hábiles por días calendario y recorta el plazo de preparación previsto en la norma."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "76",
+          "pageStart": 43,
+          "pageEnd": 44,
+          "quote": "Artículo 76. Negociación 76.1. En caso la precalificación incluya esta subetapa, los postores seleccionados en la etapa de precalificación presentan y sustentan ante los evaluadores ofertas preliminares, respecto de las cuales se puede realizar rondas de negociación, con el fin de mejorar su contenido. Durante la negociación los postores pueden formular consultas y proponer modificaciones a la versión inicial del contrato, a la modalidad de pago u a otras condiciones del contrato. 76.2. No son materia de negociación los factores de evaluación, ni las condiciones mínimas que se hubieran establecido como no negociables en las bases. Cuando se modifique el requerimiento, el miembro del jurado que es servidor o funcionario del área usua ria emite la no objeción correspondiente. 76.3. La negociación puede darse en rondas sucesivas, en las cuales los postores presentan sus ofertas ajustadas producto de la negociación, pudiendo establecerse en las bases que estas rondas sean eliminatorias bajo criterios de adjudicación previamente e stablecidos. 76.4. Un representante del OCI de la entidad contratante puede participar de las rondas de negociación como veedor. 76.5. Cualquier modificación al requerimiento o las condiciones contractuales, luego de obtenida la no objeción, se informa a través de la Pladicop a los postores que participan de la negociación, brindándoles un plazo no menor de siete días hábiles para m odificar sus ofertas. 76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el a cta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 44 de 249 En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las modificaciones adoptadas durante el transcurso de la negociación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales , para la respectiva evaluación técnica y económica . En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las m odificaciones adoptadas durante el transcurso de la negociación.”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N056",
+    "objetivo": "Evaluar exclusividad frente a alternativas cuya aptitud depende del tiempo completo de respuesta.",
+    "criterioAvanzado": "La suma de operaciones secuenciales permite clasificar qué alternativa satisface la necesidad; esa aptitud desmiente o confirma la exclusividad pertinente.",
+    "input": {
+      "prompt": "Un sistema de alarma industrial debe recibir, procesar, cifrar y entregar cada aviso en un máximo de 250 milisegundos. La necesidad exige ese resultado funcional, no una marca. Origen documenta distribución exclusiva en todo el Perú de su marca y cumple en 180 milisegundos. Para decidir si solo él puede satisfacer la necesidad, el estudio nacional verifica dos soluciones alternativas: Altura tarda 130 milisegundos en procesar, 100 en cifrar y 40 en transmitir; Bruma tarda 100, 80 y 40, respectivamente. Las operaciones son sucesivas, no se solapan y las mediciones cubren todo el tiempo relevante. Ambos pueden suministrar e integrar sus soluciones y cumplen las demás exigencias. Se pretende aprobar la causal de proveedor único por el documento de Origen. ¿Qué conclusión se sustenta?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Origen es proveedor único porque su exclusividad nacional de marca basta aunque otra solución funcional cumpla."
+        },
+        {
+          "id": "B",
+          "text": "No hay proveedor único porque Altura y Bruma cumplen si se considera únicamente el tiempo de procesamiento."
+        },
+        {
+          "id": "C",
+          "text": "No se acredita proveedor único: Altura excede el máximo con 270 milisegundos, pero Bruma cumple con 220 y es una alternativa apta a Origen."
+        },
+        {
+          "id": "D",
+          "text": "Procede contratar a Origen por proveedor único porque sus 180 milisegundos son mejores que los 220 de Bruma, aunque ambos cumplan."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 100, literal d), exige verificar que la prestación solo pueda obtenerse de un determinado proveedor en el mercado peruano. La exclusividad de una marca no demuestra que solo ella satisfaga un requerimiento funcional. La secuencia completa da 130 + 100 + 40 = 270 milisegundos para Altura y 100 + 80 + 40 = 220 para Bruma. Altura no es equivalente apta, pero Bruma sí satisface el máximo de 250. La mejor respuesta de Origen no elimina esa alternativa ni convierte superioridad de desempeño en exclusividad.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde exclusividad de distribución de una marca con imposibilidad de satisfacer la necesidad mediante otra solución disponible en el mercado peruano.",
+        "B": "Omite cifrado y transmisión, que forman parte del plazo funcional y hacen que Altura supere el máximo aunque su procesamiento aislado sea rápido.",
+        "C": "Clasifica las alternativas a partir de su respuesta completa: una falla, pero otra cumple y destruye la afirmación de que solo Origen puede atender la necesidad.",
+        "D": "Un resultado mejor entre soluciones aptas puede diferenciarlas competitivamente, pero no prueba que la prestación solo se obtenga de un proveedor."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "102",
+          "pageStart": 54,
+          "pageEnd": 57,
+          "quote": ". Cuando no corresponda realizar un procedimiento de selección competitivo posterior, se justifica en el informe o informes que contienen el sustento técnico legal del procedimiento no competitivo.\" No puede invocarse la existencia de una situación de desabastecimiento en los siguientes supuestos: (i) contrataciones consecutivas que excedan el tiempo necesario para atender la situación, salvo que ocurra una situación diferente a la que motivó el proce dimiento no competitivo, (ii) para satisfacer necesidades anteriores a la fecha de aprobación del procedimiento no competitivo, (iii) por prestaciones cuyo alcance exceda lo necesario para atender el desabastecimiento, y (iv) en vía de regularización. A través del acto aprobatorio, se ordena el inicio del análisis para determinar las responsabilidades que correspondan, cuando del sustento del desabastecimiento se desprenda que la conducta u omisión de los servidores de la entidad contratante hubiese ori ginado la configuración de la causal. d) Proveedor único: la verificación de que los bienes, servicios y consultorías solo pueden obtenerse de un determinado proveedor en el mercado peruano, debido a patentes vigentes, permisos, exclusividad de distribución, entre otras fuentes de información documentadas que per mitan acreditar esta condición.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 55 de 249 e) Servicios personalísimos: pueden contratarse servicios especializados profesionales, artísticos, científicos o tecnológicos prestados por personas naturales. La entidad contratante sustenta objetivamente las siguientes condiciones: (i) especialidad del proveedor, relacionada con su conocimiento profesional, artístico, científico o tecnológico, que permita satisfacer la complejidad del objeto contractual y, (ii) experiencia reconocida en la prestación objeto de la contratación. Las prestaciones que se deriven de los contratos celebrados al amparo del presente literal no son materia de subcontratación. f) Servicios de publicidad para el Estado y financiamiento público indirecto : en este supuesto la contratación de los mencionados servicios corresponde a aquellos que prestan directamente los medios de comunicación, conforme a lo dispuesto en la normativa que regula la publicidad estatal, o a aquellos contratados por la Oficina Na cional de Procesos Electorales (ONPE) en virtud del financiamiento público indirecto a las organizaciones políticas, de conformidad con la normativa de la materia",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N057",
+    "objetivo": "Seleccionar una entidad proveedora contrastando objeto, período y habitualidad.",
+    "criterioAvanzado": "Filtra los contratos computables de dos candidatos y distingue suscripción de ejecución vigente antes de decidir la causal.",
+    "input": {
+      "prompt": "Para una contratación entre entidades se comparan dos institutos públicos que no son empresas del Estado y cumplen las demás condiciones aplicables. En los últimos doce meses, Aurora suscribió dos contratos del objeto requerido y uno de un objeto distinto; además tiene otro del objeto requerido suscrito hace catorce meses. Horizonte suscribió tres del objeto requerido en los últimos doce meses, pero dos ya concluyeron. Se propone elegir Horizonte porque solo uno sigue ejecutándose, mientras Aurora tiene cuatro antecedentes. ¿Qué conclusión corresponde sobre la habitualidad para esta causal?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aurora no supera el umbral de habitualidad descrito; Horizonte sí lo supera, aunque dos contratos hayan concluido."
+        },
+        {
+          "id": "B",
+          "text": "Horizonte no supera el umbral porque solo cuenta el contrato que sigue ejecutándose; Aurora sí por sus cuatro antecedentes."
+        },
+        {
+          "id": "C",
+          "text": "Ambos superan el umbral, porque todos los contratos mencionados deben contarse sin filtrar objeto ni fecha."
+        },
+        {
+          "id": "D",
+          "text": "Ambos quedan fuera de la restricción porque ninguno es empresa del Estado."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El literal a del artículo 100 define habitualidad como suscribir más de dos contratos en el objeto de la contratación durante los últimos doce meses. Aurora tiene dos computables: no cuentan el de otro objeto ni el suscrito hace catorce meses. Horizonte tiene tres computables, aunque dos hayan concluido, pues la regla atiende a la suscripción. Ser entidad pública no elimina esta restricción.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Filtra por objeto y período: Aurora tiene dos computables y Horizonte tres; la conclusión no depende de cuántos siguen ejecutándose.",
+        "B": "Cuenta ejecución vigente en lugar de suscripción y suma a Aurora antecedentes de otro objeto o fuera del período.",
+        "C": "El umbral exige coincidencia de objeto y ventana de doce meses, por lo que no se suman todos los antecedentes.",
+        "D": "La restricción por actividad empresarial habitual opera también para entidades que no son empresas estatales."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "28f797fa-1203-4e3a-a340-2232d13da1a8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "100",
+          "pageStart": 53,
+          "pageEnd": 54,
+          "quote": "Artículo 100. Condiciones generales La entidad contratante puede contratar directamente con un proveedor solo cuando se configure alguno de los supuestos del numeral 55.1 del artículo 55 de la Ley bajo las condiciones que a continuación se indican: a) Contratación entre entidades: aquella entidad contratante que actúe como proveedor no debe ser empresa del Estado o realizar actividad empresarial de manera habitual. Se considera\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 54 de 249 por habitual la suscripción de más de dos contratos en el objeto de la contratación en los últimos doce meses. b) Situación de emergencia: se cumplen las condiciones y el procedimiento establecido en el artículo 289, no siendo aplicable lo dispuesto en el",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N058",
+    "objetivo": "Dimensionar la cobertura por desabastecimiento sin exceder su finalidad.",
+    "criterioAvanzado": "Consumo, existencias y duración del procedimiento ordinario limitan la cantidad excepcional.",
+    "input": {
+      "prompt": "Una rotura extraordinaria e imprevisible de la planta del proveedor interrumpe un suministro imprescindible. Se acredita la causal de desabastecimiento. Desde la aprobación de la contratación excepcional hasta el primer suministro competitivo transcurrirán cuarenta días; hay existencias para los primeros diez. El consumo constante es veinte unidades diarias y no hay pérdidas, otras entregas ni stock de reserva necesario. El proveedor excepcional ofrece entregar oportunamente seiscientas unidades o vender mil con descuento. ¿Qué alcance se sustenta por esa causal?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mil unidades, porque un descuento permite extender la cobertura excepcional."
+        },
+        {
+          "id": "B",
+          "text": "Ochocientas unidades, computando cuarenta días completos sin descontar existencias."
+        },
+        {
+          "id": "C",
+          "text": "Doscientas unidades, limitadas a reponer lo que ya estaba en almacén."
+        },
+        {
+          "id": "D",
+          "text": "Seiscientas unidades, que cubren los treinta días sin existencias hasta el suministro competitivo."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El literal c del artículo 100 limita la contratación al tiempo o cantidad necesarios para resolver la situación y realizar la selección competitiva. La cobertura faltante es cuarenta menos diez: treinta días, por veinte unidades, equivalen a seiscientas unidades. Mil excedería la necesidad excepcional descrita.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El descuento no justifica prestaciones que exceden la cobertura necesaria del desabastecimiento.",
+        "B": "Ignora las existencias que cubren diez días y sobreestima el faltante.",
+        "C": "Confunde las existencias disponibles con la demanda que quedará sin cobertura.",
+        "D": "Descuenta el stock disponible y calcula únicamente la brecha excepcional."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "5a753f70-7576-4539-83d8-e039bb88e559",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "102",
+          "pageStart": 54,
+          "pageEnd": 57,
+          "quote": "artículo 102. (*) (*) Literal modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"b) Situación de emergencia: cuando se cumplan las condiciones y el procedimiento establecido en el artículo 289.\" c) Situación de desabastecimiento: se configura ante la ausencia inminente de determinado bien o servicio, debido a la ocurrencia de una situación extraordinaria e imprevisible, que afecte o impida la operación de la entidad contratante o el cumplimiento de sus funciones. Dicha situación faculta a contratar bienes o servicios solo por el tiempo y/o cantidad necesaria, para resolver la situación y llevar a cabo el procedimiento de selección competitivo que corresponda. Cuando no corresponda realizar un procedimiento de selec ción competitivo posterior, se justifica en el informe o informes que contienen el sustento técnico legal del procedimiento no competitivo. (*) (*) Extremo modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"c) Situación de desabastecimiento: se configura ante la ausencia inminente de determinado bien , servicio o consultoría , debido a la ocurrencia de una situación extraordinaria e imprevisible, que afecte o impida la operación de la entidad contratante o el cumplimiento de sus funciones. Dicha situación faculta a contratar bienes , servicios o consultorías solo por el tiempo y/o cantidad necesaria, para resolver la situación y llevar a cabo el procedimiento de selección competitivo que corresponda",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "102",
+          "pageStart": 54,
+          "pageEnd": 57,
+          "quote": ". Cuando no corresponda realizar un procedimiento de selección competitivo posterior, se justifica en el informe o informes que contienen el sustento técnico legal del procedimiento no competitivo.\" No puede invocarse la existencia de una situación de desabastecimiento en los siguientes supuestos: (i) contrataciones consecutivas que excedan el tiempo necesario para atender la situación, salvo que ocurra una situación diferente a la que motivó el proce dimiento no competitivo, (ii) para satisfacer necesidades anteriores a la fecha de aprobación del procedimiento no competitivo, (iii) por prestaciones cuyo alcance exceda lo necesario para atender el desabastecimiento, y (iv) en vía de regularización. A través del acto aprobatorio, se ordena el inicio del análisis para determinar las responsabilidades que correspondan, cuando del sustento del desabastecimiento se desprenda que la conducta u omisión de los servidores de la entidad contratante hubiese ori ginado la configuración de la causal. d) Proveedor único: la verificación de que los bienes, servicios y consultorías solo pueden obtenerse de un determinado proveedor en el mercado peruano, debido a patentes vigentes, permisos, exclusividad de distribución, entre otras fuentes de información documentadas que per mitan acreditar esta condición.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 55 de 249 e) Servicios personalísimos: pueden contratarse servicios especializados profesionales, artísticos, científicos o tecnológicos prestados por personas naturales. La entidad contratante sustenta objetivamente las siguientes condiciones: (i) especialidad del proveedor, relacionada con su conocimiento profesional, artístico, científico o tecnológico, que permita satisfacer la complejidad del objeto contractual y, (ii) experiencia reconocida en la prestación objeto de la contratación. Las prestaciones que se deriven de los contratos celebrados al amparo del presente literal no son materia de subcontratación. f) Servicios de publicidad para el Estado y financiamiento público indirecto : en este supuesto la contratación de los mencionados servicios corresponde a aquellos que prestan directamente los medios de comunicación, conforme a lo dispuesto en la normativa que regula la publicidad estatal, o a aquellos contratados por la Oficina Na cional de Procesos Electorales (ONPE) en virtud del financiamiento público indirecto a las organizaciones políticas, de conformidad con la normativa de la materia",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N059",
+    "objetivo": "Evaluar un servicio personalísimo cuya ejecución se pretende delegar.",
+    "criterioAvanzado": "La imposibilidad técnica de ejecutar una fase esencial lleva a una subcontratación prohibida; eliminarla tampoco satisface la necesidad.",
+    "input": {
+      "prompt": "Una restauradora, persona natural con especialidad y experiencia reconocida, es propuesta para un servicio personalísimo de diagnóstico y restauración de una pieza única. El informe técnico acredita que el diagnóstico radiográfico es indispensable para decidir la intervención: no puede suprimirse. La restauradora carece de medios para realizarlo y propone que un laboratorio lo ejecute como subcontratista suyo; después ella restauraría según ese resultado. La entidad pretende aprobar el paquete o retirar el diagnóstico para evitar la subcontratación. ¿Qué evaluación corresponde sobre la propuesta completa?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aprobar el paquete, porque la subcontratación del diagnóstico deja de serlo si la restauradora usa su resultado."
+        },
+        {
+          "id": "B",
+          "text": "Retirar el diagnóstico y aprobar la restauración, aunque el informe técnico lo considere indispensable para intervenir."
+        },
+        {
+          "id": "C",
+          "text": "No aprobar esa propuesta: el paquete depende de subcontratar una prestación personalísima, y quitarla no satisface la necesidad técnica descrita."
+        },
+        {
+          "id": "D",
+          "text": "Aprobar el paquete si el laboratorio cobra menos que la restauradora por la fase diagnóstica."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El literal e del artículo 100 permite servicios especializados de personas naturales con especialidad y experiencia sustentadas, pero prohíbe subcontratar las prestaciones derivadas. El diagnóstico integra el servicio propuesto y condiciona la intervención, de modo que encomendarlo como subcontrato no es una simple ayuda ajena al objeto. Suprimirlo tampoco conserva la necesidad técnica acreditada. Debe reformularse la propuesta antes de decidir su contratación; no se afirma aquí una vía alternativa automática.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El uso posterior del resultado no cambia que el laboratorio ejecutaría una prestación incluida en el contrato mediante subcontrato.",
+        "B": "Eliminar la fase indispensable rompe la secuencia técnica de diagnóstico e intervención y no resuelve válidamente la necesidad planteada.",
+        "C": "Relaciona la dependencia técnica entre fases con la prohibición de subcontratar, sin convertir la eliminación de una fase esencial en solución.",
+        "D": "El menor precio de la fase no modifica la prohibición ni elimina la dependencia de una prestación que la propuesta pretende subcontratar."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "845df094-b7a6-4f4d-8d48-58eee2bed8f8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "102",
+          "pageStart": 54,
+          "pageEnd": 57,
+          "quote": ". Cuando no corresponda realizar un procedimiento de selección competitivo posterior, se justifica en el informe o informes que contienen el sustento técnico legal del procedimiento no competitivo.\" No puede invocarse la existencia de una situación de desabastecimiento en los siguientes supuestos: (i) contrataciones consecutivas que excedan el tiempo necesario para atender la situación, salvo que ocurra una situación diferente a la que motivó el proce dimiento no competitivo, (ii) para satisfacer necesidades anteriores a la fecha de aprobación del procedimiento no competitivo, (iii) por prestaciones cuyo alcance exceda lo necesario para atender el desabastecimiento, y (iv) en vía de regularización. A través del acto aprobatorio, se ordena el inicio del análisis para determinar las responsabilidades que correspondan, cuando del sustento del desabastecimiento se desprenda que la conducta u omisión de los servidores de la entidad contratante hubiese ori ginado la configuración de la causal. d) Proveedor único: la verificación de que los bienes, servicios y consultorías solo pueden obtenerse de un determinado proveedor en el mercado peruano, debido a patentes vigentes, permisos, exclusividad de distribución, entre otras fuentes de información documentadas que per mitan acreditar esta condición.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 55 de 249 e) Servicios personalísimos: pueden contratarse servicios especializados profesionales, artísticos, científicos o tecnológicos prestados por personas naturales. La entidad contratante sustenta objetivamente las siguientes condiciones: (i) especialidad del proveedor, relacionada con su conocimiento profesional, artístico, científico o tecnológico, que permita satisfacer la complejidad del objeto contractual y, (ii) experiencia reconocida en la prestación objeto de la contratación. Las prestaciones que se deriven de los contratos celebrados al amparo del presente literal no son materia de subcontratación. f) Servicios de publicidad para el Estado y financiamiento público indirecto : en este supuesto la contratación de los mencionados servicios corresponde a aquellos que prestan directamente los medios de comunicación, conforme a lo dispuesto en la normativa que regula la publicidad estatal, o a aquellos contratados por la Oficina Na cional de Procesos Electorales (ONPE) en virtud del financiamiento público indirecto a las organizaciones políticas, de conformidad con la normativa de la materia",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N060",
+    "objetivo": "Dimensionar el saldo contratable distinguiendo instalaciones útiles, defectuosas y suministros aprovechables.",
+    "criterioAvanzado": "La clasificación del avance previo cambia de modo distinto las cantidades nuevas de suministro y de instalación necesarias para completar el mismo objeto.",
+    "input": {
+      "prompt": "Un contrato para habilitar 120 puntos de control de acceso se resuelve después de iniciada su ejecución. El inventario técnico verifica cuarenta puntos instalados: veinte funcionan y se conservan; otros veinte tienen módulos irreparables que deben sustituirse y reinstalarse. Quedan ochenta puntos sin instalar. En almacén hay treinta módulos nuevos, entregados correctamente en el contrato original, plenamente compatibles y disponibles para esos ochenta puntos; ya fueron pagados y no requieren nueva compra. La causal para contratar las prestaciones no ejecutadas resulta procedente y se mantendrán objeto y finalidad. Cada punto necesita un módulo; no hay otros faltantes. ¿Qué combinación de nuevas compras e instalaciones debe recoger el requerimiento ajustado para completar los 120 puntos sin duplicar suministros aprovechables?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Comprar ochenta módulos e instalar ochenta puntos, usando como cantidad para ambos conceptos los puntos que nunca se instalaron."
+        },
+        {
+          "id": "B",
+          "text": "Comprar setenta módulos e instalar cien puntos: usar treinta del almacén, cubrir los ochenta pendientes y sustituir los veinte defectuosos."
+        },
+        {
+          "id": "C",
+          "text": "Comprar cien módulos e instalar cien puntos, porque todo punto no operativo debe tratarse también como suministro no entregado."
+        },
+        {
+          "id": "D",
+          "text": "Comprar setenta módulos e instalar setenta puntos, limitando la instalación a los módulos que se adquirirán ahora."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 100, literal k), permite ajustar lo necesario para contratar tanto lo no ejecutado como lo ejecutado deficientemente, sin cambiar el objeto, la naturaleza o la finalidad. Solo veinte puntos se conservan completos: deben intervenirse 120 menos 20 = 100 puntos, incluidos los veinte defectuosos y los ochenta pendientes. Los cien requieren módulos útiles, de los que treinta ya existen en almacén: la compra nueva es de setenta. Confundir punto pendiente con suministro faltante duplicaría módulos existentes; ignorar lo deficientemente ejecutado dejaría veinte puntos sin funcionamiento.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde dos saldos: omite intervenir los veinte instalados deficientemente y tampoco descuenta de la compra los treinta módulos útiles disponibles.",
+        "B": "Distingue los veinte puntos útiles, los cien que necesitan instalación o reinstalación y los treinta módulos ya entregados que reducen la compra nueva a setenta.",
+        "C": "Identifica correctamente cien intervenciones, pero ignora treinta módulos útiles ya entregados y pagados que integran el suministro disponible.",
+        "D": "La compra nueva no agota la instalación pendiente: también deben instalarse los treinta módulos de almacén para completar cien intervenciones."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "4283ed73-aee8-4015-bac3-45b755092836",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "102",
+          "pageStart": 54,
+          "pageEnd": 57,
+          "quote": ". La entidad contratante, previo sustento de la Procuraduría Pú blica o la que haga sus veces, puede aplicar el supuesto para procesos arbitrales o judiciales por iniciarse, así como para aquellos procesos que se encuentren en curso. k) Prestaciones no ejecutadas de un contrato resuelto o declarado nulo por las causales a) y b) del numeral 71.1 del artículo 71 de la Ley : procede en caso se haya iniciado la ejecución de las prestaciones del contrato resuelto o declarado nulo. El área usuaria, en coordinación con la DEC, ajusta el requerimiento solo en aquellos aspectos que resulten necesarios para viabilizar la contrataci ón de aquello que no se ejecutó en el contrato o que se ejecutó de manera deficiente, así como aquellas disposiciones específicas que hubieran generado controversias que dieron lugar a la resolución del contrato, de corresponder. No se pueden modificar aspectos que cambien el objeto, la naturaleza, o la finalidad de la contratación.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 56 de 249 l) Contratación de servicios de capacitación de interés de la entidad contratante con instituciones nacionales autorizadas o extranjeras especializadas: la entidad contratante debe cumplir con las siguientes condiciones: (i) en caso el proveedor sea una institución o entidad educativa nacional, éste debe encontrarse acreditada conforme a las normas emitidas por el sector educación, a través del Sistema Nac ional de Evaluación, Acreditación y Certificación de la Calidad Educativa - SINEACE, o (ii) en el caso que el proveedor sea una entidad extranjera, éste debe tratarse de un organismo internacional especializado y acreditado por una agencia acreditadora extranjera, conforme a los lineamientos emitidos por el Sector Educación, a través del SINEACE. En el supuesto que la capacitación sea prestada por un organismo internacional, este tiene entre su finalidad u objeto, la prestación de servicios de formación, capacitación o asistencia técnica. m) Contrataciones de bienes, servicios y obras realizadas por las Fuerzas Armadas, la PNP y los componentes del Sistema de Inteligencia Nacional (SINA) declarados de carácter de secreto militar o de orden interno: no es aplicable a la contratación de bienes, servicios u obras de carácter administrativo u operativo necesarios para el normal funcionamiento de las Fuerzas Armadas, la PNP y componentes del SINA",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N061",
+    "objetivo": "Identificar la modalidad de innovación y la elegibilidad para adquirir su resultado.",
+    "criterioAvanzado": "Relaciona las dos fases con el resultado de los hitos: el precio bajo no habilita a adquirir la solución de quien no superó la I+D.",
+    "input": {
+      "prompt": "Una universidad pública desarrolla una CPI válidamente habilitada cuyas bases comprenden I+D inicial y posterior compra de la solución innovadora resultante. De los tres contratistas de I+D, Aster y Boreal alcanzaron el último hito y los resultados mínimos; Cénit terminó anticipadamente por no alcanzar el segundo hito. Para adquirir la solución, las bases comparan únicamente a quienes cumplan los resultados y el último hito, prefiriendo menor precio. Las ofertas son Aster S/900 000, Boreal S/850 000 y Cénit S/600 000. No hay otras diferencias ni impedimentos. ¿Qué identificación de modalidad y decisión se ajustan a la secuencia descrita?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Es una CPP y debe comprarse automáticamente a Cénit porque cualquier oferta de solución final es admisible."
+        },
+        {
+          "id": "B",
+          "text": "Es una API y debe elegirse a Cénit porque participó en la primera fase y ofrece el menor precio."
+        },
+        {
+          "id": "C",
+          "text": "Es una CPP y la adquisición de la solución constituye necesariamente la segunda fase de esa misma modalidad."
+        },
+        {
+          "id": "D",
+          "text": "Es una API y corresponde seleccionar a Boreal entre quienes alcanzaron el último hito y los resultados mínimos, conforme al factor de las bases."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 247.3 distingue la API por incluir I+D y posterior contratación de la solución, mientras la CPP se limita a I+D y prototipos. El artículo 252.6 restringe la evaluación final a contratistas que alcanzaron el último hito y lograron los mínimos; el 252.7 conecta la adjudicación con la contratación de la solución. Cénit no es elegible pese a su menor precio. Entre Aster y Boreal, las bases del caso dan preferencia a Boreal por S/850 000.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Atribuye a la CPP una segunda fase propia de API y admite a quien no superó los hitos requeridos.",
+        "B": "Participar inicialmente no basta: la evaluación final excluye al contratista que no alcanzó el último hito y los mínimos.",
+        "C": "La adquisición posterior de la solución es la segunda fase de API, no una fase necesaria de CPP.",
+        "D": "Identifica la modalidad por su secuencia, excluye al candidato no elegible y aplica el factor de precio entre quienes sí completaron la I+D requerida."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f2f8c9d4-4b40-4b45-ba75-2cd7d02c3566",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "247",
+          "pageStart": 138,
+          "pageEnd": 138,
+          "quote": "Artículo 247. Compra Pública de Innovación 247.1. La CPI parte de la identificación de una necesidad que requiere ser atendida, cuya solución no existe en el mercado o que requiere de adaptaciones, ajustes o mejoras que implican la incorporación de elementos innovadores, para lo cual, la entidad co ntratante, a través de un proceso de I+D, busca la adquisición de una solución innovadora orientada a la obtención de bienes, servicios u obras. 247.2. Los Ministerios y sus organismos públicos, programas y proyectos adscritos, así como las universidades públicas, pueden contratar bajo la modalidad de CPI. 247.3. En la CPI, las entidades contratantes pueden emplear las modalidades de procedimientos de selección de CPP o API, de acuerdo con lo siguiente: a) La CPP es la contratación de un bien o servicio que incluye como prestación la investigación y desarrollo (I +D) con el fin de obtener una solución que no esté disponible en el mercado o requiera de adaptaciones, ajustes o mejoras, con la finalidad de o btener prototipos o primeros productos de prueba que respondan a la necesidad de la entidad contratante. La CPP puede establecer hitos conforme a la secuencia de los procesos de I+D que contemple la entidad contratante La validación en un entorno real depe nde de la naturaleza y complejidad de la solución y de la decisión del área usuaria. En la CPP, se otorga la buena pro a uno o más proveedores. b) La API es la contratación del servicio de I+D y la posterior contratación de la solución innovadora, que no esté disponible en el mercado o requiera de adaptaciones, ajustes o mejoras. La API tiene dos fases: i) En la primera fase, se realiza la selección, contratación y ejecución del servicio de I+D con uno o más proveedores adjudicados en la API. ii) En la segunda fase, se realiza la contratación de la solución innovadora resultante de la primera fase. Para ello, se suscribe el contrato con uno de los proveedores que participaron en la primera parte y que haya obtenido el mejor resultado de acuerdo con los objetivos, niveles de rendimiento y costos determinados en las bases del procedimiento de selección.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f21a4af4-d79c-4d1d-a8a1-e5f71bcee2e3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "252",
+          "pageStart": 139,
+          "pageEnd": 140,
+          "quote": "Artículo 252. Desarrollo de la CPI 252.1. En una API, durante la primera fase se adjudica la innovación a uno o varios proveedores conforme se hubiera determinado en las bases, a fin de que estos suscriban los contratos correspondientes para el desarrollo de la I+D. 252.2. En esta primera fase, la evaluación económica se realiza sobre 100 puntos únicamente respecto al rubro correspondiente al costo del servicio de I+D, mientras que el monto de la oferta económica del rubro correspondiente a la solución innovadora es f ijo al 100%, por lo que no es materia de calificación. 252.3. El contrato indica las actividades que se deben realizar para alcanzar cada hito y sus resultados mínimos, sujetos a cláusulas de terminación anticipada, de ser el caso, así como la forma y plazos para la evaluación y acreditación de los resultados obtenidos y la consecuente notificación al contratista de continuar o no con el siguiente hito. 252.4. Al final de cada hito, el área usuaria decide si corresponde resolver el contrato con uno o más contratistas de la API o si corresponde continuar con la ejecución del siguiente hito, siempre que esta resolución este prevista en el contrato y se real ice según la evaluación de los resultados mínimos y el rigor técnico. 252.5. La terminación anticipada del contrato requiere el pago de la contraprestación que corresponda al contratista por el o los hitos alcanzados que tengan la conformidad respectiva\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 140 de 249 acorde a lo establecido en el contrato suscrito. La resolución del contrato no da lugar a indemnización a favor del proveedor. 252.6. Tras el desarrollo de la primera fase de la API, correspondiente al I+D, el jurado evalúa los resultados obtenidos solo por los contratistas que alcanzaron el último hito, a fin de determinar si lograron los resultados mínimos esperados y, de corres ponder, otorgar la buena pro de la API a uno de ellos de acuerdo con los factores de evaluación establecidos en las bases, los cuales pueden ser objetivos, como el precio o el plazo de fabricación o entrega. 252.7. El contratista adjudicado continúa con la segunda etapa de la API, que consiste en la contratación de la solución innovadora. 252.8. En el caso de la CPP, solo se realiza la fase correspondiente a la I+ D, siendo que la evaluación económica se realiza sobre 100 puntos, conforme lo señalado en las Bases estándar. Puede adjudicarse la buena pro a uno o más proveedores, los que se s ujetan a la terminación anticipada conforme a los numerales 252.3, 252.4 y 252.5.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N062",
+    "objetivo": "Aplicar la evaluación económica especial de la primera fase de una API.",
+    "criterioAvanzado": "Identificar el rubro evaluable cambia el denominador de la fórmula y revierte el ganador que resultaría de sumar indebidamente la solución fija.",
+    "input": {
+      "prompt": "En la primera fase de una API, las bases válidas seleccionan a un proveedor de I+D entre dos ofertas admitidas y calificadas. Atria obtiene 90 puntos técnicos y oferta S/240 000 por I+D; Belda obtiene 95 y oferta S/300 000 por I+D. Ambas incluyen además el rubro de solución innovadora fijado en S/1 200 000, que no cambia entre ofertas. La evaluación económica es posterior a la técnica, sobre cien puntos, y las bases establecen ponderaciones de 0,70 para técnica y 0,30 para economía; ambas superan el mínimo y no hay bonificaciones. El evaluador suma I+D y solución fija para hallar el precio menor y aplicar la proporcionalidad inversa. ¿Qué puntajes totales y adjudicación corresponden al corregir ese tratamiento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Atria obtiene 93 y Belda 90,5; debe seleccionarse Atria al evaluar económicamente solo el rubro I+D."
+        },
+        {
+          "id": "B",
+          "text": "Atria obtiene 93 y Belda 95,3; debe seleccionarse Belda porque el rubro fijo también integra el precio usado en la evaluación económica."
+        },
+        {
+          "id": "C",
+          "text": "Atria obtiene 90 y Belda 95; debe seleccionarse Belda porque la existencia de un rubro fijo elimina toda evaluación económica de la primera fase."
+        },
+        {
+          "id": "D",
+          "text": "Atria obtiene 97 y Belda 84,5; debe seleccionarse Atria usando 0,30 para técnica y 0,70 para economía."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 252.2 dispone que en la primera fase de API se evalúa económicamente solo el costo de I+D; el rubro de solución innovadora es fijo y no se califica. Según la proporcionalidad inversa del artículo 74.2, Atria obtiene cien y Belda 240 000 / 300 000 por cien = ochenta puntos económicos. Aplicando el promedio ponderado de 75.3 con los coeficientes de las bases: Atria = 0,70 por 90 + 0,30 por 100 = 93; Belda = 0,70 por 95 + 0,30 por 80 = 90,5. Incluir el rubro fijo comprime indebidamente la diferencia económica y haría ganar a Belda con 95,3; la regla especial cambia la prelación.",
+      "regime": "32069",
+      "topic": "Procedimientos y modalidades",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.1",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Identifica el rubro económicamente evaluable antes de aplicar la fórmula; esa exclusión determina cien frente a ochenta y cambia la adjudicación a favor de Atria.",
+        "B": "Incluye un rubro que 252.2 excluye de calificación: 1 440 000 frente a 1 500 000 produce cien frente a noventa y seis y distorsiona la prelación.",
+        "C": "Confunde el carácter fijo de la solución con el del servicio de I+D, que sí se evalúa económicamente sobre cien puntos en la primera fase.",
+        "D": "Usa el rubro correcto, pero invierte los coeficientes establecidos por las bases; acertar el ganador no hace correctos esos puntajes."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f21a4af4-d79c-4d1d-a8a1-e5f71bcee2e3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "252",
+          "pageStart": 139,
+          "pageEnd": 140,
+          "quote": "Artículo 252. Desarrollo de la CPI 252.1. En una API, durante la primera fase se adjudica la innovación a uno o varios proveedores conforme se hubiera determinado en las bases, a fin de que estos suscriban los contratos correspondientes para el desarrollo de la I+D. 252.2. En esta primera fase, la evaluación económica se realiza sobre 100 puntos únicamente respecto al rubro correspondiente al costo del servicio de I+D, mientras que el monto de la oferta económica del rubro correspondiente a la solución innovadora es f ijo al 100%, por lo que no es materia de calificación. 252.3. El contrato indica las actividades que se deben realizar para alcanzar cada hito y sus resultados mínimos, sujetos a cláusulas de terminación anticipada, de ser el caso, así como la forma y plazos para la evaluación y acreditación de los resultados obtenidos y la consecuente notificación al contratista de continuar o no con el siguiente hito. 252.4. Al final de cada hito, el área usuaria decide si corresponde resolver el contrato con uno o más contratistas de la API o si corresponde continuar con la ejecución del siguiente hito, siempre que esta resolución este prevista en el contrato y se real ice según la evaluación de los resultados mínimos y el rigor técnico. 252.5. La terminación anticipada del contrato requiere el pago de la contraprestación que corresponda al contratista por el o los hitos alcanzados que tengan la conformidad respectiva\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 140 de 249 acorde a lo establecido en el contrato suscrito. La resolución del contrato no da lugar a indemnización a favor del proveedor. 252.6. Tras el desarrollo de la primera fase de la API, correspondiente al I+D, el jurado evalúa los resultados obtenidos solo por los contratistas que alcanzaron el último hito, a fin de determinar si lograron los resultados mínimos esperados y, de corres ponder, otorgar la buena pro de la API a uno de ellos de acuerdo con los factores de evaluación establecidos en las bases, los cuales pueden ser objetivos, como el precio o el plazo de fabricación o entrega. 252.7. El contratista adjudicado continúa con la segunda etapa de la API, que consiste en la contratación de la solución innovadora. 252.8. En el caso de la CPP, solo se realiza la fase correspondiente a la I+ D, siendo que la evaluación económica se realiza sobre 100 puntos, conforme lo señalado en las Bases estándar. Puede adjudicarse la buena pro a uno o más proveedores, los que se s ujetan a la terminación anticipada conforme a los numerales 252.3, 252.4 y 252.5.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "89168888-e1cb-4e7b-ad6a-3bfd4cfb56cc",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "74",
+          "pageStart": 42,
+          "pageEnd": 42,
+          "quote": "Artículo 74. Evaluación económica de la oferta 74.1. La evaluación económica, de acuerdo con el tipo de procedimiento de selección o sus modalidades, puede ser de los siguientes tipos: a) De manera simultánea a la evaluación técnica: la oferta económica es un factor de evaluación. b) De manera posterior a la evaluación técnica: la oferta económica se evalúa luego de realizada la evaluación técnica de la oferta y solo respecto de aquellos proveedores que hubieran obtenido un puntaje mínimo en dicha evaluación. c) Con lances: se permite a los postores mejorar los montos de sus ofertas a través de lances sucesivos en línea. La mejora de precios de la oferta queda a criterio de cada postor. 74.2. A fin de determinar el puntaje de la oferta económica a evaluar, el mayor puntaje se otorga al menor monto ofertado, y se otorga a las demás ofertas económicas puntajes inversamente proporcionales a sus respectivos montos ofertados, según la siguient e fórmula: Po= Mb x Pmax Mo Donde: Po = Puntaje de la oferta económica a evaluar Mo = Monto de la oferta económica Mb = Monto de la oferta económica más baja Pmax = Puntaje máximo 74.3. La fórmula señalada en el numeral precedente no es aplicable a la subasta inversa ni a la comparación de precios, en las que la evaluación económica consiste en establecer el orden de prelación de los postores considerando que la buena pro se otorga al menor monto ofertado.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "95e9d1bf-f30a-4357-8c61-bb7acb645ed8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "75",
+          "pageStart": 42,
+          "pageEnd": 43,
+          "quote": "Artículo 75. Determinación del puntaje total 75.1. El puntaje total de las ofertas en el caso de la evaluación simultánea se determina por la suma de los puntajes asignados por cada factor de evaluación. La suma de los puntajes máximos de los factores de evaluación es equivalente a cien puntos. El fa ctor de evaluación correspondiente a la oferta económica no puede superar los cuarenta puntos, con excepción de la comparación de precios. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"75.1. El puntaje total de las ofertas en el caso de la evaluación simultánea se determina por la suma de los puntajes asignados por cada factor de evaluación. La suma de los puntajes máximos de los factores de evaluación es equivalente a cien puntos. El f actor de evaluación correspondiente a la oferta económica no puede superar los cuarenta puntos. En el caso de licitación pública abreviada para la adquisición de bienes homologados, es posible establecer un puntaje máximo de setenta puntos en el factor de evaluación de oferta económica.\" 75.2. En el caso que la evaluación económica de las ofertas se realice de manera posterior a la evaluación técnica, el puntaje máximo de cada una de estas evaluaciones es equivalente a cien puntos.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 43 de 249 75.3. El puntaje total de las ofertas en el caso que la evaluación económica se realice de manera posterior a la evaluación técnica es el promedio ponderado de la evaluación técnica y la evaluación económica, aplicándose la siguiente fórmula: PTP = C1 PT+ C2 Pe Donde: PTP = Puntaje total del postor a evaluar Pt = Puntaje de la evaluación técnica del postor a evaluar Pe = Puntaje de la evaluación económica del postor a evaluar C1 = Coeficiente de ponderación para la evaluación técnica c2 = Coeficiente de ponderación para la evaluación económica 75.4. Las bases estándar determinan los coeficientes de ponderación en los procedimientos de selección con evaluación posterior de ofertas económicas, de acuerdo con el objeto contractual. 75.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N063",
+    "objetivo": "Calcular la prelación aplicando bonificación territorial.",
+    "criterioAvanzado": "Cuantía y domicilio RNP determinan quién recibe el incremento y cambian al ganador.",
+    "input": {
+      "prompt": "En una consultoría por S/190 000 prestada íntegramente fuera de Lima y Callao, las bases aplicables contemplan la bonificación territorial correspondiente. Antes de ella, Sierra obtiene 90 puntos y Mar 96. En el RNP, Sierra tiene domicilio en provincia colindante con la de prestación, pero de otro departamento; Mar está en provincia no colindante, aunque abrió oficina temporal en el lugar del servicio. No hay otras bonificaciones ni empates. ¿Cuál es el resultado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Mar gana con 105,6 puntos porque su oficina temporal basta para recibir la bonificación."
+        },
+        {
+          "id": "B",
+          "text": "Mar gana con 96 porque la colindancia solo vale dentro del mismo departamento."
+        },
+        {
+          "id": "C",
+          "text": "Sierra gana con 99 puntos frente a 96 de Mar, usando el domicilio RNP y la colindancia sin límite departamental."
+        },
+        {
+          "id": "D",
+          "text": "Sierra gana con 100 puntos porque la bonificación consiste en sumar diez puntos fijos."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 75.6 contempla un 10% sobre el puntaje total en servicios y consultorías de hasta S/200 000 fuera de Lima y Callao. Usa el domicilio del RNP y admite provincias colindantes aunque sean de otro departamento. Sierra obtiene noventa por 1,10: 99 puntos; la oficina temporal de Mar no reemplaza su domicilio RNP y conserva 96.",
+      "regime": "32069",
+      "topic": "Evaluación, principios y criterios",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La oficina temporal no es el domicilio RNP definido para reconocer la bonificación.",
+        "B": "La norma admite provincias colindantes de departamentos distintos.",
+        "C": "Verifica el umbral, identifica el domicilio elegible y aplica el porcentaje al total.",
+        "D": "Un diez por ciento de noventa equivale a nueve, no a diez puntos fijos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f97b7be3-14bc-41d6-834f-ce4e6784c7a3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "75",
+          "pageStart": 42,
+          "pageEnd": 43,
+          "quote": ". En los procedimientos de selección o ítems cuya cuantía corresponda a una modalidad abreviada, las bases estándar contemplan bonificaciones en el puntaje a las micro y pequeñas empresas, o a los consorcios conformados en su totalidad por estas. 75.6. Tratándose de la contratación de servicios en general, consultorías y obras que se presten o ejecuten fuera de las provincias de Lima y Callao, cuya cuantía no supere los doscientos mil y 00/100 soles (S/ 200 000,00) para la contratación de servicios en general y consultorías, y no superen los novecientos mil y 00/100 soles (S/ 900 000,00) en el caso de obras, las bases estándar contemplan una bonificación equivalente al 10% sobre el puntaje total para los postores con domicilio en la provincia donde presta el servicio o se ejecuta la obra, o en las provincias colindantes, sean o no pertenecientes al mismo departamento o región. El domicilio es el consignado en la constancia de inscripción ante el RNP.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N064",
+    "objetivo": "Resolver un empate técnico con consorcios de composición distinta.",
+    "criterioAvanzado": "Descarta la preferencia especializada incompleta y continúa la prelación legal hasta encontrar ganador.",
+    "input": {
+      "prompt": "En un procedimiento sujeto a los criterios generales de desempate, tres ofertas tienen igual puntaje total y técnico. Una es de una gran empresa. Otra es de un consorcio formado por una MYPE integrada por personas con discapacidad y una gran empresa; su representante pide preferencia por discapacidad. La tercera es de un consorcio integrado totalmente por MYPE acreditadas, ninguna con aquella condición de discapacidad. No hay otra oferta ni regla especial. ¿A quién corresponde la buena pro?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Al consorcio mixto, porque basta que un integrante reúna la condición de discapacidad."
+        },
+        {
+          "id": "B",
+          "text": "Al consorcio compuesto íntegramente por MYPE, tras descartar la preferencia por discapacidad del consorcio mixto."
+        },
+        {
+          "id": "C",
+          "text": "A la gran empresa, porque la igualdad técnica obliga a preferir al postor individual."
+        },
+        {
+          "id": "D",
+          "text": "Debe sortearse entre las tres sin revisar la composición de los consorcios."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 81 aplica primero el puntaje técnico, que aquí no resuelve el empate. Para la preferencia de MYPE integradas por personas con discapacidad exige que el consorcio esté formado totalmente por tales empresas. El mixto no cumple. En el siguiente nivel sí reúne la condición el consorcio formado totalmente por MYPE acreditadas, antes de llegar al sorteo.",
+      "regime": "32069",
+      "topic": "Evaluación, principios y criterios",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La condición de un integrante no se extiende al consorcio cuando se exige totalidad.",
+        "B": "Aplica sucesivamente los criterios y reconoce la preferencia general MYPE al consorcio que sí la acredita.",
+        "C": "La condición de postor individual no integra los criterios de desempate descritos.",
+        "D": "El sorteo es residual y no desplaza la preferencia MYPE cuando esta resuelve el empate."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "5600f03b-7e9c-4b40-b372-d4f7d42aa0cf",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "81",
+          "pageStart": 46,
+          "pageEnd": 46,
+          "quote": "Artículo 81. Criterios en caso de empate Cuando dos o más ofertas empaten, el otorgamiento de la buena pro se efectúa observando los siguientes criterios, en el siguiente orden de prelación: a) La buena pro se otorga al postor que haya obtenido el mejor puntaje técnico. b) La buena pro se otorga al postor que sea microempresa o pequeña empresa integrada por personas con discapacidad o a un consorcio conformado en su totalidad por estas empresas, siempre que acredite tener tales condiciones de acuerdo con la normativa de l a materia. c) La buena pro se otorga al postor que sea microempresa o pequeña empresa o a un consorcio conformado en su totalidad por éstas, siempre que estén debidamente acreditadas de acuerdo con la normativa de la materia. d) A través de sorteo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N065",
+    "objetivo": "Detectar un consentimiento registrado pese a una apelación oportuna.",
+    "criterioAvanzado": "El recurso impide consolidar el resultado aunque se haya realizado materialmente el registro.",
+    "input": {
+      "prompt": "En un procedimiento de ítem único se presentaron tres ofertas. El último día del plazo, un postor interpone válidamente apelación contra la buena pro; interposición y oportunidad están acreditadas. Por error, al día siguiente la DEC registra que la buena pro quedó consentida e inicia el trámite de contratación. El ganador invoca el registro para exigir firma inmediata. ¿Qué evaluación corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El registro consolida el consentimiento y la apelación solo puede discutirse después de firmar."
+        },
+        {
+          "id": "B",
+          "text": "La apelación suspende únicamente la evaluación, pero permite perfeccionar el contrato."
+        },
+        {
+          "id": "C",
+          "text": "Se produce consentimiento porque el recurso fue presentado el último día y no antes."
+        },
+        {
+          "id": "D",
+          "text": "No se configura la condición de ausencia de recurso para consentir; debe respetarse la suspensión sin perfeccionar apoyándose en ese registro erróneo."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 82.1 modificado exige que venza el plazo sin que los postores hayan ejercido el derecho de apelar. Aquí lo ejercieron oportunamente. El artículo 305.1 suspende el procedimiento por interposición del recurso. Un registro material contrario a esos hechos no satisface la condición para el consentimiento ni permite eludir la suspensión.",
+      "regime": "32069",
+      "topic": "Consentimiento y firmeza de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el asiento erróneo con el cumplimiento de la condición sustantiva del consentimiento.",
+        "B": "La suspensión alcanza al procedimiento de selección, no solo a la evaluación.",
+        "C": "Un recurso válido el último día es oportuno y excluye la condición de ausencia de recurso.",
+        "D": "Relaciona la condición incumplida del consentimiento con la suspensión causada por la apelación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c32f3a5a-70eb-487a-8f0e-c88ac2151ece",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "82",
+          "pageStart": 46,
+          "pageEnd": 46,
+          "quote": "Artículo 82. Consentimiento del otorgamiento de la buena pro 82.1. Cuando se hayan presentado dos o más ofertas definitivas, el consentimiento de la buena pro es publicado a través de la Pladicop al día siguiente de vencido el plazo correspondiente para interponer recurso de apelación, sin que los postores hubieran ejercido ese derecho. 82.2. En caso de que se haya presentado una sola oferta, el consentimiento de la buena pro se produce el mismo día de la notificación de su otorgamiento. (*) (*) Artículo modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: Artículo 82. Consentimiento del otorgamiento de la buena pro 82.1. Cuando se hayan presentado dos o más ofertas, el consentimiento de la buena pro se produce y registra en la Pladicop al día siguiente de vencido el plazo correspondiente para interponer recurso de apelación, sin que los postores hubieran ejercido ese derecho. 82.2. En caso de que se haya presentado una sola oferta, el consentimiento de la buena pro se produce el mismo día de la notificación de su otorgamiento y se registra en la Pladicop al día siguiente .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f328ca47-7be7-4822-8e54-60488ad7c726",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "305",
+          "pageStart": 160,
+          "pageEnd": 161,
+          "quote": "Artículo 305. Efectos de la interposición 305.1. La interposición del recurso de apelación suspende el procedimiento de selección. Si el procedimiento de selección fue convocado según relación de ítems, la suspensión afecta únicamente al ítem impugnado. 305.2. La interposición del recurso de apelación no suspende la incorporación de proveedores a los Catálogos Electrónicos de Acuerdo Marco ni la extensión de vigencia de dichos catálogos. 305.3. La entidad contratante o el TCP, según corresponda, informa de la interposición del recurso de apelación a través de su registro en la Pladicop, hasta el día hábil siguiente de su interposición.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 161 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N066",
+    "objetivo": "Distinguir firmeza administrativa de un registro posterior al computar el plazo de presentación.",
+    "criterioAvanzado": "La resolución de apelación determina el hito aplicable; la anotación posterior y la demanda no desplazan ese inicio ni cambian la excepción de cinco días.",
+    "input": {
+      "prompt": "Una resolución que resuelve la apelación y confirma la buena pro se notifica el miércoles de la semana 1. La DEC deja constancia de su firmeza en Pladicop el viernes de esa semana. El lunes de la semana 2, el apelante presenta acción contencioso-administrativa; no existe medida judicial suspensiva. No se exige garantía de fiel cumplimiento. El ganador proyecta presentar sus requisitos el viernes de la semana 2: cuenta cinco días hábiles desde el día siguiente de la anotación del viernes y sostiene que, si la demanda suspende, tendría incluso más tiempo. Solo son hábiles lunes a viernes, sin feriados. ¿Qué conclusión corresponde sobre ese plan?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La fecha propuesta es tardía: el plazo termina el miércoles de la semana 2, contado desde el día siguiente a la firmeza derivada de la resolución notificada, sin suspensión por la sola demanda."
+        },
+        {
+          "id": "B",
+          "text": "La fecha propuesta es oportuna: la anotación del viernes es el hito constitutivo incluso cuando la buena pro ya quedó administrativamente firme por resolución de apelación."
+        },
+        {
+          "id": "C",
+          "text": "La fecha propuesta es oportuna porque siempre dispone de ocho días hábiles, cuyo término sería el lunes de la semana 3."
+        },
+        {
+          "id": "D",
+          "text": "La demanda detiene el plazo desde el lunes de la semana 2 y el saldo solo podrá computarse después de la sentencia judicial."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 317.1 hace que la resolución de apelación agote la vía administrativa; 317.2 establece que la acción contencioso-administrativa no suspende lo resuelto. El artículo 90.1 distingue el registro del consentimiento de la buena pro y el hecho de que quede administrativamente firme: aquí opera este segundo hito al notificarse la resolución el miércoles. Como no se exige garantía, 90.2 reduce el plazo a cinco días hábiles: jueves y viernes de la semana 1, y lunes, martes y miércoles de la semana 2. La anotación del viernes no reinicia el plazo y la sola demanda no lo detiene; presentar el viernes de la semana 2 sería tardío.",
+      "regime": "32069",
+      "topic": "Consentimiento y firmeza de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.4",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Clasifica el resultado como firme por resolución de apelación, aplica el hito correspondiente y la excepción de cinco días, y descarta dos desplazamientos indebidos del plazo.",
+        "B": "Confunde el registro que activa el plazo de una buena pro consentida con una anotación posterior a una buena pro que ya quedó administrativamente firme.",
+        "C": "Aplica el plazo general pese a la ausencia de garantía, condición que activa el plazo especial de cinco días.",
+        "D": "Atribuye efecto suspensivo automático a la demanda que 317.2 excluye; el caso tampoco incorpora una medida judicial que disponga suspensión."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "72a752b7-8867-44b5-a11c-94dd009bca64",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "317",
+          "pageStart": 166,
+          "pageEnd": 166,
+          "quote": "Artículo 317. Agotamiento de la vía administrativa 317.1. La resolución que resuelve el recurso de apelación o la denegatoria ficta, por no resolver ni notificar su pronunciamiento dentro del plazo respectivo, agotan la vía administrativa, por lo que no cabe interponer recurso administrativo alguno. 317.2. La interposición de la acción contencioso - administrativa cabe únicamente contra la resolución o denegatoria ficta, que agotan la vía administrativa, y no suspende lo resuelto por la entidad contratante o por el TCP. Dicha acción se interpone dentro del plazo de la ley de la materia. TÍTULO XI SOLUCIÓN DE CONTROVERSIAS DESDE EL PERFECCIONAMIENTO DEL CONTRATO CAPÍTULO I REGISTRO DE INSTITUCIONES ARBITRALES Y CENTROS DE ADMINISTRACIÓN DE JUNTAS DE PREVENCIÓN Y RESOLUCIÓN DE DISPUTAS",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "Artículo 90. Plazos y procedimiento para el perfeccionamiento del contrato 90.1. El postor ganador de la buena pro presenta los requisitos para perfeccionar el contrato dentro del plazo de ocho días hábiles contabilizados desde el día siguiente al registro del consentimiento de la buena pro en la Pladicop o de que ésta haya queda do administrativamente firme.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 50 de 249 90.2. En caso no se requiera de la presentación de la garantía de fiel cumplimiento, el postor ganador presenta los requisitos para perfeccionar el contrato dentro del plazo de cinco días hábiles. 90.3. En un plazo no mayor a tres días hábiles contabilizados desde el día siguiente de la presentación de los requisitos por parte del postor ganador de la buena pro, se perfecciona el contrato, con su suscripción o con la recepción de la orden de compra o de servicio, según corresponda. En el mismo plazo, la DEC puede notificar la observación de los requisitos, otorgando un plazo máximo de cuatro días hábiles contabilizados desde el día siguiente de la notificación, para la subsanación. 90.4. En caso la garantía de fiel cumplimiento se encuentre en trámite, a solicitud expresa del postor ganador de la buena pro, la DEC puede otorgar un plazo adicional de hasta cuatro días hábiles contabilizados desde el día siguiente al vencimiento del pl azo indicado en el numeral anterior para su presentación. 90.5. En un plazo máximo de tres días hábiles contabilizados desde el día siguiente de haberse subsanado las observaciones o presentado la garantía se perfecciona el contrato. 90.6. Es responsabilidad de la DEC la revisión de los requisitos para el perfeccionamiento del contrato, estando facultada a solicitar el apoyo que requiera del área usuaria y/u otra dependencia, la que está obligada a brindarle la información que solicite .",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N067",
+    "objetivo": "Distinguir liberación por demora de la entidad de pérdida imputable al postor.",
+    "criterioAvanzado": "El vencimiento del requerimiento adicional cambia la obligación sin convertir al ganador en incumplidor.",
+    "input": {
+      "prompt": "El ganador entregó correctamente todos los requisitos y la entidad dejó vencer su plazo para perfeccionar. El lunes de la semana 1 recibe un requerimiento del ganador que le concede cinco días hábiles para cumplir. Solo son hábiles lunes a viernes, sin feriados. No firma ni remite orden durante ese plazo. El martes de la semana 2 pretende declarar pérdida de buena pro por culpa del ganador porque este se niega a firmar ese día. ¿Qué conclusión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El ganador sigue obligado indefinidamente porque presentó requisitos correctos."
+        },
+        {
+          "id": "B",
+          "text": "El plazo adicional venció el viernes de la semana 1 y toda negativa posterior es imputable al ganador."
+        },
+        {
+          "id": "C",
+          "text": "El plazo vence el lunes de la semana 2 y, vencido sin perfeccionamiento, el ganador deja de estar obligado; su negativa del martes no sustenta por sí sola pérdida imputable."
+        },
+        {
+          "id": "D",
+          "text": "El ganador pierde automáticamente la buena pro al requerir a la entidad que cumpla."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 91.1 cuenta los cinco días hábiles desde el siguiente al requerimiento: martes, miércoles, jueves, viernes y lunes. El artículo 91.2 libera al ganador cuando vencen sin perfeccionamiento. La pérdida del numeral 91.3 exige causa imputable al postor; el caso acredita demora de la entidad y la negativa posterior a quedar liberado no demuestra esa imputación.",
+      "regime": "32069",
+      "topic": "Pérdida de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.5",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El artículo 91.2 limita la obligación después del requerimiento incumplido.",
+        "B": "Cuenta indebidamente el lunes de recepción y atribuye al ganador la demora de la entidad.",
+        "C": "Calcula desde el día siguiente y distingue liberación por incumplimiento de la entidad de pérdida imputable.",
+        "D": "Requerir el cumplimiento es una facultad del ganador y no una causa de pérdida de buena pro."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "Artículo 91. Supuestos en los que no se perfecciona el contrato 91.1. Cuando la entidad contratante no cumpla con perfeccionar el contrato dentro de los plazos establecidos en el artículo precedente, el postor ganador de la buena pro puede requerir su cumplimiento, dándole un plazo de cinco días hábiles contabilizados desde el día siguiente de haber sido requerida para proceder al perfeccionamiento del contrato. 91.2. Vencido el plazo otorgado sin que la entidad contratante haya perfeccionado el contrato, el postor ganador deja de estar obligado a su suscripción o a la recepción de la orden de compra o de servicio. 91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de la buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 91.1. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.\" 91.4. Si el postor que ocupó el segundo lugar no perfecciona el contrato, se puede requerir de manera sucesiva a los postores que ocuparon los siguientes lugares en el orden de prelación que presenten los requisitos para perfeccionar el contrato, conforme lo dispuesto en el numeral precedente. En caso no se concrete la suscripción del contrato, la DEC devuelve el expediente de contratación a los evaluadores para que el procedimiento de selección se declare desierto. 91.5. Cuando se trate de una subasta inversa electrónica, se llama hasta el tercer lugar de prelación identificado en caso el segundo lugar no perfeccione el contrato.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 51 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N068",
+    "objetivo": "Determinar qué régimen de reemplazos rige tras cambiar de procedimiento por una subasta desierta.",
+    "criterioAvanzado": "La secuencia de convocatorias obliga a clasificar el procedimiento vigente antes de decidir si se hereda el límite especial de tres o cabe llamar al cuarto.",
+    "input": {
+      "prompt": "Una subasta inversa de bienes se declara desierta. La DEC sustenta en su informe el riesgo de repetir el desierto y convoca válidamente una licitación pública abreviada para el mismo objeto. En esta nueva convocatoria se califican cuatro ofertas y se fija su orden. El primero pierde la buena pro por causa imputable; se requiere regularmente al segundo y luego al tercero, pero ninguno perfecciona por causa propia. Se han agotado las actuaciones y plazos previos que permiten un nuevo requerimiento. El cuarto de la licitación sigue disponible y cumple todo, aunque no participó en la subasta original. La DEC propone declarar desierto porque el procedimiento tuvo origen en una subasta y ya agotó tres lugares. ¿Qué curso permite la regla aplicable?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Declarar desierto necesariamente, pues el origen en subasta hace permanente el límite de tres en cualquier convocatoria posterior."
+        },
+        {
+          "id": "B",
+          "text": "Volver a la prelación de participantes de la subasta original para agotar sus ofertas antes de usar la licitación abreviada."
+        },
+        {
+          "id": "C",
+          "text": "Requerir al cuarto de la licitación abreviada conforme a la sucesión general: el límite especial de la subasta no rige el procedimiento competitivo ahora vigente."
+        },
+        {
+          "id": "D",
+          "text": "Llamar al cuarto solo si hubiera participado también en la subasta original, conservando como condición su inscripción en aquella primera convocatoria."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 96.6 permite la nueva licitación pública abreviada ante el riesgo sustentado de repetir el desierto de la subasta. Ese cambio identifica el procedimiento cuya prelación se utiliza ahora: la licitación, no la subasta cerrada. El artículo 91.4 permite requerir sucesivamente a quienes ocupan los lugares siguientes cuando no se perfecciona con el segundo; el límite hasta el tercer lugar de 91.5 se refiere a una subasta inversa. Por ello no se hereda ese límite en la licitación abreviada válidamente convocada. Puede requerirse al cuarto de su propia prelación sin exigir que hubiera participado en el procedimiento anterior.",
+      "regime": "32069",
+      "topic": "Pérdida de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.5",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Extiende un límite especial por la historia del objeto y no por el tipo del procedimiento donde se produce el reemplazo.",
+        "B": "Una nueva convocatoria válida tiene su propia evaluación y prelación; no conserva ofertas de un procedimiento previamente declarado desierto.",
+        "C": "Reconstruye el cambio de procedimiento y aplica a la prelación vigente la sucesión general en lugar del límite especial que regía en la subasta anterior.",
+        "D": "Agrega una condición de participación en la convocatoria anterior que no establece la sucesión general para quien está calificado en la licitación vigente."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": ". El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar , de ser el caso, tres postores que cumplan estos requisitos, asignándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos d e calificación de estos. El procedimien to de selección se declara desierto si solo un postor hubiera participado en la evaluación económica o si no se cuenta con al menos dos ofertas que cumplan con los requisitos de calificación.\" 96.6. En caso una subasta inversa electrónica se declare desierta, la siguiente convocatoria se realiza mediante el mismo procedimiento de selección, salvo que la DEC sustente en el informe de declaratoria de desierto que existe un riesgo de que el procedi miento de selección se vuelva a declarar desierto, en cuyo caso se puede convocar una licitación pública o un concurso público abreviado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 53 de 249 SUBCAPÍTULO 2 Comparación de precios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "Artículo 91. Supuestos en los que no se perfecciona el contrato 91.1. Cuando la entidad contratante no cumpla con perfeccionar el contrato dentro de los plazos establecidos en el artículo precedente, el postor ganador de la buena pro puede requerir su cumplimiento, dándole un plazo de cinco días hábiles contabilizados desde el día siguiente de haber sido requerida para proceder al perfeccionamiento del contrato. 91.2. Vencido el plazo otorgado sin que la entidad contratante haya perfeccionado el contrato, el postor ganador deja de estar obligado a su suscripción o a la recepción de la orden de compra o de servicio. 91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de la buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 91.1. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.\" 91.4. Si el postor que ocupó el segundo lugar no perfecciona el contrato, se puede requerir de manera sucesiva a los postores que ocuparon los siguientes lugares en el orden de prelación que presenten los requisitos para perfeccionar el contrato, conforme lo dispuesto en el numeral precedente. En caso no se concrete la suscripción del contrato, la DEC devuelve el expediente de contratación a los evaluadores para que el procedimiento de selección se declare desierto. 91.5. Cuando se trate de una subasta inversa electrónica, se llama hasta el tercer lugar de prelación identificado en caso el segundo lugar no perfeccione el contrato.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 51 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Corregido conforme a la revisión inicial preservada del lote 3; contrastados textos reales y modificados del corpus, condiciones, excepciones, dependencia entre hechos, clave y distractores. Revisión de novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N069",
+    "objetivo": "Determinar el plazo del reemplazante tras pérdidas sucesivas ordinarias.",
+    "criterioAvanzado": "La sucesión habilitada remite al plazo de presentación y su excepción por ausencia de garantía.",
+    "input": {
+      "prompt": "En una licitación de bienes que no es subasta inversa, el primero pierde la buena pro por causa imputable y el segundo tampoco perfecciona. Cumplidas las actuaciones previas, la DEC decide requerir al tercero para presentar requisitos; se notifica un lunes. No se exige garantía de fiel cumplimiento. El tercero propone presentar todo el lunes siguiente alegando que dispone de ocho días hábiles. Solo son hábiles lunes a viernes, sin feriados. ¿Qué corresponde comunicarle?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dispone siempre de ocho días hábiles, aunque no se exija garantía."
+        },
+        {
+          "id": "B",
+          "text": "Debe firmar ese mismo lunes porque los reemplazantes no presentan requisitos."
+        },
+        {
+          "id": "C",
+          "text": "No puede llamarse al tercero en ningún procedimiento distinto de subasta inversa."
+        },
+        {
+          "id": "D",
+          "text": "Puede ser requerido sucesivamente, pero dispone de cinco días hábiles desde el día siguiente: su fecha propuesta es oportuna y coincide con el último día, aunque su fundamento de ocho días es incorrecto."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 91.4 permite requerir sucesivamente a los siguientes lugares en procedimientos ordinarios. El numeral 91.3 modificado remite a 90.1; su plazo general de ocho días se integra con la excepción de 90.2 de cinco días sin garantía de fiel cumplimiento. Desde el martes se cuentan martes a viernes y el lunes siguiente. La fecha propuesta resulta oportuna, pero el fundamento de ocho días es incorrecto.",
+      "regime": "32069",
+      "topic": "Pérdida de la buena pro",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.5",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Desconoce la excepción de cinco días cuando no se requiere garantía de fiel cumplimiento.",
+        "B": "El reemplazante debe presentar requisitos y el requerimiento no elimina ese trámite.",
+        "C": "La regla general permite llamados sucesivos; la subasta es la que tiene un límite especial.",
+        "D": "Aplica la sucesión ordinaria y la excepción de cinco días, conservando la fecha correcta con fundamento adecuado."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "bd025ccd-8653-4329-99ac-a20222ec62ae",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "91",
+          "pageStart": 50,
+          "pageEnd": 51,
+          "quote": "Artículo 91. Supuestos en los que no se perfecciona el contrato 91.1. Cuando la entidad contratante no cumpla con perfeccionar el contrato dentro de los plazos establecidos en el artículo precedente, el postor ganador de la buena pro puede requerir su cumplimiento, dándole un plazo de cinco días hábiles contabilizados desde el día siguiente de haber sido requerida para proceder al perfeccionamiento del contrato. 91.2. Vencido el plazo otorgado sin que la entidad contratante haya perfeccionado el contrato, el postor ganador deja de estar obligado a su suscripción o a la recepción de la orden de compra o de servicio. 91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de la buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 91.1. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"91.3. Cuando no se perfeccione el contrato por causa imputable al postor, éste pierde automáticamente la buena pro. En tal supuesto, en un plazo máximo de dos días hábiles contabilizados desde la finalización del plazo de consentimiento de la pérdida de l a buena pro, la DEC requiere al postor que ocupó el segundo lugar en el orden de prelación que presente los requisitos para perfeccionar el contrato en el plazo previsto en el numeral 90 .1 del artículo 90.\" 91.4. Si el postor que ocupó el segundo lugar no perfecciona el contrato, se puede requerir de manera sucesiva a los postores que ocuparon los siguientes lugares en el orden de prelación que presenten los requisitos para perfeccionar el contrato, conforme lo dispuesto en el numeral precedente. En caso no se concrete la suscripción del contrato, la DEC devuelve el expediente de contratación a los evaluadores para que el procedimiento de selección se declare desierto. 91.5. Cuando se trate de una subasta inversa electrónica, se llama hasta el tercer lugar de prelación identificado en caso el segundo lugar no perfeccione el contrato.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 51 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "66dcefe8-6093-4371-bf64-191f8c116658",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "90",
+          "pageStart": 49,
+          "pageEnd": 50,
+          "quote": "Artículo 90. Plazos y procedimiento para el perfeccionamiento del contrato 90.1. El postor ganador de la buena pro presenta los requisitos para perfeccionar el contrato dentro del plazo de ocho días hábiles contabilizados desde el día siguiente al registro del consentimiento de la buena pro en la Pladicop o de que ésta haya queda do administrativamente firme.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 50 de 249 90.2. En caso no se requiera de la presentación de la garantía de fiel cumplimiento, el postor ganador presenta los requisitos para perfeccionar el contrato dentro del plazo de cinco días hábiles. 90.3. En un plazo no mayor a tres días hábiles contabilizados desde el día siguiente de la presentación de los requisitos por parte del postor ganador de la buena pro, se perfecciona el contrato, con su suscripción o con la recepción de la orden de compra o de servicio, según corresponda. En el mismo plazo, la DEC puede notificar la observación de los requisitos, otorgando un plazo máximo de cuatro días hábiles contabilizados desde el día siguiente de la notificación, para la subsanación. 90.4. En caso la garantía de fiel cumplimiento se encuentre en trámite, a solicitud expresa del postor ganador de la buena pro, la DEC puede otorgar un plazo adicional de hasta cuatro días hábiles contabilizados desde el día siguiente al vencimiento del pl azo indicado en el numeral anterior para su presentación. 90.5. En un plazo máximo de tres días hábiles contabilizados desde el día siguiente de haberse subsanado las observaciones o presentado la garantía se perfecciona el contrato. 90.6. Es responsabilidad de la DEC la revisión de los requisitos para el perfeccionamiento del contrato, estando facultada a solicitar el apoyo que requiera del área usuaria y/u otra dependencia, la que está obligada a brindarle la información que solicite .",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N070",
+    "objetivo": "Gestionar la publicación del diálogo preservando información confidencial.",
+    "criterioAvanzado": "La modificación general debe comunicarse a todos sin divulgar la solución reservada que la motivó.",
+    "input": {
+      "prompt": "En un diálogo competitivo válidamente habilitado, una ronda bilateral revela que debe precisarse una interfaz común del requerimiento. El jurado aprueba el ajuste con el voto del miembro del área usuaria. La propuesta contiene además un algoritmo confidencial innecesario para describir la interfaz, y el postor no autoriza divulgarlo. La DEC propone guardar todo en correo privado hasta el cierre o publicar el algoritmo íntegro para asegurar igualdad. ¿Qué gestión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Comunicar a todos el ajuste común, reflejar la modificación en las actas y publicar al cierre el acta final y las bases definitivas por Pladicop, preservando el algoritmo no autorizado."
+        },
+        {
+          "id": "B",
+          "text": "Publicar el algoritmo completo porque toda modificación elimina la confidencialidad de su origen."
+        },
+        {
+          "id": "C",
+          "text": "Comunicar el ajuste solo al postor de la ronda y revelarlo al resto recién al recibir ofertas definitivas."
+        },
+        {
+          "id": "D",
+          "text": "Mantener la modificación fuera de las actas y publicar únicamente los nombres de finalistas."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 77.4 exige poner las modificaciones en conocimiento de todos y reconoce el voto del miembro del área usuaria como no objeción. El numeral 77.7 prohíbe revelar soluciones o datos confidenciales sin consentimiento. El 77.8 exige actas con las modificaciones y publicación por la DEC del acta final y bases integradas definitivas en Pladicop. Publicar el ajuste común no requiere divulgar el algoritmo reservado.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Separa información común necesaria y solución confidencial, conservando trazabilidad y publicación final exigidas.",
+        "B": "Modificar un requisito no autoriza divulgar información confidencial sin consentimiento del postor.",
+        "C": "Retrasar el conocimiento común impide desarrollar soluciones sobre el requerimiento modificado.",
+        "D": "Omitir modificaciones de las actas y bases definitivas incumple la documentación del diálogo."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "77",
+          "pageStart": 44,
+          "pageEnd": 45,
+          "quote": "Artículo 77. Diálogo competitivo 77.1. En caso la precalificación incluya esta subetapa, los evaluadores entablan un dialogo con los postores seleccionados en la etapa de precalificación, con el fin de identificar y desarrollar soluciones idóneas para satisfacer las necesidades de la enti dad contratante, a partir de un requerimiento preliminar. Para realizar el dialogo competitivo deben quedar como mínimo dos postores precalificados. 77.2. En el transcurso de este diálogo se debaten los aspectos del requerimiento preliminar con los postores para obtener la mejor solución a la necesidad de la entidad contratante, salvo el alcance esencial del objeto contractual y su finalidad pública. E l objetivo del dialogo competitivo es obtener un requerimiento definitivo a partir de las rondas realizadas. 77.3. Un representante del Órgano de Control Institucional (OCI) de la entidad contratante puede participar como asistente en las rondas del diálogo competitivo. 77.4. El requerimiento preliminar es ajustado por los evaluadores durante el transcurso del dialogo competitivo, conforme vaya definiéndose la solución más conveniente para llevar a cabo el objeto del contrato, y poniendo en conocimiento de las modificacio nes adoptadas a todos los postores. Cuando se ajuste el requerimiento, el voto del miembro del jurado que es servidor o funcionario del área usuaria hace las veces de la no objeción correspondiente. 77.5. El diálogo se lleva a cabo de manera bilateral con cada uno de los postores seleccionados, los cuales presentan propuestas de solución que pueden modificarse y actualizarse según avance el dialogo. El número de rondas de diálogo puede variar respecto de cada uno de los postores, ya que se llevan a cabo las que sean necesarias hasta que, a juicio de los evaluadores, se haya aclarado las soluciones planteadas por cada postor. 77.6. El procedimiento puede articularse en fases sucesivas, a fin de reducir progresivamente el número de ofertas a examinar durante la fase de diálogo, mediante la aplicación de los criterios de adjudicación previamente establecidos en las bases. 77.7. Los evaluadores no pueden revelar a los demás participantes las soluciones propuestas por un postor u otros datos confidenciales que este les comunique sin previo consentimiento de éste. 77.8. Se emiten tantas actas como rondas de diálogo se efectúen que suscriben todos los que han participado en ésta. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, public ada por la DEC en la Pladicop, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas definitivas para la respectiva evaluación técnica y económica. En esta oportunidad se publican las bases integradas definitivas, que incluyan t odas las modificaciones adoptadas durante el transcurso del diálogo y el requerimiento definitivo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 45 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus, incluidos sus textos modificados. Verificados condiciones, excepciones, clave única, distractores y novedad frente al banco de 266 preguntas. No certificación OECE ni revisión humana independiente."
+    }
+  }
+]

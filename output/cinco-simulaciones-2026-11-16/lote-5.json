@@ -1,0 +1,1887 @@
+[
+  {
+    "numero": "N090",
+    "objetivo": "Determinar el impacto neto de una causa ajena en la ruta crítica.",
+    "criterioAvanzado": "Distingue duración del evento, holgura e impacto en la fecha final.",
+    "input": {
+      "prompt": "En una obra de solo construcción, una prohibición de tránsito no imputable al contratista retrasa diez días el montaje. El programa vigente acredita que esa actividad tenía seis días de holgura y que, consumidos estos, cada día adicional desplaza en igual medida la entrega final; no hay recuperación ni demoras concurrentes. El contratista solicita oportunamente diez días de ampliación, con todos los documentos exigibles. ¿Qué evaluación técnica debe sustentar la decisión?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reconocer cuatro días: seis de los diez días consumen holgura y solo cuatro desplazan la terminación."
+        },
+        {
+          "id": "B",
+          "text": "Reconocer diez días, pues toda la duración de una causa ajena se añade al contrato."
+        },
+        {
+          "id": "C",
+          "text": "Rechazarla, porque al comenzar el evento la actividad tenía holgura."
+        },
+        {
+          "id": "D",
+          "text": "Reconocer seis días, equivalentes a la holgura que agotó el impedimento."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 198.1 del Reglamento exige que la causal modifique la ruta crítica del programa vigente. Seis días quedan absorbidos por la holgura; el desplazamiento acreditado de la terminación es 10 − 6 = 4 días. El artículo 200.1.b permite a la supervisión sustentar el recálculo e indicar expresamente los días correspondientes.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La causal ajena debe modificar la ruta crítica; el programa demuestra un efecto final de cuatro días.",
+        "B": "Confunde duración física del evento con impacto en la ruta crítica del programa vigente.",
+        "C": "La holgura inicial no descarta el impacto posterior cuando el evento supera los seis días disponibles.",
+        "D": "La holgura absorbida no amplía la fecha final; la modifica el exceso de cuatro días."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "fc3df1fd-1138-4507-b4ae-8f333150537a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "201",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "artículo 201. 197.4. En caso con la aprobación de los mayores metrados se supere el límite para prestaciones adicionales del 50% del componente obra, se procede a la resolución del contrato. Artículo 198. Ampliación del plazo contractual en obras y consultoría de obras\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 113 de 249 198.1. En el caso de obras, el contratista puede solicitar la ampliación de plazo pactado por cualquiera de las siguientes causales, siempre que modifiquen la ruta crítica del programa de ejecución vigente al momento de la solicitud: a) Por atrasos y/o paralizaciones por causas no atribuibles al contratista. b) Cuando es necesario un plazo adicional para la ejecución de la prestación adicional de obra. c) Cuando es necesario un plazo adicional para la ejecución de los mayores metrados, en contratos a precios unitarios o costo reembolsable. (*) (*) Literal modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"c) Cuando es necesario un plazo adicional para la ejecución de los mayores metrados, en contratos a precios unitarios , costo reembolsable o esquema mixto .\" 198.2. En el caso de consultorías de obra, el contratista puede solicitar la ampliación de plazo pactado por cualquiera de las siguientes causales: a) Cuando se aprueba una prestación adicional del contrato, siempre y cuando afecte el plazo de ejecución. b) Por atrasos y/o paralizaciones no imputables al contratista. c) En el caso de los contratos de supervisión de obras o de elaboración de expedientes técnicos, cuando se aprueben modificaciones en el contrato supervisado que afecten el plazo de ejecución del contrato del supervisor. 198.3. En la evaluación de la solicitud de ampliación de plazo, el supervisor y la entidad contratante privilegian el criterio técnico y el cumplimiento de la finalidad pública para su pronunciamiento por encima de las formalidades de la documentación pres entada, siempre que el sustento otorgue certeza a la decisión. 198.4",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "200",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "b) La supervisión revisa la solicitud del contratista y notifica su opinión técnica a la entidad contratante en un plazo no mayor de cinco días hábiles contabilizados desde el día siguiente de presentada la solicitud. El supervisor puede sustentar el recal culo del plazo materia de ampliación, en cuyo caso indica expresamente los días aprobados. c) Si el supervisor no se pronuncia dentro del referido plazo, la entidad contratante da respuesta a la solicitud de ampliación de plazo sin dicho pronunciamiento, sin perjuicio de aplicar las penalidades que correspondan a la supervisión. d) La entidad contratante resuelve la solicitud de la ampliación de plazo y notifica su decisión al contratista, a través de la Pladicop, en un plazo no mayor de diez días hábiles contabilizados desde el día siguiente de recibida la opinión del supervisor o del vencimiento del plazo sin que haya emitido opinión. Si la entidad contratante no se pronuncia dentro del plazo indicado, se tiene por aprobado lo informado por el supervisor, salvo que éste no se haya pronunciado, caso en el cual se tiene por aprobad o lo solicitado por el contratista. 200.2. El contratista puede solicitar una ampliación de plazo parcial cuando se trate de circunstancias que no cuenten con fecha prevista de conclusión, siempre que no se hubiera suspendido el plazo contractual, para lo cual se aplica lo señalado el proced imiento señalado en el numeral precedente. 200.3. En las obras bajo sistemas de entrega que incluyan el diseño, la ampliación de plazo del componente correspondiente al diseño se tramita conforme a lo dispuesto en el artículo 199. 200.4. En virtud de la ampliación otorgada, la entidad contratante amplía el plazo de los contratos directamente vinculados al contrato principal, sin solicitud previa. 200.5. Cuando las ampliaciones se sustenten en causales que no correspondan a un mismo periodo de tiempo, sea este parcial o total, cada solicitud de ampliación de plazo se tramita y resuelve independientemente.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N091",
+    "objetivo": "Distinguir la ampliación del diseño de la del componente obra.",
+    "criterioAvanzado": "La etapa afectada determina el procedimiento y el efecto del silencio.",
+    "input": {
+      "prompt": "En diseño y construcción, durante la elaboración del diseño una restricción ajena al contratista impide completar un estudio. No ha comenzado el componente obra. El contratista presenta oportunamente una solicitud sustentada de ocho días de ampliación del componente diseño y cumple todos los requisitos aplicables. La autoridad deja transcurrir doce días hábiles desde el día siguiente de recibida la solicitud sin resolver ni notificar. La oficina propone esperar además cinco días de opinión del supervisor y diez de decisión, como si se tratara de ejecución física. ¿Qué corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Iniciar ahora cinco días de opinión técnica y luego diez de decisión."
+        },
+        {
+          "id": "B",
+          "text": "Rechazarla porque solo el componente obra admite ampliaciones."
+        },
+        {
+          "id": "C",
+          "text": "Tener aprobados los ocho días por el procedimiento de consultoría aplicable al componente diseño."
+        },
+        {
+          "id": "D",
+          "text": "Conceder únicamente cinco días, como máximo de opinión del supervisor."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 200.3 del Reglamento remite la ampliación del componente diseño al artículo 199. El numeral 199.1.b da doce días hábiles desde el día siguiente de recibida la solicitud para resolver y notificar; sin pronunciamiento se tiene por aprobada. Cumplido el procedimiento y solicitados ocho días, ese es el plazo aprobado por silencio.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Aplica al diseño la secuencia de ejecución de obra pese a la remisión específica al procedimiento de consultoría.",
+        "B": "La norma contempla expresamente ampliaciones del componente diseño y establece cómo tramitarlas.",
+        "C": "La ampliación del diseño se tramita por el artículo 199 y el silencio tras doce días hábiles aprueba lo solicitado.",
+        "D": "El plazo para emitir opinión no determina la duración de la ampliación sustentada para el diseño."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "200",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "b) La supervisión revisa la solicitud del contratista y notifica su opinión técnica a la entidad contratante en un plazo no mayor de cinco días hábiles contabilizados desde el día siguiente de presentada la solicitud. El supervisor puede sustentar el recal culo del plazo materia de ampliación, en cuyo caso indica expresamente los días aprobados. c) Si el supervisor no se pronuncia dentro del referido plazo, la entidad contratante da respuesta a la solicitud de ampliación de plazo sin dicho pronunciamiento, sin perjuicio de aplicar las penalidades que correspondan a la supervisión. d) La entidad contratante resuelve la solicitud de la ampliación de plazo y notifica su decisión al contratista, a través de la Pladicop, en un plazo no mayor de diez días hábiles contabilizados desde el día siguiente de recibida la opinión del supervisor o del vencimiento del plazo sin que haya emitido opinión. Si la entidad contratante no se pronuncia dentro del plazo indicado, se tiene por aprobado lo informado por el supervisor, salvo que éste no se haya pronunciado, caso en el cual se tiene por aprobad o lo solicitado por el contratista. 200.2. El contratista puede solicitar una ampliación de plazo parcial cuando se trate de circunstancias que no cuenten con fecha prevista de conclusión, siempre que no se hubiera suspendido el plazo contractual, para lo cual se aplica lo señalado el proced imiento señalado en el numeral precedente. 200.3. En las obras bajo sistemas de entrega que incluyan el diseño, la ampliación de plazo del componente correspondiente al diseño se tramita conforme a lo dispuesto en el artículo 199. 200.4. En virtud de la ampliación otorgada, la entidad contratante amplía el plazo de los contratos directamente vinculados al contrato principal, sin solicitud previa. 200.5. Cuando las ampliaciones se sustenten en causales que no correspondan a un mismo periodo de tiempo, sea este parcial o total, cada solicitud de ampliación de plazo se tramita y resuelve independientemente.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "a516afb4-2ebe-56c9-8b50-ded3aed461f3",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "199",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "Artículo 199. Procedimiento de ampliación de plazo en consultoría de obras 199.1. En el caso de consultoría de obras, se sigue el siguiente procedimiento: a) El contratista solicita la ampliación de plazo dentro de los diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. Dentro de dicho plazo, el contratista p uede pedir una prórroga de hasta diez días hábiles adicionales para presentar la solicitud de ampliación de plazo. Las solicitudes extemporáneas de ampliación de plazo se tienen por no presentadas. b) La autoridad de la gestión administrativa resuelve dicha solicitud y notifica su decisión al contratista dentro de los doce días hábiles, contabilizados desde el día siguiente de recibida la solicitud. De no existir pronunciamiento, se tiene por aprobad a. c) La ampliación de plazo da lugar al pago según la tarifa contratada, o en el caso que se haya optado por otra modalidad de pago, se reconoce el gasto general y el costo directo debidamente acreditado, además de la utilidad del rubro correspondiente. 199.2. En el caso de contratos de supervisión de obras, en el mismo acto resolutivo que aprueba la ampliación de plazo de la obra, puede ampliarse el plazo de la supervisión.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N092",
+    "objetivo": "Delimitar mayores metrados frente a una prestación nueva.",
+    "criterioAvanzado": "Separa aumento de cantidad de una partida de una nueva solución técnica.",
+    "input": {
+      "prompt": "En una obra a precios unitarios de solo construcción, la excavación contratada debe pasar de 1 000 a 1 180 m³ sin cambiar sus características. Al abrir la zanja se detecta también la necesidad de construir un muro de contención no previsto en el expediente ni en las partidas, por una condición imprevisible no imputable al contratista. No se excederían los límites acumulados ni existe emergencia. El contratista pide anotar y ejecutar todo como mayores metrados para no esperar aprobación del muro. ¿Qué ruta corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Autorizar ambos como mayores metrados porque el contrato es a precios unitarios."
+        },
+        {
+          "id": "B",
+          "text": "Tramitar los 180 m³ como mayores metrados autorizados por la supervisión y el muro por el procedimiento de adicional con resolución previa."
+        },
+        {
+          "id": "C",
+          "text": "Exigir resolución previa para ejecutar los 180 m³ y permitir el muro con sola anotación."
+        },
+        {
+          "id": "D",
+          "text": "Ejecutar primero el muro y regularizarlo como mayor metrado al valorizar la excavación."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 197.1-2 del Reglamento permite ejecutar mayores metrados autorizados por el supervisor en el cuaderno, sin aprobación previa de la entidad para ejecutarlos, aunque sí para pagarlos. El muro nuevo responde a una causa del artículo 194.1 y requiere el procedimiento de adicional con resolución previa. Sin emergencia, la regularización no es una alternativa admisible.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La modalidad de pago no convierte una partida nueva y un cambio técnico en simple aumento de cantidad.",
+        "B": "La excavación conserva su partida; el muro introduce una prestación distinta que requiere el procedimiento de adicional.",
+        "C": "Invierte los procedimientos: los mayores metrados no exigen aprobación previa de la entidad para ejecutar y el adicional sí tiene procedimiento.",
+        "D": "El muro no es mayor cantidad de excavación ni hay emergencia que habilite ejecución inmediata."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "faa452ef-4d63-4a09-9e99-decee615ea6d",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "197",
+          "pageStart": 112,
+          "pageEnd": 112,
+          "quote": "Artículo 197. Mayores metrados en obras bajo los sistemas de entrega de solo construcción y diseño y construcción 197.1. Cuando en los contratos suscritos bajo la modalidad de pago de precios unitarios se requiera ejecutar mayores metrados, el contratista solicita su ejecución mediante anotación en cuaderno de incidencias y estos son autorizados por el supervisor en e l mismo medio siempre que no se supere el límite establecido para las prestaciones adicionales de obra, considerando el monto acumulado de los mayores metrados y las prestaciones adicionales de obras, restándole los presupuestos deductivos. 197.2. No se requiere la aprobación previa de la entidad contratante para la ejecución de mayores metrados, pero sí para su pago. El contratista presenta en su valorización los mayores metrados ejecutados durante el periodo valorizado, con la utilidad e Im puesto General a las Ventas (IGV) respectivos, y estos son autorizados para pago por la autoridad de la gestión administrativa. El procedimiento de pago se rige por lo señalado en el artículo 210. 197.3. Cuando la ejecución de mayores metrados genere una ampliación de plazo, los mayores gastos generales se pagan de acuerdo con lo señalado en el",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "60bd98ee-44b3-41fa-8026-7ed7a5aa3298",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "194",
+          "pageStart": 109,
+          "pageEnd": 110,
+          "quote": "Artículo 194. Prestaciones adicionales de obra bajo el sistema de entrega solo construcción 194.1. De conformidad con el artículo 64 de la Ley, la autoridad de la gestión administrativa o el titular de la entidad, según corresponda, mediante resolución previa, puede disponer la ejecución de prestaciones adicionales en las obras bajo el sistema de entrega de solo construcción siempre que resulte indispensable debido a: i) deficiencias en el expediente técnico o ii) por causas no previsibles en el expediente técnico de obra o no previsibles posterior al perfeccionamiento del contrato y que no son re sponsabilidad del contratista. 194.2. La aprobación de las prestaciones adicionales se realiza conforme a lo siguiente: a) La necesidad de ejecutar una prestación adicional es anotada en el cuaderno de incidencias por el contratista, a través del residente de obra o por la supervisión, según corresponda. b) En un plazo máximo de cinco días contabilizados a partir del día siguiente de realizada la anotación, el supervisor envía un informe técnico a la entidad contratante en el que sustente su posición respecto a la necesidad de ejecutar la prestación adicio nal y el riesgo que conlleva su aprobación respecto al plan de trabajo aprobado. c) La entidad contratante determina en las bases a quien le corresponde la elaboración del expediente técnico del adicional de obra, que puede ser: i) la entidad contratante a través de su órgano especializado en elaboración, conformidad o aprobación de ex pedientes técnicos, ii) el contratista, o iii) el supervisor. En el caso de los numerales ii) y iii) el costo de la elaboración forma parte del presupuesto del adicional.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 110 de 249 d) El expediente técnico del adicional de obra para revisión de la supervisión y de la entidad contratante, es presentado por quien corresponda en un plazo de quince días contabilizados desde el día siguiente de la anotación en el cuaderno de incidencias, siempre que el supervisor haya ratificado la necesidad de ejecutar la prestación adicional. En caso de prestaciones adicionales que requieran estudios o ensayos especializado de alta complejidad, permisos o autorizaciones de terceros y/o el adicional invol ucre una sofisticación técnica, la entidad contratante puede otorgar un plazo adicional mínimo de quince días para la presentación del expediente técnico del adicional",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "d52aa39c-10f4-4137-8e68-d054fad59b1b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "194",
+          "pageStart": 109,
+          "pageEnd": 110,
+          "quote": ". e) En caso el expediente técnico del adicional haya sido elaborado por el contratista, la supervisión se pronuncia sobre el expediente técnico de la prestación adicional de obra en un plazo máximo de diez días contabilizados desde el día siguiente de su pr esentación. f) La entidad contratante notifica la resolución que se pronuncia sobre la solicitud de la prestación adicional en un plazo máximo de doce días hábiles contabilizados desde el día siguiente de recibida la opinión del supervisor o el expediente técnico elab orado por éste, según corresponda. g) Previo a la aprobación del adicional, la entidad contratante solicita la opinión técnica del órgano de la entidad contratante que tuviera como función la elaboración, conformidad o aprobación de los expedientes técnicos, o del proyectista, en caso no hu biera transcurrido más de un año de otorgada la conformidad de la elaboración del expediente técnico. Está opinión es emitida durante el plazo previsto en el literal e). 194.3. No corresponde suscribir una adenda al contrato por la aprobación del adicional, bastando con su publicación en la Pladicop para que surta todos sus efectos. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"194.3. No corresponde suscribir una adenda al contrato por la aprobación de la prestación adicional, bastando con su publicación en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.\" 194.4. En el caso de prestaciones adicionales de obra de carácter de emergencia, cuya falta de ejecución pueda afectar el ambiente o poner en peligro a la población, a los trabajadores o a la integridad de la misma obra, las partes coordinan a fin de agili zar el procedimiento. La entidad contratante autoriza a la supervisión para disponer la ejecución inmediata de las prestaciones adicionales, mientras que su regularización se da conforme al procedimiento establecido en el numeral 194.2. Una vez emitida la resolución correspondiente, se procede a la valorización del adicional. 194.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N093",
+    "objetivo": "Resolver la valorización de un adicional de emergencia.",
+    "criterioAvanzado": "Relaciona riesgo, habilitación de ejecución y momento de valorización.",
+    "input": {
+      "prompt": "En una obra de solo construcción, un deslizamiento imprevisible amenaza de inmediato a viviendas vecinas. La entidad autoriza a la supervisión a disponer un sostenimiento adicional de emergencia y las partes coordinan su ejecución inmediata. El trabajo se ejecuta mientras se completa su expediente, pero aún no se emite la resolución del adicional. El contratista solicita incluirlo en la valorización que cierra hoy; la entidad sostiene que nunca podrá reconocerse por haberse ejecutado sin resolución previa. ¿Qué conclusión corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Debe valorizarse hoy por la sola autorización de ejecución de la supervisión."
+        },
+        {
+          "id": "B",
+          "text": "Debe rechazarse todo reconocimiento porque ningún adicional admite regularización."
+        },
+        {
+          "id": "C",
+          "text": "La ejecución inmediata estuvo habilitada por la emergencia, pero la valorización del adicional procede una vez emitida la resolución correspondiente."
+        },
+        {
+          "id": "D",
+          "text": "Debe pagarse mediante una adenda que reemplace la resolución pendiente."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 194.4 del Reglamento permite autorizar a la supervisión a disponer ejecución inmediata cuando la falta del adicional ponga en peligro a la población, entre otros supuestos. La regularización sigue el numeral 194.2 y la valorización procede una vez emitida la resolución. Es una excepción expresa frente a la regularización ordinaria prohibida por el numeral 194.3.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La autorización inmediata no sustituye la resolución que habilita valorizar el adicional de emergencia.",
+        "B": "Omite la excepción expresa de emergencia, que permite ejecución inmediata y regularización por el procedimiento previsto.",
+        "C": "La excepción habilita ejecutar para evitar el peligro y conserva un hito posterior específico para valorizar.",
+        "D": "La adenda no sustituye el procedimiento y resolución exigidos para el adicional incluso en emergencia."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "d52aa39c-10f4-4137-8e68-d054fad59b1b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "194",
+          "pageStart": 109,
+          "pageEnd": 110,
+          "quote": ". e) En caso el expediente técnico del adicional haya sido elaborado por el contratista, la supervisión se pronuncia sobre el expediente técnico de la prestación adicional de obra en un plazo máximo de diez días contabilizados desde el día siguiente de su pr esentación. f) La entidad contratante notifica la resolución que se pronuncia sobre la solicitud de la prestación adicional en un plazo máximo de doce días hábiles contabilizados desde el día siguiente de recibida la opinión del supervisor o el expediente técnico elab orado por éste, según corresponda. g) Previo a la aprobación del adicional, la entidad contratante solicita la opinión técnica del órgano de la entidad contratante que tuviera como función la elaboración, conformidad o aprobación de los expedientes técnicos, o del proyectista, en caso no hu biera transcurrido más de un año de otorgada la conformidad de la elaboración del expediente técnico. Está opinión es emitida durante el plazo previsto en el literal e). 194.3. No corresponde suscribir una adenda al contrato por la aprobación del adicional, bastando con su publicación en la Pladicop para que surta todos sus efectos. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"194.3. No corresponde suscribir una adenda al contrato por la aprobación de la prestación adicional, bastando con su publicación en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.\" 194.4. En el caso de prestaciones adicionales de obra de carácter de emergencia, cuya falta de ejecución pueda afectar el ambiente o poner en peligro a la población, a los trabajadores o a la integridad de la misma obra, las partes coordinan a fin de agili zar el procedimiento. La entidad contratante autoriza a la supervisión para disponer la ejecución inmediata de las prestaciones adicionales, mientras que su regularización se da conforme al procedimiento establecido en el numeral 194.2. Una vez emitida la resolución correspondiente, se procede a la valorización del adicional. 194.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "60bd98ee-44b3-41fa-8026-7ed7a5aa3298",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "194",
+          "pageStart": 109,
+          "pageEnd": 110,
+          "quote": "Artículo 194. Prestaciones adicionales de obra bajo el sistema de entrega solo construcción 194.1. De conformidad con el artículo 64 de la Ley, la autoridad de la gestión administrativa o el titular de la entidad, según corresponda, mediante resolución previa, puede disponer la ejecución de prestaciones adicionales en las obras bajo el sistema de entrega de solo construcción siempre que resulte indispensable debido a: i) deficiencias en el expediente técnico o ii) por causas no previsibles en el expediente técnico de obra o no previsibles posterior al perfeccionamiento del contrato y que no son re sponsabilidad del contratista. 194.2. La aprobación de las prestaciones adicionales se realiza conforme a lo siguiente: a) La necesidad de ejecutar una prestación adicional es anotada en el cuaderno de incidencias por el contratista, a través del residente de obra o por la supervisión, según corresponda. b) En un plazo máximo de cinco días contabilizados a partir del día siguiente de realizada la anotación, el supervisor envía un informe técnico a la entidad contratante en el que sustente su posición respecto a la necesidad de ejecutar la prestación adicio nal y el riesgo que conlleva su aprobación respecto al plan de trabajo aprobado. c) La entidad contratante determina en las bases a quien le corresponde la elaboración del expediente técnico del adicional de obra, que puede ser: i) la entidad contratante a través de su órgano especializado en elaboración, conformidad o aprobación de ex pedientes técnicos, ii) el contratista, o iii) el supervisor. En el caso de los numerales ii) y iii) el costo de la elaboración forma parte del presupuesto del adicional.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 110 de 249 d) El expediente técnico del adicional de obra para revisión de la supervisión y de la entidad contratante, es presentado por quien corresponda en un plazo de quince días contabilizados desde el día siguiente de la anotación en el cuaderno de incidencias, siempre que el supervisor haya ratificado la necesidad de ejecutar la prestación adicional. En caso de prestaciones adicionales que requieran estudios o ensayos especializado de alta complejidad, permisos o autorizaciones de terceros y/o el adicional invol ucre una sofisticación técnica, la entidad contratante puede otorgar un plazo adicional mínimo de quince días para la presentación del expediente técnico del adicional",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N094",
+    "objetivo": "Excluir del pago adicional las omisiones del diseño del contratista.",
+    "criterioAvanzado": "La causa del incremento prevalece sobre su aparente encaje en un umbral.",
+    "input": {
+      "prompt": "En diseño y construcción, el mismo contratista elaboró el expediente técnico aprobado. Durante la ejecución advierte que omitió una protección exigida por condiciones de diseño que ya conocía. La protección es indispensable y cuesta el 8% del monto de obra del expediente. No existen hechos nuevos ni cambios pedidos por la entidad. El contratista solicita que la autoridad administrativa la pague como adicional porque no supera el 20%. ¿Qué decisión corresponde respecto de ese pago?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aprobarlo, pues cualquier incremento menor al 20% corresponde a la autoridad administrativa."
+        },
+        {
+          "id": "B",
+          "text": "Elevarlo al titular para que autorice pagar la omisión dentro de su límite del 40%."
+        },
+        {
+          "id": "C",
+          "text": "Pedir autorización de la Contraloría para que la omisión se convierta en adicional pagable."
+        },
+        {
+          "id": "D",
+          "text": "No aprobar ese pago adicional; la protección necesaria por la omisión del expediente aprobado se ejecuta bajo responsabilidad exclusiva del contratista."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 195.1.b del Reglamento excluye en todo caso el pago de adicionales por deficiencias u omisiones del expediente técnico aprobado en diseño y construcción; de ser necesarios, los ejecuta el contratista bajo su responsabilidad exclusiva. El 8% describe magnitud, pero no elimina la exclusión ni permite subsanarla cambiando de autoridad.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Trata el umbral como autorización suficiente e ignora la causa expresamente excluida del pago.",
+        "B": "Cambiar de autoridad no levanta la prohibición de pagar adicionales por omisiones del expediente aprobado.",
+        "C": "El control previsto para otros supuestos no transforma una omisión del contratista en adicional pagable.",
+        "D": "El umbral de competencia no elimina la exclusión de pago por omisiones del expediente en diseño y construcción."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "4f38f7b0-bbd9-4b41-be82-2a893d09187d",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "195",
+          "pageStart": 110,
+          "pageEnd": 112,
+          "quote": "Artículo 195. Prestaciones adicionales de obra bajo el sistema de entrega diseño y construcción 195.1. La entidad contratante puede disponer la ejecución de prestaciones adicionales de obras bajo el sistema de entrega de diseño y construcción siempre que resulten indispensables para el cumplimiento de la finalidad pública de la contratación en base a l rigor técnico, conforme al siguiente detalle: a) Por el componente diseño, la autoridad de la gestión administrativa puede autorizar mediante resolución la ejecución y pago de prestaciones adicionales hasta un 25% del monto contractual considerado para el referido componente.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 111 de 249 b) Por el componente ejecución de la obra, la autoridad de la gestión administrativa puede autorizar mediante resolución la ejecución y pago de hasta un 20% del monto de la obra considerado en el expediente técnico aprobado o del monto del presupuesto actu alizado de la obra, en el caso de la ejecución mediante fast track. El Titular de la Entidad, puede autorizar prestaciones adicionales hasta un 40% con el debido sustento técnico y legal. Excepcionalmente, puede autorizar la ejecución de prestaciones adici onales hasta un 50% previa autorización de la CGR, de conformidad a los numerales 64.4 y 64.5 del artículo 64 de la Ley. En ningún caso se aprueba el pago de adicionales de obra por deficiencias u omisiones en el expediente técnico aprobado, las cuales de ser necesarias son ejecutadas bajo responsabilidad exclusiva del contratista. c) En caso se supere el límite máximo de prestaciones adicionales establecido en los literales a) y/o b), se resuelve el contrato. 195.2. Para la aprobación de adicionales en el componente de diseño, la aprobación de las prestaciones adicionales se realiza conforme al numeral 193.2 del artículo 193. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"195.2. La aprobación de las prestaciones adicionales en el componente de diseño se realiza conforme al numeral 193. 1 del artículo 193.\" 195.3",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N095",
+    "objetivo": "Determinar la referencia de costo de una partida nueva y resolver un desacuerdo de precio.",
+    "criterioAvanzado": "La inexistencia de precio unitario no equivale a inexistencia de tarifas de sus insumos; esa clasificación determina el cálculo y la vía de continuación.",
+    "input": {
+      "prompt": "Un adicional de obra requiere 30 unidades de una partida nueva sin precio unitario contractual. Para cada unidad están acreditados y no se discuten seis horas de operario y dos unidades de un material; no existen otros componentes de costo directo. El presupuesto contractual sí contiene el jornal aplicable de S/40 por hora y el mismo material a S/150 por unidad; no hay pacto que los sustituya. El contratista propone usar una cotización actual de S/60 por hora, conserva S/150 para el material y exige aprobar su costo directo o esperar un arbitraje. La supervisión discrepa. Gastos generales, utilidad e IGV se calcularán por separado y no se preguntan. ¿Qué propuesta de costo directo y continuación tiene sustento con esos datos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptar S/19 800 de costo directo, pues al faltar el precio de la partida deben sustituirse por mercado todas las referencias que el contratista cuestione."
+        },
+        {
+          "id": "B",
+          "text": "Sustentar S/11 700 de costo directo, sumando seis jornales de S/40 y un solo material de S/150 por unidad, y fijar ese resultado provisionalmente."
+        },
+        {
+          "id": "C",
+          "text": "Sustentar S/16 200 de costo directo, pero detener obligatoriamente el adicional hasta que un arbitraje resuelva el desacuerdo sobre el jornal."
+        },
+        {
+          "id": "D",
+          "text": "Sustentar S/16 200 de costo directo con las referencias presupuestadas; si no se logra acuerdo, el supervisor puede fijar provisionalmente el precio para continuar el trámite sin cerrar la controversia."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 196.2 del Reglamento distingue falta de precio de la partida y falta de referencias de sus insumos: para acordar el nuevo precio se consideran insumos, tarifas o jornales del presupuesto y, de no existir, mercado sustentado. Aquí existen todas las referencias aplicables; con los consumos no discutidos, el costo directo es (6 × S/40 + 2 × S/150) × 30 = S/16 200. Una cotización posterior no reemplaza automáticamente esas referencias. Ante falta de acuerdo, el 196.3 permite al supervisor fijar provisionalmente el precio sin cerrar la controversia. El resultado preguntado es solo costo directo: el presupuesto completo incorpora los demás rubros del 196.1.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde falta de precio unitario de partida con falta de tarifas de insumos; la cotización de S/60 no sustituye por sí sola el jornal presupuestado aplicable.",
+        "B": "La facultad provisional no subsana omitir la segunda unidad de material: el rendimiento acreditado exige dos por cada unidad de partida.",
+        "C": "Aunque calcula correctamente, desconoce que el supervisor puede fijar provisionalmente un precio para evitar retrasar aprobación y ejecución.",
+        "D": "No hay precio de partida, pero sí referencias de todos sus insumos: (6 × 40 + 2 × 150) × 30 = S/16 200; el desacuerdo permite la fijación provisional."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "4aa1d8e8-9012-4644-a82e-578c2e28b816",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "196",
+          "pageStart": 112,
+          "pageEnd": 112,
+          "quote": "Artículo 196. Cálculo de presupuesto de las prestaciones adicionales de obras y consultorías de obra 196.1. Los presupuestos de las prestaciones adicionales se formulan con los precios del contrato y/o precios pactados, así como con los gastos generales fijos y variables propios del adicional. Se incluye la utilidad del presupuesto ofertado y el Impuesto General a las Ventas correspondiente. 196.2. De no existir precios unitarios de una determinada partida requerida en la prestación adicional, se acuerdan los precios entre el jefe de formulación, el jefe de elaboración del expediente técnico o el residente de obra del contratista, según corres ponda, y el supervisor, para ello, se consideran los precios de los insumos, tarifas o jornales del presupuesto y, de no existir, se sustenta en precios del mercado debidamente sustentados. En caso la entidad contratante realice el expediente técnico del a dicional de obra, esta participa en los acuerdos de precios unitarios. 196.3. A falta de acuerdo con el contratista, y con la finalidad de no retrasar la aprobación y ejecución de la prestación adicional, el supervisor se encuentra facultado para fijar provisionalmente un precio, el cual se aplica sin perjuicio del derecho de l contratista para someterlo al procedimiento de solución de controversias que corresponda. 196.4. Cuando el contratista o el supervisor requiera realizar ensayos especializados de alta complejidad y/o la participación de algún especialista no contemplado en la relación de su personal clave para elaborar el expediente de la prestación adicional a su cargo, dichos costos se incluyen en los gastos generales propios del adicional o en la valorización de la supervisión de obra, según corresponda, tras la emisión de la resolución de la prestación adicional.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N096",
+    "objetivo": "Distinguir intensificación de aumento del alcance.",
+    "criterioAvanzado": "Compara aceleración por recursos con supresión de prestaciones necesarias.",
+    "input": {
+      "prompt": "Una obra debe entregarse antes para habilitar un refugio. El área usuaria sustenta que adelantarla veinte días produce beneficios superiores al costo. La propuesta combina duplicar turnos por un costo adicional acreditado y suprimir un módulo de drenaje para ganar cinco de esos veinte días. El módulo sigue siendo necesario para que el refugio funcione. Las partes quieren aprobar todo como intensificación del programa. ¿Cómo debe reformularse la propuesta?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aprobar ambas medidas como intensificación porque el beneficio conjunto supera el costo."
+        },
+        {
+          "id": "B",
+          "text": "Conservar el alcance y analizar la aceleración lograble con recursos adicionales; acordarla por adenda con respaldo presupuestario y autorización previa para cambiar el monto."
+        },
+        {
+          "id": "C",
+          "text": "Suprimir el drenaje y mantener turnos originales, porque toda reducción de plazo es intensificación."
+        },
+        {
+          "id": "D",
+          "text": "Ordenar unilateralmente duplicar turnos sin variar monto porque la finalidad pública basta para exigirlo."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Los numerales 191.1-2 del Reglamento definen la intensificación como adición de recursos para acelerar, sin modificar alcance y con análisis costo-beneficio. El numeral 191.3 modificado exige adenda y, para variar monto, autorización previa y certificación o previsión presupuestaria. La eliminación del drenaje necesario no puede integrarse a esta vía; debe recalcularse el adelanto viable conservándolo.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El análisis costo-beneficio no habilita alterar el alcance mediante intensificación ni suprimir una prestación necesaria.",
+        "B": "La intensificación acelera mediante recursos sin modificar alcance; eliminar el módulo necesario desborda esa vía.",
+        "C": "Confunde el resultado temporal con el mecanismo de adicionar recursos sin alterar alcance.",
+        "D": "La intensificación requiere acuerdo y contempla el cambio de monto con las autorizaciones correspondientes."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "54b6e86d-e525-44b5-82c0-91c6b58d6568",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "191",
+          "pageStart": 106,
+          "pageEnd": 107,
+          "quote": "Artículo 191. Modificaciones contractuales de obra bajo sistemas de entrega de solo construcción y diseño y construcción por intensificación del programa de ejecución 191.1. La intensificación del programa de ejecución permite la adición de recursos durante la ejecución del componente de obra, los cuales pueden formar parte del costo directo y/o mayores gastos generales, para acelerar la entrega parcial o total de la ob ra. La intensificación del programa de ejecución no implica la modificación del alcance de la obra.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 107 de 249 191.2. El área usuaria sustenta con un análisis costo beneficio la necesidad de entrega del proyecto en una fecha anterior a plazo de ejecución contractual vigente. 191.3. Las partes acuerdan la intensificación del programa de ejecución, lo cual contempla la disminución de plazo y la variación en el monto contractual, cuando corresponda, así como la modificación de los contratos accesorios. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"191.3. Las partes acuerdan la intensificación del programa de ejecución, a través de la suscripción de una adenda, lo cual contempla la disminución de plazo y la variación en el monto contractual . La entidad contratante evalúa la necesidad de modificar los contratos vinculados. Para la modificación del monto contractual, se requiere la autorización previa de la autoridad de la gestión administrativa y la certificación o previsión de crédito presupuestario, según corresponda. ”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N097",
+    "objetivo": "Cuantificar una ampliación parcial adicional sin duplicar un periodo ya incorporado.",
+    "criterioAvanzado": "Reconstruye la terminación de rutas convergentes en el programa actualizado y separa reconocimiento previo de impacto nuevo.",
+    "input": {
+      "prompt": "Una restricción ajena al contratista sigue sin fecha de conclusión; no se suspendió el plazo de la obra. Una primera ampliación parcial ya quedó incorporada al programa vigente. En este programa, dos actividades paralelas terminan los días 18 y 16, respectivamente; al terminar ambas comienza una actividad final de cinco días, que concluye el día 23. Un nuevo tramo observado del impedimento retrasa seis días solo la actividad que terminaba el día 16; la otra conserva el día 18 y la final conserva duración. No hay recuperación ni otras demoras. Para este nuevo tramo, el contratista pide ocho días: suma los seis observados y dos de la primera ampliación, ya reconocidos. El expediente permite verificar las fechas y cumple las demás exigencias procedimentales. ¿Qué ampliación adicional sustenta ese tramo sin esperar al fin incierto del evento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Una ampliación parcial adicional de cuatro días: el final pasa del día 23 al 27 y no se añaden de nuevo los dos días ya reconocidos."
+        },
+        {
+          "id": "B",
+          "text": "Una ampliación parcial adicional de ocho días, porque debe aceptarse la suma de todos los días que enumera el contratista."
+        },
+        {
+          "id": "C",
+          "text": "Una ampliación parcial adicional de seis días, porque todos los días nuevos de impedimento desplazan necesariamente el final en igual medida."
+        },
+        {
+          "id": "D",
+          "text": "Ninguna solicitud hasta que termine la restricción, aunque la fecha final del programa ya resulte afectada."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 198.1 del Reglamento exige impacto en la ruta crítica del programa vigente. Antes del nuevo tramo, la actividad final termina en máximo(18, 16) + 5 = 23. Con seis días nuevos sobre la segunda actividad, termina en máximo(18, 22) + 5 = 27: el impacto adicional sustentado es cuatro días. Los dos días ya reconocidos forman parte del programa de comparación y no constituyen un efecto nuevo. El artículo 200.2 permite ampliación parcial si el evento carece de fecha de conclusión y no se suspendió el plazo; el 200.1.b permite sustentar el recálculo. No se fija con ello la duración futura todavía desconocida del evento.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La actividad afectada pasa de 16 a 22; la final empieza tras la más tardía, 22, y concluye 27. El programa vigente ya incorpora la primera ampliación.",
+        "B": "Suma días de un periodo ya reconocido y equipara duración observada con desplazamiento de la terminación, sin analizar las rutas convergentes.",
+        "C": "La otra actividad terminaba el día 18; parte del retraso de la actividad que terminaba el 16 no mueve el inicio de la actividad final.",
+        "D": "La falta de conclusión prevista permite ampliación parcial si el plazo no está suspendido; no obliga a esperar el fin del evento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "fc3df1fd-1138-4507-b4ae-8f333150537a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "201",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "artículo 201. 197.4. En caso con la aprobación de los mayores metrados se supere el límite para prestaciones adicionales del 50% del componente obra, se procede a la resolución del contrato. Artículo 198. Ampliación del plazo contractual en obras y consultoría de obras\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 113 de 249 198.1. En el caso de obras, el contratista puede solicitar la ampliación de plazo pactado por cualquiera de las siguientes causales, siempre que modifiquen la ruta crítica del programa de ejecución vigente al momento de la solicitud: a) Por atrasos y/o paralizaciones por causas no atribuibles al contratista. b) Cuando es necesario un plazo adicional para la ejecución de la prestación adicional de obra. c) Cuando es necesario un plazo adicional para la ejecución de los mayores metrados, en contratos a precios unitarios o costo reembolsable. (*) (*) Literal modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"c) Cuando es necesario un plazo adicional para la ejecución de los mayores metrados, en contratos a precios unitarios , costo reembolsable o esquema mixto .\" 198.2. En el caso de consultorías de obra, el contratista puede solicitar la ampliación de plazo pactado por cualquiera de las siguientes causales: a) Cuando se aprueba una prestación adicional del contrato, siempre y cuando afecte el plazo de ejecución. b) Por atrasos y/o paralizaciones no imputables al contratista. c) En el caso de los contratos de supervisión de obras o de elaboración de expedientes técnicos, cuando se aprueben modificaciones en el contrato supervisado que afecten el plazo de ejecución del contrato del supervisor. 198.3. En la evaluación de la solicitud de ampliación de plazo, el supervisor y la entidad contratante privilegian el criterio técnico y el cumplimiento de la finalidad pública para su pronunciamiento por encima de las formalidades de la documentación pres entada, siempre que el sustento otorgue certeza a la decisión. 198.4",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "a584c713-d050-40d9-9611-8b66e28e900f",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "201",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": ". No corresponde suscribir una adenda al contrato por la aprobación de una ampliación de plazo, bastando con su publicación en la Pladicop para que surta todos sus efectos. Artículo 199. Procedimiento de ampliación de plazo en consultoría de obras 199.1. En el caso de consultoría de obras, se sigue el siguiente procedimiento: a) El contratista solicita la ampliación de plazo dentro de los diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. Dentro de dicho plazo, el contratista p uede pedir una prórroga de hasta diez días hábiles adicionales para presentar la solicitud de ampliación de plazo. Las solicitudes extemporáneas de ampliación de plazo se tienen por no presentadas. b) La autoridad de la gestión administrativa resuelve dicha solicitud y notifica su decisión al contratista dentro de los doce días hábiles, contabilizados desde el día siguiente de recibida la solicitud. De no existir pronunciamiento, se tiene por aprobad a. c) La ampliación de plazo da lugar al pago según la tarifa contratada, o en el caso que se haya optado por otra modalidad de pago, se reconoce el gasto general y el costo directo debidamente acreditado, además de la utilidad del rubro correspondiente. 199.2. En el caso de contratos de supervisión de obras, en el mismo acto resolutivo que aprueba la ampliación de plazo de la obra, puede ampliarse el plazo de la supervisión.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 114 de 249 Artículo 200. Procedimiento de ampliación de plazo en obras bajo los sistemas de entrega de solo construcción y diseño y construcción 200.1. En el caso de ejecución de obras, se sigue el siguiente procedimiento: a) El contratista notifica su solicitud de ampliación de plazo a la entidad contratante y a la supervisión en un plazo no mayor de diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. La solicitud contiene los motivos que originan la ampliación, detallando los días de inicio y fin de la causal, la cuantificación de los días de ampliación, así como los riesgos asociados. Además, adjunta el programa de ejecució n de obra actualizado, indicando todas las modificaciones que se derivan de la ampliación de plazo solicitada. Como parte del sustento, el contratista puede utilizar los asientos del cuaderno de incidencias, relacionados al inicio y fin de la causal",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "200",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": "b) La supervisión revisa la solicitud del contratista y notifica su opinión técnica a la entidad contratante en un plazo no mayor de cinco días hábiles contabilizados desde el día siguiente de presentada la solicitud. El supervisor puede sustentar el recal culo del plazo materia de ampliación, en cuyo caso indica expresamente los días aprobados. c) Si el supervisor no se pronuncia dentro del referido plazo, la entidad contratante da respuesta a la solicitud de ampliación de plazo sin dicho pronunciamiento, sin perjuicio de aplicar las penalidades que correspondan a la supervisión. d) La entidad contratante resuelve la solicitud de la ampliación de plazo y notifica su decisión al contratista, a través de la Pladicop, en un plazo no mayor de diez días hábiles contabilizados desde el día siguiente de recibida la opinión del supervisor o del vencimiento del plazo sin que haya emitido opinión. Si la entidad contratante no se pronuncia dentro del plazo indicado, se tiene por aprobado lo informado por el supervisor, salvo que éste no se haya pronunciado, caso en el cual se tiene por aprobad o lo solicitado por el contratista. 200.2. El contratista puede solicitar una ampliación de plazo parcial cuando se trate de circunstancias que no cuenten con fecha prevista de conclusión, siempre que no se hubiera suspendido el plazo contractual, para lo cual se aplica lo señalado el proced imiento señalado en el numeral precedente. 200.3. En las obras bajo sistemas de entrega que incluyan el diseño, la ampliación de plazo del componente correspondiente al diseño se tramita conforme a lo dispuesto en el artículo 199. 200.4. En virtud de la ampliación otorgada, la entidad contratante amplía el plazo de los contratos directamente vinculados al contrato principal, sin solicitud previa. 200.5. Cuando las ampliaciones se sustenten en causales que no correspondan a un mismo periodo de tiempo, sea este parcial o total, cada solicitud de ampliación de plazo se tramita y resuelve independientemente.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N098",
+    "objetivo": "Determinar la causa de una intervención a partir de la capacidad que el contratista debía mantener.",
+    "criterioAvanzado": "El contraste entre carga prevista y capacidad operativa identifica si la intervención deriva del incumplimiento y determina el derecho económico reclamado.",
+    "input": {
+      "prompt": "El plan de ejecución de una obra obliga al contratista a mantener simultáneamente dos bombas operativas, cada una capaz de evacuar 60 unidades de agua por hora. Una lluvia prevista en ese plan produce un ingreso constante de 100 unidades por hora, sin otras pérdidas ni obstáculos. Para ahorrar mantenimiento, el contratista retiró una bomba contra lo pactado; la única activa conserva su capacidad de 60. La acumulación de agua impide terminar los trabajos y la entidad interviene económicamente para recuperar la capacidad exigida y culminar. No existe otro evento que motive la medida. El contratista reclama S/24 000 de mayores gastos generales causados exclusivamente por la intervención y alega que la lluvia, por ser externa, debe asumir toda la responsabilidad. ¿Qué evaluación corresponde a ese reclamo?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reconocer íntegramente S/24 000 porque cualquier lluvia traslada a la entidad los costos de intervenir, sin considerar las obligaciones de bombeo."
+        },
+        {
+          "id": "B",
+          "text": "Reconocer S/14 400, equivalentes al 60% del reclamo, porque la bomba activa evacuó 60 de las 100 unidades ingresadas."
+        },
+        {
+          "id": "C",
+          "text": "Reconocer S/12 000 porque incumplir respecto de una de dos bombas solo permite excluir la mitad de los gastos generales."
+        },
+        {
+          "id": "D",
+          "text": "No reconocer esos S/24 000: las dos bombas pactadas habrían evacuado el ingreso previsto; retirar una generó el déficit y la intervención deriva de ese incumplimiento."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "Con las dos bombas exigidas había capacidad de 2 × 60 = 120 unidades por hora para un ingreso previsto de 100. Al retirar una, quedan 60 y se acumulan 100 − 60 = 40 por hora, impidiendo terminar. Los hechos atribuyen la intervención a ese incumplimiento, no a una insuficiencia inevitable del plan ante otro evento. El artículo 208.1 del Reglamento permite intervenir por incumplimiento que impida terminar y el 208.3 excluye mayores gastos generales, indemnización o similares cuando la intervención sea consecuencia del incumplimiento del contratista. Por eso no procede el reclamo de S/24 000 originado exclusivamente en la medida; no hay una regla de reparto según porcentajes de bombeo.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Omite que la lluvia prevista era atendible con la capacidad pactada y que el déficit aparece por retirar una bomba contra el contrato.",
+        "B": "Transforma una proporción hidráulica en reparto indemnizatorio sin sustento; la regla vincula la pérdida del derecho a la causa de la intervención.",
+        "C": "La cantidad de bombas incumplidas no establece una fracción de gastos recuperables; la intervención descrita resulta causalmente del incumplimiento.",
+        "D": "La capacidad debida era 120, superior al ingreso de 100; la capacidad real de 60 deja acumular 40 por hora. Esa relación causal activa la exclusión de mayores gastos generales por intervención derivada del incumplimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "540c6496-201b-45f7-bad4-627df3ceba50",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "208",
+          "pageStart": 117,
+          "pageEnd": 118,
+          "quote": "Artículo 208. Intervención económica de la ejecución de la obra bajo los sistemas de entrega de solo construcción y diseño y construcción 208.1. La entidad contratante puede, de oficio o a solicitud de parte, intervenir económicamente la obra en caso fortuito, fuerza mayor o por incumplimiento de las estipulaciones contractuales que a su juicio no permitan la terminación de los trabajos. 208.2. La intervención económica de la obra es una medida que se adopta por consideraciones de orden técnico y económico con la finalidad de culminar la ejecución de los trabajos, sin llegar a resolver el contrato. Si el contratista rechaza la intervención económica, el contrato es resuelto por incumplimiento.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 118 de 249 208.3. La intervención económica no deja al contratista al margen de su participación contractual, y sus obligaciones correspondientes; sin embargo, pierde el derecho al reconocimiento de mayores gastos generales, indemnización o similar, cuando la interve nción sea consecuencia del incumplimiento del contratista. 208.4. Para la aplicación de lo establecido en el presente artículo se tiene en cuenta lo dispuesto en la directiva y demás disposiciones que dicte la DGA sobre la materia.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N099",
+    "objetivo": "Cuantificar costos de ampliación vinculados y acreditados según el programa.",
+    "criterioAvanzado": "Depura una factura por periodos y actividades antes de calcular el concepto reconocible.",
+    "input": {
+      "prompt": "Una ampliación de obra de diez días fue aprobada. El contratista presenta una factura de grúa por 18 días a S/800 diarios, importe final sin otros cargos. El programa y la documentación acreditan que ocho días corresponden a trabajos ordinarios anteriores ya pagados, seis a permanencia adicional necesaria durante el periodo que originó la ampliación y cuatro a uso exclusivo en otra obra del contratista. No existen otros conceptos ni periodos vinculados reclamables. El contratista pide S/14 400 porque la factura fue emitida al terminar el evento. ¿Qué importe de esta factura reúne las condiciones para reconocerse por la ampliación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "S/8 000: diez días de ampliación multiplicados por S/800, sin atender al uso real."
+        },
+        {
+          "id": "B",
+          "text": "S/14 400: toda la factura porque se emitió al terminar el evento."
+        },
+        {
+          "id": "C",
+          "text": "S/0: las ampliaciones solo modifican fechas y nunca permiten reconocer costos."
+        },
+        {
+          "id": "D",
+          "text": "S/4 800: solo los seis días adicionales necesarios, vinculados al periodo causal y acreditados."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 201.1 del Reglamento exige conceptos vinculados al periodo que originó la ampliación, acreditados y evaluados considerando el programa de ejecución. No basta la fecha de factura ni multiplicar su tarifa por todos los días ampliados. De los 18 días, ocho corresponden a trabajos ordinarios ya pagados y cuatro a otra obra; solo seis reúnen las condiciones: 6 × S/800 = S/4 800. El numeral 201.2 dispone presentar los conceptos reconocidos en valorizaciones.",
+      "regime": "32069",
+      "topic": "Modificaciones de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.10",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La duración aprobada de la ampliación no convierte en costo vinculado los días sin uso necesario en este contrato.",
+        "B": "La emisión de la factura no vincula sus 18 días al periodo causal: incluye prestaciones ya pagadas y uso ajeno.",
+        "C": "La norma permite pagar conceptos vinculados y acreditados; negar todos desconoce los seis días que sí reúnen esas condiciones.",
+        "D": "El programa y la acreditación delimitan seis días reconocibles; se excluyen días ordinarios ya pagados y uso en otra obra."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "68fb95a0-b7d5-499b-ac6f-e34fec5f8022",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "201",
+          "pageStart": 112,
+          "pageEnd": 114,
+          "quote": ". Las ampliaciones de plazo en el componente de ejecución de obras dan lugar al pago de los conceptos vinculados al periodo que originó la ampliación de plazo, los cuales deben ser acreditados por el contratista, considerando el programa de ejecución. 201.2. Los conceptos reconocidos por la entidad contratante son presentados en las valorizaciones y contemplan el reconocimiento de reajustes.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N100",
+    "objetivo": "Seleccionar prestaciones reducibles conservando la finalidad.",
+    "criterioAvanzado": "La divisibilidad económica no basta si la prestación condiciona el resultado.",
+    "input": {
+      "prompt": "Un servicio por S/600 000 comprende digitalización y una migración de índices necesaria para consultar todos los archivos digitalizados. Aún no hay conformidad final. Se propone retirar una migración pendiente de S/30 000 y un bloque pendiente y divisible de digitalización de S/60 000. El informe acredita que el bloque puede eliminarse sin impedir la finalidad, pero sin la migración los archivos ya digitalizados serían inutilizables. No hubo reducciones previas. ¿Qué reducción podría sustentar el área con estos hechos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Los S/90 000 completos porque son menos del 25% del monto original."
+        },
+        {
+          "id": "B",
+          "text": "Solo el bloque de digitalización de S/60 000, excluyendo la migración indispensable para utilizar lo ejecutado."
+        },
+        {
+          "id": "C",
+          "text": "Solo la migración porque está pendiente y es de menor monto."
+        },
+        {
+          "id": "D",
+          "text": "Ninguna prestación porque iniciar cualquier actividad impide reducir el contrato."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 109.1 del Reglamento exige, además del límite del 25% original, no impedir la finalidad y que las prestaciones por reducir no estén ejecutadas, sean cuantificables y divisibles. El bloque de S/60 000 reúne las condiciones descritas; la migración no, porque de ella depende la utilidad de lo digitalizado. La reducción corresponde a resolución de la autoridad administrativa.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El límite cuantitativo no reemplaza la condición de no impedir la finalidad contractual.",
+        "B": "El bloque conserva la finalidad; retirar la migración haría inútiles las prestaciones que permanecen.",
+        "C": "Estar pendiente y costar menos no permite retirarla cuando sostiene el aprovechamiento del servicio.",
+        "D": "La condición de falta de ejecución recae en las prestaciones por reducir, no en toda la ejecución contractual."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "95efa9ac-731a-4add-b857-bca5c1fe32d9",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "109",
+          "pageStart": 60,
+          "pageEnd": 60,
+          "quote": "Artículo 109. Reducción de prestaciones 109.1. La autoridad de la gestión administrativa, mediante resolución, puede ordenar la reducción de prestaciones hasta por el 25% del monto del contrato original, lo cual implica una disminución en el monto del contrato, siempre que el área usuaria susten te lo siguiente: a) La falta de ejecución de dichas prestaciones no impida alcanzar la finalidad del contrato. b) La prestación o prestaciones por reducir no hayan sido ejecutadas y deben ser cuantificables y divisibles. c) Su aprobación se efectúe antes de la conformidad final o suscripción del acta de recepción de la obra, según corresponda. d) Se cuente con opinión del supervisor, en el caso de obras y consultoría de obras, de corresponder. 109.2. En la misma resolución se determina si la reducción de prestaciones implica la reducción del plazo de ejecución contractual. 109.3. No es necesario suscribir una adenda, bastando con la publicación a través de la Pladicop de la resolución que lo aprueba.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N101",
+    "objetivo": "Calcular el efecto temporal de una reducción.",
+    "criterioAvanzado": "Relaciona secuencia de fases con determinación expresa del plazo en resolución.",
+    "input": {
+      "prompt": "Un servicio tiene tres fases consecutivas sin solapamiento: levantamiento, 12 días; procesamiento, 18; difusión, 10. El área sustenta retirar toda la difusión, aún no ejecutada y valorada en el 15% original, sin impedir la finalidad. No hay reducciones previas y se cumplen las demás condiciones. Las otras dos fases mantienen duración y dependencias. Se propone que la resolución reduzca automáticamente el plazo en 15%. Si se busca ajustarlo al trabajo restante, ¿qué corresponde determinar?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reducir automáticamente seis días, el 15% de los 40 días iniciales."
+        },
+        {
+          "id": "B",
+          "text": "Mantener obligatoriamente 40 días porque reducir prestaciones solo puede cambiar el monto."
+        },
+        {
+          "id": "C",
+          "text": "Reducir expresamente diez días, de 40 a 30, porque se elimina la última fase de diez días y permanece la secuencia restante."
+        },
+        {
+          "id": "D",
+          "text": "Reducir 18 días porque procesamiento pasa a ser la fase de mayor duración."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 109.2 del Reglamento encarga determinar en la misma resolución si la reducción de prestaciones implica reducir plazo. No fija proporcionalidad automática entre dinero y tiempo. La secuencia pasa de 12 + 18 + 10 = 40 días a 12 + 18 = 30 días: el ajuste sustentado es diez, no el 15% de 40.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El porcentaje del monto no mide duración de la fase retirada ni sustituye la determinación de la resolución.",
+        "B": "La norma permite determinar en la misma resolución si la reducción implica reducir el plazo.",
+        "C": "El ajuste temporal depende del trabajo retirado y se determina en resolución; no se calcula con el porcentaje monetario.",
+        "D": "La fase retirada es difusión; los 18 días de procesamiento permanecen y deben ejecutarse."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "95efa9ac-731a-4add-b857-bca5c1fe32d9",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "109",
+          "pageStart": 60,
+          "pageEnd": 60,
+          "quote": "Artículo 109. Reducción de prestaciones 109.1. La autoridad de la gestión administrativa, mediante resolución, puede ordenar la reducción de prestaciones hasta por el 25% del monto del contrato original, lo cual implica una disminución en el monto del contrato, siempre que el área usuaria susten te lo siguiente: a) La falta de ejecución de dichas prestaciones no impida alcanzar la finalidad del contrato. b) La prestación o prestaciones por reducir no hayan sido ejecutadas y deben ser cuantificables y divisibles. c) Su aprobación se efectúe antes de la conformidad final o suscripción del acta de recepción de la obra, según corresponda. d) Se cuente con opinión del supervisor, en el caso de obras y consultoría de obras, de corresponder. 109.2. En la misma resolución se determina si la reducción de prestaciones implica la reducción del plazo de ejecución contractual. 109.3. No es necesario suscribir una adenda, bastando con la publicación a través de la Pladicop de la resolución que lo aprueba.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N102",
+    "objetivo": "Distinguir mejora compatible de sustitución que altera la selección.",
+    "criterioAvanzado": "Evalúa alternativas según la condición que hizo elegible la oferta.",
+    "input": {
+      "prompt": "En un contrato de equipos, funcionar con batería fue condición determinante de selección porque se usarán sin red eléctrica. El proveedor ofrece dos modelos sustitutos al mismo precio y con más velocidad: Uno mantiene autonomía y todos los requisitos; Dos necesita conexión continua y se ofrece con un adaptador que solo funciona con red. El área acredita que únicamente Uno satisface el uso previsto. La DEC confirma que Uno conserva las condiciones de selección. ¿Cuál podría aceptarse por la vía de mejora?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Solo Uno, con sustento técnico, opinión favorable de la DEC y adenda."
+        },
+        {
+          "id": "B",
+          "text": "Ambos, porque más velocidad y el mismo precio compensan cualquier variación."
+        },
+        {
+          "id": "C",
+          "text": "Solo Dos, porque agregar el adaptador equivale a preservar autonomía."
+        },
+        {
+          "id": "D",
+          "text": "Ninguno, porque toda sustitución de modelo exige una nueva contratación."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 143.1-3 del Reglamento admite iguales o mejores características si satisfacen la necesidad, no desnaturalizan la prestación ni varían el objeto. Exige sustento técnico y opinión favorable de la DEC sobre condiciones de selección y ausencia de incremento de monto; se aprueba por adenda. Solo Uno conserva la autonomía que sostiene la necesidad y la selección.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La mayor velocidad no sacrifica autonomía, necesidad ni condiciones determinantes de selección.",
+        "B": "Mejorar una característica no permite sacrificar otra condición necesaria ni alterar lo que determinó la selección.",
+        "C": "El adaptador depende de red y no satisface el uso sin red que determinó la contratación.",
+        "D": "El Reglamento admite modificación por iguales o mejores características bajo condiciones y formalización específicas."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7f8351ff-614a-4ad6-9130-36b0e9d3b817",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "143",
+          "pageStart": 76,
+          "pageEnd": 76,
+          "quote": "Artículo 143. Modificación contractual por mejoras en bienes y servicios 143.1. El contrato puede ser modificado cuando el contratista ofrezca bienes y/o servicios con iguales o mejores características técnicas con respecto a su oferta, siempre que tales bienes y/o servicios satisfagan la necesidad de la entidad contratante y n o desvirtúen o desnaturalicen la prestación ni varíen el objeto contractual. 143.2. La decisión de la entidad contratante de aceptar los bienes y/o servicios ofrecidos por el contratista según el numeral anterior debe contar con el sustento técnico emitido por el área usuaria que justifique dicha decisión y con la opinión favorable de la DEC respecto a que dicha modificación no varía las condiciones para seleccionar al contratista ni incrementa el monto contractual. 143.3. Esta modificación se entiende aprobada con la suscripción de la adenda al contrato. SUBCAPÍTULO 4 Culminación del contrato de bienes y servicios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N103",
+    "objetivo": "Aplicar el carácter residual de la modificación sobreviniente.",
+    "criterioAvanzado": "Clasifica el incremento material antes de elegir su formalización.",
+    "input": {
+      "prompt": "Una exigencia posterior al contrato hace indispensable aumentar el número de pruebas del mismo servicio de control, sin cambiar método ni resultado exigido por prueba. El costo extra es 12% original; no hay adicionales previos y existe sustento técnico, legal y presupuesto. Hay precios unitarios pactados. La DEC propone una adenda por hecho sobreviniente para evitar la resolución y publicación del adicional. No existe régimen especial. ¿Cómo debe encauzarse el cambio?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Como modificación residual por adenda por el solo hecho de que la causa sea posterior al contrato."
+        },
+        {
+          "id": "B",
+          "text": "Como adicional de servicios, con precio contractual y resolución publicada, porque esa figura resulta aplicable al incremento de pruebas."
+        },
+        {
+          "id": "C",
+          "text": "Como mejora sin variación de monto, exigiendo las pruebas extra gratuitamente."
+        },
+        {
+          "id": "D",
+          "text": "Como reducción seguida de reposición de prestaciones para compensar formalmente el aumento."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 110.1 del Reglamento reserva la vía de otras modificaciones para cuando no resulten aplicables adicionales, reducciones o ampliaciones. El incremento indispensable de pruebas se encauza por el artículo 141, con precios pactados, sustento y presupuesto. Se aprueba por resolución publicada en Pladicop, sin adenda.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El carácter sobreviniente no permite desplazar una figura de adicional que sí resulta aplicable.",
+        "B": "La vía residual exige que no resulten aplicables adicionales, reducciones ni ampliaciones; aquí aumenta cantidad del mismo servicio indispensable.",
+        "C": "El aumento de cantidad y costo no es una simple sustitución por mejores características a igual monto.",
+        "D": "No hay prestación prescindible identificada; esa construcción no representa el incremento real ni su sustento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "110",
+          "pageStart": 60,
+          "pageEnd": 61,
+          "quote": "Artículo 110. Modificación contractual por hecho sobreviniente no imputable a las partes\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 61 de 249 110.1. En caso no resulten aplicables los adicionales, reducciones y ampliaciones de plazo, las partes pueden acordar mediante adenda otras modificaciones al contrato, siempre que las mismas i) deriven de hechos sobrevinientes a la suscripción del contrato , ii) no sean imputables a alguna de las partes, iii) permitan alcanzar la finalidad del contrato de manera oportuna y eficiente, y iv) no cambien los elementos esenciales del objeto contractual. 110.2. La entidad contratante registra a través de la Pladicop el sustento técnico y legal respectivos conjuntamente con la adenda. El sustento técnico lo emite el área usuaria en coordinación con la DEC. 110.3. En caso la modificación contractual implique la modificación del monto contractual, se requiere la autorización previa de la autoridad de la gestión administrativa y la certificación o previsión de crédito presupuestario, según corresponda. 110.4. En el caso de contratos sujetos a supervisión de terceros, corresponde contar con la opinión favorable del supervisor que evalúe el impacto en el cronograma de ejecución de las prestaciones contractuales. 110.5. Excepcionalmente, previa autorización de la autoridad de la gestión administrativa, las partes pueden acordar una modificación contractual por hecho sobreviniente, aun cuando ésta se deba a causa imputable a alguna de las partes, siempre que no haya habido dolo. En este caso, corresponde que la parte responsable asuma los costos que deriven de la modificación. En caso se trate de la entidad contratante, debe iniciarse el respectivo deslinde de responsabilidades.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "141",
+          "pageStart": 75,
+          "pageEnd": 75,
+          "quote": "Artículo 141. Prestaciones adicionales en bienes y servicios 141.1. La autoridad de la gestión administrativa puede aprobar, mediante resolución publicada en la Pladicop, la ejecución de prestaciones adicionales en bienes y servicios hasta por el 25% del monto del contrato original que sean indispensables para el cu mplimiento de la finalidad pública del contrato, siempre que se cuente con previo sustento técnico y legal y con la previsión y/o certificación de crédito presupuestario correspondiente. 141.2. El costo de la prestación adicional se determina sobre la base de las especificaciones técnicas del bien o términos de referencia del servicio y de las condiciones y precios pactados en el contrato; en defecto de estos, la DEC, previo sustento y coo rdinación con el área usuaria, determina el monto a acordar con el contratista, considerando la estructura de costos y/o sustento presentado por el contratista. 141.3. No corresponde suscribir una adenda al contrato por la aprobación de un adicional, bastando con la publicación de la resolución en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N104",
+    "objetivo": "Evaluar una modificación imputable sin dolo y sus costos.",
+    "criterioAvanzado": "Integra excepción, autorización y responsabilidad de la parte causante.",
+    "input": {
+      "prompt": "Después de suscribir un contrato de servicios, la entidad entregó por error no doloso un plano de acceso desactualizado para organizar la ejecución. Se requiere cambiar el punto de atención dentro del mismo recinto. El hecho se detectó después de suscribir el contrato; no altera objeto esencial ni finalidad y se descarta que corresponda a adicional, reducción o ampliación. El cambio genera costos documentados al contratista y existe sustento técnico y legal. La entidad propone negar cualquier modificación por ser responsable o aceptarla si el proveedor absorbe los costos. ¿Qué vía contempla el Reglamento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Acordar excepcionalmente la modificación con autorización previa de la autoridad administrativa, asumiendo la entidad los costos derivados e iniciando deslinde de responsabilidades."
+        },
+        {
+          "id": "B",
+          "text": "Prohibir toda modificación porque la causa es imputable a la entidad aunque no haya dolo."
+        },
+        {
+          "id": "C",
+          "text": "Acordarla únicamente si el contratista renuncia a todos los costos del error."
+        },
+        {
+          "id": "D",
+          "text": "Aprobarla sin autorización ni deslinde porque un error no doloso elimina responsabilidad administrativa."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 110.5 del Reglamento permite excepcionalmente una modificación por hecho sobreviniente imputable a una parte si no hubo dolo, previa autorización de la autoridad administrativa. La parte responsable asume los costos y, si es la entidad, se inicia deslinde. Se registra la adenda con sustento conforme al numeral 110.2 y cualquier cambio de monto debe cumplir también el 110.3.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La excepción admite imputabilidad sin dolo y atribuye los costos a la parte responsable; si es la entidad, exige deslinde.",
+        "B": "Ignora la excepción expresa por imputabilidad sin dolo, sometida a autorización y responsabilidades.",
+        "C": "La norma atribuye los costos derivados a la parte responsable y no a la afectada.",
+        "D": "La ausencia de dolo permite evaluar la excepción, pero no elimina autorización previa ni deslinde."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "110",
+          "pageStart": 60,
+          "pageEnd": 61,
+          "quote": "Artículo 110. Modificación contractual por hecho sobreviniente no imputable a las partes\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 61 de 249 110.1. En caso no resulten aplicables los adicionales, reducciones y ampliaciones de plazo, las partes pueden acordar mediante adenda otras modificaciones al contrato, siempre que las mismas i) deriven de hechos sobrevinientes a la suscripción del contrato , ii) no sean imputables a alguna de las partes, iii) permitan alcanzar la finalidad del contrato de manera oportuna y eficiente, y iv) no cambien los elementos esenciales del objeto contractual. 110.2. La entidad contratante registra a través de la Pladicop el sustento técnico y legal respectivos conjuntamente con la adenda. El sustento técnico lo emite el área usuaria en coordinación con la DEC. 110.3. En caso la modificación contractual implique la modificación del monto contractual, se requiere la autorización previa de la autoridad de la gestión administrativa y la certificación o previsión de crédito presupuestario, según corresponda. 110.4. En el caso de contratos sujetos a supervisión de terceros, corresponde contar con la opinión favorable del supervisor que evalúe el impacto en el cronograma de ejecución de las prestaciones contractuales. 110.5. Excepcionalmente, previa autorización de la autoridad de la gestión administrativa, las partes pueden acordar una modificación contractual por hecho sobreviniente, aun cuando ésta se deba a causa imputable a alguna de las partes, siempre que no haya habido dolo. En este caso, corresponde que la parte responsable asuma los costos que deriven de la modificación. En caso se trate de la entidad contratante, debe iniciarse el respectivo deslinde de responsabilidades.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N105",
+    "objetivo": "Determinar silencio tras una prórroga procedimental válida.",
+    "criterioAvanzado": "Separa plazo de presentación, duración pedida y plazo de decisión.",
+    "input": {
+      "prompt": "Un atraso ajeno al proveedor de servicios termina un lunes. Al noveno día hábil siguiente, el contratista pide prórroga procedimental y la entidad concede expresamente diez días hábiles adicionales al plazo inicial para presentar la ampliación. La solicitud completa se presenta el día hábil 18 desde el fin del evento. Después transcurren doce días hábiles desde el día siguiente de esa presentación sin decisión ni notificación. Se cumplieron estrictamente los demás extremos del procedimiento y se sustentaron seis días de ampliación. ¿Cuál es el resultado?",
+      "options": [
+        {
+          "id": "A",
+          "text": "La solicitud se tiene por no presentada porque llegó después del décimo día desde el evento."
+        },
+        {
+          "id": "B",
+          "text": "Se aprueban dieciocho días porque esa fue la fecha relativa de presentación."
+        },
+        {
+          "id": "C",
+          "text": "Se aprueban seis días: la presentación fue oportuna dentro de la prórroga y venció sin pronunciamiento el plazo de decisión."
+        },
+        {
+          "id": "D",
+          "text": "La autoridad tiene otros diez días para decidir porque la prórroga amplió también su respuesta."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 142.3 del Reglamento permite pedir dentro de los diez días hábiles iniciales hasta diez días hábiles adicionales para presentar la solicitud. La prórroga se concedió y la presentación en el día 18 es oportuna. El numeral 142.5 da doce días hábiles para resolver y notificar desde el día siguiente de recibida la solicitud; cumplido estrictamente el procedimiento, el silencio aprueba los seis días solicitados.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Desconoce los diez días adicionales concedidos tras la petición formulada dentro del plazo inicial.",
+        "B": "El tiempo utilizado para presentar documentos no equivale a la duración sustentada de la ampliación.",
+        "C": "La prórroga válida cubre el día 18; luego el silencio tras doce días hábiles aprueba los seis días pedidos.",
+        "D": "La prórroga afecta la presentación del contratista, no los doce días hábiles para resolver y notificar."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "13d1629f-d63e-4e7f-ba8b-20318b260981",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "142",
+          "pageStart": 75,
+          "pageEnd": 76,
+          "quote": "Artículo 142. Ampliación del plazo contractual en bienes y servicios 142.1. La autoridad de la gestión administrativa puede autorizar la ampliación del plazo del contrato, previa solicitud sustentada del contratista, priorizando la conservación del equilibrio económico financiero del contrato y el cumplimiento de su finalid ad pública. 142.2. El contratista puede solicitar la ampliación de plazo en los siguientes supuestos:\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 76 de 249 a) Cuando se aprueba la prestación adicional en el contrato, siempre que la ejecución de la prestación adicional afecte el plazo del contrato. b) Por atrasos y/o paralizaciones no imputables al contratista, que ameriten que se requiera ampliar el plazo para dar cumplimiento a la finalidad pública del contrato y mantener su equilibrio económico financiero. 142.3. El contratista solicita la ampliación de plazo dentro de los diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. Dentro de dicho plazo, el contratis ta puede pedir una prórroga de hasta diez días hábiles adicionales para presentar la solicitud de ampliación de plazo. Las solicitudes extemporáneas de ampliación de plazo se tienen por no presentadas. 142.4. En la evaluación de la solicitud de ampliación de plazo, la entidad contratante privilegia el criterio técnico para su pronunciamiento por encima de las formalidades de la documentación presentada, siempre que el sustento otorgue certeza a la decisi ón. Para la evaluación de la solicitud se considera el análisis técnico del área usuaria respecto de la justificación del retraso incurrido por el contratista. 142.5. La autoridad de la gestión administrativa resuelve dicha solicitud y notifica, a través de la Pladicop, su decisión al contratista dentro de los doce días hábiles, contabilizados desde el día siguiente de recibida la solicitud. De no existir pronunc iamiento, se tiene por aprobada, salvo que el contratista no haya cumplido estrictamente con el procedimiento previsto en el numeral 142.3. 142.6. En virtud de una ampliación otorgada, la entidad contratante amplía el plazo de los contratos directamente vinculados al contrato principal. 142.7. Las ampliaciones de plazo dan lugar al pago de los costos y gastos generales debidamente acreditados. 142.8. No corresponde suscribir una adenda al contrato por la aprobación de una ampliación de plazo, bastando con su publicación en la Pladicop para que surta todos sus efectos. De haberse aprobado la ampliación de plazo por falta de pronunciamiento, la en tidad contratante registra la ampliación en la Pladicop, en un máximo de dos días hábiles computados desde el día siguiente de vencido el plazo para su pronunciamiento.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N106",
+    "objetivo": "Determinar el plazo necesario de asistencia tras desplazarse la entrega de equipos.",
+    "criterioAvanzado": "La secuencia técnica permite identificar la vinculación directa y descontar el margen del vencimiento original antes de calcular la ampliación.",
+    "input": {
+      "prompt": "Un suministro tenía entrega al final del día 20. Otro contrato obliga a probar exclusivamente esos equipos durante cuatro días completos después de recibirlos y, terminadas las pruebas, capacitar durante dos días completos; no tiene prestaciones autónomas ni puede ejecutar esas fases antes o en paralelo. Su vencimiento contractual es al final del día 30. Se amplía válidamente doce días el suministro y la entrega pasa al final del día 32. La duración de pruebas y capacitación no cambia; no hay otras demoras. La DEC propone ampliar automáticamente doce días la asistencia o dejarla sin ajuste porque esta no pidió ampliación antes de la del suministro. ¿Cuál es el ajuste mínimo de su vencimiento que cubre íntegramente la secuencia vinculada?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Ampliar doce días, hasta el día 42, trasladando sin análisis todo el incremento del suministro."
+        },
+        {
+          "id": "B",
+          "text": "Ampliar ocho días, hasta el final del día 38, porque los doce de desplazamiento consumen primero el margen que tenía la asistencia hasta el día 30."
+        },
+        {
+          "id": "C",
+          "text": "Ampliar seis días, hasta el día 36, porque cuatro de pruebas más dos de capacitación siempre equivalen a seis días de ampliación."
+        },
+        {
+          "id": "D",
+          "text": "Conservar el día 30 porque la asistencia no pidió previamente la misma ampliación del suministro."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 142.6 del Reglamento prevé ampliar los contratos directamente vinculados en virtud de la ampliación del principal. La dependencia se desprende de la prestación: probar y capacitar sobre esos equipos exige recibirlos primero. Con entrega original al final del 20, la secuencia terminaba al final del 26 y dejaba cuatro días de margen hasta el 30. Con entrega al final del 32, las pruebas terminan el 36 y la capacitación el 38. El ajuste mínimo al vencimiento contractual es 38 − 30 = ocho días. Los doce días del suministro no deben copiarse sin analizar la secuencia ni justifican conservar un vencimiento que impediría completarla.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El vencimiento original de la asistencia tenía margen respecto de la secuencia inicialmente necesaria; trasladar doce días excede el ajuste mínimo preguntado.",
+        "B": "Tras recibir al final del 32, las pruebas ocupan 33 a 36 y la capacitación 37 a 38; de 30 a 38 faltan ocho días, no doce.",
+        "C": "Se confunde duración de actividades con diferencia entre vencimiento vigente y final necesario; hasta el 36 apenas terminan las pruebas.",
+        "D": "La secuencia muestra dependencia directa: sin los equipos no pueden ejecutarse las prestaciones. El artículo 142.6 prevé ampliar el contrato directamente vinculado."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "13d1629f-d63e-4e7f-ba8b-20318b260981",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "142",
+          "pageStart": 75,
+          "pageEnd": 76,
+          "quote": "Artículo 142. Ampliación del plazo contractual en bienes y servicios 142.1. La autoridad de la gestión administrativa puede autorizar la ampliación del plazo del contrato, previa solicitud sustentada del contratista, priorizando la conservación del equilibrio económico financiero del contrato y el cumplimiento de su finalid ad pública. 142.2. El contratista puede solicitar la ampliación de plazo en los siguientes supuestos:\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 76 de 249 a) Cuando se aprueba la prestación adicional en el contrato, siempre que la ejecución de la prestación adicional afecte el plazo del contrato. b) Por atrasos y/o paralizaciones no imputables al contratista, que ameriten que se requiera ampliar el plazo para dar cumplimiento a la finalidad pública del contrato y mantener su equilibrio económico financiero. 142.3. El contratista solicita la ampliación de plazo dentro de los diez días hábiles siguientes a la notificación de la aprobación de la prestación adicional o de finalizado el hecho generador del atraso o paralización. Dentro de dicho plazo, el contratis ta puede pedir una prórroga de hasta diez días hábiles adicionales para presentar la solicitud de ampliación de plazo. Las solicitudes extemporáneas de ampliación de plazo se tienen por no presentadas. 142.4. En la evaluación de la solicitud de ampliación de plazo, la entidad contratante privilegia el criterio técnico para su pronunciamiento por encima de las formalidades de la documentación presentada, siempre que el sustento otorgue certeza a la decisi ón. Para la evaluación de la solicitud se considera el análisis técnico del área usuaria respecto de la justificación del retraso incurrido por el contratista. 142.5. La autoridad de la gestión administrativa resuelve dicha solicitud y notifica, a través de la Pladicop, su decisión al contratista dentro de los doce días hábiles, contabilizados desde el día siguiente de recibida la solicitud. De no existir pronunc iamiento, se tiene por aprobada, salvo que el contratista no haya cumplido estrictamente con el procedimiento previsto en el numeral 142.3. 142.6. En virtud de una ampliación otorgada, la entidad contratante amplía el plazo de los contratos directamente vinculados al contrato principal. 142.7. Las ampliaciones de plazo dan lugar al pago de los costos y gastos generales debidamente acreditados. 142.8. No corresponde suscribir una adenda al contrato por la aprobación de una ampliación de plazo, bastando con su publicación en la Pladicop para que surta todos sus efectos. De haberse aprobado la ampliación de plazo por falta de pronunciamiento, la en tidad contratante registra la ampliación en la Pladicop, en un máximo de dos días hábiles computados desde el día siguiente de vencido el plazo para su pronunciamiento.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N107",
+    "objetivo": "Diferenciar gestión y ejecución durante la suspensión.",
+    "criterioAvanzado": "Evalúa si una actividad tramita una modificación o consume prestaciones suspendidas.",
+    "input": {
+      "prompt": "Un evento ajeno a las partes obliga a suspender por escrito el plazo de un servicio de medición en campo. Aparece una necesidad adicional indispensable para el mismo fin. La DEC puede revisar sustento y presupuesto sin ir a campo ni ejecutar prestaciones. El proveedor propone que, aprovechando ese trámite, su equipo realice ya las mediciones adicionales y guarde los resultados hasta el reinicio. No hay excepción que habilite ejecución durante la suspensión. ¿Qué secuencia corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Paralizar también el análisis y trámite porque la suspensión prohíbe toda gestión documental."
+        },
+        {
+          "id": "B",
+          "text": "Ejecutar ahora y regularizar después porque los resultados se entregarán recién al reinicio."
+        },
+        {
+          "id": "C",
+          "text": "Considerar reiniciado automáticamente el contrato al abrir el expediente del adicional."
+        },
+        {
+          "id": "D",
+          "text": "Tramitar el adicional durante la suspensión si es posible y compatible con el Reglamento, y ejecutar cuando corresponda tras su aprobación y el reinicio."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 107.4 del Reglamento impide actividades del alcance durante la suspensión, pero permite trámites de gestión como aprobar adicionales si es posible y compatible con otras reglas. El artículo 141.3 prohíbe aprobar adicionales de bienes y servicios en regularización. Puede adelantarse el trámite, no las mediciones; el reinicio se encauza conforme al artículo 107.2.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La norma permite trámites propios de gestión como aprobación de adicionales, si son posibles y compatibles.",
+        "B": "Diferir la entrega no cambia que se ejecutarían actividades suspendidas ni habilita regularización ordinaria.",
+        "C": "La gestión documental no sustituye el acta o determinación de reinicio que corresponda.",
+        "D": "Gestionar la modificación es compatible con suspensión; realizar mediciones es ejecutar prestaciones del alcance."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "92c1115c-1842-4c80-9031-1baa27aa310e",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "107",
+          "pageStart": 59,
+          "pageEnd": 60,
+          "quote": "Artículo 107. Suspensión del plazo de ejecución contractual 107.1. Cuando se produzcan eventos no atribuibles a las partes que originen la interrupción de la ejecución de las prestaciones, estas pueden acordar por escrito la suspensión del plazo de ejecución contractual, hasta la culminación de dicho evento, sin qu e ello suponga el reconocimiento de mayores gastos generales y/o costos directos; salvo aquellos que resulten necesarios para viabilizar la suspensión. 107.2. Culminado el evento que produjo la interrupción de la ejecución de las prestaciones, las partes suscriben un acta, acordando la fecha de su reinicio. En caso no exista acuerdo, la entidad contratante determina la fecha de reinicio. 107.3. La entidad contratante suspende el plazo de ejecución de los contratos directamente vinculados al contrato suspendido, cuando corresponda. Culminado el plazo de suspensión se suscribe un acta en la que se indique la fecha de reinicio de la ejecución contractual. 107.4. Durante la suspensión del plazo de ejecución, no se realizan actividades del alcance del contrato; sin embargo, las partes pueden realizar trámites propios de la gestión de contrato, tales como aquellos destinados a la aprobación de prestaciones adi cionales, valorizaciones pendientes u otro tipo de modificaciones contractuales, siempre que ello resulte posible y no contravenga otras disposiciones del Reglamento.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 60 de 249 107.5. Previa autorización de la autoridad de la gestión administrativa, las partes pueden acordar la suspensión del plazo de ejecución, aun cuando el evento se deba a causa imputable a la entidad contratante, sin perjuicio de iniciarse el respectivo desli nde de responsabilidades. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"107.5. Previa autorización de la autoridad de la gestión administrativa, las partes pueden acordar la suspensión del plazo de ejecución cuando el evento se deba a causa imputable a la entidad contratante, sin perjuicio de iniciarse el respectivo deslinde de responsabilidades.”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "141",
+          "pageStart": 75,
+          "pageEnd": 75,
+          "quote": "Artículo 141. Prestaciones adicionales en bienes y servicios 141.1. La autoridad de la gestión administrativa puede aprobar, mediante resolución publicada en la Pladicop, la ejecución de prestaciones adicionales en bienes y servicios hasta por el 25% del monto del contrato original que sean indispensables para el cu mplimiento de la finalidad pública del contrato, siempre que se cuente con previo sustento técnico y legal y con la previsión y/o certificación de crédito presupuestario correspondiente. 141.2. El costo de la prestación adicional se determina sobre la base de las especificaciones técnicas del bien o términos de referencia del servicio y de las condiciones y precios pactados en el contrato; en defecto de estos, la DEC, previo sustento y coo rdinación con el área usuaria, determina el monto a acordar con el contratista, considerando la estructura de costos y/o sustento presentado por el contratista. 141.3. No corresponde suscribir una adenda al contrato por la aprobación de un adicional, bastando con la publicación de la resolución en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N108",
+    "objetivo": "Fijar el precio de un adicional sin precio contractual aplicable.",
+    "criterioAvanzado": "Distingue una unidad nueva de la extensión automática del precio de otra prestación.",
+    "input": {
+      "prompt": "Un mantenimiento tiene precio pactado por visita preventiva, pero no por reparación especializada. Un daño sobreviniente ajeno al contratista exige una reparación indispensable para la finalidad del contrato; la procedencia del adicional y su límite están acreditados. El informe demuestra que reparar requiere insumos y horas distintos de una visita. El proveedor presenta estructura de costos sustentada. La oficina quiere multiplicar el precio de visita por diez sin analizarla porque el contrato ya tiene algún precio. ¿Cómo debe determinarse el monto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Usar diez veces el precio de visita aunque no exista equivalencia técnica."
+        },
+        {
+          "id": "B",
+          "text": "Aceptar sin evaluación el total del proveedor porque presentar estructura de costos lo vuelve obligatorio."
+        },
+        {
+          "id": "C",
+          "text": "La DEC determina el monto a acordar, con sustento y coordinación con el área usuaria, considerando la estructura de costos porque no hay precio pactado aplicable a esa reparación."
+        },
+        {
+          "id": "D",
+          "text": "Negar el adicional porque toda prestación sin precio específico debe contratarse separadamente."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 141.2 del Reglamento parte de las especificaciones o términos de referencia y condiciones y precios pactados. En su defecto, la DEC, con sustento y coordinación con el área usuaria, determina el monto a acordar considerando la estructura de costos o sustento del contratista. El informe descarta equiparar reparación y visita: ni el multiplicador ni la aceptación automática están justificados.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El precio de otra prestación no sustenta un multiplicador sin correspondencia de condiciones ni análisis técnico.",
+        "B": "El sustento se considera, pero no sustituye la determinación sustentada de la DEC y su coordinación con el área usuaria.",
+        "C": "Un precio de visitas técnicamente distintas no constituye precio contractual aplicable a la reparación especializada.",
+        "D": "El Reglamento prevé expresamente cómo acordar el monto cuando no existen condiciones o precios aplicables."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "141",
+          "pageStart": 75,
+          "pageEnd": 75,
+          "quote": "Artículo 141. Prestaciones adicionales en bienes y servicios 141.1. La autoridad de la gestión administrativa puede aprobar, mediante resolución publicada en la Pladicop, la ejecución de prestaciones adicionales en bienes y servicios hasta por el 25% del monto del contrato original que sean indispensables para el cu mplimiento de la finalidad pública del contrato, siempre que se cuente con previo sustento técnico y legal y con la previsión y/o certificación de crédito presupuestario correspondiente. 141.2. El costo de la prestación adicional se determina sobre la base de las especificaciones técnicas del bien o términos de referencia del servicio y de las condiciones y precios pactados en el contrato; en defecto de estos, la DEC, previo sustento y coo rdinación con el área usuaria, determina el monto a acordar con el contratista, considerando la estructura de costos y/o sustento presentado por el contratista. 141.3. No corresponde suscribir una adenda al contrato por la aprobación de un adicional, bastando con la publicación de la resolución en la Pladicop para que surta todos sus efectos. Se encuentra prohibida la aprobación de prestaciones adicionales en vía de regularización.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N109",
+    "objetivo": "Seleccionar una reprogramación compatible con la fecha contractual antes de formalizar la modificación residual.",
+    "criterioAvanzado": "El cálculo de fases sucesivas determina qué alternativa puede mantener el plazo y, con ello, qué modificación se pretende aprobar.",
+    "input": {
+      "prompt": "En un servicio supervisado por un tercero quedan veinte días para entregar 60 000 registros validados. Una exigencia externa posterior a la firma, no imputable a las partes, cambia el formato de intercambio. Se conserva objeto esencial, volumen, monto y todas las validaciones; no se añaden ni retiran prestaciones. Para el formato nuevo se requieren tres días de conversión, luego la retransmisión de todos los registros y finalmente ocho días de validación; las fases no se solapan. El contratista ofrece, al mismo precio, un método de retransmisión de 6 000 registros diarios y otro de 7 500 diarios. Ambos tienen capacidad acreditada, cumplen las demás condiciones y permiten la misma finalidad; el segundo dispone de recursos suficientes sin acortar las validaciones. La DEC quiere conservar el vencimiento y tramitar una modificación residual. ¿Qué alternativa puede sustentar esa decisión y qué debe evaluarse antes de formalizarla?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El método de 6 000 diarios: sus diez días de retransmisión caben en veinte, sin necesidad de considerar conversión ni validación al decidir la adenda."
+        },
+        {
+          "id": "B",
+          "text": "Cualquiera de los métodos, porque no variar el monto hace jurídicamente irrelevante que una secuencia exceda el plazo."
+        },
+        {
+          "id": "C",
+          "text": "El método de 7 500 diarios, eliminando tres días de validación para compensar la conversión y firmando la adenda sin opinión del supervisor por no cambiar el monto."
+        },
+        {
+          "id": "D",
+          "text": "El método de 7 500 diarios: la secuencia requiere diecinueve días; con sustento técnico y legal y opinión favorable del supervisor sobre el cronograma, puede acordarse la modificación por adenda sin ampliar el plazo."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El cálculo debe preceder a la formalización. Con 6 000 registros por día, retransmitir 60 000 requiere diez días y el total es 3 + 10 + 8 = 21; no conserva los veinte disponibles. Con 7 500 diarios requiere ocho y suma 3 + 8 + 8 = 19, conservando íntegramente las validaciones y el vencimiento. Bajo los hechos sobrevinientes, no imputables, sin cambio esencial ni prestaciones adicionales o reducidas y sin necesidad de ampliación para este método, el artículo 110.1 del Reglamento permite evaluar una modificación residual por adenda. Los numerales 110.2 y 110.4 exigen sustento técnico y legal y opinión favorable del supervisor que evalúe el cronograma. La opinión no se vuelve prescindible por mantener monto o fecha; tampoco sustituye el cálculo necesario para seleccionar el método.",
+      "regime": "32069",
+      "topic": "Modificaciones contractuales",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Omite fases obligatorias sucesivas: tres más diez más ocho son veintiún días, que exceden el tiempo disponible.",
+        "B": "La ausencia de cambio de monto no permite dar por conservado un vencimiento que una alternativa necesita superar.",
+        "C": "No se necesita suprimir validaciones para que el método elegido quepa; además se exige conservarlas y la supervisión por tercero requiere su opinión favorable.",
+        "D": "La retransmisión dura ocho días y la secuencia suma 3 + 8 + 8 = 19; preserva el vencimiento. El de 6 000 requiere diez y suma 21, por lo que no respalda la misma conclusión."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "110",
+          "pageStart": 60,
+          "pageEnd": 61,
+          "quote": "Artículo 110. Modificación contractual por hecho sobreviniente no imputable a las partes\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 61 de 249 110.1. En caso no resulten aplicables los adicionales, reducciones y ampliaciones de plazo, las partes pueden acordar mediante adenda otras modificaciones al contrato, siempre que las mismas i) deriven de hechos sobrevinientes a la suscripción del contrato , ii) no sean imputables a alguna de las partes, iii) permitan alcanzar la finalidad del contrato de manera oportuna y eficiente, y iv) no cambien los elementos esenciales del objeto contractual. 110.2. La entidad contratante registra a través de la Pladicop el sustento técnico y legal respectivos conjuntamente con la adenda. El sustento técnico lo emite el área usuaria en coordinación con la DEC. 110.3. En caso la modificación contractual implique la modificación del monto contractual, se requiere la autorización previa de la autoridad de la gestión administrativa y la certificación o previsión de crédito presupuestario, según corresponda. 110.4. En el caso de contratos sujetos a supervisión de terceros, corresponde contar con la opinión favorable del supervisor que evalúe el impacto en el cronograma de ejecución de las prestaciones contractuales. 110.5. Excepcionalmente, previa autorización de la autoridad de la gestión administrativa, las partes pueden acordar una modificación contractual por hecho sobreviniente, aun cuando ésta se deba a causa imputable a alguna de las partes, siempre que no haya habido dolo. En este caso, corresponde que la parte responsable asuma los costos que deriven de la modificación. En caso se trate de la entidad contratante, debe iniciarse el respectivo deslinde de responsabilidades.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N110",
+    "objetivo": "Aplicar el límite de penalidades por ítem y determinar el saldo que debe cobrarse.",
+    "criterioAvanzado": "La base del límite determina la penalidad adicional admisible y esta fija cuánto queda para descontar del pago final después del parcial.",
+    "input": {
+      "prompt": "Un contrato ordinario de servicios comprende dos ítems independientes: uno de monto vigente S/180 000 y otro de S/120 000. En el segundo ya se aplicaron y cobraron S/10 000 de penalidades; en el primero no hay incumplimientos. Por nuevos incumplimientos del segundo se determinan S/4 000 adicionales antes de aplicar el límite conjunto; su procedencia y cuantificación no están en discusión y no se pide calcular mora diaria. Todos los pagos pendientes corresponden al segundo ítem: S/1 500 ahora y S/5 000 al final, sin otras deducciones. La DEC propone usar como límite el 10% de la suma de ambos ítems y cobrar de inmediato todo lo nuevo ejecutando la garantía, aunque puede descontarlo de esos pagos. ¿Qué importe adicional y secuencia de cobro respetan el régimen de penalidades?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aplicar los S/4 000 completos: descontar S/1 500 ahora y S/2 500 al final porque el límite de S/30 000 del contrato aún no se agotó."
+        },
+        {
+          "id": "B",
+          "text": "Aplicar solo S/1 500 y extinguir el resto de la penalidad porque no puede excederse el pago parcial disponible hoy."
+        },
+        {
+          "id": "C",
+          "text": "Aplicar S/2 000 adicionales: descontar S/1 500 del pago parcial y los S/500 restantes del pago final, sin necesidad de ejecutar la garantía con estos datos."
+        },
+        {
+          "id": "D",
+          "text": "Aplicar S/2 000 adicionales, pero cobrarlos exclusivamente ejecutando la garantía porque las penalidades no pueden deducirse de pagos parciales ni finales."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 119.2 del Reglamento limita la suma de mora y otras penalidades al 10% del monto vigente del contrato o, cuando corresponde, del ítem respectivo. Los nuevos incumplimientos son del ítem de S/120 000: su límite es S/12 000 y, ya aplicados S/10 000, solo cabe S/2 000 adicionales de los S/4 000 determinados antes del límite. Conforme al 119.3, se deducen de pagos parciales o finales y, si es necesario, de la ejecución de garantía. S/1 500 pueden cobrarse ahora y S/500 del pago final de S/5 000.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Usa los dos ítems para ampliar el límite pese a que los incumplimientos corresponden al segundo; el tope aplicable es el de ese ítem.",
+        "B": "Confunde capacidad inmediata de descuento con límite legal: existe pago final suficiente para cobrar los S/500 admisibles restantes.",
+        "C": "El límite del ítem afectado es S/12 000; descontados S/10 000 previos quedan S/2 000. El pago parcial cubre S/1 500 y el saldo de S/500 cabe en el final.",
+        "D": "El artículo 119.3 autoriza deducir de pagos parciales o finales y recurrir a la garantía si resulta necesario; aquí hay saldos suficientes."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "45f9633f-daff-442d-9546-8fcd549b4ddd",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "119",
+          "pageStart": 65,
+          "pageEnd": 65,
+          "quote": "Artículo 119. Penalidades 119.1. El contrato establece la penalidad por mora y otras penalidades aplicables al contratista ante el incumplimiento injustificado de sus obligaciones contractuales. 119.2. La suma de la aplicación de las penalidades por mora y de otras penalidades no debe exceder el 10% del monto vigente del contrato o, de ser el caso, del ítem correspondiente. 119.3. Estas penalidades se deducen de los pagos a cuenta, pagos parciales o del pago o liquidación final, según corresponda; o si fuera necesario, se descuenta del monto resultante de la ejecución de la garantía de fiel cumplimiento.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso replanteado tras la revisión inicial del lote: se contrastaron condiciones, excepciones, operaciones, clave única, distractores y citas literales con el corpus real y se revisó novedad frente al banco previo. Pendiente de nueva revisión del lote corregido. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N111",
+    "objetivo": "Condicionar el pago al aumento proporcional de garantía.",
+    "criterioAvanzado": "Distingue el plazo de adecuación de la condición que habilita pagar.",
+    "input": {
+      "prompt": "Un contrato de servicios por S/500 000 tiene garantía de fiel cumplimiento otorgada por S/50 000. Se aprueba y publica válidamente un adicional que eleva el monto a S/575 000, sin cambiar el plazo ni otra modificación. Al octavo día hábil desde el día siguiente de la aprobación y publicación, el proveedor pide cobrar una prestación ya conforme, pero aún no presenta aumento de garantía. Alega que, como no han vencido diez días hábiles, la entidad debe pagar. ¿Qué corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aumentar la garantía en S/7 500 y presentar el aumento para efectuar el pago, aunque siga dentro del plazo máximo de adecuación."
+        },
+        {
+          "id": "B",
+          "text": "Pagar ahora y exigir S/7 500 recién al undécimo día porque antes no puede condicionarse el pago."
+        },
+        {
+          "id": "C",
+          "text": "Exigir S/75 000 adicionales de garantía, iguales al valor completo del adicional."
+        },
+        {
+          "id": "D",
+          "text": "Mantener la garantía porque el plazo no cambió y solo se garantizan retrasos."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 117.1 del Reglamento exige aumentar proporcionalmente las garantías cuando crece el monto. S/75 000 sobre S/500 000 es 15%; el 15% de S/50 000 es S/7 500. El numeral 117.4 da hasta diez días hábiles desde el día siguiente de aprobada y publicada la modificación para adecuar, pero presentar el aumento es requisito para pagar. Estar en el octavo día no elimina esa condición.",
+      "regime": "32069",
+      "topic": "Penalidades, garantías, resolución y nulidad",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.3",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El monto sube 15% y la garantía en igual proporción; presentar el aumento es requisito de pago independiente del vencimiento del plazo máximo.",
+        "B": "El plazo máximo para adecuar no elimina la condición expresa de presentar el aumento para efectuar el pago.",
+        "C": "El aumento es proporcional a la garantía otorgada y no igual al valor íntegro de las prestaciones adicionales.",
+        "D": "El incremento de monto activa adecuación proporcional aunque el plazo no cambie; son supuestos distintos."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "30f7b478-66b4-45f8-81c8-1ef4bf4dabee",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "117",
+          "pageStart": 64,
+          "pageEnd": 64,
+          "quote": "Artículo 117. Ampliación o reducción de garantías por modificaciones contractuales 117.1. Cuando como consecuencia de una modificación contractual se incremente el monto contractual, el contratista aumenta de forma proporcional las garantías que hubiese otorgado. 117.2. Cuando la modificación contractual implique una ampliación del plazo del contrato, el contratista amplía el plazo de las garantías que hubiere otorgado, de corresponder. 117.3. Cuando la modificación contractual implique una reducción del monto y/o plazo, el contratista puede solicitar la disminución proporcional del monto y/o plazo de las garantías que hubiera otorgado. 117.4. Para los casos de modificaciones contractuales, la adecuación de la garantía debe efectuarse en el plazo máximo de diez días hábiles contabilizados desde el día siguiente de aprobada y publicada la modificación. La presentación del aumento de la gar antía correspondiente es requisito para efectuar el pago.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N112",
+    "objetivo": "Distinguir aprobación parcial y entrega de terreno en ejecución rápida.",
+    "criterioAvanzado": "La habilitación técnica del frente no sustituye la disponibilidad para construir.",
+    "input": {
+      "prompt": "En diseño y construcción bajo ejecución rápida se notifica la aprobación del entregable parcial del expediente del primer frente. Ya se comunicó la supervisión y se entregó el adelanto aplicable en condiciones previstas. Las partes quieren iniciar ese frente, pero el terreno solo se puso a disposición para inspecciones durante el diseño y aún no se ha entregado para ejecutar, ni total ni parcialmente. El contratista sostiene que visitar antes equivale a entrega. Aplicando el texto modificado del Reglamento recogido en el corpus, ¿qué falta?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Entregar total o parcialmente el terreno para ejecutar el frente; la aprobación parcial y el acceso para estudios no sustituyen esa entrega."
+        },
+        {
+          "id": "B",
+          "text": "Esperar la aprobación del expediente completo porque la ejecución rápida no admite entregables parciales."
+        },
+        {
+          "id": "C",
+          "text": "Nada: el acceso para inspecciones equivale siempre a entregar el terreno para construir."
+        },
+        {
+          "id": "D",
+          "text": "Una adenda que declare que las inspecciones ya consumieron parte del plazo de obra."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 176.4 modificado del Reglamento exige para ejecución rápida notificar la aprobación de entregables parciales, entregar total o parcialmente el terreno para ejecutar y cumplir los literales b) y c) del numeral 176.1. El artículo 176.5 modificado distingue esa entrega de la puesta a disposición durante el diseño para inspecciones y estudios. Los hechos solo acreditan este último acceso.",
+      "regime": "32069",
+      "topic": "Requisitos de ejecución de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La ejecución rápida exige aprobación parcial notificada, entrega para ejecución y requisitos remitidos de supervisión y adelanto.",
+        "B": "La ejecución rápida permite aprobación parcial; el obstáculo es la entrega para ejecutar, no la aprobación integral.",
+        "C": "La norma distingue poner terreno a disposición para estudios de entregarlo para ejecutar obra.",
+        "D": "Declarar efectos temporales de visitas previas no reemplaza la entrega para ejecutar el frente."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "de2ac80a-f4ec-475f-bd83-b160cce68506",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "179",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": ". Este procedimiento no es aplicable cuando la entidad contratante haya informado al contratista dentro del plazo para el inicio de la ejecución de la obra la necesidad de acordar diferir su inicio conforme al numeral 176.7. En el caso de ejecución rápida (fast track), la ejecución del componente obra inicia al notificar al contratista la aprobación de los entregables parciales del expediente técnico y realizar la entrega total o parcial del terreno, según corresponda, para la ejecución de la obra, y se cumplen con los requisitos establecidos en los literales b) y c) del numeral 176.1. El adelanto directo y adelanto para materiales e insumos, equipamiento y mobiliario, se otorga de forma progresiva y acorde a los porcentajes definidos en las bases, considerando el presupuesto de cada entregable parcial del expediente técnico.\" 176.5. En el caso de obras bajo el sistema de entrega de diseño y construcción, una vez culminado el diseño, la ejecución del componente obra se inicia una vez que se notifica al contratista el expediente técnico de obra debidamente aprobado y se cumplen l os requisitos establecidos en los literales b) y c) del numeral 176.1. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"176.5. En el caso de obras bajo el sistema de entrega de diseño y construcción, la entidad contratante, durante la elaboración del diseño, pone el terreno a disposición total o parcial del contratista, permitiendo la realización de inspecciones y estudios. En un plazo máximo de veinte días computados desde el día siguiente de la aprob ación del expediente técnico, se inicia la ejecución del componente obra, para lo cual la entidad contratante cumple con: i) la notificación al contratista de la aprobación de l expediente técnico de obra , ii) la entrega total o parcial del terreno para la ejecución de la obra y iii) los requisitos establecidos en los literales b) y c) del numeral 176.1.\" 176.6",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e054c427-a4a7-53bd-a201-07ffae443596",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "176",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": "176.5. En el caso de obras bajo el sistema de entrega de diseño y construcción, la entidad contratante, durante la elaboración del diseño, pone el terreno a disposición total o parcial del contratista, permitiendo la realización de inspecciones y estudios. En un plazo máximo de veinte días computados desde el día siguiente de la aprob ación del expediente técnico, se inicia la ejecución del componente obra, para lo cual la entidad contratante cumple con: i) la notificación al contratista de la aprobación de l expediente técnico de obra , ii) la entrega total o parcial del terreno para la ejecución de la obra y iii) los requisitos establecidos en los literales b) y c) del numeral 176.1.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "405c1773-78bf-4592-9155-7cbe8b5d3bf4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "176",
+          "pageStart": 93,
+          "pageEnd": 93,
+          "quote": "Artículo 176. Inicio de ejecución contractual para obras bajo los sistemas de entrega de sólo construcción y diseño y construcción.(*) (*) Extremo modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: “ Artículo 176. Inicio del plazo de ejecución contractual en obras bajo los sistemas de entrega de solo construcción, de diseño y construcción y en consultorías de obra\" 176.1. El inicio del plazo de ejecución contractual de obras rige desde que la entidad contratante cumpla con las siguientes condiciones: a) Entrega de la actualización del expediente técnico o de la documentación técnica necesaria para que realice el diseño correspondiente, según corresponda, en caso estos se hubiesen modificado con ocasión del procedimiento de selección. b) Comunicación al contratista en la que se identifique aquél que está a cargo de la supervisión de la obra o de la supervisión del componente del diseño, según corresponda. c) Entrega del adelanto directo, en caso este haya sido solicitado por el contratista, en las condiciones y oportunidad establecida en el",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "dd5077d5-1df0-44c6-bb0f-c05c0b196861",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "179",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": "artículo 179. Esta condición no aplica cuando el adelanto directo se garantiza mediante fideicomiso. d) La suscripción del contrato tripartito para la conformación de la JPRD, de corresponder. e) En el caso de obras bajo el sistema de entrega de solo construcción, la entrega total o parcial del terreno o lugar donde se ejecuta la obra, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 94 de 249 176.2. El inicio del plazo de ejecución contractual para consultorías de obras rige desde que la entidad contratante cumpla con las siguientes condiciones: a) Entrega de la actualización de la documentación técnica necesaria para que realice la formulación o el diseño correspondiente, según corresponda, en caso estos se hubiesen modificado con ocasión del procedimiento de selección. b) Comunicación al contratista en la que se identifique aquél que está a cargo de la supervisión del contrato, en caso corresponda. (*) (*) Literal modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"b) Comunicación al contratista en la que se identifique aquél que está a cargo de la supervisión del contrato.\" c) Entrega del adelanto directo, en caso este haya sido solicitado por el contratista, en las condiciones y oportunidad establecida en el artículo 179. 176.3. La entidad contratante es responsable de iniciar las gestiones para dar cumplimiento a la entrega de los documentos señalados en el numeral 176.1, el cual no debe superar los veinte días desde la suscripción del contrato. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"176.3",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N113",
+    "objetivo": "Coordinar inicio diferido y trámite del adelanto.",
+    "criterioAvanzado": "La corrección previa del expediente desplaza la gestión del adelanto no entregado.",
+    "input": {
+      "prompt": "Antes de iniciar una obra de solo construcción, la revisión detecta un error estructural que necesariamente debe corregirse antes de ejecutar. Las partes acuerdan diferir el inicio y aún no se entregó el adelanto directo. Programada la corrección, el acta de reinicio fija una nueva fecha proyectada. El contratista pide que trámite y entrega de adelanto continúen sin interrupción durante todo el diferimiento. ¿Qué tratamiento corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Suspender solicitud y entrega del adelanto no entregado y reanudarlas quince días antes de la nueva fecha proyectada de inicio, formalizando y publicando las actas correspondientes."
+        },
+        {
+          "id": "B",
+          "text": "Continuar sin suspensión porque el diferimiento solo afecta la presencia de trabajadores."
+        },
+        {
+          "id": "C",
+          "text": "Cancelar definitivamente el derecho al adelanto porque cualquier error del expediente lo extingue."
+        },
+        {
+          "id": "D",
+          "text": "Reanudar recién el día de inicio efectivo, sin acta ni publicación."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 176.7.b del Reglamento permite diferir por acuerdo cuando la revisión detecta errores que deben corregirse antes del inicio en solo construcción. El numeral 176.8 suspende solicitud y entrega de adelanto si aún no se entregó y las reanuda quince días antes de la nueva fecha proyectada. El numeral 176.9 contempla acta sustentada y publicada y acta de reinicio con la nueva fecha.",
+      "regime": "32069",
+      "topic": "Requisitos de ejecución de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El error habilita diferir por acuerdo; al no haberse entregado el adelanto, su gestión se suspende y reanuda vinculada a la nueva fecha.",
+        "B": "El régimen vincula expresamente el diferimiento con suspender solicitud y entrega del adelanto aún no otorgado.",
+        "C": "La norma prevé suspensión y reanudación, no pérdida definitiva por diferir el inicio.",
+        "D": "El hito es quince días antes de la fecha proyectada y se contemplan actas publicadas para formalizar y reiniciar."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "f451532c-30a9-4438-90c6-2e81c9495f26",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "179",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": ". Por acuerdo de las partes, se puede adelantar la ejecución de partidas de obra iniciales mientras se aprueba el expediente técnico, incluyendo obras provisionales y demolición de una edificación o infraestructura existente. Lo referido en este numer al se efectúa mediante una aprobación parcial del expediente técnico. 176.7. Por acuerdo entre las partes, se puede diferir la fecha de inicio de plazo de ejecución del componente correspondiente a la ejecución de la obra en los siguientes supuestos: a) Cuando la estacionalidad climática impida el inicio de la ejecución de la obra, hasta la culminación de dicho evento. b) En caso de las obras bajo el sistema de entrega de solo construcción, como producto de la revisión del expediente técnico por parte del contratista se detecte errores u omisiones en el expediente técnico que necesariamente deban de corregirse previo al inicio de la ejecución de la obra. c) En caso la entidad contratante, por razones que no le sean imputables, se encuentre imposibilitada de cumplir con las condiciones previstas en los literales b) o d) del numeral 176.1, hasta su cumplimiento. 176.8. En caso se difiera el inicio del plazo de ejecución conforme al numeral anterior, siempre que no se haya entregado el adelanto directo, se suspende la solicitud y entrega de este, reanudándose quince días antes de la nueva fecha de inicio del plazo de ejecución proyectada.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 96 de 249 176.9. Este acuerdo puede formalizarse mediante la suscripción de un acta por ambas partes que se publica en la Pladicop con el informe técnico que la sustenta. Para reiniciar los trámites para el inicio de ejecución, se suscribe un acta de reinicio en el que conste la nueva fecha de inicio del plazo de la ejecución de la obra, la cual se publica en la Pladicop. Artículo 177. Obligatoriedad de residente en obras bajo los sistemas de entrega de solo construcción y diseño y construcción. 177.1. Desde el inicio de la ejecución de la obra en los sistemas de entrega de solo construcción y diseño y construcción se cuenta con un residente, de modo permanente y exclusivo, que es un profesional colegiado y habilitado de la carrera de ingeniería o arquitectura, según la especialidad de la obra, con no menos de dos años de experiencia como residente de obra, jefe de supervisión de obra, coordinador y/o similares en la especialidad de la obra. 177.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N114",
+    "objetivo": "Calcular el máximo resarcible ante falta de condiciones de inicio.",
+    "criterioAvanzado": "Aplica límite diario, tope acumulado y daño acreditado conjuntamente.",
+    "input": {
+      "prompt": "En una obra por S/4 000 000, la entidad no cumple las condiciones de inicio pese al requerimiento y vencimiento íntegro de los diez días aplicables. No informó oportunamente necesidad de diferir ni hay acuerdo de diferimiento. Para el cálculo están correctamente determinados 70 días resarcibles posteriores al vencimiento, sin discusión sobre su cómputo. Se acreditan S/150 000 de daños y el contratista pide esa suma. Según los límites del régimen de inicio, ¿qué máximo puede solicitar por estos hechos?",
+      "options": [
+        {
+          "id": "A",
+          "text": "S/150 000 porque acreditar el daño permite superar los límites porcentuales."
+        },
+        {
+          "id": "B",
+          "text": "S/120 000: el cálculo diario llega a S/140 000, pero el tope de 3% contractual es inferior a ese cálculo y al daño acreditado."
+        },
+        {
+          "id": "C",
+          "text": "S/140 000 aplicando 0,05% diario durante los 70 días determinados."
+        },
+        {
+          "id": "D",
+          "text": "S/4 500 aplicando el tope del 3% al daño acreditado."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 176.4 modificado del Reglamento contempla daños acreditados hasta 0,05% del monto contractual por día, con tope de 3%. S/4 000 000 × 0,0005 × 70 = S/140 000; el tope es S/4 000 000 × 0,03 = S/120 000. El daño acreditado de S/150 000 no elimina ese límite. Los 70 días se proporcionan como dato ya determinado, sin inferir otro cómputo.",
+      "regime": "32069",
+      "topic": "Requisitos de ejecución de obras",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La acreditación es necesaria pero no elimina los límites diario y acumulado del resarcimiento.",
+        "B": "Deben respetarse a la vez el daño acreditado, máximo diario de 0,05% y tope acumulado de 3%.",
+        "C": "El cálculo diario es correcto pero supera el tope acumulado del 3% del contrato.",
+        "D": "El tope se calcula sobre el monto contractual y no sobre el daño; cambiar la base reduce indebidamente el máximo."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "82c0321c-35f8-41c1-aa28-0b183ed41131",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "179",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": ". La entidad contratante es responsable de iniciar las gestiones para dar cumplimiento a la entrega de los documentos señalados en los numerales 176.1 y 176.2 , lo cual no debe superar los veintidós días desde la suscripción del contrato.\" 176.4. Si la entidad contratante, en un plazo máximo de diez días de requerido por el contratista, no cumple con las condiciones de inicio del plazo de ejecución, el contratista puede solicitar el resarcimiento de daños y perjuicios debidamente acreditados hasta por el 0.05% del monto del contrato por día con un tope de 3%. Asimismo, puede optar por solicitar la resolución del contrato conforme al procedimiento establecido en el artículo 122. Este procedimiento no es aplicable cuando la entidad contratante haya informado al contratista dentro del plazo para el inicio de la ejecución de la obra la necesidad de acordar diferir su inicio conforme al numeral 176.7. En el caso de ejecución rápida (fast track), la ejecución del componente obra inicia al notificars e al contratista la aprobación de los entregables parciales del expediente técnico, cumpliendo con los requisitos establecidos en los literales b) y c) del numeral 176.1. El adelanto directo y adelanto para materiales e insumos, equipamiento y mobiliario, se otorga de forma progresiva y acorde a los porcentajes definidos en las bases, considerando el presupuesto de cada entregable parcial del expediente técnico. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"176.4. Si la entidad contratante, en un plazo máximo de diez días de requerido por el contratista, no cumple con las condiciones de inicio del plazo de ejecución o con lo\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 95 de 249 establecido en el numeral 176.5 , el contratista puede solicitar el resarcimiento de daños y perjuicios debidamente acreditados hasta por el 0.05% del monto del contrato por día con un tope de 3%. Asimismo, puede optar por solicitar la resolución del contrato conforme al procedimiento es tablecido en el artículo 122",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "de2ac80a-f4ec-475f-bd83-b160cce68506",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "179",
+          "pageStart": 93,
+          "pageEnd": 97,
+          "quote": ". Este procedimiento no es aplicable cuando la entidad contratante haya informado al contratista dentro del plazo para el inicio de la ejecución de la obra la necesidad de acordar diferir su inicio conforme al numeral 176.7. En el caso de ejecución rápida (fast track), la ejecución del componente obra inicia al notificar al contratista la aprobación de los entregables parciales del expediente técnico y realizar la entrega total o parcial del terreno, según corresponda, para la ejecución de la obra, y se cumplen con los requisitos establecidos en los literales b) y c) del numeral 176.1. El adelanto directo y adelanto para materiales e insumos, equipamiento y mobiliario, se otorga de forma progresiva y acorde a los porcentajes definidos en las bases, considerando el presupuesto de cada entregable parcial del expediente técnico.\" 176.5. En el caso de obras bajo el sistema de entrega de diseño y construcción, una vez culminado el diseño, la ejecución del componente obra se inicia una vez que se notifica al contratista el expediente técnico de obra debidamente aprobado y se cumplen l os requisitos establecidos en los literales b) y c) del numeral 176.1. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"176.5. En el caso de obras bajo el sistema de entrega de diseño y construcción, la entidad contratante, durante la elaboración del diseño, pone el terreno a disposición total o parcial del contratista, permitiendo la realización de inspecciones y estudios. En un plazo máximo de veinte días computados desde el día siguiente de la aprob ación del expediente técnico, se inicia la ejecución del componente obra, para lo cual la entidad contratante cumple con: i) la notificación al contratista de la aprobación de l expediente técnico de obra , ii) la entrega total o parcial del terreno para la ejecución de la obra y iii) los requisitos establecidos en los literales b) y c) del numeral 176.1.\" 176.6",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N115",
+    "objetivo": "Seleccionar un proceso constructivo coherente con los parámetros del expediente técnico.",
+    "criterioAvanzado": "Calcula capacidad remanente por fase y usa el resultado para contrastar eficiencia y sostenibilidad con las condiciones de inversión.",
+    "input": {
+      "prompt": "El expediente técnico de una remodelación debe conservar 20 consultorios al finalizar y mantener al menos 16 operativos durante toda la obra, como parámetro expreso de la inversión aprobada. No se permite construir bloques nuevos ni trasladar atención fuera del local. Existen 20 consultorios iguales; cada uno en obra queda inoperativo hasta terminar su intervención. Se comparan dos procesos: intervenir diez simultáneamente, con recuperación de materiales del 90%; o intervenir cuatro simultáneamente en cinco fases, reabriendo cada grupo antes de cerrar el siguiente, con recuperación del 75%. Ambos terminan con 20 consultorios, cumplen las demás condiciones y el segundo es viable en costo y plazo. Se prefiere el primero por reciclar más. ¿Qué conclusión debe sustentar el expediente técnico?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Elegir el proceso de diez porque ambos terminan con 20 y el porcentaje de recuperación es superior."
+        },
+        {
+          "id": "B",
+          "text": "Elegir el proceso de cuatro por fase: conserva 16 operativos en cada fase; la mayor recuperación del otro no compensa incumplir el parámetro durante la obra."
+        },
+        {
+          "id": "C",
+          "text": "Rechazar ambos porque cinco fases de cuatro consultorios equivalen a tener 20 cerrados simultáneamente."
+        },
+        {
+          "id": "D",
+          "text": "Elegir el proceso de diez y añadir seis consultorios en un bloque nuevo para compensar el cierre temporal."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 170.1 del Reglamento exige coherencia del expediente con objetivos, alcances y parámetros de la inversión. El numeral 170.3 exige analizar eficiencia constructiva y prácticas de sostenibilidad. Los mínimos del caso son parámetros hipotéticos expresos de esa inversión, no umbrales legales generales. Cerrar diez deja 20 − 10 = 10 operativos e incumple el mínimo de 16; cerrar cuatro deja 16 en cada fase porque se reabre antes de pasar a la siguiente. Recuperar más materiales no justifica incumplir continuidad ni agregar un bloque prohibido por el alcance. El segundo proceso integra ambas exigencias dentro de las condiciones dadas.",
+      "regime": "32069",
+      "topic": "Expediente técnico de obra",
+      "competency": "Ejecución contractual",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "3",
+      "subcompetencyCode": "3.7",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde capacidad final con continuidad durante la ejecución: cerrar diez deja solo diez operativos, menos del mínimo de 16.",
+        "B": "Cada fase deja 20 − 4 = 16 operativos; eficiencia constructiva y sostenibilidad deben analizarse dentro de los parámetros aprobados.",
+        "C": "Suma cierres sucesivos como simultáneos pese a la reapertura de cada grupo antes del cierre siguiente.",
+        "D": "El bloque nuevo contradice una condición expresa de la inversión; la compensación propuesta no conserva el alcance autorizado."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "998f98c4-345d-4f33-9ac4-2fcabca521cd",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "170",
+          "pageStart": 91,
+          "pageEnd": 91,
+          "quote": "Artículo 170. Expediente técnico de obra 170.1. El expediente técnico de la obra guarda coherencia con los objetivos, alcances y parámetros que sustentan la viabilidad o aprobación de las inversiones. 170.2. El expediente técnico comprende el diseño de la obra y puede ser elaborado por la entidad contratante, a través del órgano encargado de la elaboración, aprobación y/o conformidad de la elaboración de expedientes técnicos de acuerdo a sus documentos de gestión, o a través de un contratista bajo supervisión, para lo cual se contrata una consultoría de obra conforme los sistemas de entrega contemplados en el artículo 159 o en conjunto con la ejecución de la obra bajo el sistema de entrega de diseño y co nstrucción. 170.3. La elaboración del expediente técnico incluye un análisis del proceso constructivo que contemple eficiencia constructiva y prácticas de sostenibilidad. 170.4. Cuando un contratista elabore el expediente técnico, son aplicables los plazos para la conformidad de los entregables de consultorías previstos en los numerales 144.3 al 144.7 del artículo 144. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"170.4. Cuando un contratista elabore el expediente técnico, son aplicables los plazos para la conformidad de los entregables de consultorías en general previstos en los numerales 144.3 al 144.7 del artículo 144. Los mismos plazos son aplicables para la ejecución contractual del componente de formulación .”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con fragmentos reales del corpus y el banco previo; revisados condiciones, excepciones, clave única y distractores. No certificación OECE ni revisión humana independiente."
+    }
+  }
+]

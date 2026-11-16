@@ -1,0 +1,514 @@
+{
+  "lote": 1,
+  "sha256": "15091020f65505e6fcae02a278aba00c11aba266b53ef095b82e271d9b54b8bc",
+  "items": [
+    {
+      "numero": "N001",
+      "verdict": "revise",
+      "reason": "La clave es sustentable, pero la modificación y la no objeción ya vienen resueltas: solo se pide incorporar la versión vigente y actualizar su documentación. Humedad, cajas y cambio de modelo no obligan a decidir compatibilidad, suficiencia o consecuencias entre alternativas. Es el mismo patrón de documento posterior omitido de N010, sin una dependencia que deba resolver el examinado.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.7"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1 y 54.2.a-c"
+        }
+      ],
+      "issues": [
+        "Complejidad insuficiente: actualización documental ya determinada por el enunciado.",
+        "Reescribir con consecuencias verificables de versiones rivales, de modo que identificar la versión aplicable cambie una decisión material; no basta añadir antecedentes."
+      ]
+    },
+    {
+      "numero": "N002",
+      "verdict": "approve",
+      "reason": "La clave distingue solicitud pendiente de modificatoria aprobada y encadena dos habilitaciones temporales: primero CMN aprobado, después expediente aprobado y finalmente convocatoria. El martes no satisface el primer presupuesto; desde el miércoles puede completarse la secuencia sin desplazar necesariamente el jueves. Las restantes opciones anticipan o suprimen un acto exigible. No se detecta duplicado trivial del banco: añade dependencia temporal entre actuaciones a la regla aislada de su pregunta sobre 54.3.",
+      "evidence": [
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.3"
+        },
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N003",
+      "verdict": "approve",
+      "reason": "La magnitud programada y el saldo anterior cambian el alcance de la excepción: cien menos setenta deja treinta previsibles; solo los veinte nacidos del evento posterior son adicionales imprevisibles. La clave no declara automáticamente fraccionamiento ni responsabilidad por el resto. A diferencia de la pregunta temporal del banco sobre 45.2.b, aquí la fecha correcta no basta y debe delimitarse cuantitativamente el sustento.",
+      "evidence": [
+        {
+          "chunkId": "fbff2c4f-98f7-4c03-837c-6c9f28d064b4",
+          "article": "45",
+          "numeral": "45.1 y 45.2.b"
+        },
+        {
+          "chunkId": "f21a8b3b-1091-43af-a50e-2066dd8a6f87",
+          "article": "50",
+          "numeral": "50.1 y 50.2.a"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N004",
+      "verdict": "approve",
+      "reason": "La aprobación de compatibilización no se extiende automáticamente al equipo autónomo: clasificar cada componente según el alcance del acto permite conservar la excepción para sensores y cuestionarla para la estación. La clave no afirma que necesariamente proceda compatibilizar esta última; condiciona esa vía a lo que corresponda. Las otras opciones extienden, anulan o difieren indebidamente el sustento.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.6"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N005",
+      "verdict": "revise",
+      "reason": "La respuesta legal es correcta, pero la aplicabilidad de la ficha y su valor obligatorio ya están expresamente dados. La red de 12 V solo refuerza lo que 44.9 obliga a hacer sin ella; no hay que comparar desempeño ni resolver un efecto de mercado concreto. Repite la decisión de la pregunta del banco 94b8a5b0-c200-41c6-9d18-979d7c0d5ce8 sobre ignorar una ficha vigente, añadiendo como trámite genérico actualizar estrategia.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.9"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c"
+        }
+      ],
+      "issues": [
+        "Repetición sustantiva de la decisión del banco sobre 44.9.",
+        "Complejidad insuficiente: tensión técnica resuelta de antemano y consecuencia documental genérica."
+      ]
+    },
+    {
+      "numero": "N006",
+      "verdict": "revise",
+      "reason": "La clave y el total de S/620 000 son correctos, pero clasificar por mayor costo y sumar todos los costos son controles independientes: el objeto puede determinarse sin calcular la cuantía, y la cuantía no cambia aunque cambie la clasificación. La facturación inicial es una distracción común, no una dependencia jurídica entre resultados. La primera mitad reproduce además la pregunta del banco 8f8fdeb6-315a-4437-80f6-72c7386759d6 sobre prestaciones mixtas.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.10"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.d"
+        }
+      ],
+      "issues": [
+        "Complejidad aparente por acumular clasificación del objeto y suma de cuantía independientes.",
+        "Reescribir de modo que la clasificación previa altere la regla o el cálculo que resuelve la decisión."
+      ]
+    },
+    {
+      "numero": "N007",
+      "verdict": "approve",
+      "reason": "La imputación previa del flete debe reconstruirse antes de sumar: 170 000 y 103 000 ya incorporan los 18 000, de modo que el total es 273 000. La doble contabilización cambia la cuantía a sustentar; las alternativas representan omisión, selección del mayor ítem y duplicación. Se comprobó el 53.3 modificado. No es mero cambio de cifras del banco: el error específico es sumar otra vez un costo ya distribuido entre ítems.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1, 53.2 y 53.3 modificado"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.d y f"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N008",
+      "verdict": "revise",
+      "reason": "La clave distingue correctamente documentación interna y divulgación externa, pero ambos ámbitos se resuelven por recordar 54.2.d y 53.4. El caso excluye de entrada la condición que cambia la regla externa y no exige clasificar documentos, calcular un monto o resolver una secuencia. Pedir no omitir la cuantía y no divulgarla agrega dos controles que no alteran el resultado del otro.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.4"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.d y f"
+        }
+      ],
+      "issues": [
+        "Pregunta esencialmente conceptual con contexto, sin decisión encadenada.",
+        "La clave conjunta no demuestra dependencia entre obligación de documentar y facultad de no comunicar."
+      ]
+    },
+    {
+      "numero": "N009",
+      "verdict": "revise",
+      "reason": "La clave aplica bien el impedimento al proceso Río, pero el hecho decisivo es exactamente el ya evaluado en el banco 40aaba64-ce58-41ab-ba31-4205664424d1: quien aprobó por delegación no puede evaluar ese mismo proceso. Valle y Luis no cambian ese resultado; la nueva versión del expediente solo añade la sustitución documental esperable. Falta un problema que requiera reconstruir qué acto ejerció cada persona o qué proceso está afectado.",
+      "evidence": [
+        {
+          "chunkId": "47902d46-4963-407d-9ea9-bccf403e20a7",
+          "article": "61",
+          "numeral": "61.d"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.e"
+        }
+      ],
+      "issues": [
+        "Duplicación trivial del núcleo de decisión de una pregunta existente sobre 61.d.",
+        "La ausencia de intervención en otro proceso es un dato accesorio, no una segunda inferencia necesaria."
+      ]
+    },
+    {
+      "numero": "N010",
+      "verdict": "revise",
+      "reason": "La remoción motivada, competencia, perfil y composición están todos declarados válidos. Por ello no queda por evaluar reemplazo o habilitación: únicamente recordar que el expediente y la estrategia deben reflejar el último nombramiento. Es el patrón de N001 con otro documento; citar 59.2 no crea una clasificación o secuencia que el alumno deba resolver.",
+      "evidence": [
+        {
+          "chunkId": "e76cd1ef-49bd-419e-b063-18191098b6c7",
+          "article": "59",
+          "numeral": "59.1 y 59.2"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.e y p"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1 y 54.2.e"
+        }
+      ],
+      "issues": [
+        "Complejidad insuficiente: actualizar un antecedente expresamente sustituido.",
+        "Repetición interna del esquema de documento vigente omitido de N001."
+      ]
+    },
+    {
+      "numero": "N011",
+      "verdict": "revise",
+      "reason": "La clave es compatible con confidencialidad y custodia, pero exige dos controles separables: la DEC debe conservar el sustento sea público o reservado, y no puede divulgarlo al competidor aunque ya esté custodiado. La caducidad de la cuenta y la petición del competidor no cambian mutuamente esas reglas; la opción correcta solo las reúne. El componente de divulgación ya figura en la pregunta del banco sobre información no pública de mercado.",
+      "evidence": [
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1 y 47.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1 y 54.2.c"
+        }
+      ],
+      "issues": [
+        "Complejidad aparente por sumar custodia institucional y confidencialidad sin que una clasificación determine la solución de la otra.",
+        "Reformular con documentos o autorizaciones diferenciados cuya clasificación cambie concretamente el acceso o la preservación a decidir."
+      ]
+    },
+    {
+      "numero": "N012",
+      "verdict": "revise",
+      "reason": "Miércoles es el día hábil siguiente y la clave está sustentada, pero el enunciado elimina expresamente todas las exclusiones y deja solo aplicar 79.2. La ubicación de actas y el repositorio incompleto no modifican el plazo. Repite con menos clasificación la decisión de acceso de la pregunta del banco f32677de-f0bb-4a57-a4f5-21ac5a3d19ba; contar un día y añadir una dificultad logística no produce un caso avanzado.",
+      "evidence": [
+        {
+          "chunkId": "cc8c9436-7e03-4e47-aa64-4b1a30ab1268",
+          "article": "79",
+          "numeral": "79.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1"
+        }
+      ],
+      "issues": [
+        "Repetición sustantiva del caso de acceso al expediente ya existente.",
+        "Complejidad insuficiente: plazo directo y exclusiones descartadas de antemano."
+      ]
+    },
+    {
+      "numero": "N013",
+      "verdict": "revise",
+      "reason": "La clave aplica correctamente la salvedad de 54.4, pero la causa del desierto, la modificación exigida y la no objeción ya están dadas. El único resultado es actualizar y reaprobar el expediente, como en la pregunta del banco 9bb9c18b-d6df-5c33-bbf0-a66cc333f872. Cambiar el documento afectado de cuantía a una característica técnica, sin añadir una dependencia que resolver, repite el núcleo de decisión con menor complejidad.",
+      "evidence": [
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.3.a-b"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a y 54.4"
+        },
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1"
+        }
+      ],
+      "issues": [
+        "Repetición trivial del efecto de un documento modificado tras desierto ya evaluado en el banco.",
+        "No basta cambiar el motivo técnico y mantener la pregunta sobre reaprobación."
+      ]
+    },
+    {
+      "numero": "N014",
+      "verdict": "approve",
+      "reason": "La secuencia de dos desiertos obliga a identificar la aprobación pertinente: el primero sustituyó quince por treinta días; el segundo no exige modificar esa versión y permite conservarla para la tercera convocatoria. La dispensa no revive versiones anteriores. La clave depende de reconstruir la historia y aplicar la salvedad en su momento, no solo de contar desiertos. El texto de 55.1 vincula las bases al expediente correspondiente.",
+      "evidence": [
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a y 54.4"
+        },
+        {
+          "chunkId": "bd84aab5-120f-4768-a955-c6bf52c71d88",
+          "article": "55",
+          "numeral": "55.1"
+        },
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.3.a"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N015",
+      "verdict": "revise",
+      "reason": "Es correcto que la DEC informe cuando no hubo ofertas y que deba reaprobarse si el informe exige modificar la estrategia. Sin embargo, el resultado de reaprobación ya viene determinado por el hecho expreso de cambiar documentos aprobados y replica N013 y el caso del banco 9bb9c18b-d6df-5c33-bbf0-a66cc333f872. La autoría del informe es un control adicional independiente: conocerla no cambia si el expediente requiere nueva aprobación.",
+      "evidence": [
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.3.c"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.h"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.c y 54.4"
+        }
+      ],
+      "issues": [
+        "Repetición del mismo desenlace de reaprobación por modificación documental.",
+        "Complejidad aparente al añadir autoría del informe sin que determine una consecuencia distinta."
+      ]
+    },
+    {
+      "numero": "N016",
+      "verdict": "approve",
+      "reason": "La evidencia sobre inexistencia de acreditador revierte un presupuesto que parecía satisfecho para exigir una norma voluntaria. Debe distinguirse esa condición de las normas obligatorias y reconducir el requerimiento a una alternativa funcional verificada, con no objeción y actualización documental. Las opciones no autorizan inventar una declaración sustitutiva ni eliminar el desempeño. Los numerales y la continuación de 44.7 sustentan la clave.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.5.i-iv"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.7"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N017",
+      "verdict": "revise",
+      "reason": "La clave expresa un deber correcto, pero no resuelve el riesgo del caso: la opción anticipada no tiene plazos, costos ni obligaciones comparables que permitan elegir asignación o determinar una solución viable. Se pregunta qué trabajo completar y la respuesta reitera identificar, asignar y documentar riesgos. El cierre del camino ilustra la necesidad de analizar, pero no hace ejecutar ese análisis. Los datos bastan para esa respuesta genérica, no para acreditar nivel avanzado.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.3"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.o"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.1.s"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.2"
+        }
+      ],
+      "issues": [
+        "Complejidad insuficiente: solicita enunciar la labor pendiente, sin resolver una decisión bajo hechos interdependientes.",
+        "Añadir alternativas concretas cuya asignación cambie plazo, costo y viabilidad; evitar que baste responder completar estrategia."
+      ]
+    },
+    {
+      "numero": "N018",
+      "verdict": "revise",
+      "reason": "La clave recoge correctamente un contrato por obra en el paquete. Sin embargo, naturaleza similar, mayor eficiencia y elección del paquete ya están resueltas expresamente: solo queda recordar la consecuencia literal de 52.1.a. El ahorro descrito no exige calcular ni comparar y no altera la regla. No existe una clasificación pendiente entre paquetes, ítems u otros mecanismos que cambie la decisión.",
+      "evidence": [
+        {
+          "chunkId": "177b052b-4299-4ac1-99f2-ad583387f8b7",
+          "article": "52",
+          "numeral": "52.1.a y 52.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.c"
+        }
+      ],
+      "issues": [
+        "Pregunta de recuerdo de una regla con contexto, sin clasificación ni comparación necesaria.",
+        "No considerar complejidad el hecho de estipular el sustento de eficiencia y preguntar la consecuencia literal restante."
+      ]
+    },
+    {
+      "numero": "N019",
+      "verdict": "approve",
+      "reason": "El cambio de sistema de entrega altera qué componente se contrata y quién debe aportar el diseño: en diseño y construcción lo elabora el contratista; al pasar a solo construcción se requiere expediente técnico aprobado. La información básica antes útil resulta insuficiente por esa clasificación previa. La clave se limita a esa inconsistencia y no presume que aprobar el expediente de contratación cree un expediente técnico. Se revisaron también las continuaciones de 158, que modifican otros sistemas y no cambian sus literales a-b.",
+      "evidence": [
+        {
+          "chunkId": "484fc1e9-ebcb-4bf7-aa91-b9b063ebcdb8",
+          "article": "158",
+          "numeral": "158.1.a-b"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.i"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.g"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N020",
+      "verdict": "revise",
+      "reason": "La clave y el régimen transitorio están sustentados, pero se agregan dos comprobaciones independientes: reconocer la especialidad telecomunicaciones y recordar los tres niveles y el documento transitorio de registro. La nueva especialidad está prácticamente nombrada en el hecho, mientras el listado y su aplicación se dan por no controvertidos. El segundo componente reproduce el banco fce99c29-193d-4f7e-97a4-f95152c1ab7b; ninguno modifica la regla del otro.",
+      "evidence": [
+        {
+          "chunkId": "492094ba-ac43-4e22-b773-4273bb3046d4",
+          "article": "157",
+          "numeral": "157.1, nota transitoria RD 0016-2025-EF/54.01, 157.2.a y d, 157.3"
+        }
+      ],
+      "issues": [
+        "Complejidad aparente por reunir clasificación de especialidad y forma transitoria de identificación independientes.",
+        "La clasificación relevante y los restantes niveles quedan resueltos por el enunciado; falta una decisión material dependiente de ellos."
+      ]
+    },
+    {
+      "numero": "N021",
+      "verdict": "approve",
+      "reason": "El precio inicial ya cubre seis meses: la decisión exige separar la prestación incluida de los dieciocho meses adicionales, añadir la conexión y contrastar con la certificación. El total 180 000 + 18 por 2 500 + 8 000 es 233 000, no 248 000, y queda dentro de 235 000. A diferencia de la cotización por umbral de unidades del banco, aquí debe evitarse duplicar cobertura temporal incluida. Las alternativas corresponden a errores concretos de alcance.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a, d y f"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N022",
+      "verdict": "approve",
+      "reason": "La redistribución está condicionada por un bloque fijo y máximos: subir ambiental diez obliga a bajar tiempo diez y da 60 + 25 + 15 = 100. No basta conservar cien si se altera el bloque obligatorio, ni normalizar 110. La decisión de incorporación corresponde a la DEC según 55.2 modificado; la clave presenta una distribución materialmente viable que esta puede evaluar. Los puntos se declaran datos del caso, no porcentajes normativos universales.",
+      "evidence": [
+        {
+          "chunkId": "bd84aab5-120f-4768-a955-c6bf52c71d88",
+          "article": "55",
+          "numeral": "55.2 modificado y 55.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N023",
+      "verdict": "approve",
+      "reason": "La discrepancia Sur-Norte es registral, pero Este nace de una necesidad posterior: clasificar el origen del cambio determina si procede rectificar o aplicar la incorporación de una contratación no programada. Encadenar dos rectificaciones no convierte el segundo cambio en error material. El caso declara expresamente incluido el nuevo servicio en el ámbito de la regla del artículo 11; revisado el 7.2 de la Directiva, no se extiende esa regla fuera del supuesto delimitado.",
+      "evidence": [
+        {
+          "chunkId": "dab3f94c-c442-4ab5-be38-439f2babc1fe",
+          "article": "15",
+          "numeral": "15"
+        },
+        {
+          "chunkId": "72d0478b-e805-4506-af75-2767ab6aaa23",
+          "article": "11",
+          "numeral": "11"
+        },
+        {
+          "chunkId": "c56b45bb-2f8d-43f5-9407-5af2b95fd63a",
+          "article": "7",
+          "numeral": "7.2"
+        }
+      ],
+      "issues": []
+    }
+  ]
+}

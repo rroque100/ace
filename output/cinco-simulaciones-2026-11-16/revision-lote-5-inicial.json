@@ -1,0 +1,428 @@
+{
+  "lote": 5,
+  "sha256": "b4e10b5cb060a85eec73f6beda33254a995bd2cfdbc66786105ef2cfdfa84c18",
+  "items": [
+    {
+      "numero": "N090",
+      "verdict": "approve",
+      "reason": "Clave A confirmada: el impacto final es 10 - 6 = 4 días, no la duración física del impedimento. La holgura y la ausencia de concurrencia hacen único el resultado; 198.1.a exige afectación de ruta crítica y 200.1.b permite recalcular. El chunk rotulado 201 contiene realmente el artículo 198; se identifica aquí el artículo sustantivo.",
+      "evidence": [
+        {
+          "chunkId": "fc3df1fd-1138-4507-b4ae-8f333150537a",
+          "article": "198",
+          "numeral": "198.1.a"
+        },
+        {
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "article": "200",
+          "numeral": "200.1.b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N091",
+      "verdict": "approve",
+      "reason": "Clave C confirmada en la versión final: clasificar el componente como diseño activa la remisión de 200.3 a 199, no la secuencia de ejecución física. Vencidos los doce días de 199.1.b sin pronunciamiento, quedan aprobados los ocho solicitados. No duplica el antecedente que solo pregunta el plazo de consultoría: exige resolver la remisión entre regímenes.",
+      "evidence": [
+        {
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "article": "200",
+          "numeral": "200.3"
+        },
+        {
+          "chunkId": "a516afb4-2ebe-56c9-8b50-ded3aed461f3",
+          "article": "199",
+          "numeral": "199.1.b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N092",
+      "verdict": "approve",
+      "reason": "Clave B confirmada: el incremento de 180 m³ conserva la partida y se encauza por 197.1-2; el muro no previsto exige clasificación como adicional y resolución previa conforme a 194.1. La ausencia de emergencia impide usar la excepción de 194.4 para ejecutar el muro. Son rutas derivadas de la clasificación técnica de un mismo hallazgo, no dos controles inconexos.",
+      "evidence": [
+        {
+          "chunkId": "faa452ef-4d63-4a09-9e99-decee615ea6d",
+          "article": "197",
+          "numeral": "197.1-2"
+        },
+        {
+          "chunkId": "60bd98ee-44b3-41fa-8026-7ed7a5aa3298",
+          "article": "194",
+          "numeral": "194.1-2"
+        },
+        {
+          "chunkId": "d52aa39c-10f4-4137-8e68-d054fad59b1b",
+          "article": "194",
+          "numeral": "194.3-4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N093",
+      "verdict": "approve",
+      "reason": "Clave C confirmada: el peligro inmediato para la población activa 194.4, que habilita ejecutar y regularizar por 194.2, pero condiciona la valorización a la resolución. El texto modificado de 194.3 no elimina esta excepción expresa. Ejecución inmediata, aprobación y valorización son hitos distintos de una misma secuencia.",
+      "evidence": [
+        {
+          "chunkId": "d52aa39c-10f4-4137-8e68-d054fad59b1b",
+          "article": "194",
+          "numeral": "194.3-4"
+        },
+        {
+          "chunkId": "60bd98ee-44b3-41fa-8026-7ed7a5aa3298",
+          "article": "194",
+          "numeral": "194.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N094",
+      "verdict": "approve",
+      "reason": "Clave D confirmada: primero debe clasificarse la causa como omisión del expediente elaborado por el propio contratista en diseño y construcción. La prohibición expresa de pago de 195.1.b prevalece sobre el 8% y sobre el cambio de autoridad; no se trasladan los umbrales de solo construcción ni se confunde el componente diseño con ejecución.",
+      "evidence": [
+        {
+          "chunkId": "4f38f7b0-bbd9-4b41-be82-2a893d09187d",
+          "article": "195",
+          "numeral": "195.1.b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N095",
+      "verdict": "revise",
+      "reason": "La clave D es compatible con 196.3, pero el caso avanzado se resuelve reproduciendo la facultad de fijar precio provisional ante falta de acuerdo. La ausencia de precio, de insumos y el uso de mercado ya están resueltos por el enunciado; no se comparan estructuras, no se decide qué referencia procede ni existe una dependencia que cambie el resultado. Requiere una decisión analítica real, no solo identificar la regla de desacuerdo.",
+      "evidence": [
+        {
+          "chunkId": "4aa1d8e8-9012-4644-a82e-578c2e28b816",
+          "article": "196",
+          "numeral": "196.2-3"
+        }
+      ],
+      "issues": [
+        "Nivel avanzado insuficiente: evocación directa de 196.3; hechos técnicos ya clasificados y resueltos."
+      ]
+    },
+    {
+      "numero": "N096",
+      "verdict": "approve",
+      "reason": "Clave B confirmada: retirar el drenaje necesario altera alcance y no cabe en 191.1; por ello debe reformularse el adelanto antes de aprobar la intensificación. El quote incluye 191.3 modificado, con adenda, autorización previa y respaldo presupuestario para variar monto. No se aplica la redacción original como si fuera la modificada.",
+      "evidence": [
+        {
+          "chunkId": "54b6e86d-e525-44b5-82c0-91c6b58d6568",
+          "article": "191",
+          "numeral": "191.1-3 (texto modificado de 191.3)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N097",
+      "verdict": "revise",
+      "reason": "La clave A coincide con 200.2, pero el enunciado entrega literalmente sus dos condiciones decisivas: evento sin conclusión prevista y plazo no suspendido. Basta recordar que existe ampliación parcial; no se cuantifica impacto, no se distingue un periodo ya reconocido ni se resuelve concurrencia o secuencia controvertida. El contexto narrativo no convierte la evocación de esa regla en análisis avanzado.",
+      "evidence": [
+        {
+          "chunkId": "7b7cb641-8383-59cd-89a3-9f4b1f5304e8",
+          "article": "200",
+          "numeral": "200.2"
+        },
+        {
+          "chunkId": "a584c713-d050-40d9-9611-8b66e28e900f",
+          "article": "200",
+          "numeral": "200.1.a"
+        }
+      ],
+      "issues": [
+        "Nivel avanzado insuficiente: reproducción de condiciones expresas de 200.2 sin análisis adicional."
+      ]
+    },
+    {
+      "numero": "N098",
+      "verdict": "revise",
+      "reason": "La clave D reproduce correctamente 208.2-3, pero reúne dos controles independientes: mantenimiento de participación y obligaciones, y pérdida de mayores gastos generales por incumplimiento. Resolver si puede retirar el plantel no requiere resolver el reclamo económico, ni viceversa. Debe construirse una decisión con hechos interdependientes en lugar de sumar ambas reglas en la misma alternativa.",
+      "evidence": [
+        {
+          "chunkId": "540c6496-201b-45f7-bad4-627df3ceba50",
+          "article": "208",
+          "numeral": "208.2-3"
+        }
+      ],
+      "issues": [
+        "Dos controles independientes en una sola respuesta: permanencia de obligaciones y exclusión de mayores gastos generales.",
+        "Nivel avanzado insuficiente: ambas conclusiones reproducen 208.2-3."
+      ]
+    },
+    {
+      "numero": "N099",
+      "verdict": "approve",
+      "reason": "Clave D confirmada para el caso final reformulado: la factura de 18 días contiene ocho ordinarios ya pagados, seis adicionales causales y cuatro ajenos; solo 6 x S/800 = S/4 800 reúnen 201.1. Los diez días ampliados no son una base automática de costo. Se verificó la cabecera de 201.1 en la continuación anterior; el quote conserva íntegra la regla sustantiva aunque comienza con punto. El cálculo ahora determina el reconocimiento.",
+      "evidence": [
+        {
+          "chunkId": "68fb95a0-b7d5-499b-ac6f-e34fec5f8022",
+          "article": "201",
+          "numeral": "201.1-2"
+        },
+        {
+          "chunkId": "9248c1e1-0a3d-432c-b49b-8b2805bfe3a6",
+          "article": "201",
+          "numeral": "201.1 (cabecera previa a continuación)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N100",
+      "verdict": "approve",
+      "reason": "Clave B confirmada: la migración es condición de utilidad de lo digitalizado, por lo que retirarla impide la finalidad aunque esté pendiente y el total propuesto no exceda el 25% original. El bloque divisible de S/60 000 sí puede retirarse con los hechos dados. La relación funcional entre prestaciones cambia el resultado de aplicar 109.1.",
+      "evidence": [
+        {
+          "chunkId": "95efa9ac-731a-4add-b857-bca5c1fe32d9",
+          "article": "109",
+          "numeral": "109.1.a-c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N101",
+      "verdict": "approve",
+      "reason": "Clave C confirmada: retirar la fase final transforma 12 + 18 + 10 en 12 + 18 = 30 días; corresponde determinar expresamente diez días menos. El 15% monetario no se traslada automáticamente al tiempo. La secuencia sin solapamiento y las dependencias invariables sustentan el ajuste previsto en 109.2.",
+      "evidence": [
+        {
+          "chunkId": "95efa9ac-731a-4add-b857-bca5c1fe32d9",
+          "article": "109",
+          "numeral": "109.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N102",
+      "verdict": "approve",
+      "reason": "Clave A confirmada: el modelo Dos pierde la autonomía determinante de la selección y de la necesidad; un adaptador dependiente de red no la restituye. Solo Uno conserva esos requisitos a igual monto. La comparación funcional permite aplicar 143.1-3 y distingue este caso de la subsanación de una oferta del banco anterior.",
+      "evidence": [
+        {
+          "chunkId": "7f8351ff-614a-4ad6-9130-36b0e9d3b817",
+          "article": "143",
+          "numeral": "143.1-3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N103",
+      "verdict": "approve",
+      "reason": "Clave B confirmada: clasificar el incremento de pruebas como adicional impide usar la vía residual de 110.1. El 12% del monto original, sin adicionales previos y con sustento y presupuesto, se encauza por 141.1-3 con precio pactado y resolución publicada, sin adenda. No replica el antecedente de agotamiento del tope: aquí decide la clasificación previa de la modificación.",
+      "evidence": [
+        {
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "article": "110",
+          "numeral": "110.1"
+        },
+        {
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "article": "141",
+          "numeral": "141.1-3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N104",
+      "verdict": "approve",
+      "reason": "Clave A confirmada en la versión final: ahora se especifica que la entrega errónea del plano ocurrió después de suscribir el contrato, no solo su detección. La imputabilidad sin dolo activa la excepción de 110.5; corresponde autorización previa, costos a cargo de la entidad y deslinde. Se mantienen los requisitos de 110.2-3 para sustento, adenda y eventual variación de monto. La cronología final subsana la insuficiencia observada en la versión previa.",
+      "evidence": [
+        {
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "article": "110",
+          "numeral": "110.1-5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N105",
+      "verdict": "approve",
+      "reason": "Clave C confirmada: petición de prórroga en día 9, diez días adicionales concedidos y presentación en día 18 mantienen la oportunidad dentro de veinte días. Solo después corre el plazo de doce días para decidir; el silencio aprueba seis días contractuales, no dieciocho procedimentales. La secuencia integra 142.3 y 142.5 sin repetir las preguntas previas que consultan cada plazo aisladamente.",
+      "evidence": [
+        {
+          "chunkId": "13d1629f-d63e-4e7f-ba8b-20318b260981",
+          "article": "142",
+          "numeral": "142.3 y 142.5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N106",
+      "verdict": "revise",
+      "reason": "La clave B tiene respaldo en 142.6, pero el enunciado ya declara los contratos directamente vinculados y cuantifica expresamente el desplazamiento íntegro en nueve días. La respuesta solo repite extender esos mismos nueve días: no debe determinarse qué asistencia está realmente vinculada, qué tramo se desplaza o si existe holgura. Añadir una cifra ya resuelta no aporta el análisis avanzado exigido.",
+      "evidence": [
+        {
+          "chunkId": "13d1629f-d63e-4e7f-ba8b-20318b260981",
+          "article": "142",
+          "numeral": "142.6"
+        }
+      ],
+      "issues": [
+        "Nivel avanzado insuficiente: vinculación y desplazamiento íntegro ya establecidos; nueve días se trasladan literalmente."
+      ]
+    },
+    {
+      "numero": "N107",
+      "verdict": "approve",
+      "reason": "Clave D confirmada: debe distinguirse gestión documental de ejecución material para ordenar una sola secuencia válida. El 107.4 permite tramitar el adicional durante la suspensión; las mediciones siguen siendo ejecución aunque se entreguen luego. El 141.3 impide regularizar el adicional de servicios y 107.2 determina el reinicio. No se importa la excepción de emergencia de adicionales de obra.",
+      "evidence": [
+        {
+          "chunkId": "92c1115c-1842-4c80-9031-1baa27aa310e",
+          "article": "107",
+          "numeral": "107.2 y 107.4"
+        },
+        {
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "article": "141",
+          "numeral": "141.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N108",
+      "verdict": "approve",
+      "reason": "Clave C confirmada: la comparación técnica descarta usar el precio de visitas preventivas para una reparación con insumos y horas diferentes. Esa falta de precio aplicable activa la determinación sustentada por la DEC en coordinación con el área usuaria considerando costos, según 141.2; ni el multiplicador ni aceptar sin evaluación el importe del proveedor están justificados.",
+      "evidence": [
+        {
+          "chunkId": "e31137c9-6a85-4999-8d85-e37b3ec2fff7",
+          "article": "141",
+          "numeral": "141.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N109",
+      "verdict": "revise",
+      "reason": "La clave D concuerda con 110.4, pero todos los presupuestos de la modificación residual ya están declarados y la existencia de supervisión por tercero exige por sí misma la opinión favorable. No es necesario analizar el reordenamiento de pruebas para resolver: aun manteniendo todos los hitos, el requisito subsistiría. Debe plantearse un impacto o clasificación que haya que resolver, no solo recordar el documento obligatorio.",
+      "evidence": [
+        {
+          "chunkId": "63e4c3c3-88f3-4614-8c2b-37df2890deab",
+          "article": "110",
+          "numeral": "110.2-4"
+        }
+      ],
+      "issues": [
+        "Nivel avanzado insuficiente: identificación directa de opinión favorable obligatoria por supervisión de tercero."
+      ]
+    },
+    {
+      "numero": "N110",
+      "verdict": "revise",
+      "reason": "La clave C y los cálculos de la explicación son coherentes si se usa la división indicada allí, pero el quote real de 120.1 extrae la fórmula como «Penalidad diaria = 0.10 x monto F x plazo»: no conserva barra de fracción ni identifica inequívocamente numerador y denominador. El corpus textual citado no permite verificar exactamente esa operación sin reconstruir la fórmula por memoria. 119.2 sí sustenta el límite conjunto de S/20 000, pero no repara la pérdida de la fórmula necesaria para obtener S/300 diarios y S/900. Requiere fuente con representación exacta de la fórmula antes de aprobar.",
+      "evidence": [
+        {
+          "chunkId": "9b121bd5-2d24-4c6e-b2a0-ef87b5e6e4f8",
+          "article": "120",
+          "numeral": "120.1-2"
+        },
+        {
+          "chunkId": "45f9633f-daff-442d-9546-8fcd549b4ddd",
+          "article": "119",
+          "numeral": "119.2"
+        }
+      ],
+      "issues": [
+        "Extracción no exacta de fórmula: se perdió la fracción en 120.1.",
+        "Cita incapaz de verificar inequívocamente la división que determina la mora; no se reconstruye por memoria."
+      ]
+    },
+    {
+      "numero": "N111",
+      "verdict": "approve",
+      "reason": "Clave A confirmada: el incremento contractual de 15% exige aumentar S/50 000 en S/7 500 conforme a 117.1. El plazo máximo de diez días para adecuar no elimina la condición de presentar el aumento antes de pagar establecida en 117.4; por eso el día ocho no habilita el cobro sin adecuación. La interacción entre cálculo y condición de pago añade una decisión al antecedente general de aumento proporcional.",
+      "evidence": [
+        {
+          "chunkId": "30f7b478-66b4-45f8-81c8-1ef4bf4dabee",
+          "article": "117",
+          "numeral": "117.1 y 117.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N112",
+      "verdict": "approve",
+      "reason": "Clave A confirmada: se contrasta la continuación de 176.4 modificado con 176.5 modificado y las remisiones b)-c) de 176.1. Acceso para estudios no equivale a entrega para ejecutar; la aprobación parcial permite fast track pero no suprime esa condición. No es una repetición trivial del inicio de solo construcción del banco previo: aquí se diferencia el acceso de diseño y el régimen de ejecución rápida.",
+      "evidence": [
+        {
+          "chunkId": "de2ac80a-f4ec-475f-bd83-b160cce68506",
+          "article": "176",
+          "numeral": "176.4-5 (texto modificado)"
+        },
+        {
+          "chunkId": "e054c427-a4a7-53bd-a201-07ffae443596",
+          "article": "176",
+          "numeral": "176.5 (texto modificado)"
+        },
+        {
+          "chunkId": "405c1773-78bf-4592-9155-7cbe8b5d3bf4",
+          "article": "176",
+          "numeral": "176.1.b-c"
+        },
+        {
+          "chunkId": "dd5077d5-1df0-44c6-bb0f-c05c0b196861",
+          "article": "176",
+          "numeral": "176.1.c (continuación)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N113",
+      "verdict": "approve",
+      "reason": "Clave A confirmada: el error que debe corregirse antes de ejecutar habilita el diferimiento acordado de 176.7.b; el adelanto todavía no entregado activa 176.8 y su reanudación quince días antes de la nueva fecha proyectada, con la formalización de 176.9. La secuencia conecta causa de diferimiento, estado del adelanto y nuevo hito; no implica cancelarlo definitivamente.",
+      "evidence": [
+        {
+          "chunkId": "f451532c-30a9-4438-90c6-2e81c9495f26",
+          "article": "176",
+          "numeral": "176.7.b y 176.8-9"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N114",
+      "verdict": "approve",
+      "reason": "Clave B confirmada: S/4 000 000 x 0,0005 x 70 = S/140 000, frente a tope contractual de S/120 000 y daño acreditado de S/150 000. El máximo menor es S/120 000. Se leyó 176.4 modificado en el chunk 212 y su continuación 213; los hechos excluyen el diferimiento comunicado y proporcionan los días resarcibles sin inventar cómputo.",
+      "evidence": [
+        {
+          "chunkId": "82c0321c-35f8-41c1-aa28-0b183ed41131",
+          "article": "176",
+          "numeral": "176.4 (texto modificado, inicio)"
+        },
+        {
+          "chunkId": "de2ac80a-f4ec-475f-bd83-b160cce68506",
+          "article": "176",
+          "numeral": "176.4 (texto modificado, continuación)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N115",
+      "verdict": "approve",
+      "reason": "Clave B confirmada para la versión final reformulada: cerrar diez deja diez consultorios operativos, mientras cerrar cuatro y reabrir antes de la siguiente fase conserva dieciséis. La continuidad es un parámetro hipotético expreso de la inversión y no una cifra legal. Aplicar 170.1 y 170.3 obliga a elegir un proceso sostenible dentro de ese parámetro: reciclar 90% no compensa incumplirlo. Ya no reúne el control independiente de retroalimentación de 173.2.",
+      "evidence": [
+        {
+          "chunkId": "998f98c4-345d-4f33-9ac4-2fcabca521cd",
+          "article": "170",
+          "numeral": "170.1 y 170.3"
+        }
+      ],
+      "issues": []
+    }
+  ]
+}

@@ -1,0 +1,1429 @@
+[
+  {
+    "numero": "N071",
+    "objetivo": "Determinar la primera fecha admisible al concurrir dos mínimos temporales.",
+    "criterioAvanzado": "Compara restricciones con hitos distintos y selecciona la que limita el cronograma.",
+    "input": {
+      "prompt": "En una licitación competitiva no abreviada con consultas y observaciones, sin anuncio de contratación futura ni otra excepción, se usa una escala de días hábiles: la convocatoria es el día 0 y el primer día posterior es el 1. Tras absolver observaciones que obligaron a revisar las especificaciones, las bases se integran y publican el día 19. El cronograma prevé ofertas el día 22, porque ya se cumpliría el mínimo general desde la convocatoria. Para este caso, todos los intervalos empiezan a contarse el día hábil siguiente de su hito y no existen restricciones adicionales. ¿Cuál es la primera fecha posible para ofertas?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El día 22, porque el intervalo general absorbe el posterior a la integración."
+        },
+        {
+          "id": "B",
+          "text": "El día 26, porque deben cumplirse ambos intervalos y el posterior a la integración vence después."
+        },
+        {
+          "id": "C",
+          "text": "El día 29, porque hay que añadir siete días al mínimo general de veintidós."
+        },
+        {
+          "id": "D",
+          "text": "El día 41, porque la integración reinicia íntegramente el plazo general."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "Los numerales 64.1 y 68.1 del Reglamento imponen mínimos concurrentes: veintidós días hábiles desde la convocatoria y siete desde la publicación de la integración. Los umbrales son 22 y 19 + 7 = 26; rige el posterior. La integración no reinicia el intervalo de veintidós ni obliga a sumar siete a ese intervalo.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Cumple el mínimo general, pero deja solo tres días hábiles después de la integración.",
+        "B": "Satisface los veintidós desde la convocatoria y los siete posteriores a la integración.",
+        "C": "Añade siete al hito equivocado: el intervalo específico parte del día 19, no del 22.",
+        "D": "No existe una regla de reinicio íntegro del mínimo general por la integración."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "64",
+          "pageStart": 35,
+          "pageEnd": 35,
+          "quote": "Artículo 64. Cronograma de los procedimientos de selección 64.1. En los procedimientos de selección competitivos el plazo entre la fecha de convocatoria y la presentación de ofertas o la presentación de los documentos para la precalificación no puede ser menor de veintidós días hábiles, salvo en el caso de las mod alidades abreviadas y aquellas que no contemplen etapas de consultas y observaciones. 64.2. La prórroga o postergación de las etapas de un procedimiento de selección son registradas en la Pladicop modificando el cronograma inicial. 64.3. En los procedimientos de selección respecto de los cuales se hubiera publicado en la Pladicop y en la sede digital de la entidad contratante un anuncio de contratación futura con una anticipación no menor de cuarenta días calendario a la fecha de con vocatoria, el plazo señalado en el numeral 64.1 puede reducirse conforme lo que señalen las bases estándar, no pudiendo ser menor a diez días calendario en ningún caso. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"64.3. En los procedimientos de selección respecto de los cuales se hubiera publicado en la Pladicop y en la sede digital de la entidad contratante , de contar con esta, un anuncio de contratación futura con una anticipación no menor de cuarenta días calendario a la fecha de convocatoria, el plazo señalado en el numeral 64.1 puede reducirse conforme lo que señalen las bases estándar, no pudiendo ser menor a diez días calen dario en ningún caso.” SUBCAPÍTULO 2 Registro de participantes",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "d9f8f1fb-8cb3-446b-b2de-660407de38ab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "68",
+          "pageStart": 38,
+          "pageEnd": 38,
+          "quote": "Artículo 68. Presentación de las ofertas 68.1. La presentación de ofertas se realiza a través de la Pladicop en un plazo no menor de siete días hábiles contabilizados desde la publicación de la integración de bases o el pronunciamiento con la integración definitiva de bases por parte del OECE, se gún corresponda, salvo en las modalidades abreviadas de procedimientos de selección, en cuyo caso el plazo de presentación de ofertas es no menor de tres días hábiles contabilizados desde la publicación de la integración de bases. 68.2. En los procedimientos de selección en los que no se contemple la etapa de consultas y observaciones, la presentación de ofertas se realiza en un plazo no menor de seis días hábiles contabilizados desde la convocatoria, salvo en el caso de la comparac ión de precios, en cuyo caso se puede establecer un plazo no menor de tres días hábiles desde la convocatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N072",
+    "objetivo": "Evaluar si la publicidad anticipada y la integración permiten adelantar ofertas.",
+    "criterioAvanzado": "Comprueba secuencia de consultas e integración y separa la habilitación para reducir del cumplimiento de mínimos concurrentes.",
+    "input": {
+      "prompt": "Una entidad con sede digital publica en ella y en Pladicop el anuncio de contratación futura de una licitación no abreviada con consultas y observaciones. Convoca exactamente treinta y nueve días calendario después. Las bases estándar permitirían reducir el intervalo si se cumpliera la anticipación exigida. En una escala de días hábiles, la convocatoria es el día 0; se conceden los días 1 a 7 para consultas y observaciones y no se formula ninguna de las dos. Se integran y publican las bases el día 8. La entidad propone recibir ofertas el día 16, ocho días hábiles después de integrar. Cada intervalo se cuenta desde el día hábil siguiente de su hito y no existe otra excepción al mínimo general. ¿Es viable esa programación?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Sí, porque los ocho días desde la integración superan el mínimo correspondiente."
+        },
+        {
+          "id": "B",
+          "text": "Sí, porque publicar en ambos medios permite reducir sin importar la anticipación."
+        },
+        {
+          "id": "C",
+          "text": "No; debe volver a publicar el anuncio y suspender necesariamente cuarenta días calendario."
+        },
+        {
+          "id": "D",
+          "text": "No; la secuencia de consultas e integración es compatible con sus mínimos, pero la anticipación insuficiente impide reducir el intervalo general y las ofertas no pueden ser antes del día 22."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 66.1 exige al menos siete días hábiles para consultas y observaciones; el 66.7 permite integrar al día siguiente de vencer ese plazo si no se formuló ninguna. Los días 1 a 7 y la integración del día 8 son coherentes. Desde el día 8 al 16 se conceden ocho días hábiles, suficientes para el mínimo de siete del 68.1. Sin embargo, el 64.3 requiere al menos cuarenta días calendario de anticipación del anuncio: treinta y nueve no habilitan la reducción. Subsiste el mínimo de veintidós días hábiles del 64.1. El primer cierre posible en esta escala es el día 22, sin necesidad de publicar otro anuncio.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Cumplir el mínimo desde la integración no reemplaza los veintidós días hábiles desde la convocatoria cuando no se habilita la reducción.",
+        "B": "La doble publicación no sustituye la anticipación de cuarenta días calendario necesaria para reducir el intervalo general.",
+        "C": "Puede mantenerse la convocatoria y corregir la fecha de ofertas; estas normas no imponen publicar otro anuncio como única solución.",
+        "D": "La integración del día 8 respeta el cierre del periodo de consultas y observaciones; el límite que obliga a reprogramar es el mínimo general no reducido."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "64",
+          "pageStart": 35,
+          "pageEnd": 35,
+          "quote": "Artículo 64. Cronograma de los procedimientos de selección 64.1. En los procedimientos de selección competitivos el plazo entre la fecha de convocatoria y la presentación de ofertas o la presentación de los documentos para la precalificación no puede ser menor de veintidós días hábiles, salvo en el caso de las mod alidades abreviadas y aquellas que no contemplen etapas de consultas y observaciones. 64.2. La prórroga o postergación de las etapas de un procedimiento de selección son registradas en la Pladicop modificando el cronograma inicial. 64.3. En los procedimientos de selección respecto de los cuales se hubiera publicado en la Pladicop y en la sede digital de la entidad contratante un anuncio de contratación futura con una anticipación no menor de cuarenta días calendario a la fecha de con vocatoria, el plazo señalado en el numeral 64.1 puede reducirse conforme lo que señalen las bases estándar, no pudiendo ser menor a diez días calendario en ningún caso. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"64.3. En los procedimientos de selección respecto de los cuales se hubiera publicado en la Pladicop y en la sede digital de la entidad contratante , de contar con esta, un anuncio de contratación futura con una anticipación no menor de cuarenta días calendario a la fecha de convocatoria, el plazo señalado en el numeral 64.1 puede reducirse conforme lo que señalen las bases estándar, no pudiendo ser menor a diez días calen dario en ningún caso.” SUBCAPÍTULO 2 Registro de participantes",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "66",
+          "pageStart": 36,
+          "pageEnd": 36,
+          "quote": "Artículo 66. Consultas y observaciones 66.1. Los participantes pueden formular consultas y/o (*) NOTA SPIJ1 observaciones a las bases en los procedimientos de selección que contemplen dicha etapa, a través de la Pladicop, en un plazo no menor a siete días hábiles contabilizados desde el día siguiente de la convocatoria. En las modalidades abreviadas este plazo es no menor a tres días hábiles contabilizados desde el día siguiente de la convocatoria. 66.2. Las consultas son pedidos de aclaración o información adicional a las disposiciones recogidas en las bases. 66.3. Mediante las observaciones los participantes comunican de manera fundamentada los supuestos incumplimientos a la normativa de contrataciones públicas u otras normas complementarias o conexas que tuvieran relación con el objeto de la contratación. 66.4. El oficial de compra o el comité o la DEC, en coordinación con el jurado, según corresponda, elabora el pliego de absolución de consultas y observaciones; en el caso de las observaciones se indica si estas se acogen, se acogen parcialmente o no se ac ogen, con el sustento respectivo. El referido pliego se publica en la Pladicop con las bases integradas, las cuales contienen las modificaciones o precisiones formuladas y se constituyen en las reglas definitivas del procedimiento. 66.5. Si como resultado de una consulta u observación corresponde precisar o ajustar el requerimiento, el oficial de compra, el comité o la DEC, en coordinación con el jurado, realiza las propuestas de modificaciones que corresponda y solicita al área usua ria su no objeción. En caso el área usuaria objete la modificación del requerimiento de manera sustentada, indicando que esta no satisface su necesidad, los evaluadores pueden optar por modificar el requerimiento conforme lo solicitado por el área usuaria, o devolver el expediente de contratación a la DEC a fin de que se evalúe la nulidad del procedimiento de selección por no satisfacer la necesidad de la entidad contratante y, por ende, su finalidad pública. En el caso de obras bajo el sistema de entrega d e solo construcción, en caso la modificación del requerimiento como producto de las consultas u observaciones implique el replanteo del expediente técnico, los evaluadores remiten la consulta u observación al órgano encargado de la elaboración, aprobación o conformidad de los expedientes técnicos en la entidad contratante, para su opinión técnica, previo a realizar cualquier modificación o solicitar la no objeción del área usuaria. 66.6. Cuando exista divergencia entre lo indicado en el pliego de absolución de consultas y observaciones y las bases integradas, prevalece lo absuelto en el referido pliego. 66.7. Cuando no se formulen consultas ni observaciones dentro del plazo establecido en las bases, la entidad contratante puede modificar el cronograma de las demás etapas del procedimiento de selección e integrar las bases al día siguiente de concluido dic ho plazo, siempre que se cumplan los plazos mínimos entre la convocatoria y la presentación ofertas establecidos en el artículo 64.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "d9f8f1fb-8cb3-446b-b2de-660407de38ab",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "68",
+          "pageStart": 38,
+          "pageEnd": 38,
+          "quote": "Artículo 68. Presentación de las ofertas 68.1. La presentación de ofertas se realiza a través de la Pladicop en un plazo no menor de siete días hábiles contabilizados desde la publicación de la integración de bases o el pronunciamiento con la integración definitiva de bases por parte del OECE, se gún corresponda, salvo en las modalidades abreviadas de procedimientos de selección, en cuyo caso el plazo de presentación de ofertas es no menor de tres días hábiles contabilizados desde la publicación de la integración de bases. 68.2. En los procedimientos de selección en los que no se contemple la etapa de consultas y observaciones, la presentación de ofertas se realiza en un plazo no menor de seis días hábiles contabilizados desde la convocatoria, salvo en el caso de la comparac ión de precios, en cuyo caso se puede establecer un plazo no menor de tres días hábiles desde la convocatoria.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Reformulación conforme al hallazgo de revision-lote-4.json: hechos interdependientes, decisión encadenada, clave única y distractores contrastados con los fragmentos reales del corpus y sus modificatorias. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N073",
+    "objetivo": "Resolver una incorporación solicitada después del cierre de registro con precalificación.",
+    "criterioAvanzado": "Integra tipo de lista, RNP e hito especial de cierre sin confundirlo con ofertas definitivas.",
+    "input": {
+      "prompt": "Un procedimiento tiene lista abierta con invitación y etapa de precalificación. Un proveedor no invitado, con RNP vigente conforme al objeto, observa que la recepción de ofertas definitivas será la próxima semana e intenta registrarse hoy. Sin embargo, la precalificación ya comenzó ayer y el registro cerró antes de su inicio, conforme al cronograma. Alega que, por ser lista abierta y no haber presentado aún nadie oferta definitiva, deben admitir su registro y repetir para él la precalificación. ¿Cómo corresponde resolver?",
+      "options": [
+        {
+          "id": "A",
+          "text": "No procede incorporarlo ahora: podía registrarse sin invitación, pero el cierre aplicable era anterior a la precalificación."
+        },
+        {
+          "id": "B",
+          "text": "Procede porque la lista abierta permite ingresar hasta antes de las ofertas definitivas en todos los casos."
+        },
+        {
+          "id": "C",
+          "text": "No procede porque cualquier lista con invitación excluye a quienes no fueron invitados."
+        },
+        {
+          "id": "D",
+          "text": "Procede porque la vigencia del RNP obliga a abrir una precalificación individual adicional."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 65 permite que otros interesados se registren en lista abierta con invitación, pero dispone que en procedimientos con precalificación el registro concluye antes de esa etapa. El RNP vigente es necesario, sin eliminar el cierre. La adhesión al estado del procedimiento no da derecho a reabrir etapas vencidas.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La falta de invitación no impedía participar, pero la oportunidad de registro terminó.",
+        "B": "Aplica el cierre ordinario e ignora la excepción para procedimientos con precalificación.",
+        "C": "Confunde lista abierta con invitación y lista cerrada; el problema real es la extemporaneidad.",
+        "D": "El RNP no otorga excepción al cronograma ni derecho a una precalificación particular."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "15a86496-6720-4c57-b1f0-ebff7c042361",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "65",
+          "pageStart": 35,
+          "pageEnd": 36,
+          "quote": "Artículo 65. Registro de participantes 65.1. El registro de participantes se realiza de forma gratuita a través de la Pladicop, de acuerdo con el cronograma del procedimiento de selección. Para registrarse como participante, el proveedor debe contar con inscripción vigente en el RNP, conforme a l objeto de la contratación. 65.2. El registro de participantes se lleva a cabo desde el día siguiente de la convocatoria hasta antes del inicio de la presentación de ofertas, según corresponda, salvo en los procedimientos de selección que cuenten con la etapa de precalificación, en c uyo caso el registro concluye antes de esta etapa. 65.3. El proveedor que se registra como participante se adhiere al procedimiento de selección en el estado en que se encuentre. 65.4. El registro de participantes puede ser de tres tipos, dependiendo de la modalidad del procedimiento de selección, conforme lo señalado en los artículos 93, 94 y 95:\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 36 de 249 a) Lista abierta: cualquier proveedor puede registrarse como participante en el procedimiento de selección. b) Lista abierta con invitación: la entidad contratante invita a determinados proveedores a registrarse, lo que no obsta que puedan registrarse otros proveedores interesados. c) Lista cerrada: Solo pueden registrarse los proveedores que la entidad contratante invita. 65.5. En los procedimientos de selección que contemplen la posibilidad de invitar a proveedores, dicha invitación se realiza a través de la Pladicop y está a cargo de la DEC. SUBCAPÍTULO 3 Cuestionamientos a las bases",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N074",
+    "objetivo": "Resolver el efecto técnico de una divergencia entre absolución e integración.",
+    "criterioAvanzado": "Identifica la regla prevalente y deriva su efecto sobre una oferta concreta.",
+    "input": {
+      "prompt": "En una contratación de escáneres, las bases originales exigían cuarenta páginas por minuto. Una observación demuestra que esa unidad perjudica la comparación de equipos dúplex. Con la no objeción del área usuaria, el pliego publicado acoge la observación y fija cuarenta imágenes por minuto, precisando que cada cara cuenta como una imagen. Por error, las bases integradas conservan cuarenta páginas por minuto, definidas allí como hojas completas escaneadas por ambas caras. Un equipo ofrecido procesa veinticinco hojas dúplex por minuto, equivalentes a cincuenta imágenes, y cumple lo demás. La discrepancia es solo esa transcripción; no existe pronunciamiento posterior. ¿Qué decisión corresponde sobre esa exigencia?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Exigir ochenta imágenes por minuto porque siempre prevalece el archivo de bases integradas."
+        },
+        {
+          "id": "B",
+          "text": "Promediar ambas exigencias y pedir sesenta imágenes por minuto."
+        },
+        {
+          "id": "C",
+          "text": "Aplicar lo absuelto y considerar cumplido el mínimo de cuarenta imágenes por minuto."
+        },
+        {
+          "id": "D",
+          "text": "Excluir el equipo porque toda divergencia documental hace imposible verificar el requerimiento."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 66.5 regula la no objeción al ajuste y el 66.6 dispone que, ante divergencia, prevalece el pliego de absolución. El mínimo aplicable es cuarenta imágenes por minuto; el equipo alcanza cincuenta y cumple. El error de transcripción no convierte el mínimo en ochenta ni autoriza promediar exigencias.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Da prioridad al documento que el numeral 66.6 desplaza cuando diverge del pliego.",
+        "B": "El promedio sería una tercera regla que no fue aprobada ni resulta de la norma.",
+        "C": "Las veinticinco hojas dúplex producen cincuenta imágenes, superando el mínimo prevalente.",
+        "D": "Existe una regla expresa para resolver la divergencia y verificar el cumplimiento."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "66",
+          "pageStart": 36,
+          "pageEnd": 36,
+          "quote": "Artículo 66. Consultas y observaciones 66.1. Los participantes pueden formular consultas y/o (*) NOTA SPIJ1 observaciones a las bases en los procedimientos de selección que contemplen dicha etapa, a través de la Pladicop, en un plazo no menor a siete días hábiles contabilizados desde el día siguiente de la convocatoria. En las modalidades abreviadas este plazo es no menor a tres días hábiles contabilizados desde el día siguiente de la convocatoria. 66.2. Las consultas son pedidos de aclaración o información adicional a las disposiciones recogidas en las bases. 66.3. Mediante las observaciones los participantes comunican de manera fundamentada los supuestos incumplimientos a la normativa de contrataciones públicas u otras normas complementarias o conexas que tuvieran relación con el objeto de la contratación. 66.4. El oficial de compra o el comité o la DEC, en coordinación con el jurado, según corresponda, elabora el pliego de absolución de consultas y observaciones; en el caso de las observaciones se indica si estas se acogen, se acogen parcialmente o no se ac ogen, con el sustento respectivo. El referido pliego se publica en la Pladicop con las bases integradas, las cuales contienen las modificaciones o precisiones formuladas y se constituyen en las reglas definitivas del procedimiento. 66.5. Si como resultado de una consulta u observación corresponde precisar o ajustar el requerimiento, el oficial de compra, el comité o la DEC, en coordinación con el jurado, realiza las propuestas de modificaciones que corresponda y solicita al área usua ria su no objeción. En caso el área usuaria objete la modificación del requerimiento de manera sustentada, indicando que esta no satisface su necesidad, los evaluadores pueden optar por modificar el requerimiento conforme lo solicitado por el área usuaria, o devolver el expediente de contratación a la DEC a fin de que se evalúe la nulidad del procedimiento de selección por no satisfacer la necesidad de la entidad contratante y, por ende, su finalidad pública. En el caso de obras bajo el sistema de entrega d e solo construcción, en caso la modificación del requerimiento como producto de las consultas u observaciones implique el replanteo del expediente técnico, los evaluadores remiten la consulta u observación al órgano encargado de la elaboración, aprobación o conformidad de los expedientes técnicos en la entidad contratante, para su opinión técnica, previo a realizar cualquier modificación o solicitar la no objeción del área usuaria. 66.6. Cuando exista divergencia entre lo indicado en el pliego de absolución de consultas y observaciones y las bases integradas, prevalece lo absuelto en el referido pliego. 66.7. Cuando no se formulen consultas ni observaciones dentro del plazo establecido en las bases, la entidad contratante puede modificar el cronograma de las demás etapas del procedimiento de selección e integrar las bases al día siguiente de concluido dic ho plazo, siempre que se cumplan los plazos mínimos entre la convocatoria y la presentación ofertas establecidos en el artículo 64.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N075",
+    "objetivo": "Distinguir el tránsito entre precalificación inicial y evaluación definitiva.",
+    "criterioAvanzado": "Relaciona suficiencia inicial con la subetapa posterior y evita adelantar la adjudicación.",
+    "input": {
+      "prompt": "En un procedimiento válidamente convocado con precalificación, sin negociación ni diálogo, tres proveedores presentan ofertas iniciales. Dos cumplen todos los documentos de admisión y los requisitos de calificación; el tercero no cumple un requisito no subsanable. Las bases reservan la comparación de calidad y precio para las ofertas definitivas. Uno de los dos precalificados adjuntó espontáneamente un precio referencial menor al estimado y pide que se le adjudique de inmediato, para ahorrar la siguiente subetapa. ¿Qué actuación corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Publicar la lista de los dos precalificados y pasar a sus ofertas definitivas para evaluación técnica y económica."
+        },
+        {
+          "id": "B",
+          "text": "Adjudicar al que adjuntó el precio referencial, porque la calificación ya demuestra que su oferta es la mejor."
+        },
+        {
+          "id": "C",
+          "text": "Permitir al tercero competir en la etapa económica porque el precio puede compensar el requisito incumplido."
+        },
+        {
+          "id": "D",
+          "text": "Abrir negociación obligatoria entre los dos para convertir sus ofertas iniciales en definitivas."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 70 modificado separa la subetapa inicial de admisión y calificación, con publicación de la lista en Pladicop, de la final sin negociación ni diálogo, en que se presentan ofertas definitivas para evaluación técnica y económica. Un precio referencial inicial no suprime esa secuencia ni compensa un requisito de calificación incumplido.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Respeta la función de cada subetapa y limita la evaluación definitiva a quienes superaron la inicial.",
+        "B": "Confunde superar admisión y calificación con ganar la comparación de ofertas definitivas.",
+        "C": "Un precio atractivo no sustituye un requisito de calificación incumplido y no subsanable.",
+        "D": "La negociación depende del procedimiento previsto y no se añade obligatoriamente para ahorrar una subetapa."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7d0548c2-d326-4fae-8b66-0dae921c5c65",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "70",
+          "pageStart": 39,
+          "pageEnd": 40,
+          "quote": "Artículo 70. Tipos de evaluación de oferta 70.1. La evaluación de ofertas puede ser sin precalificación o con precalificación, dependiendo del procedimiento de selección. 70.2. En la evaluación sin precalificación las ofertas se presentan en una sola fase, que a su vez se subdivide en: a) Admisión de las ofertas. b) Revisión de los requisitos de calificación. c) Evaluación técnica. d) Evaluación económica. 70.3. En la evaluación con precalificación, la presentación de ofertas se realiza en más de una fase, conforme lo siguiente: a) Fase inicial: Presentación de ofertas de precalificación las cuales incluyen la documentación para la admisión de ofertas y aquella correspondiente a los requisitos de calificación. b) Fase de precalificación: Presentación de ofertas definitivas por parte de los postores precalificados en la fase inicial, respecto de las cuales se realiza la evaluación técnica y la evaluación económica. Esta fase puede contener una subetapa de: i) Neg ociación o ii) Diálogo Competitivo, en las cuales se presentan ofertas preliminares antes de presentar las ofertas definitivas. 70.4. En la evaluación con precalificación, luego de revisar la oferta de precalificación presentada por los postores, los evaluadores determinan los postores precalificados que pasan a la siguiente fase, publicando los resultados en la Pladicop, los cuale s son invitados a presentar sus ofertas definitivas. En caso se haya previsto una fase de diálogo competitivo o negociación, se les invita a participar de la referida fase. (*) (*) Artículo modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 40 de 249 publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Pública s”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: “ Artículo 70. Tipos de evaluación de oferta 70.1. La evaluación de ofertas puede iniciar con precalificación o sin precalificación, dependiendo del procedimiento de selección. 70.2. En la evaluación sin precalificación , las ofertas se evalúan en una sola etapa que , a su vez , se subdivide en las siguientes subetapas : a) Admisión de las ofertas. b) Revisión de los requisitos de calificación. c) Evaluación técnica",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7757fade-119a-44dc-ab6f-a871c2bf383d",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "70",
+          "pageStart": 39,
+          "pageEnd": 40,
+          "quote": ". d) Evaluación económica. 70.3. La evaluación con precalificación se realiza en dos subetapas : a) Subetapa inicial de precalificación: En esta primera subetapa, los postores presentan sus ofertas iniciales, considerando lo establecido en el numeral 68.1 del artículo 68. Dichas ofertas incluyen la documentación para su admisión y para la acreditación de los requisitos de calificación que correspondan. Revisadas las ofertas iniciales, los evaluadores o la DEC, según corresponda, determinan los postores precalificados y publican en la Pladicop la lista de los que pasan a la segunda subetapa. b) La segunda subetapa depende del tipo de procedimiento de selección y puede ser solo una de las siguientes: i) Subetapa final de precalificación: Cuando el procedimiento de selección incluye solo la etapa de precalificación, sin considerar negociación ni diálogo competitivo. Los postores precalificados presentan sus ofertas definitivas, respecto de las cuales se realiza la evaluación técnica y la evaluación económica. ii) Subetapa de negociación: Cuando el procedimiento de selección incluye la subetapa de precalificación con negociación. Los postores precalificados presentan sus ofertas preliminares y se desarrolla conforme al artículo 76. iii) Subetapa de diálogo competitivo: Cuando el procedimiento de selección incluye la subetapa de diálogo competitivo. Los postores precalificados presentan sus propuestas de solución y se desarrolla de acuerdo con el artículo 77. ”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N076",
+    "objetivo": "Delimitar una contrapropuesta viable en negociación.",
+    "criterioAvanzado": "Descompone un paquete condicionado para diferenciar elementos negociables y protegidos.",
+    "input": {
+      "prompt": "En una negociación válidamente prevista, las bases fijan como no negociable la continuidad de respaldo eléctrico por ocho horas y asignan veinte puntos a eficiencia energética. Un precalificado propone reducir el precio si se cambia el pago mensual a trimestral, se reduce el respaldo a seis horas y se eliminan esos veinte puntos para todos. Señala que su paquete solo vale si se aceptan las tres condiciones. El área usuaria considera suficiente el respaldo de seis horas. ¿Qué respuesta corresponde respecto del paquete?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptarlo íntegramente porque todos recibirían el mismo trato y el área usuaria está conforme."
+        },
+        {
+          "id": "B",
+          "text": "Rechazarlo en esos términos y, si el postor quiere reformular, negociar el pago sin alterar ni el mínimo no negociable ni el factor de evaluación."
+        },
+        {
+          "id": "C",
+          "text": "Aceptar pago y respaldo, eliminando solamente la propuesta de modificar puntos."
+        },
+        {
+          "id": "D",
+          "text": "Aceptar pago y factor de evaluación, conservando únicamente el mínimo de respaldo."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 76.1 permite proponer cambios de modalidad de pago; el 76.2 excluye factores de evaluación y mínimos establecidos como no negociables. La conformidad del área usuaria no elimina las prohibiciones. Al estar condicionado el descuento al paquete completo, no puede aceptarse suponiendo que el postor renunció a las condiciones vedadas.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La igualdad de trato y conformidad del área usuaria no habilitan modificar elementos excluidos de negociación.",
+        "B": "Distingue lo negociable de lo protegido y exige reformular realmente el paquete condicionado.",
+        "C": "El respaldo se fijó como mínimo no negociable y tampoco puede rebajarse.",
+        "D": "Los factores de evaluación no son negociables aunque se conserve el mínimo técnico."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "76",
+          "pageStart": 43,
+          "pageEnd": 44,
+          "quote": "Artículo 76. Negociación 76.1. En caso la precalificación incluya esta subetapa, los postores seleccionados en la etapa de precalificación presentan y sustentan ante los evaluadores ofertas preliminares, respecto de las cuales se puede realizar rondas de negociación, con el fin de mejorar su contenido. Durante la negociación los postores pueden formular consultas y proponer modificaciones a la versión inicial del contrato, a la modalidad de pago u a otras condiciones del contrato. 76.2. No son materia de negociación los factores de evaluación, ni las condiciones mínimas que se hubieran establecido como no negociables en las bases. Cuando se modifique el requerimiento, el miembro del jurado que es servidor o funcionario del área usua ria emite la no objeción correspondiente. 76.3. La negociación puede darse en rondas sucesivas, en las cuales los postores presentan sus ofertas ajustadas producto de la negociación, pudiendo establecerse en las bases que estas rondas sean eliminatorias bajo criterios de adjudicación previamente e stablecidos. 76.4. Un representante del OCI de la entidad contratante puede participar de las rondas de negociación como veedor. 76.5. Cualquier modificación al requerimiento o las condiciones contractuales, luego de obtenida la no objeción, se informa a través de la Pladicop a los postores que participan de la negociación, brindándoles un plazo no menor de siete días hábiles para m odificar sus ofertas. 76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el a cta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 44 de 249 En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las modificaciones adoptadas durante el transcurso de la negociación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales , para la respectiva evaluación técnica y económica . En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las m odificaciones adoptadas durante el transcurso de la negociación.”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N077",
+    "objetivo": "Reprogramar ofertas tras cambios sucesivos en negociación.",
+    "criterioAvanzado": "Identifica la última modificación como hito para permitir ajustar la oferta completa.",
+    "input": {
+      "prompt": "En una negociación, una primera modificación contractual se comunica por Pladicop el día hábil 1, con las autorizaciones correspondientes, y se fija la entrega de ofertas ajustadas para el día hábil 8. El día hábil 4 se aprueba y comunica por la misma vía una segunda modificación: cambia el cronograma de pagos y obliga a recalcular el financiamiento incluido en cada oferta. Todas las no objeciones necesarias se han obtenido. Cada intervalo se cuenta desde el día hábil siguiente de la comunicación y no hay otros mínimos aplicables. Se quiere conceder exactamente el mínimo para ajustar también ese último cambio. ¿Cómo debe quedar la fecha?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El día 8, porque basta conceder siete días después de la primera modificación."
+        },
+        {
+          "id": "B",
+          "text": "El día 9, sumando solo un día por la nueva comunicación."
+        },
+        {
+          "id": "C",
+          "text": "El día 15, acumulando dos intervalos íntegros al final del plazo inicial."
+        },
+        {
+          "id": "D",
+          "text": "El día 11, siete días hábiles después de informar la segunda modificación."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 76.5 exige informar por Pladicop cualquier modificación del requerimiento o condiciones contractuales y brindar al menos siete días hábiles para modificar ofertas. El segundo cambio afecta el cálculo y se informa el día 4: los días 5 a 11 constituyen los siete días según el cómputo dado. Mantener el día 8 dejaría cuatro; tampoco se exige sumar intervalos en serie.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El tiempo anterior al segundo cambio no permite ajustar ese cambio durante siete días hábiles.",
+        "B": "Una ampliación simbólica de un día no cubre el mínimo desde la segunda comunicación.",
+        "C": "La regla cuenta desde la comunicación; no suma necesariamente siete días al vencimiento anterior.",
+        "D": "El día 11 proporciona siete días hábiles para recalcular desde el último cambio comunicado."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "76",
+          "pageStart": 43,
+          "pageEnd": 44,
+          "quote": "Artículo 76. Negociación 76.1. En caso la precalificación incluya esta subetapa, los postores seleccionados en la etapa de precalificación presentan y sustentan ante los evaluadores ofertas preliminares, respecto de las cuales se puede realizar rondas de negociación, con el fin de mejorar su contenido. Durante la negociación los postores pueden formular consultas y proponer modificaciones a la versión inicial del contrato, a la modalidad de pago u a otras condiciones del contrato. 76.2. No son materia de negociación los factores de evaluación, ni las condiciones mínimas que se hubieran establecido como no negociables en las bases. Cuando se modifique el requerimiento, el miembro del jurado que es servidor o funcionario del área usua ria emite la no objeción correspondiente. 76.3. La negociación puede darse en rondas sucesivas, en las cuales los postores presentan sus ofertas ajustadas producto de la negociación, pudiendo establecerse en las bases que estas rondas sean eliminatorias bajo criterios de adjudicación previamente e stablecidos. 76.4. Un representante del OCI de la entidad contratante puede participar de las rondas de negociación como veedor. 76.5. Cualquier modificación al requerimiento o las condiciones contractuales, luego de obtenida la no objeción, se informa a través de la Pladicop a los postores que participan de la negociación, brindándoles un plazo no menor de siete días hábiles para m odificar sus ofertas. 76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el a cta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 44 de 249 En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las modificaciones adoptadas durante el transcurso de la negociación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales , para la respectiva evaluación técnica y económica . En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las m odificaciones adoptadas durante el transcurso de la negociación.”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N078",
+    "objetivo": "Resolver una insuficiencia de solución sin divulgar arquitectura confidencial en diálogo.",
+    "criterioAvanzado": "Calcula el tiempo integral de recuperación y deriva una ronda bilateral de desarrollo como alternativa a copiar la solución reservada.",
+    "input": {
+      "prompt": "En un diálogo competitivo habilitado, con tres precalificados, se ajusta válidamente el requerimiento funcional a recuperación completa en no más de diez minutos, incluyendo transferencia y verificación, sin cambiar el alcance esencial ni la finalidad pública. El miembro del área usuaria vota a favor y el ajuste se comunica a todos. Un postor acredita ocho minutos integrales mediante una arquitectura confidencial que no autoriza divulgar. Otro declara ocho minutos, pero al aclararlo informa que solo midió transferencia y que la verificación posterior, sin solapamiento, demora cuatro minutos más. Aún puede desarrollar su propia propuesta y se desea darle esa oportunidad sin cambiar el límite aprobado. Los evaluadores proponen ahorrarse la siguiente ronda enviándole la arquitectura reservada para que la copie. ¿Qué ruta permite continuar aclarando y desarrollando su propuesta sin vulnerar la reserva?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Dar su solución por suficiente: los ocho minutos de transferencia ya están por debajo de diez y la verificación puede excluirse del cómputo."
+        },
+        {
+          "id": "B",
+          "text": "Entregarle la arquitectura reservada, porque corregir una solución insuficiente autoriza usar la de otro precalificado sin consentimiento."
+        },
+        {
+          "id": "C",
+          "text": "Identificar que su solución tarda doce minutos y mantener reservada la arquitectura; realizar con ese postor una ronda bilateral para desarrollar o ajustar su propia solución al límite integral comunicado."
+        },
+        {
+          "id": "D",
+          "text": "Cerrar el desarrollo de su propuesta y declararla suficiente cambiando solo para ese postor el requerimiento a doce minutos, sin comunicar un ajuste común."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "La medición relevante comprende ambas operaciones sucesivas: ocho más cuatro son doce minutos, superiores al límite integral de diez comunicado a todos. Por ello no basta dar por aclarada su viabilidad ni copiar sin permiso la arquitectura que permitió al otro lograr ocho. Los numerales 77.4 y 77.5 permiten ajustar y desarrollar propuestas mediante diálogo bilateral; las rondas necesarias dependen de la aclaración de cada solución. El 77.7 impide revelar soluciones o datos confidenciales sin consentimiento previo. La ronda adicional responde precisamente a la insuficiencia detectada y permite trabajar en la solución propia sin usar la información protegida.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Excluye una operación que el requerimiento incluye expresamente y confunde el tiempo parcial de ocho con el integral de doce minutos.",
+        "B": "La necesidad de mejorar una solución no elimina el consentimiento exigido para revelar la arquitectura confidencial de otro postor.",
+        "C": "El cálculo identifica la insuficiencia y hace necesaria la continuación bilateral propuesta para intentar resolverla con una solución propia, preservando la reserva.",
+        "D": "No resuelve la insuficiencia frente al requerimiento común: crea una condición individual distinta y omite informar a todos un eventual ajuste."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "77",
+          "pageStart": 44,
+          "pageEnd": 45,
+          "quote": "Artículo 77. Diálogo competitivo 77.1. En caso la precalificación incluya esta subetapa, los evaluadores entablan un dialogo con los postores seleccionados en la etapa de precalificación, con el fin de identificar y desarrollar soluciones idóneas para satisfacer las necesidades de la enti dad contratante, a partir de un requerimiento preliminar. Para realizar el dialogo competitivo deben quedar como mínimo dos postores precalificados. 77.2. En el transcurso de este diálogo se debaten los aspectos del requerimiento preliminar con los postores para obtener la mejor solución a la necesidad de la entidad contratante, salvo el alcance esencial del objeto contractual y su finalidad pública. E l objetivo del dialogo competitivo es obtener un requerimiento definitivo a partir de las rondas realizadas. 77.3. Un representante del Órgano de Control Institucional (OCI) de la entidad contratante puede participar como asistente en las rondas del diálogo competitivo. 77.4. El requerimiento preliminar es ajustado por los evaluadores durante el transcurso del dialogo competitivo, conforme vaya definiéndose la solución más conveniente para llevar a cabo el objeto del contrato, y poniendo en conocimiento de las modificacio nes adoptadas a todos los postores. Cuando se ajuste el requerimiento, el voto del miembro del jurado que es servidor o funcionario del área usuaria hace las veces de la no objeción correspondiente. 77.5. El diálogo se lleva a cabo de manera bilateral con cada uno de los postores seleccionados, los cuales presentan propuestas de solución que pueden modificarse y actualizarse según avance el dialogo. El número de rondas de diálogo puede variar respecto de cada uno de los postores, ya que se llevan a cabo las que sean necesarias hasta que, a juicio de los evaluadores, se haya aclarado las soluciones planteadas por cada postor. 77.6. El procedimiento puede articularse en fases sucesivas, a fin de reducir progresivamente el número de ofertas a examinar durante la fase de diálogo, mediante la aplicación de los criterios de adjudicación previamente establecidos en las bases. 77.7. Los evaluadores no pueden revelar a los demás participantes las soluciones propuestas por un postor u otros datos confidenciales que este les comunique sin previo consentimiento de éste. 77.8. Se emiten tantas actas como rondas de diálogo se efectúen que suscriben todos los que han participado en ésta. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, public ada por la DEC en la Pladicop, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas definitivas para la respectiva evaluación técnica y económica. En esta oportunidad se publican las bases integradas definitivas, que incluyan t odas las modificaciones adoptadas durante el transcurso del diálogo y el requerimiento definitivo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 45 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Reformulación conforme al hallazgo de revision-lote-4.json: hechos interdependientes, decisión encadenada, clave única y distractores contrastados con los fragmentos reales del corpus y sus modificatorias. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N079",
+    "objetivo": "Determinar quién supera calificación antes de habilitar el diálogo competitivo.",
+    "criterioAvanzado": "Depura la experiencia computable según ejecución consorciada y transmisión por reorganización, aplica el umbral y deriva si puede iniciarse diálogo.",
+    "input": {
+      "prompt": "En un procedimiento habilitado con precalificación y diálogo competitivo, las bases exigen experiencia en la especialidad de al menos S/200 000; no hay restricciones adicionales a la suma de los importes computables del caso. Tres ofertas iniciales están admitidas y cumplen los demás requisitos. El consorcio Valle acredita S/120 000 de su integrante que ejecutará íntegramente el objeto y S/180 000 de otro que solo aportará financiamiento, sin ejecutarlo. La empresa Costa acredita S/220 000 propios. La empresa Cumbre acredita S/180 000 propios y S/60 000 recibidos por reorganización de una persona jurídica con inhabilitación vigente. Los importes no se duplican y la documentación auténtica identifica esas procedencias; no hay errores formales pendientes. El equipo propone sumar todo y abrir el diálogo con los tres. ¿Qué decisión corresponde tras revisar la experiencia?",
+      "options": [
+        {
+          "id": "A",
+          "text": "No iniciar el diálogo: solo Costa supera el umbral; Valle computa S/120 000 y Cumbre S/180 000, por lo que no quedan dos precalificados."
+        },
+        {
+          "id": "B",
+          "text": "Iniciar el diálogo con los tres porque los totales documentados son S/300 000, S/220 000 y S/240 000."
+        },
+        {
+          "id": "C",
+          "text": "Iniciar el diálogo con Costa y Cumbre, porque toda experiencia recibida por reorganización se suma aunque provenga de una persona jurídica inhabilitada."
+        },
+        {
+          "id": "D",
+          "text": "Iniciar el diálogo con Valle y Costa, porque aportar financiamiento permite computar la experiencia del integrante aunque no ejecute el objeto."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 72.3.c permite computar en consorcios solo experiencia de integrantes que ejecutan conjuntamente el objeto y excluye experiencia transmitida por reorganización por personas jurídicas con inhabilitación vigente o definitiva. Valle solo computa S/120 000; Costa, S/220 000; Cumbre, S/180 000. Frente al mínimo de S/200 000, solo Costa cumple. El 70.3.a exige determinar los precalificados al revisar las ofertas iniciales, y el 77.1 exige al menos dos postores precalificados para realizar el diálogo. No puede iniciarse con los tres ni con parejas construidas sumando experiencia no computable.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Depura primero cada procedencia, compara con el mínimo y concluye que solo queda un precalificado, insuficiente para realizar el diálogo.",
+        "B": "Suma importes documentados sin aplicar las exclusiones por falta de ejecución del objeto y transmisión desde una persona jurídica inhabilitada.",
+        "C": "Ignora la exclusión expresa para experiencia transmitida por reorganización por personas jurídicas con inhabilitación vigente o definitiva.",
+        "D": "Aportar solo financiamiento no convierte al integrante en ejecutor del objeto ni hace computable su experiencia para esta calificación."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "7757fade-119a-44dc-ab6f-a871c2bf383d",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "70",
+          "pageStart": 39,
+          "pageEnd": 40,
+          "quote": ". d) Evaluación económica. 70.3. La evaluación con precalificación se realiza en dos subetapas : a) Subetapa inicial de precalificación: En esta primera subetapa, los postores presentan sus ofertas iniciales, considerando lo establecido en el numeral 68.1 del artículo 68. Dichas ofertas incluyen la documentación para su admisión y para la acreditación de los requisitos de calificación que correspondan. Revisadas las ofertas iniciales, los evaluadores o la DEC, según corresponda, determinan los postores precalificados y publican en la Pladicop la lista de los que pasan a la segunda subetapa. b) La segunda subetapa depende del tipo de procedimiento de selección y puede ser solo una de las siguientes: i) Subetapa final de precalificación: Cuando el procedimiento de selección incluye solo la etapa de precalificación, sin considerar negociación ni diálogo competitivo. Los postores precalificados presentan sus ofertas definitivas, respecto de las cuales se realiza la evaluación técnica y la evaluación económica. ii) Subetapa de negociación: Cuando el procedimiento de selección incluye la subetapa de precalificación con negociación. Los postores precalificados presentan sus ofertas preliminares y se desarrolla conforme al artículo 76. iii) Subetapa de diálogo competitivo: Cuando el procedimiento de selección incluye la subetapa de diálogo competitivo. Los postores precalificados presentan sus propuestas de solución y se desarrolla de acuerdo con el artículo 77. ”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "85238aa1-a1c3-4dc8-9ca6-babf5b343909",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "72",
+          "pageStart": 40,
+          "pageEnd": 41,
+          "quote": ". c) Experiencia del postor en la especialidad: referida a la destreza adquirida por el postor en el desempeño de las labores consideradas iguales o similares al objeto de contratación. En el caso de obras y consultoría de obras, dicha experiencia correspond e a la acreditada en la especialidad y subespecialidad conforme a lo dispuesto en el artículo 157. Las personas jurídicas resultantes de un proceso de reorganización societaria no pueden acreditar como experiencia del postor en la especialidad que le hubiesen transmitido como parte de dicha reorganización las personas jurídicas sancionadas con inhabilit ación vigente o definitiva. En el caso de consorcios, solo se considera la experiencia de aquellos integrantes que ejecutan conjuntamente el objeto del contrato. d) Condiciones de participación en consorcio: número máximo de consorciados en función a la naturaleza de la prestación, porcentaje mínimo de participación de cada consorciado y/o que el integrante del consorcio que acredite mayor experiencia cumpla con un determinado porcentaje de participación. e) Capacidad económica: condición obtenida a partir de la evaluación de los antecedentes financieros que demuestre que se encuentra posibilitado para cumplir con las obligaciones contractuales. Solo se aplica en procedimientos de selección con etapa de pre calificación. Se sustenta con el volumen de ventas, estados financieros auditados u otros que establezcan las bases estándar. 72.4. Las bases estándar determinan los tipos de requisitos de calificación a considerar dependiendo de la modalidad del procedimiento de selección.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "77",
+          "pageStart": 44,
+          "pageEnd": 45,
+          "quote": "Artículo 77. Diálogo competitivo 77.1. En caso la precalificación incluya esta subetapa, los evaluadores entablan un dialogo con los postores seleccionados en la etapa de precalificación, con el fin de identificar y desarrollar soluciones idóneas para satisfacer las necesidades de la enti dad contratante, a partir de un requerimiento preliminar. Para realizar el dialogo competitivo deben quedar como mínimo dos postores precalificados. 77.2. En el transcurso de este diálogo se debaten los aspectos del requerimiento preliminar con los postores para obtener la mejor solución a la necesidad de la entidad contratante, salvo el alcance esencial del objeto contractual y su finalidad pública. E l objetivo del dialogo competitivo es obtener un requerimiento definitivo a partir de las rondas realizadas. 77.3. Un representante del Órgano de Control Institucional (OCI) de la entidad contratante puede participar como asistente en las rondas del diálogo competitivo. 77.4. El requerimiento preliminar es ajustado por los evaluadores durante el transcurso del dialogo competitivo, conforme vaya definiéndose la solución más conveniente para llevar a cabo el objeto del contrato, y poniendo en conocimiento de las modificacio nes adoptadas a todos los postores. Cuando se ajuste el requerimiento, el voto del miembro del jurado que es servidor o funcionario del área usuaria hace las veces de la no objeción correspondiente. 77.5. El diálogo se lleva a cabo de manera bilateral con cada uno de los postores seleccionados, los cuales presentan propuestas de solución que pueden modificarse y actualizarse según avance el dialogo. El número de rondas de diálogo puede variar respecto de cada uno de los postores, ya que se llevan a cabo las que sean necesarias hasta que, a juicio de los evaluadores, se haya aclarado las soluciones planteadas por cada postor. 77.6. El procedimiento puede articularse en fases sucesivas, a fin de reducir progresivamente el número de ofertas a examinar durante la fase de diálogo, mediante la aplicación de los criterios de adjudicación previamente establecidos en las bases. 77.7. Los evaluadores no pueden revelar a los demás participantes las soluciones propuestas por un postor u otros datos confidenciales que este les comunique sin previo consentimiento de éste. 77.8. Se emiten tantas actas como rondas de diálogo se efectúen que suscriben todos los que han participado en ésta. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, public ada por la DEC en la Pladicop, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas definitivas para la respectiva evaluación técnica y económica. En esta oportunidad se publican las bases integradas definitivas, que incluyan t odas las modificaciones adoptadas durante el transcurso del diálogo y el requerimiento definitivo.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 45 de 249",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Reformulación conforme al hallazgo de revision-lote-4.json: hechos interdependientes, decisión encadenada, clave única y distractores contrastados con los fragmentos reales del corpus y sus modificatorias. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N080",
+    "objetivo": "Reconocer la autorización tácita de una ampliación para subsanar.",
+    "criterioAvanzado": "Encadena solicitud, vencimiento de respuesta y efecto sobre una propuesta de exclusión.",
+    "input": {
+      "prompt": "Los evaluadores requieren por Pladicop subsanar un defecto formal que no cambia la oferta y conceden los dos días hábiles reglamentarios. El postor solicita oportunamente el plazo adicional de dos días hábiles. La entidad recibe la solicitud y deja transcurrir íntegramente los dos días hábiles siguientes sin otorgarla ni rechazarla. Antes de que termine el plazo adicional solicitado, el evaluador propone excluir la oferta porque no existe una resolución expresa de ampliación. El postor todavía no ha subsanado y no se discute la oportunidad ni el carácter subsanable del defecto. ¿Qué corresponde decidir en ese momento?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Excluirla inmediatamente porque toda ampliación necesita aceptación expresa."
+        },
+        {
+          "id": "B",
+          "text": "Considerar subsanado el defecto de forma automática por el silencio."
+        },
+        {
+          "id": "C",
+          "text": "Mantener vigente la oferta sin exigir subsanación posterior, porque pidió ampliación."
+        },
+        {
+          "id": "D",
+          "text": "Reconocer autorizada la ampliación y supeditar la vigencia de la oferta a la subsanación efectiva dentro del plazo adicional."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 78.4 permite solicitar dos días hábiles adicionales y dispone que la solicitud se otorga en no más de dos días hábiles de recibida; de lo contrario se considera autorizada. El silencio habilita el plazo adicional, pero no subsana por sí mismo el defecto. La oferta sigue vigente condicionada a la subsanación efectiva oportuna. No corresponde añadir una resolución expresa como requisito.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Desconoce el efecto autorizatorio que el numeral 78.4 atribuye a la falta de respuesta oportuna.",
+        "B": "La autorización tácita se refiere al tiempo adicional, no a una corrección automática de documentos.",
+        "C": "Pedir ampliación no elimina la condición de subsanar efectivamente dentro del plazo pertinente.",
+        "D": "Reconoce el efecto del silencio y conserva la condición de subsanación efectiva dentro del plazo autorizado."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": "Artículo 78. Subsanación de las ofertas 78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos presentados en la precalificación y/o presentación de ofertas, sie mpre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.1. Durante el desarrollo de la fase de selección, los evaluadores pueden solicitar a cualquier postor que subsane alguna omisión o corrija algún error material o formal de los documentos emitidos por privados o entidades públicas presentados en la precalificación y/o presentación de ofertas, siempre que no alteren su contenido esencial, respetando el principio de igualdad de trato. Esta subsanación es preclusiva a cada etapa y se realiza a través de la Pladicop.\" 78.2. Son subsanables los documentos emitidos por entidades públicas o privadas ejerciendo función pública, o la omisión de su presentación, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"78.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\" 78.3. En las modalidades de pago a precios unitarios, esquema mixto, pago por consumo y tarifas, cuando se advierta errores aritméticos, corresponde su corrección a los evaluadores, debiendo constar dicha rectificación en el acta respectiva; dicha correcci ón no implica la variación de los precios unitarios ofertados. 78.4. Cuando se requiera subsanación, la oferta continúa vigente para todo efecto, a condición de la efectiva subsanación dentro el plazo de dos días hábiles contabilizados desde el día siguiente de la notificación al postor, pudiendo la entidad contratant e otorgar al postor un plazo adicional de dos días hábiles para la subsanación pertinente a solicitud del postor. La solicitud de ampliación de plazo se otorga en un plazo no mayor de dos días hábiles de recibida, caso contrario se considera autorizada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N081",
+    "objetivo": "Corregir un importe aritmético sin modificar los precios unitarios.",
+    "criterioAvanzado": "Reconstruye el total desde unidades invariables y descarta un ajuste comercial disfrazado de corrección.",
+    "input": {
+      "prompt": "En una oferta a precios unitarios para mantenimiento, se requieren 120 intervenciones a S/35 y 80 a S/50. La oferta escribe correctamente ambos precios unitarios y cantidades, pero anota S/3 200 en el segundo subtotal y un total de S/7 400. No existen otros conceptos, descuentos ni tributos por añadir. Advertido el error, el postor pide mantener S/7 400 cambiando el segundo precio a S/40, alegando que ese fue su presupuesto interno. ¿Qué actuación corresponde respecto del cálculo?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Aceptar S/40 como precio unitario porque coincide con el subtotal y total escritos."
+        },
+        {
+          "id": "B",
+          "text": "Rectificar a S/8 200, dejar constancia en acta y conservar los precios unitarios de S/35 y S/50."
+        },
+        {
+          "id": "C",
+          "text": "Mantener S/7 400, porque el total escrito siempre prevalece sobre los precios unitarios."
+        },
+        {
+          "id": "D",
+          "text": "Pedir al postor escoger entre S/7 400 y S/8 200 como subsanación de su oferta económica."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 78.3 encarga a los evaluadores corregir errores aritméticos en esta modalidad, dejando constancia en acta y sin variar precios unitarios. Los subtotales correctos son 120 × 35 = S/4 200 y 80 × 50 = S/4 000: total S/8 200. Cambiar S/50 por S/40 modifica un precio unitario expreso; no es una rectificación aritmética.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El presupuesto interno alegado no habilita variar el precio unitario expresamente ofertado.",
+        "B": "Reconstruye los subtotales, corrige el total y respeta la invariabilidad de los precios unitarios.",
+        "C": "La corrección debe respetar los precios unitarios, sin perpetuar un total aritméticamente equivocado.",
+        "D": "La rectificación corresponde a evaluadores y no constituye una elección comercial de importe para el postor."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "78",
+          "pageStart": 45,
+          "pageEnd": 45,
+          "quote": ". En el caso de errores u omisiones en documentos emitidos por entidades públicas o privados ejerciendo función pública, o la omisión de su presentación, estos son subsanables, siempre que hayan sido emitidos con anterioridad a la fecha establecida para la presentación de ofertas, tales como autorizaciones, permisos, títulos, constancias, certificaciones y/o documentos que acrediten estar inscrito o integrar un registro, y otros de naturaleza análoga.\" 78.3. En las modalidades de pago a precios unitarios, esquema mixto, pago por consumo y tarifas, cuando se advierta errores aritméticos, corresponde su corrección a los evaluadores, debiendo constar dicha rectificación en el acta respectiva; dicha correcci ón no implica la variación de los precios unitarios ofertados. 78.4. Cuando se requiera subsanación, la oferta continúa vigente para todo efecto, a condición de la efectiva subsanación dentro el plazo de dos días hábiles contabilizados desde el día siguiente de la notificación al postor, pudiendo la entidad contratant e otorgar al postor un plazo adicional de dos días hábiles para la subsanación pertinente a solicitud del postor. La solicitud de ampliación de plazo se otorga en un plazo no mayor de dos días hábiles de recibida, caso contrario se considera autorizada.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N082",
+    "objetivo": "Distinguir pluralidad de invitados y ofertas efectivamente calificadas.",
+    "criterioAvanzado": "Determina si se habilita evaluar precios después de reducirse la competencia en calificación.",
+    "input": {
+      "prompt": "Una comparación de precios fue válidamente elegida. El oficial convoca e invita a cuatro proveedores con las bases correspondientes. Solo dos presentan ofertas. Uno cumple todos los requisitos de calificación; el otro no acredita una habilitación obligatoria que nunca tuvo al cierre y el defecto no es subsanable. El proveedor calificado ofrece un importe inferior al presupuesto y la necesidad sigue vigente. El oficial propone evaluarlo económicamente y adjudicar porque invitó a más de tres. ¿Qué corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Evaluar su precio y adjudicar, porque la invitación a cuatro garantiza por sí sola la competencia mínima."
+        },
+        {
+          "id": "B",
+          "text": "Invitar directamente a un quinto y agregar su oferta a la evaluación ya iniciada, conservando el resultado anterior."
+        },
+        {
+          "id": "C",
+          "text": "Declarar desierto: el mínimo de invitados no sustituye las dos ofertas que deben cumplir calificación para pasar a evaluación económica."
+        },
+        {
+          "id": "D",
+          "text": "Adjudicar a condición de que el otro proveedor obtenga la habilitación después de la buena pro."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 97.2 exige invitar al menos a tres proveedores, condición aquí cumplida. El 98.1 modificado exige además al menos dos ofertas calificadas para pasar a evaluación económica; de lo contrario se declara desierto. El precio conveniente de la única calificada no elimina ese umbral ni permite agregar informalmente otra oferta a una etapa iniciada.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde el mínimo de invitados con el umbral de ofertas efectivamente calificadas.",
+        "B": "Los fragmentos no habilitan agregar una oferta por invitación directa para eludir el resultado de calificación.",
+        "C": "Solo una oferta satisface calificación y no se habilita la evaluación económica de comparación de precios.",
+        "D": "Una habilitación inexistente al cierre no puede asumirse cumplida para construir una segunda oferta válida."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "fb9848df-bd5a-4856-96fb-e5f841e2e2ee",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "97",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 97. Convocatoria en comparación de precios 97.1. Para aplicar el procedimiento de selección de comparación de precios, la DEC elabora un informe que sustente el cumplimiento de las condiciones para utilizar dicho procedimiento de selección. 97.2. El oficial de compra registra la convocatoria en la Pladicop y remite invitación a un mínimo de tres proveedores a fin de que presenten sus ofertas, adjuntando las bases conforme al formato aprobado en las bases estándar por la DGA.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "98",
+          "pageStart": 53,
+          "pageEnd": 53,
+          "quote": "Artículo 98. Evaluación de ofertas en la comparación de precios 98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores consi derando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"98.1. El oficial de compra verifica que los postores que presentaron ofertas cumplan los requisitos de calificación, luego de lo cual procede a la evaluación de la oferta económica, la cual consiste en establecer el orden de prelación de los postores cons iderando en el primer lugar a quien oferte el menor monto. Para proceder a la evaluación de la oferta económica se debe contar con al menos dos ofertas que cumplan los requisitos de calificación; de lo contrario, el procedimiento de selección se declara de sierto.\" 98.2. El otorgamiento de la buena pro lo realiza el oficial de compra mediante su publicación en la Pladicop. 98.3. En el supuesto que dos o más ofertas empaten, el otorgamiento de la buena pro se efectúa a través de sorteo.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N083",
+    "objetivo": "Aplicar la revisión de calificación posterior a los lances.",
+    "criterioAvanzado": "Distingue prelación económica provisional y final, verificando el mínimo de ofertas calificadas.",
+    "input": {
+      "prompt": "En una subasta inversa electrónica válidamente convocada, cuatro postores participan en los lances. El orden económico es: Pino S/61 000, Roble S/62 000, Cedro S/63 000 y Olmo S/64 000. Al revisar sucesivamente los requisitos de calificación, Pino y Cedro incumplen requisitos no subsanables; Roble y Olmo cumplen todos. No hay empates, recursos ni otros impedimentos. El oficial duda entre declarar desierto por no encontrar tres calificados o adjudicar al primero de los que sí cumplen. ¿Cuál es el resultado procedente?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Adjudicar a Roble y dejar a Olmo segundo en el orden final; hay dos ofertas calificadas."
+        },
+        {
+          "id": "B",
+          "text": "Adjudicar a Pino porque el resultado de los lances impide revisar su calificación."
+        },
+        {
+          "id": "C",
+          "text": "Declarar desierto porque siempre se requieren tres calificados, aunque hayan participado cuatro."
+        },
+        {
+          "id": "D",
+          "text": "Retroceder a una evaluación técnica comparativa para escoger entre Roble y Olmo."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "Los numerales 96.3 y 96.4 sitúan la calificación después de la evaluación económica por lances y excluyen evaluación técnica. El 96.5 modificado dispone revisión sucesiva para identificar, de ser el caso, tres calificados y exige al menos dos ofertas que cumplan calificación para evitar el desierto. Revisados los cuatro, Roble y Olmo cumplen ese mínimo; Roble tiene el menor precio entre ambos.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Descarta las ofertas sin calificación y conserva la prelación económica de las dos que cumplen.",
+        "B": "La calificación se revisa después de los lances; el menor precio no dispensa sus requisitos.",
+        "C": "El texto modificado no convierte tres calificados en mínimo absoluto; dos evitan el desierto.",
+        "D": "La subasta no incorpora evaluación técnica comparativa para alterar el orden de los calificados."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "eac1ab4a-6e1e-4f39-a922-8a72c17dc52b",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": "Artículo 96. Evaluación de ofertas en subasta inversa electrónica 96.1. Mediante subasta inversa electrónica se contratan bienes y servicios comunes que cuenten con ficha técnica. La utilización del procedimiento de selección puede ser opcional u obligatoria conforme lo determine Perú Compras en el documento que aprueba la referida ficha. CONCORDANCIAS: R.J.N° 000048 - 2025 - PERÚ COMPRAS - JEFATURA (Aprueban la “Directiva para la Gestión de la Lista de Fichas Técnicas”) 96.2. En el requerimiento de bienes y servicios comunes con ficha técnica, no se pueden incluir requisitos de calificación adicionales o diferentes a aquellos contemplados en la ficha técnica o en los documentos de información complementaria, salvo que la normativa específica que regula el objeto de la convocatoria exija algún requisito obligatorio. 96.3. En la subasta inversa electrónica no se realiza la evaluación técnica de las ofertas, y la revisión de los requisitos de calificación se realiza posteriormente a la evaluación económica. 96.4. La evaluación de ofertas económicas se realiza mediante lances en línea a través de la Pladicop, otorgándose la buena pro al postor que oferte el menor precio, conforme al procedimiento establecido en la directiva y las bases estándar. 96.5. El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar al menos tres postores que cumplan estos requisitos, asig nándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos de calificación de estos. En caso un solo postor hubiera participado de la evaluación económica, el procedimiento de selección se declara desierto. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"96.5",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "96",
+          "pageStart": 52,
+          "pageEnd": 53,
+          "quote": ". El oficial de compra revisa los requisitos de calificación de los postores que ocuparon los primeros lugares en el orden de prelación de la evaluación económica sucesivamente hasta identificar , de ser el caso, tres postores que cumplan estos requisitos, asignándoles su orden de prelación final correspondiente y otorgando la buena pro al primer lugar. En caso solo dos postores hubieran participado de la evaluación económica, únicamente se revisan los requisitos d e calificación de estos. El procedimien to de selección se declara desierto si solo un postor hubiera participado en la evaluación económica o si no se cuenta con al menos dos ofertas que cumplan con los requisitos de calificación.\" 96.6. En caso una subasta inversa electrónica se declare desierta, la siguiente convocatoria se realiza mediante el mismo procedimiento de selección, salvo que la DEC sustente en el informe de declaratoria de desierto que existe un riesgo de que el procedi miento de selección se vuelva a declarar desierto, en cuyo caso se puede convocar una licitación pública o un concurso público abreviado, según corresponda.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 53 de 249 SUBCAPÍTULO 2 Comparación de precios",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N084",
+    "objetivo": "Asignar diagnóstico y corrección antes de reconvocar sin ofertas.",
+    "criterioAvanzado": "Vincula una causa logística con el responsable especial del informe y el tipo de modificación pertinente.",
+    "input": {
+      "prompt": "Una licitación de repuestos queda desierta porque no se presenta ninguna oferta. La interacción posterior confirma que cinco proveedores pueden cumplir íntegramente el producto, pero ninguno ofertó porque la estrategia exigió una entrega simultánea durante un cierre programado de la vía de acceso. No se detecta defecto en las especificaciones del repuesto y se propone reformular la estrategia logística antes de reconvocar. La oficina solicita que el comité informe solo «sin postores» y se convoque inmediatamente con las mismas condiciones. ¿Qué actuación satisface el tratamiento del desierto?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Reconvocar inmediatamente: la ausencia de ofertas exime de analizar sus causas."
+        },
+        {
+          "id": "B",
+          "text": "Modificar obligatoriamente las especificaciones del producto, aunque la causa identificada sea exclusivamente logística."
+        },
+        {
+          "id": "C",
+          "text": "Encargar únicamente al comité un informe sin propuestas porque todo desierto tiene idéntico responsable."
+        },
+        {
+          "id": "D",
+          "text": "La DEC debe elaborar el informe para el funcionario facultado para aprobar expedientes y proponer el ajuste de estrategia pertinente antes de la siguiente convocatoria."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 84.3 exige actuaciones posteriores a la publicación del desierto y previas a reconvocar. Su literal c atribuye a la DEC el informe cuando no se presentó ninguna oferta y exige proponer modificaciones de estrategia o requerimiento según corresponda. La causa logística identificada requiere una propuesta pertinente de estrategia; no justifica por sí misma modificar especificaciones del repuesto. El informe no se agota en contar ofertas.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "La ausencia de ofertas mantiene la obligación de diagnóstico y propuesta antes de reconvocar.",
+        "B": "La norma admite modificar estrategia o requerimiento según la causa; aquí no se acredita defecto del producto.",
+        "C": "Ignora la responsabilidad especial de la DEC cuando no se presentó ninguna oferta y omite propuestas.",
+        "D": "Relaciona ausencia total de ofertas, responsabilidad del informe y ajuste que responde a la causa identificada."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "84",
+          "pageStart": 47,
+          "pageEnd": 47,
+          "quote": "Artículo 84. Declaración de desierto 84.1. Un procedimiento de selección queda desierto total o parcialmente cuando no se reciban ofertas o cuando no exista ninguna oferta válida o cuando no se perfeccione el contrato de acuerdo con lo establecido en el artículo 91. 84.2. En el caso de procedimientos de selección por ítems, la entidad contratante puede declarar desierto uno o más ítems cuando no se admita ninguna oferta, y continuar con las acciones siguientes para continuar la siguiente convocatoria de dichos ítems, independientemente del estado de los demás ítems. 84.3. Posteriormente a la publicación de la declaratoria de desierto y previo a la siguiente convocatoria, se realiza lo siguiente: a) Los evaluadores remiten a la DEC y al funcionario o servidor que aprobó el expediente de contratación un informe en el que identifiquen las causas que no permitieron el otorgamiento de la buena pro en el procedimiento de selección, que es registrado en la Pladicop. b) En caso se determine que la causa del desierto se encuentra relacionada con el requerimiento, la DEC informa de ello al área usuaria para que modifique el requerimiento o realiza las modificaciones correspondientes y los remite al área usuaria para su n o objeción. c) En caso no se haya presentado ninguna oferta, este informe es realizado por la DEC y remitido al funcionario o servidor que tiene facultades para aprobar los expedientes de contratación en la entidad contratante, debiendo proponer las modificaciones a l a estrategia de contratación o al requerimiento según corresponda. 84.4. Las siguientes convocatorias de los procedimientos de selección que se realicen mediante las modalidades abreviadas, consideran el mismo tipo de evaluador del procedimiento original, y se rigen conforme las disposiciones específicas señaladas en las bases estándar para estos.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N085",
+    "objetivo": "Clasificar la causa de cancelación antes de decidir la posibilidad de reconvocar.",
+    "criterioAvanzado": "Distingue desaparición de necesidad y reasignación presupuestal por emergencia a partir del expediente y aplica la consecuencia específica del texto modificado.",
+    "input": {
+      "prompt": "Antes de adjudicar una compra de filtros para una planta de agua, se declara expresamente una emergencia y el presupuesto de los filtros se destina a atenderla. El informe técnico acredita que los filtros siguen siendo indispensables y no hay existencias alternativas. La resolución de cancelación, válidamente emitida y publicada, se sustenta en esa reasignación a la emergencia y conserva el informe técnico como fundamento. Dos meses después, en el mismo ejercicio, se restituye el presupuesto y se propone convocar el mismo suministro. Un asesor se opone: afirma que no haber podido comprar equivalía a que desapareciera la necesidad y que toda cancelación impide repetir el objeto ese año. Sin cuestionar la validez de la resolución y limitado al efecto de esa causal sobre la nueva convocatoria, ¿qué corresponde concluir?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Debe esperar al siguiente ejercicio, porque cualquier cancelación impide convocar el mismo objeto aunque la necesidad haya persistido."
+        },
+        {
+          "id": "B",
+          "text": "La causa acreditada es la reasignación del presupuesto a la emergencia mientras persistía la necesidad; no opera la prohibición específica por desaparición de la necesidad, sin dispensar los requisitos de la nueva convocatoria."
+        },
+        {
+          "id": "C",
+          "text": "Solo podría convocar cambiando el nombre de los filtros, porque la restitución de fondos no levanta la prohibición anual que se aplica a todas las causales."
+        },
+        {
+          "id": "D",
+          "text": "Puede reactivar la convocatoria cancelada como si nunca hubiera terminado, sin nueva publicación, porque se restituyó el presupuesto."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 57.1 de la Ley distingue desaparición de necesidad de la persistencia de esta con reasignación del presupuesto a propósitos de emergencia declarados expresamente. El expediente acredita la segunda situación: la necesidad de filtros continúa. El artículo 85.1 modificado del Reglamento restringe la convocatoria del mismo objeto durante el ejercicio cuando la cancelación fue por desaparición de la necesidad. No corresponde extender esa consecuencia a la causal acreditada ni confundir imposibilidad financiera con inexistencia de necesidad. Ello no revive el procedimiento cancelado ni exonera de expediente aprobado, bases y publicación de nueva convocatoria según el artículo 63.",
+      "regime": "32069",
+      "topic": "Etapas, plazos y condiciones",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.2",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Generaliza a cualquier causal una restricción que el numeral 85.1 modificado vincula específicamente con la desaparición de la necesidad.",
+        "B": "Clasifica la causal usando necesidad persistente, emergencia declarada y destino del presupuesto, y aplica la consecuencia sin crear una dispensa de convocatoria.",
+        "C": "Cambiar la denominación no es la solución: la restricción específica no opera por la causal acreditada, y no existe una prohibición anual para todas las cancelaciones.",
+        "D": "Restituir fondos no convierte la cancelación válida en inexistente ni permite iniciar selección sin el nuevo aviso en Pladicop."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "dc721f35-138c-41b8-8dca-16289f74d9df",
+          "chunkId": "41035de5-7f0f-459d-abcb-9432198dac85",
+          "title": "Ley N.° 32069 — texto actualizado al 19.07.2026",
+          "article": "57",
+          "pageStart": 27,
+          "pageEnd": 27,
+          "quote": "Artículo 57 . Cancelación 57.1. La entidad contratante puede cancelar el procedimiento de selección en cualquier momento previo a la adjudicación de la buena pro basada en razones de fuerza mayor o, de caso fortuito, cuando desaparezca la necesidad de contratar o cuando en persistencia de dicha necesidad, el presupuesto inicialmente asignado tenga que destinarse a otros prop ósitos de emergencia declarados expresamente, bajo su exclusiva responsabilidad, de conformidad con lo establecido en el reglamento. Comprobada la desaparición de la necesidad, la entidad notifica mediante resolución las razones por las cuales se cancela el procedimiento de selección. La resolución se notifica a través de la Pladicop. 57.2. La entidad contratante no incurre en responsabilidad por el solo hecho de actuar de conformidad con el presente artículo, respecto de los proveedores que hayan presentado ofertas. CAPÍTULO III EJECUCIÓN CONTRACTUAL SUBCAPÍTULO I Ejecución contractual",
+          "version": "Texto actualizado al 19.07.2026",
+          "sha256": "f14ffa37b824b8af03c0b97e0603839a786ed61c7ca07b1d300c9af928d133f7"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "2052552c-f7c3-42b6-a47c-8832deddf7a8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "85",
+          "pageStart": 47,
+          "pageEnd": 48,
+          "quote": "Artículo 85. Cancelación del procedimiento de selección 85.1. La autoridad de la gestión administrativa, mediante resolución, puede cancelar el procedimiento de selección, en cualquier momento previo a la adjudicación de la buena pro o la adjudicación para la innovación, por los supuestos señalados en el artícu lo 57 de la Ley, para lo cual la DEC emite el informe de sustento correspondiente. La cancelación impide convocar el mismo objeto contractual durante el ejercicio presupuestal, salvo que la causal de la cancelación sea la falta de presupuesto. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"85.1. La autoridad de la gestión administrativa, mediante resolución, puede cancelar el procedimiento de selección, en cualquier momento previo a la adjudicación de la buena\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 48 de 249 pro o la adjudicación para la innovación, por los supuestos señalados en el artículo 57 de la Ley, para lo cual la DEC emite el informe de sustento correspondiente. La cancelación por desaparición de la necesidad impide convocar el mismo objeto contractual durante el ejercicio presupuestal.\" 85.2. La resolución es notificada a los participantes o postores través de su publicación en la Pladicop. 85.3. La entidad contratante no incurre en responsabilidad por la aplicación del presente artículo, respecto de los proveedores que hayan presentado ofertas. SUBCAPÍTULO 6 Perfeccionamiento del contrato",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "63",
+          "pageStart": 34,
+          "pageEnd": 35,
+          "quote": "Artículo 63. Requisitos para convocar un procedimiento de selección 63.1. Para convocar un procedimiento de selección se debe contar con el expediente de contratación aprobado y las bases del procedimiento de selección elaboradas por los evaluadores o la DEC, según corresponda. 63.2. La fase de selección inicia con la publicación en la Pladicop del aviso de convocatoria del procedimiento de selección, el cual contiene lo siguiente: a) Identificación de la entidad contratante. b) Identificación del procedimiento de selección y su objeto.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 35 de 249 c) Cronograma del procedimiento de selección. d) Indicación de los instrumentos internacionales bajo cuyos alcances se encuentra cubierto el procedimiento de selección. e) Bases del procedimiento de selección, las cuales incluyen el requerimiento. 63.3. Las entidades contratantes pueden utilizar otros medios para que los proveedores conozcan la convocatoria del procedimiento de selección.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Reformulación conforme al hallazgo de revision-lote-4.json: hechos interdependientes, decisión encadenada, clave única y distractores contrastados con los fragmentos reales del corpus y sus modificatorias. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N086",
+    "objetivo": "Derivar la oportunidad de registro desde la convocatoria efectiva en Pladicop.",
+    "criterioAvanzado": "Enlaza publicidad complementaria, inicio de selección y apertura de registro para resolver dos intentos de participación.",
+    "input": {
+      "prompt": "Una entidad tiene expediente aprobado y bases elaboradas. El lunes envía por correo a proveedores el anuncio con las bases y lo difunde en su sede digital; el jueves publica por primera vez en Pladicop el aviso completo de convocatoria, con todos sus datos, cronograma y bases. Un proveedor con RNP vigente conforme al objeto intenta registrarse el miércoles y vuelve a hacerlo el viernes. Es una lista abierta, sin precalificación; las ofertas se presentarán varias semanas después y no hay impedimentos. La DEC sostiene que ambos intentos deben juzgarse desde el anuncio del lunes. ¿Qué tratamiento corresponde a los intentos de registro?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Ambos son oportunos, porque difundir las bases el lunes inicia selección y abre el registro desde el martes."
+        },
+        {
+          "id": "B",
+          "text": "El miércoles es oportuno y el viernes tardío, porque el registro cierra al publicarse la convocatoria en Pladicop."
+        },
+        {
+          "id": "C",
+          "text": "El miércoles es anterior al registro de ese procedimiento; el viernes ya puede registrarse, porque la convocatoria efectiva fue el jueves y el registro empieza al día siguiente."
+        },
+        {
+          "id": "D",
+          "text": "Ninguno es oportuno: debe esperar hasta que comience la presentación de ofertas para registrarse."
+        }
+      ],
+      "correctOption": "C",
+      "explanation": "El artículo 63.2 fija el inicio de selección en la publicación del aviso de convocatoria en Pladicop; la difusión por otros medios que permite el 63.3 no la sustituye. El artículo 65.2 abre el registro desde el día siguiente de la convocatoria hasta antes de iniciar ofertas, con una excepción para precalificación que aquí no existe. La publicación efectiva es el jueves: el intento del miércoles es previo y el viernes ya está dentro de la ventana. El RNP vigente satisface la condición del 65.1 sin adelantar esa apertura.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Confunde difusión complementaria con convocatoria efectiva y adelanta indebidamente la apertura del registro.",
+        "B": "El registro no cierra con la convocatoria; empieza al día siguiente y en el caso sigue abierto hasta antes de ofertas.",
+        "C": "Usa la publicación del jueves como hito constitutivo y deriva correctamente la apertura del registro el viernes.",
+        "D": "El registro debe efectuarse antes del inicio de presentación de ofertas, no esperar a ese inicio para abrirse."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "63",
+          "pageStart": 34,
+          "pageEnd": 35,
+          "quote": "Artículo 63. Requisitos para convocar un procedimiento de selección 63.1. Para convocar un procedimiento de selección se debe contar con el expediente de contratación aprobado y las bases del procedimiento de selección elaboradas por los evaluadores o la DEC, según corresponda. 63.2. La fase de selección inicia con la publicación en la Pladicop del aviso de convocatoria del procedimiento de selección, el cual contiene lo siguiente: a) Identificación de la entidad contratante. b) Identificación del procedimiento de selección y su objeto.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 35 de 249 c) Cronograma del procedimiento de selección. d) Indicación de los instrumentos internacionales bajo cuyos alcances se encuentra cubierto el procedimiento de selección. e) Bases del procedimiento de selección, las cuales incluyen el requerimiento. 63.3. Las entidades contratantes pueden utilizar otros medios para que los proveedores conozcan la convocatoria del procedimiento de selección.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "15a86496-6720-4c57-b1f0-ebff7c042361",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "65",
+          "pageStart": 35,
+          "pageEnd": 36,
+          "quote": "Artículo 65. Registro de participantes 65.1. El registro de participantes se realiza de forma gratuita a través de la Pladicop, de acuerdo con el cronograma del procedimiento de selección. Para registrarse como participante, el proveedor debe contar con inscripción vigente en el RNP, conforme a l objeto de la contratación. 65.2. El registro de participantes se lleva a cabo desde el día siguiente de la convocatoria hasta antes del inicio de la presentación de ofertas, según corresponda, salvo en los procedimientos de selección que cuenten con la etapa de precalificación, en c uyo caso el registro concluye antes de esta etapa. 65.3. El proveedor que se registra como participante se adhiere al procedimiento de selección en el estado en que se encuentre. 65.4. El registro de participantes puede ser de tres tipos, dependiendo de la modalidad del procedimiento de selección, conforme lo señalado en los artículos 93, 94 y 95:\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 36 de 249 a) Lista abierta: cualquier proveedor puede registrarse como participante en el procedimiento de selección. b) Lista abierta con invitación: la entidad contratante invita a determinados proveedores a registrarse, lo que no obsta que puedan registrarse otros proveedores interesados. c) Lista cerrada: Solo pueden registrarse los proveedores que la entidad contratante invita. 65.5. En los procedimientos de selección que contemplen la posibilidad de invitar a proveedores, dicha invitación se realiza a través de la Pladicop y está a cargo de la DEC. SUBCAPÍTULO 3 Cuestionamientos a las bases",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N087",
+    "objetivo": "Programar el registro de elevación tras vencer el plazo común.",
+    "criterioAvanzado": "Encadena plazos de participantes y entidad sin usar la primera solicitud como inicio del segundo.",
+    "input": {
+      "prompt": "En un procedimiento que permite elevar cuestionamientos, el pliego y las bases integradas se publican en Pladicop el lunes de la semana 1. Un participante presenta un cuestionamiento admisible el martes y otro lo hace el jueves; ambos cumplen los demás requisitos. La DEC quiere usar íntegramente su plazo máximo para registrar en Pladicop los cuestionamientos y la documentación requerida. Solo son hábiles lunes a viernes, sin feriados; todos los cómputos empiezan el día hábil siguiente del hito respectivo. ¿Cuál es el último día de ese registro?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El miércoles de la semana 2, porque los cuatro días corren después del vencimiento común del jueves de la semana 1."
+        },
+        {
+          "id": "B",
+          "text": "El lunes de la semana 2, porque los cuatro días se cuentan desde la primera solicitud del martes."
+        },
+        {
+          "id": "C",
+          "text": "El jueves de la semana 1, porque la entidad debe registrar antes de vencer el plazo de los participantes."
+        },
+        {
+          "id": "D",
+          "text": "El viernes de la semana 2, porque cada solicitud abre un plazo de tres días adicionales antes del registro."
+        }
+      ],
+      "correctOption": "A",
+      "explanation": "El artículo 67.2 modificado concede tres días hábiles siguientes a la publicación para cuestionamientos: martes, miércoles y jueves de la semana 1. El 67.3 modificado fija el registro dentro de los cuatro días hábiles posteriores a ese vencimiento, siempre que se haya solicitado elevación: viernes de la semana 1, lunes, martes y miércoles de la semana 2. La primera solicitud no adelanta ese hito común.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Cuenta los cuatro días hábiles de registro desde el vencimiento común para solicitar elevación.",
+        "B": "Toma la primera solicitud como inicio de un plazo que depende del cierre común para todos.",
+        "C": "Confunde el plazo para cuestionamientos con el periodo posterior de registro de documentación por la entidad.",
+        "D": "Las solicitudes no abren nuevos periodos de tres días ni desplazan individualmente el cierre común."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "88e765f8-0271-487c-aaa0-f1bb6ac9872c",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "67",
+          "pageStart": 36,
+          "pageEnd": 38,
+          "quote": "Artículo 67. Elevación del pliego de absolución de consultas y observaciones y las bases integradas\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 37 de 249 67.1. En los procedimientos de selección que permiten cuestionar el pliego de absolución de consultas y observaciones y las bases integradas, éstos pueden ser elevados por la entidad contratante al OECE a través de la Pladicop. Los cuestionamientos se sust entan en supuestas vulneraciones a la normativa de contrataciones públicas, a los principios que la rigen u otra normativa que tenga relación con el objeto de contratación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"67.1. En los procedimientos de selección que permiten cuestionar el pliego de absolución de consultas y observaciones y las bases integradas, estos son elevados por la entidad contratante al OECE a través de la Pladicop. Los cuestionamientos se sustentan en supuestas vulneraciones a la normativa de contrataciones públicas, a los principios que la rigen u otra normativa que tenga relación con el objeto de contratación.\" 67.2. Los cuestionamientos son presentados por los proveedores en el plazo de tres días hábiles siguientes a la publicación del pliego de absolución de consultas y observaciones y la integración de bases en la mencionada plataforma, cumpliendo los requisit os establecidos por el OECE mediante directiva. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"67.2",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "a48c3db3-ef20-4dc4-9306-2a1f751404c7",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "67",
+          "pageStart": 36,
+          "pageEnd": 38,
+          "quote": ". Los cuestionamientos son presentados por los participantes en el plazo de tres días hábiles siguientes a la publicación del pliego de absolución de consultas y observaciones y la integración de bases en la mencionada plataforma, cumpliendo los requisitos establecidos por el OECE mediante directiva.\" 67.3. Dentro de los cuatro días hábiles de vencido el plazo para solicitar la elevación indicada en el numeral anterior, y siempre que ésta se haya producido, la entidad contratante registra en la Pladicop los cuestionamientos y la documentación requerida, de acuerdo con las condiciones y requisitos establecidos en la directiva de alcance general emitida por el OECE. El pronunciamiento sobre elevación de cuestionamientos al pliego de absolución de consultas y observaciones y/o a las bases integradas, consti tuye un servicio prestado en exclusividad y se encuentra sujeto al pago del costo previsto en el TUPA del OECE. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"67.3. Dentro de los cuatro días hábiles posteriores al vencimiento del plazo para solicitar la elevación indicada en el numeral anterior, y siempre que ésta se haya producido, la entidad contratante registra en la Pladicop los cuestionamientos y la documentación requerida, de acuerdo con las condiciones y requisitos estableci dos en la directiva de alcance general emitida por el OECE. El pronunciamiento sobre la elevación de cuestionamientos al pliego de absolución de consultas y observaciones y/o a las bases integradas, constituye un servicio prestado en exclusividad y se encuentra sujeto al pago del costo previsto en el TUPA del OECE.\"\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 38 de 249 67.4. El pronunciamiento que emite el OECE a través de la Pladicop se encuentra motivado e incluye la revisión de oficio de los aspectos trascendentes de las bases y realiza la integración definitiva. El OECE puede solicitar a las entidades contratantes in formación adicional para la emisión del pronunciamiento",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N088",
+    "objetivo": "Vincular publicación de buena pro y acceso oportuno a documentación.",
+    "criterioAvanzado": "Distingue anuncio privado, publicación y solicitud escrita para fijar acceso y exclusiones.",
+    "input": {
+      "prompt": "El lunes, mientras termina la evaluación, el comité comunica por correo a un postor que probablemente ganará y a otro le anticipa verbalmente una subsanación del rival. La buena pro con sus documentos se publica recién el miércoles en Pladicop. Ese mismo miércoles un participante solicita por escrito el acta de evaluación, las subsanaciones de la oferta admitida ganadora y el expediente de una oferta no admitida. Ningún documento del ganador tiene clasificación legal de reserva. No hay feriados y jueves es hábil. ¿Qué tratamiento corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "El correo del lunes habilitaba divulgar toda evaluación y el miércoles deben entregarse también las ofertas no admitidas."
+        },
+        {
+          "id": "B",
+          "text": "Debe esperarse al consentimiento de la buena pro para dar acceso incluso al acta publicada."
+        },
+        {
+          "id": "C",
+          "text": "Solo puede entregarse el acta; toda subsanación mantiene reserva permanente aunque la oferta haya sido admitida."
+        },
+        {
+          "id": "D",
+          "text": "La anticipación del lunes no habilitaba divulgar análisis ni subsanaciones; tras la publicación, se permite el acceso solicitado al acta y subsanaciones del ganador a más tardar el jueves, excluyendo la oferta no admitida."
+        }
+      ],
+      "correctOption": "D",
+      "explanation": "El artículo 79.1 impide revelar análisis, subsanación y evaluación hasta publicar el otorgamiento; un anuncio privado no sustituye esa publicación. El artículo 80 exige publicar la buena pro en Pladicop con documentos de calificación y evaluación. El 79.2 permite acceso a más tardar el día hábil siguiente de solicitarlo por escrito, excluyendo información legalmente reservada y ofertas no admitidas. No exige esperar consentimiento ni establece reserva perpetua para toda subsanación.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "El anuncio privado no sustituye la publicación y las ofertas no admitidas están expresamente excluidas del acceso.",
+        "B": "Añade el consentimiento como condición que el artículo 79 no exige para el acceso después de la buena pro.",
+        "C": "Confunde reserva temporal durante evaluación con una reserva permanente no prevista para toda subsanación.",
+        "D": "Aplica el hito público, el día hábil siguiente y la exclusión específica de ofertas no admitidas."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "cc8c9436-7e03-4e47-aa64-4b1a30ab1268",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "79",
+          "pageStart": 45,
+          "pageEnd": 46,
+          "quote": "Artículo 79. Acceso a la información 79.1. Durante la evaluación de las ofertas no se da a conocer información alguna acerca del análisis, subsanación y evaluación de las ofertas hasta que se haya publicado el otorgamiento de la buena pro.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 46 de 249 79.2. Una vez otorgada la buena pro, la DEC está en la obligación de permitir el acceso de los participantes y postores al expediente de contratación, salvo la información calificada como secreta, confidencial o reservada por la normativa de la materia, as í como aquella correspondiente a las ofertas que no fueron admitidas, a más tardar dentro del día hábil siguiente de haberse solicitado por escrito. SUBCAPÍTULO 5 Otorgamiento de la buena pro",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        },
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "267a82de-832c-4d4e-bda2-e6e7017ba2a8",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "80",
+          "pageStart": 46,
+          "pageEnd": 46,
+          "quote": "Artículo 80. Otorgamiento y publicación de la buena pro El otorgamiento de la buena pro es el acto que declara al postor ganador del procedimiento de selección, y se publica a través de la Pladicop. La DEC, el oficial de compra o el comité, según corresponda, es responsable de la publicación del otorgamiento de la buena pro, con los documentos que sustenten los resultados de calificación y evaluación.",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Caso hipotético contrastado con los fragmentos identificados del corpus, sus condiciones y excepciones; revisión de clave única, distractores y novedad frente al banco de 266 preguntas y los 24 ejemplos. No certificación OECE ni revisión humana independiente."
+    }
+  },
+  {
+    "numero": "N089",
+    "objetivo": "Usar la versión definitiva publicada para verificar ofertas tras negociación.",
+    "criterioAvanzado": "Reconstruye la sucesión de cambios y calcula obligaciones de visitas y pagos antes de resolver una objeción contra la oferta final.",
+    "input": {
+      "prompt": "En una negociación válida de mantenimiento por doce meses completos, las bases iniciales exigían una visita al final de cada trimestre y pago mensual. El acta de la primera ronda cambia a una visita al final de cada mes. El acta de la segunda ronda sustituye expresamente esa frecuencia por una visita al final de cada periodo de dos meses y cambia el pago a uno al final de cada trimestre. No se modifican factores ni mínimos no negociables; se cumplen no objeciones y plazos. Al cierre, la DEC publica en Pladicop el acta final y las bases integradas definitivas que incorporan ambos cambios de la segunda ronda. Entre las ofertas finales, Faro propone seis visitas uniformemente espaciadas cada dos meses y cuatro pagos trimestrales; Nube propone exclusivamente doce visitas mensuales y doce pagos mensuales. No se evalúan aquí otros requisitos ni se adjudica. Un evaluador pretende objetar Faro por no ofrecer doce visitas, citando el acta de la primera ronda. ¿Qué verificación de las condiciones finales corresponde?",
+      "options": [
+        {
+          "id": "A",
+          "text": "Objetar Faro y considerar compatible a Nube porque la primera modificación de frecuencia permanece aplicable aunque luego haya sido sustituida."
+        },
+        {
+          "id": "B",
+          "text": "Desestimar esa objeción a Faro: cumple seis visitas y cuatro pagos conforme a las bases definitivas; Nube no cumple la condición final de pagos trimestrales aunque ofrezca más visitas."
+        },
+        {
+          "id": "C",
+          "text": "Considerar compatibles ambas ofertas porque una frecuencia de visitas más alta autoriza unilateralmente cambiar también el calendario de pagos."
+        },
+        {
+          "id": "D",
+          "text": "Objetar ambas: deben ofrecer cuatro visitas trimestrales y doce pagos mensuales conforme a las bases iniciales."
+        }
+      ],
+      "correctOption": "B",
+      "explanation": "El artículo 76.6 modificado exige publicar al cierre las bases integradas definitivas con las modificaciones de la negociación, para presentar ofertas finales y evaluarlas técnica y económicamente. Aquí la segunda ronda sustituyó la frecuencia anterior y su resultado está incorporado en esa versión pública: doce meses divididos entre dos equivalen a seis visitas; doce entre tres equivalen a cuatro pagos trimestrales. Faro coincide con ambas condiciones. No procede exigirle las doce visitas de una versión sustituida. Nube ofrece más visitas, pero propone exclusivamente doce pagos mensuales, incompatibles con el calendario final; una mayor frecuencia de mantenimiento no autoriza alterar unilateralmente esa condición contractual. El 76.1 permite negociar el pago, pero el cambio válido ya quedó fijado y publicado.",
+      "regime": "32069",
+      "topic": "PLADICOP en selección",
+      "competency": "Selección",
+      "difficulty": "advanced",
+      "curriculumVersion": "oece-2025-04-25",
+      "competencyCode": "2",
+      "subcompetencyCode": "2.6",
+      "cognitiveLevel": "analyze",
+      "optionRationales": {
+        "A": "Resucita una condición sustituida y omite que el cierre publicado también cambió el calendario de pagos de mensual a trimestral.",
+        "B": "Reconstruye la versión pública definitiva, calcula seis visitas y cuatro pagos y distingue el incumplimiento de pagos de Nube de su mayor número de visitas.",
+        "C": "Mejorar una prestación no concede al postor facultad unilateral para apartarse de las condiciones finales de pago publicadas.",
+        "D": "Aplica el documento inicial e ignora las modificaciones válidas incorporadas a las bases integradas definitivas."
+      },
+      "reviewChecks": {
+        "unambiguous": true,
+        "distractors": true,
+        "conditions": true,
+        "exceptions": true,
+        "sources": true
+      },
+      "sourceCutoff": "2026-10-29",
+      "origin": "manual",
+      "sources": [
+        {
+          "documentId": "8371bce1-f773-4ad8-8efa-1266276ae4ec",
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "title": "Reglamento de la Ley N.° 32069 — texto actualizado al 09.01.2026",
+          "article": "76",
+          "pageStart": 43,
+          "pageEnd": 44,
+          "quote": "Artículo 76. Negociación 76.1. En caso la precalificación incluya esta subetapa, los postores seleccionados en la etapa de precalificación presentan y sustentan ante los evaluadores ofertas preliminares, respecto de las cuales se puede realizar rondas de negociación, con el fin de mejorar su contenido. Durante la negociación los postores pueden formular consultas y proponer modificaciones a la versión inicial del contrato, a la modalidad de pago u a otras condiciones del contrato. 76.2. No son materia de negociación los factores de evaluación, ni las condiciones mínimas que se hubieran establecido como no negociables en las bases. Cuando se modifique el requerimiento, el miembro del jurado que es servidor o funcionario del área usua ria emite la no objeción correspondiente. 76.3. La negociación puede darse en rondas sucesivas, en las cuales los postores presentan sus ofertas ajustadas producto de la negociación, pudiendo establecerse en las bases que estas rondas sean eliminatorias bajo criterios de adjudicación previamente e stablecidos. 76.4. Un representante del OCI de la entidad contratante puede participar de las rondas de negociación como veedor. 76.5. Cualquier modificación al requerimiento o las condiciones contractuales, luego de obtenida la no objeción, se informa a través de la Pladicop a los postores que participan de la negociación, brindándoles un plazo no menor de siete días hábiles para m odificar sus ofertas. 76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el a cta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales.\n\nReglamento de la Ley Nº 32069, Ley General de Contrataciones Públicas Página 44 de 249 En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las modificaciones adoptadas durante el transcurso de la negociación. (*) (*) Numeral modificado por el Artículo 2 del Decreto Supremo Nº 001 - 2026 - EF , publicado el 08 enero 2026. El citado Decreto Supremo entra en vigor a partir del día siguiente de la publicación en el diario oficial El Peruano de la Resolución Directoral que aprueba la modificación de la “Directiva que establece las bases estándar para los procedimientos de selección en el marco de la Ley Nº 32069, Ley General de Contrataciones Públicas”, aprobada mediante Resolución Directoral Nº 0015 - 2025 - EF/54.01, cuyo texto es el siguiente: \"76.6. Cada ronda de negociación se plasma en un acta que la DEC publica en la Pladicop, la cual suscriben todos los que han participado en éstas. En estas actas se publican las modificaciones al requerimiento o a las bases que se hubieran aprobado. En el acta de la ronda final, se da a conocer a los postores que se encuentran aptos para presentar sus ofertas finales , para la respectiva evaluación técnica y económica . En esta oportunidad se publican las bases integradas definitivas, que incluyen todas las m odificaciones adoptadas durante el transcurso de la negociación.”",
+          "version": "Texto actualizado al 09.01.2026",
+          "sha256": "0ebe95b3e05661b80f73c060d6e6ce8dd17621ce34af9277c688dd67e5d99830"
+        }
+      ],
+      "status": "published",
+      "confirmReview": true,
+      "reviewBasis": "Revisión asistida por IA por encargo del administrador. Reformulación conforme al hallazgo de revision-lote-4.json: hechos interdependientes, decisión encadenada, clave única y distractores contrastados con los fragmentos reales del corpus y sus modificatorias. No certificación OECE ni revisión humana independiente."
+    }
+  }
+]

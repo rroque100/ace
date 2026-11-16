@@ -1,0 +1,514 @@
+{
+  "lote": 1,
+  "sha256": "33bc3e9125a133f4d60f2bd91255af19fd3c7fa30275dd83e667caa973832e4c",
+  "items": [
+    {
+      "numero": "N001",
+      "verdict": "approve",
+      "reason": "Clave A única. La unión de intervalos de Cedro termina en 120: solapar 31-60 no cubre 121-150. Roble sí conserva todo pero tarda doce horas, excediendo ocho. Sauce cubre 1-150 y recupera en cuatro horas lo que no está en línea. Verificar cobertura y recuperación sobre el mismo periodo determina la alternativa que puede tramitarse, sin presumir no objeción ya concedida. La corrección sustituye actualización documental por comparación funcional real; es distinta del cálculo de capacidad de copias de N047.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a y 44.7-44.8"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.2.a y 44.7-44.8"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N002",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La clave distingue solicitud pendiente de modificatoria aprobada y encadena dos habilitaciones temporales: primero CMN aprobado, después expediente aprobado y finalmente convocatoria. El martes no satisface el primer presupuesto; desde el miércoles puede completarse la secuencia sin desplazar necesariamente el jueves. Las restantes opciones anticipan o suprimen un acto exigible. No se detecta duplicado trivial del banco: añade dependencia temporal entre actuaciones a la regla aislada de su pregunta sobre 54.3.",
+      "evidence": [
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.3"
+        },
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N003",
+      "verdict": "revise",
+      "reason": "Se comprobó igualdad íntegra con la copia original; la clave C y el sustento de 45.2.b siguen siendo correctos. Sin embargo, el contraste transversal requerido detecta duplicación decisoria con N034 del lote 2: demanda programada menos primer requerimiento deja un saldo previsible; un evento posterior genera otra cantidad; pedir ambas juntas no vuelve imprevisible el saldo. Solo cambian módulos/mantas, evento y cifras, y en ambas preguntas la respuesta separa exactamente esos dos grupos. La mención al expediente no altera la decisión. Debe diferenciarse materialmente al menos uno de los casos antes de conservar ambos en el conjunto.",
+      "evidence": [
+        {
+          "chunkId": "fbff2c4f-98f7-4c03-837c-6c9f28d064b4",
+          "article": "45",
+          "numeral": "45.1 y 45.2.b"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1"
+        }
+      ],
+      "issues": [
+        "Duplicación transversal sustantiva con N034 del lote 2, aunque el ítem permanezca sin cambios y su clave sea correcta."
+      ]
+    },
+    {
+      "numero": "N004",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La aprobación de compatibilización no se extiende automáticamente al equipo autónomo: clasificar cada componente según el alcance del acto permite conservar la excepción para sensores y cuestionarla para la estación. La clave no afirma que necesariamente proceda compatibilizar esta última; condiciona esa vía a lo que corresponda. Las otras opciones extienden, anulan o difieren indebidamente el sustento.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.6"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N005",
+      "verdict": "approve",
+      "reason": "Clave A única. Calcular 9000/90=100 y 12000/60=200 litros por minuto clasifica seis necesidades dentro de la ficha hipotética y cuatro fuera. La combinación pertinente cuesta 6×3000+4×4500=36000 y supera el respaldo en 3000. La clasificación técnica modifica la composición y, por ello, la cuantía que debe respaldar el expediente; no son controles independientes. N036 solo delimitaba una instalación fuera de ficha, sin estas necesidades calculadas ni consecuencia presupuestal. No se atribuye el alcance hipotético a una ficha real.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.9"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1-53.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a, c, d y f"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N006",
+      "verdict": "approve",
+      "reason": "Clave B única. Mano de obra y materiales pertenecen a una misma prestación y suman 330000, por encima de equipos (240000) y calibración (60000). Con la salvaguarda de naturaleza expresamente satisfecha, el objeto resulta obra; esa clasificación activa el soporte del sistema de solo construcción elegido, que requiere expediente técnico aprobado. No puede introducirse implícitamente diseño ni crearse un expediente inexistente por aprobar otro documento. Se corrigió la anterior yuxtaposición de objeto y cuantía. Se distingue de N019: allí cambia el sistema de entrega; aquí primero debe reconstruirse y clasificar el objeto.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.10"
+        },
+        {
+          "chunkId": "484fc1e9-ebcb-4bf7-aa91-b9b063ebcdb8",
+          "article": "158",
+          "numeral": "158.1.a"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.g"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N007",
+      "verdict": "revise",
+      "reason": "Se comprobó igualdad íntegra con la copia original; C y el total 160000+95000+18000=273000 son correctos. El contraste con todos los lotes revela repetición exacta de la estructura de N042 del lote 2: dos ítems reciben partes de un flete común, se suman sus importes ya completos y se agrega el mismo flete otra vez. También coinciden los cuatro tipos de distractor (omitir flete, tomar el mayor ítem, suma correcta y doble conteo). Sustituir bienes, importes y el encuadre de expediente/certificación no añade clasificación ni consecuencia distinta. Debe reformularse al menos uno de los dos casos.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1-53.3, incluido 53.3 modificado"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.d y 54.2.f"
+        }
+      ],
+      "issues": [
+        "Duplicación transversal trivial con N042 del lote 2: mismo cálculo, error y estructura de opciones."
+      ]
+    },
+    {
+      "numero": "N008",
+      "verdict": "approve",
+      "reason": "Clave D única. Incluir movilización eleva la base de 800000 a 900000; en mantenimiento vial con diseño definido y método limitado elegido, el artículo 133.a exige 95%-110%, esto es 855000-990000. El precio 890000 queda dentro y cambia el resultado obtenido con la base incompleta. La base determina tanto la banda como la necesidad de comunicarla por ser referencia de ofertas, evitando controles independientes. No se presume adjudicación ni se confunde el 95% con el distractor de 90%. La cita de 133 sustenta expresamente los límites.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.2 y 53.4"
+        },
+        {
+          "chunkId": "839a1d8e-afd1-444c-9b43-887c45131623",
+          "article": "133",
+          "numeral": "Encabezado y literal a"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.c-d"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N009",
+      "verdict": "approve",
+      "reason": "Clave A única. Debe reconstruirse qué acto decisorio se ejerció y en qué proceso: Marta aprobó otro proceso y Rosa solo emitió informe técnico; Luis designó comité y Ana aprobó expediente en Laguna. El 61.d circunscribe el impedimento al proceso donde se efectuaron esas acciones. Solo Marta y Rosa resultan habilitadas y aportan comprador de DEC y conocimiento técnico para completar con Tania la composición de tres. La clasificación de impedimentos determina la pareja y no basta repetir que todo delegado está excluido. La corrección añade esa inferencia frente al caso aislado del banco sobre aprobación delegada.",
+      "evidence": [
+        {
+          "chunkId": "47902d46-4963-407d-9ea9-bccf403e20a7",
+          "article": "61",
+          "numeral": "61.d"
+        },
+        {
+          "chunkId": "068c4228-4356-4a38-a7b5-1865a955d8b9",
+          "article": "56",
+          "numeral": "56.1.b"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.e"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N010",
+      "verdict": "approve",
+      "reason": "Clave B única. El martes solo participan dos integrantes designados: el invitado no completa quorum y la firma posterior del ausente no demuestra participación. El reemplazo motivado del miércoles identifica quiénes pueden sesionar el jueves; con los tres presentes, dos votos sustentan Luna y la discordia debe quedar motivada. Esta secuencia decide qué recomendación puede valorar la DEC, sin sanear retroactivamente Sol. El banco sobre suplente, abstención y retorno no plantea selección entre acuerdos de sesiones anterior y posterior a una nueva designación.",
+      "evidence": [
+        {
+          "chunkId": "068c4228-4356-4a38-a7b5-1865a955d8b9",
+          "article": "56",
+          "numeral": "56.3"
+        },
+        {
+          "chunkId": "e76cd1ef-49bd-419e-b063-18191098b6c7",
+          "article": "59",
+          "numeral": "59.2, 59.4 y 59.5.a-c"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1 y 54.2.c-e"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N011",
+      "verdict": "approve",
+      "reason": "Clave C única. Los datos públicos permiten obtener 200×100+4000=24000; conservar el neto 19000 revela 5000 de descuento (25% del catálogo), y publicar el ahorro lo expone igualmente. Por ello debe clasificarse la capacidad de inferencia de cada versión antes de entregarla; ocultar solo casilla o nombre no protege el dato. Mantener el sustento íntegro internamente no autoriza divulgarlo. Se corrigió la mera suma de custodia y reserva: el cálculo determina la versión entregable. El caso de dimensiones públicas/plano privado de N028 no exigía reconstrucción matemática de un dato protegido.",
+      "evidence": [
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1-47.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1 y 54.2.c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N012",
+      "verdict": "approve",
+      "reason": "Clave D única. La omisión inicial de Pino no determina su estado final: el acta definitiva lo admite y la exclusión por experiencia ocurre después. Abeto nunca pasa admisión. La exclusión de acceso de 79.2 recae sobre Abeto, no sobre toda oferta descartada; el tablero no sustituye actos decisorios. Se preservan ambas en el expediente y se aplica el plazo del día hábil siguiente mencionado en explicación. Reconstruir estados cambia el paquete de acceso, superando el recuerdo de plazo anterior y diferenciándose de N088, que da directamente la condición admitida/no admitida.",
+      "evidence": [
+        {
+          "chunkId": "cc8c9436-7e03-4e47-aa64-4b1a30ab1268",
+          "article": "79",
+          "numeral": "79.1-79.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N013",
+      "verdict": "approve",
+      "reason": "Clave A única. Solo Sierra está desierto y necesita siguiente convocatoria; su cadena modificación-no objeción-aprobación-bases termina el jueves. La no objeción del miércoles no sustituye la nueva aprobación exigida por 54.4 y 63.1. El 84.2 permite avanzar independientemente de Puerto, y la evaluación todavía abierta de Valle no lo convierte en desierto. La clasificación de estados y secuencia documental determinan tanto el ámbito como el primer día viable; no se reproduce la simple consecuencia de reaprobar del banco.",
+      "evidence": [
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.1-84.3"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.4"
+        },
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N014",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La secuencia de dos desiertos obliga a identificar la aprobación pertinente: el primero sustituyó quince por treinta días; el segundo no exige modificar esa versión y permite conservarla para la tercera convocatoria. La dispensa no revive versiones anteriores. La clave depende de reconstruir la historia y aplicar la salvedad en su momento, no solo de contar desiertos. El texto de 55.1 vincula las bases al expediente correspondiente.",
+      "evidence": [
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a y 54.4"
+        },
+        {
+          "chunkId": "bd84aab5-120f-4768-a955-c6bf52c71d88",
+          "article": "55",
+          "numeral": "55.1"
+        },
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.3.a"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N015",
+      "verdict": "approve",
+      "reason": "Clave C única. Cada bloque de dos meses exige financiar 2×60000=120000, y tres bloques cubren los seis meses con los tres pagos procesables. Bloques de tres necesitan 180000 y pagos mensuales exceden la capacidad administrativa. Esa solución concreta elimina la causa financiera del desierto sin adelantos; cambiar los documentos de pago exige nueva aprobación por 54.4 aunque el total no cambie. La corrección elimina el control accesorio sobre autoría del informe y hace que el calendario calculado determine los documentos que deben actualizarse. Es distinta de N084, cuyo diagnóstico y propuesta son logísticos sin esta restricción de tesorería.",
+      "evidence": [
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.3.c"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.h"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c y 54.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N016",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La evidencia sobre inexistencia de acreditador revierte un presupuesto que parecía satisfecho para exigir una norma voluntaria. Debe distinguirse esa condición de las normas obligatorias y reconducir el requerimiento a una alternativa funcional verificada, con no objeción y actualización documental. Las opciones no autorizan inventar una declaración sustitutiva ni eliminar el desempeño. Los numerales y la continuación de 44.7 sustentan la clave.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.5.i-iv"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.7"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N017",
+      "verdict": "approve",
+      "reason": "Clave A única por el objetivo expreso de menor costo viable. Tras preparación 1-6, tierra intentaría cruzar el día 9 con puente cerrado y terminaría instalación el 11; gestión aérea de la entidad llega el 11 y termina el 13. Reserva estándar del contratista llega el 8, instala 9-10 y cuesta 120000. La prioritaria llega el 7 y termina el 9, pero cuesta 5000 más sin ser necesaria. Asignación, disponibilidad y secuencia cambian viabilidad y costo sobre el mismo objetivo. Duraciones y reservas son hechos técnicos, no plazos normativos; ahora sí se resuelve la estrategia antes genérica.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.3"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1, 46.1.o, 46.1.s y 46.2"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.1, 46.1.o, 46.1.s y 46.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N018",
+      "verdict": "approve",
+      "reason": "Clave B única. El alcance suma 2,2L: paquete con logística 0,1L cuesta 2,3L; por separado cuesta 2,8L. Tres ítems cuestan 0,9L, 1,4L y 0,5L, y dos no superan L. La agrupación alternativa produce dos ítems admisibles de 1,1L y 1,4L, pero totaliza 2,5L, mayor que el paquete con igual calidad y plazo. La decisión exige clasificar mecanismos y comparar costos completos; no se declara paquete obligatorio universal ni se omite logística. L remite al límite vigente sin inventar una cifra legal. A diferencia de N031, aquí existe alternativa válida por ítems y debe decidirse entre ella y el paquete por eficiencia calculada.",
+      "evidence": [
+        {
+          "chunkId": "177b052b-4299-4ac1-99f2-ad583387f8b7",
+          "article": "52",
+          "numeral": "52.1.a-b (incluida modificatoria) y 52.2"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.c-d"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N019",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. El cambio de sistema de entrega altera qué componente se contrata y quién debe aportar el diseño: en diseño y construcción lo elabora el contratista; al pasar a solo construcción se requiere expediente técnico aprobado. La información básica antes útil resulta insuficiente por esa clasificación previa. La clave se limita a esa inconsistencia y no presume que aprobar el expediente de contratación cree un expediente técnico. Se revisaron también las continuaciones de 158, que modifican otros sistemas y no cambian sus literales a-b.",
+      "evidence": [
+        {
+          "chunkId": "484fc1e9-ebcb-4bf7-aa91-b9b063ebcdb8",
+          "article": "158",
+          "numeral": "158.1.a-b"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.i"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.g"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N020",
+      "verdict": "approve",
+      "reason": "Clave D única. El requerimiento preliminar funcional es admisible en la ruta con diálogo habilitada por estipulación; esa ruta termina 35+20=55 antes del límite 57. La ordinaria necesita cerrar primero el requerimiento durante diez días y totaliza 10+25+25=60; no puede omitir ni solapar el antecedente expresamente necesario. Clasificar la ruta cambia el soporte disponible para aprobar y convocar, y después el cálculo decide viabilidad. No se convierte la estimación en plazo legal ni se afirma habilitación real fuera del supuesto. Se reemplazaron los dos controles independientes de la versión inicial por una cadena material única.",
+      "evidence": [
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.11"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.a y 46.1.o"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a-c"
+        },
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N021",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. El precio inicial ya cubre seis meses: la decisión exige separar la prestación incluida de los dieciocho meses adicionales, añadir la conexión y contrastar con la certificación. El total 180 000 + 18 por 2 500 + 8 000 es 233 000, no 248 000, y queda dentro de 235 000. A diferencia de la cotización por umbral de unidades del banco, aquí debe evitarse duplicar cobertura temporal incluida. Las alternativas corresponden a errores concretos de alcance.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.2"
+        },
+        {
+          "chunkId": "7c7ba5aa-a709-4ea8-b776-5ee03799808e",
+          "article": "54",
+          "numeral": "54.2.a, d y f"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N022",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La redistribución está condicionada por un bloque fijo y máximos: subir ambiental diez obliga a bajar tiempo diez y da 60 + 25 + 15 = 100. No basta conservar cien si se altera el bloque obligatorio, ni normalizar 110. La decisión de incorporación corresponde a la DEC según 55.2 modificado; la clave presenta una distribución materialmente viable que esta puede evaluar. Los puntos se declaran datos del caso, no porcentajes normativos universales.",
+      "evidence": [
+        {
+          "chunkId": "bd84aab5-120f-4768-a955-c6bf52c71d88",
+          "article": "55",
+          "numeral": "55.2 modificado y 55.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N023",
+      "verdict": "approve",
+      "reason": "Ítem íntegramente sin cambios respecto de tmp/cinco-simulaciones-qa/originales/lote-1.json. La discrepancia Sur-Norte es registral, pero Este nace de una necesidad posterior: clasificar el origen del cambio determina si procede rectificar o aplicar la incorporación de una contratación no programada. Encadenar dos rectificaciones no convierte el segundo cambio en error material. El caso declara expresamente incluido el nuevo servicio en el ámbito de la regla del artículo 11; revisado el 7.2 de la Directiva, no se extiende esa regla fuera del supuesto delimitado. Se contrastó N044 corregida del lote 2: ahora trata el indicador de oportunidad tras rectificar un mes, sin incorporación de necesidad nueva, por lo que la duplicación transversal anterior quedó eliminada.",
+      "evidence": [
+        {
+          "chunkId": "dab3f94c-c442-4ab5-be38-439f2babc1fe",
+          "article": "15",
+          "numeral": "15"
+        },
+        {
+          "chunkId": "72d0478b-e805-4506-af75-2767ab6aaa23",
+          "article": "11",
+          "numeral": "11"
+        },
+        {
+          "chunkId": "c56b45bb-2f8d-43f5-9407-5af2b95fd63a",
+          "article": "7",
+          "numeral": "7.2"
+        }
+      ],
+      "issues": []
+    }
+  ]
+}

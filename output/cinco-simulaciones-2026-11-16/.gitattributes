@@ -1,0 +1,2 @@
+# Conserva los bytes exactos que identifican los hashes de revisión.
+lote-*.json -text whitespace=cr-at-eol

@@ -1,0 +1,463 @@
+{
+  "lote": 2,
+  "sha256": "1e1ac13b986c8af7df60cade871e79585ded77033b48e5510f4f8efa3297184a",
+  "items": [
+    {
+      "numero": "N024",
+      "verdict": "approve",
+      "reason": "Clave A única. La acreditación cubre diez años de legibilidad solo hasta 50% de humedad; el ensayo hasta 75% acredita otra propiedad y no completa la duración/legibilidad entre 50% y 70%. La evidencia del otro proveedor sí cubre la necesidad dada y debe valorarse al reformular la acreditación, sin adjudicar. Se resolvió el defecto anterior: ahora es necesario clasificar y combinar alcances de evidencia antes de aplicar las condiciones acumulativas de 44.5; la mera existencia del acreditador ya no decide. Los porcentajes y ensayos son hechos hipotéticos, no umbrales legales.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.1, 44.2.a, 44.5.i-iv y 44.6"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N025",
+      "verdict": "approve",
+      "reason": "Clave B única: 260 posiciones nominales menos 30 indisponibles dejan 230 frente a una necesidad simultánea de 240 sin alternativa de almacenamiento. El cálculo de capacidad útil determina la objeción sustentada de 44.8; no se confunde con una prohibición de modificar por la DEC. Frente al caso previo del laboratorio, aquí decide un déficit de almacenamiento simultáneo y no una compensación de velocidad y calibración.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a, 44.7 y 44.8"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.2.a, 44.7 y 44.8"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N026",
+      "verdict": "approve",
+      "reason": "Clave C única: sin red no pueden realizarse pruebas, de modo que la incertidumbre de otro contrato afecta directamente el objetivo y cronograma de esta adquisición. La dependencia causal exige analizar y asignar el riesgo, sin trasladarlo automáticamente al proveedor ni suprimir pruebas. Se confirma con 44.3 y 46.1.o/s, leída su continuación; no se limita a enumerar riesgos como la pregunta anterior del banco.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a y 44.3"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.2.a y 44.3"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.o y 46.1.s"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.1.o y 46.1.s"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N027",
+      "verdict": "approve",
+      "reason": "Clave D única: eliminar 100000 del monitoreo reduce su importe de 220000 a 120000 y cambia la prestación predominante frente a sensores de 170000. La salvaguarda sobre naturaleza está expresamente satisfecha. Hay una modificación previa que debe incorporarse antes de clasificar el objeto; no es mero cambio de cifras de la comparación estática de bienes y servicios del banco.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.7 y 44.10"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.7 y 44.10"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N028",
+      "verdict": "approve",
+      "reason": "Clave A única: debe distinguirse el plano no público de las dimensiones públicas que permiten corregir el encaje para todos. La reserva de la fuente no se transmite automáticamente a información pública independiente. Esta clasificación permite perfeccionar el requerimiento sin divulgar el plano; añade un problema de aprovechamiento lícito del hallazgo frente al caso previo de simple entrega de costos confidenciales.",
+      "evidence": [
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1 y 47.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N029",
+      "verdict": "approve",
+      "reason": "Clave B única: el contrato propio solo cubre escaneo y el actual incorpora dos tareas adicionales, por lo que primero debe analizarse comparabilidad y alcance. El contrato de otra entidad aporta una segunda fuente admitida para indagación avanzada; la antigüedad no suple el número de fuentes ni la equivalencia funcional. Las dos comprobaciones responden al mismo defecto de estimación, sin promediar alcances distintos.",
+      "evidence": [
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        },
+        {
+          "chunkId": "059e3aeb-6b60-416a-a044-abcfeee25863",
+          "article": "48",
+          "numeral": "48.1, 48.2 y 48.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N030",
+      "verdict": "approve",
+      "reason": "Clave C única: la retroalimentación trazable requiere herramienta escrita y la explicación simultánea requiere reunión de uno a muchos. La combinación responde al flujo de obtener comentarios y comunicar los ajustes, y cumple dos herramientas para consulta avanzada. No reproduce el caso previo del taller repetido que necesitaba detalles individuales de arquitectura.",
+      "evidence": [
+        {
+          "chunkId": "dc353985-af23-42bb-9012-4e5e06e55c9b",
+          "article": "49",
+          "numeral": "49.1 y 49.2"
+        },
+        {
+          "chunkId": "b0c4df12-e98f-48a8-821c-196bc315d20a",
+          "article": "50",
+          "numeral": "50.1.a y 50.1.b.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N031",
+      "verdict": "approve",
+      "reason": "Clave D única: el límite se aplica a cada contratación individual; 14 y 11 UIT lo superan y 6 no. La separabilidad y eficiencia acreditadas permiten retirar solo el tercero conservando adjudicación independiente de los restantes. No se presupone que la suma habilita al ítem menor ni se recomienda fraccionarlo; la conclusión se limita a la configuración examinada. Se verificaron 52.1.b modificado, 52.2 y 34.1 de la Ley.",
+      "evidence": [
+        {
+          "chunkId": "177b052b-4299-4ac1-99f2-ad583387f8b7",
+          "article": "52",
+          "numeral": "52.1.b (texto modificado) y 52.2"
+        },
+        {
+          "chunkId": "f599dccb-4357-4eae-87db-2e2095a9f16b",
+          "article": "34",
+          "numeral": "34.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N032",
+      "verdict": "approve",
+      "reason": "Clave A única. X factura 100000 capturas iniciales más 20000 repetidas: 120000×0,40=48000. Y factura 100000 resultados aceptados con recapturas incluidas: 100000×0,46=46000. Normalizar unidades de facturación invierte la preferencia aparente por tarifa menor y determina la referencia de cuantía según el criterio motivado del supuesto. Se elimina la duplicación con 847fbceb-0d98-5e59-8eb3-4341f23a848a: ya no hay descuento por volumen ni reducción del requerimiento, sino intentos frente a resultados. El menor costo como criterio de referencia es un hecho del caso, no una regla de adjudicación atribuida a 47 o 53.",
+      "evidence": [
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N033",
+      "verdict": "approve",
+      "reason": "Clave B única: la segunda tecnología requiere 50000×0,60=30000 de consumibles y totaliza 55000 frente a 45000 de la primera, cuyos consumibles ya están incluidos. La dependencia entre volumen previsto y costo de operación invierte la preferencia por precio inicial. El caso previo de bombas incluía reposición y continuidad excluyente; aquí el factor decisorio específico es consumo exclusivo por unidad producida, no una sustitución de nombres y cifras de aquella restricción.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.1 y 44.4"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.1 y 44.4"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1, análisis integral y valor por dinero"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.1, análisis integral y valor por dinero"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N034",
+      "verdict": "approve",
+      "reason": "Clave C única: el CMN ya cubría 1200 y el primer requerimiento omitió 200; el evento posterior explica únicamente las otras 300. Distinguir magnitudes programadas y causa del incremento impide tratar 500 como imprevisibles por la sola fecha del nuevo pedido. Las comprobaciones de 45.2.b son interdependientes y delimitan el alcance de una misma excepción, sin declarar aprobada toda la contratación.",
+      "evidence": [
+        {
+          "chunkId": "fbff2c4f-98f7-4c03-837c-6c9f28d064b4",
+          "article": "45",
+          "numeral": "45.2.b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N035",
+      "verdict": "approve",
+      "reason": "Clave D única: la transferencia posterior financia una demanda conocida, no genera necesidad imprevisible. Esa clasificación causal lleva a examinar la excepción presupuestal y su informe específico, sin declarar automáticamente fraccionamiento ni aprobar la excepción sin evidencia. Añade selección entre causales frente al recuerdo aislado del informe presupuestal del banco.",
+      "evidence": [
+        {
+          "chunkId": "fbff2c4f-98f7-4c03-837c-6c9f28d064b4",
+          "article": "45",
+          "numeral": "45.2.a y 45.2.b"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N036",
+      "verdict": "approve",
+      "reason": "Clave A única: la ficha cubre medidores y excluye instalación, por lo que deben delimitarse prestaciones antes de aplicar las condiciones homologadas. El complemento requiere formulación funcional propia; ni permite ignorar lo homologado ni extenderlo mecánicamente a una prestación excluida. Ese alcance parcial añade análisis frente a la pregunta anterior sobre una ficha que comprendía el requerimiento.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a y 44.9"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.2.a y 44.9"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N037",
+      "verdict": "approve",
+      "reason": "Clave B única: la móvil supera 90% y conserva continuidad; la fija descrita supera la detección pero incumple la otra condición funcional. La comparación muestra que imponer arquitectura fija impediría una solución apta y admitiría una inadecuada para la necesidad. Se aplica el requerimiento preliminar de 44.11 sin adjudicar ni cerrar el diálogo, cuya elección válida se da como hecho.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.1, 44.6 y 44.11"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.1, 44.6 y 44.11"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N038",
+      "verdict": "approve",
+      "reason": "Clave C única: identificar una condición obligatoria excluye el mercado de equipos sin protección, que además no pueden adaptarse; esa exclusión cambia el referente pertinente de 160000 a 190000. El ajuste técnico determina el económico, por lo que no son controles independientes. Los artículos 44.5, 47.1 y 53.1/2 sustentan actualizar el alcance y su cuantía, sin convertir la obligación en mejora opcional.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.5"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.5"
+        },
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N039",
+      "verdict": "approve",
+      "reason": "Clave D única. Del 15 de noviembre a las 08:00 al 30 de noviembre a las 08:00 transcurren exactamente quince periodos de 24 horas; entregar el 20 solo deja diez. El adelanto necesario es de cinco días calendario. Se corrigió íntegramente la ambigüedad: inicio inmediato, continuidad durante fines de semana/feriados y ausencia de margen adicional están expresos. C propone una entrega viable pero anterior al último instante pedido y añade una espera legal no sustentada. Los quince periodos son duración técnica estipulada; la norma sustenta revisar ejecución, riesgos y cronograma.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a y 44.3"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.o"
+        },
+        {
+          "chunkId": "10205b1d-7271-4eed-b1da-6b0b6ed41f8a",
+          "article": "46",
+          "numeral": "46.1.s (continuación)"
+        },
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N040",
+      "verdict": "approve",
+      "reason": "Clave A única: la compatibilización respalda la marca, pero no contiene una exclusividad de vendedor; tres distribuidores equivalentes evidencian que esa exclusión comercial no se justifica con la aprobación técnica dada. Delimitar el alcance de la excepción determina qué referencia conservar y qué barrera retirar, sin contradecir la posibilidad reglamentaria de compatibilización.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.6"
+        },
+        {
+          "chunkId": "88817114-d891-44f7-b8a0-802a9b1247a4",
+          "article": "44",
+          "numeral": "44.6"
+        },
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N041",
+      "verdict": "approve",
+      "reason": "Clave B única: primero se retira el ítem y la base pasa a 240000; el 95% de esa base es 228000. Como la cuantía es referencia necesaria de la oferta porcentual, opera la excepción de publicidad de 53.4. El cálculo y divulgación recaen sobre la misma base modificada y son interdependientes; no se inventa una modalidad porque su validez está estipulada.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.3 (texto modificado) y 53.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N042",
+      "verdict": "approve",
+      "reason": "Clave C única: 126000+84000=210000 ya incluye los 10000 de traslado distribuidos entre ambos ítems. Hay que identificar la inclusión previa del costo común antes de sumar la cuantía; agregarlo otra vez produce doble conteo. Añade esa clasificación contable frente a la pregunta anterior que sumaba conceptos expresamente separados y no incluidos entre sí.",
+      "evidence": [
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.2 y 53.3 (texto modificado)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N043",
+      "verdict": "approve",
+      "reason": "Clave D única. El resultado exigido es validado: escanear 2×12000×30=720000 no evita el límite de 18000×30=540000 folios entregables. Para 600000 en 30 jornadas se necesitan al menos 20000 validaciones por jornada, factibles dentro de la ampliación hasta 24000. El modelo operativo paralelo está expresamente estipulado y evita inferir una demora de arranque no dada. Se resolvió el análisis antes anunciado como ya comprobado: ahora debe identificarse el cuello de botella y la corrección mínima. La referencia a experiencia delimita la propuesta que aún debe revisarse; no establece equivalencia automática entre dos contratos ni exige resolver una calificación sin datos. Los rendimientos son hechos técnicos y no umbrales normativos.",
+      "evidence": [
+        {
+          "chunkId": "4d7d9d61-2f43-4e5f-ac1b-af1f2b069308",
+          "article": "44",
+          "numeral": "44.2.a-b y 44.6"
+        },
+        {
+          "chunkId": "43684e87-639c-49ef-8bbd-d70ea1aa0325",
+          "article": "46",
+          "numeral": "46.1.f"
+        },
+        {
+          "chunkId": "3e8aa2d8-bb3e-416b-b8b4-9bf6cca0070e",
+          "article": "47",
+          "numeral": "47.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N044",
+      "verdict": "approve",
+      "reason": "Clave A única. El artículo 15 obliga a restablecer marzo, que consta en el formato firmado; la convocatoria real en abril no permite reescribir la programación. Esa clasificación previa cambia el numerador del indicador de oportunidad de 13.3: nueve en el mes previsto sobre diez programadas convocadas, 90%. El universo válido y la inexistencia de exclusiones adicionales están fijados, de modo que rectificar no reduce el denominador. La tabla literal del corpus identifica correctamente numerador y denominador. Se contrastó N023 del lote 1: allí se decide rectificación frente a sustitución por una necesidad nueva y su incorporación como no programada; aquí no existen nuevas necesidades y la decisión posterior es el efecto de la rectificación sobre la medición. Ya no repite su estructura decisoria.",
+      "evidence": [
+        {
+          "chunkId": "cceea96e-561f-40fc-94c4-ee0163ab5275",
+          "article": "13",
+          "numeral": "13.3, Tabla 1, indicador 2 de oportunidad de convocatoria"
+        },
+        {
+          "chunkId": "dab3f94c-c442-4ab5-be38-439f2babc1fe",
+          "article": "15",
+          "numeral": "Artículo 15, rectificación del PAC"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N045",
+      "verdict": "approve",
+      "reason": "Clave B única: los totales finales del CMN son 60+40=100 y las 20 ya forman parte de las primeras 60. Identificar que el pedido parcial está incluido evita inflar la necesidad a 120 antes de agrupar en un objeto contractual y asignar el procedimiento. La viabilidad del agrupamiento está estipulada; la decisión añade depuración de demanda frente al recuerdo de 6.3 del banco.",
+      "evidence": [
+        {
+          "chunkId": "325ba101-77a7-46e8-ab1d-4fb9651759a7",
+          "article": "6",
+          "numeral": "6.1 y 6.3 (texto modificado)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N046",
+      "verdict": "approve",
+      "reason": "Clave C única: clasificar la primera publicación como anuncio de intención y la segunda como herramienta de consulta determina obligaciones distintas. No puede tratarse el anuncio sobre alcance preliminar como recepción y absolución de consultas todavía no formuladas. La secuencia de dos actuaciones explica por qué debe desarrollarse la difusión posterior; se leyeron 51.3 modificado y 51.4/5, no el antiguo plazo de tres días para absolver.",
+      "evidence": [
+        {
+          "chunkId": "a3a2764c-c81e-43c9-afcf-2054a5ebc399",
+          "article": "43",
+          "numeral": "Encabezado modificado y literales a a d"
+        },
+        {
+          "chunkId": "59c25e30-8138-44d3-900a-d0094fb64cdb",
+          "article": "51",
+          "numeral": "51.1 (modificado), 51.2, 51.3 (modificado), 51.4 y 51.5"
+        },
+        {
+          "chunkId": "b34a6545-afc5-4d9d-aeb6-e63d6c7d79ea",
+          "article": "51",
+          "numeral": "51.1 (modificado), 51.2, 51.3 (modificado), 51.4 y 51.5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N047",
+      "verdict": "approve",
+      "reason": "Clave D única. La modificación expresa con no objeción exige dos copias completas: 2 GB/día×90 días×2=360 GB físicos; la tarifa por capacidad para todo el periodo determina 360×10=3600 soles, sin volver a multiplicar por días. El cambio tratado en la reunión obliga a actualizar alcance y cuantía; el acta previa no contiene la aclaración posterior y la grabación no sustituye publicar el acta de reunión el lunes hábil siguiente. Se resolvió el recuerdo aislado de plazo: ahora debe traducirse la modificación funcional a capacidad y costo antes de cerrar los documentos finales. Publicación y actualización documentan el mismo cambio, no dos controles materiales ajenos. Se verificaron 51.1 modificado, 51.4/5 y 53.1/2; la retención y tarifa son datos del caso.",
+      "evidence": [
+        {
+          "chunkId": "59c25e30-8138-44d3-900a-d0094fb64cdb",
+          "article": "51",
+          "numeral": "51.1 (texto modificado)"
+        },
+        {
+          "chunkId": "b34a6545-afc5-4d9d-aeb6-e63d6c7d79ea",
+          "article": "51",
+          "numeral": "51.4 y 51.5"
+        },
+        {
+          "chunkId": "69804433-840e-47aa-a1d4-f7bad02b98c7",
+          "article": "53",
+          "numeral": "53.1 y 53.2"
+        }
+      ],
+      "issues": []
+    }
+  ]
+}

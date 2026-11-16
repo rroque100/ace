@@ -1,0 +1,319 @@
+{
+  "lote": 4,
+  "sha256": "b8f8e9156da7ad95459728130e39b579cc3590f2937c4b88e0655189feb70540",
+  "items": [
+    {
+      "numero": "N071",
+      "verdict": "approve",
+      "reason": "Clave B única: max(22,19+7)=26 en la escala expresamente hábil. Los dos mínimos convergen sobre la misma decisión; no se suman ni reinician. Añade cálculo decisorio frente al recuerdo de 64.1 del banco anterior.",
+      "evidence": [
+        {
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "article": "64",
+          "numeral": "64.1"
+        },
+        {
+          "chunkId": "d9f8f1fb-8cb3-446b-b2de-660407de38ab",
+          "article": "68",
+          "numeral": "68.1"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N072",
+      "verdict": "revise",
+      "reason": "La clave D sobre la falta de anticipación de cuarenta días calendario está sustentada, pero la cronología interna no: ofertas en el día hábil 15 y ocho días hábiles desde integración sitúan esta en el día 7. El 66.1 concede al menos siete días hábiles desde el día siguiente de convocar para consultas/observaciones y el 66.7 permite integrar al día siguiente de su vencimiento, no el mismo día 7. Además, la explicación presupone ausencia de consultas y observaciones, mientras el enunciado solo excluye consultas. Corregir la secuencia y explicitar ambas ausencias antes de aprobar.",
+      "evidence": [
+        {
+          "chunkId": "3aa037e5-8048-4c8b-902e-2bedae27cc5a",
+          "article": "64",
+          "numeral": "64.1 y 64.3 (incluida modificatoria)"
+        },
+        {
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "article": "66",
+          "numeral": "66.1 y 66.7"
+        },
+        {
+          "chunkId": "d9f8f1fb-8cb3-446b-b2de-660407de38ab",
+          "article": "68",
+          "numeral": "68.1"
+        }
+      ],
+      "issues": [
+        "Cronología incompatible con 66.1 y 66.7: integración implícita demasiado temprana.",
+        "La condición de 66.7 no queda íntegramente expresada: faltan las observaciones."
+      ]
+    },
+    {
+      "numero": "N073",
+      "verdict": "approve",
+      "reason": "Clave A única: clasificar como lista abierta con invitación permite participar sin invitación, pero la precalificación desplaza el cierre ordinario al hito anterior a esa etapa. La secuencia ya vencida impide el registro; RNP y ofertas definitivas futuras no reabren el plazo. No es mera repetición del registro ordinario del banco.",
+      "evidence": [
+        {
+          "chunkId": "15a86496-6720-4c57-b1f0-ebff7c042361",
+          "article": "65",
+          "numeral": "65.1 a 65.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N074",
+      "verdict": "approve",
+      "reason": "Clave C única: primero se determina la regla documental prevalente (pliego) y después se convierten 25 hojas dúplex en 50 imágenes, que superan 40. La no objeción está expresada y no existe pronunciamiento posterior. La conversión decide cumplimiento y añade análisis frente a la pregunta anterior sobre mera prevalencia.",
+      "evidence": [
+        {
+          "chunkId": "c9af34f7-3023-4e29-a0b7-6fa9f6bbbade",
+          "article": "66",
+          "numeral": "66.5 y 66.6"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N075",
+      "verdict": "approve",
+      "reason": "Clave A única: los dos admitidos y calificados pasan a ofertas definitivas; el precio referencial espontáneo no reemplaza la comparación posterior ni habilita al tercero. La exclusión de negociación y diálogo identifica la secuencia aplicable. Se leyeron conjuntamente el inicio y la continuación del artículo modificado.",
+      "evidence": [
+        {
+          "chunkId": "7d0548c2-d326-4fae-8b66-0dae921c5c65",
+          "article": "70",
+          "numeral": "70.3 (texto modificado, inicio)"
+        },
+        {
+          "chunkId": "7757fade-119a-44dc-ab6f-a871c2bf383d",
+          "article": "70",
+          "numeral": "70.3.a y 70.3.b.i (continuación modificada)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N076",
+      "verdict": "approve",
+      "reason": "Clave B única: pago negociable y elementos protegidos se clasifican antes de resolver un paquete expresamente indivisible. La conformidad del área usuaria no permite rebajar el mínimo no negociable ni eliminar el factor. El condicionamiento real del descuento hace interdependientes las condiciones y exige reformulación.",
+      "evidence": [
+        {
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "article": "76",
+          "numeral": "76.1 y 76.2"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N077",
+      "verdict": "approve",
+      "reason": "Clave D única: la segunda comunicación afecta el financiamiento y exige tiempo para ajustar ese cambio. En la escala hábil explícita, los días 5 a 11 proporcionan siete días; mantener el 8 deja cuatro. Hay secuencia y cálculo de reprogramación, sin acumulación artificial de intervalos.",
+      "evidence": [
+        {
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "article": "76",
+          "numeral": "76.5"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N078",
+      "verdict": "revise",
+      "reason": "La clave C está sustentada por 77.4, 77.5 y 77.7, pero agrega dos controles independientes: distinguir requerimiento público de arquitectura reservada, y decidir si el número de rondas puede variar. La ronda adicional no altera la clasificación ni el tratamiento de los documentos y solo se añade para descartar D. Reformular con una dependencia causal que haga necesaria esa ronda para resolver el mismo problema, o retirar ese control.",
+      "evidence": [
+        {
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "article": "77",
+          "numeral": "77.4, 77.5 y 77.7"
+        }
+      ],
+      "issues": [
+        "Acumulación de controles independientes: confidencialidad/publicidad y cantidad de rondas."
+      ]
+    },
+    {
+      "numero": "N079",
+      "verdict": "revise",
+      "reason": "La clave A se confirma en 77.1, pero el enunciado ya entrega el resultado de toda calificación: solo queda un precalificado y no existen otros. Resolver consiste exclusivamente en recordar el mínimo de dos; las dos soluciones y el descuento no cambian ninguna clasificación ni requieren cálculo decisorio o secuencia por resolver. Incorporar hechos que obliguen a determinar previamente quiénes quedan habilitados, sin dar resuelta esa conclusión.",
+      "evidence": [
+        {
+          "chunkId": "7757fade-119a-44dc-ab6f-a871c2bf383d",
+          "article": "70",
+          "numeral": "70.3.a y 70.3.b.iii"
+        },
+        {
+          "chunkId": "ea580a32-b89f-4b93-87b9-148693998712",
+          "article": "77",
+          "numeral": "77.1"
+        }
+      ],
+      "issues": [
+        "Exigencia cognitiva insuficiente para caso complejo: aplicación directa de un único umbral con calificación ya resuelta."
+      ]
+    },
+    {
+      "numero": "N080",
+      "verdict": "approve",
+      "reason": "Clave D única: transcurrido el plazo de respuesta se autoriza la ampliación, mientras la subsanación efectiva sigue pendiente y condiciona la vigencia. Distingue el efecto temporal del silencio del cumplimiento documental. Los plazos se expresan como hábiles y la oportunidad se declara no controvertida; no se traslada el régimen de perfeccionamiento de 90.3 a esta subsanación de ofertas.",
+      "evidence": [
+        {
+          "chunkId": "0ef1ea70-94dd-4543-b8c3-b43dd38e89a4",
+          "article": "78",
+          "numeral": "78.1 (incluida modificatoria)"
+        },
+        {
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "article": "78",
+          "numeral": "78.4"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N081",
+      "verdict": "approve",
+      "reason": "Clave B única: 120×35+80×50=8200. El cálculo decide entre rectificación y cambio sustantivo del precio unitario; conservar 7400 obligaría a cambiar el precio expreso. La cita de continuación contiene íntegro el 78.3. Aunque existe una pregunta anterior sobre errores aritméticos, aquí se exige resolver el importe y rechazar una reformulación comercial concreta.",
+      "evidence": [
+        {
+          "chunkId": "6cbadd98-5c39-4967-b582-9d359b6caf00",
+          "article": "78",
+          "numeral": "78.3"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N082",
+      "verdict": "approve",
+      "reason": "Clave C única: cuatro invitaciones cumplen 97.2, pero la habilitación inexistente y no subsanable deja solo una oferta calificada, por lo que 98.1 modificado ordena desierto. Se distingue la población invitada de la habilitada para la fase económica. No duplica el caso anterior de dos calificadas empatadas, cuyo problema y desenlace son distintos.",
+      "evidence": [
+        {
+          "chunkId": "fb9848df-bd5a-4856-96fb-e5f841e2e2ee",
+          "article": "97",
+          "numeral": "97.2"
+        },
+        {
+          "chunkId": "8eec16c5-e9f2-4a03-b9c9-ec1acf0ff1b8",
+          "article": "98",
+          "numeral": "98.1 (texto modificado)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N083",
+      "verdict": "approve",
+      "reason": "Clave A única: tras calificar sucesivamente los cuatro quedan Roble y Olmo; el texto modificado exige al menos dos ofertas calificadas, no tres como mínimo absoluto. Se conserva la prelación económica entre quienes cumplen, sin evaluación técnica. Se verificó la continuación de 96.5, que cambia materialmente la lectura del texto anterior.",
+      "evidence": [
+        {
+          "chunkId": "eac1ab4a-6e1e-4f39-a922-8a72c17dc52b",
+          "article": "96",
+          "numeral": "96.3 a 96.5 (inicio y modificatoria)"
+        },
+        {
+          "chunkId": "07bd87d3-f447-4961-971a-4e7e3e1b56af",
+          "article": "96",
+          "numeral": "96.5 (continuación modificada)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N084",
+      "verdict": "approve",
+      "reason": "Clave D única: ausencia total de ofertas determina que informe la DEC; la causa logística acreditada orienta la propuesta a la estrategia, sin obligar a cambiar especificaciones no defectuosas. El diagnóstico condiciona responsable y actuación antes de reconvocar. No reproduce el caso del banco sobre cuantía omitida y nueva aprobación presupuestal.",
+      "evidence": [
+        {
+          "chunkId": "74d99a7c-18fc-4b2c-8107-bbf551658d71",
+          "article": "84",
+          "numeral": "84.1 y 84.3.a a 84.3.c"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N085",
+      "verdict": "revise",
+      "reason": "La clave B se confirma con el 85.1 modificado. Sin embargo, el enunciado declara resueltos causal, validez, ejercicio e identidad material del objeto: basta reproducir la prohibición. El nuevo nombre y la existencia de presupuesto no generan una clasificación pendiente ni hechos interdependientes. Introducir una controversia material de identidad o causal que deba resolverse antes de escoger la consecuencia, manteniendo una respuesta única.",
+      "evidence": [
+        {
+          "chunkId": "2052552c-f7c3-42b6-a47c-8832deddf7a8",
+          "article": "85",
+          "numeral": "85.1 (texto modificado)"
+        }
+      ],
+      "issues": [
+        "Exigencia cognitiva insuficiente: todas las premisas de la prohibición ya están expresamente resueltas."
+      ]
+    },
+    {
+      "numero": "N086",
+      "verdict": "approve",
+      "reason": "Se revisó la versión actualizada: clave C única. La publicación del jueves en Pladicop determina la apertura del registro el viernes; el miércoles es previo. Primero se identifica la convocatoria efectiva y después se deriva la ventana del registro en lista abierta sin precalificación. La difusión del lunes no sustituye el hito. Esta versión sí integra una secuencia decisoria.",
+      "evidence": [
+        {
+          "chunkId": "e2b908ad-657f-45e0-9949-1021c5d5e812",
+          "article": "63",
+          "numeral": "63.1 a 63.3"
+        },
+        {
+          "chunkId": "15a86496-6720-4c57-b1f0-ebff7c042361",
+          "article": "65",
+          "numeral": "65.1, 65.2 y 65.4.a"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N087",
+      "verdict": "approve",
+      "reason": "Clave A única: el plazo común de cuestionamientos vence el jueves de semana 1; los cuatro días posteriores son viernes, lunes, martes y miércoles de semana 2. La primera solicitud no inicia el cómputo de registro. Se comprobaron las dos continuaciones modificadas y la escala hábil con exclusión de feriados.",
+      "evidence": [
+        {
+          "chunkId": "88e765f8-0271-487c-aaa0-f1bb6ac9872c",
+          "article": "67",
+          "numeral": "67.1 y 67.2 (inicio modificado)"
+        },
+        {
+          "chunkId": "a48c3db3-ef20-4dc4-9306-2a1f751404c7",
+          "article": "67",
+          "numeral": "67.2 y 67.3 (continuación modificada)"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N088",
+      "verdict": "approve",
+      "reason": "Clave D única: la publicación del miércoles cambia el régimen de acceso y la clasificación de cada documento determina el alcance de la respuesta. Se permite acceso al acta y subsanaciones no reservadas del ganador, excluyendo información de oferta no admitida, a más tardar el jueves hábil. Añade transición temporal y tratamiento de subsanaciones frente al caso anterior de acceso posterior a buena pro.",
+      "evidence": [
+        {
+          "chunkId": "cc8c9436-7e03-4e47-aa64-4b1a30ab1268",
+          "article": "79",
+          "numeral": "79.1 y 79.2"
+        },
+        {
+          "chunkId": "267a82de-832c-4d4e-bda2-e6e7017ba2a8",
+          "article": "80",
+          "numeral": "80"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "numero": "N089",
+      "verdict": "revise",
+      "reason": "La clave B se confirma literalmente en el 76.6 modificado, pero no hay reconstrucción por resolver: el enunciado dice que todos los cambios fueron válidos, comunicados y oportunos, y pregunta qué documentos deben publicarse al cierre. Basta recordar acta y bases definitivas; no es necesario usar la frecuencia ni el pago modificados para decidir. Reformular para que identificar la versión aplicable cambie una decisión concreta sobre ofertas finales.",
+      "evidence": [
+        {
+          "chunkId": "ed950ec5-b944-4d8d-82ba-c132c1e9e062",
+          "article": "76",
+          "numeral": "76.2 y 76.6 (texto modificado)"
+        }
+      ],
+      "issues": [
+        "Exigencia cognitiva insuficiente: recuerdo del contenido obligatorio de publicación sin aplicación sustantiva de los cambios."
+      ]
+    }
+  ]
+}
