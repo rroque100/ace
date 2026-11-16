@@ -120,7 +120,7 @@ describe("mensaje de bienvenida que el administrador entrega", () => {
 
   it("lleva lo necesario para entrar y explica el cambio de contraseña", () => {
     const m = mensajeBienvenida(datos);
-    for (const parte of ["Hola María,", "https://ace.example/login", "45871236", "Ace-abc123def456!9", "Centro Jurídico, Simulacro de examen", "elegir tu propia contraseña"]) {
+    for (const parte of ["Hola María,", "https://ace.example/login", "45871236", "Ace-abc123def456!9", "Centro Jurídico, Cursos y simulacro de examen", "elegir tu propia contraseña"]) {
       expect(m, parte).toContain(parte);
     }
   });

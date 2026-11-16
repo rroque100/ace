@@ -49,6 +49,14 @@ describe("rutas que abre cada módulo: todo lo demás está cerrado", () => {
       expect(rutaPermitidaExterno(ambos, ruta), ruta).toBe(false);
     }
   });
+  it("el simulacro abre también los cursos y su API de progreso; el Centro Jurídico no", () => {
+    for (const ruta of ["/cursos", "/cursos/certificacion-oece", "/cursos/certificacion-oece/garantias", "/api/cursos/progreso"]) {
+      expect(rutaPermitidaExterno(simulacro, ruta), ruta).toBe(true);
+      expect(rutaPermitidaExterno(juridico, ruta), ruta).toBe(false);
+      expect(moduloDeRuta(ruta), ruta).toBe("simulacro");
+    }
+    expect(rutaPermitidaExterno(simulacro, "/cursosx")).toBe(false);
+  });
   it("cada página de cada módulo existe como carpeta de la app o está reservada (el simulacro aún no)", () => {
     expect(LISTA_MODULOS_EXTERNOS).toEqual(["centro_juridico", "simulacro"]);
     for (const modulo of LISTA_MODULOS_EXTERNOS) expect(MODULOS_EXTERNOS[modulo].paginas).toContain(MODULOS_EXTERNOS[modulo].inicio);

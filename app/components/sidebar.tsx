@@ -17,6 +17,7 @@ import {
   FileSearch,
   FileText,
   GitCompare,
+  GraduationCap,
   History,
   Library,
   type LucideIcon,
@@ -67,6 +68,7 @@ const ICONOS: Record<IconName, LucideIcon> = {
   BarChart3,
   Activity,
   ScrollText,
+  GraduationCap,
   Settings,
 };
 
@@ -128,7 +130,8 @@ export function Sidebar({
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawer = useRef<HTMLElement>(null);
-  const mobileItems = ["panel", "chat", "busqueda", "normas", "simulador"]
+  // Caben cuatro: el personal ve Inicio, Chat, Buscar y Normativa; un alumno del simulacro, Inicio, Cursos y Simulador.
+  const mobileItems = ["panel", "chat", "busqueda", "normas", "cursos", "simulador"]
     .flatMap(id => sections.flatMap(s=>s.items).filter(i=>i.id===id)).slice(0,4);
 
   useEffect(() => {
@@ -353,7 +356,7 @@ export function Sidebar({
         ) : null}
       </aside>
       <nav className="aceMobileDock fixed inset-x-0 bottom-0 z-40 grid grid-flow-col auto-cols-fr border-t border-line bg-panel px-2 pb-[max(8px,env(safe-area-inset-bottom))] pt-2 shadow-lg lg:hidden group-has-[.normFocusReading]/workspace:hidden [&>a]:flex [&>a]:min-h-14 [&>a]:min-w-0 [&>a]:flex-col [&>a]:items-center [&>a]:justify-center [&>a]:gap-1 [&>a]:rounded-xl [&>a]:text-[10px] [&>a]:font-medium [&>a]:text-muted [&>a[aria-current=page]]:bg-brand-soft [&>a[aria-current=page]]:text-brand [&>button]:flex [&>button]:min-h-14 [&>button]:flex-col [&>button]:items-center [&>button]:justify-center [&>button]:gap-1 [&>button]:rounded-xl [&>button]:border-0 [&>button]:bg-transparent [&>button]:text-[10px] [&>button]:font-medium [&>button]:text-muted" aria-label="Accesos rápidos">
-        {mobileItems.map(item=>{ const Icon=ICONOS[item.icon]; return <Link key={item.id} href={item.href} aria-current={item.id===active ? "page" : undefined} onClick={()=>setMobileOpen(false)}><Icon size={21} aria-hidden/><span>{item.id==="panel" ? "Inicio" : item.id==="chat" ? "Chat" : item.id==="busqueda" ? "Buscar" : item.id==="normas" ? "Normativa" : "Simulador"}</span></Link>; })}
+        {mobileItems.map(item=>{ const Icon=ICONOS[item.icon]; return <Link key={item.id} href={item.href} aria-current={item.id===active ? "page" : undefined} onClick={()=>setMobileOpen(false)}><Icon size={21} aria-hidden/><span>{item.id==="panel" ? "Inicio" : item.id==="chat" ? "Chat" : item.id==="busqueda" ? "Buscar" : item.id==="normas" ? "Normativa" : item.id==="cursos" ? "Cursos" : "Simulador"}</span></Link>; })}
         <button type="button" aria-label="Más opciones" aria-controls="workspace-menu" aria-expanded={mobileOpen} onClick={()=>setMobileOpen(true)}><Menu size={21} aria-hidden/><span>Más</span></button>
       </nav>
     </>
