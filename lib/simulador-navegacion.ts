@@ -1,3 +1,5 @@
+import { EXAM_CURRICULUM } from "./exam-curriculum";
+
 export type SeccionSimulador = "balotarios" | "banco" | "historial";
 export type ModoBalotario = "practicar" | "examen";
 export type NavegacionSimulador = { seccion: SeccionSimulador; modo: ModoBalotario; attempt?: string };
@@ -18,6 +20,7 @@ export function urlNavegacion(current: URL, nav: NavegacionSimulador): URL {
   url.searchParams.set("seccion", nav.seccion);
   url.searchParams.delete("attempt");
   url.searchParams.delete("vista");
+  url.searchParams.delete("tema");
   if (nav.seccion === "balotarios") url.searchParams.set("vista", nav.modo);
   if (nav.seccion === "historial") url.searchParams.set("vista", "resultados");
   if (nav.seccion === "banco" && nav.attempt) url.searchParams.set("attempt", nav.attempt);
@@ -38,3 +41,15 @@ export function resumirBanco(available: ReadonlyArray<{ published: number }>, ac
   }
   return { total: active + retired, reviewed, pending: active - reviewed, retired };
 }
+
+/**
+ * «Practica este tema» desde el curso: `?tema=2.8` llega al banco con la competencia y el tema del temario oficial
+ * ya elegidos. Se pasa el código y no la etiqueta para que el enlace no se rompa si se reescribe el nombre del tema.
+ * Un código que no existe en el temario se ignora: el banco abre como siempre.
+ */
+export function temaDePractica(params: URLSearchParams): { competency: string; topic: string } | null {
+  const tema = EXAM_CURRICULUM.find((t) => t.code === params.get("tema"));
+  return tema ? { competency: tema.competency, topic: tema.label } : null;
+}
+
+export const hrefPracticarTema = (codigo: string) => `/simulador?seccion=banco&tema=${encodeURIComponent(codigo)}`;

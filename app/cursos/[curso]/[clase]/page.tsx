@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, ClipboardCheck, FileText, Target } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookA, ClipboardCheck, FileText, Target } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
   buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas, vistaProgreso,
@@ -8,6 +8,7 @@ import {
 import { comentariosParaPagina } from "@/lib/cursos/comentarios-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
 import { temasDeClase, textoPeso } from "@/lib/cursos/temario-examen";
+import { hrefPracticarTema } from "@/lib/simulador-navegacion";
 import type { Clase } from "@/lib/cursos/tipos";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../../components/app-shell";
@@ -120,7 +121,16 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                         <span className="text-muted">Tema {t.code} · </span>
                         {t.label}
                       </span>
-                      <span className="font-semibold tabular-nums text-ink">{textoPeso(t.quota)}</span>
+                      <span className="flex items-baseline gap-3">
+                        <span className="font-semibold tabular-nums text-ink">{textoPeso(t.quota)}</span>
+                        <Link
+                          href={hrefPracticarTema(t.code)}
+                          className="text-sm font-semibold text-brand underline"
+                          aria-label={`Practicar el tema ${t.code} en el banco de preguntas`}
+                        >
+                          Practicar
+                        </Link>
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -131,12 +141,20 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 </p>
               )}
               {curso.slug === "certificacion-oece" && (
-                <Link
-                  href={`/cursos/${curso.slug}/ficha`}
-                  className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline"
-                >
-                  <FileText size={15} aria-hidden /> Ficha de plazos y cifras del examen
-                </Link>
+                <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+                  <Link
+                    href={`/cursos/${curso.slug}/ficha`}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline"
+                  >
+                    <FileText size={15} aria-hidden /> Ficha de plazos y cifras del examen
+                  </Link>
+                  <Link
+                    href={`/cursos/${curso.slug}/glosario`}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline"
+                  >
+                    <BookA size={15} aria-hidden /> Glosario de siglas
+                  </Link>
+                </div>
               )}
             </div>
 

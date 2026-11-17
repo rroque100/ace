@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
-import { leerNavegacion, urlNavegacion, resumirBanco, resumirBalotarios } from "@/lib/simulador-navegacion";
+import { leerNavegacion, urlNavegacion, resumirBanco, resumirBalotarios, temaDePractica, hrefPracticarTema } from "@/lib/simulador-navegacion";
+import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 
 it("conserva enlaces antiguos a práctica, examen e historial", () => {
   expect(leerNavegacion(new URLSearchParams())).toEqual({ seccion: "balotarios", modo: "practicar" });
@@ -32,4 +33,19 @@ it("las publicadas con fuentes no elegibles siguen pendientes; las retiradas se 
 
 it("cuenta las revisiones registradas de cada balotario, sin asumir que importar es revisar", () => {
   expect(resumirBalotarios([{ balotario: 1, preguntas: [{ revisada: true }, { revisada: false }] }, { balotario: 2, preguntas: [{ revisada: false }] }])).toEqual({ total: 3, reviewed: 1, pending: 2 });
+});
+
+it("«Practica este tema» del curso llega al banco con la competencia y el tema del temario oficial", () => {
+  for (const t of EXAM_CURRICULUM) {
+    const url = new URL(hrefPracticarTema(t.code), "https://ace.test");
+    expect(leerNavegacion(url.searchParams).seccion, t.code).toBe("banco");
+    expect(temaDePractica(url.searchParams), t.code).toEqual({ competency: t.competency, topic: t.label });
+  }
+  expect(temaDePractica(new URLSearchParams("tema=9.9"))).toBeNull();
+  expect(temaDePractica(new URLSearchParams())).toBeNull();
+});
+
+it("el tema solo vale al entrar: cambiar de sección no lo arrastra", () => {
+  const url = urlNavegacion(new URL("https://ace.test/simulador?seccion=banco&tema=2.8"), { seccion: "historial", modo: "practicar" });
+  expect(url.searchParams.has("tema")).toBe(false);
 });

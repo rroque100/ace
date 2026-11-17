@@ -35,7 +35,7 @@ examen. «Banco» = preguntas publicadas hoy en el simulador para esa subcompete
 | 2.5 | Pérdida de la buena pro | 1 | 5 | — | ❌ |
 | 2.6 | PLADICOP en selección | 2 | 10 | — | ❌ |
 | 2.7 | Interposición de apelaciones | 1 | 6 | XI Apelación | ✅ |
-| 2.8 | Resolución de apelaciones | 1 | 10 | XI (solo quién resuelve) | 🟡 |
+| 2.8 | Resolución de apelaciones | 1 | 10 | XI + XXXIII (trámite, resolución y garantía) | ✅ |
 | 2.9 | Condiciones para perfeccionar el contrato | 1 | 5 | XII Perfeccionamiento (en la sección de ejecución) | ✅ mal ubicada |
 | 2.10 | Requisitos y plazos de perfeccionamiento | 1 | 6 | XII Perfeccionamiento | ✅ mal ubicada |
 
@@ -153,9 +153,12 @@ en el texto de la norma).
    en actuaciones preparatorias), 2.6 (Pladicop en la selección), 2.3 (evaluación y desempate), 3.4
    (recepción y conformidad), 3.7 + 3.8 (expediente técnico, residente, supervisión y gerente de proyecto)
    y 3.11 (valorización, recepción y liquidación de obra); 20 casos y 8 cifras más en la ficha. **Ningún
-   tema oficial queda sin clase**: el trinquete pasa a ser una regla del test. Pendiente: ampliar 2.8
-   (resolución de la apelación: trámite y plazos ante la entidad y el TCP).
-4. **Entrenamiento**: R2 (practicar el tema), R3 (diagnóstico), R5 (glosario).
+   tema oficial queda sin clase**: el trinquete pasa a ser una regla del test.
+4. 🟡 **Entrenamiento**: ✅ 2.8 ampliado con la clase XXXIII (trámite y resolución de la apelación, Arts.
+   305–315 del Reglamento; 7 casos y 4 cifras en la ficha). ✅ R2: «Practicar» junto a cada tema de la
+   clase abre el banco con `?tema=<código>` y deja competencia y tema elegidos. ✅ R5: glosario de siglas
+   (Art. 3.1 del Reglamento más las que usa el curso), con test que exige definir toda sigla nueva.
+   Pendiente: R3 (prueba diagnóstica).
 
 Cada fase en su propio PR, con verificación legal contra el corpus y tests del catálogo (que ya exigen
 base legal, numeración correlativa y que todo artículo citado esté declarado). Se añadirá un test que
