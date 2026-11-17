@@ -665,6 +665,15 @@ export function ExamWorkspace({
                   </span>
                 ))}
               </div>
+              {/* La prueba diagnóstica se pide desde el curso: el resultado útil (qué clases estudiar) vive allí. */}
+              {a.profile === "diagnostico" && (
+                <Link
+                  href="/cursos/certificacion-oece#diagnostico"
+                  className={cn(buttonClasses({ variant: "primary" }), "mt-4")}
+                >
+                  Ver qué clases estudiar primero
+                </Link>
+              )}
             </section>
           )}
           {a.state === "submitted" && (
