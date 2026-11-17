@@ -5,6 +5,11 @@ Todos los cambios notables en este proyecto seran documentados en este archivo.
 El formato esta basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [No publicado]
+
+### Corregido
+- Simulador: las 6 preguntas defectuosas de los balotarios detectadas por el análisis de coherencia (B1-32 «acta de inicio» inexistente; B2-71 clave con procedimiento inexistente; B4-28 enunciado que contradecía su clave; B4-51/68 descripciones de tarifas con claves erróneas; B4-63 sin la cuantía que exige la regla de las 50 UIT) fueron reescritas vía `balotario_reviews` con cita verbatim del corpus, explicación y competencia; respaldo en `docs/supabase/2026-11-17-balotario-defectuosas.sql`.
+
 ## [0.1.0] - 2024-XX-XX
 
 ### Agregado

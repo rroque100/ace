@@ -65,7 +65,7 @@ Ordenados por volumen de preguntas afectadas (balotarios + banco):
 ## 4. Problemas estructurales del simulador (lado preguntas)
 
 1. **Los puntos de control del curso no filtran por tema.** Cada sección enlaza a `/simulador?vista=practicar` prometiendo «preguntas del balotario sobre actores, PAC, expediente…», pero la práctica solo permite elegir balotario completo (72 preguntas de todos los temas). El parámetro `?seccion=` que circula entre alumnos (p. ej. `?seccion=banco`) **no existe** en el simulador y se ignora silenciosamente.
-2. **Preguntas defectuosas en los balotarios** (hallazgo del análisis B4): B4-28 es internamente inconsistente (pregunta cuándo NO queda firme la buena pro y la clave responde el caso en que SÍ); B4-51/68 usan descripciones casi idénticas con claves distintas; B4-63 no da la cuantía que la regla de las 50 UIT exige; B2-71 presenta como clave un procedimiento inexistente («Adjudicación Simplificada»). Ya existe el mecanismo `balotario_reviews` para corregirlas (hoy vacío).
+2. **Preguntas defectuosas en los balotarios** (hallazgo del análisis B4): B4-28 es internamente inconsistente (pregunta cuándo NO queda firme la buena pro y la clave responde el caso en que SÍ); B4-51/68 usan descripciones casi idénticas con claves distintas; B4-63 no da la cuantía que la regla de las 50 UIT exige; B2-71 presenta como clave un procedimiento inexistente («Adjudicación Simplificada»); B1-32 gira sobre un «acta de inicio de obra» que no aparece en el corpus del Reglamento. **Corregidas el 2026-11-17 vía `balotario_reviews`**: 6 revisiones con enunciado, alternativas, clave, explicación y cita verbatim del corpus, a nombre de la cuenta Administradora; respaldo en `docs/supabase/2026-11-17-balotario-defectuosas.sql`.
 3. **Balotarios 1 y 2 sin etiqueta de competencia** (144 preguntas), y los etiquetados no siguen exactamente el blueprint oficial (25/22/25).
 
 ## 5. Recomendaciones
@@ -88,5 +88,5 @@ En `docs/evaluaciones/2026-11-17-anexos-coherencia/`:
 
 - `analisis-b1.md` … `analisis-b5.md`: análisis por pregunta de cada balotario (clase, tema, casuística, coherencia).
 - `analisis-banco-c1.md` … `analisis-banco-c3.md`: análisis por pregunta del banco revisado con cobertura por subcompetencia.
-- `banco-revisado.json`: volcado de `exam_questions` (`status=published`) tal como se analizó. Las preguntas de balotarios están en `app/components/balotarios/balotarios-oece.json` (sin revisiones en `balotario_reviews` a la fecha).
+- `banco-revisado.json`: volcado de `exam_questions` (`status=published`) tal como se analizó. Las preguntas de balotarios están en `app/components/balotarios/balotarios-oece.json`; a la fecha hay 6 revisiones en `balotario_reviews` (las preguntas defectuosas corregidas el 2026-11-17).
 - Verificaciones verbatim del corpus: Arts. 14, 42 (texto sustituido), 58–60, 176, 295, 302–303 del Reglamento (documento «texto actualizado al 09.01.2026»).
