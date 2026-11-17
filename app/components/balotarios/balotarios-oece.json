@@ -6,7 +6,7 @@
       "preguntas": [
         {
           "n": 1,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Identifique la afirmación incorrecta:",
           "opciones": [
             {
@@ -30,7 +30,7 @@
         },
         {
           "n": 2,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Para que la entidad acepte contractualmente un bien diferente al ofrecido por el proveedor, sin afectar las condiciones que sirvieron de base para el procedimiento de selección, ¿Qué documentación debe sustentar esta modificación?",
           "opciones": [
             {
@@ -54,7 +54,7 @@
         },
         {
           "n": 3,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Se requiere contratar un servicio de ASISTE para la ejecución de un proyecto. En ese contexto, debe convocarse un:",
           "opciones": [
             {
@@ -78,7 +78,7 @@
         },
         {
           "n": 4,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La interacción con el mercado en contrataciones por solo construcción tiene como objetivo principal:",
           "opciones": [
             {
@@ -102,7 +102,7 @@
         },
         {
           "n": 5,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál de las siguientes causales de contratación directa debe ser aprobada por el titular de la entidad y no por la autoridad de la gestión administrativa?",
           "opciones": [
             {
@@ -126,7 +126,7 @@
         },
         {
           "n": 6,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En una contratación centralizada conducida por PERÚ COMPRAS, ¿Quién resuelve un recurso de apelación si la cuantía es menor a 50 UIT?",
           "opciones": [
             {
@@ -150,7 +150,7 @@
         },
         {
           "n": 7,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En cuál de los siguientes casos la elaboración de la estrategia de contratación no es obligatorio:",
           "opciones": [
             {
@@ -174,7 +174,7 @@
         },
         {
           "n": 8,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué concepto(s) debe reconocer la entidad contratante al contratista en caso de suspensión del contrato por falta de pago de valorizaciones, según lo dispuesto en la normativa vigente?",
           "opciones": [
             {
@@ -198,7 +198,7 @@
         },
         {
           "n": 9,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cómo se realiza la amortización del adelanto directo en un contrato de obra o suministro?",
           "opciones": [
             {
@@ -222,7 +222,7 @@
         },
         {
           "n": 10,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Respecto al contenido de la estrategia de contratación aplicada a contratos de obras consideradas técnicamente complejas, identifique la afirmación incorrecta:",
           "opciones": [
             {
@@ -246,7 +246,7 @@
         },
         {
           "n": 11,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Una contratación se considera de alta cuantía cuando su valor, según el _________, supera el ______ del monto total destinado a bienes o servicios.",
           "opciones": [
             {
@@ -270,7 +270,7 @@
         },
         {
           "n": 12,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál es el criterio principal para tomar decisiones durante la ejecución de un contrato estandarizado internacional?",
           "opciones": [
             {
@@ -294,7 +294,7 @@
         },
         {
           "n": 13,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Qué sucede si la entidad no cuenta con capacidad técnica suficiente para utilizar un contrato estandarizado de uso internacional?",
           "opciones": [
             {
@@ -318,7 +318,7 @@
         },
         {
           "n": 14,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Complete el enunciado: La estrategia de contratación para procesos clasificados como críticos o estratégicos debe orientarse a:",
           "opciones": [
             {
@@ -342,7 +342,7 @@
         },
         {
           "n": 15,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Uno de los elementos obligatorios que debe contener el requerimiento es:",
           "opciones": [
             {
@@ -366,7 +366,7 @@
         },
         {
           "n": 16,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué características definen a la intervención económica de una obra pública?",
           "opciones": [
             {
@@ -390,7 +390,7 @@
         },
         {
           "n": 17,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿En qué casos puede acordarse la suspensión del plazo de ejecución en un contrato de obra?",
           "opciones": [
             {
@@ -414,7 +414,7 @@
         },
         {
           "n": 18,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En una contratación bajo MDA, ¿Cuál de las siguientes actuaciones preparatorias no resulta exigible?",
           "opciones": [
             {
@@ -438,7 +438,7 @@
         },
         {
           "n": 19,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "El incentivo por estándares ambientales puede aplicarse incluso si los estándares coinciden con los mínimos normativos.",
           "opciones": [
             {
@@ -462,7 +462,7 @@
         },
         {
           "n": 20,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "El recurso de apelación será declarado improcedente si:",
           "opciones": [
             {
@@ -486,7 +486,7 @@
         },
         {
           "n": 21,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "La Municipalidad Provincial de Ayacucho necesita contratar maquinaria pesada ante la ocurrencia de lluvias intensas que han destruido vías rurales. Se aplica un procedimiento no competitivo por situación de emergencia. ¿Quién debe aprobar este procedimiento?",
           "opciones": [
             {
@@ -510,7 +510,7 @@
         },
         {
           "n": 22,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Quién aprueba la contratación directa por la causal de emergencia?",
           "opciones": [
             {
@@ -534,7 +534,7 @@
         },
         {
           "n": 23,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Según el Reglamento, cuando una obra se entrega con diseño incluido, la consulta al mercado debe centrarse prioritariamente en:",
           "opciones": [
             {
@@ -558,7 +558,7 @@
         },
         {
           "n": 24,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál de las siguientes afirmaciones es correcta respecto a los criterios para que una contratación se considere básica?",
           "opciones": [
             {
@@ -582,7 +582,7 @@
         },
         {
           "n": 25,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La estrategia de contratación de las contrataciones _____________se orienta principalmente a disminuir los riesgos en el proceso de contratación.",
           "opciones": [
             {
@@ -606,7 +606,7 @@
         },
         {
           "n": 26,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En la municipalidad LOS GENIOS. necesita el servicio de limpieza. En la estrategia de contratación se ha determinado llevar a cabo un procedimiento no competitivo por desabastecimiento. El responsable de aprobar este procedimiento es:",
           "opciones": [
             {
@@ -630,7 +630,7 @@
         },
         {
           "n": 27,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Se aplican las buenas prácticas y lo señalado en la normativa aplicable, sin perjuicio de la ausencia de guía.",
           "opciones": [
             {
@@ -654,7 +654,7 @@
         },
         {
           "n": 28,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Cuando la resolución de un contrato sea atribuible a la Entidad contratante, ¿qué derecho le asiste al contratista?",
           "opciones": [
             {
@@ -678,7 +678,7 @@
         },
         {
           "n": 29,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Cual de las siguientes alternativas no representa a una modalidad de contrato eficiente",
           "opciones": [
             {
@@ -702,7 +702,7 @@
         },
         {
           "n": 30,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En una subasta inversa electrónica cuya cuantía es de 680,000, ¿cuál es el plazo para apelar el otorgamiento de la buena pro?",
           "opciones": [
             {
@@ -726,7 +726,7 @@
         },
         {
           "n": 31,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En una CPI, ¿Cuál es el principal insumo que se obtiene tras la interacción con el mercado?",
           "opciones": [
             {
@@ -750,7 +750,7 @@
         },
         {
           "n": 32,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Indique la afirmación incorrecta:",
           "opciones": [
             {
@@ -774,7 +774,7 @@
         },
         {
           "n": 33,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En contrataciones clasificadas como “rutinarias”, la estrategia de contratación debe orientarse principalmente a:",
           "opciones": [
             {
@@ -798,7 +798,7 @@
         },
         {
           "n": 34,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En los contratos estandarizados se deben establecer expresamente los ______, límites, requisitos y otros aspectos relacionados con la contratación de ______.",
           "opciones": [
             {
@@ -822,7 +822,7 @@
         },
         {
           "n": 35,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Quien es el responsable de registrar en la padicop la prorroga de la evaluación de la Asociación para la innovación",
           "opciones": [
             {
@@ -846,7 +846,7 @@
         },
         {
           "n": 36,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Marque la afirmación correcta:",
           "opciones": [
             {
@@ -870,7 +870,7 @@
         },
         {
           "n": 37,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál es el rol fundamental de la herramienta de difusión del requerimiento en una CPI?",
           "opciones": [
             {
@@ -894,7 +894,7 @@
         },
         {
           "n": 38,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Identifique la afirmación incorrecta:",
           "opciones": [
             {
@@ -918,7 +918,7 @@
         },
         {
           "n": 39,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Si el impugnante está sancionado con impedimento para contratar con el Estado y presenta un recurso, ¿cuál es el tratamiento normativo?",
           "opciones": [
             {
@@ -942,7 +942,7 @@
         },
         {
           "n": 40,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál es el plazo que tiene el contratista para presentar el nuevo programa de ejecución desde que se le ordena?",
           "opciones": [
             {
@@ -966,7 +966,7 @@
         },
         {
           "n": 41,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué implicancia normativa tiene establecer el incentivo por estándares ambientales en la estrategia de contratación?",
           "opciones": [
             {
@@ -990,7 +990,7 @@
         },
         {
           "n": 42,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "El Hospital Nacional Santa Teresa necesita adquirir un tomógrafo de alta resolución de marca exclusiva. La estrategia de contratación indica proveedor único. ¿Quién aprueba este procedimiento?",
           "opciones": [
             {
@@ -1014,7 +1014,7 @@
         },
         {
           "n": 43,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Respecto al requerimiento en una CPI, señale la opción incorrecta:",
           "opciones": [
             {
@@ -1038,7 +1038,7 @@
         },
         {
           "n": 44,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Una entidad desea aceptar un bien distinto al ofertado por el proveedor en un contrato vigente. ¿Qué órgano técnico de la propia entidad debe emitir opinión previa a la aprobación de esta modificación?",
           "opciones": [
             {
@@ -1062,7 +1062,7 @@
         },
         {
           "n": 45,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Si una entidad observa que durante dos años consecutivos se presentaron menos de tres postores en procesos similares para bienes, ¿Cómo debe clasificar la contratación actual?",
           "opciones": [
             {
@@ -1086,7 +1086,7 @@
         },
         {
           "n": 46,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Respecto al incentivo vinculado a estándares de excelencia ambiental y de seguridad, identifique la alternativa incorrecta:",
           "opciones": [
             {
@@ -1110,7 +1110,7 @@
         },
         {
           "n": 47,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál de las siguientes afirmaciones describe correctamente la fase inicial del requerimiento en una CPI?",
           "opciones": [
             {
@@ -1134,7 +1134,7 @@
         },
         {
           "n": 48,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿En qué casos puede la entidad contratante disponer la intervención económica de una obra?",
           "opciones": [
             {
@@ -1158,7 +1158,7 @@
         },
         {
           "n": 49,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Se solicita la aprobación del expediente de contratación para una licitación pública sin modalidad. Al revisar la documentación, se advierte que el bien a contratar tiene ficha de homologación, pero el área usuaria modificó las especificaciones. ¿Qué corresponde hacer?",
           "opciones": [
             {
@@ -1182,7 +1182,7 @@
         },
         {
           "n": 50,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué sistema de entrega obliga a establecer el incentivo por cumplimiento anticipado?",
           "opciones": [
             {
@@ -1206,7 +1206,7 @@
         },
         {
           "n": 51,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Cual de las siguientes corresponde a un tipo de interacción con el mercado",
           "opciones": [
             {
@@ -1230,7 +1230,7 @@
         },
         {
           "n": 52,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "La fase de ejecución contractual de un contrato estandarizado de uso internacional se rige por el contrato suscrito, la Ley en lo que corresponda, el Reglamento y, supletoriamente, por el ______.",
           "opciones": [
             {
@@ -1254,7 +1254,7 @@
         },
         {
           "n": 53,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "La resolución que aprueba el procedimiento no competitivo por situación de desabastecimiento se publica en la pladicop dentro de los…… siguientes a su emisión",
           "opciones": [
             {
@@ -1278,7 +1278,7 @@
         },
         {
           "n": 54,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál es el plazo que tiene la Contraloría para pronunciarse en primera instancia sobre adicionales mayores al 30 %?",
           "opciones": [
             {
@@ -1302,7 +1302,7 @@
         },
         {
           "n": 55,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En qué procedimiento de selección no se integran las Bases",
           "opciones": [
             {
@@ -1326,7 +1326,7 @@
         },
         {
           "n": 56,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Qué efecto tiene la denegatoria ficta respecto al recurso de apelación en el marco del procedimiento de contratación pública?",
           "opciones": [
             {
@@ -1350,7 +1350,7 @@
         },
         {
           "n": 57,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La estrategia de contratación de las contrataciones ___________ se orienta principalmente en la atención oportuna y la reducción de costos",
           "opciones": [
             {
@@ -1374,7 +1374,7 @@
         },
         {
           "n": 58,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál de las siguientes afirmaciones refleja correctamente el rol del jurado en la evaluación técnica y económica?",
           "opciones": [
             {
@@ -1398,7 +1398,7 @@
         },
         {
           "n": 59,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué ocurre si el contratista rechaza la intervención económica dispuesta por la entidad?",
           "opciones": [
             {
@@ -1422,7 +1422,7 @@
         },
         {
           "n": 60,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Señale la afirmación correcta:",
           "opciones": [
             {
@@ -1446,7 +1446,7 @@
         },
         {
           "n": 61,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál es el límite máximo permitido para prestaciones adicionales en contratos de bienes y servicios, sin requerir intervención del titular de la entidad ni de la Contraloría?",
           "opciones": [
             {
@@ -1470,7 +1470,7 @@
         },
         {
           "n": 62,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "La empresa Consorcio Andino S.A.C., contratada por la Municipalidad Provincial de Cañaris para la construcción de un reservorio, solicita una ampliación de plazo dentro del plazo legal de 10 días hábiles desde que se ordenó una prestación adicional. En su solicitud, justifica técnicamente el impacto del adicional y señala la cantidad de días requeridos, pero no especifica las fechas exactas del nuevo calendario de ejecución. ¿Corresponde otorgar la ampliación en estas condiciones?",
           "opciones": [
             {
@@ -1494,7 +1494,7 @@
         },
         {
           "n": 63,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Conforme con la normativa, la consulta al mercado puede ser:",
           "opciones": [
             {
@@ -1518,7 +1518,7 @@
         },
         {
           "n": 64,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Uno de los elementos obligatorios que debe contener el requerimiento es:",
           "opciones": [
             {
@@ -1542,7 +1542,7 @@
         },
         {
           "n": 65,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Cuando el impugnante presenta el recurso sin adjuntar la garantía de interposición del recurso, la entidad contratante debe:",
           "opciones": [
             {
@@ -1566,7 +1566,7 @@
         },
         {
           "n": 66,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál de las siguientes afirmaciones es incorrecta respecto al requerimiento bajo MDA?",
           "opciones": [
             {
@@ -1590,7 +1590,7 @@
         },
         {
           "n": 67,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "El plan de distribución de la tecnología sanitaria y el cronograma de ejecución no se consideran en la estrategia de contratación, sino al momento de adjudicar el contrato.",
           "opciones": [
             {
@@ -1614,7 +1614,7 @@
         },
         {
           "n": 68,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "A los cuántos días se aprueba el PAC",
           "opciones": [
             {
@@ -1638,7 +1638,7 @@
         },
         {
           "n": 69,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Qué documento no integra el expediente de contratación para un MDA",
           "opciones": [
             {
@@ -1662,7 +1662,7 @@
         },
         {
           "n": 70,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál es el requisito esencial para otorgar la conformidad de bienes en el marco de una contratación pública?",
           "opciones": [
             {
@@ -1686,7 +1686,7 @@
         },
         {
           "n": 71,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Cuál es la secuencia correcta en una Licitación pública de obras con precalificación",
           "opciones": [
             {
@@ -1710,7 +1710,7 @@
         },
         {
           "n": 72,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "El incentivo por cumplimiento anticipado se calcula multiplicando el gasto general variable _______ por el número de días de diferencia entre el plazo de ejecución vigente y el _______ de ejecución.",
           "opciones": [
             {
@@ -1739,7 +1739,7 @@
       "preguntas": [
         {
           "n": 1,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Una entidad contratante acepta la sustitución de un servicio por otro de características superiores, sustentado por el área usuaria y con opinión favorable de la DEC. ¿En qué momento se entiende aprobada dicha modificación, según la normativa?",
           "opciones": [
             {
@@ -1763,7 +1763,7 @@
         },
         {
           "n": 2,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Si la adquisición de un bien incluye además su instalación, puesta en funcionamiento y mantenimiento posterior, ¿qué sistema de entrega se debe utilizar?",
           "opciones": [
             {
@@ -1787,7 +1787,7 @@
         },
         {
           "n": 3,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Qué responsabilidad específica tiene la DEC durante la etapa de presentación y evaluación de ofertas?",
           "opciones": [
             {
@@ -1811,7 +1811,7 @@
         },
         {
           "n": 4,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál es la modalidad de pago que aplica cuando la entidad fija un tiempo referencial para la ejecución del servicio y el postor propone un valor por ese tiempo, sin conocer su duración exacta?",
           "opciones": [
             {
@@ -1835,7 +1835,7 @@
         },
         {
           "n": 5,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En el marco de la segmentación, ¿Qué elemento descalifica automáticamente una contratación para ser considerada básica?",
           "opciones": [
             {
@@ -1859,7 +1859,7 @@
         },
         {
           "n": 6,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Respecto a las contrataciones incluidas en el PAC, ¿cuál de las siguientes afirmaciones es correcta?",
           "opciones": [
             {
@@ -1883,7 +1883,7 @@
         },
         {
           "n": 7,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En obras bajo los sistemas de diseño y construcción, El Titular de la Entidad, puede autorizar prestaciones adicionales hasta un ……. con el debido sustento técnico y legal. Excepcionalmente, puede autorizar la ejecución de prestaciones adicionales hasta un …… previa autorización de la CGR:",
           "opciones": [
             {
@@ -1907,7 +1907,7 @@
         },
         {
           "n": 8,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál de las siguientes situaciones genera que la buena pro adquiera la condición de administrativamente firme en un procedimiento de selección pública?",
           "opciones": [
             {
@@ -1931,7 +1931,7 @@
         },
         {
           "n": 9,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Si la entidad solo desea contratar la elaboración del plan que determine cómo debe ser operada y mantenida una infraestructura, sin ejecutar aún la operación ni el mantenimiento, ¿qué sistema de entrega aplica?",
           "opciones": [
             {
@@ -1955,7 +1955,7 @@
         },
         {
           "n": 10,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Qué tipo de contrataciones están exceptuadas de los límites porcentuales establecidos para adicionales?",
           "opciones": [
             {
@@ -1979,7 +1979,7 @@
         },
         {
           "n": 11,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué órgano o funcionario es competente para declarar la nulidad de un contrato?",
           "opciones": [
             {
@@ -2003,7 +2003,7 @@
         },
         {
           "n": 12,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En relación con la convocatoria en comparación de precios, ¿Cuál es el número mínimo de proveedores a invitar?",
           "opciones": [
             {
@@ -2027,7 +2027,7 @@
         },
         {
           "n": 13,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Señale la afirmación correcta:",
           "opciones": [
             {
@@ -2051,7 +2051,7 @@
         },
         {
           "n": 14,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Quien es el responsable de registrar en la padicop la prorroga de la evaluación de un Concurso público abreviado para la contratación de expertos y gerentes de proyecto",
           "opciones": [
             {
@@ -2075,7 +2075,7 @@
         },
         {
           "n": 15,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Las contrataciones rutinarias presentan:",
           "opciones": [
             {
@@ -2099,7 +2099,7 @@
         },
         {
           "n": 16,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Si un postor interpone un recurso de apelación sin adjuntar las pruebas instrumentales exigidas, ¿Qué corresponde realizar?",
           "opciones": [
             {
@@ -2123,7 +2123,7 @@
         },
         {
           "n": 17,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál de las siguientes afirmaciones describe correctamente el carácter de la disposición sobre el orden de aplicación del derecho en la solución de controversias arbitrales según la Ley N.º 32069?",
           "opciones": [
             {
@@ -2147,7 +2147,7 @@
         },
         {
           "n": 18,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál es el plazo para apelar los resultados de la implementación o extensión de un catálogo electrónico de acuerdo marco?",
           "opciones": [
             {
@@ -2171,7 +2171,7 @@
         },
         {
           "n": 19,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué ocurre si una entidad se niega a corregir errores u omisiones en el expediente técnico?",
           "opciones": [
             {
@@ -2195,7 +2195,7 @@
         },
         {
           "n": 20,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Reiniciado el plazo de ejecución del contrato, la ……. comunica …… la modificación de las fechas del del programa de ejecución actualizado y de los calendarios correspondientes que respeten los términos de la suspensión.",
           "opciones": [
             {
@@ -2219,7 +2219,7 @@
         },
         {
           "n": 21,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿En qué casos puede procederse con la suspensión del plazo de ejecución de un contrato de obra?",
           "opciones": [
             {
@@ -2243,7 +2243,7 @@
         },
         {
           "n": 22,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "El comité de selección, antes de la convocatoria, detecta que el expediente de contratación no contiene el documento que acredite la disponibilidad presupuestal. ¿Ante esta situación, a qué unidad debe solicitar formalmente dicha previsión?",
           "opciones": [
             {
@@ -2267,7 +2267,7 @@
         },
         {
           "n": 23,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Según el Reglamento, ¿Qué normativa rige prioritariamente la fase de ejecución contractual de los contratos estandarizados?",
           "opciones": [
             {
@@ -2291,7 +2291,7 @@
         },
         {
           "n": 24,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál es la participación que puede tener el jurado durante la elaboración de bases?",
           "opciones": [
             {
@@ -2315,7 +2315,7 @@
         },
         {
           "n": 25,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Según el Reglamento, ¿Qué normativa rige prioritariamente la fase de selección en los contratos estandarizados?",
           "opciones": [
             {
@@ -2339,7 +2339,7 @@
         },
         {
           "n": 26,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La empresa estatal Servicios Logísticos del Sur S.A.C. necesita adquirir un equipo especializado para calibración industrial. En la estrategia de contratación se ha determinado llevar a cabo un procedimiento no competitivo por proveedor único. El responsable de aprobar este procedimiento es:",
           "opciones": [
             {
@@ -2363,7 +2363,7 @@
         },
         {
           "n": 27,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cómo debe estar conformado el jurado que evalúa las propuestas en un procedimiento de selección?",
           "opciones": [
             {
@@ -2387,7 +2387,7 @@
         },
         {
           "n": 28,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "El Ministerio de Educación debe adquirir con urgencia materiales escolares ante una situación de desabastecimiento que impide la distribución a las UGEL. Se opta por contratación directa por de desabastecimiento. ¿Quién aprueba este procedimiento?",
           "opciones": [
             {
@@ -2411,7 +2411,7 @@
         },
         {
           "n": 29,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Si la mesa de partes detecta que el recurso de apelación fue presentado antes del otorgamiento de la buena pro, debe:",
           "opciones": [
             {
@@ -2435,7 +2435,7 @@
         },
         {
           "n": 30,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La DEC coordina con el área usuaria durante la ________, y también se debe acudir a fuentes de ________ para validar la solución.",
           "opciones": [
             {
@@ -2459,7 +2459,7 @@
         },
         {
           "n": 31,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En un ministerio, se declaró la nulidad de la Licitación Pública Abreviada para la adquisición de termómetros, cuya cuantía asciende a S/. 350,000. Si un postor impugna, quién es el responsable de resolver dicho recurso",
           "opciones": [
             {
@@ -2483,7 +2483,7 @@
         },
         {
           "n": 32,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Un GORE convoca una LP para bienes especializados, si un postor impugna el puntaje obtenido de la evaluación de su oferta técnica. Quién resuelve el recurso de apelación",
           "opciones": [
             {
@@ -2507,7 +2507,7 @@
         },
         {
           "n": 33,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Quienes pueden contratar bajo la modalidad de compra pública de innovación",
           "opciones": [
             {
@@ -2531,7 +2531,7 @@
         },
         {
           "n": 34,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "La Entidad requiere adquirir 400 sillas metálicas para ambientes de espera. Estas sillas están disponibles en el mercado, no requieren diseño especial, serán entregadas en tres días hábiles y el monto estimado asciende a S/ 96,000. ¿Qué procedimiento corresponde aplicar, según el marco normativo?",
           "opciones": [
             {
@@ -2555,7 +2555,7 @@
         },
         {
           "n": 35,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Cuál de las siguientes situaciones justificaría correctamente la clasificación de una contratación como de alto riesgo en bienes?",
           "opciones": [
             {
@@ -2579,7 +2579,7 @@
         },
         {
           "n": 36,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál es la consecuencia de que un recurso de apelación sea interpuesto contra un acto no impugnable?",
           "opciones": [
             {
@@ -2603,7 +2603,7 @@
         },
         {
           "n": 37,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "El Gobierno Regional de Moquegua requiere elaborar un expediente técnico para un nuevo hospital. Convoca un procedimiento para contratar a una sola firma que formule el proyecto desde la idea hasta la evaluación, y que, una vez obtenido el código SNIP, continúe con la elaboración del expediente técnico. En caso no obtenga la viabilidad, el contrato se terminará anticipadamente",
           "opciones": [
             {
@@ -2627,7 +2627,7 @@
         },
         {
           "n": 38,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Quien es el responsable de registrar en la padicop la prorroga de la evaluación de una Compra Pública Precomercial",
           "opciones": [
             {
@@ -2651,7 +2651,7 @@
         },
         {
           "n": 39,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En el caso de que exista más de una tecnología sanitaria para tratar una misma patología ¿Qué principio rige la decisión final de adjudicación?",
           "opciones": [
             {
@@ -2675,7 +2675,7 @@
         },
         {
           "n": 40,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué efecto tiene la intervención económica sobre los derechos del contratista en relación con los mayores gastos generales?",
           "opciones": [
             {
@@ -2699,7 +2699,7 @@
         },
         {
           "n": 41,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál de los siguientes incentivos requiere obligatoriamente el establecimiento de indicadores iniciales en el contrato?",
           "opciones": [
             {
@@ -2723,7 +2723,7 @@
         },
         {
           "n": 42,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Si un contrato se suspende por causa imputable a la entidad contratante, ¿cuál es el procedimiento habilitante para formalizar dicha suspensión conforme a la normativa vigente?",
           "opciones": [
             {
@@ -2747,7 +2747,7 @@
         },
         {
           "n": 43,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Cuál es incorrecta respecto a la consulta al mercado en CPI?",
           "opciones": [
             {
@@ -2771,7 +2771,7 @@
         },
         {
           "n": 44,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Se requiere un servicio especializado de gestión de instalaciones, con una cuantía mayor a S/ 2 000 000,00 (dos millones y 00/100 soles)",
           "opciones": [
             {
@@ -2795,7 +2795,7 @@
         },
         {
           "n": 45,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Salvo las excepciones indicadas en la Ley ¿desde cuándo se computa el inicio del arbitraje?",
           "opciones": [
             {
@@ -2819,7 +2819,7 @@
         },
         {
           "n": 46,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En el contexto de obras por solo construcción, una consulta al mercado avanzada permite principalmente:",
           "opciones": [
             {
@@ -2843,7 +2843,7 @@
         },
         {
           "n": 47,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En el marco del MDA, los servicios asociados al uso de la tecnología sanitaria deben:",
           "opciones": [
             {
@@ -2867,7 +2867,7 @@
         },
         {
           "n": 48,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "La segmentación se realiza sobre .......",
           "opciones": [
             {
@@ -2891,7 +2891,7 @@
         },
         {
           "n": 49,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Con quién debe coordinar el área usuaria o la ATE para determinar el requerimiento",
           "opciones": [
             {
@@ -2915,7 +2915,7 @@
         },
         {
           "n": 50,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "La AGA de la Entidad resuelve el contrato por el hecho de que el contratista ha presentado documentos falsos durante el procedimiento de selección. Es correcto la actuación de la Entidad, por que",
           "opciones": [
             {
@@ -2939,7 +2939,7 @@
         },
         {
           "n": 51,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En una contratación por encargo para la ejecución de una obra, los convenios que establecen obligaciones, responsabilidades y compromisos de las partes deben estar suscritos por:",
           "opciones": [
             {
@@ -2963,7 +2963,7 @@
         },
         {
           "n": 52,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Cuál de los siguientes supuestos permite el diferimiento de la fecha de inicio del plazo de ejecución por acuerdo entre las partes?",
           "opciones": [
             {
@@ -2987,7 +2987,7 @@
         },
         {
           "n": 53,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En una Municipalidad se convoca una Concurso Público Abreviado para el servicio de pintado, cuya cuantía es de S/ 180,000. Si un postor impugna, quién resuelve el recurso de apelación",
           "opciones": [
             {
@@ -3011,7 +3011,7 @@
         },
         {
           "n": 54,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿Qué sucede si se presenta un recurso de apelación contra una decisión de la Contraloría sobre un adicional de obra, en primera instancia?",
           "opciones": [
             {
@@ -3035,7 +3035,7 @@
         },
         {
           "n": 55,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En relación con las contrataciones declaradas desiertas o nulas, indique lo correcto:",
           "opciones": [
             {
@@ -3059,7 +3059,7 @@
         },
         {
           "n": 56,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En un arbitraje en contrataciones públicas, si existe conflicto entre una norma de derecho privado y una disposición contenida en el Reglamento de la Ley de Contrataciones del Estado, ¿cuál debe prevalecer?",
           "opciones": [
             {
@@ -3083,7 +3083,7 @@
         },
         {
           "n": 57,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿Qué debe incluir la estrategia de contratación respecto al uso de contratos estandarizados?",
           "opciones": [
             {
@@ -3107,7 +3107,7 @@
         },
         {
           "n": 58,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "En el contrato para la ejecución de la obra “Mejoramiento del Sistema de Agua Potable y Alcantarillado del distrito de Santa Rosa”, suscrito con la empresa Consorcio Integral del Norte, reiniciado el plazo de ejecución, la ………. comunica ………. la modificación de las fechas del programa de ejecución actualizado y de los calendarios correspondientes, respetando los términos de la suspensión.",
           "opciones": [
             {
@@ -3131,7 +3131,7 @@
         },
         {
           "n": 59,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Una contratación clasificada como operacional se define por tener:",
           "opciones": [
             {
@@ -3155,7 +3155,7 @@
         },
         {
           "n": 60,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Durante la estrategia de contratación para un MDA, la entidad debe identificar al titular del Registro Sanitario de la tecnología sanitaria",
           "opciones": [
             {
@@ -3179,7 +3179,7 @@
         },
         {
           "n": 61,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "Cual es la secuencia correcta en una SIE",
           "opciones": [
             {
@@ -3203,7 +3203,7 @@
         },
         {
           "n": 62,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Complete el enunciado: Una contratación que involucra bienes de fácil disponibilidad, bajo valor y sin antecedentes de procesos desiertos debe clasificarse como:",
           "opciones": [
             {
@@ -3227,7 +3227,7 @@
         },
         {
           "n": 63,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "La diferencia clave entre la consulta al mercado para solo construcción y aquella con diseño es:",
           "opciones": [
             {
@@ -3251,7 +3251,7 @@
         },
         {
           "n": 64,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "¿Qué ocurre si el adelanto directo se garantiza mediante fideicomiso?",
           "opciones": [
             {
@@ -3275,7 +3275,7 @@
         },
         {
           "n": 65,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "En las bases integradas incluyen todas las modificaciones adoptadas durante el transcurso de las:",
           "opciones": [
             {
@@ -3299,7 +3299,7 @@
         },
         {
           "n": 66,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "Cuando una municipalidad requiere adquirir un bien especializado y la estrategia de contratación determina el uso de una compra por encargo a un organismo internacional, el responsable de su aprobación es:",
           "opciones": [
             {
@@ -3323,7 +3323,7 @@
         },
         {
           "n": 67,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "¿En qué modalidad de pago el contratista presenta una oferta integral con un monto fijo, al estar completamente definido el objeto contractual en cuanto a cantidad y calidad?",
           "opciones": [
             {
@@ -3347,7 +3347,7 @@
         },
         {
           "n": 68,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Para modificar un contrato estandarizado de ingeniería y construcción de uso internacional, debe realizarse una ______ que asegure la consistencia con las cláusulas predefinidas y evite la ______ de redacción.",
           "opciones": [
             {
@@ -3371,7 +3371,7 @@
         },
         {
           "n": 69,
-          "competencia": "",
+          "competencia": "COMPETENCIA 1",
           "pregunta": "En la evaluación de contrataciones similares, se encuentra que para un determinado bien, el promedio de postores fue 2.8 en los dos años anteriores. ¿Este dato es suficiente para considerar el nuevo procedimiento como de alto riesgo?",
           "opciones": [
             {
@@ -3395,7 +3395,7 @@
         },
         {
           "n": 70,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "La Municipalidad Provincial de San Isidro adjudicó la buena pro de una Licitación Pública de obra con negociación a la empresa Consorcio Vial Andino. Consentida la buena pro, debe iniciarse la verificación posterior de los documentos presentados en la oferta del postor ganador dentro de los 10 días hábiles siguientes. ¿Quién es el responsable de iniciar dicha verificación?",
           "opciones": [
             {
@@ -3419,7 +3419,7 @@
         },
         {
           "n": 71,
-          "competencia": "",
+          "competencia": "COMPETENCIA 2",
           "pregunta": "¿En cuál de los siguientes procedimientos de selección no puede perfeccionarse el contrato mediante la emisión de una orden de compra o de servicio?",
           "opciones": [
             {
@@ -3443,7 +3443,7 @@
         },
         {
           "n": 72,
-          "competencia": "",
+          "competencia": "COMPETENCIA 3",
           "pregunta": "Señale la afirmación correcta:",
           "opciones": [
             {

@@ -8,8 +8,11 @@ describe("balotarios: integridad y resultados", () => {
     expect(catalogoBalotarios).toHaveLength(5); expect(new Set(preguntas.map(q=>q.id)).size).toBe(360);
     for(const b of catalogoBalotarios){ expect(b.preguntas).toHaveLength(72); for(const q of b.preguntas){expect(q.opciones.map(o=>o.letra)).toEqual(["A","B","C","D"]);expect(q.opciones.some(o=>o.letra===q.correcta)).toBe(true);} }
   });
-  it("el diagnóstico mantiene pendientes reales sin dar por revisadas las importadas",()=>{
-    const d=diagnosticoBalotarios();expect(d.filter(q=>q.sinCompetencia)).toHaveLength(144);expect(d.find(q=>q.id==="b1-q27")?.incidencia).toBeTruthy();expect(preguntas.every(q=>!q.revisada)).toBe(true);
+  it("el diagnóstico ya no tiene pendientes de competencia y mantiene la incidencia documentada",()=>{
+    const d=diagnosticoBalotarios();expect(d.filter(q=>q.sinCompetencia)).toHaveLength(0);expect(d.find(q=>q.id==="b1-q27")?.incidencia).toBeTruthy();expect(preguntas.every(q=>!q.revisada)).toBe(true);
+  });
+  it("toda pregunta del catálogo lleva una competencia válida",()=>{
+    for(const q of preguntas)expect(["COMPETENCIA 1","COMPETENCIA 2","COMPETENCIA 3"],q.id).toContain(q.competencia);
   });
   it("el barajado no pierde preguntas ni modifica sus claves",()=>{
     const original=catalogoBalotarios[0].preguntas;for(let n=0;n<5;n++){const s=barajarPreguntas(original);expect(new Set(s.map(q=>q.id))).toEqual(new Set(original.map(q=>q.id)));for(const q of s)expect(q.correcta).toBe(original.find(o=>o.id===q.id)?.correcta);}
@@ -30,7 +33,9 @@ describe("balotarios: integridad y resultados", () => {
     expect(comandoBalotario.safeParse({action:"save",id:crypto.randomUUID(),revision:-1,questionId:"otro",option:"Z",flagged:false,position:90}).success).toBe(false);
   });
   it("no inventa competencia para preguntas sin clasificar y excluye intentos activos",()=>{
-    const q=preguntas[0];const t={state:"submitted",questions:[q],answers:{[q.id]:q.correcta}} as IntentoBalotario;
+    // Una instantánea vieja puede traer preguntas sin competencia: el fallback «Pendiente» sigue existiendo.
+    const sinClasificar={...preguntas[0],competencia:undefined};
+    const t={state:"submitted",questions:[sinClasificar],answers:{[sinClasificar.id]:sinClasificar.correcta}} as IntentoBalotario;
     expect(estadisticasCompetencia([t,{...t,state:"active"}])).toEqual([{competencia:"Pendiente de clasificar",correctas:1,incorrectas:0,omitidas:0,total:1}]);
   });
 });
