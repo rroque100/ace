@@ -16,6 +16,8 @@ export type ExamCoaching = {
   }>;
   recommendation: {
     competency: string;
+    /** Código de subcompetencia del tema débil (p. ej. «2.8»); vacío si no hay tema débil. */
+    code: string;
     topic: string;
     reason: "errors" | "unseen" | "continue";
   };
@@ -53,7 +55,9 @@ export function buildExamCoaching(
     a.id.localeCompare(b.id),
   );
   const seen = new Set<string>();
-  const topics = new Map<string, { competency: string; topic: string; errors: number }>();
+  // Los errores se agrupan por código de subcompetencia: con el código, la clase del curso que enseña el tema
+  // se resuelve en el cliente con el mapa compacto de lib/cursos/clases-tema.ts.
+  const topics = new Map<string, { competency: string; code: string; topic: string; errors: number }>();
   for (const t of eligible) {
     for (const q of t.questions) {
       if (!q || typeof q.id !== "string" || seen.has(q.id)) continue;
@@ -70,11 +74,14 @@ export function buildExamCoaching(
       row.correct += Number(correct);
       row.omitted += Number(omitted);
       if (!correct) {
-        const topic = typeof q.topic === "string" ? q.topic : classification.label;
-        const key = JSON.stringify([row.code, topic]);
-        const entry = topics.get(key) ?? { competency: row.code, topic, errors: 0 };
+        const entry = topics.get(classification.code) ?? {
+          competency: row.code,
+          code: classification.code,
+          topic: typeof q.topic === "string" && q.topic.trim() ? q.topic : classification.label,
+          errors: 0,
+        };
         entry.errors++;
-        topics.set(key, entry);
+        topics.set(classification.code, entry);
       }
     }
   }
@@ -82,13 +89,13 @@ export function buildExamCoaching(
   const practiced = competencies.reduce((n, c) => n + c.total, 0);
   const correct = competencies.reduce((n, c) => n + c.correct, 0);
   const weakest = [...topics.values()].sort((a, b) =>
-    b.errors - a.errors || a.competency.localeCompare(b.competency) || a.topic.localeCompare(b.topic),
+    b.errors - a.errors || a.code.localeCompare(b.code),
   )[0];
   const next = [...competencies].sort((a, b) => a.total - b.total || a.code.localeCompare(b.code))[0];
   return {
     practiced, correct, accuracy: accuracy(correct, practiced), competencies,
     recommendation: weakest
-      ? { competency: weakest.competency, topic: weakest.topic, reason: "errors" }
-      : { competency: next.code, topic: "", reason: next.total ? "continue" : "unseen" },
+      ? { competency: weakest.competency, code: weakest.code, topic: weakest.topic, reason: "errors" as const }
+      : { competency: next.code, code: "", topic: "", reason: next.total ? "continue" as const : "unseen" as const },
   };
 }

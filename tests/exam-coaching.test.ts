@@ -55,7 +55,7 @@ it("omisiones explícitas y respuestas ausentes cuentan como no aciertos y prior
   const r = buildExamCoaching([t("a", [q(), q("q2", "2", "Selección"), q("q3", "2", "Selección"), q("q4")])],
     [a("a", "q1", "A"), a("a", "q2", null), a("a", "q4")]);
   expect(r).toMatchObject({ practiced: 4, correct: 1, accuracy: 25,
-    recommendation: { competency: "2", topic: "Selección", reason: "errors" } });
+    recommendation: { competency: "2", code: "2.1", topic: "Selección", reason: "errors" } });
   expect(r.competencies[1]).toMatchObject({ total: 2, omitted: 2, correct: 0, accuracy: 0 });
 });
 
@@ -68,7 +68,7 @@ it("clasificaciones desconocidas o pares incompatibles no inflan resultados ni r
 it("sin errores y con exposición en todas continúa en la menos practicada", () => {
   const questions = [q(), q("q2"), q("q3", "2"), q("q4", "3")];
   const r = buildExamCoaching([t("a", questions)], questions.map(x => a("a", x.id)));
-  expect(r.recommendation).toEqual({ competency: "2", topic: "", reason: "continue" });
+  expect(r.recommendation).toEqual({ competency: "2", code: "", topic: "", reason: "continue" });
 });
 
 it("solo expone agregados y no IDs, claves, respuestas ni fuentes", () => {
@@ -77,6 +77,6 @@ it("solo expone agregados y no IDs, claves, respuestas ni fuentes", () => {
     [a("attempt-private", "question-private", "SECRETO")]);
   expect(Object.keys(r).sort()).toEqual(["accuracy", "competencies", "correct", "practiced", "recommendation"]);
   expect(Object.keys(r.competencies[0]).sort()).toEqual(["accuracy", "code", "correct", "label", "omitted", "total"]);
-  expect(Object.keys(r.recommendation).sort()).toEqual(["competency", "reason", "topic"]);
+  expect(Object.keys(r.recommendation).sort()).toEqual(["code", "competency", "reason", "topic"]);
   expect(JSON.stringify(r)).not.toMatch(/SECRETO|private|PRIVATE|correct_option|question_id|attempt_id/);
 });

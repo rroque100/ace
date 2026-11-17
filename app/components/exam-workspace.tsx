@@ -15,6 +15,7 @@ import {
 } from "@/lib/exam-learning-policy";
 import { COMPETENCIES } from "@/lib/exam-curriculum";
 import { temaDePractica } from "@/lib/simulador-navegacion";
+import { claseParaTema } from "@/lib/cursos/clases-tema";
 import {
   EXAM_DIFFICULTIES,
   availableExamQuestions,
@@ -1003,7 +1004,7 @@ export function ExamWorkspace({
                 </button>
               </div>
             )}
-            <ExamCoachingPanel state={coaching} onPractice={(code, topic) => {
+            <ExamCoachingPanel state={coaching} claseSugerida={coaching.data?.recommendation.reason === "errors" ? claseParaTema(coaching.data.recommendation.code) : null} onPractice={(code, topic) => {
               studyTopic(topic);
               setCompetency(code);
               const total = availableExamQuestions(dash.available, { regime: "32069", competency: code, topic, difficulty: "", preview: false });

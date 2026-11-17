@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { ArrowRight, BookOpen, Clock3, RotateCcw, ShieldCheck } from "lucide-react";
 import { buttonClasses } from "./ui/button";
 import { COMPETENCIES } from "@/lib/exam-curriculum";
@@ -41,9 +42,11 @@ export function ExamTrainingNavigation({ activity, onChange }: {
 }
 
 export type CoachingState = { data: ExamCoaching | null; error?: string; limited?: boolean };
-export function ExamCoachingPanel({ state, onPractice }: {
+export function ExamCoachingPanel({ state, onPractice, claseSugerida }: {
   state: CoachingState;
   onPractice: (competency: string, topic: string) => void;
+  /** Clase del curso que enseña el tema débil; la resuelve el workspace con el mapa tema→clase. */
+  claseSugerida?: { slug: string; titulo: string } | null;
 }) {
   const data = state.data;
   return <section aria-labelledby="preparation-overview" className="overflow-hidden rounded-2xl border border-line bg-panel shadow-card">
@@ -72,6 +75,11 @@ export function ExamCoachingPanel({ state, onPractice }: {
           <p className="mt-1 text-xs text-muted">{data.recommendation.reason === "errors" ? "Prioridad según tus errores y omisiones registrados." : "Ajusta la dificultad y la cantidad antes de comenzar."}</p>
         </div>
         <button type="button" className={cn(buttonClasses({ variant: "primary" }), "w-full sm:w-auto")} onClick={() => onPractice(data.recommendation.competency, data.recommendation.topic)}>Preparar mi práctica <ArrowRight size={16} aria-hidden /></button>
+        {claseSugerida && data.recommendation.reason === "errors" && (
+          <Link href={`/cursos/certificacion-oece/${claseSugerida.slug}`} className={cn(buttonClasses({ variant: "secondary" }), "w-full sm:w-auto")}>
+            <BookOpen size={16} aria-hidden /> Estudiar la clase «{claseSugerida.titulo}»
+          </Link>
+        )}
       </div>
       <p className="px-5 py-3 text-xs leading-relaxed text-muted sm:px-6">Último resultado por pregunta en {state.limited ? "los últimos 100 intentos entregados" : "intentos entregados"} de Ley 32069. Los borradores no cuentan. Estos datos orientan el estudio; no predicen la aprobación del examen oficial.</p>
     </>}
