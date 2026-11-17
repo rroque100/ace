@@ -3,6 +3,7 @@ import { ACTOS_PREPARATORIOS } from "./contenido/actos-preparatorios";
 import { FASE_SELECCION } from "./contenido/fase-seleccion";
 import { EJECUCION_CONTRACTUAL } from "./contenido/ejecucion-contractual";
 import { OBRAS } from "./contenido/obras";
+import { REQUERIMIENTO_ESTRATEGIA } from "./contenido/requerimiento-estrategia";
 
 // Curso de preparación para el examen de certificación OECE.
 //
@@ -15,7 +16,7 @@ import { OBRAS } from "./contenido/obras";
 // orden, por slug. Los slugs no cambian al reordenar, así que el avance guardado de cada persona sigue valiendo.
 //
 // Los numerales romanos (Módulo I…XVIII) son los del taller y se conservan porque el alumno los reconoce; ya no
-// coinciden con el orden del curso, a propósito. Los módulos XIX–XXIII son clases de refuerzo de ACE, nacidas del
+// coinciden con el orden del curso, a propósito. Los módulos XIX–XXVI son clases de refuerzo de ACE, nacidas del
 // análisis de coherencia con los balotarios y el banco (docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md):
 // cubren los bloques que el examen más pregunta y el taller no desarrollaba.
 //
@@ -24,7 +25,9 @@ import { OBRAS } from "./contenido/obras";
 // Los exámenes no se reimplementan aquí: cada competencia termina en el banco del simulador, que filtra por competencia
 // y tema y tiene el simulacro con el reparto oficial.
 const TODAS = new Map<string, Clase>(
-  [...ACTOS_PREPARATORIOS, ...FASE_SELECCION, ...EJECUCION_CONTRACTUAL, ...OBRAS].map((c) => [c.slug, c]),
+  [...ACTOS_PREPARATORIOS, ...FASE_SELECCION, ...EJECUCION_CONTRACTUAL, ...OBRAS, ...REQUERIMIENTO_ESTRATEGIA].map(
+    (c) => [c.slug, c],
+  ),
 );
 
 function clases(...slugs: string[]): Clase[] {
@@ -58,6 +61,10 @@ export const CERTIFICACION_OECE: Curso = {
         "plan-anual-contrataciones",
         "segmentacion-contrataciones",
         "actos-preparatorios",
+        // Tema 1.2 (≈13 de 72 preguntas): VI da la visión general y estas tres desarrollan lo que se evalúa.
+        "requerimiento-contenido",
+        "interaccion-mercado-cuantia",
+        "estrategia-agrupamiento-fraccionamiento",
         "expediente-contratacion",
         "evaluadores",
       ),
