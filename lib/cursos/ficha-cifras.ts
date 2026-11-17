@@ -55,6 +55,24 @@ export const FICHA_CIFRAS: GrupoFicha[] = [
         base: [ley("34")],
       },
       {
+        tema: "Convocatoria a presentación de ofertas",
+        dato: "No menos de 22 días hábiles; con anuncio de contratación futura publicado 40 días calendario antes, puede reducirse según las bases estándar, nunca por debajo de 10 días calendario.",
+        clase: "plazos-buena-pro-seleccion",
+        base: [reg("64")],
+      },
+      {
+        tema: "Consultas y observaciones a las bases",
+        dato: "No menos de 7 días hábiles desde el día siguiente de la convocatoria; 3 en las modalidades abreviadas.",
+        clase: "plazos-buena-pro-seleccion",
+        base: [reg("66")],
+      },
+      {
+        tema: "Si la entidad no perfecciona el contrato",
+        dato: "El ganador puede requerirla y darle 5 días hábiles; vencidos, deja de estar obligado a suscribir.",
+        clase: "plazos-buena-pro-seleccion",
+        base: [reg("91")],
+      },
+      {
         tema: "Cómo se cuentan los plazos de la selección",
         dato: "En días hábiles, sin el día inicial y con el de vencimiento, hasta el perfeccionamiento del contrato.",
         clase: "procedimientos-seleccion",
@@ -128,9 +146,33 @@ export const FICHA_CIFRAS: GrupoFicha[] = [
       },
       {
         tema: "Adicionales de obra (solo construcción)",
-        dato: "Hasta el 15 % la autoridad de la gestión administrativa; de más del 15 % hasta el 30 %, el titular de la entidad.",
+        dato: "Hasta el 15 % la autoridad de la gestión administrativa; de más del 15 % hasta el 30 %, el titular; de más del 30 % hasta el 50 %, el titular con autorización previa de la Contraloría. Si en conjunto superan el 50 %, se resuelve el contrato.",
         clase: "modificaciones-contrato",
-        base: [ley("64")],
+        base: [ley("64"), reg("194")],
+      },
+      {
+        tema: "Ampliación de plazo (bienes y servicios)",
+        dato: "Se solicita en 10 días hábiles (prorrogables 10 más); la autoridad de la gestión administrativa resuelve en 12 días hábiles y, si calla, se tiene por aprobada.",
+        clase: "modificaciones-procedimiento",
+        base: [reg("142")],
+      },
+      {
+        tema: "Tope de penalidades",
+        dato: "Mora más otras penalidades: no más del 10 % del monto vigente del contrato o del ítem.",
+        clase: "adelantos-penalidades-subcontratacion",
+        base: [reg("119")],
+      },
+      {
+        tema: "Subcontratación",
+        dato: "Hasta el 40 % del monto del contrato vigente. La entidad responde en 5 días hábiles; si no se pronuncia, se entiende DENEGADA.",
+        clase: "adelantos-penalidades-subcontratacion",
+        base: [reg("108")],
+      },
+      {
+        tema: "Adelantos en obra (solo construcción)",
+        dato: "Directo hasta el 10 % y para materiales, equipamiento y mobiliario hasta el 20 % del contrato original.",
+        clase: "adelantos-penalidades-subcontratacion",
+        base: [reg("178")],
       },
       {
         tema: "Requerimiento previo a resolver por incumplimiento",

@@ -138,9 +138,16 @@ en el texto de la norma).
    `lib/cursos/ficha-cifras.ts` + `/cursos/[curso]/ficha`; la práctica apunta al banco del simulador
    (`?seccion=banco`), que filtra por competencia y tiene el simulacro de 72. Trinquete en
    `tests/cursos-catalogo.test.ts`: la lista de temas oficiales sin clase solo puede encogerse (12 hoy).
-2. **Clases de alto peso**: 1.2 (tres clases), 2.2 (etapas y plazos), 3.2 y 3.10 (modificaciones).
-3. **Huecos de peso 1-2**: 1.4, 1.8, 2.3, 2.4-2.5, 2.6, 2.8, 3.3 (penalidades), 3.4, 3.7-3.9, 3.11, 3.12.
-4. **Entrenamiento**: R2 (practicar el tema), R3 (diagnóstico), R5 (glosario), R6 (casos).
+
+   **Integrado en el mismo PR** (trabajo hecho en paralelo, ver
+   `docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md`): 6 correcciones de reglas vigentes, R6
+   (3 casos por clase, pestaña «Casuística») y las clases de refuerzo XIX (2.2, 2.4, 2.5), XX (3.2), XXI
+   (3.9, 3.3), XXII (3.10) y XXIII (3.12). El trinquete baja a **8** temas sin clase: 1.4, 1.8, 2.3, 2.6,
+   3.4, 3.7, 3.8 y 3.11. La ficha suma 8 cifras de esas clases.
+2. **Clases de alto peso**: 1.2 (requerimiento, interacción con el mercado, estrategia: hoy una sola
+   clase para 13 de 72 preguntas). 2.2, 3.2 y 3.10 quedan cubiertas por XIX, XX y XXII.
+3. **Huecos restantes**: 1.4, 1.8, 2.3, 2.6, 2.8 (ampliar), 3.4, 3.7, 3.8, 3.11.
+4. **Entrenamiento**: R2 (practicar el tema), R3 (diagnóstico), R5 (glosario).
 
 Cada fase en su propio PR, con verificación legal contra el corpus y tests del catálogo (que ya exigen
 base legal, numeración correlativa y que todo artículo citado esté declarado). Se añadirá un test que

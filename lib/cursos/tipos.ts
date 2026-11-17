@@ -11,12 +11,27 @@ export type CompetenciaExamen = "1" | "2" | "3";
 
 export type BaseLegal = { norma: "Ley 32069" | "Reglamento"; articulo: string };
 
+/**
+ * Caso tipo examen: el examen de certificación pregunta situaciones, no definiciones (el banco del simulador es casi
+ * todo casuística). Cada caso aplica la regla de la clase a hechos concretos y se resuelve con su base legal.
+ */
+export type Casuistica = {
+  /** Situación tipo examen: hechos concretos que piden decidir algo. */
+  enunciado: string;
+  /** Cómo se resuelve: la regla aplicada al caso, con la cifra o el plazo exacto. */
+  resolucion: string;
+  /** Artículos que sostienen la resolución. Se muestran como texto, sin enlace. */
+  baseLegal: BaseLegal[];
+};
+
 export type VideoClase = { proveedor: "vimeo" | "youtube"; id: string; hash?: string };
 
 export type ContenidoClase = {
   /** Bloques pregunta → párrafos, el formato de «Resumen» de una clase. */
   resumen: { pregunta: string; parrafos: string[] }[];
   puntosClave: string[];
+  /** Casos tipo examen para ensayar la regla de la clase (pestaña «Casuística»). */
+  casuisticas?: Casuistica[];
   baseLegal: BaseLegal[];
   /**
    * true solo cuando cada artículo, plazo y cifra del contenido se contrastó con el texto del corpus (Ley 32069 y

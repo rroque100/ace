@@ -1,20 +1,24 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { BookOpen, Scale } from "lucide-react";
+import { BookOpen, ClipboardList, Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { ContenidoClase } from "@/lib/cursos/tipos";
+import type { Casuistica, ContenidoClase } from "@/lib/cursos/tipos";
 
 type Referencia = { texto: string; href: string | null };
 
-// Pestañas Resumen | Base legal bajo el reproductor. Los enlaces a la norma llegan ya resueltos desde el servidor:
-// `href` es null cuando la cuenta no puede abrir el lector de normas (un alumno sin Centro Jurídico), y entonces la
-// referencia se muestra como texto en vez de como un enlace que acabaría en un rechazo.
+// Pestañas Resumen | Casuística | Base legal bajo el reproductor. Los enlaces a la norma llegan ya resueltos
+// desde el servidor: `href` es null cuando la cuenta no puede abrir el lector de normas (un alumno sin Centro
+// Jurídico), y entonces la referencia se muestra como texto en vez de como un enlace que acabaría en un rechazo.
 export function PestanasClase({ contenido, referencias }: { contenido: ContenidoClase; referencias: Referencia[] }) {
-  const [activa, setActiva] = useState<"resumen" | "base">("resumen");
+  const [activa, setActiva] = useState<"resumen" | "casuistica" | "base">("resumen");
   const lista = useRef<HTMLDivElement>(null);
+  // La pestaña de casuística solo aparece cuando la clase tiene casos: una pestaña vacía no invita a nada.
   const pestanas = [
     { id: "resumen" as const, label: "Resumen", icono: BookOpen },
+    ...(contenido.casuisticas?.length
+      ? [{ id: "casuistica" as const, label: "Casuística", icono: ClipboardList }]
+      : []),
     { id: "base" as const, label: "Base legal", icono: Scale },
   ];
 
@@ -87,6 +91,19 @@ export function PestanasClase({ contenido, referencias }: { contenido: Contenido
         </div>
       </div>
 
+      {contenido.casuisticas?.length ? (
+        <div id="panel-casuistica" role="tabpanel" aria-labelledby="pestana-casuistica" hidden={activa !== "casuistica"} className="p-5 sm:p-6">
+          <p className="mb-5 mt-0 text-sm text-muted">
+            Casos tipo examen. Lee la situación, piensa tu respuesta y compárala con la resolución.
+          </p>
+          <div className="space-y-5">
+            {contenido.casuisticas.map((caso, i) => (
+              <CasoClave key={caso.enunciado} indice={i + 1} caso={caso} />
+            ))}
+          </div>
+        </div>
+      ) : null}
+
       <div id="panel-base" role="tabpanel" aria-labelledby="pestana-base" hidden={activa !== "base"} className="p-5 sm:p-6">
         <p className="mb-4 mt-0 text-sm text-muted">
           Texto vigente de la Ley 32069 y de su Reglamento con el que se contrastó esta clase.
@@ -110,5 +127,36 @@ export function PestanasClase({ contenido, referencias }: { contenido: Contenido
         </ul>
       </div>
     </section>
+  );
+}
+
+// Un caso tipo examen: enunciado visible, resolución oculta tras un botón para que el alumno la piense primero.
+function CasoClave({ indice, caso }: { indice: number; caso: Casuistica }) {
+  const [abierta, setAbierta] = useState(false);
+  return (
+    <article className="rounded-xl border border-line bg-surface p-4">
+      <h4 className="mb-2 mt-0 text-sm font-semibold uppercase tracking-wide text-brand">Caso {indice}</h4>
+      <p className="mb-3 mt-0 text-[15px] leading-relaxed text-ink">{caso.enunciado}</p>
+      <button
+        type="button"
+        className="mb-3 inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-soft px-4 font-semibold text-brand-dark outline-none hover:bg-brand/15 focus-visible:shadow-[var(--shadow-focus)]"
+        aria-expanded={abierta}
+        aria-controls={`caso-${indice}-resolucion`}
+        onClick={() => setAbierta(v => !v)}
+      >
+        <ClipboardList size={16} aria-hidden />
+        {abierta ? "Ocultar la resolución" : "Ver cómo se resuelve"}
+      </button>
+      <div id={`caso-${indice}-resolucion`} hidden={!abierta} className="space-y-3 rounded-xl bg-panel p-4">
+        <p className="m-0 text-[15px] leading-relaxed text-ink">{caso.resolucion}</p>
+        <ul className="m-0 flex list-none flex-wrap gap-2 p-0">
+          {caso.baseLegal.map(b => (
+            <li key={`${b.norma}-${b.articulo}`} className="rounded-full border border-line bg-surface px-3 py-1 text-xs text-muted">
+              {b.norma} · Art. {b.articulo}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
   );
 }

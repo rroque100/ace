@@ -15,7 +15,11 @@ import { OBRAS } from "./contenido/obras";
 // orden, por slug. Los slugs no cambian al reordenar, así que el avance guardado de cada persona sigue valiendo.
 //
 // Los numerales romanos (Módulo I…XVIII) son los del taller y se conservan porque el alumno los reconoce; ya no
-// coinciden con el orden del curso, a propósito.
+// coinciden con el orden del curso, a propósito. Los módulos XIX–XXIII son clases de refuerzo de ACE, nacidas del
+// análisis de coherencia con los balotarios y el banco (docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md):
+// cubren los bloques que el examen más pregunta y el taller no desarrollaba.
+//
+// Cada clase trae casos tipo examen (pestaña «Casuística»): el banco del simulador es casi todo casuística.
 //
 // Los exámenes no se reimplementan aquí: cada competencia termina en el banco del simulador, que filtra por competencia
 // y tema y tiene el simulacro con el reparto oficial.
@@ -40,7 +44,8 @@ export const CERTIFICACION_OECE: Curso = {
   descripcion:
     "Estudia la Ley 32069 y su Reglamento con el temario oficial del examen de certificación: actuaciones " +
     "preparatorias, selección y ejecución contractual. Cada clase indica cuánto pesa su tema en el examen, resume lo " +
-    "que se evalúa con su base legal, y cada competencia termina con práctica en el banco del simulador.",
+    "que se evalúa con su base legal, trae casos tipo examen resueltos, y cada competencia termina con práctica en el " +
+    "banco del simulador.",
   nivel: "Intermedio",
   publicado: "2026-11-16",
   secciones: [
@@ -69,6 +74,7 @@ export const CERTIFICACION_OECE: Curso = {
       clases: clases(
         "procedimientos-seleccion",
         "modalidades-contratacion-eficiente",
+        "plazos-buena-pro-seleccion",
         "recurso-apelacion",
         "perfeccionamiento-contrato",
       ),
@@ -85,10 +91,14 @@ export const CERTIFICACION_OECE: Curso = {
       clases: clases(
         "inicio-plazo-vigencia-contrato",
         "modificaciones-contrato",
+        "modificaciones-procedimiento",
         "garantias",
+        "adelantos-penalidades-subcontratacion",
         "resolucion-nulidad-contrato",
         "resolucion-controversias",
+        "suspension-reprogramacion-obra",
         "intervencion-economica",
+        "contratos-estandarizados-internacionales",
       ),
       puntoControl: {
         titulo: "Practica ejecución contractual",
