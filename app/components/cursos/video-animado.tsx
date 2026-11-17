@@ -130,7 +130,7 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
   const total = escenas.length;
   const actual = escenas[escena];
   const esContenido = !esQuiz(actual);
-  const fichaActiva = esContenido ? actual.guion[segmento]?.ficha : undefined;
+  const fichaActiva = esContenido ? actual.guion[Math.min(segmento, actual.guion.length - 1)]?.ficha : undefined;
   const fichasConectadas = useMemo(() => {
     if (!esContenido || fichaActiva === undefined) return new Set<number>();
     const ficha = actual.fichas[fichaActiva];
@@ -164,7 +164,8 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
       if (respuesta === null) texto = actual.pregunta;
       else texto = `${actual.opciones[respuesta].correcta ? "¡Muy bien!" : "Mmm, no."} ${actual.aclaracion}`;
     } else {
-      texto = actual.guion[segmento].texto;
+      const segmentoSeguro = Math.min(segmento, actual.guion.length - 1);
+      texto = actual.guion[segmentoSeguro].texto;
     }
     const habla = sintesis && vozActiva;
     if (habla) {
@@ -246,7 +247,7 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
     ? respuesta === null
       ? actual.pregunta
       : actual.aclaracion
-    : actual.guion[segmento].texto;
+    : actual.guion[Math.min(segmento, actual.guion.length - 1)].texto;
 
   function alPulsarOpcion(indice: number) {
     if (respuesta !== null || !esQuiz(actual)) return;
