@@ -100,7 +100,12 @@ export const hrefBaseLegal = (base: BaseLegal) =>
 
 // El corpus etiqueta las disposiciones complementarias como «DCT-1», «DCF-3»…: se nombran en palabras para el alumno.
 const DISPOSICIONES: Record<string, string> = { DCF: "Final", DCT: "Transitoria", DCM: "Modificatoria", DCD: "Derogatoria" };
-const ORDINALES = ["", "Primera", "Segunda", "Tercera", "Cuarta", "Quinta", "Sexta", "Séptima", "Octava", "Novena", "Décima"];
+// Hasta la vigésima: el Reglamento llega a disposiciones como la Decimotercera Transitoria (implementación de la Pladicop).
+const ORDINALES = [
+  "", "Primera", "Segunda", "Tercera", "Cuarta", "Quinta", "Sexta", "Séptima", "Octava", "Novena", "Décima",
+  "Undécima", "Duodécima", "Decimotercera", "Decimocuarta", "Decimoquinta", "Decimosexta", "Decimoséptima",
+  "Decimoctava", "Decimonovena", "Vigésima",
+];
 
 export function textoBaseLegal(base: BaseLegal): string {
   const norma = base.norma === "Reglamento" ? "Reglamento de la Ley 32069" : "Ley 32069";

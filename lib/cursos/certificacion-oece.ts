@@ -4,6 +4,7 @@ import { FASE_SELECCION } from "./contenido/fase-seleccion";
 import { EJECUCION_CONTRACTUAL } from "./contenido/ejecucion-contractual";
 import { OBRAS } from "./contenido/obras";
 import { REQUERIMIENTO_ESTRATEGIA } from "./contenido/requerimiento-estrategia";
+import { TEMAS_PENDIENTES } from "./contenido/temas-pendientes";
 
 // Curso de preparación para el examen de certificación OECE.
 //
@@ -16,7 +17,7 @@ import { REQUERIMIENTO_ESTRATEGIA } from "./contenido/requerimiento-estrategia";
 // orden, por slug. Los slugs no cambian al reordenar, así que el avance guardado de cada persona sigue valiendo.
 //
 // Los numerales romanos (Módulo I…XVIII) son los del taller y se conservan porque el alumno los reconoce; ya no
-// coinciden con el orden del curso, a propósito. Los módulos XIX–XXVI son clases de refuerzo de ACE, nacidas del
+// coinciden con el orden del curso, a propósito. Los módulos XIX–XXXII son clases de refuerzo de ACE, nacidas del
 // análisis de coherencia con los balotarios y el banco (docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md):
 // cubren los bloques que el examen más pregunta y el taller no desarrollaba.
 //
@@ -25,9 +26,14 @@ import { REQUERIMIENTO_ESTRATEGIA } from "./contenido/requerimiento-estrategia";
 // Los exámenes no se reimplementan aquí: cada competencia termina en el banco del simulador, que filtra por competencia
 // y tema y tiene el simulacro con el reparto oficial.
 const TODAS = new Map<string, Clase>(
-  [...ACTOS_PREPARATORIOS, ...FASE_SELECCION, ...EJECUCION_CONTRACTUAL, ...OBRAS, ...REQUERIMIENTO_ESTRATEGIA].map(
-    (c) => [c.slug, c],
-  ),
+  [
+    ...ACTOS_PREPARATORIOS,
+    ...FASE_SELECCION,
+    ...EJECUCION_CONTRACTUAL,
+    ...OBRAS,
+    ...REQUERIMIENTO_ESTRATEGIA,
+    ...TEMAS_PENDIENTES,
+  ].map((c) => [c.slug, c]),
 );
 
 function clases(...slugs: string[]): Clase[] {
@@ -67,6 +73,7 @@ export const CERTIFICACION_OECE: Curso = {
         "estrategia-agrupamiento-fraccionamiento",
         "expediente-contratacion",
         "evaluadores",
+        "bases-anuncio-pladicop-preparatorias",
       ),
       puntoControl: {
         titulo: "Practica actuaciones preparatorias",
@@ -81,6 +88,8 @@ export const CERTIFICACION_OECE: Curso = {
       clases: clases(
         "procedimientos-seleccion",
         "modalidades-contratacion-eficiente",
+        "pladicop-seleccion",
+        "evaluacion-ofertas-desempate",
         "plazos-buena-pro-seleccion",
         "recurso-apelacion",
         "perfeccionamiento-contrato",
@@ -101,10 +110,14 @@ export const CERTIFICACION_OECE: Curso = {
         "modificaciones-procedimiento",
         "garantias",
         "adelantos-penalidades-subcontratacion",
+        "recepcion-conformidad-bienes-servicios",
         "resolucion-nulidad-contrato",
         "resolucion-controversias",
+        // Obras, en el orden de la ejecución: expediente y equipo, suspensión y control, cierre.
+        "obra-expediente-residente-supervision",
         "suspension-reprogramacion-obra",
         "intervencion-economica",
+        "obra-valorizacion-recepcion-liquidacion",
         "contratos-estandarizados-internacionales",
       ),
       puntoControl: {

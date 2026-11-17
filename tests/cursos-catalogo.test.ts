@@ -93,11 +93,11 @@ describe("catálogo de cursos", () => {
 
   it("el curso OECE sigue las competencias del temario oficial", () => {
     const c = buscarCurso("certificacion-oece")!;
-    expect(c.secciones.map((s) => s.clases.length)).toEqual([9, 5, 10, 2]);
+    expect(c.secciones.map((s) => s.clases.length)).toEqual([10, 7, 13, 2]);
     expect(clasesEnOrden(c).map((x) => x.modulo)).toEqual([
-      "I", "IV", "V", "VI", "XXIV", "XXV", "XXVI", "III", "VII",
-      "X", "II", "XIX", "XI", "XII",
-      "XIII", "XV", "XX", "XIV", "XXI", "XVI", "XVIII", "XXII", "XVII", "XXIII",
+      "I", "IV", "V", "VI", "XXIV", "XXV", "XXVI", "III", "VII", "XXVII",
+      "X", "II", "XXVIII", "XXIX", "XIX", "XI", "XII",
+      "XIII", "XV", "XX", "XIV", "XXI", "XXX", "XVI", "XVIII", "XXXI", "XXII", "XVII", "XXXII", "XXIII",
       "VIII", "IX",
     ]);
     // El examen evalúa el perfeccionamiento en Selección (2.9 y 2.10), no en Ejecución.
@@ -112,12 +112,11 @@ describe("catálogo de cursos", () => {
     expect(textoPeso(1)).toBe("≈1 de 72 preguntas");
   });
 
-  it("los temas oficiales sin clase solo pueden disminuir", () => {
-    // Trinquete de la alineación con el temario (docs/superpowers/plans/2026-11-17-cursos-alineacion-temario-oece.md).
-    // Al crear la clase de un tema, sácalo de esta lista; si aparece uno nuevo aquí, una clase perdió su tema.
-    // 2.4, 2.5, 3.9 y 3.12 salieron con las clases de refuerzo XIX, XXI y XXIII.
-    const PENDIENTES = ["1.4", "1.8", "2.3", "2.6", "3.4", "3.7", "3.8", "3.11"];
-    expect(temasSinClase(buscarCurso("certificacion-oece")!).map((t) => t.code)).toEqual(PENDIENTES);
+  it("todo tema del temario oficial del examen tiene al menos una clase", () => {
+    // Era el trinquete de la alineación con el temario (12 temas sin clase en la fase 1, 8 tras la integración); con la
+    // fase 3 llegó a cero y pasa a ser una regla: si un tema queda sin clase, una clase perdió su tema o el temario
+    // oficial añadió uno nuevo (lib/exam-curriculum.ts).
+    expect(temasSinClase(buscarCurso("certificacion-oece")!).map((t) => t.code)).toEqual([]);
   });
 
   it("las reglas vigentes tras el D.S. 001-2026-EF están en el contenido", () => {
@@ -192,7 +191,7 @@ describe("catálogo de cursos", () => {
   it("el avance ignora slugs que no son del curso", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda] = clasesEnOrden(c);
-    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 26, porcentaje: 4 });
+    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 32, porcentaje: 3 });
     expect(claseParaSeguir(c, new Set([primera.slug])).slug).toBe(segunda.slug);
     expect(claseParaSeguir(c, new Set(clasesEnOrden(c).map((x) => x.slug))).slug).toBe(primera.slug);
   });
@@ -201,9 +200,9 @@ describe("catálogo de cursos", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda, tercera] = clasesEnOrden(c);
     const v = vistaProgreso(c, new Set([primera.slug, segunda.slug]), segunda.slug);
-    expect(v).toMatchObject({ hechas: 2, total: 26, porcentaje: 8 });
+    expect(v).toMatchObject({ hechas: 2, total: 32, porcentaje: 6 });
     const clases = v.secciones.flatMap((s) => s.clases);
-    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 26 }, (_, i) => i + 1));
+    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 32 }, (_, i) => i + 1));
     expect(clases[0].estado).toBe("completada");
     // La abierta se ve «Viendo ahora» aunque ya esté completada.
     expect(clases[1].estado).toBe("actual");
@@ -245,6 +244,9 @@ describe("catálogo de cursos", () => {
     expect(textoBaseLegal({ norma: "Ley 32069", articulo: "64" })).toBe("Ley 32069 · Art. 64");
     expect(textoBaseLegal({ norma: "Reglamento", articulo: "DCT-1" })).toBe(
       "Reglamento de la Ley 32069 · Primera Disposición Complementaria Transitoria",
+    );
+    expect(textoBaseLegal({ norma: "Reglamento", articulo: "DCT-13" })).toBe(
+      "Reglamento de la Ley 32069 · Decimotercera Disposición Complementaria Transitoria",
     );
   });
 });
