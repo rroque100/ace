@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Ban, BadgeCheck, Building2, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList, Compass, Crown,
   FileSearch, FileText, FileWarning, Gavel, Landmark, ListChecks, Network, Pause, Play,
-  RotateCcw, Scale, ShoppingBag, Stamp, User, UserCog, Users, Volume2, VolumeX, XCircle,
+  RotateCcw, Scale, ShoppingBag, Sparkles, Stamp, User, UserCog, Users, Volume2, VolumeX, XCircle,
   type LucideIcon,
 } from "lucide-react";
 import { buttonClasses } from "@/app/components/ui/button";
@@ -24,6 +24,48 @@ const VELOCIDADES: readonly number[] = [0.75, 1, 1.25, 1.5];
 /** Pausa media por carácter hablado a velocidad normal (~15 caracteres por segundo). */
 const MS_POR_CARACTER = 66;
 
+// ── Sonidos sintetizados con Web Audio API: sin archivos, sin dependencias ────
+type Ctx = AudioContext;
+
+function crearContexto(): Ctx | null {
+  try {
+    return new AudioContext();
+  } catch {
+    return null;
+  }
+}
+
+function tono(ctx: Ctx, frecuencia: number, duracion: number, tipo: OscillatorType = "sine", volumen = 0.06) {
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = tipo;
+  osc.frequency.value = frecuencia;
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(volumen, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duracion);
+  osc.start();
+  osc.stop(ctx.currentTime + duracion);
+}
+
+function sonarFicha(ctx: Ctx, indice: number) {
+  // Nota ascendente por ficha: la primera suena más grave, la última más aguda.
+  tono(ctx, 440 + indice * 60, 0.12, "sine", 0.05);
+}
+function sonarAcierto(ctx: Ctx) {
+  tono(ctx, 523, 0.12, "sine", 0.07); // C5
+  setTimeout(() => tono(ctx, 784, 0.15, "sine", 0.07), 110); // G5
+}
+function sonarFallo(ctx: Ctx) {
+  tono(ctx, 220, 0.2, "square", 0.04);
+}
+function sonarEscena(ctx: Ctx) {
+  tono(ctx, 320, 0.1, "triangle", 0.03);
+}
+function sonarClic(ctx: Ctx) {
+  tono(ctx, 660, 0.06, "sine", 0.04);
+}
+
 export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
   escenas: readonly EscenaVideo[];
   modulo: string;
@@ -36,9 +78,11 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
   const [velocidad, setVelocidad] = useState(1);
   const [volumen, setVolumen] = useState(100);
   const [vozActiva, setVozActiva] = useState(true);
+  const [sonidos, setSonidos] = useState(true);
   const [respuesta, setRespuesta] = useState<number | null>(null);
   const [montadas, setMontadas] = useState(false);
   const temporizador = useRef<number | undefined>(undefined);
+  const audioRef = useRef<Ctx | null>(null);
 
   const sintesis = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
   const [voces, setVoces] = useState<SpeechSynthesisVoice[]>([]);
@@ -50,8 +94,6 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
     return () => sintesis.removeEventListener("voiceschanged", leer);
   }, [sintesis]);
 
-  // La voz más natural disponible en español: peruana → latinoamericana → cualquier «es»; dentro de cada
-  // grupo, las voces «Natural»/«Online» del navegador suenan mucho mejor que las sintéticas locales.
   const vozEspañol = useMemo(() => {
     const es = voces.filter((v) => v.lang.toLowerCase().startsWith("es"));
     const grupos = [
@@ -76,31 +118,45 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
     }
   }, [sintesis]);
 
+  const reproducirSonido = useCallback((fn: (ctx: Ctx) => void) => {
+    if (!sonidos) return;
+    if (!audioRef.current) audioRef.current = crearContexto();
+    if (audioRef.current) {
+      if (audioRef.current.state === "suspended") void audioRef.current.resume();
+      fn(audioRef.current);
+    }
+  }, [sonidos]);
+
   const total = escenas.length;
   const actual = escenas[escena];
   const esContenido = !esQuiz(actual);
+  const fichaActiva = esContenido ? actual.guion[segmento]?.ficha : undefined;
+  const fichasConectadas = useMemo(() => {
+    if (!esContenido || fichaActiva === undefined) return new Set<number>();
+    const ficha = actual.fichas[fichaActiva];
+    return new Set(ficha?.conecta ?? []);
+  }, [esContenido, actual, fichaActiva]);
 
-  /** Salta a una escena (y a su primer segmento), reseteando la comprobación si la tiene. */
   const irA = useCallback((destino: number) => {
     const seguro = Math.max(0, Math.min(total - 1, destino));
     setRespuesta(null);
     setSegmento(0);
     setEscena(seguro);
-  }, [total]);
+    reproducirSonido(sonarEscena);
+  }, [total, reproducirSonido]);
 
-  /** Avanza al siguiente segmento, o a la siguiente escena cuando termina la actual. */
   const avanzar = useCallback(() => {
     if (esContenido && segmento + 1 < actual.guion.length) {
+      const proximo = actual.guion[segmento + 1];
+      if (proximo?.ficha !== undefined) reproducirSonido((ctx) => sonarFicha(ctx, proximo.ficha!));
       setSegmento((s) => s + 1);
       return;
     }
     if (escena + 1 < total) irA(escena + 1);
     else setReproduciendo(false);
-  }, [esContenido, segmento, actual, escena, total, irA]);
+  }, [esContenido, segmento, actual, escena, total, irA, reproducirSonido]);
 
   // ── Motor de narración ──────────────────────────────────────────────────────
-  // Cada vuelta del efecto narra exactamente lo que toca: el segmento actual de la escena de contenido,
-  // o la pregunta/aclaración de la comprobación. Pausar cancela; reanudar repite el segmento en curso.
   useEffect(() => {
     if (!reproduciendo) return;
     let texto: string;
@@ -118,11 +174,9 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
       utterance.volume = volumen / 100;
       if (vozEspañol) utterance.voice = vozEspañol;
       utterance.onend = () => {
-        // La comprobación sin responder no avanza sola: espera el clic del alumno.
         if (esQuiz(actual) && respuesta === null) return;
         avanzar();
       };
-      // Si la voz falla (sin voces instaladas, bloqueada), el segmento avanza con temporizador.
       utterance.onerror = () => {
         temporizador.current = window.setTimeout(() => {
           if (esQuiz(actual) && respuesta === null) return;
@@ -132,14 +186,11 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
       sintesis.speak(utterance);
       return detener;
     }
-    // Sin voz (apagada o no disponible): la pregunta espera el clic; el resto avanza por tiempo.
     if (esQuiz(actual) && respuesta === null) return;
     temporizador.current = window.setTimeout(avanzar, duracionEstimada(texto, velocidad));
     return detener;
   }, [reproduciendo, escena, segmento, respuesta, velocidad, volumen, vozActiva, vozEspañol, actual, sintesis, detener, avanzar]);
 
-  // Reanudar la comprobación ya respondida: el efecto de arriba no reacciona a `respuesta` cuando la voz
-  // está apagada, así que el temporizador de la aclaración se programa al responder.
   useEffect(() => {
     if (!esQuiz(actual) || respuesta === null || !reproduciendo) return;
     if (sintesis && vozActiva) return;
@@ -147,8 +198,7 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
     return detener;
   }, [respuesta, actual, reproduciendo, sintesis, vozActiva, velocidad, avanzar, detener]);
 
-  // Entrada escalonada de fichas: al cambiar de escena se ocultan (quien cambia la escena hace el reset)
-  // y este efecto las revela en el siguiente fotograma; el retardo por ficha produce la cascada.
+  // Entrada escalonada de fichas.
   useEffect(() => {
     const raf = requestAnimationFrame(() => setMontadas(true));
     return () => cancelAnimationFrame(raf);
@@ -156,7 +206,7 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
 
   useEffect(() => detener, [detener]);
 
-  // Atajos de teclado: espacio reproduce o pausa, las flechas cambian de escena.
+  // Atajos de teclado.
   useEffect(() => {
     const alPulsar = (e: KeyboardEvent) => {
       if (e.defaultPrevented) return;
@@ -177,33 +227,44 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
     if (reproduciendo) {
       detener();
       setReproduciendo(false);
-    } else setReproduciendo(true);
+    } else {
+      setReproduciendo(true);
+      reproducirSonido(sonarClic);
+    }
   }
 
-  /** Clic en una ficha: el narrador repite su fragmento desde el principio. */
   function escucharFicha(indiceFicha: number) {
     if (!esContenido) return;
     const destino = actual.guion.findIndex((s) => s.ficha === indiceFicha);
     if (destino < 0) return;
     setSegmento(destino);
     setReproduciendo(true);
+    reproducirSonido((ctx) => sonarFicha(ctx, indiceFicha));
   }
 
-  const fichaActiva = esContenido ? actual.guion[segmento]?.ficha : undefined;
   const subtitulado = esQuiz(actual)
     ? respuesta === null
       ? actual.pregunta
       : actual.aclaracion
     : actual.guion[segmento].texto;
-  const alPulsarOpcion = (indice: number) => {
-    if (respuesta !== null) return;
+
+  function alPulsarOpcion(indice: number) {
+    if (respuesta !== null || !esQuiz(actual)) return;
     setRespuesta(indice);
-  };
+    const correcta = actual.opciones[indice].correcta;
+    reproducirSonido(correcta ? sonarAcierto : sonarFallo);
+  }
+
+  // ── Panel de detalle: lo que la voz no alcanza a decir ──────────────────────
+  const detalle = esContenido && fichaActiva !== undefined ? actual.fichas[fichaActiva] : null;
+  const conectadasAlDetalle = esContenido && fichaActiva !== undefined
+    ? (actual.fichas[fichaActiva]?.conecta ?? []).map((i) => actual.fichas[i]?.nombre).filter(Boolean)
+    : [];
 
   return (
     <figure className="m-0 overflow-hidden rounded-2xl border border-line bg-panel shadow-card">
+      {/* ── Escenario ────────────────────────────────────────────────────────── */}
       <div className="relative flex aspect-video flex-col justify-between overflow-hidden bg-brand-soft p-5 sm:p-7">
-        {/* Ambiente sutil: dos focos que respiran detrás del escenario. */}
         <span aria-hidden className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full bg-panel/40 blur-3xl motion-reduce:hidden sm:size-64" />
         <span aria-hidden className="pointer-events-none absolute -bottom-20 -right-16 size-56 rounded-full bg-panel/30 blur-3xl motion-reduce:hidden sm:size-72" />
 
@@ -216,24 +277,24 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
           </span>
         </div>
 
-        <div className="relative flex flex-1 flex-col items-center justify-center gap-4 py-3">
-          <h3 className="m-0 text-center text-lg font-semibold text-ink sm:text-2xl">{actual.titulo}</h3>
+        <div className="relative flex flex-1 flex-col items-center justify-center gap-3 py-2 sm:gap-4 sm:py-3">
+          <h3 className="m-0 text-center text-base font-semibold text-ink sm:text-xl">{actual.titulo}</h3>
 
           {esContenido ? (
-            <div className="flex max-h-44 flex-wrap items-stretch justify-center gap-2 overflow-y-auto sm:gap-3">
+            <div className="flex max-h-36 flex-wrap items-stretch justify-center gap-1.5 overflow-y-auto sm:gap-2">
               {actual.fichas.map((ficha, i) => (
                 <FichaClave
                   key={`${actual.titulo}-${ficha.nombre}`}
                   ficha={ficha}
                   montada={montadas}
-                  activa={fichaActiva === i}
+                  estado={fichaActiva === i ? "activa" : fichasConectadas.has(i) ? "conectada" : "normal"}
                   retraso={i * 130}
                   onClick={() => escucharFicha(i)}
                 />
               ))}
             </div>
           ) : (
-            <div className="flex w-full max-w-lg flex-col gap-2">
+            <div className="flex w-full max-w-lg flex-col gap-1.5 sm:gap-2">
               {actual.opciones.map((opcion, i) => (
                 <OpcionClave
                   key={opcion.texto}
@@ -247,11 +308,6 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
                   onElegir={() => alPulsarOpcion(i)}
                 />
               ))}
-              {respuesta !== null && (
-                <p className={cn("m-0 rounded-xl px-4 py-2 text-sm font-medium", actual.opciones[respuesta].correcta ? "bg-success-soft text-success" : "bg-danger-soft text-danger")}>
-                  {actual.opciones[respuesta].correcta ? "Correcto." : "La correcta es otra: mira la explicación."}
-                </p>
-              )}
             </div>
           )}
         </div>
@@ -259,18 +315,46 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
         <p className="relative m-0 text-center text-xs font-medium uppercase tracking-wide text-brand-dark">{actual.cinta}</p>
       </div>
 
-      {/* Subtítulo del fragmento en curso, también transcripción cuando no hay voz. */}
-      <p aria-live="polite" className="m-0 border-t border-line bg-surface px-5 py-4 text-sm leading-relaxed text-ink">
+      {/* ── Panel de detalle: lo que la voz no dice, el panel lo muestra ──────── */}
+      {esContenido && (
+        <div className="border-t border-line bg-surface px-5 py-3">
+          {detalle ? (
+            <div className="space-y-1.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1 text-sm font-semibold text-ink">{detalle.nombre}</span>
+                {conectadasAlDetalle.length > 0 && (
+                  <span className="inline-flex items-center gap-1 text-xs text-muted">
+                    <Users size={13} aria-hidden /> Se conecta con: {conectadasAlDetalle.join(" · ")}
+                  </span>
+                )}
+              </div>
+              {detalle.detalle && <p className="m-0 text-sm leading-relaxed text-muted">{detalle.detalle}</p>}
+              {actual.examen && (
+                <p className="m-0 inline-flex items-center gap-1.5 rounded-lg bg-warning-soft px-3 py-1.5 text-xs font-medium text-warning">
+                  <Sparkles size={14} aria-hidden /> El examen pregunta: {actual.examen}
+                </p>
+              )}
+            </div>
+          ) : actual.examen ? (
+            <p className="m-0 inline-flex items-center gap-1.5 rounded-lg bg-warning-soft px-3 py-1.5 text-xs font-medium text-warning">
+              <Sparkles size={14} aria-hidden /> El examen pregunta: {actual.examen}
+            </p>
+          ) : null}
+        </div>
+      )}
+
+      {/* ── Subtítulo ──────────────────────────────────────────────────────────── */}
+      <p aria-live="polite" className="m-0 border-t border-line bg-panel px-5 py-4 text-sm leading-relaxed text-ink">
         {subtitulado}
       </p>
 
-      {/* Progreso: una barra por escena, clicable para saltar. */}
+      {/* ── Progreso ──────────────────────────────────────────────────────────── */}
       <div className="flex gap-1 px-5 pt-3" role="group" aria-label="Ir a una escena">
-        {escenas.map((_, i) => (
+        {escenas.map((e, i) => (
           <button
             key={i}
             type="button"
-            aria-label={`Ir a la escena ${i + 1}: ${escenas[i].titulo}`}
+            aria-label={`Ir a la escena ${i + 1}: ${e.titulo}`}
             aria-current={i === escena}
             onClick={() => irA(i)}
             className={cn(
@@ -281,14 +365,15 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
         ))}
       </div>
 
+      {/* ── Controles ─────────────────────────────────────────────────────────── */}
       <div className="flex flex-wrap items-center gap-2 px-5 py-4">
         <button type="button" className={buttonClasses({ variant: "primary" })} onClick={alternarReproduccion}>
-          {reproduciendo ? <><Pause size={16} aria-hidden /> Pausar</> : <><Play size={16} aria-hidden /> {escena === total - 1 ? "Reproducir" : "Reproducir"}</>}
+          {reproduciendo ? <><Pause size={16} aria-hidden /> Pausar</> : <><Play size={16} aria-hidden /> Reproducir</>}
         </button>
         <button
           type="button"
           className={buttonClasses({ variant: "secondary" })}
-          onClick={() => setVelocidad((v) => VELOCIDADES[(VELOCIDADES.indexOf(v) + 1) % VELOCIDADES.length])}
+          onClick={() => { setVelocidad((v) => VELOCIDADES[(VELOCIDADES.indexOf(v) + 1) % VELOCIDADES.length]); reproducirSonido(sonarClic); }}
           aria-label={`Velocidad de la voz: ${velocidad} veces. Pulsa para cambiarla.`}
         >
           {velocidad}×
@@ -303,9 +388,18 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
             value={volumen}
             onChange={(e) => setVolumen(Number(e.target.value))}
             aria-label="Volumen de la voz"
-            className="h-1.5 w-24 cursor-pointer accent-brand"
+            className="h-1.5 w-20 cursor-pointer accent-brand"
           />
         </span>
+        <button
+          type="button"
+          className={buttonClasses({ variant: "secondary" })}
+          aria-pressed={!sonidos}
+          onClick={() => { setSonidos((v) => !v); if (sonidos) reproducirSonido(sonarClic); }}
+        >
+          <Sparkles size={16} aria-hidden />
+          <span className="sr-only">Sonidos </span>{sonidos ? "activados" : "desactivados"}
+        </button>
         {sintesis && (
           <button
             type="button"
@@ -326,33 +420,26 @@ export function VideoAnimado({ escenas, modulo, titulo, minutos }: {
         <button
           type="button"
           className={buttonClasses({ variant: "secondary" })}
-          onClick={() => {
-            detener();
-            irA(0);
-            setReproduciendo(true);
-          }}
+          onClick={() => { detener(); irA(0); setReproduciendo(true); }}
         >
           <RotateCcw size={16} aria-hidden /> Reiniciar
         </button>
         <span className="min-w-0 flex-1 truncate text-xs text-muted" title={titulo}>
-          {sintesis
-            ? "Voz del navegador, velocidad y volumen a tu gusto. Clic en una tarjeta para volver a escucharla; espacio pausa."
-            : "Tu navegador no ofrece voz: las escenas avanzan solas con el texto."}
+          {sintesis ? "Espacio pausa · flechas navegan · clic en una ficha la repite" : "Sin voz disponible: el texto guía las escenas."}
         </span>
       </div>
     </figure>
   );
 }
 
-/** Duración aproximada de un fragmento sin voz: caracteres por segundo, ajustada por la velocidad. */
 function duracionEstimada(texto: string, velocidad: number) {
   return Math.max(1600, Math.min(12_000, (texto.length * MS_POR_CARACTER) / velocidad));
 }
 
-function FichaClave({ ficha, montada, activa, retraso, onClick }: {
+function FichaClave({ ficha, montada, estado, retraso, onClick }: {
   ficha: FichaVideo;
   montada: boolean;
-  activa: boolean;
+  estado: "activa" | "conectada" | "normal";
   retraso: number;
   onClick: () => void;
 }) {
@@ -364,17 +451,23 @@ function FichaClave({ ficha, montada, activa, retraso, onClick }: {
       title={`Escuchar de nuevo: ${ficha.nombre}`}
       style={{ transitionDelay: `${retraso}ms` }}
       className={cn(
-        "flex w-28 cursor-pointer flex-col items-center gap-1.5 rounded-xl border p-3 text-center outline-none transition-all duration-500",
-        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none sm:w-36 sm:gap-2 sm:p-4",
+        "flex w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border p-2 text-center outline-none transition-all duration-500",
+        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none sm:w-32 sm:gap-1.5 sm:p-3",
         montada ? "translate-y-0 rotate-0 scale-100 opacity-100" : "translate-y-4 -rotate-2 scale-90 opacity-0",
-        activa ? "border-brand bg-brand-soft/60 shadow-card ring-1 ring-brand" : "border-line bg-panel",
+        estado === "activa" && "border-brand bg-brand-soft/60 shadow-card ring-2 ring-brand",
+        estado === "conectada" && "border-brand/50 bg-brand-soft/30 ring-1 ring-brand/40",
+        estado === "normal" && "border-line bg-panel",
       )}
     >
-      <span className={cn("grid size-9 shrink-0 place-items-center rounded-lg transition-transform duration-300 sm:size-10", activa ? "scale-110 bg-brand text-on-brand" : "bg-brand text-on-brand")}>
-        <Icono size={20} aria-hidden />
+      <span className={cn(
+        "grid size-8 shrink-0 place-items-center rounded-lg transition-transform duration-300 sm:size-10",
+        estado === "activa" ? "scale-110 bg-brand text-on-brand" : "bg-brand text-on-brand",
+        estado === "conectada" && "scale-105 opacity-70",
+      )}>
+        <Icono size={18} aria-hidden />
       </span>
       <span className="text-xs font-semibold leading-tight text-ink sm:text-sm">{ficha.nombre}</span>
-      <span className="text-[11px] leading-snug text-muted sm:text-xs">{ficha.rol}</span>
+      <span className="hidden text-[10px] leading-snug text-muted sm:block sm:text-xs">{ficha.rol}</span>
     </button>
   );
 }
