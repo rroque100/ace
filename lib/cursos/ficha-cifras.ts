@@ -31,6 +31,30 @@ export const FICHA_CIFRAS: GrupoFicha[] = [
         base: [reg("125")],
       },
       {
+        tema: "Indagación básica o avanzada",
+        dato: "Básica: al menos una fuente de información. Avanzada: dos o más fuentes.",
+        clase: "interaccion-mercado-cuantia",
+        base: [reg("48")],
+      },
+      {
+        tema: "Consulta al mercado básica o avanzada",
+        dato: "Básica: una herramienta (escrita o reuniones). Avanzada: dos o más, aunque sean de la misma clasificación.",
+        clase: "interaccion-mercado-cuantia",
+        base: [reg("49")],
+      },
+      {
+        tema: "Difusión del requerimiento",
+        dato: "Consultas en no menos de 5 días hábiles; absolución en un máximo de 6 (antes 3) con acta; reunión de confirmación en un máximo de 3; su acta, al día hábil siguiente.",
+        clase: "interaccion-mercado-cuantia",
+        base: [reg("51")],
+      },
+      {
+        tema: "Agrupamiento por ítems",
+        dato: "Cada contratación individual debe superar la cuantía de un contrato menor (8 UIT); la DEC sustenta que agrupar es más eficiente.",
+        clase: "estrategia-agrupamiento-fraccionamiento",
+        base: [reg("52"), ley("34")],
+      },
+      {
         tema: "Comité",
         dato: "Tres integrantes: al menos un comprador público de la DEC y un experto o profesional en el objeto.",
         clase: "evaluadores",

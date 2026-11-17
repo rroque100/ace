@@ -144,8 +144,11 @@ en el texto de la norma).
    (3 casos por clase, pestaña «Casuística») y las clases de refuerzo XIX (2.2, 2.4, 2.5), XX (3.2), XXI
    (3.9, 3.3), XXII (3.10) y XXIII (3.12). El trinquete baja a **8** temas sin clase: 1.4, 1.8, 2.3, 2.6,
    3.4, 3.7, 3.8 y 3.11. La ficha suma 8 cifras de esas clases.
-2. **Clases de alto peso**: 1.2 (requerimiento, interacción con el mercado, estrategia: hoy una sola
-   clase para 13 de 72 preguntas). 2.2, 3.2 y 3.10 quedan cubiertas por XIX, XX y XXII.
+2. ✅ **Clases de alto peso**: 1.2 con tres clases nuevas (XXIV requerimiento, Art. 44; XXV interacción
+   con el mercado y cuantía, Arts. 47–51 y 53; XXVI estrategia, agrupamiento y fraccionamiento, Arts. 45,
+   46 y 52), 13 casos y 4 cifras más en la ficha. Elegidas por lo que más pregunta el banco del tema
+   (Art. 44 en 32 preguntas). Se usa el texto modificado del 51.3: 6 días hábiles, no 3.
+   2.2, 3.2 y 3.10 quedaron cubiertas por XIX, XX y XXII.
 3. **Huecos restantes**: 1.4, 1.8, 2.3, 2.6, 2.8 (ampliar), 3.4, 3.7, 3.8, 3.11.
 4. **Entrenamiento**: R2 (practicar el tema), R3 (diagnóstico), R5 (glosario).
 

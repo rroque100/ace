@@ -93,9 +93,9 @@ describe("catálogo de cursos", () => {
 
   it("el curso OECE sigue las competencias del temario oficial", () => {
     const c = buscarCurso("certificacion-oece")!;
-    expect(c.secciones.map((s) => s.clases.length)).toEqual([6, 5, 10, 2]);
+    expect(c.secciones.map((s) => s.clases.length)).toEqual([9, 5, 10, 2]);
     expect(clasesEnOrden(c).map((x) => x.modulo)).toEqual([
-      "I", "IV", "V", "VI", "III", "VII",
+      "I", "IV", "V", "VI", "XXIV", "XXV", "XXVI", "III", "VII",
       "X", "II", "XIX", "XI", "XII",
       "XIII", "XV", "XX", "XIV", "XXI", "XVI", "XVIII", "XXII", "XVII", "XXIII",
       "VIII", "IX",
@@ -139,6 +139,10 @@ describe("catálogo de cursos", () => {
     expect(todo).toContain("los comités registran sus actas");
     // 108.3: el silencio de la entidad DENIEGA la subcontratación (no la aprueba).
     expect(todo).toContain("se entiende denegada");
+    // 51.3 modificado: la absolución de la difusión del requerimiento es en 6 días hábiles (antes, 3).
+    expect(todo).toContain("absuelven en un máximo de 6 días hábiles");
+    // 52.1.b: por ítems, cada contratación individual debe superar la cuantía de un contrato menor.
+    expect(todo).toContain("supere la de un contrato menor");
   });
 
   it("toda clase trae al menos tres casos tipo examen con su base legal", () => {
@@ -188,7 +192,7 @@ describe("catálogo de cursos", () => {
   it("el avance ignora slugs que no son del curso", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda] = clasesEnOrden(c);
-    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 23, porcentaje: 4 });
+    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 26, porcentaje: 4 });
     expect(claseParaSeguir(c, new Set([primera.slug])).slug).toBe(segunda.slug);
     expect(claseParaSeguir(c, new Set(clasesEnOrden(c).map((x) => x.slug))).slug).toBe(primera.slug);
   });
@@ -197,9 +201,9 @@ describe("catálogo de cursos", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda, tercera] = clasesEnOrden(c);
     const v = vistaProgreso(c, new Set([primera.slug, segunda.slug]), segunda.slug);
-    expect(v).toMatchObject({ hechas: 2, total: 23, porcentaje: 9 });
+    expect(v).toMatchObject({ hechas: 2, total: 26, porcentaje: 8 });
     const clases = v.secciones.flatMap((s) => s.clases);
-    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 23 }, (_, i) => i + 1));
+    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 26 }, (_, i) => i + 1));
     expect(clases[0].estado).toBe("completada");
     // La abierta se ve «Viendo ahora» aunque ya esté completada.
     expect(clases[1].estado).toBe("actual");
