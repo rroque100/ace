@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  CURSOS, avance, buscarClase, buscarCurso, claseParaSeguir, clasesEnOrden, duracionTotal, formatoDuracion, hrefBaseLegal, textoBaseLegal, vecinas,
+  CURSOS, avance, buscarClase, buscarCurso, claseParaSeguir, clasesEnOrden, duracionTotal, estadoClase, formatoDuracion, hrefBaseLegal,
+  textoBaseLegal, vecinas, vistaProgreso,
 } from "@/lib/cursos/catalogo";
 import { rutaCanonicaCursos } from "@/lib/cursos/ruta-canonica";
 
@@ -83,6 +84,27 @@ describe("catálogo de cursos", () => {
     expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 18, porcentaje: 6 });
     expect(claseParaSeguir(c, new Set([primera.slug])).slug).toBe(segunda.slug);
     expect(claseParaSeguir(c, new Set(clasesEnOrden(c).map((x) => x.slug))).slug).toBe(primera.slug);
+  });
+
+  it("el panel de progreso numera todo el curso y marca completada / viendo ahora", () => {
+    const c = buscarCurso("certificacion-oece")!;
+    const [primera, segunda, tercera] = clasesEnOrden(c);
+    const v = vistaProgreso(c, new Set([primera.slug, segunda.slug]), segunda.slug);
+    expect(v).toMatchObject({ hechas: 2, total: 18, porcentaje: 11 });
+    const clases = v.secciones.flatMap((s) => s.clases);
+    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 18 }, (_, i) => i + 1));
+    expect(clases[0].estado).toBe("completada");
+    // La abierta se ve «Viendo ahora» aunque ya esté completada.
+    expect(clases[1].estado).toBe("actual");
+    expect(clases[2]).toMatchObject({ slug: tercera.slug, estado: "pendiente" });
+    expect(v.secciones[0].hechas).toBe(2);
+    // No viaja el contenido de las clases al cliente.
+    expect(JSON.stringify(v)).not.toContain("puntosClave");
+  });
+
+  it("estadoClase sin clase abierta", () => {
+    expect(estadoClase("a", new Set(["a"]))).toBe("completada");
+    expect(estadoClase("b", new Set(["a"]))).toBe("pendiente");
   });
 
   it("un slug desconocido no rompe", () => {
