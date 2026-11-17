@@ -3,11 +3,13 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, BookA, BookOpenCheck, Clock, FileText, GraduationCap, ListChecks, PlayCircle } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import { avance, buscarCurso, claseParaSeguir, clasesEnOrden, duracionTotal, formatoDuracion } from "@/lib/cursos/catalogo";
+import { diagnosticoParaPagina } from "@/lib/cursos/diagnostico-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
 import { PREGUNTAS_EXAMEN } from "@/lib/cursos/temario-examen";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../components/app-shell";
 import { AvisoProgreso, BarraAvance } from "../../components/cursos/barra-avance";
+import { PruebaDiagnostica } from "../../components/cursos/prueba-diagnostica";
 import { TemarioCurso } from "../../components/cursos/temario-curso";
 
 export async function generateMetadata({ params }: { params: Promise<{ curso: string }> }) {
@@ -21,7 +23,12 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
   const curso = buscarCurso(slug);
   if (!curso) notFound();
 
-  const progreso = await progresoParaPagina(user.accessToken, curso.slug);
+  // El diagnóstico usa el banco del simulador, que es del examen OECE: otros cursos no lo tienen.
+  const conDiagnostico = curso.slug === "certificacion-oece";
+  const [progreso, diagnostico] = await Promise.all([
+    progresoParaPagina(user.accessToken, curso.slug),
+    conDiagnostico ? diagnosticoParaPagina(user.id, curso) : null,
+  ]);
   const completadas = new Set(progreso.completadas);
   const a = avance(curso, completadas);
   const seguir = claseParaSeguir(curso, completadas);
@@ -87,6 +94,8 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
             <AvisoProgreso estado={progreso.estado} />
           </div>
         </section>
+
+        {diagnostico && <PruebaDiagnostica curso={curso.slug} estado={diagnostico} />}
 
         <section aria-labelledby="titulo-temario">
           <h2 id="titulo-temario" className="mb-4 mt-0 text-xl font-semibold text-ink">

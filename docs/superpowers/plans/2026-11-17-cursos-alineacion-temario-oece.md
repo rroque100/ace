@@ -154,11 +154,13 @@ en el texto de la norma).
    (recepción y conformidad), 3.7 + 3.8 (expediente técnico, residente, supervisión y gerente de proyecto)
    y 3.11 (valorización, recepción y liquidación de obra); 20 casos y 8 cifras más en la ficha. **Ningún
    tema oficial queda sin clase**: el trinquete pasa a ser una regla del test.
-4. 🟡 **Entrenamiento**: ✅ 2.8 ampliado con la clase XXXIII (trámite y resolución de la apelación, Arts.
+4. ✅ **Entrenamiento**: ✅ 2.8 ampliado con la clase XXXIII (trámite y resolución de la apelación, Arts.
    305–315 del Reglamento; 7 casos y 4 cifras en la ficha). ✅ R2: «Practicar» junto a cada tema de la
    clase abre el banco con `?tema=<código>` y deja competencia y tema elegidos. ✅ R5: glosario de siglas
    (Art. 3.1 del Reglamento más las que usa el curso), con test que exige definir toda sigla nueva.
-   Pendiente: R3 (prueba diagnóstica).
+   ✅ R3: prueba diagnóstica en la portada del curso: 15 preguntas del banco (5 por competencia, temas distintos
+   sorteados según su cuota), 25 minutos, y recomienda hasta 5 clases según los temas fallados y su peso en el
+   examen. Función `ace_exam_start_diagnostic` en docs/supabase/2026-11-17-cursos-prueba-diagnostica.sql (aplicada).
 
 Cada fase en su propio PR, con verificación legal contra el corpus y tests del catálogo (que ya exigen
 base legal, numeración correlativa y que todo artículo citado esté declarado). Se añadirá un test que
