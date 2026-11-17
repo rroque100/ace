@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, BookOpenCheck, Clock, FileText, GraduationCap, ListChecks, PlayCircle } from "lucide-react";
+import { ArrowLeft, BookA, BookOpenCheck, Clock, FileText, GraduationCap, ListChecks, PlayCircle } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import { avance, buscarCurso, claseParaSeguir, clasesEnOrden, duracionTotal, formatoDuracion } from "@/lib/cursos/catalogo";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
@@ -68,6 +68,11 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
             {curso.slug === "certificacion-oece" && (
               <Link className={buttonClasses({ variant: "ghost", size: "lg" })} href={`/cursos/${curso.slug}/ficha`}>
                 <FileText size={18} aria-hidden /> Ficha de plazos y cifras
+              </Link>
+            )}
+            {curso.slug === "certificacion-oece" && (
+              <Link className={buttonClasses({ variant: "ghost", size: "lg" })} href={`/cursos/${curso.slug}/glosario`}>
+                <BookA size={18} aria-hidden /> Glosario de siglas
               </Link>
             )}
           </div>

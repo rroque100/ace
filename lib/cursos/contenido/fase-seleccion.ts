@@ -286,6 +286,204 @@ export const FASE_SELECCION: Clase[] = [
     },
   },
   {
+    // Refuerzo del tema 2.8: la clase XI explica cómo se interpone; esta, qué pasa después. El banco pregunta mucho
+    // por improcedencia, plazos de subsanación y por qué parte de la garantía se ejecuta.
+    slug: "apelacion-tramite-resolucion",
+    modulo: "XXXIII",
+    temas: ["2.8"],
+    titulo: "Trámite y resolución de la apelación",
+    descripcion:
+      "Qué pasa después de apelar: suspensión del procedimiento, admisibilidad y subsanación, causales de " +
+      "improcedencia, el trámite ante la entidad y ante el Tribunal, cómo se resuelve y qué ocurre con la garantía.",
+    minutos: 11,
+    contenido: {
+      resumen: [
+        {
+          pregunta: "¿Qué efecto tiene interponer la apelación?",
+          parrafos: [
+            "Suspende el procedimiento de selección. Si se convocó por relación de ítems, la suspensión afecta solo al " +
+              "ítem impugnado. No suspende la incorporación de proveedores a los catálogos electrónicos de acuerdo marco " +
+              "ni la extensión de su vigencia (Reglamento, Art. 305).",
+            "La entidad o el TCP informan la interposición registrándola en la Pladicop hasta el día hábil siguiente.",
+          ],
+        },
+        {
+          pregunta: "¿Cómo se revisa la admisibilidad?",
+          parrafos: [
+            "El recurso se presenta en la mesa de partes de la entidad o del TCP con los requisitos del Art. 306: " +
+              "identificación del impugnante, nomenclatura del procedimiento, petitorio y fundamentos, pruebas, garantía, " +
+              "inscripción en el REMYPE si corresponde y firma. En consorcio, apela el representante común.",
+            "La revisión se hace en un solo acto, al presentar. La nomenclatura y la firma deben estar en el primer escrito: " +
+              "si faltan, la mesa de partes rechaza el recurso. Los demás requisitos se subsanan en un plazo máximo de dos " +
+              "días hábiles desde el día siguiente de la presentación; ese plazo es único y suspende todos los plazos de la " +
+              "impugnación. Si vence sin subsanar, el recurso se considera no presentado (Reglamento, Art. 307).",
+            "Si la omisión se advierte después, se conceden también dos días hábiles desde la notificación de las " +
+              "observaciones. Y el recurso presentado antes del otorgamiento de la buena pro se rechaza con la simple " +
+              "verificación de la fecha programada en la Pladicop.",
+          ],
+        },
+        {
+          pregunta: "¿Cuándo es improcedente?",
+          parrafos: [
+            "Cuando quien lo recibe no es competente según el Art. 74 de la Ley; se dirige contra un acto no impugnable; se " +
+              "presenta fuera de plazo; lo firma quien no es el impugnante o su representante; el impugnante está impedido " +
+              "o incapacitado; lo presenta el postor ganador de la buena pro; no hay conexión lógica entre los hechos y el " +
+              "petitorio, o el impugnante carece de interés para obrar o de legitimidad procesal (Reglamento, Art. 308).",
+            "También cuando el proveedor impugna la buena pro sin cuestionar la no admisión o descalificación de su oferta " +
+              "o, aun cuestionándola, no logra revertirla antes. Primero debe volver a estar en carrera.",
+          ],
+        },
+        {
+          pregunta: "¿Cómo se tramita ante la entidad?",
+          parrafos: [
+            "Se corre traslado a los postores con interés directo al día hábil siguiente de la presentación o de la " +
+              "subsanación, publicando el recurso en la Pladicop. Pueden absolverlo en un plazo no mayor de tres días " +
+              "hábiles; la entidad resuelve con la absolución o sin ella. Los recursos sobre un mismo procedimiento o ítem " +
+              "se acumulan al más antiguo (Reglamento, Art. 310).",
+            "La entidad resuelve y notifica por la Pladicop en un plazo no mayor de diez días hábiles desde el día " +
+              "siguiente de la presentación o de la subsanación. Resuelve la autoridad de la gestión administrativa, con " +
+              "opinión previa de las áreas legal y técnicas, y sin que intervengan los servidores que participaron en el " +
+              "procedimiento de selección.",
+          ],
+        },
+        {
+          pregunta: "¿Y ante el Tribunal?",
+          parrafos: [
+            "Al día hábil siguiente de la presentación o subsanación, el TCP notifica el recurso para que, en no más de tres " +
+              "días hábiles, la entidad registre su sustento técnico legal y los otros postores absuelvan el traslado. La " +
+              "audiencia pública se programa en un plazo no menor de tres ni mayor de cinco días hábiles (Reglamento, Art. 311).",
+            "La sala puede pedir información adicional; eso prorroga la evaluación sin exceder diez días hábiles desde que " +
+              "recibe el expediente. Declarado el expediente listo para resolver, el TCP resuelve en cinco días hábiles y " +
+              "notifica por la Pladicop a más tardar al día hábil siguiente. Si la entidad no registra su sustento, se " +
+              "comunica a su Órgano de Control Institucional o a la Secretaría Técnica de procedimientos disciplinarios.",
+          ],
+        },
+        {
+          pregunta: "¿Cómo puede terminar?",
+          parrafos: [
+            "Infundado: se confirma el acto. Fundado: se revoca y, si se cuestionó la evaluación, la calificación o la buena " +
+              "pro, puede otorgarse la buena pro a quien corresponda. Improcedente: por alguna causal del Art. 308. Nulidad: " +
+              "si hay un vicio del Art. 70.1 de la Ley que no puede conservarse, se retrotrae a la etapa que se precise, " +
+              "aun cuando el recurso sea improcedente (Reglamento, Art. 313).",
+            "El apelante puede desistirse con escrito de firma legalizada notarialmente o certificada ante el TCP, siempre " +
+              "que lo haga antes de que el expediente se declare listo para resolver y no comprometa el interés público " +
+              "(Reglamento, Art. 314).",
+          ],
+        },
+        {
+          pregunta: "¿Qué pasa con la garantía?",
+          parrafos: [
+            "Infundado o desistimiento: se ejecuta íntegra. Improcedente: se ejecuta el 50 %. Se devuelve toda cuando el " +
+              "recurso es fundado en todo o en parte, se declara la nulidad o que carece de objeto pronunciarse, sobreviene " +
+              "un impedimento para contratar del impugnante u opera la denegatoria ficta. La devolución se hace en cinco " +
+              "días hábiles de solicitada (Reglamento, Art. 315).",
+          ],
+        },
+      ],
+      puntosClave: [
+        "Apelar suspende el procedimiento; si es por ítems, solo el ítem impugnado.",
+        "Nomenclatura y firma van sí o sí en el primer escrito; lo demás se subsana en 2 días hábiles.",
+        "Apelar antes de la buena pro: la mesa de partes lo rechaza.",
+        "El postor ganador no puede apelar; el descalificado primero debe revertir su descalificación.",
+        "Entidad: absolución en 3 días hábiles y resolución en 10.",
+        "TCP: sustento y absolución en 3; audiencia entre 3 y 5; resolución en 5 desde «listo para resolver».",
+        "Garantía: infundado o desistimiento, íntegra; improcedente, 50 %; fundado aunque sea en parte, se devuelve toda.",
+      ],
+      casuisticas: [
+        {
+          enunciado:
+            "Un postor apela la buena pro sin adjuntar la garantía y sin firmar el escrito. ¿Qué hace la mesa de partes?",
+          resolucion:
+            "Rechaza el recurso. La firma, como la nomenclatura del procedimiento, debe constar en el primer escrito; su " +
+            "falta no se subsana. Si solo hubiera faltado la garantía, se le darían dos días hábiles para subsanar y, " +
+            "vencidos sin hacerlo, el recurso se tendría por no presentado.",
+          baseLegal: [
+            { norma: "Reglamento", articulo: "306" },
+            { norma: "Reglamento", articulo: "307" },
+          ],
+        },
+        {
+          enunciado:
+            "El ganador de la buena pro apela porque considera que le asignaron menos puntaje técnico del que merecía. " +
+            "¿Cómo se resuelve y qué pasa con su garantía?",
+          resolucion:
+            "Es improcedente: el postor ganador de la buena pro no puede interponer apelación. Al declararse improcedente " +
+            "se ejecuta el 50 % de la garantía.",
+          baseLegal: [
+            { norma: "Reglamento", articulo: "308" },
+            { norma: "Reglamento", articulo: "315" },
+          ],
+        },
+        {
+          enunciado:
+            "Un postor cuya oferta fue descalificada apela solo contra el otorgamiento de la buena pro al ganador, sin " +
+            "cuestionar su propia descalificación. ¿Procede?",
+          resolucion:
+            "No. Es improcedente: quien impugna la buena pro sin cuestionar su no admisión o descalificación (o sin lograr " +
+            "revertirla antes) no tiene cómo beneficiarse del resultado.",
+          baseLegal: [{ norma: "Reglamento", articulo: "308" }],
+        },
+        {
+          enunciado:
+            "Una licitación se convocó por relación de ítems y un postor apela solo el ítem 2. ¿Puede la entidad seguir con " +
+            "los demás ítems?",
+          resolucion:
+            "Sí. La apelación suspende el procedimiento, pero cuando se convocó por relación de ítems la suspensión afecta " +
+            "únicamente al ítem impugnado.",
+          baseLegal: [{ norma: "Reglamento", articulo: "305" }],
+        },
+        {
+          enunciado:
+            "Una apelación se tramita ante la entidad. El recurso se presentó completo y nadie absolvió el traslado. ¿Puede " +
+            "la entidad resolver y en qué plazo?",
+          resolucion:
+            "Sí: resuelve con la absolución o sin ella. Tiene un plazo no mayor de diez días hábiles desde el día siguiente " +
+            "de la presentación para resolver y notificar por la Pladicop. Decide la autoridad de la gestión " +
+            "administrativa, con opinión previa de las áreas legal y técnicas.",
+          baseLegal: [{ norma: "Reglamento", articulo: "310" }],
+        },
+        {
+          enunciado:
+            "En una apelación ante el TCP, la sala ya declaró el expediente listo para resolver y el apelante presenta su " +
+            "desistimiento. ¿Se acepta?",
+          resolucion:
+            "No. El desistimiento solo cabe hasta antes de que el expediente se declare listo para resolver (y sin " +
+            "comprometer el interés público). Desde esa declaración, el TCP tiene cinco días hábiles para resolver.",
+          baseLegal: [
+            { norma: "Reglamento", articulo: "311" },
+            { norma: "Reglamento", articulo: "314" },
+          ],
+        },
+        {
+          enunciado:
+            "La apelación se declara fundada en parte: se revoca la descalificación del impugnante, pero no se le otorga la " +
+            "buena pro. ¿Qué pasa con la garantía?",
+          resolucion:
+            "Se devuelve en su totalidad: basta que el recurso sea fundado en todo o en parte. El impugnante la solicita y " +
+            "la devolución se hace en cinco días hábiles.",
+          baseLegal: [
+            { norma: "Reglamento", articulo: "313" },
+            { norma: "Reglamento", articulo: "315" },
+          ],
+        },
+      ],
+      baseLegal: [
+        { norma: "Reglamento", articulo: "305" },
+        { norma: "Reglamento", articulo: "306" },
+        { norma: "Reglamento", articulo: "307" },
+        { norma: "Reglamento", articulo: "308" },
+        { norma: "Reglamento", articulo: "310" },
+        { norma: "Reglamento", articulo: "311" },
+        { norma: "Reglamento", articulo: "313" },
+        { norma: "Reglamento", articulo: "314" },
+        { norma: "Reglamento", articulo: "315" },
+        { norma: "Ley 32069", articulo: "70" },
+        { norma: "Ley 32069", articulo: "74" },
+      ],
+      verificada: true,
+    },
+  },
+  {
     slug: "plazos-buena-pro-seleccion",
     modulo: "XIX",
     temas: ["2.2", "2.4", "2.5"],

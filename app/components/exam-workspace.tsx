@@ -14,6 +14,7 @@ import {
   recoverPendingAnswer,
 } from "@/lib/exam-learning-policy";
 import { COMPETENCIES } from "@/lib/exam-curriculum";
+import { temaDePractica } from "@/lib/simulador-navegacion";
 import {
   EXAM_DIFFICULTIES,
   availableExamQuestions,
@@ -192,6 +193,27 @@ export function ExamWorkspace({
               localQuestionId ?? x.attempt.last_question_id,
             ),
           );
+        }
+        // Llegada desde «Practica este tema» del curso: deja la práctica personalizada con ese tema elegido. Si el
+        // banco aún no tiene preguntas de ese tema, se queda en su competencia en vez de mostrar un filtro vacío.
+        const tema = x ? null : temaDePractica(new URL(location.href).searchParams);
+        if (tema) {
+          const conTema = d.available.some((g) => g.regime === "32069" && g.topic === tema.topic);
+          const filtros = { regime: "32069", competency: tema.competency, topic: conTema ? tema.topic : "", difficulty: "" as const, preview: false };
+          setMode("practice");
+          setRegime(filtros.regime);
+          setDifficulty("");
+          setPreview(false);
+          setCompetency(filtros.competency);
+          setTopic(filtros.topic);
+          setCount(Math.max(1, Math.min(10, availableExamQuestions(d.available, filtros) || 10)));
+          setActivity("practice");
+          // El tema solo vale al entrar: si quedara en la URL, recargar la página pisaría lo que la persona cambió.
+          const u = new URL(location.href);
+          u.searchParams.delete("tema");
+          u.hash = "exam-custom";
+          history.replaceState(null, "", u);
+          requestAnimationFrame(() => document.getElementById(ACTIVITY_TARGETS.practice)?.scrollIntoView({ block: "start" }));
         }
   }, [accept, restoreLocal]);
   useEffect(() => {

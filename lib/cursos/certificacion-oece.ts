@@ -17,7 +17,7 @@ import { TEMAS_PENDIENTES } from "./contenido/temas-pendientes";
 // orden, por slug. Los slugs no cambian al reordenar, así que el avance guardado de cada persona sigue valiendo.
 //
 // Los numerales romanos (Módulo I…XVIII) son los del taller y se conservan porque el alumno los reconoce; ya no
-// coinciden con el orden del curso, a propósito. Los módulos XIX–XXXII son clases de refuerzo de ACE, nacidas del
+// coinciden con el orden del curso, a propósito. Los módulos XIX–XXXIII son clases de refuerzo de ACE, nacidas del
 // análisis de coherencia con los balotarios y el banco (docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md):
 // cubren los bloques que el examen más pregunta y el taller no desarrollaba.
 //
@@ -92,6 +92,7 @@ export const CERTIFICACION_OECE: Curso = {
         "evaluacion-ofertas-desempate",
         "plazos-buena-pro-seleccion",
         "recurso-apelacion",
+        "apelacion-tramite-resolucion",
         "perfeccionamiento-contrato",
       ),
       puntoControl: {

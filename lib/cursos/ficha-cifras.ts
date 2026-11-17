@@ -133,6 +133,30 @@ export const FICHA_CIFRAS: GrupoFicha[] = [
         base: [ley("73"), reg("309")],
       },
       {
+        tema: "Subsanación de la apelación",
+        dato: "Nomenclatura y firma, en el primer escrito o se rechaza. Lo demás, en 2 días hábiles; vencidos, se tiene por no presentado.",
+        clase: "apelacion-tramite-resolucion",
+        base: [reg("307")],
+      },
+      {
+        tema: "Apelación ante la entidad",
+        dato: "Absolución del traslado en 3 días hábiles; resuelve y notifica en 10 días hábiles.",
+        clase: "apelacion-tramite-resolucion",
+        base: [reg("310")],
+      },
+      {
+        tema: "Apelación ante el TCP",
+        dato: "Sustento de la entidad y absolución en 3 días hábiles; audiencia entre 3 y 5; resolución en 5 desde «listo para resolver».",
+        clase: "apelacion-tramite-resolucion",
+        base: [reg("311")],
+      },
+      {
+        tema: "Destino de la garantía de apelación",
+        dato: "Infundado o desistimiento: se ejecuta íntegra. Improcedente: 50 %. Fundado en todo o en parte: se devuelve en 5 días hábiles de solicitada.",
+        clase: "apelacion-tramite-resolucion",
+        base: [reg("315")],
+      },
+      {
         tema: "Requisitos para perfeccionar el contrato",
         dato: "8 días hábiles; 5 si no se exige garantía de fiel cumplimiento.",
         clase: "perfeccionamiento-contrato",

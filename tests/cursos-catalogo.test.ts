@@ -93,10 +93,10 @@ describe("catálogo de cursos", () => {
 
   it("el curso OECE sigue las competencias del temario oficial", () => {
     const c = buscarCurso("certificacion-oece")!;
-    expect(c.secciones.map((s) => s.clases.length)).toEqual([10, 7, 13, 2]);
+    expect(c.secciones.map((s) => s.clases.length)).toEqual([10, 8, 13, 2]);
     expect(clasesEnOrden(c).map((x) => x.modulo)).toEqual([
       "I", "IV", "V", "VI", "XXIV", "XXV", "XXVI", "III", "VII", "XXVII",
-      "X", "II", "XXVIII", "XXIX", "XIX", "XI", "XII",
+      "X", "II", "XXVIII", "XXIX", "XIX", "XI", "XXXIII", "XII",
       "XIII", "XV", "XX", "XIV", "XXI", "XXX", "XVI", "XVIII", "XXXI", "XXII", "XVII", "XXXII", "XXIII",
       "VIII", "IX",
     ]);
@@ -191,7 +191,7 @@ describe("catálogo de cursos", () => {
   it("el avance ignora slugs que no son del curso", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda] = clasesEnOrden(c);
-    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 32, porcentaje: 3 });
+    expect(avance(c, new Set([primera.slug, "otra-cosa"]))).toEqual({ hechas: 1, total: 33, porcentaje: 3 });
     expect(claseParaSeguir(c, new Set([primera.slug])).slug).toBe(segunda.slug);
     expect(claseParaSeguir(c, new Set(clasesEnOrden(c).map((x) => x.slug))).slug).toBe(primera.slug);
   });
@@ -200,9 +200,9 @@ describe("catálogo de cursos", () => {
     const c = buscarCurso("certificacion-oece")!;
     const [primera, segunda, tercera] = clasesEnOrden(c);
     const v = vistaProgreso(c, new Set([primera.slug, segunda.slug]), segunda.slug);
-    expect(v).toMatchObject({ hechas: 2, total: 32, porcentaje: 6 });
+    expect(v).toMatchObject({ hechas: 2, total: 33, porcentaje: 6 });
     const clases = v.secciones.flatMap((s) => s.clases);
-    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 32 }, (_, i) => i + 1));
+    expect(clases.map((x) => x.numero)).toEqual(Array.from({ length: 33 }, (_, i) => i + 1));
     expect(clases[0].estado).toBe("completada");
     // La abierta se ve «Viendo ahora» aunque ya esté completada.
     expect(clases[1].estado).toBe("actual");
