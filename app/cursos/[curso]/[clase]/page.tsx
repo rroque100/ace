@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpenCheck, ClipboardCheck, FileText } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpenCheck, ClipboardCheck } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
-  avance, buscarClase, buscarCurso, clasesEnOrden, formatoDuracion, hrefBaseLegal, textoBaseLegal, vecinas,
+  avance, buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas,
 } from "@/lib/cursos/catalogo";
+import { comentariosParaPagina } from "@/lib/cursos/comentarios-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
 import type { Clase } from "@/lib/cursos/tipos";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../../components/app-shell";
 import { AvisoProgreso, BarraAvance } from "../../../components/cursos/barra-avance";
 import { BotonCompletar } from "../../../components/cursos/boton-completar";
+import { ComentariosClase } from "../../../components/cursos/comentarios-clase";
+import { ReproductorMaqueta } from "../../../components/cursos/reproductor-maqueta";
 import { PanelDudas } from "../../../components/cursos/panel-dudas";
 import { PestanasClase } from "../../../components/cursos/pestanas-clase";
 import { TemarioCurso } from "../../../components/cursos/temario-curso";
@@ -24,6 +27,10 @@ function urlVideo(clase: Clase): string | null {
   // youtube-nocookie: no deja cookies de seguimiento hasta que la persona reproduce el vídeo.
   return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}`;
 }
+
+// Fuera del componente: leer el reloj es impuro. Es la hora con la que el servidor pinta «Hace 3 min», y el cliente
+// arranca con la misma para que no cambie al hidratar.
+const ahoraDelServidor = () => Date.now();
 
 export async function generateMetadata({ params }: { params: Promise<{ curso: string; clase: string }> }) {
   const { curso: slugCurso, clase: slugClase } = await params;
@@ -43,7 +50,10 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
   const { clase, seccion, numero } = encontrada;
   const total = clasesEnOrden(curso).length;
   const { anterior, siguiente } = vecinas(curso, clase.slug);
-  const progreso = await progresoParaPagina(user.accessToken, curso.slug);
+  const [progreso, comentarios] = await Promise.all([
+    progresoParaPagina(user.accessToken, curso.slug),
+    comentariosParaPagina(user.accessToken, curso.slug, clase.slug, user.id, user.isAdmin),
+  ]);
   const a = avance(curso, new Set(progreso.completadas));
   // Mismo criterio que el simulador: una cuenta externa sin Centro Jurídico no puede abrir el chat ni el lector de normas.
   const centroJuridico = !user.esExterno || user.modulosExternos.includes("centro_juridico");
@@ -77,13 +87,7 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 />
               </div>
             ) : (
-              <div className="flex min-h-40 flex-col justify-end rounded-2xl border border-line bg-brand-soft p-6 sm:aspect-[4/1] sm:p-8">
-                <p className="m-0 text-sm font-semibold uppercase tracking-wide text-brand">Módulo {clase.modulo}</p>
-                <p className="mb-0 mt-1 text-2xl font-semibold leading-tight text-ink sm:text-3xl">{clase.titulo}</p>
-                <p className="mb-0 mt-3 inline-flex items-center gap-2 text-sm text-muted">
-                  <FileText size={16} aria-hidden /> Lectura · {formatoDuracion(clase.minutos)}
-                </p>
-              </div>
+              <ReproductorMaqueta modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
             )}
 
             <div className="flex flex-wrap items-start justify-between gap-4">
@@ -143,6 +147,13 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
 
           <aside className="min-w-0 space-y-5" aria-label="Dudas y temario">
             {centroJuridico && <PanelDudas tema={`Módulo ${clase.modulo} · ${clase.titulo}`} />}
+            <ComentariosClase
+              key={clase.slug}
+              curso={curso.slug}
+              clase={clase.slug}
+              inicial={comentarios}
+              ahoraInicial={ahoraDelServidor()}
+            />
             <div className="rounded-2xl border border-line bg-panel p-4 shadow-card">
               <p className="mb-1 mt-0 text-sm font-semibold text-ink">{curso.titulo}</p>
               {progreso.estado === "ok" && (
