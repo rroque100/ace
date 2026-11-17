@@ -28,7 +28,10 @@ create policy curso_progreso_propio on public.curso_progreso
   with check (user_id = auth.uid());
 
 -- Solo leer, marcar y desmarcar: no hay nada que actualizar en una fila.
-revoke all on public.curso_progreso from anon;
+-- El revoke de authenticated es necesario: Supabase concede por defecto TODOS los privilegios (UPDATE, TRUNCATE…) a
+-- anon y authenticated en cada tabla nueva de public, y un grant solo añade. Comprobado al aplicarlo en producción el
+-- 2026-11-17: sin este revoke, authenticated conservaba UPDATE, TRUNCATE, REFERENCES y TRIGGER.
+revoke all on public.curso_progreso from anon, authenticated;
 grant select, insert, delete on public.curso_progreso to authenticated;
 
 -- PostgREST cachea el esquema: sin esto la tabla nueva puede tardar en verse (PGRST205).
