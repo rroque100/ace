@@ -1,6 +1,7 @@
 // Registro de cursos y las reglas puras para recorrerlos (orden, numeración, vecinas, avance).
 // Módulo puro: sin red ni base de datos, para que las páginas y la API compartan las mismas respuestas.
 import { CERTIFICACION_OECE } from "./certificacion-oece";
+import { preguntasCompetencia } from "./temario-examen";
 import type { BaseLegal, Clase, Curso, Seccion } from "./tipos";
 
 export const CURSOS: readonly Curso[] = [CERTIFICACION_OECE];
@@ -61,6 +62,8 @@ export function vistaProgreso(curso: Curso, completadas: ReadonlySet<string>, ac
     secciones: curso.secciones.map((s) => ({
       slug: s.slug,
       titulo: s.titulo,
+      /** Preguntas de la competencia en el examen; null en los complementos. */
+      preguntas: s.competencia ? preguntasCompetencia(s.competencia) : null,
       hechas: s.clases.filter((c) => completadas.has(c.slug)).length,
       clases: s.clases.map((c) => ({
         slug: c.slug,

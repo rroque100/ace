@@ -1,70 +1,120 @@
-import type { Curso } from "./tipos";
+import type { Clase, Curso } from "./tipos";
 import { ACTOS_PREPARATORIOS } from "./contenido/actos-preparatorios";
 import { FASE_SELECCION } from "./contenido/fase-seleccion";
 import { EJECUCION_CONTRACTUAL } from "./contenido/ejecucion-contractual";
 import { OBRAS } from "./contenido/obras";
 
-// Temario del taller de preparación para el examen de certificación OECE, en el orden de su aula virtual. El temario
-// (qué módulos y en qué orden) es el del taller; el desarrollo de cada clase es de ACE y está contrastado con el corpus.
-// Los numerales romanos se conservan porque el alumno los reconoce del examen; el orden de Obras (IX, XIII, XVII) es
-// el del aula y no el numérico, a propósito.
+// Curso de preparación para el examen de certificación OECE.
 //
-// Los exámenes no se reimplementan aquí: cada sección termina en el simulador, que ya tiene los balotarios, el
-// cronómetro, la corrección y el historial.
+// ORDEN: las secciones son las tres competencias del TEMARIO OFICIAL del examen (lib/exam-curriculum.ts, el mismo que
+// usa el simulacro de 72 preguntas), no los bloques del taller del que salió el primer temario. Por eso
+// «Perfeccionamiento del contrato» está en Selección (subcompetencias 2.9 y 2.10) y no en Ejecución, y MDA e
+// Incentivos de obras van a Complementos: el temario oficial no los evalúa como tema propio.
+//
+// Los ficheros de contenido conservan su agrupación de origen; aquí solo se elige qué clase va en qué sección y en qué
+// orden, por slug. Los slugs no cambian al reordenar, así que el avance guardado de cada persona sigue valiendo.
+//
+// Los numerales romanos (Módulo I…XVIII) son los del taller y se conservan porque el alumno los reconoce; ya no
+// coinciden con el orden del curso, a propósito. Los módulos XIX–XXIII son clases de refuerzo de ACE, nacidas del
+// análisis de coherencia con los balotarios y el banco (docs/evaluaciones/2026-11-17-coherencia-simulador-curso.md):
+// cubren los bloques que el examen más pregunta y el taller no desarrollaba.
+//
+// Cada clase trae casos tipo examen (pestaña «Casuística»): el banco del simulador es casi todo casuística.
+//
+// Los exámenes no se reimplementan aquí: cada competencia termina en el banco del simulador, que filtra por competencia
+// y tema y tiene el simulacro con el reparto oficial.
+const TODAS = new Map<string, Clase>(
+  [...ACTOS_PREPARATORIOS, ...FASE_SELECCION, ...EJECUCION_CONTRACTUAL, ...OBRAS].map((c) => [c.slug, c]),
+);
+
+function clases(...slugs: string[]): Clase[] {
+  return slugs.map((slug) => {
+    const clase = TODAS.get(slug);
+    // Un slug mal escrito aquí rompería la página en producción: mejor que falle al cargar el módulo (y en los tests).
+    if (!clase) throw new Error(`Clase desconocida en el curso: ${slug}`);
+    return clase;
+  });
+}
+
+const BANCO = "/simulador?seccion=banco";
+
 export const CERTIFICACION_OECE: Curso = {
   slug: "certificacion-oece",
   titulo: "Preparación para el examen de certificación OECE",
   descripcion:
-    "Repasa la Ley 32069 y su Reglamento en el orden en que avanza una contratación: actos preparatorios, fase de " +
-    "selección, ejecución contractual y obras. Cada clase resume lo que entra en el examen con su base legal, y cada " +
-    "sección termina con práctica en el simulador.",
+    "Estudia la Ley 32069 y su Reglamento con el temario oficial del examen de certificación: actuaciones " +
+    "preparatorias, selección y ejecución contractual. Cada clase indica cuánto pesa su tema en el examen, resume lo " +
+    "que se evalúa con su base legal, trae casos tipo examen resueltos, y cada competencia termina con práctica en el " +
+    "banco del simulador.",
   nivel: "Intermedio",
   publicado: "2026-11-16",
   secciones: [
     {
-      slug: "actos-preparatorios",
-      titulo: "Actos preparatorios",
-      clases: ACTOS_PREPARATORIOS,
+      slug: "actuaciones-preparatorias",
+      titulo: "Actuaciones preparatorias",
+      competencia: "1",
+      clases: clases(
+        "actores-involucrados",
+        "plan-anual-contrataciones",
+        "segmentacion-contrataciones",
+        "actos-preparatorios",
+        "expediente-contratacion",
+        "evaluadores",
+      ),
       puntoControl: {
-        titulo: "Practica actos preparatorios",
-        href: "/simulador?vista=practicar",
-        descripcion: "Preguntas del balotario sobre actores, modalidades, PAC, expediente y requerimiento.",
+        titulo: "Practica actuaciones preparatorias",
+        href: BANCO,
+        descripcion: "En el banco, elige la competencia «Actuaciones preparatorias»: requerimiento, PAC, expediente y evaluadores.",
       },
     },
     {
-      slug: "fase-seleccion",
-      titulo: "Fase de selección",
-      clases: FASE_SELECCION,
+      slug: "seleccion",
+      titulo: "Selección",
+      competencia: "2",
+      clases: clases(
+        "procedimientos-seleccion",
+        "modalidades-contratacion-eficiente",
+        "plazos-buena-pro-seleccion",
+        "recurso-apelacion",
+        "perfeccionamiento-contrato",
+      ),
       puntoControl: {
-        titulo: "Practica fase de selección",
-        href: "/simulador?vista=practicar",
-        descripcion: "Procedimientos de selección, MDA y recurso de apelación.",
+        titulo: "Practica selección",
+        href: BANCO,
+        descripcion: "En el banco, elige la competencia «Selección»: procedimientos, etapas y plazos, apelación y perfeccionamiento.",
       },
     },
     {
       slug: "ejecucion-contractual",
       titulo: "Ejecución contractual",
-      clases: EJECUCION_CONTRACTUAL,
+      competencia: "3",
+      clases: clases(
+        "inicio-plazo-vigencia-contrato",
+        "modificaciones-contrato",
+        "modificaciones-procedimiento",
+        "garantias",
+        "adelantos-penalidades-subcontratacion",
+        "resolucion-nulidad-contrato",
+        "resolucion-controversias",
+        "suspension-reprogramacion-obra",
+        "intervencion-economica",
+        "contratos-estandarizados-internacionales",
+      ),
       puntoControl: {
         titulo: "Practica ejecución contractual",
-        href: "/simulador?vista=practicar",
-        descripcion: "Perfeccionamiento, garantías, modificaciones, resolución, nulidad y controversias.",
+        href: BANCO,
+        descripcion: "En el banco, elige la competencia «Ejecución contractual»: modificaciones, garantías, resolución, controversias y obras.",
       },
     },
     {
-      slug: "obras",
-      titulo: "Obras",
-      clases: OBRAS,
-      puntoControl: {
-        titulo: "Practica obras",
-        href: "/simulador?vista=practicar",
-        descripcion: "Incentivos, inicio del plazo de ejecución e intervención económica.",
-      },
+      slug: "complementos",
+      titulo: "Complementos",
+      clases: clases("mecanismo-diferenciado-adquisicion", "incentivos-obras-consultoria"),
     },
   ],
   examenFinal: {
-    titulo: "Tomar examen",
-    href: "/simulador?vista=examen",
-    descripcion: "Examen cronometrado con los balotarios OECE, corregido y con la cita de la norma.",
+    titulo: "Tomar el simulacro",
+    href: BANCO,
+    descripcion: "Simulacro OECE de 72 preguntas en 120 minutos, con el reparto del temario oficial.",
   },
 };

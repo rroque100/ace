@@ -8,6 +8,7 @@ import { BookOpenCheck, CheckCircle2, GraduationCap, ListVideo, Play, PlayCircle
 import { IconButton, buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatoDuracion, type VistaProgreso } from "@/lib/cursos/catalogo";
+import { textoPeso } from "@/lib/cursos/temario-examen";
 
 type Vecina = { slug: string; titulo: string } | null;
 
@@ -175,6 +176,9 @@ function PanelProgreso({ base, progreso, onElegir }: { base: string; progreso: V
                   {s.hechas}/{s.clases.length}
                 </span>
               </h3>
+              <p className="mb-1 mt-0 px-2 text-xs text-muted">
+                {s.preguntas !== null ? `${textoPeso(s.preguntas)} del examen` : "Fuera del temario del examen"}
+              </p>
               <ol className="m-0 list-none p-0">
                 {s.clases.map((c) => {
                   const esActual = c.estado === "actual";

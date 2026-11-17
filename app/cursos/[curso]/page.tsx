@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, BookOpenCheck, Clock, GraduationCap, ListChecks, PlayCircle } from "lucide-react";
+import { ArrowLeft, BookOpenCheck, Clock, FileText, GraduationCap, ListChecks, PlayCircle } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import { avance, buscarCurso, claseParaSeguir, clasesEnOrden, duracionTotal, formatoDuracion } from "@/lib/cursos/catalogo";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
+import { PREGUNTAS_EXAMEN } from "@/lib/cursos/temario-examen";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../components/app-shell";
 import { AvisoProgreso, BarraAvance } from "../../components/cursos/barra-avance";
@@ -51,7 +52,7 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
               <Clock size={16} aria-hidden /> {formatoDuracion(duracionTotal(curso))} de lectura
             </li>
             <li className={chip}>
-              <BookOpenCheck size={16} aria-hidden /> Práctica en el simulador
+              <BookOpenCheck size={16} aria-hidden /> Temario oficial del examen · {PREGUNTAS_EXAMEN} preguntas
             </li>
           </ul>
           <p className="mb-0 mt-5 max-w-3xl text-base leading-relaxed text-ink">{curso.descripcion}</p>
@@ -64,6 +65,11 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
             <Link className={buttonClasses({ variant: "secondary", size: "lg" })} href={curso.examenFinal.href}>
               {curso.examenFinal.titulo}
             </Link>
+            {curso.slug === "certificacion-oece" && (
+              <Link className={buttonClasses({ variant: "ghost", size: "lg" })} href={`/cursos/${curso.slug}/ficha`}>
+                <FileText size={18} aria-hidden /> Ficha de plazos y cifras
+              </Link>
+            )}
           </div>
           {a.hechas > 0 && a.hechas < a.total && (
             <p className="mb-0 mt-3 text-sm text-muted">
