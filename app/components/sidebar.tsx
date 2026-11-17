@@ -206,7 +206,7 @@ export function Sidebar({
 
   return (
     <>
-      <div className="aceMobileHeader fixed inset-x-0 top-0 z-40 flex h-[calc(72px+env(safe-area-inset-top))] items-center gap-3 border-b border-line bg-panel px-4 pt-[env(safe-area-inset-top)] lg:hidden group-has-[.normFocusReading]/workspace:hidden">
+      <div className="aceMobileHeader print:hidden fixed inset-x-0 top-0 z-40 flex h-[calc(72px+env(safe-area-inset-top))] items-center gap-3 border-b border-line bg-panel px-4 pt-[env(safe-area-inset-top)] lg:hidden group-has-[.normFocusReading]/workspace:hidden">
       <button
         type="button"
         className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-line bg-panel text-ink transition-colors hover:bg-brand-soft"
@@ -226,7 +226,7 @@ export function Sidebar({
         id="workspace-menu"
         role={mobileOpen ? "dialog" : undefined}
         aria-modal={mobileOpen ? true : undefined}
-        className={`aceSidebar group/sidebar fixed inset-y-0 left-0 z-[60] flex w-[min(304px,88vw)] flex-col overflow-hidden border-r border-white/10 bg-[#102a36] text-slate-200 shadow-2xl transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-30 lg:h-dvh lg:w-auto lg:translate-x-0 lg:shadow-none group-has-[.normFocusReading]/workspace:hidden ${mobileOpen ? "visible translate-x-0" : "invisible -translate-x-full lg:visible"}`}
+        className={`aceSidebar print:hidden group/sidebar fixed inset-y-0 left-0 z-[60] flex w-[min(304px,88vw)] flex-col overflow-hidden border-r border-white/10 bg-[#102a36] text-slate-200 shadow-2xl transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:z-30 lg:h-dvh lg:w-auto lg:translate-x-0 lg:shadow-none group-has-[.normFocusReading]/workspace:hidden ${mobileOpen ? "visible translate-x-0" : "invisible -translate-x-full lg:visible"}`}
         aria-label="Navegación principal"
         data-collapsed={collapsed}
       >
@@ -355,7 +355,7 @@ export function Sidebar({
           </div>
         ) : null}
       </aside>
-      <nav className="aceMobileDock fixed inset-x-0 bottom-0 z-40 grid grid-flow-col auto-cols-fr border-t border-line bg-panel px-2 pb-[max(8px,env(safe-area-inset-bottom))] pt-2 shadow-lg lg:hidden group-has-[.normFocusReading]/workspace:hidden [&>a]:flex [&>a]:min-h-14 [&>a]:min-w-0 [&>a]:flex-col [&>a]:items-center [&>a]:justify-center [&>a]:gap-1 [&>a]:rounded-xl [&>a]:text-[10px] [&>a]:font-medium [&>a]:text-muted [&>a[aria-current=page]]:bg-brand-soft [&>a[aria-current=page]]:text-brand [&>button]:flex [&>button]:min-h-14 [&>button]:flex-col [&>button]:items-center [&>button]:justify-center [&>button]:gap-1 [&>button]:rounded-xl [&>button]:border-0 [&>button]:bg-transparent [&>button]:text-[10px] [&>button]:font-medium [&>button]:text-muted" aria-label="Accesos rápidos">
+      <nav className="aceMobileDock print:hidden fixed inset-x-0 bottom-0 z-40 grid grid-flow-col auto-cols-fr border-t border-line bg-panel px-2 pb-[max(8px,env(safe-area-inset-bottom))] pt-2 shadow-lg lg:hidden group-has-[.normFocusReading]/workspace:hidden [&>a]:flex [&>a]:min-h-14 [&>a]:min-w-0 [&>a]:flex-col [&>a]:items-center [&>a]:justify-center [&>a]:gap-1 [&>a]:rounded-xl [&>a]:text-[10px] [&>a]:font-medium [&>a]:text-muted [&>a[aria-current=page]]:bg-brand-soft [&>a[aria-current=page]]:text-brand [&>button]:flex [&>button]:min-h-14 [&>button]:flex-col [&>button]:items-center [&>button]:justify-center [&>button]:gap-1 [&>button]:rounded-xl [&>button]:border-0 [&>button]:bg-transparent [&>button]:text-[10px] [&>button]:font-medium [&>button]:text-muted" aria-label="Accesos rápidos">
         {mobileItems.map(item=>{ const Icon=ICONOS[item.icon]; return <Link key={item.id} href={item.href} aria-current={item.id===active ? "page" : undefined} onClick={()=>setMobileOpen(false)}><Icon size={21} aria-hidden/><span>{item.id==="panel" ? "Inicio" : item.id==="chat" ? "Chat" : item.id==="busqueda" ? "Buscar" : item.id==="normas" ? "Normativa" : item.id==="cursos" ? "Cursos" : "Simulador"}</span></Link>; })}
         <button type="button" aria-label="Más opciones" aria-controls="workspace-menu" aria-expanded={mobileOpen} onClick={()=>setMobileOpen(true)}><Menu size={21} aria-hidden/><span>Más</span></button>
       </nav>

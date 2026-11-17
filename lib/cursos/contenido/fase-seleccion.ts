@@ -9,6 +9,7 @@ export const FASE_SELECCION: Clase[] = [
   {
     slug: "mecanismo-diferenciado-adquisicion",
     modulo: "VIII",
+    temas: [],
     titulo: "Mecanismo diferenciado de adquisición (MDA)",
     descripcion:
       "Los acuerdos MDA para tecnologías sanitarias de alto costo o innovadoras: qué entidades pueden usarlos, para qué " +
@@ -59,6 +60,7 @@ export const FASE_SELECCION: Clase[] = [
   {
     slug: "procedimientos-seleccion",
     modulo: "X",
+    temas: ["2.1", "2.2"],
     titulo: "Procedimientos de selección",
     descripcion:
       "Procedimientos competitivos y no competitivos, sus modalidades, las etapas de la fase de selección y cómo se " +
@@ -127,6 +129,7 @@ export const FASE_SELECCION: Clase[] = [
   {
     slug: "recurso-apelacion",
     modulo: "XI",
+    temas: ["2.7", "2.8"],
     titulo: "Recurso de apelación",
     descripcion:
       "Qué se puede apelar y cuándo, ante quién se presenta, en qué plazo y cuánto cuesta la garantía, con su régimen " +

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, ClipboardCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ClipboardCheck, FileText, Target } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
   buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas, vistaProgreso,
 } from "@/lib/cursos/catalogo";
 import { comentariosParaPagina } from "@/lib/cursos/comentarios-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
+import { temasDeClase, textoPeso } from "@/lib/cursos/temario-examen";
 import type { Clase } from "@/lib/cursos/tipos";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../../components/app-shell";
@@ -60,6 +61,8 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
   // Mismo criterio que el simulador: una cuenta externa sin Centro Jurídico no puede abrir el chat ni el lector de normas.
   const centroJuridico = !user.esExterno || user.modulosExternos.includes("centro_juridico");
   const ultimaDeSeccion = seccion.clases.at(-1)?.slug === clase.slug;
+  const puntoControl = seccion.puntoControl;
+  const temas = temasDeClase(clase);
   const video = urlVideo(clase);
 
   return (
@@ -104,6 +107,39 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
             </div>
             <AvisoProgreso estado={progreso.estado} />
 
+            {/* Cuánto pesa lo que se estudia aquí en el examen: el mismo reparto que usa el simulacro de 72 preguntas. */}
+            <div className="rounded-2xl border border-line bg-panel px-4 py-3 shadow-card">
+              <p className="m-0 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand">
+                <Target size={15} aria-hidden /> {temas.length ? "En el examen de certificación" : "Fuera del temario del examen"}
+              </p>
+              {temas.length ? (
+                <ul className="m-0 mt-2 list-none space-y-1 p-0">
+                  {temas.map((t) => (
+                    <li key={t.code} className="flex flex-wrap items-baseline justify-between gap-x-3 text-sm">
+                      <span className="text-ink">
+                        <span className="text-muted">Tema {t.code} · </span>
+                        {t.label}
+                      </span>
+                      <span className="font-semibold tabular-nums text-ink">{textoPeso(t.quota)}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mb-0 mt-1 text-sm text-muted">
+                  Material de apoyo: el temario oficial no lo evalúa como tema propio. Prioriza las clases de las
+                  competencias si preparas el examen.
+                </p>
+              )}
+              {curso.slug === "certificacion-oece" && (
+                <Link
+                  href={`/cursos/${curso.slug}/ficha`}
+                  className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-brand underline"
+                >
+                  <FileText size={15} aria-hidden /> Ficha de plazos y cifras del examen
+                </Link>
+              )}
+            </div>
+
             <PestanasClase
               contenido={clase.contenido}
               referencias={clase.contenido.baseLegal.map((b) => ({
@@ -112,15 +148,15 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
               }))}
             />
 
-            {ultimaDeSeccion && (
+            {ultimaDeSeccion && puntoControl && (
               <Link
-                href={seccion.puntoControl.href}
+                href={puntoControl.href}
                 className="flex items-center gap-4 rounded-2xl border border-brand bg-brand-soft p-5 text-ink no-underline outline-none focus-visible:shadow-[var(--shadow-focus)]"
               >
                 <ClipboardCheck size={26} aria-hidden className="shrink-0 text-brand" />
                 <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">Terminaste la sección «{seccion.titulo}». {seccion.puntoControl.titulo}</span>
-                  <span className="block text-sm text-muted">{seccion.puntoControl.descripcion}</span>
+                  <span className="block font-semibold">Terminaste la sección «{seccion.titulo}». {puntoControl.titulo}</span>
+                  <span className="block text-sm text-muted">{puntoControl.descripcion}</span>
                 </span>
                 <ArrowRight size={18} aria-hidden className="shrink-0 text-brand" />
               </Link>

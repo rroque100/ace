@@ -7,6 +7,7 @@ export const OBRAS: Clase[] = [
   {
     slug: "incentivos-obras-consultoria",
     modulo: "IX",
+    temas: [],
     titulo: "Incentivos para proveedores de obras y consultores de obra",
     descripcion:
       "Los tres incentivos que la entidad puede fijar en las bases para la ejecución de obras y consultorías de obra, " +
@@ -52,6 +53,7 @@ export const OBRAS: Clase[] = [
   {
     slug: "inicio-plazo-vigencia-contrato",
     modulo: "XIII",
+    temas: ["3.1", "3.6"],
     titulo: "Inicio del plazo de ejecución y vigencia del contrato",
     descripcion:
       "Desde cuándo rige el contrato, hasta cuándo, y qué condiciones tiene que cumplir la entidad para que empiece a " +
@@ -97,6 +99,7 @@ export const OBRAS: Clase[] = [
   {
     slug: "intervencion-economica",
     modulo: "XVII",
+    temas: ["3.10"],
     titulo: "Intervención económica",
     descripcion:
       "Cuándo puede la entidad intervenir económicamente una obra, para qué sirve y qué consecuencias tiene para el " +

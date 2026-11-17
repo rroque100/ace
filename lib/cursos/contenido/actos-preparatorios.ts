@@ -8,6 +8,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "actores-involucrados",
     modulo: "I",
+    temas: ["1.7"],
     titulo: "Actores involucrados",
     descripcion:
       "Quién participa en una contratación pública, dentro y fuera de la entidad contratante, qué decide cada actor y " +
@@ -81,6 +82,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "modalidades-contratacion-eficiente",
     modulo: "II",
+    temas: ["2.1"],
     titulo: "Modalidades de la contratación pública eficiente",
     descripcion:
       "Contratos menores, compra por encargo, compra centralizada, compra corporativa, compra pública de innovación y " +
@@ -146,6 +148,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "expediente-contratacion",
     modulo: "III",
+    temas: ["1.1"],
     titulo: "Expediente de contratación",
     descripcion:
       "Qué contiene el expediente, quién lo custodia y quién lo aprueba antes de convocar, y qué pasa con él cuando el " +
@@ -198,6 +201,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "plan-anual-contrataciones",
     modulo: "IV",
+    temas: ["1.6", "1.5"],
     titulo: "Plan anual de contrataciones",
     descripcion:
       "Cómo el plan anual nace del Cuadro Multianual de Necesidades, por qué una contratación tiene que estar prevista " +
@@ -256,6 +260,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "segmentacion-contrataciones",
     modulo: "V",
+    temas: ["1.2"],
     titulo: "Segmentación de contrataciones",
     descripcion:
       "Cómo se clasifican las contrataciones del plan anual según cuantía y riesgo, para qué sirve esa clasificación y " +
@@ -307,6 +312,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "actos-preparatorios",
     modulo: "VI",
+    temas: ["1.2"],
     titulo: "Actos preparatorios",
     descripcion:
       "Lo que ocurre entre la segmentación y la convocatoria: requerimiento, interacción con el mercado, estrategia de " +
@@ -374,6 +380,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
   {
     slug: "evaluadores",
     modulo: "VII",
+    temas: ["1.3"],
     titulo: "Evaluadores",
     descripcion:
       "Oficial de compra, comité y jurado: cómo se conforma cada uno, quién los designa y qué responsabilidad tienen en " +

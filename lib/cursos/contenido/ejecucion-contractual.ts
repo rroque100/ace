@@ -6,6 +6,7 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
   {
     slug: "perfeccionamiento-contrato",
     modulo: "XII",
+    temas: ["2.9", "2.10"],
     titulo: "Perfeccionamiento del contrato",
     descripcion:
       "Cuándo se perfecciona el contrato, cuándo basta una orden de compra o de servicio y los plazos para presentar " +
@@ -58,6 +59,7 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
   {
     slug: "garantias",
     modulo: "XIV",
+    temas: ["3.3"],
     titulo: "Garantías",
     descripcion:
       "Qué cubren las garantías, los cuatro mecanismos que admite la Ley, el monto de la garantía de fiel cumplimiento y " +
@@ -114,6 +116,7 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
   {
     slug: "modificaciones-contrato",
     modulo: "XV",
+    temas: ["3.2"],
     titulo: "Modificaciones al contrato",
     descripcion:
       "Quién puede modificar un contrato y por qué vías, el equilibrio económico financiero y los topes de las " +
@@ -167,6 +170,7 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
   {
     slug: "resolucion-nulidad-contrato",
     modulo: "XVI",
+    temas: ["3.3"],
     titulo: "Resolución y nulidad de contrato",
     descripcion:
       "Las causales para resolver un contrato, el requerimiento previo por incumplimiento y los supuestos en que la " +
@@ -220,6 +224,7 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
   {
     slug: "resolucion-controversias",
     modulo: "XVIII",
+    temas: ["3.5"],
     titulo: "Mecanismos de resolución de controversias",
     descripcion:
       "Junta de prevención y resolución de disputas, conciliación y arbitraje: qué resuelve cada mecanismo y qué " +

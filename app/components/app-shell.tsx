@@ -88,7 +88,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
   const sections = workspaceNavigation(user, puedeProcesos);
 
   return (
-    <main className="workspaceShell aceAppShell group/workspace grid min-h-dvh grid-cols-[minmax(0,1fr)] bg-canvas text-ink lg:grid-cols-[264px_minmax(0,1fr)] lg:has-[.aceSidebar[data-collapsed=true]]:grid-cols-[88px_minmax(0,1fr)] has-[.normFocusReading]:grid-cols-[minmax(0,1fr)]!">
+    <main className="workspaceShell aceAppShell group/workspace grid print:block min-h-dvh grid-cols-[minmax(0,1fr)] bg-canvas text-ink lg:grid-cols-[264px_minmax(0,1fr)] lg:has-[.aceSidebar[data-collapsed=true]]:grid-cols-[88px_minmax(0,1fr)] has-[.normFocusReading]:grid-cols-[minmax(0,1fr)]!">
       {/* Primer elemento enfocable del documento: salta el menu lateral. */}
       <a className="sr-only fixed left-4 top-4 z-[100] rounded-xl border border-brand bg-panel px-4 py-3 text-sm font-semibold text-brand shadow-lg focus:not-sr-only" href="#contenido">
         Saltar al contenido
@@ -105,7 +105,7 @@ export async function AppShell({ active, action, children, eyebrow, title, showF
         externo={user?.esExterno && estadoExterno ? { modulos: user.modulosExternos, estado: estadoExterno } : null}
       />
 
-      <section className="aceContent min-w-0 px-4 pb-[calc(104px+env(safe-area-inset-bottom))] pt-[calc(92px+env(safe-area-inset-top))] sm:px-6 lg:px-8 lg:pb-10 lg:pt-8 xl:px-10 group-has-[.normFocusReading]/workspace:mx-auto group-has-[.normFocusReading]/workspace:w-full group-has-[.normFocusReading]/workspace:max-w-[1320px] group-has-[.normFocusReading]/workspace:p-4" id="contenido" tabIndex={-1}>
+      <section className="aceContent min-w-0 print:p-0 px-4 pb-[calc(104px+env(safe-area-inset-bottom))] pt-[calc(92px+env(safe-area-inset-top))] sm:px-6 lg:px-8 lg:pb-10 lg:pt-8 xl:px-10 group-has-[.normFocusReading]/workspace:mx-auto group-has-[.normFocusReading]/workspace:w-full group-has-[.normFocusReading]/workspace:max-w-[1320px] group-has-[.normFocusReading]/workspace:p-4" id="contenido" tabIndex={-1}>
         <header className="aceTopbar mb-7 flex flex-wrap items-start justify-between gap-4 group-has-[.normFocusReading]/workspace:hidden">
           <div>
             <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-brand">{eyebrow}</p>
