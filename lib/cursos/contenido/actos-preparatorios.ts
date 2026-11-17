@@ -9,6 +9,7 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
     slug: "actores-involucrados",
     modulo: "I",
     temas: ["1.7"],
+    animacion: "actores-involucrados",
     titulo: "Actores involucrados",
     descripcion:
       "Quién participa en una contratación pública, dentro y fuera de la entidad contratante, qué decide cada actor y " +

@@ -56,6 +56,8 @@ export type Clase = {
   minutos: number;
   /** Opcional: sin vídeo la clase se presenta en formato lectura. */
   video?: VideoClase;
+  /** Id del guion de su video animado (VIDEO_ESCENAS en lib/cursos/videos.ts). Sin guion, la clase muestra la maqueta. */
+  animacion?: string;
   contenido: ContenidoClase;
 };
 

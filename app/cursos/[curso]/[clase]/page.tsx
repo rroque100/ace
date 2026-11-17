@@ -17,6 +17,8 @@ import { BarraClase } from "../../../components/cursos/barra-clase";
 import { BotonCompletar } from "../../../components/cursos/boton-completar";
 import { ComentariosClase } from "../../../components/cursos/comentarios-clase";
 import { ReproductorMaqueta } from "../../../components/cursos/reproductor-maqueta";
+import { VideoAnimado } from "../../../components/cursos/video-animado";
+import { VIDEO_ESCENAS } from "@/lib/cursos/videos";
 import { PanelDudas } from "../../../components/cursos/panel-dudas";
 import { PestanasClase } from "../../../components/cursos/pestanas-clase";
 
@@ -65,6 +67,8 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
   const puntoControl = seccion.puntoControl;
   const temas = temasDeClase(clase);
   const video = urlVideo(clase);
+  // El video animado propio (guion en lib/cursos/videos.ts) sustituye a la maqueta cuando la clase lo tiene.
+  const escenasVideo = video ? null : clase.animacion ? VIDEO_ESCENAS[clase.animacion] : null;
 
   return (
     <AppShell
@@ -92,6 +96,8 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                   loading="lazy"
                 />
               </div>
+            ) : escenasVideo ? (
+              <VideoAnimado escenas={escenasVideo} modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
             ) : (
               <ReproductorMaqueta modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
             )}
