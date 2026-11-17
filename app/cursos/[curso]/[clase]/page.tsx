@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpenCheck, ClipboardCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ClipboardCheck } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
-  avance, buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas,
+  buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas, vistaProgreso,
 } from "@/lib/cursos/catalogo";
 import { comentariosParaPagina } from "@/lib/cursos/comentarios-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
 import type { Clase } from "@/lib/cursos/tipos";
 import { buttonClasses } from "@/app/components/ui/button";
 import { AppShell } from "../../../components/app-shell";
-import { AvisoProgreso, BarraAvance } from "../../../components/cursos/barra-avance";
+import { AvisoProgreso } from "../../../components/cursos/barra-avance";
+import { BarraClase } from "../../../components/cursos/barra-clase";
 import { BotonCompletar } from "../../../components/cursos/boton-completar";
 import { ComentariosClase } from "../../../components/cursos/comentarios-clase";
 import { ReproductorMaqueta } from "../../../components/cursos/reproductor-maqueta";
 import { PanelDudas } from "../../../components/cursos/panel-dudas";
 import { PestanasClase } from "../../../components/cursos/pestanas-clase";
-import { TemarioCurso } from "../../../components/cursos/temario-curso";
 
 function urlVideo(clase: Clase): string | null {
   const v = clase.video;
@@ -39,7 +39,8 @@ export async function generateMetadata({ params }: { params: Promise<{ curso: st
   return { title: clase ? `${clase.titulo} · Cursos` : "Cursos" };
 }
 
-// Página de una clase: reproductor (o portada de lectura), Resumen | Base legal, y a la derecha las dudas y el temario.
+// Página de una clase: reproductor, Resumen | Base legal, a la derecha dudas y comentarios, y al pie la barra con
+// «Clases» (panel «Progreso del curso»), anterior y «Siguiente clase».
 export default async function ClasePage({ params }: { params: Promise<{ curso: string; clase: string }> }) {
   const [{ curso: slugCurso, clase: slugClase }, user] = await Promise.all([params, getSessionUser()]);
   if (!user) redirect(`/login?next=${encodeURIComponent(`/cursos/${slugCurso}/${slugClase}`)}`);
@@ -54,7 +55,8 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
     progresoParaPagina(user.accessToken, curso.slug),
     comentariosParaPagina(user.accessToken, curso.slug, clase.slug, user.id, user.isAdmin),
   ]);
-  const a = avance(curso, new Set(progreso.completadas));
+  const completadas = new Set(progreso.completadas);
+  const completada = completadas.has(clase.slug);
   // Mismo criterio que el simulador: una cuenta externa sin Centro Jurídico no puede abrir el chat ni el lector de normas.
   const centroJuridico = !user.esExterno || user.modulosExternos.includes("centro_juridico");
   const ultimaDeSeccion = seccion.clases.at(-1)?.slug === clase.slug;
@@ -93,10 +95,10 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
             <div className="flex flex-wrap items-start justify-between gap-4">
               <p className="m-0 max-w-2xl text-[15px] leading-relaxed text-muted">{clase.descripcion}</p>
               <BotonCompletar
-                key={`${clase.slug}-${progreso.completadas.includes(clase.slug)}`}
+                key={`${clase.slug}-${completada}`}
                 curso={curso.slug}
                 clase={clase.slug}
-                completadaInicial={progreso.completadas.includes(clase.slug)}
+                completadaInicial={completada}
                 disponible={progreso.estado === "ok"}
               />
             </div>
@@ -123,29 +125,10 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 <ArrowRight size={18} aria-hidden className="shrink-0 text-brand" />
               </Link>
             )}
-
-            <nav aria-label="Clases" className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
-              {anterior ? (
-                <Link className={buttonClasses({ variant: "secondary" })} href={`/cursos/${curso.slug}/${anterior.slug}`}>
-                  <ArrowLeft size={17} aria-hidden /> <span className="sr-only">Clase anterior: </span>Anterior
-                </Link>
-              ) : (
-                <span />
-              )}
-              {siguiente ? (
-                <Link className={buttonClasses({ variant: "primary" })} href={`/cursos/${curso.slug}/${siguiente.slug}`}>
-                  Siguiente clase <span className="sr-only">: {siguiente.titulo}</span>
-                  <ArrowRight size={17} aria-hidden />
-                </Link>
-              ) : (
-                <Link className={buttonClasses({ variant: "primary" })} href={curso.examenFinal.href}>
-                  <BookOpenCheck size={17} aria-hidden /> {curso.examenFinal.titulo}
-                </Link>
-              )}
-            </nav>
           </div>
 
-          <aside className="min-w-0 space-y-5" aria-label="Dudas y temario">
+          {/* Navegación entre clases y temario: en la barra del pie y su panel «Progreso del curso». */}
+          <aside className="min-w-0 space-y-5" aria-label="Dudas y comentarios">
             {centroJuridico && <PanelDudas tema={`Módulo ${clase.modulo} · ${clase.titulo}`} />}
             <ComentariosClase
               key={clase.slug}
@@ -154,18 +137,21 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
               inicial={comentarios}
               ahoraInicial={ahoraDelServidor()}
             />
-            <div className="rounded-2xl border border-line bg-panel p-4 shadow-card">
-              <p className="mb-1 mt-0 text-sm font-semibold text-ink">{curso.titulo}</p>
-              {progreso.estado === "ok" && (
-                <div className="mb-4 mt-3">
-                  <BarraAvance {...a} />
-                </div>
-              )}
-              <TemarioCurso curso={curso} completadas={progreso.completadas} claseActual={clase.slug} compacto />
-            </div>
           </aside>
         </div>
       </div>
+      <BarraClase
+        key={`${clase.slug}-${completada}`}
+        curso={{ slug: curso.slug, titulo: curso.titulo }}
+        clase={{ slug: clase.slug, titulo: clase.titulo }}
+        numero={numero}
+        anterior={anterior && { slug: anterior.slug, titulo: anterior.titulo }}
+        siguiente={siguiente && { slug: siguiente.slug, titulo: siguiente.titulo }}
+        examen={{ titulo: curso.examenFinal.titulo, href: curso.examenFinal.href }}
+        progreso={vistaProgreso(curso, completadas, clase.slug)}
+        completada={completada}
+        guardado={progreso.estado === "ok"}
+      />
     </AppShell>
   );
 }

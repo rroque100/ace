@@ -41,6 +41,41 @@ export function claseParaSeguir(curso: Curso, completadas: ReadonlySet<string>):
   return clases.find((c) => !completadas.has(c.slug)) ?? clases[0];
 }
 
+export type EstadoClase = "actual" | "completada" | "pendiente";
+
+/** La clase abierta manda sobre «completada»: en la lista se ve «Viendo ahora», como en la referencia. */
+export function estadoClase(slug: string, completadas: ReadonlySet<string>, actual?: string): EstadoClase {
+  if (slug === actual) return "actual";
+  return completadas.has(slug) ? "completada" : "pendiente";
+}
+
+/**
+ * Lo que necesita el panel «Progreso del curso», ya serializable para un componente de cliente: secciones con sus
+ * clases numeradas, el estado de cada una y el avance. Se calcula en el servidor para que el cliente no reciba el
+ * catálogo entero (los resúmenes pesan y no hacen falta para listar).
+ */
+export function vistaProgreso(curso: Curso, completadas: ReadonlySet<string>, actual?: string) {
+  let numero = 0;
+  return {
+    ...avance(curso, completadas),
+    secciones: curso.secciones.map((s) => ({
+      slug: s.slug,
+      titulo: s.titulo,
+      hechas: s.clases.filter((c) => completadas.has(c.slug)).length,
+      clases: s.clases.map((c) => ({
+        slug: c.slug,
+        modulo: c.modulo,
+        titulo: c.titulo,
+        minutos: c.minutos,
+        numero: ++numero,
+        estado: estadoClase(c.slug, completadas, actual),
+      })),
+    })),
+  };
+}
+
+export type VistaProgreso = ReturnType<typeof vistaProgreso>;
+
 export const duracionTotal = (curso: Curso) => clasesEnOrden(curso).reduce((t, c) => t + c.minutos, 0);
 
 export function formatoDuracion(minutos: number): string {
