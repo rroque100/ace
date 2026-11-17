@@ -23,11 +23,14 @@ export const MODULOS_EXTERNOS = {
     apis: ["/api/chat", "/api/search", "/api/norms", "/api/normativa", "/api/facets", "/api/documents"],
   },
   simulacro: {
-    label: "Simulacro de examen",
-    descripcion: "Práctica del examen de certificación con corrección y cita de la norma.",
+    // Los cursos de preparación entran en este módulo y no en uno nuevo: los usa el mismo público (quien prepara la
+    // certificación) y así un alumno ya dado de alta los ve sin que haya que tocar su credencial. El inicio sigue en el
+    // simulacro para no cambiar dónde aterrizan las cuentas que ya existen.
+    label: "Cursos y simulacro de examen",
+    descripcion: "Cursos de preparación y práctica del examen de certificación con corrección y cita de la norma.",
     inicio: "/simulacro",
-    paginas: ["/simulacro", "/simulador"],
-    apis: ["/api/simulacro", "/api/exams", "/api/balotarios"],
+    paginas: ["/simulacro", "/simulador", "/cursos"],
+    apis: ["/api/simulacro", "/api/exams", "/api/balotarios", "/api/cursos"],
   },
 } as const;
 

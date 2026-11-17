@@ -28,6 +28,7 @@ export type IconName =
   | "BarChart3"
   | "Activity"
   | "ScrollText"
+  | "GraduationCap"
   | "Settings";
 
 export const NAVEGACION = [
@@ -56,8 +57,12 @@ export const NAVEGACION = [
   },
   {
     // Módulo del simulacro de examen (ver lib/modulos-acceso.ts): lo usan las cuentas EXTERNAS con ese módulo y el personal de la entidad.
-    items: [{ href: "/simulador", icon: "BookOpenCheck", id: "simulador", label: "Simulador de examen", adminOnly: false }],
-    label: "Simulacro",
+    // Los cursos van primero: son el recorrido de estudio y cada sección termina en el simulador.
+    items: [
+      { href: "/cursos", icon: "GraduationCap", id: "cursos", label: "Cursos", adminOnly: false },
+      { href: "/simulador", icon: "BookOpenCheck", id: "simulador", label: "Simulador de examen", adminOnly: false },
+    ],
+    label: "Formación",
   },
   {
     items: [{ href: "/archivo", icon: "Archive", id: "archivo", label: "Archivo documental", adminOnly: false }],

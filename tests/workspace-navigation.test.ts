@@ -23,7 +23,7 @@ describe("workspace permissions and client identity",()=>{
   });
   it("never uses an external admin flag to open staff modules",()=>{
     expect(paths(actor({esExterno:true,isAdmin:true,modulosExternos:["simulacro"]})))
-      .toEqual(["/","/simulador"]);
+      .toEqual(["/","/cursos","/simulador"]);
   });
   it("keeps admin and procurement links closed without their permissions",()=>{
     expect(paths(actor())).not.toContain("/actualizacion-documental");
