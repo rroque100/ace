@@ -149,7 +149,12 @@ en el texto de la norma).
    46 y 52), 13 casos y 4 cifras más en la ficha. Elegidas por lo que más pregunta el banco del tema
    (Art. 44 en 32 preguntas). Se usa el texto modificado del 51.3: 6 días hábiles, no 3.
    2.2, 3.2 y 3.10 quedaron cubiertas por XIX, XX y XXII.
-3. **Huecos restantes**: 1.4, 1.8, 2.3, 2.6, 2.8 (ampliar), 3.4, 3.7, 3.8, 3.11.
+3. ✅ **Huecos restantes**: seis clases (XXVII–XXXII) para 1.4 + 1.8 (bases estándar, anuncio y Pladicop
+   en actuaciones preparatorias), 2.6 (Pladicop en la selección), 2.3 (evaluación y desempate), 3.4
+   (recepción y conformidad), 3.7 + 3.8 (expediente técnico, residente, supervisión y gerente de proyecto)
+   y 3.11 (valorización, recepción y liquidación de obra); 20 casos y 8 cifras más en la ficha. **Ningún
+   tema oficial queda sin clase**: el trinquete pasa a ser una regla del test. Pendiente: ampliar 2.8
+   (resolución de la apelación: trámite y plazos ante la entidad y el TCP).
 4. **Entrenamiento**: R2 (practicar el tema), R3 (diagnóstico), R5 (glosario).
 
 Cada fase en su propio PR, con verificación legal contra el corpus y tests del catálogo (que ya exigen
