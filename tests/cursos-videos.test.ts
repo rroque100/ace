@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { clasesEnOrden } from "@/lib/cursos/catalogo";
 import { CERTIFICACION_OECE } from "@/lib/cursos/certificacion-oece";
-import { ICONOS_VIDEO, VIDEO_ESCENAS } from "@/lib/cursos/videos";
+import { esQuiz, ICONOS_VIDEO, VIDEO_ESCENAS, type EscenaContenido } from "@/lib/cursos/videos";
 import { ICONOS_COMPONENTES } from "@/app/components/cursos/video-animado";
 
 describe("videos animados de las clases", () => {
@@ -11,19 +11,45 @@ describe("videos animados de las clases", () => {
     expect(VIDEO_ESCENAS[clase.animacion!]).toBeDefined();
   });
 
-  it("el guion tiene siete escenas completas con fichas y cinta", () => {
+  it("el guion tiene siete escenas de contenido y dos comprobaciones interactivas", () => {
     const escenas = VIDEO_ESCENAS["actores-involucrados"]!;
-    expect(escenas).toHaveLength(7);
+    expect(escenas).toHaveLength(9);
+    expect(escenas.filter(esQuiz)).toHaveLength(2);
     for (const e of escenas) {
       expect(e.titulo.length, e.titulo).toBeGreaterThan(4);
-      expect(e.narracion.length, e.titulo).toBeGreaterThan(60);
+      expect(e.cinta.length, e.titulo).toBeGreaterThan(3);
+    }
+  });
+
+  it("cada escena de contenido narra por segmentos que apuntan a fichas reales", () => {
+    const contenido = VIDEO_ESCENAS["actores-involucrados"]!.filter((e): e is EscenaContenido => !esQuiz(e));
+    expect(contenido).toHaveLength(7);
+    for (const e of contenido) {
+      expect(e.guion.length, e.titulo).toBeGreaterThanOrEqual(2);
       expect(e.fichas.length, e.titulo).toBeGreaterThan(0);
+      for (const s of e.guion) {
+        expect(s.texto.length, e.titulo).toBeGreaterThan(10);
+        if (s.ficha !== undefined) {
+          expect(s.ficha, e.titulo).toBeGreaterThanOrEqual(0);
+          expect(s.ficha, e.titulo).toBeLessThan(e.fichas.length);
+        }
+      }
       for (const f of e.fichas) {
         expect(ICONOS_VIDEO, `${e.titulo}: ${f.nombre}`).toContain(f.icono);
         expect(f.nombre.length, e.titulo).toBeGreaterThan(1);
         expect(f.rol.length, e.titulo).toBeGreaterThan(4);
       }
-      expect(e.cinta.length, e.titulo).toBeGreaterThan(3);
+    }
+  });
+
+  it("cada comprobación tiene una sola respuesta correcta y aclaración que la enseña", () => {
+    const quizzes = VIDEO_ESCENAS["actores-involucrados"]!.filter(esQuiz);
+    for (const q of quizzes) {
+      expect(q.pregunta.length, q.titulo).toBeGreaterThan(15);
+      expect(q.opciones).toHaveLength(3);
+      expect(q.opciones.filter((o) => o.correcta), q.titulo).toHaveLength(1);
+      expect(q.aclaracion.length, q.titulo).toBeGreaterThan(40);
+      for (const o of q.opciones) expect(o.texto.length).toBeGreaterThan(2);
     }
   });
 
