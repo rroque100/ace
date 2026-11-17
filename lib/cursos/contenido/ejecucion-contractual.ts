@@ -490,6 +490,13 @@ export const EJECUCION_CONTRACTUAL: Clase[] = [
             "No: si no hay pronunciamiento en los doce días hábiles, la ampliación se tiene por aprobada, salvo que el contratista no haya cumplido estrictamente el procedimiento de presentación.",
           baseLegal: [{ norma: "Reglamento", articulo: "142" }],
         },
+        {
+          enunciado:
+            "Dos ministerios se fusionan y el que tenía los contratos de mantenimiento quiere ceder su posición contractual al que asume las funciones. ¿Basta un acuerdo entre ellos?",
+          resolucion:
+            "No basta el acuerdo: la cesión de posición contractual entre entidades procede solo en los casos del artículo 112.2 del Reglamento —traslado de funciones, extinción, fusión o absorción— y requiere el sustento técnico legal previo de la DEC; cuando la causal es la desaparición de la necesidad, la cesionaria además acredita esa necesidad programada en su CMN.",
+          baseLegal: [{ norma: "Reglamento", articulo: "112" }],
+        },
       ],
       baseLegal: [
         { norma: "Ley 32069", articulo: "64" },

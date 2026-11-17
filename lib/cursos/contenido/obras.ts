@@ -304,6 +304,13 @@ export const OBRAS: Clase[] = [
             "No. En obras, las causales de ampliación de plazo deben modificar la ruta crítica del programa de ejecución vigente al momento de la solicitud.",
           baseLegal: [{ norma: "Reglamento", articulo: "198" }],
         },
+        {
+          enunciado:
+            "El supervisor ordenó presentar un nuevo programa de ejecución acelerado y el contratista lo entregó dentro de los siete días. Pasan siete días hábiles sin que la entidad observe nada. ¿Qué estado tiene el programa?",
+          resolucion:
+            "Se considera aprobado: el contratista presenta los documentos en siete días, el supervisor remite su pronunciamiento en cinco y la entidad puede observarlos dentro de siete días hábiles siguientes; sin observación, el nuevo programa y su calendario quedan aprobados.",
+          baseLegal: [{ norma: "Reglamento", articulo: "207" }],
+        },
       ],
       baseLegal: [
         { norma: "Reglamento", articulo: "107" },

@@ -563,6 +563,20 @@ export const FASE_SELECCION: Clase[] = [
             "La pérdida es automática y la DEC requiere al postor del segundo lugar, en un máximo de dos días hábiles desde la finalización del plazo de consentimiento de la pérdida, para que presente sus requisitos.",
           baseLegal: [{ norma: "Reglamento", articulo: "91" }],
         },
+        {
+          enunciado:
+            "Por un evento no previsto, la entidad necesita postergar dos etapas del procedimiento. ¿Cómo queda constancia?",
+          resolucion:
+            "La prórroga o postergación de las etapas se registra en la Pladicop modificando el cronograma inicial: el calendario vigente es el que allí consta.",
+          baseLegal: [{ norma: "Reglamento", articulo: "64" }],
+        },
+        {
+          enunciado:
+            "Publicada la integración de bases un martes, la entidad fija la presentación de ofertas para el miércoles siguiente (un día). ¿Es válido?",
+          resolucion:
+            "No. La presentación de ofertas va en un plazo no menor de siete días hábiles contabilizados desde la publicación de la integración de bases; en modalidades abreviadas el mínimo son tres días hábiles.",
+          baseLegal: [{ norma: "Reglamento", articulo: "68" }],
+        },
       ],
       baseLegal: [
         { norma: "Reglamento", articulo: "64" },

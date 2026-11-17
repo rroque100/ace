@@ -278,6 +278,20 @@ export const ACTOS_PREPARATORIOS: Clase[] = [
             "Por regla general, no: la siguiente convocatoria del procedimiento declarado desierto no exige aprobar de nuevo el expediente.",
           baseLegal: [{ norma: "Reglamento", articulo: "63" }],
         },
+        {
+          enunciado:
+            "El expediente trae el requerimiento final, la estrategia de contratación con su interacción con el mercado, la designación de los evaluadores y la previsión presupuestal, pero no la certificación de crédito presupuestario. ¿Puede la autoridad de la gestión administrativa aprobarlo?",
+          resolucion:
+            "Sí. El Reglamento exige «la certificación de crédito presupuestario o previsión presupuestal»: basta una de las dos. Con la previsión documentada, el expediente reúne el contenido mínimo para aprobarse.",
+          baseLegal: [{ norma: "Reglamento", articulo: "54" }],
+        },
+        {
+          enunciado:
+            "La entidad ya tiene el requerimiento cerrado y la estrategia definida, y quiere convocar de inmediato para no perder el año fiscal, sin esperar la aprobación del expediente. ¿Puede?",
+          resolucion:
+            "No. Sin expediente aprobado y bases elaboradas no se puede convocar: la aprobación del expediente por la autoridad de la gestión administrativa es requisito previo a la convocatoria.",
+          baseLegal: [{ norma: "Reglamento", articulo: "63" }],
+        },
       ],
       baseLegal: [
         { norma: "Ley 32069", articulo: "51" },

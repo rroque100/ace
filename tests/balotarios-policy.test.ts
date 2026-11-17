@@ -34,7 +34,8 @@ describe("balotarios: integridad y resultados", () => {
   });
   it("no inventa competencia para preguntas sin clasificar y excluye intentos activos",()=>{
     // Una instantánea vieja puede traer preguntas sin competencia: el fallback «Pendiente» sigue existiendo.
-    const sinClasificar={...preguntas[0],competencia:undefined};
+    const { competencia: sinEtiqueta, ...sinClasificar } = preguntas[0];
+    expect(sinEtiqueta).toBeTruthy();
     const t={state:"submitted",questions:[sinClasificar],answers:{[sinClasificar.id]:sinClasificar.correcta}} as IntentoBalotario;
     expect(estadisticasCompetencia([t,{...t,state:"active"}])).toEqual([{competencia:"Pendiente de clasificar",correctas:1,incorrectas:0,omitidas:0,total:1}]);
   });
