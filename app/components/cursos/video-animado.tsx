@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import {
   Ban, BadgeCheck, BookOpen, Building2, CheckCircle2, ChevronLeft, ChevronRight, ClipboardList,
   Compass, Crown, FileSearch, FileText, FileWarning, Gavel, GraduationCap, Landmark, Lightbulb,
@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/navigation";
 import { buttonClasses } from "@/app/components/ui/button";
 import { esQuiz, type EscenaVideo, type FichaVideo } from "@/lib/cursos/videos";
+import { frasesParaVoz, textoParaVoz, vocesEnEspanol, vozEsBasica } from "@/lib/cursos/voz";
 import { EVENTO_PESTANA } from "./pestanas-clase";
 import { cn } from "@/lib/utils";
 
@@ -20,15 +21,29 @@ export const ICONOS_COMPONENTES: Record<string, LucideIcon> = {
 };
 
 const VELOCIDADES: readonly number[] = [0.75, 1, 1.25, 1.5];
-// Entrada escalonada de fichas y opciones: 130 ms entre una y la siguiente. Clases fijas en vez de un `style` con el
-// retraso calculado: tests/tailwind-migracion.test.ts no deja crecer los estilos en línea, y una escena no pasa de
-// ocho elementos (la última clase cubre a los que hubiera de más).
+// Entrada escalonada de fichas y opciones: 130 ms entre una y la siguiente. Es un retraso de ANIMACIÓN, no de
+// transición: antes era `transition-delay`, que además retrasaba el resaltado de la ficha que habla (la sexta se
+// iluminaba 650 ms tarde) y solo animaba la primera escena. Clases fijas en vez de un `style` calculado porque
+// tests/tailwind-migracion.test.ts no deja crecer los estilos en línea; una escena no pasa de ocho elementos.
 const RETRASOS = [
-  "delay-0", "delay-[130ms]", "delay-[260ms]", "delay-[390ms]",
-  "delay-[520ms]", "delay-[650ms]", "delay-[780ms]", "delay-[910ms]",
+  "[animation-delay:0ms]", "[animation-delay:130ms]", "[animation-delay:260ms]", "[animation-delay:390ms]",
+  "[animation-delay:520ms]", "[animation-delay:650ms]", "[animation-delay:780ms]", "[animation-delay:910ms]",
 ] as const;
 const retrasoDe = (i: number) => RETRASOS[Math.min(i, RETRASOS.length - 1)];
 const MS_POR_CARACTER = 66;
+// Silencios de la narración: entre frases, entre segmentos y al cambiar de escena. Sin ellos la voz encadenaba todo
+// de corrido, que es buena parte de lo que la hacía sonar a máquina.
+const PAUSA_FRASE = 220;
+const PAUSA_SEGMENTO = 450;
+const PAUSA_ESCENA = 800;
+const CLAVE_VOZ = "ace-curso-voz";
+
+// speechSynthesis solo existe en el navegador: leerlo durante el render daba un HTML distinto en el servidor y en el
+// cliente (el aviso «Sin voz disponible» frente a los controles de voz). Con useSyncExternalStore el servidor y la
+// hidratación dicen «sin voz» y el cliente corrige justo después.
+const sinSuscripcion = () => () => {};
+const hayVozEnNavegador = () => "speechSynthesis" in window;
+const sinVozEnServidor = () => false;
 
 type Ctx = AudioContext;
 
@@ -86,35 +101,47 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
   const [vozActiva, setVozActiva] = useState(true);
   const [sonidos, setSonidos] = useState(true);
   const [respuesta, setRespuesta] = useState<number | null>(null);
-  const [montadas, setMontadas] = useState(false);
   const temporizador = useRef<number | undefined>(undefined);
   const audioRef = useRef<Ctx | null>(null);
+  // Velocidad y volumen se leen al empezar cada frase. Antes eran dependencias del efecto que habla, así que mover el
+  // volumen reiniciaba la frase en cada paso del deslizador.
+  const velocidadRef = useRef(1);
+  const volumenRef = useRef(100);
+  // En qué frase del segmento va la voz: pausar y reanudar sigue desde ahí, no desde el principio del segmento.
+  const fraseRef = useRef(0);
+  // Sube cada vez que se pide repetir una ficha: si es la que ya está hablando, el segmento no cambia y sin esto el
+  // efecto que narra no se volvería a ejecutar.
+  const [toma, setToma] = useState(0);
 
-  const sintesis = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
+  const hayVoz = useSyncExternalStore(sinSuscripcion, hayVozEnNavegador, sinVozEnServidor);
+  const sintesis = hayVoz ? window.speechSynthesis : null;
   const [voces, setVoces] = useState<SpeechSynthesisVoice[]>([]);
+  const [nombreVoz, setNombreVoz] = useState("");
   useEffect(() => {
     if (!sintesis) return;
-    const leer = () => setVoces(sintesis.getVoices());
+    const leer = () => {
+      setVoces(vocesEnEspanol(sintesis.getVoices()));
+      try { setNombreVoz(localStorage.getItem(CLAVE_VOZ) ?? ""); } catch { /* sin almacenamiento: voz automática */ }
+    };
     leer();
     sintesis.addEventListener("voiceschanged", leer);
     return () => sintesis.removeEventListener("voiceschanged", leer);
   }, [sintesis]);
 
-  const vozEspañol = useMemo(() => {
-    const es = voces.filter((v) => v.lang.toLowerCase().startsWith("es"));
-    const grupos = [
-      (v: SpeechSynthesisVoice) => v.lang.toLowerCase().startsWith("es-pe"),
-      (v: SpeechSynthesisVoice) => ["es-419", "es-mx", "es-ar", "es-co", "es-us", "es-cl"].includes(v.lang.toLowerCase()),
-      () => true,
-    ];
-    for (const grupo of grupos) {
-      const naturales = es.filter(grupo).filter((v) => /natural|online/i.test(v.name));
-      if (naturales.length) return naturales[0];
-      const cualquiera = es.filter(grupo);
-      if (cualquiera.length) return cualquiera[0];
-    }
-    return null;
-  }, [voces]);
+  // La elegida por la persona si sigue instalada; si no, la que mejor suena (lib/cursos/voz.ts).
+  const vozEspañol = useMemo(
+    () => voces.find((v) => v.name === nombreVoz) ?? voces[0] ?? null,
+    [voces, nombreVoz],
+  );
+
+  function elegirVoz(nombre: string) {
+    setNombreVoz(nombre);
+    fraseRef.current = 0;
+    try {
+      if (nombre) localStorage.setItem(CLAVE_VOZ, nombre);
+      else localStorage.removeItem(CLAVE_VOZ);
+    } catch { /* preferencia de comodidad: si no se guarda, se vuelve a la automática */ }
+  }
 
   const detener = useCallback(() => {
     sintesis?.cancel();
@@ -149,6 +176,7 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
     const seguro = Math.max(0, Math.min(total - 1, destino));
     setRespuesta(null);
     setSegmento(0);
+    fraseRef.current = 0;
     setTerminado(false);
     setEscena(seguro);
     reproducirSonido(sonarEscena);
@@ -158,6 +186,7 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
     if (guionSeguro && segmentoSeguro + 1 < guionSeguro.length) {
       const proximo = guionSeguro[segmentoSeguro + 1];
       if (proximo?.ficha !== undefined) reproducirSonido((ctx) => sonarFicha(ctx, proximo.ficha!));
+      fraseRef.current = 0;
       setSegmento((s) => s + 1);
       return;
     }
@@ -168,67 +197,77 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
     }
   }, [guionSeguro, segmentoSeguro, escena, total, irA, reproducirSonido]);
 
+  // La narración: el texto del segmento se prepara para la voz (lib/cursos/voz.ts), se parte en frases y se dice una
+  // a una con silencios breves. Sin voz (o silenciada), cada frase dura lo que tardaría en leerse.
   useEffect(() => {
     if (!reproduciendo) return;
     let texto: string;
+    const quizSinResponder = esQuiz(actual) && respuesta === null;
     if (esQuiz(actual)) {
-      if (respuesta === null) texto = actual.pregunta;
-      else texto = `${actual.opciones[respuesta].correcta ? "¡Muy bien!" : "Mmm, no."} ${actual.aclaracion}`;
+      texto = respuesta === null
+        ? actual.pregunta
+        : `${actual.opciones[respuesta].correcta ? "¡Muy bien!" : "No exactamente."} ${actual.aclaracion}`;
     } else {
       texto = actual.guion[segmentoSeguro].texto;
     }
+    const frases = frasesParaVoz(textoParaVoz(texto));
+    const ultimoSegmento = esQuiz(actual) || segmentoSeguro === actual.guion.length - 1;
     const habla = sintesis && vozActiva;
-    if (habla) {
-      const utterance = new SpeechSynthesisUtterance(texto);
-      utterance.lang = "es-PE";
-      utterance.rate = velocidad;
-      utterance.volume = volumen / 100;
-      if (vozEspañol) utterance.voice = vozEspañol;
-      utterance.onend = () => {
-        if (esQuiz(actual) && respuesta === null) return;
-        avanzar();
-      };
-      utterance.onerror = () => {
-        temporizador.current = window.setTimeout(() => {
-          if (esQuiz(actual) && respuesta === null) return;
-          avanzar();
-        }, duracionEstimada(texto, velocidad));
-      };
-      sintesis.speak(utterance);
-      return detener;
-    }
-    if (esQuiz(actual) && respuesta === null) return;
-    temporizador.current = window.setTimeout(avanzar, duracionEstimada(texto, velocidad));
-    return detener;
-  }, [reproduciendo, escena, segmentoSeguro, respuesta, velocidad, volumen, vozActiva, vozEspañol, actual, sintesis, detener, avanzar]);
+    let cancelado = false;
+    let i = Math.min(fraseRef.current, frases.length - 1);
 
-  useEffect(() => {
-    if (!esQuiz(actual) || respuesta === null || !reproduciendo) return;
-    if (sintesis && vozActiva) return;
-    temporizador.current = window.setTimeout(() => avanzar(), duracionEstimada(actual.aclaracion, velocidad));
-    return detener;
-  }, [respuesta, actual, reproduciendo, sintesis, vozActiva, velocidad, avanzar, detener]);
+    const decir = () => {
+      if (cancelado) return;
+      if (i >= frases.length) {
+        fraseRef.current = 0;
+        // Una pregunta sin responder espera al alumno; lo demás sigue tras un silencio.
+        if (quizSinResponder) return;
+        temporizador.current = window.setTimeout(avanzar, ultimoSegmento ? PAUSA_ESCENA : PAUSA_SEGMENTO);
+        return;
+      }
+      fraseRef.current = i;
+      const frase = frases[i];
+      const seguir = () => {
+        i += 1;
+        temporizador.current = window.setTimeout(decir, PAUSA_FRASE);
+      };
+      if (!habla) {
+        temporizador.current = window.setTimeout(seguir, duracionEstimada(frase, velocidadRef.current));
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(frase);
+      if (vozEspañol) {
+        u.voice = vozEspañol;
+        u.lang = vozEspañol.lang;
+      } else u.lang = "es-PE";
+      u.rate = velocidadRef.current;
+      u.volume = volumenRef.current / 100;
+      u.onend = () => { if (!cancelado) seguir(); };
+      u.onerror = (e) => {
+        // «interrupted» y «canceled» son nuestras: pausar o cambiar de escena corta la frase a propósito.
+        if (cancelado || e.error === "interrupted" || e.error === "canceled") return;
+        temporizador.current = window.setTimeout(seguir, duracionEstimada(frase, velocidadRef.current));
+      };
+      sintesis.speak(u);
+    };
 
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setMontadas(true));
-    return () => cancelAnimationFrame(raf);
-  }, [escena]);
+    temporizador.current = window.setTimeout(decir, 0);
+    return () => {
+      cancelado = true;
+      detener();
+    };
+  }, [reproduciendo, escena, segmentoSeguro, respuesta, toma, vozActiva, vozEspañol, actual, sintesis, detener, avanzar]);
 
   useEffect(() => detener, [detener]);
 
-  useEffect(() => {
-    const alPulsar = (e: KeyboardEvent) => {
-      if (e.defaultPrevented) return;
-      const objetivo = e.target as HTMLElement | null;
-      if (objetivo && ["INPUT", "TEXTAREA", "SELECT"].includes(objetivo.tagName)) return;
-      if (e.code === "Space") { e.preventDefault(); alternarReproduccion(); }
-      else if (e.code === "ArrowLeft") irA(escena - 1);
-      else if (e.code === "ArrowRight") irA(escena + 1);
-    };
-    window.addEventListener("keydown", alPulsar);
-    return () => window.removeEventListener("keydown", alPulsar);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [escena, reproduciendo, detener]);
+  // Teclado solo con el foco en el vídeo: antes escuchaba en toda la página, así que la flecha en las pestañas de la
+  // clase cambiaba también de escena y la barra espaciadora pausaba el vídeo en vez de bajar la página.
+  function alPulsarTecla(e: KeyboardEvent<HTMLElement>) {
+    if (e.target !== e.currentTarget) return;
+    if (e.code === "Space") { e.preventDefault(); alternarReproduccion(); }
+    else if (e.code === "ArrowLeft") { e.preventDefault(); irA(escena - 1); }
+    else if (e.code === "ArrowRight") { e.preventDefault(); irA(escena + 1); }
+  }
 
   // Ver el vídeo entero es haber visto la clase: se marca sola, como al pulsar «Siguiente clase» en la barra del pie.
   // Una sola vez por visita (marcaPedida), y router.refresh() para que el botón «Marcar como completada» y el panel
@@ -265,6 +304,9 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
     if (!esContenido) return;
     const destino = actual.guion.findIndex((s) => s.ficha === indiceFicha);
     if (destino < 0) return;
+    detener();
+    fraseRef.current = 0;
+    setToma((t) => t + 1);
     setSegmento(destino);
     setReproduciendo(true);
     reproducirSonido((ctx) => sonarFicha(ctx, indiceFicha));
@@ -276,6 +318,8 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
 
   function alPulsarOpcion(indice: number) {
     if (respuesta !== null || !esQuiz(actual)) return;
+    detener();
+    fraseRef.current = 0;
     setRespuesta(indice);
     const correcta = actual.opciones[indice].correcta;
     reproducirSonido(correcta ? sonarAcierto : sonarFallo);
@@ -288,7 +332,12 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
   const minutosVideo = useMemo(() => duracionGuion(escenas), [escenas]);
 
   return (
-    <figure className="m-0 overflow-hidden rounded-2xl border border-line bg-panel shadow-card">
+    <figure
+      tabIndex={0}
+      aria-label={`Vídeo de la clase: ${titulo}`}
+      onKeyDown={alPulsarTecla}
+      className="m-0 overflow-hidden rounded-2xl border border-line bg-panel shadow-card outline-none focus-visible:shadow-[var(--shadow-focus)]"
+    >
       {/* ── Escenario ────────────────────────────────────────────────────────── */}
       <div className="relative flex aspect-video flex-col justify-between overflow-hidden bg-brand-soft p-5 sm:p-7">
         <span aria-hidden className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full bg-panel/40 blur-3xl motion-reduce:hidden sm:size-64" />
@@ -304,15 +353,16 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
         </div>
 
         <div className="relative flex flex-1 flex-col items-center justify-center gap-3 py-2 sm:gap-4 sm:py-3">
-          <h3 className="m-0 text-center text-base font-semibold text-ink sm:text-xl">{actual.titulo}</h3>
+          <h3 key={`titulo-${escena}`} className="m-0 animate-[fade-in_0.35s_ease-out] text-center text-base font-semibold text-ink motion-reduce:animate-none sm:text-xl">
+            {actual.titulo}
+          </h3>
 
           {esContenido ? (
-            <div className="flex max-h-36 flex-wrap items-stretch justify-center gap-1.5 overflow-y-auto sm:gap-2">
+            <div key={`fichas-${escena}`} className="flex max-h-36 flex-wrap items-stretch justify-center gap-1.5 overflow-y-auto sm:gap-2">
               {actual.fichas.map((ficha, i) => (
                 <FichaClave
                   key={`${actual.titulo}-${ficha.nombre}`}
                   ficha={ficha}
-                  montada={montadas}
                   estado={fichaActiva === i ? "activa" : fichasConectadas.has(i) ? "conectada" : "normal"}
                   retraso={retrasoDe(i)}
                   onClick={() => escucharFicha(i)}
@@ -320,13 +370,12 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
               ))}
             </div>
           ) : (
-            <div className="flex w-full max-w-lg flex-col gap-1.5 sm:gap-2">
+            <div key={`opciones-${escena}`} className="flex w-full max-w-lg flex-col gap-1.5 sm:gap-2">
               {actual.opciones.map((opcion, i) => (
                 <OpcionClave
                   key={opcion.texto}
                   texto={opcion.texto}
                   indice={i}
-                  montada={montadas}
                   respondida={respuesta !== null}
                   elegida={respuesta === i}
                   correcta={opcion.correcta}
@@ -344,7 +393,8 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
       {/* ── Panel de detalle: anima con cada ficha ───────────────────────────── */}
       {esContenido && (
         <div className="border-t border-line bg-surface px-5 py-3">
-          <div key={`${actual.titulo}-${fichaActiva ?? "intro"}`} className="animate-in fade-in slide-in-from-bottom-2 duration-300 space-y-1.5">
+          {/* animate-in/slide-in eran clases de un plugin que este proyecto no tiene: el panel no animaba. */}
+          <div key={`${actual.titulo}-${fichaActiva ?? "intro"}`} className="animate-[fade-in_0.3s_ease-out] space-y-1.5 motion-reduce:animate-none">
             {detalle ? (
               <>
                 <div className="flex flex-wrap items-center gap-2">
@@ -430,14 +480,19 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
         <button
           type="button"
           className={buttonClasses({ variant: "secondary" })}
-          onClick={() => { setVelocidad((v) => VELOCIDADES[(VELOCIDADES.indexOf(v) + 1) % VELOCIDADES.length]); reproducirSonido(sonarClic); }}
+          onClick={() => {
+            const nueva = VELOCIDADES[(VELOCIDADES.indexOf(velocidad) + 1) % VELOCIDADES.length];
+            velocidadRef.current = nueva;
+            setVelocidad(nueva);
+            reproducirSonido(sonarClic);
+          }}
           aria-label={`Velocidad de la voz: ${velocidad} veces. Pulsa para cambiarla.`}
         >
           {velocidad}×
         </button>
         <span className="inline-flex items-center gap-2">
           <Volume2 size={16} aria-hidden className="shrink-0 text-muted" />
-          <input type="range" min={0} max={100} step={5} value={volumen} onChange={(e) => setVolumen(Number(e.target.value))} aria-label="Volumen de la voz" className="h-1.5 w-20 cursor-pointer accent-brand" />
+          <input type="range" min={0} max={100} step={5} value={volumen} onChange={(e) => { volumenRef.current = Number(e.target.value); setVolumen(volumenRef.current); }} aria-label="Volumen de la voz" className="h-1.5 w-20 cursor-pointer accent-brand" />
         </span>
         <button type="button" className={buttonClasses({ variant: "secondary" })} aria-pressed={!sonidos} onClick={() => { setSonidos((v) => !v); if (sonidos) reproducirSonido(sonarClic); }}>
           <Sparkles size={16} aria-hidden /> <span className="sr-only">Sonidos </span>{sonidos ? "activados" : "desactivados"}
@@ -457,21 +512,51 @@ export function VideoAnimado({ escenas, modulo, titulo, fin }: {
         <button type="button" className={buttonClasses({ variant: "secondary" })} onClick={() => { detener(); irA(0); setReproduciendo(true); }}>
           <RotateCcw size={16} aria-hidden /> Reiniciar
         </button>
+        {sintesis && voces.length > 1 && (
+          <label className="inline-flex items-center gap-2 text-xs text-muted">
+            Voz
+            <select
+              value={vozEspañol && nombreVoz ? vozEspañol.name : ""}
+              onChange={(e) => elegirVoz(e.target.value)}
+              className="max-w-52 rounded-lg border border-line-strong bg-panel px-2 py-1.5 text-xs text-ink"
+            >
+              <option value="">Automática (la más natural)</option>
+              {voces.map((v) => (
+                <option key={v.name} value={v.name}>
+                  {nombreCorto(v.name)} · {v.lang}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <span className="min-w-0 flex-1 truncate text-xs text-muted" title={titulo}>
-          {sintesis ? "Espacio pausa · flechas navegan · clic en una ficha la repite" : "Sin voz disponible: el texto guía las escenas."}
+          {sintesis
+            ? "Con el foco en el vídeo: espacio pausa y las flechas cambian de escena · clic en una ficha la repite"
+            : "Sin voz disponible: el texto guía las escenas."}
         </span>
       </div>
+      {/* Las voces dependen del navegador: si solo hay las básicas del sistema, se dice dónde suena mejor. */}
+      {sintesis && vozActiva && vozEsBasica(vozEspañol) && (
+        <p className="m-0 border-t border-line bg-surface px-5 py-2.5 text-xs text-muted">
+          Tu navegador solo tiene voces básicas en español, por eso suena robótica. En Microsoft Edge o Google Chrome la
+          narración usa voces mucho más naturales.
+        </p>
+      )}
     </figure>
   );
+}
+
+/** «Microsoft Dalia Online (Natural) - Spanish (Mexico)» → «Dalia Online (Natural)»: el selector es estrecho. */
+function nombreCorto(nombre: string) {
+  return nombre.replace(/^Microsoft\s+/, "").replace(/\s*-\s*Spanish.*$/, "");
 }
 
 function duracionEstimada(texto: string, velocidad: number) {
   return Math.max(1600, Math.min(12_000, (texto.length * MS_POR_CARACTER) / velocidad));
 }
 
-function FichaClave({ ficha, montada, estado, retraso, onClick }: {
+function FichaClave({ ficha, estado, retraso, onClick }: {
   ficha: FichaVideo;
-  montada: boolean;
   estado: "activa" | "conectada" | "normal";
   retraso: string;
   onClick: () => void;
@@ -483,10 +568,11 @@ function FichaClave({ ficha, montada, estado, retraso, onClick }: {
       onClick={onClick}
       title={`Escuchar de nuevo: ${ficha.nombre}`}
       className={cn(
-        "flex w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border p-2 text-center outline-none transition-all duration-500",
+        "flex w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border p-2 text-center outline-none",
+        "animate-entra-ficha transition-[background-color,border-color,box-shadow,translate] duration-300",
         retraso,
-        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none sm:w-32 sm:gap-1.5 sm:p-3",
-        montada ? "translate-y-0 rotate-0 scale-100 opacity-100" : "translate-y-4 -rotate-2 scale-90 opacity-0",
+        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:animate-none motion-reduce:transition-none sm:w-32 sm:gap-1.5 sm:p-3",
+        estado === "activa" && "-translate-y-0.5",
         estado === "activa" && "border-brand bg-brand-soft/60 shadow-card ring-2 ring-brand",
         estado === "conectada" && "border-brand/50 bg-brand-soft/30 ring-1 ring-brand/40",
         estado === "normal" && "border-line bg-panel",
@@ -509,10 +595,9 @@ function FichaClave({ ficha, montada, estado, retraso, onClick }: {
   );
 }
 
-function OpcionClave({ texto, indice, montada, respondida, elegida, correcta, retraso, onElegir }: {
+function OpcionClave({ texto, indice, respondida, elegida, correcta, retraso, onElegir }: {
   texto: string;
   indice: number;
-  montada: boolean;
   respondida: boolean;
   elegida: boolean;
   correcta: boolean;
@@ -526,10 +611,10 @@ function OpcionClave({ texto, indice, montada, respondida, elegida, correcta, re
       disabled={respondida}
       aria-label={`Opción ${indice + 1}: ${texto}`}
       className={cn(
-        "flex min-h-11 w-full items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm outline-none transition-all duration-500",
+        "flex min-h-11 w-full items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm outline-none",
+        "animate-entra-ficha transition-[background-color,border-color,opacity] duration-300",
         retraso,
-        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none",
-        montada ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
+        "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:animate-none motion-reduce:transition-none",
         respondida
           ? correcta ? "border-success bg-success-soft text-ink"
           : elegida ? "border-danger bg-danger-soft text-ink"
