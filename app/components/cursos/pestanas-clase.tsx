@@ -1,17 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BookOpen, ClipboardList, Scale } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Casuistica, ContenidoClase } from "@/lib/cursos/tipos";
 
 type Referencia = { texto: string; href: string | null };
+type Pestana = "resumen" | "casuistica" | "base";
+
+/** Evento para abrir una pestaña desde otro componente de la clase (el fin del vídeo animado). */
+export const EVENTO_PESTANA = "curso:abrir-pestana";
 
 // Pestañas Resumen | Casuística | Base legal bajo el reproductor. Los enlaces a la norma llegan ya resueltos
 // desde el servidor: `href` es null cuando la cuenta no puede abrir el lector de normas (un alumno sin Centro
 // Jurídico), y entonces la referencia se muestra como texto en vez de como un enlace que acabaría en un rechazo.
 export function PestanasClase({ contenido, referencias }: { contenido: ContenidoClase; referencias: Referencia[] }) {
-  const [activa, setActiva] = useState<"resumen" | "casuistica" | "base">("resumen");
+  const [activa, setActiva] = useState<Pestana>("resumen");
   const lista = useRef<HTMLDivElement>(null);
   // La pestaña de casuística solo aparece cuando la clase tiene casos: una pestaña vacía no invita a nada.
   const pestanas = [
@@ -21,9 +25,34 @@ export function PestanasClase({ contenido, referencias }: { contenido: Contenido
       : []),
     { id: "base" as const, label: "Base legal", icono: Scale },
   ];
+  const seccion = useRef<HTMLElement>(null);
+  const tieneCasos = Boolean(contenido.casuisticas?.length);
+
+  // Abrir una pestaña desde fuera: el fin del vídeo («Ver los casos») o un enlace con #casuistica. Lleva la vista a
+  // las pestañas y el foco a la elegida, para que quien venía del vídeo vea dónde están los casos.
+  useEffect(() => {
+    const abrir = (id: string) => {
+      if (id !== "resumen" && id !== "base" && !(id === "casuistica" && tieneCasos)) return;
+      setActiva(id as Pestana);
+      requestAnimationFrame(() => {
+        seccion.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.getElementById(`pestana-${id}`)?.focus({ preventScroll: true });
+      });
+    };
+    const alEvento = (e: Event) => abrir(String((e as CustomEvent).detail));
+    const alHash = () => location.hash === "#casuistica" && abrir("casuistica");
+    window.addEventListener(EVENTO_PESTANA, alEvento);
+    window.addEventListener("hashchange", alHash);
+    const raf = requestAnimationFrame(alHash);
+    return () => {
+      window.removeEventListener(EVENTO_PESTANA, alEvento);
+      window.removeEventListener("hashchange", alHash);
+      cancelAnimationFrame(raf);
+    };
+  }, [tieneCasos]);
 
   return (
-    <section className="rounded-2xl border border-line bg-panel shadow-card">
+    <section ref={seccion} className="scroll-mt-24 rounded-2xl border border-line bg-panel shadow-card">
       <div
         ref={lista}
         role="tablist"

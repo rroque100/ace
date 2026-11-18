@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookA, ClipboardCheck, FileText, Target } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookA, ClipboardCheck, Compass, FileText, Target } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
   buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas, vistaProgreso,
 } from "@/lib/cursos/catalogo";
 import { comentariosParaPagina } from "@/lib/cursos/comentarios-server";
+import { recomendacionDeClase } from "@/lib/cursos/diagnostico";
+import { diagnosticoParaPagina } from "@/lib/cursos/diagnostico-server";
 import { progresoParaPagina } from "@/lib/cursos/progreso-server";
 import { temasDeClase, textoPeso } from "@/lib/cursos/temario-examen";
 import { hrefPracticarTema } from "@/lib/simulador-navegacion";
@@ -55,10 +57,14 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
   const { clase, seccion, numero } = encontrada;
   const total = clasesEnOrden(curso).length;
   const { anterior, siguiente } = vecinas(curso, clase.slug);
-  const [progreso, comentarios] = await Promise.all([
+  const [progreso, comentarios, diagnostico] = await Promise.all([
     progresoParaPagina(user.accessToken, curso.slug),
     comentariosParaPagina(user.accessToken, curso.slug, clase.slug, user.id, user.isAdmin),
+    // Solo el curso OECE tiene diagnóstico (usa el banco del simulador).
+    curso.slug === "certificacion-oece" ? diagnosticoParaPagina(user.id, curso) : null,
   ]);
+  const recomendada =
+    diagnostico?.estado === "hecho" ? recomendacionDeClase(diagnostico.resultado, clase.slug) : null;
   const completadas = new Set(progreso.completadas);
   const completada = completadas.has(clase.slug);
   // Mismo criterio que el simulador: una cuenta externa sin Centro Jurídico no puede abrir el chat ni el lector de normas.
@@ -85,6 +91,25 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
       <div className="tw mx-auto max-w-[1200px] pb-6">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_21rem]">
           <div className="min-w-0 space-y-5">
+            {/* La recomendación del diagnóstico se ve en la portada; aquí se repite porque es donde se estudia. */}
+            {recomendada && (
+              <p
+                role="note"
+                className="m-0 flex flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-brand bg-brand-soft px-4 py-3 text-sm text-ink"
+              >
+                <Compass size={18} aria-hidden className="shrink-0 text-brand" />
+                <span className="min-w-0 flex-1">
+                  <strong>
+                    Tu prueba diagnóstica te recomendó esta clase
+                    {recomendada.total > 1 ? ` (${recomendada.posicion}.ª de ${recomendada.total})` : ""}.
+                  </strong>{" "}
+                  Fallaste {recomendada.temas.map((t) => `el tema ${t.code} · ${t.label}`).join(" y ")}.
+                </span>
+                <Link href={`/cursos/${curso.slug}#diagnostico`} className="font-semibold text-brand underline">
+                  Ver tu diagnóstico
+                </Link>
+              </p>
+            )}
             {video ? (
               <div className="aspect-video overflow-hidden rounded-2xl border border-line bg-surface">
                 <iframe
@@ -97,7 +122,17 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 />
               </div>
             ) : escenasVideo ? (
-              <VideoAnimado escenas={escenasVideo} modulo={clase.modulo} titulo={clase.titulo} />
+              <VideoAnimado
+                escenas={escenasVideo}
+                modulo={clase.modulo}
+                titulo={clase.titulo}
+                fin={{
+                  curso: curso.slug,
+                  clase: clase.slug,
+                  marcar: progreso.estado === "ok" && !completada,
+                  casos: clase.contenido.casuisticas?.length ?? 0,
+                }}
+              />
             ) : (
               <ReproductorMaqueta modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
             )}

@@ -102,7 +102,11 @@ export default async function CursoPage({ params }: { params: Promise<{ curso: s
             Temario
           </h2>
           <div className="rounded-2xl border border-line bg-panel p-3 shadow-card sm:p-5">
-            <TemarioCurso curso={curso} completadas={progreso.completadas} />
+            <TemarioCurso
+              curso={curso}
+              completadas={progreso.completadas}
+              sigue={a.hechas > 0 && a.hechas < a.total ? seguir.slug : undefined}
+            />
             <Link
               href={curso.examenFinal.href}
               className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-brand-soft px-4 font-semibold text-brand no-underline outline-none hover:bg-brand/15 focus-visible:shadow-[var(--shadow-focus)]"

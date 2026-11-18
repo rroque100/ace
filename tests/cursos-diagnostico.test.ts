@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { EXAM_CURRICULUM } from "@/lib/exam-curriculum";
 import { buscarCurso, clasesEnOrden } from "@/lib/cursos/catalogo";
-import { PREGUNTAS_DIAGNOSTICO, respuestasDeIntento, resultadoDiagnostico } from "@/lib/cursos/diagnostico";
+import { PREGUNTAS_DIAGNOSTICO, recomendacionDeClase, respuestasDeIntento, resultadoDiagnostico } from "@/lib/cursos/diagnostico";
 
 const curso = buscarCurso("certificacion-oece")!;
 
@@ -59,5 +59,23 @@ describe("prueba diagnóstica", () => {
     const r = resultadoDiagnostico(curso, [{ tema: "9.9", acierto: false }]);
     expect(r.recomendadas).toEqual([]);
     expect(r.competencias.every((c) => c.total === 0)).toBe(true);
+  });
+});
+
+describe("recomendación del diagnóstico dentro de la clase", () => {
+  it("cada clase recomendada sabe su lugar y sus temas fallados; las demás no muestran nada", () => {
+    const r = resultadoDiagnostico(curso, [
+      { tema: "1.2", acierto: false },
+      { tema: "2.8", acierto: false },
+      { tema: "3.1", acierto: true },
+    ]);
+    r.recomendadas.forEach((c, i) => {
+      const x = recomendacionDeClase(r, c.slug);
+      expect(x, c.slug).toMatchObject({ posicion: i + 1, total: r.recomendadas.length });
+      expect(x!.temas.map((t) => t.code)).toEqual(c.temas);
+      for (const t of x!.temas) expect(t.label, t.code).not.toBe(t.code);
+    });
+    const otra = clasesEnOrden(curso).find((c) => !r.recomendadas.some((x) => x.slug === c.slug))!;
+    expect(recomendacionDeClase(r, otra.slug)).toBeNull();
   });
 });
