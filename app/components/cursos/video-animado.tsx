@@ -7,8 +7,10 @@ import {
   ListChecks, Network, Pause, Play, RotateCcw, Scale, ShoppingBag, Sparkles, Stamp, Swords,
   User, UserCog, Users, Volume2, VolumeX, XCircle, type LucideIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { buttonClasses } from "@/app/components/ui/button";
 import { esQuiz, type EscenaVideo, type FichaVideo } from "@/lib/cursos/videos";
+import { EVENTO_PESTANA } from "./pestanas-clase";
 import { cn } from "@/lib/utils";
 
 export const ICONOS_COMPONENTES: Record<string, LucideIcon> = {
@@ -18,6 +20,14 @@ export const ICONOS_COMPONENTES: Record<string, LucideIcon> = {
 };
 
 const VELOCIDADES: readonly number[] = [0.75, 1, 1.25, 1.5];
+// Entrada escalonada de fichas y opciones: 130 ms entre una y la siguiente. Clases fijas en vez de un `style` con el
+// retraso calculado: tests/tailwind-migracion.test.ts no deja crecer los estilos en línea, y una escena no pasa de
+// ocho elementos (la última clase cubre a los que hubiera de más).
+const RETRASOS = [
+  "delay-0", "delay-[130ms]", "delay-[260ms]", "delay-[390ms]",
+  "delay-[520ms]", "delay-[650ms]", "delay-[780ms]", "delay-[910ms]",
+] as const;
+const retrasoDe = (i: number) => RETRASOS[Math.min(i, RETRASOS.length - 1)];
 const MS_POR_CARACTER = 66;
 
 type Ctx = AudioContext;
@@ -55,11 +65,19 @@ function duracionGuion(escenas: readonly EscenaVideo[]): number {
   return Math.max(1, Math.round((caracteres * MS_POR_CARACTER) / 1000 / 60));
 }
 
-export function VideoAnimado({ escenas, modulo, titulo }: {
+/** Lo que pasa al terminar: marcar la clase (si el avance se guarda y aún no lo está) y ofrecer sus casos. */
+export type FinVideo = { curso: string; clase: string; marcar: boolean; casos: number };
+
+export function VideoAnimado({ escenas, modulo, titulo, fin }: {
   escenas: readonly EscenaVideo[];
   modulo: string;
   titulo: string;
+  fin?: FinVideo;
 }) {
+  const router = useRouter();
+  const [terminado, setTerminado] = useState(false);
+  const [marca, setMarca] = useState<"marcando" | "marcada" | "error" | null>(null);
+  const marcaPedida = useRef(false);
   const [escena, setEscena] = useState(0);
   const [segmento, setSegmento] = useState(0);
   const [reproduciendo, setReproduciendo] = useState(false);
@@ -131,6 +149,7 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
     const seguro = Math.max(0, Math.min(total - 1, destino));
     setRespuesta(null);
     setSegmento(0);
+    setTerminado(false);
     setEscena(seguro);
     reproducirSonido(sonarEscena);
   }, [total, reproducirSonido]);
@@ -143,7 +162,10 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
       return;
     }
     if (escena + 1 < total) irA(escena + 1);
-    else setReproduciendo(false);
+    else {
+      setReproduciendo(false);
+      setTerminado(true);
+    }
   }, [guionSeguro, segmentoSeguro, escena, total, irA, reproducirSonido]);
 
   useEffect(() => {
@@ -208,6 +230,32 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [escena, reproduciendo, detener]);
 
+  // Ver el vídeo entero es haber visto la clase: se marca sola, como al pulsar «Siguiente clase» en la barra del pie.
+  // Una sola vez por visita (marcaPedida), y router.refresh() para que el botón «Marcar como completada» y el panel
+  // de progreso lo reflejen. Si falla, se dice y no se insiste: el botón de la clase sigue ahí.
+  useEffect(() => {
+    if (!terminado || !fin?.marcar || marcaPedida.current) return;
+    marcaPedida.current = true;
+    void Promise.resolve()
+      .then(() => {
+        setMarca("marcando");
+        return fetch("/api/cursos/progreso", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ curso: fin.curso, clase: fin.clase, completada: true }),
+        });
+      })
+      .then((r) => {
+        setMarca(r.ok ? "marcada" : "error");
+        if (r.ok) router.refresh();
+      })
+      .catch(() => setMarca("error"));
+  }, [terminado, fin, router]);
+
+  function abrirCasos() {
+    window.dispatchEvent(new CustomEvent(EVENTO_PESTANA, { detail: "casuistica" }));
+  }
+
   function alternarReproduccion() {
     if (reproduciendo) { detener(); setReproduciendo(false); }
     else { setReproduciendo(true); reproducirSonido(sonarClic); }
@@ -266,7 +314,7 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
                   ficha={ficha}
                   montada={montadas}
                   estado={fichaActiva === i ? "activa" : fichasConectadas.has(i) ? "conectada" : "normal"}
-                  retraso={i * 130}
+                  retraso={retrasoDe(i)}
                   onClick={() => escucharFicha(i)}
                 />
               ))}
@@ -282,7 +330,7 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
                   respondida={respuesta !== null}
                   elegida={respuesta === i}
                   correcta={opcion.correcta}
-                  retraso={i * 130}
+                  retraso={retrasoDe(i)}
                   onElegir={() => alPulsarOpcion(i)}
                 />
               ))}
@@ -335,6 +383,27 @@ export function VideoAnimado({ escenas, modulo, titulo }: {
       <p aria-live="polite" className="m-0 border-t border-line bg-panel px-5 py-4 text-sm leading-relaxed text-ink">
         {subtitulado}
       </p>
+
+      {/* ── Fin del vídeo: qué se hizo con el avance y hacia dónde seguir ─────────── */}
+      {terminado && (
+        <div role="status" className="flex flex-wrap items-center gap-3 border-t border-line bg-success-soft px-5 py-4">
+          <CheckCircle2 size={20} aria-hidden className="shrink-0 text-success" />
+          <span className="min-w-0 flex-1 text-sm text-ink">
+            <strong>Terminaste el vídeo.</strong>{" "}
+            {marca === "marcada" || marca === "marcando"
+              ? "Marcamos la clase como completada."
+              : marca === "error"
+                ? "No se pudo marcar la clase; márcala con el botón de abajo."
+                : ""}
+            {fin?.casos ? ` Ahora ponlo a prueba con ${fin.casos} casos tipo examen.` : ""}
+          </span>
+          {fin?.casos ? (
+            <button type="button" className={buttonClasses({ variant: "primary" })} onClick={abrirCasos}>
+              <ClipboardList size={16} aria-hidden /> Ver los casos
+            </button>
+          ) : null}
+        </div>
+      )}
 
       {/* ── Progreso ──────────────────────────────────────────────────────────── */}
       <div className="flex gap-1 px-5 pt-3" role="group" aria-label="Ir a una escena">
@@ -404,7 +473,7 @@ function FichaClave({ ficha, montada, estado, retraso, onClick }: {
   ficha: FichaVideo;
   montada: boolean;
   estado: "activa" | "conectada" | "normal";
-  retraso: number;
+  retraso: string;
   onClick: () => void;
 }) {
   const Icono = ICONOS_COMPONENTES[ficha.icono] ?? Users;
@@ -413,9 +482,9 @@ function FichaClave({ ficha, montada, estado, retraso, onClick }: {
       type="button"
       onClick={onClick}
       title={`Escuchar de nuevo: ${ficha.nombre}`}
-      style={{ transitionDelay: `${retraso}ms` }}
       className={cn(
         "flex w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border p-2 text-center outline-none transition-all duration-500",
+        retraso,
         "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none sm:w-32 sm:gap-1.5 sm:p-3",
         montada ? "translate-y-0 rotate-0 scale-100 opacity-100" : "translate-y-4 -rotate-2 scale-90 opacity-0",
         estado === "activa" && "border-brand bg-brand-soft/60 shadow-card ring-2 ring-brand",
@@ -447,7 +516,7 @@ function OpcionClave({ texto, indice, montada, respondida, elegida, correcta, re
   respondida: boolean;
   elegida: boolean;
   correcta: boolean;
-  retraso: number;
+  retraso: string;
   onElegir: () => void;
 }) {
   return (
@@ -456,9 +525,9 @@ function OpcionClave({ texto, indice, montada, respondida, elegida, correcta, re
       onClick={onElegir}
       disabled={respondida}
       aria-label={`Opción ${indice + 1}: ${texto}`}
-      style={{ transitionDelay: `${retraso}ms` }}
       className={cn(
         "flex min-h-11 w-full items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm outline-none transition-all duration-500",
+        retraso,
         "focus-visible:shadow-[var(--shadow-focus)] motion-reduce:transition-none",
         montada ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
         respondida

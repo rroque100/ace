@@ -2,13 +2,17 @@
 // tema oficial que trabajan, y la práctica de cada competencia. Dentro de una clase, el temario vive en el panel
 // «Progreso del curso» de la barra del pie (barra-clase.tsx). Sin "use client": solo pinta enlaces.
 import Link from "next/link";
-import { CheckCircle2, ClipboardCheck, Circle } from "lucide-react";
+import { CheckCircle2, ClipboardCheck, Circle, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { clasesEnOrden, formatoDuracion } from "@/lib/cursos/catalogo";
 import { preguntasCompetencia, temasDeClase, textoPeso } from "@/lib/cursos/temario-examen";
 import type { Curso } from "@/lib/cursos/tipos";
 
-export function TemarioCurso({ curso, completadas }: { curso: Curso; completadas: readonly string[] }) {
+/**
+ * `sigue`: la clase por la que va la persona (la primera sin completar). Solo se marca cuando ya empezó y no terminó:
+ * al principio «empieza aquí» sería la clase 1, que ya es obvio, y al final no hay por dónde seguir.
+ */
+export function TemarioCurso({ curso, completadas, sigue }: { curso: Curso; completadas: readonly string[]; sigue?: string }) {
   const hechas = new Set(completadas);
   const numero = new Map(clasesEnOrden(curso).map((c, i) => [c.slug, i + 1]));
 
@@ -37,13 +41,16 @@ export function TemarioCurso({ curso, completadas }: { curso: Curso; completadas
                 const completada = hechas.has(clase.slug);
                 const Icono = completada ? CheckCircle2 : Circle;
                 const [principal] = temasDeClase(clase);
+                const esSiguiente = clase.slug === sigue;
                 return (
                   <li key={clase.slug}>
                     <Link
                       href={`/cursos/${curso.slug}/${clase.slug}`}
+                      aria-current={esSiguiente ? "step" : undefined}
                       className={cn(
                         "flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-ink no-underline transition-colors",
                         "outline-none hover:bg-surface focus-visible:shadow-[var(--shadow-focus)]",
+                        esSiguiente && "bg-brand-soft ring-1 ring-brand",
                       )}
                     >
                       <span className="w-6 shrink-0 text-right text-sm tabular-nums text-muted">{numero.get(clase.slug)}</span>
@@ -60,6 +67,11 @@ export function TemarioCurso({ curso, completadas }: { curso: Curso; completadas
                               title={principal.label}
                             >
                               Tema {principal.code} · {textoPeso(principal.quota)}
+                            </span>
+                          )}
+                          {esSiguiente && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-on-brand">
+                              <PlayCircle size={12} aria-hidden /> Sigues aquí
                             </span>
                           )}
                           {!clase.contenido.verificada && (

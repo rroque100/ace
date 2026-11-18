@@ -83,3 +83,20 @@ export function resultadoDiagnostico(curso: Curso, respuestas: readonly Respuest
     recomendadas,
   };
 }
+
+/**
+ * Si el diagnóstico recomendó esta clase: en qué lugar (1 = la primera que conviene estudiar) y qué temas fallados
+ * enseña. La recomendación se ve en la portada; esto la repite al entrar en la clase, que es donde se estudia.
+ */
+export function recomendacionDeClase(
+  resultado: ResultadoDiagnostico,
+  slug: string,
+): { posicion: number; total: number; temas: Array<{ code: string; label: string }> } | null {
+  const i = resultado.recomendadas.findIndex((c) => c.slug === slug);
+  if (i < 0) return null;
+  return {
+    posicion: i + 1,
+    total: resultado.recomendadas.length,
+    temas: resultado.recomendadas[i].temas.map((code) => ({ code, label: temaExamen(code)?.label ?? code })),
+  };
+}
