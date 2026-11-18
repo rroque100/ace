@@ -97,7 +97,7 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 />
               </div>
             ) : escenasVideo ? (
-              <VideoAnimado escenas={escenasVideo} modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
+              <VideoAnimado escenas={escenasVideo} modulo={clase.modulo} titulo={clase.titulo} />
             ) : (
               <ReproductorMaqueta modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
             )}

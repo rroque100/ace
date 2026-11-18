@@ -11,9 +11,9 @@ describe("videos animados de las clases", () => {
     expect(VIDEO_ESCENAS[clase.animacion!]).toBeDefined();
   });
 
-  it("el guion tiene siete escenas de contenido y dos comprobaciones interactivas", () => {
+  it("el guion tiene ocho escenas de contenido y dos comprobaciones interactivas", () => {
     const escenas = VIDEO_ESCENAS["actores-involucrados"]!;
-    expect(escenas).toHaveLength(9);
+    expect(escenas).toHaveLength(10);
     expect(escenas.filter(esQuiz)).toHaveLength(2);
     for (const e of escenas) {
       expect(e.titulo.length, e.titulo).toBeGreaterThan(4);
@@ -23,7 +23,7 @@ describe("videos animados de las clases", () => {
 
   it("cada escena de contenido narra por segmentos que apuntan a fichas reales", () => {
     const contenido = VIDEO_ESCENAS["actores-involucrados"]!.filter((e): e is EscenaContenido => !esQuiz(e));
-    expect(contenido).toHaveLength(7);
+    expect(contenido).toHaveLength(8);
     for (const e of contenido) {
       expect(e.guion.length, e.titulo).toBeGreaterThanOrEqual(2);
       expect(e.fichas.length, e.titulo).toBeGreaterThan(0);
