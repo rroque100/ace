@@ -128,6 +128,15 @@
   --animate-overlay-in: overlay-in 0.18s ease-out;
   --animate-content-in: content-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   --animate-fade-in: fade-in 0.15s ease-out;
+  /* Fichas y opciones del vídeo animado de los cursos (video-animado.tsx): entran escalonadas en CADA escena. Antes
+     era una transición que solo se disparaba en el primer montaje, así que de la segunda escena en adelante las
+     fichas aparecían de golpe. `both` mantiene oculta la ficha durante su retraso (animation-delay). */
+  --animate-entra-ficha: entra-ficha 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes entra-ficha {
+  from { opacity: 0; transform: translateY(12px) scale(0.92) rotate(-2deg); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Expedientes-archivo tiene su PROPIO sistema de tokens (--exp-*, definido en
