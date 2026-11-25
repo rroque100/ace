@@ -263,7 +263,8 @@ export function construirMensajesCopiloto(
               "Nombre de la contratación: [del TDR]",
               "Proyecto: CUI [CUI que consta en el adjunto, o «Por verificar»]",
               "Área usuaria: [del área usuaria]",
-              "Marco Legal: Ley N.° 32069 y su Reglamento",
+              "Marco Legal: Ley N.° 32069 y artículos aplicables de su Reglamento, según el RAG.",
+              "Para obras o consultorías de obra, añade una línea «Aplicación del artículo 156» antes de la tabla. Explica la categoría de segmentación según el artículo 153 y el adjunto. Si el adjunto identifica un saldo de obra sujeto a esas reglas, explica por qué corresponde la categoría avanzada. Indica si la matriz integra el expediente y si procede el comité, contrastando la cuantía documentada con el umbral del numeral 156.3. Si falta un dato, indica «Por verificar».",
               "",
               "Estructura de la tabla:",
               "Categoría del Riesgo | Identificación del Riesgo | Análisis Cualitativo y Cuantitativo (Probabilidad / Impacto / Exposición) | Asignación del Riesgo (Responsable) | Estrategia de Respuesta / Mitigación | Relación con Penalidades",
@@ -278,6 +279,7 @@ export function construirMensajesCopiloto(
               "Reglas para cada celda:",
               "- Asignación: el riesgo se asigna a la parte que tenga mayor control sobre el evento (Entidad o Contratista).",
               "- Usa la escala propuesta P e I de 1 a 3 (baja, media, alta) y el formato exacto «P2 × I3 = 6 · Alta» en la tercera columna. Exposición de 1 a 2 baja, de 3 a 4 media y de 6 a 9 alta. Explica en el riesgo su efecto concreto. Estas puntuaciones son estimaciones iniciales, no datos del TDR ni una escala impuesta por la norma.",
+              "- Describe la causa, el evento y su consecuencia en la identificación. Justifica brevemente los niveles de probabilidad e impacto propuestos. En la estrategia de mitigación añade un indicador medible vinculado al riesgo, como días en ruta crítica, partidas observadas, tramos con pruebas fallidas o monto afectado. Si faltan datos para estimar la magnitud, identifica el registro necesario para calcularla.",
               "- Estrategia: acciones preventivas y correctivas específicas para el servicio del TDR, no genéricas.",
               "- Relación con Penalidades: vincula únicamente una obligación y una cláusula sustentadas en el EETT/TDR, la ficha o la fuente normativa recuperada. Si el vínculo no consta, escribe «Por verificar».",
               "- En la identificación de cada riesgo incluye el nombre del adjunto y la página o apartado que sustenta la condición identificada. Distingue esa condición de tu estimación del riesgo.",
@@ -297,7 +299,7 @@ export function construirMensajesCopiloto(
               "Identifica los riesgos específicos que puedas sustentar según el objeto real de la contratación. Cada riesgo debe corresponder a una característica documentada en el adjunto.",
               "",
               "Formato de salida:",
-              "- Empieza con el encabezado «MATRIZ DE GESTIÓN DE RIESGOS» (texto suelto) y sus líneas de nombre/CUI/área/marco legal.",
+              "- Empieza con el encabezado «MATRIZ DE GESTIÓN DE RIESGOS» (texto suelto) y sus líneas de nombre, CUI, área, marco legal y, cuando corresponda, aplicación del artículo 156. Incluye una línea con la escala P × I.",
               "- A continuación, la tabla de matriz de riesgos (con las columnas indicadas).",
               "- SIN párrafo de sustento, comentarios ni encabezados adicionales fuera del formato especificado.",
             ].join("\n")
@@ -607,7 +609,7 @@ async function recuperarNormasMatriz(): Promise<Fuente[]> {
     (["ley", "reglamento"] as const).map(async (tipo) => {
       const documento = ediciones.find((edicion) => edicion.document_type === tipo);
       if (!documento) return [];
-      const articulos = tipo === "ley" ? "46" : "44,119,120,210,212";
+      const articulos = tipo === "ley" ? "46" : "44,119,120,153,156,210,212";
       const fragmentos = await supabaseRest<Array<{ content: string; metadata: { article: string } }>>(
         `document_chunks?document_id=eq.${documento.id}&metadata->>article=in.(${articulos})` +
           "&select=content,metadata&order=chunk_index.asc",

@@ -66,6 +66,8 @@ describe("construirMensajesCopiloto", () => {
     expect(contexto).not.toContain(anterior.valor);
     expect(contexto).toContain("TDR Allilluma.docx · Finalidad pública · CUI 2402031");
     expect(contexto).toContain("pruebas de recepción o puesta en servicio");
+    expect(contexto).toContain("Aplicación del artículo 156");
+    expect(contexto).toContain("indicador medible");
     expect(contexto).toContain("Por verificar");
   });
 
