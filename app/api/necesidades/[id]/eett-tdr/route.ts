@@ -18,7 +18,12 @@ import { leerFicheroSubidoEett, mimeFicheroEett, SubidaEettError, tipoFicheroEet
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// 300 s y no 60: un TDR escaneado pasa por OCR síncrono (lib/pdf-processing,
+// hasta OPENAI_OCR_MAX_PAGES páginas, ~3,8 s cada una con concurrencia 3). Uno
+// real de 17 páginas (1,25 MB) superaba los 60 s y Vercel cortaba con un 504
+// después de haber subido el PDF, sin crear el documento. Es el mismo tope que
+// ya usa el OCR del archivo de expedientes (expedientes-archivo/extract).
+export const maxDuration = 300;
 
 // Módulo EETT/TDR de la Necesidad (1.ª versión que propone el área usuaria).
 //
