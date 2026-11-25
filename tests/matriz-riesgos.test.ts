@@ -1,5 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { desdeMatrizRiesgos } from "@/lib/matriz-riesgos";
+import { calcularExposicionMatriz, desdeMatrizRiesgos } from "@/lib/matriz-riesgos";
+
+it("recalcula la exposición de cada fila según la escala de la matriz", () => {
+  const matriz = [
+    "| Categoría | Riesgo | Evaluación | Responsable |",
+    "|---|---|---|---|",
+    "| Seguridad | Póliza vencida | P1 × I3 = 9 · Muy alta | Contratista |",
+    "| Técnico | Falla hidráulica | P2 × I3 = 5 · Media | Contratista |",
+  ].join("\n");
+  const resultado = calcularExposicionMatriz(matriz);
+  expect(resultado).toContain("| P1 × I3 = 3 · Media |");
+  expect(resultado).toContain("| P2 × I3 = 6 · Alta |");
+  expect(resultado).toContain("| Categoría | Riesgo | Evaluación | Responsable |");
+});
 
 describe("desdeMatrizRiesgos", () => {
   it("recorta el sustento previo y arranca en el encabezado de la matriz", () => {

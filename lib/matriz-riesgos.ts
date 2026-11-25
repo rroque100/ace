@@ -6,6 +6,18 @@
 
 const ENCABEZADO_MATRIZ = /MATRIZ DE GESTI[ÓO]N DE RIESGOS/i;
 
+/** Normaliza la exposición de las filas redactadas con la escala propuesta. */
+export function calcularExposicionMatriz(texto: string): string {
+  return texto.replace(
+    /^(\|[^|\n]*\|[^|\n]*\|\s*)P\s*([1-3])\s*×\s*I\s*([1-3])[^|\n]*(?=\|)/gm,
+    (_celda, prefijo: string, p: string, i: string) => {
+      const valor = Number(p) * Number(i);
+      const nivel = valor <= 2 ? "Baja" : valor <= 4 ? "Media" : "Alta";
+      return `${prefijo}P${p} × I${i} = ${valor} · ${nivel} `;
+    },
+  );
+}
+
 /**
  * Devuelve el texto desde el encabezado «MATRIZ DE GESTIÓN DE RIESGOS» (incluido).
  *

@@ -7,6 +7,7 @@ import { pdfsModeloDeProceso } from "./procesos-seleccion";
 import { GUIA_SECCION_NOMBRE, type GuiaItem, REQUERIMIENTO_GUIA } from "./requerimiento-guia";
 import { TIPOS_REQUISITO_ART72 } from "./requisitos-calificacion";
 import { filtroEettTdr } from "./eett-tdr-documento";
+import { calcularExposicionMatriz } from "./matriz-riesgos";
 import { supabaseRest, supabaseUserRest } from "./supabase-server";
 import { tiposDelModeloComoLista } from "@/lib/requisitos-del-modelo";
 import type { TipoRequisitoArt72 } from "@/lib/requisitos-calificacion";
@@ -276,7 +277,7 @@ export function construirMensajesCopiloto(
               "",
               "Reglas para cada celda:",
               "- Asignación: el riesgo se asigna a la parte que tenga mayor control sobre el evento (Entidad o Contratista).",
-              "- Análisis Cualitativo y Cuantitativo: estimar probabilidad (Baja/Media/Alta) e impacto (Bajo/Medio/Alto/Crítico) en cronograma, presupuesto y calidad, y expresar la exposición resultante (Probabilidad × Impacto: Bajo/Medio/Alto/Muy alto). SOLO si el TDR aporta una cifra concreta, cítala tal cual; NO inventes porcentajes ni montos —si no hay dato, quédate en el nivel cualitativo.",
+              "- Usa la escala propuesta P e I de 1 a 3 (baja, media, alta) y el formato exacto «P2 × I3 = 6 · Alta» en la tercera columna. Exposición de 1 a 2 baja, de 3 a 4 media y de 6 a 9 alta. Explica en el riesgo su efecto concreto. Estas puntuaciones son estimaciones iniciales, no datos del TDR ni una escala impuesta por la norma.",
               "- Estrategia: acciones preventivas y correctivas específicas para el servicio del TDR, no genéricas.",
               "- Relación con Penalidades: vincula únicamente una obligación y una cláusula sustentadas en el EETT/TDR, la ficha o la fuente normativa recuperada. Si el vínculo no consta, escribe «Por verificar».",
               "- En la identificación de cada riesgo incluye el nombre del adjunto y la página o apartado que sustenta la condición identificada. Distingue esa condición de tu estimación del riesgo.",
@@ -284,13 +285,14 @@ export function construirMensajesCopiloto(
               "- Usa el nombre real de la prestación u obra. El tipo de procedimiento no es el nombre de la contratación. Si el CUI no consta, indica «Por verificar».",
               "- En un saldo de obra, comprueba si el adjunto regula la entrega del terreno, la revisión de incompatibilidades, el calendario de insumos y las pruebas de recepción o puesta en servicio. Incorpora los riesgos que tengan sustento y distingue quién detecta el problema, quién debe actuar y a quién corresponde el riesgo según la causa.",
               "- Relaciona cada medida con una acción verificable, como el acta, informe, calendario o protocolo que corresponda según el adjunto. Si el responsable o la penalidad dependen de la causa, explicita la condición.",
+              "- Distingue valorizaciones periódicas del saldo de liquidación. No traslades el plazo de un pago al otro. Distingue la entrega documental del calendario del abastecimiento real y la calidad de ejecución de las pruebas de recepción o puesta en servicio.",
+              "- Diferencia un accidente del incumplimiento de protecciones y de la omisión de reportes. Para cada penalidad consignada, indica el supuesto exacto y la evidencia de verificación. La mora requiere verificar el atraso injustificado imputable al contratista con la fuente normativa recuperada.",
               "OBJETIVIDAD: los riesgos deben expresarse en función del desempeño y la finalidad pública.",
               "",
               "Formato de la tabla Markdown (ejemplo):",
               "",
               "| Categoría del Riesgo | Identificación del Riesgo | Análisis Cualitativo y Cuantitativo | Asignación | Estrategia de Respuesta / Mitigación | Relación con Penalidades |",
               "|---|---|---|---|---|---|",
-              "| Técnico / Ejecución | Deficiencias en el expediente técnico | Probabilidad: Media · Impacto: Alto (retrasos en el cronograma) · Exposición: Alta | Entidad | Revisión obligatoria del expediente por el contratista en etapa inicial | No aplica penalidad por ser error de la Entidad |",
               "",
               "Identifica los riesgos específicos que puedas sustentar según el objeto real de la contratación. Cada riesgo debe corresponder a una característica documentada en el adjunto.",
               "",
@@ -596,12 +598,42 @@ async function recuperarFuentes(
   return { degradada: normativa.degradada, fuentes: [...modelo, ...normativa.fuentes] };
 }
 
+async function recuperarNormasMatriz(): Promise<Fuente[]> {
+  const ediciones = await supabaseRest<Array<{ id: string; title: string; document_type: string }>>(
+    "documents?document_type=in.(ley,reglamento)&metadata->>documentNumber=in.(32069,009-2025-EF)" +
+      "&title=ilike.*texto%20actualizado*&select=id,title,document_type&order=created_at.desc,id.desc",
+  );
+  const fuentes = await Promise.all(
+    (["ley", "reglamento"] as const).map(async (tipo) => {
+      const documento = ediciones.find((edicion) => edicion.document_type === tipo);
+      if (!documento) return [];
+      const articulos = tipo === "ley" ? "46" : "44,119,120,210,212";
+      const fragmentos = await supabaseRest<Array<{ content: string; metadata: { article: string } }>>(
+        `document_chunks?document_id=eq.${documento.id}&metadata->>article=in.(${articulos})` +
+          "&select=content,metadata&order=chunk_index.asc",
+      );
+      return fragmentos.filter((fragmento) => fragmento.content.trim()).map((fragmento): Fuente => ({
+        citation: documento.title,
+        article: fragmento.metadata.article,
+        documentType: tipo,
+        documentId: documento.id,
+        excerpt: fragmento.content,
+        rol: "norma",
+      }));
+    }),
+  );
+  const normas = fuentes.flat();
+  if (!normas.some((fuente) => fuente.documentType === "ley" && fuente.article === "46")
+    || !normas.some((fuente) => fuente.documentType === "reglamento" && fuente.article === "44" && /44\.3\./.test(fuente.excerpt))) {
+    throw new Error("No se encontró el sustento de la matriz en el RAG de ACE. Verifica la Ley 32069 y el Reglamento indexados.");
+  }
+  return normas;
+}
+
 export async function* streamCopiloto(
   input: CopilotoRequest,
   options?: { entity?: string | null; accessToken?: string },
 ): AsyncGenerator<CopilotoEvent> {
-  const { degradada, fuentes } = await recuperarFuentes(input, options?.entity);
-
   const esMatrizRiesgos = input.accion === "redactar" && input.campoObjetivo?.key === "gestionRiesgos";
   let tdrChunks: string[] = [];
   if (esMatrizRiesgos) {
@@ -631,6 +663,9 @@ export async function* streamCopiloto(
     }
     if (!tdrChunks.length) throw new Error("El adjunto más reciente aún no tiene texto disponible. Ábrelo para extraer su contenido y vuelve a intentar.");
   }
+  const { degradada, fuentes } = esMatrizRiesgos
+    ? { degradada: false, fuentes: await recuperarNormasMatriz() }
+    : await recuperarFuentes(input, options?.entity);
 
   // Se avisa ANTES de las fuentes: si la búsqueda vectorial no respondió, lo que
   // venga detrás sale del respaldo léxico y el usuario tiene que saberlo antes de
@@ -652,19 +687,27 @@ export async function* streamCopiloto(
   }
 
   const client = getOpenAIClient();
-  // Matriz de riesgos: necesita más tokens (tabla de 6 columnas × 5-8 filas).
   const stream = await client.responses.create({
     input: construirMensajesCopiloto(input, fuentes, tdrChunks),
-    max_output_tokens: esMatrizRiesgos ? 3000 : input.accion === "revisar" ? 1300 : 1200,
+    max_output_tokens: esMatrizRiesgos ? 6000 : input.accion === "revisar" ? 1300 : 1200,
     model: legalAnswerModel,
     stream: true,
     temperature: 0.3,
   });
 
+  let matriz = "";
   for await (const event of stream) {
     if (event.type === "response.output_text.delta") {
-      yield { type: "delta", text: event.delta };
+      if (esMatrizRiesgos) matriz += event.delta;
+      else yield { type: "delta", text: event.delta };
     }
+    if (esMatrizRiesgos && (event.type === "response.incomplete" || event.type === "response.failed")) {
+      throw new Error("La matriz quedó incompleta. Vuelve a generar la propuesta.");
+    }
+  }
+  if (esMatrizRiesgos) {
+    if (!matriz.trim()) throw new Error("No se recibió la propuesta de matriz de riesgos.");
+    yield { type: "delta", text: calcularExposicionMatriz(matriz) };
   }
   yield { type: "done" };
 }
