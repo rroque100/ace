@@ -163,6 +163,7 @@ import {
 } from "@/lib/necesidad-ficha-derivar";
 import { direccionDeLaEntidad } from "@/lib/configuracion-types";
 import { componerFormaPago } from "@/lib/forma-pago";
+import { subirEettTdr } from "@/lib/eett-tdr-subida-cliente";
 import { componerPlazoRespuestas } from "@/lib/plazo-respuestas";
 import { areaQueOtorgaLaConformidad, componerRecepcionConformidad } from "@/lib/recepcion-conformidad";
 import { C } from "@/app/components/estilos-comunes";
@@ -925,15 +926,7 @@ export function NecesidadDetail({
     setEettUploading(true);
     setError("");
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("tipo", tipo);
-      const res = await fetch(`/api/necesidades/${necesidadId}/eett-tdr`, { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "No se pudo subir el EETT/TDR.");
-        return;
-      }
+      const data = await subirEettTdr(necesidadId, file, tipo);
       await loadEett();
       // Abre el modal con el texto extraído del PDF para revisarlo/editarlo.
       setGestionTdrAbierta(false);
@@ -941,8 +934,17 @@ export function NecesidadDetail({
         doc: { id: data.document.id, tipo: data.document.tipo, file_name: data.document.file_name },
         initialText: data.text ?? "",
       });
-    } catch {
-      setError("No se pudo conectar para subir el EETT/TDR.");
+    } catch (err) {
+      // `fetch` solo lanza TypeError cuando de verdad no hay conexión; el resto
+      // son errores con mensaje propio (tamaño, tiempo, permisos) que
+      // subirEettTdr ya redactó para el usuario.
+      setError(
+        err instanceof TypeError
+          ? "No se pudo conectar para subir el EETT/TDR."
+          : err instanceof Error
+            ? err.message
+            : "No se pudo subir el EETT/TDR.",
+      );
     } finally {
       setEettUploading(false);
       if (eettFileRef.current) eettFileRef.current.value = "";

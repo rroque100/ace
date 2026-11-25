@@ -14,9 +14,7 @@ import { leerDocx } from "@/lib/docx-a-bloques";
 import { extractPdfPagedText, processPdfForSearch } from "@/lib/pdf-processing";
 import { maxPdfSizeBytes, maxPdfSizeLabel } from "@/lib/upload-limits";
 import { DOC_TYPE_EETT, KIND_EETT, filtroEettTdr } from "@/lib/eett-tdr-documento";
-
-/** Mime de Word moderno. Los .doc antiguos no entran: no son zip. */
-const DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+import { leerFicheroSubidoEett, mimeFicheroEett, SubidaEettError, tipoFicheroEett } from "@/lib/eett-tdr-subida";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -67,20 +65,31 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   const auth = await requireCapability("necesidad.manage");
   if ("error" in auth) return auth.error;
   const { id } = await context.params;
+  const malos = idsDeRutaInvalidos(id);
+  if (malos) return malos;
 
   try {
     const formData = await request.formData();
-    const file = formData.get("file");
+    // Dos formas de llegar: la referencia firmada de un fichero que el navegador
+    // ya subió a Storage (lo normal; ver lib/eett-tdr-subida.ts) o el fichero en
+    // el propio cuerpo, que solo cabe por debajo de los 4,5 MB de Vercel.
+    let file = formData.get("file");
+    let storagePathSubido: string | null = null;
+    const ticket = formData.get("uploadTicket");
+    if (typeof ticket === "string" && ticket) {
+      const subido = await leerFicheroSubidoEett(ticket, auth.user.id);
+      file = subido.file;
+      storagePathSubido = subido.storagePath;
+    }
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "Adjunta el EETT/TDR." }, { status: 400 });
     }
     // PDF o Word. El área usuaria redacta en Word y muchas veces lo que tiene a
     // mano es el .docx, no una impresión a PDF: obligar a convertir era un paso
     // extra que solo servía para que el fichero llegase peor.
-    const esPdf = file.type === "application/pdf" || /\.pdf$/i.test(file.name);
-    const esDocx =
-      file.type === DOCX_MIME || /\.docx$/i.test(file.name);
-    if (!esPdf && !esDocx) {
+    const tipoFichero = tipoFicheroEett(file.name, file.type);
+    const esDocx = tipoFichero === "docx";
+    if (!tipoFichero) {
       return NextResponse.json(
         { error: "Solo se permiten archivos PDF o Word (.docx)." },
         { status: 400 },
@@ -96,10 +105,10 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const tipo = tipoValue === "eett" || tipoValue === "tdr" ? tipoValue : "tdr";
 
     const { storageBucket } = getSupabaseServerConfig();
-    const storagePath = buildStoragePath(file.name);
+    const storagePath = storagePathSubido ?? buildStoragePath(file.name);
     const title = file.name.replace(/\.(pdf|docx)$/i, "");
 
-    await uploadPdfToStorage(storagePath, file);
+    if (!storagePathSubido) await uploadPdfToStorage(storagePath, file);
 
     // Texto para el editor: se extrae ahora (síncrono) para prellenar el modal.
     let text = "";
@@ -139,7 +148,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
           // metadata; el RAG conserva el texto completo en los chunks.
           textoExtraido: (text ?? "").slice(0, 60000),
         },
-        mime_type: file.type,
+        mime_type: file.type || mimeFicheroEett(tipoFichero),
         process_type: null,
         source_entity: auth.user.entity ?? null,
         status: "uploaded",
@@ -189,6 +198,9 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       { status: 202 },
     );
   } catch (error) {
+    if (error instanceof SubidaEettError) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
+    }
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "No se pudo subir el EETT/TDR." },
       { status: 500 },

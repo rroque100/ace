@@ -1868,5 +1868,5 @@ create unique index if not exists profiles_dni_unique
 -- cero). Privado, tope 100 MB, solo application/pdf. Debe coincidir con la
 -- variable de entorno SUPABASE_STORAGE_BUCKET.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('documents', 'documents', false, 104857600, array['application/pdf'])
+values ('documents', 'documents', false, 104857600, array['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
 on conflict (id) do nothing;

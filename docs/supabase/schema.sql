@@ -262,7 +262,7 @@ before update on public.process_type_settings
 for each row execute function public.set_updated_at();
 
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('documents', 'documents', false, 104857600, array['application/pdf'])
+values ('documents', 'documents', false, 104857600, array['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
 on conflict (id) do update set
   public = excluded.public,
   file_size_limit = excluded.file_size_limit,
