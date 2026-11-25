@@ -12,7 +12,7 @@ import type { Curso } from "@/lib/cursos/tipos";
  * `sigue`: la clase por la que va la persona (la primera sin completar). Solo se marca cuando ya empezó y no terminó:
  * al principio «empieza aquí» sería la clase 1, que ya es obvio, y al final no hay por dónde seguir.
  */
-export function TemarioCurso({ curso, completadas, sigue }: { curso: Curso; completadas: readonly string[]; sigue?: string }) {
+export function TemarioCurso({ curso, completadas, sigue, claseActual }: { curso: Curso; completadas: readonly string[]; sigue?: string; claseActual?: string }) {
   const hechas = new Set(completadas);
   const numero = new Map(clasesEnOrden(curso).map((c, i) => [c.slug, i + 1]));
 
@@ -50,8 +50,9 @@ export function TemarioCurso({ curso, completadas, sigue }: { curso: Curso; comp
                       className={cn(
                         "flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-ink no-underline transition-colors",
                         "outline-none hover:bg-surface focus-visible:shadow-[var(--shadow-focus)]",
-                        esSiguiente && "bg-brand-soft ring-1 ring-brand",
+                        (esSiguiente || claseActual === clase.slug) && "bg-brand-soft ring-1 ring-brand",
                       )}
+                      aria-current={claseActual === clase.slug ? "true" : undefined}
                     >
                       <span className="w-6 shrink-0 text-right text-sm tabular-nums text-muted">{numero.get(clase.slug)}</span>
                       <Icono size={18} aria-hidden className={cn("shrink-0", completada ? "text-success" : "text-placeholder")} />

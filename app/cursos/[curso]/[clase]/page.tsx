@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookA, ClipboardCheck, Compass, FileText, Target } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookA, ClipboardCheck, Compass, FileText, ListChecks, Target } from "lucide-react";
 import { getSessionUser } from "@/lib/auth";
 import {
   buscarClase, buscarCurso, clasesEnOrden, hrefBaseLegal, textoBaseLegal, vecinas, vistaProgreso,
@@ -18,7 +18,7 @@ import { AvisoProgreso } from "../../../components/cursos/barra-avance";
 import { BarraClase } from "../../../components/cursos/barra-clase";
 import { BotonCompletar } from "../../../components/cursos/boton-completar";
 import { ComentariosClase } from "../../../components/cursos/comentarios-clase";
-import { ReproductorMaqueta } from "../../../components/cursos/reproductor-maqueta";
+import { IntroTema } from "../../../components/cursos/intro-tema";
 import { VideoAnimado } from "../../../components/cursos/video-animado";
 import { VIDEO_ESCENAS } from "@/lib/cursos/videos";
 import { PanelDudas } from "../../../components/cursos/panel-dudas";
@@ -134,8 +134,9 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
                 }}
               />
             ) : (
-              <ReproductorMaqueta modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} />
+              <IntroTema modulo={clase.modulo} titulo={clase.titulo} minutos={clase.minutos} contenido={clase.contenido} temas={temas} />
             )}
+
 
             <div className="flex flex-wrap items-start justify-between gap-4">
               <p className="m-0 max-w-2xl text-[15px] leading-relaxed text-muted">{clase.descripcion}</p>
@@ -207,6 +208,21 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
               }))}
             />
 
+            {/* (F) CTA «Practicar este tema» en cada clase, no solo al final de la sección. */}
+            {temas.length > 0 && (
+              <div className="flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-line-strong px-4 py-3">
+                <Target size={17} aria-hidden className="shrink-0 text-brand" />
+                <span className="min-w-0 flex-1 text-sm text-muted">
+                  ¿Ya dominas el tema {temas[0].code}? Compruébalo con preguntas del banco revisado.
+                </span>
+                {temas.map((t) => (
+                  <Link key={t.code} href={hrefPracticarTema(t.code)} className={buttonClasses({ variant: "secondary", size: "sm" })}>
+                    Practicar tema {t.code}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {ultimaDeSeccion && puntoControl && (
               <Link
                 href={puntoControl.href}
@@ -222,8 +238,49 @@ export default async function ClasePage({ params }: { params: Promise<{ curso: s
             )}
           </div>
 
-          {/* Navegación entre clases y temario: en la barra del pie y su panel «Progreso del curso». */}
-          <aside className="min-w-0 space-y-5" aria-label="Dudas y comentarios">
+          {/* (B, J) Temario compacto primero: siempre visible en el panel lateral; dudas y comentarios debajo. */}
+          <aside className="min-w-0 space-y-5" aria-label="Temario, dudas y comentarios">
+            {/* (B) Temario siempre visible: las vecinas resaltadas, no escondidas en un diálogo. */}
+            <div className="rounded-2xl border border-line bg-panel p-4 shadow-card">
+              <p className="mb-2 mt-0 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-brand">
+                <ListChecks size={14} aria-hidden /> Tu recorrido
+              </p>
+              <ol className="m-0 list-none space-y-0.5 p-0">
+                {[0, 1, 2].map((offset) => {
+                  const posicion = numero - 1 + offset;
+                  const c = clasesEnOrden(curso)[posicion];
+                  if (!c) return null;
+                  const esActual = offset === 1;
+                  const yaVista = new Set(progreso.completadas).has(c.slug);
+                  return (
+                    <li key={c.slug}>
+                      {esActual ? (
+                        <span
+                          aria-current="true"
+                          className="flex min-h-9 items-center gap-2 rounded-lg bg-brand-soft px-2 py-1.5 text-sm font-semibold text-brand-dark"
+                        >
+                          <span className="w-5 shrink-0 text-right text-xs tabular-nums">{posicion + 1}</span>
+                          <span className="min-w-0 flex-1 truncate">{c.titulo}</span>
+                          {yaVista && <span aria-hidden className="text-xs text-success">✓</span>}
+                        </span>
+                      ) : (
+                        <Link
+                          href={`/cursos/${curso.slug}/${c.slug}`}
+                          className="flex min-h-9 items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-muted no-underline outline-none hover:bg-surface focus-visible:shadow-[var(--shadow-focus)]"
+                        >
+                          <span className="w-5 shrink-0 text-right text-xs tabular-nums">{posicion + 1}</span>
+                          <span className="min-w-0 flex-1 truncate">{c.titulo}</span>
+                          {yaVista && <span aria-hidden className="text-xs text-success">✓</span>}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+              <Link href={`/cursos/${curso.slug}`} className="mt-2 block text-center text-xs font-semibold text-brand underline">
+                Ver todo el temario
+              </Link>
+            </div>
             {centroJuridico && <PanelDudas tema={`Módulo ${clase.modulo} · ${clase.titulo}`} />}
             <ComentariosClase
               key={clase.slug}
