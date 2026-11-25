@@ -4,6 +4,8 @@ import { idsDeRutaInvalidos, requireCapability } from "@/lib/auth";
 import type { Necesidad } from "@/lib/necesidades";
 import { accionPorId, ladoDeRol, puedeEjecutar } from "@/lib/necesidad-workflow";
 import { supabaseUserRest, writeAuditLog } from "@/lib/supabase-server";
+import { adjuntosParaConcordancia } from "@/lib/necesidad-adjuntos-server";
+import { verificarConcordanciaFicha } from "@/lib/necesidad-concordancia";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -47,9 +49,9 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   try {
     // process_id hace falta para soltar el expediente en las acciones que
     // desvinculan (reabrir).
-    const rows = await supabaseUserRest<Pick<Necesidad, "id" | "status" | "process_id">[]>(
+    const rows = await supabaseUserRest<Necesidad[]>(
       auth.user.accessToken,
-      `necesidades?id=eq.${id}&select=id,status,process_id`,
+      `necesidades?id=eq.${id}&select=id,status,process_id,tipo_objeto,tipo_proceso_seleccion,cui,plazo_ejecucion,plazo_ejecucion_unidad,gestion_riesgos,updated_at`,
     );
     const actual = rows[0];
     if (!actual) {
@@ -90,6 +92,13 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       return NextResponse.json({ error: "Esta acción requiere un sustento." }, { status: 400 });
     }
 
+    if (accion.action === "remitir") {
+      const hallazgos = verificarConcordanciaFicha(actual, await adjuntosParaConcordancia(id)).filter((item) => item.bloquea);
+      if (hallazgos.length) {
+        return NextResponse.json({ error: hallazgos.map((item) => item.mensaje).join(" "), hallazgos }, { status: 422 });
+      }
+    }
+
     const patch: Record<string, unknown> = { status: accion.hacia };
     if (accion.setNoObjecion !== undefined) patch.no_objecion = accion.setNoObjecion;
     if (accion.setCmnVerificado !== undefined) patch.cmn_verificado = accion.setCmnVerificado;
@@ -112,11 +121,15 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       );
     }
 
+    const sello = accion.action === "remitir" ? `&status=eq.${actual.status}&updated_at=eq.${encodeURIComponent(actual.updated_at)}` : "";
     const [necesidad] = await supabaseUserRest<Necesidad[]>(
       auth.user.accessToken,
-      `necesidades?id=eq.${id}&select=${SELECT}`,
+      `necesidades?id=eq.${id}${sello}&select=${SELECT}`,
       { body: JSON.stringify(patch), method: "PATCH" },
     );
+    if (!necesidad) {
+      return NextResponse.json({ error: "La ficha cambió durante la revisión. Recarga y vuelve a intentar." }, { status: 409 });
+    }
 
     // Snapshot de versión (D3): al REMITIR se guarda la versión del área usuaria;
     // al PROPONER MODIFICACIÓN, la de la DEC. El diff del ciclo de no objeción

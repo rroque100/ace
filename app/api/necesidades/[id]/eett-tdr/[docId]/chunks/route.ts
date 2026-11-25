@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { puedeLeerNecesidad } from "@/lib/necesidad-adjuntos-server";
 import { idsDeRutaInvalidos, requireUser } from "@/lib/auth";
 import { queryChunks, queryChunksTotal, validarPertenenciaEett } from "@/lib/eett-tdr-analiza";
 import {
@@ -48,6 +49,9 @@ export async function GET(
     const malos = idsDeRutaInvalidos(docId);
     if (malos) return malos;
 
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     const docs = await supabaseRest<DocumentRecord[]>(
       `documents?id=eq.${docId}&select=id,file_name,metadata`,
     );

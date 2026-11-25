@@ -164,6 +164,7 @@ import {
 import { direccionDeLaEntidad } from "@/lib/configuracion-types";
 import { componerFormaPago } from "@/lib/forma-pago";
 import { subirEettTdr } from "@/lib/eett-tdr-subida-cliente";
+import { verificarConcordanciaFicha } from "@/lib/necesidad-concordancia";
 import { componerPlazoRespuestas } from "@/lib/plazo-respuestas";
 import { areaQueOtorgaLaConformidad, componerRecepcionConformidad } from "@/lib/recepcion-conformidad";
 import { C } from "@/app/components/estilos-comunes";
@@ -1540,6 +1541,16 @@ export function NecesidadDetail({
   }
 
   const estado = estadoNecesidad(necesidad.status);
+  const concordanciaGuardada = verificarConcordanciaFicha(necesidad, eettDocs);
+  const concordancia = fichaEditable ? verificarConcordanciaFicha({
+    tipo_objeto: fichaForm.tipoObjeto,
+    tipo_proceso_seleccion: fichaForm.tipoProcesoSeleccion,
+    cui: fichaForm.cui,
+    plazo_ejecucion: fichaForm.plazoEjecucion,
+    plazo_ejecucion_unidad: fichaForm.plazoEjecucionUnidad,
+    gestion_riesgos: fichaForm.gestionRiesgos,
+  }, eettDocs) : concordanciaGuardada;
+  const bloqueaWord = concordanciaGuardada.some((item) => item.bloquea);
   // ¿Está lista para remitirse? Se calcula sobre lo GUARDADO, no sobre el
   // borrador: remitir envía a la DEC lo que hay en la base, no lo que se ve en
   // pantalla —que puede ser trabajo sin guardar de este navegador—.
@@ -2075,14 +2086,44 @@ export function NecesidadDetail({
             {/* Descarga el requerimiento (Art. 44) en Word con los datos GUARDADOS.
                 Estilado como acción secundaria: convivía sin clase junto al botón
                 «Editar ficha» y se pintaba como un enlace suelto del navegador. */}
-            <a
+            {bloqueaWord ? (
+              <Button disabled type="button"><Download size={14} /> Requerimiento (Word)</Button>
+            ) : <a
               href={`/api/necesidades/${necesidadId}/requerimiento-docx`}
               title="Descargar el requerimiento (Art. 44) en Word, con los datos guardados de la ficha"
               className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-[13px] font-semibold text-ink outline-none transition-colors hover:border-brand/40 hover:bg-brand-soft hover:text-brand focus-visible:shadow-[var(--shadow-focus)]"
             >
               <Download size={14} /> Requerimiento (Word)
-            </a>
+            </a>}
           </div>
+
+          {(concordancia.length > 0 || bloqueaWord) && (
+            <div className="rounded-lg border border-warning/45 bg-warning-soft p-3 text-sm text-ink">
+              <h4 className="mb-1 font-semibold">Concordancia de la ficha y los adjuntos</h4>
+              <ul className="m-0 grid list-disc gap-2 pl-5">
+                {concordancia.map(({ mensaje, bloquea, ajuste }) => (
+                  <li key={mensaje}>
+                    {bloquea && <strong>Corrige antes de remitir o exportar. </strong>}
+                    {mensaje}
+                    {fichaEditable && permisos.manage && ajuste && (
+                      <button
+                        type="button"
+                        className="ml-2 font-semibold text-brand underline"
+                        onClick={() => {
+                          for (const [campo, valor] of Object.entries(ajuste)) setFichaField(campo, valor);
+                        }}
+                      >
+                        Usar dato de referencia
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {bloqueaWord && !concordancia.some((item) => item.bloquea) && (
+                <p className="mt-2">Guarda los cambios de la ficha para habilitar la descarga.</p>
+              )}
+            </div>
+          )}
 
           {necesidadVinculada ? (
             <p className="mt-2.5 flex items-start gap-2 rounded-lg border border-warning/45 bg-warning-soft px-3 py-2.5 text-xs leading-[1.45] text-warning [&_svg]:shrink-0">

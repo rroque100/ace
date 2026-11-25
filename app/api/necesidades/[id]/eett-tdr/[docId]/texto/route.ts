@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { idsDeRutaInvalidos, requireCapability } from "@/lib/auth";
+import { puedeLeerNecesidad } from "@/lib/necesidad-adjuntos-server";
 import {
   type DocumentRecord,
   downloadStorageObject,
@@ -28,6 +29,9 @@ export async function GET(
   const malos = idsDeRutaInvalidos(id, docId);
   if (malos) return malos;
   try {
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     getSupabaseServerConfig();
     const docs = await supabaseRest<DocumentRecord[]>(
       `documents?id=eq.${docId}` +

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { puedeLeerNecesidad } from "@/lib/necesidad-adjuntos-server";
 import { idsDeRutaInvalidos, requireUser } from "@/lib/auth";
 import { filtroConsultaDoc, validarPertenenciaEett } from "@/lib/eett-tdr-analiza";
 import { searchTextRecords } from "@/lib/pinecone";
@@ -31,6 +32,9 @@ export async function POST(
       return NextResponse.json({ error: "Escribe una consulta." }, { status: 400 });
     }
 
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     const docs = await supabaseRest<DocumentRecord[]>(
       `documents?id=eq.${docId}&select=id,file_name,metadata`,
     );

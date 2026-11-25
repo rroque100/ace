@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
+import { puedeLeerNecesidad } from "@/lib/necesidad-adjuntos-server";
+import { filtroEettTdr } from "@/lib/eett-tdr-documento";
 import { leerDocx } from "@/lib/docx-a-bloques";
 import { downloadStorageObject, esIdSeguro, supabaseRest } from "@/lib/supabase-server";
 
@@ -36,10 +38,13 @@ export async function GET(
   }
 
   try {
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     // Se comprueba que el documento sea DE ESTA necesidad: el docId por sí solo
     // no autoriza a leerlo.
     const [doc] = await supabaseRest<DocRow[]>(
-      `documents?id=eq.${docId}&metadata->>necesidadId=eq.${id}` +
+      `documents?id=eq.${docId}&${filtroEettTdr(id)}` +
         `&select=id,file_name,mime_type,storage_bucket,storage_path&limit=1`,
     );
     if (!doc) {

@@ -1,4 +1,5 @@
 import { after, NextResponse } from "next/server";
+import { puedeLeerNecesidad } from "@/lib/necesidad-adjuntos-server";
 import { idsDeRutaInvalidos, requireCapability, requireUser } from "@/lib/auth";
 import { borrarFicherosDe, type DocumentoConFichero } from "@/lib/necesidad-borrado";
 import { buildStoragePath } from "@/lib/documents";
@@ -52,6 +53,9 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
   const malos = idsDeRutaInvalidos(id);
   if (malos) return malos;
   try {
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     getSupabaseServerConfig();
     const documents = await supabaseRest<EettTdrDoc[]>(
       `documents?${marca(id)}&select=id,title,file_name,file_size,status,error_message,metadata,created_at&order=created_at.desc`,
@@ -74,6 +78,9 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   if (malos) return malos;
 
   try {
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     const formData = await request.formData();
     // Dos formas de llegar: la referencia firmada de un fichero que el navegador
     // ya subió a Storage (lo normal; ver lib/eett-tdr-subida.ts) o el fichero en
@@ -223,6 +230,9 @@ export async function DELETE(request: Request, context: { params: Promise<{ id: 
   const malos = idsDeRutaInvalidos(id, docId);
   if (malos) return malos;
   try {
+    if (!(await puedeLeerNecesidad(auth.user.accessToken, id))) {
+      return NextResponse.json({ error: "Necesidad no encontrada." }, { status: 404 });
+    }
     // Solo borra si es REALMENTE un EETT/TDR de ESTA necesidad.
     const docs = await supabaseRest<Array<EettTdrDoc & DocumentoConFichero>>(
       `documents?id=eq.${docId}&${marca(id)}&select=id,storage_bucket,storage_path`,

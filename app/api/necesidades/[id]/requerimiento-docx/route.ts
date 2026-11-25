@@ -8,7 +8,8 @@ import { FICHA_SECCIONES } from "@/lib/necesidad-ficha-secciones";
 import type { ObjetoFilter } from "@/lib/procesos-seleccion";
 import { resolverModelosDocIds } from "@/lib/necesidad-copiloto";
 import { generarRequerimientoDocx } from "@/lib/requerimiento-docx";
-import { filtroEettTdr } from "@/lib/eett-tdr-documento";
+import { adjuntosParaConcordancia } from "@/lib/necesidad-adjuntos-server";
+import { verificarConcordanciaFicha } from "@/lib/necesidad-concordancia";
 import { slugify } from "@/lib/slugify";
 import { supabaseRest, supabaseUserRest } from "@/lib/supabase-server";
 
@@ -40,6 +41,11 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
     if (!necesidad) {
       return NextResponse.json({ error: "Necesidad no encontrada" }, { status: 404 });
     }
+    const anexoRows = await adjuntosParaConcordancia(id);
+    const hallazgos = verificarConcordanciaFicha(necesidad, anexoRows).filter((item) => item.bloquea);
+    if (hallazgos.length) {
+      return NextResponse.json({ error: hallazgos.map((item) => item.mensaje).join(" "), hallazgos }, { status: 422 });
+    }
 
     const aNum = (v: number | string | null): number | null => {
       if (v === null || v === "") return null;
@@ -47,11 +53,11 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       return Number.isFinite(n) ? n : null;
     };
 
-    // Las cuatro lecturas siguientes solo dependen de la necesidad ya cargada y
+    // Las lecturas siguientes solo dependen de la necesidad ya cargada y
     // son independientes entre sí: se resuelven en PARALELO en vez de encadenar
     // cuatro round-trips a Supabase. Cada una conserva su propio fallback ante
     // fallo (falla en silencio a propósito; ver los comentarios de cada bloque).
-    const [entRows, itemRows, anexoRows, apartados] = await Promise.all([
+    const [entRows, itemRows, apartados] = await Promise.all([
       // Entidad y ciudad para el encabezado y la fecha del pie (config global).
       // Sin `order=year.desc`: es una fila única (PK `id`), no una por ejercicio.
       supabaseRest<Array<{ name: string | null; city: string | null }>>(
@@ -78,15 +84,6 @@ export async function GET(_request: Request, context: { params: Promise<{ id: st
       ).catch((err) => {
         console.error("[requerimiento-docx] no se pudieron leer los ítems:", err);
         return [];
-      }),
-      // EETT/TDR adjuntos a la necesidad, para listarlos como anexo al cerrar el
-      // 3.4. Con service-role (como el resto del módulo EETT/TDR); la visibilidad
-      // ya la garantizó la lectura de la necesidad con el token del usuario, arriba.
-      supabaseRest<Array<{ file_name: string | null; title: string | null }>>(
-        `documents?${filtroEettTdr(id)}&select=file_name,title&order=created_at.asc`,
-      ).catch((err) => {
-        console.error("[requerimiento-docx] no se pudieron leer los EETT/TDR adjuntos:", err);
-        return [] as Array<{ file_name: string | null; title: string | null }>;
       }),
       // Los apartados que este PROCEDIMIENTO pide, leídos de su PDF-modelo. Es lo
       // que decide la estructura del documento: no es lo mismo una Subasta Inversa
