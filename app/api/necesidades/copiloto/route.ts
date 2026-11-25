@@ -33,7 +33,10 @@ export async function POST(request: Request) {
     const encoder = new TextEncoder();
     // La entidad viene del usuario autenticado (no del body): permite al copiloto
     // preferir el PDF-modelo de la propia entidad cuando varias lo tienen cargado.
-    const events = streamCopiloto(payload.data, { entity: auth.user.entity });
+    const events = streamCopiloto(payload.data, {
+      entity: auth.user.entity,
+      accessToken: auth.user.accessToken,
+    });
     const stream = new ReadableStream<Uint8Array>({
       async start(controller) {
         try {
