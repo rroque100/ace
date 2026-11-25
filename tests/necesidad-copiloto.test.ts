@@ -55,6 +55,20 @@ describe("completarModeloRequestSchema", () => {
 });
 
 describe("construirMensajesCopiloto", () => {
+  it("reconstruye la matriz con el adjunto sin reutilizar una matriz anterior", () => {
+    const anterior = { key: "gestionRiesgos", label: "Gestión de riesgos", valor: "Proyecto: No aplica" };
+    const mensajes = construirMensajesCopiloto(
+      copilotoRequestSchema.parse({ accion: "redactar", campoObjetivo: anterior, camposLlenos: [anterior] }),
+      [],
+      ["TDR Allilluma.docx · Finalidad pública · CUI 2402031"],
+    );
+    const contexto = mensajes.map((m) => m.content).join("\n");
+    expect(contexto).not.toContain(anterior.valor);
+    expect(contexto).toContain("TDR Allilluma.docx · Finalidad pública · CUI 2402031");
+    expect(contexto).toContain("pruebas de recepción o puesta en servicio");
+    expect(contexto).toContain("Por verificar");
+  });
+
   it("ancla el prompt a la guía oficial del tipo elegido", () => {
     const mensajes = construirMensajesCopiloto(
       copilotoRequestSchema.parse({ accion: "revisar", tipoProcesoSeleccion: TIPO }),

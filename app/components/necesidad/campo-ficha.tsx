@@ -606,7 +606,7 @@ export const CampoFicha = memo(function CampoFicha({
               />
             ) : (
               <p className="mt-1 text-[12px] leading-[1.5] text-muted">
-                Pulsa «Redactar con IA» para generar la matriz de gestión de riesgos; aquí verás la vista previa.
+                «Redactar con IA» usa el TDR o las especificaciones técnicas adjuntas para proponer la matriz de riesgos.
               </p>
             )
           ) : (

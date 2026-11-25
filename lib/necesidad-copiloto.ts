@@ -191,6 +191,7 @@ const SISTEMA = [
 ].join("\n");
 
 function contextoBase(input: CopilotoRequest, fuentes: Fuente[] = [], tdrChunks: string[] = []): string {
+  const redactaMatriz = input.accion === "redactar" && input.campoObjetivo?.key === "gestionRiesgos";
   const tdrBloque = tdrChunks.length > 0
     ? [
         "",
@@ -207,7 +208,7 @@ function contextoBase(input: CopilotoRequest, fuentes: Fuente[] = [], tdrChunks:
     modeloTexto(fuentes, input.tipoProcesoSeleccion),
     "",
     "CONTENIDO ACTUAL DEL REQUERIMIENTO:",
-    camposTexto(input.camposLlenos),
+    camposTexto(redactaMatriz ? input.camposLlenos.filter((campo) => campo.key !== "gestionRiesgos") : input.camposLlenos),
     input.faltantes.length > 0
       ? `\nCAMPOS OBLIGATORIOS AÚN VACÍOS: ${input.faltantes.join(", ")}.`
       : "",
@@ -236,13 +237,13 @@ export function construirMensajesCopiloto(
         c.baseLegal
           ? `Base legal del campo: ${c.baseLegal}. Fundaméntate en ese artículo de la Ley N.° 32069 o su Reglamento usando las FUENTES NORMATIVAS recuperadas; si el artículo aparece, cítalo.`
           : "",
-        c.plantilla
+        c.plantilla && !esRiesgos
           ? `ESTRUCTURA OBLIGATORIA (respeta el orden y todas sus partes; rellena los [corchetes] con los datos YA REGISTRADOS de esta necesidad —CONTENIDO ACTUAL DEL REQUERIMIENTO—, y deja en [corchetes] solo lo que no conste):\n${c.plantilla}`
           : "",
-        c.ejemplo
+        c.ejemplo && !esRiesgos
           ? `Ejemplo de referencia del estilo y nivel de detalle esperados (NO lo copies literal; adáptalo a esta necesidad):\n${c.ejemplo}`
           : "",
-        ...(esRiesgos
+        esRiesgos
           ? [
               "",
               "INSTRUCCIONES ESPECÍFICAS PARA LA MATRIZ DE RIESGOS:",
@@ -259,7 +260,7 @@ export function construirMensajesCopiloto(
               "Encabezado (texto suelto, sin tabla):",
               "MATRIZ DE GESTIÓN DE RIESGOS",
               "Nombre de la contratación: [del TDR]",
-              "Proyecto: CUI [CUI de la necesidad si existe, si no: No aplica]",
+              "Proyecto: CUI [CUI que consta en el adjunto, o «Por verificar»]",
               "Área usuaria: [del área usuaria]",
               "Marco Legal: Ley N.° 32069 y su Reglamento",
               "",
@@ -280,6 +281,9 @@ export function construirMensajesCopiloto(
               "- Relación con Penalidades: vincula únicamente una obligación y una cláusula sustentadas en el EETT/TDR, la ficha o la fuente normativa recuperada. Si el vínculo no consta, escribe «Por verificar».",
               "- En la identificación de cada riesgo incluye el nombre del adjunto y la página o apartado que sustenta la condición identificada. Distingue esa condición de tu estimación del riesgo.",
               "- Toma el nombre de la contratación y el CUI del adjunto cuando estén expresos. Si hay discrepancias con la ficha, indícalas en la línea correspondiente para revisión.",
+              "- Usa el nombre real de la prestación u obra. El tipo de procedimiento no es el nombre de la contratación. Si el CUI no consta, indica «Por verificar».",
+              "- En un saldo de obra, comprueba si el adjunto regula la entrega del terreno, la revisión de incompatibilidades, el calendario de insumos y las pruebas de recepción o puesta en servicio. Incorpora los riesgos que tengan sustento y distingue quién detecta el problema, quién debe actuar y a quién corresponde el riesgo según la causa.",
+              "- Relaciona cada medida con una acción verificable, como el acta, informe, calendario o protocolo que corresponda según el adjunto. Si el responsable o la penalidad dependen de la causa, explicita la condición.",
               "OBJETIVIDAD: los riesgos deben expresarse en función del desempeño y la finalidad pública.",
               "",
               "Formato de la tabla Markdown (ejemplo):",
@@ -295,11 +299,11 @@ export function construirMensajesCopiloto(
               "- A continuación, la tabla de matriz de riesgos (con las columnas indicadas).",
               "- SIN párrafo de sustento, comentarios ni encabezados adicionales fuera del formato especificado.",
             ].join("\n")
-          : ""),
+          : "",
         "Ajústate a la ESTRUCTURA legal de arriba en el FONDO y al estilo del MODELO DE REQUERIMIENTO de la entidad en la FORMA, si se te entregó.",
-        c.valor.trim()
+        !esRiesgos && c.valor.trim()
           ? `Texto actual (mejóralo o complétalo, no lo empeores):\n${c.valor.trim()}`
-          : "El campo está vacío.",
+          : esRiesgos ? "" : "El campo está vacío.",
         "Devuelve SOLO el texto propuesto para ese campo, sin encabezados ni comentarios.",
       ]
         .filter(Boolean)
