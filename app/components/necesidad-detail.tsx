@@ -2122,7 +2122,7 @@ export function NecesidadDetail({
                 setAbierto: setCopilotoAbierto,
                 setMontado: setCopilotoMontado,
               }}
-              eett={{ abrir: abrirEettEstable, docs: eettDocs, subiendo: eettUploading, subir: subirEettEstable, gestionar: gestionarTdr }}
+              eett={{ abrir: abrirEettEstable, docs: eettDocs, quitar: setConfirmDeleteEettId, subiendo: eettUploading, subir: subirEettEstable, gestionar: gestionarTdr }}
               ficha={{
                 autoguardado,
                 camposBorrador,

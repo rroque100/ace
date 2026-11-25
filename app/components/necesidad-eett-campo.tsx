@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Loader, UploadCloud } from "lucide-react";
+import { FileText, Loader, Trash2, UploadCloud } from "lucide-react";
 import { buttonClasses } from "@/app/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -37,6 +37,7 @@ export function NecesidadEettCampo({
   subiendo,
   onSubir,
   onAbrir,
+  onQuitar,
   readOnly,
 }: {
   necesidadId: string;
@@ -45,6 +46,7 @@ export function NecesidadEettCampo({
   onSubir: (archivo: File, tipo: "eett" | "tdr") => void;
   /** Abre el modal del módulo (revisión contra el modelo, traslado a la ficha). */
   onAbrir: (docId: string) => void;
+  onQuitar?: (docId: string) => void;
   readOnly?: boolean;
 }) {
   const [tipo, setTipo] = useState<"eett" | "tdr">("tdr");
@@ -115,6 +117,16 @@ export function NecesidadEettCampo({
                 <button className="cursor-pointer border-0 bg-transparent px-1.5 py-1 text-xs text-brand underline" onClick={() => onAbrir(d.id)} type="button">
                   Revisar y trasladar
                 </button>
+                {onQuitar && (
+                  <button
+                    aria-label={`Quitar ${d.file_name}`}
+                    className="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent px-1.5 py-1 text-xs text-danger underline"
+                    onClick={() => onQuitar(d.id)}
+                    type="button"
+                  >
+                    <Trash2 size={14} aria-hidden /> Quitar
+                  </button>
+                )}
               </li>
             ))}
           </ul>

@@ -110,6 +110,7 @@ export type CampoFichaProps = {
   /** Observaciones sin resolver sobre este campo, o `null`. */
   obsPendiente: ObservacionNecesidad[] | null;
   onAbrirEett: (doc: { id: string }) => void;
+  onQuitarEett: (docId: string) => void;
   onCambio: (api: string, valor: string) => void;
   /** `null` retira el error del campo; una cadena lo fija. */
   onError: (api: string, mensaje: string | null) => void;
@@ -166,6 +167,7 @@ export const CampoFicha = memo(function CampoFicha({
   obligatorio,
   obsPendiente,
   onAbrirEett,
+  onQuitarEett,
   onCambio,
   onError,
   onRedactarIA,
@@ -315,6 +317,7 @@ export const CampoFicha = memo(function CampoFicha({
             if (doc) onAbrirEett(doc);
           }}
           onSubir={(archivo, tipo) => void onSubirEett(archivo, tipo)}
+          onQuitar={editable && puedeGestionar ? onQuitarEett : undefined}
           readOnly={!editable || !puedeGestionar}
           subiendo={eettUploading}
         />

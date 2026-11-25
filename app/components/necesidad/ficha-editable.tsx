@@ -121,6 +121,7 @@ export function FichaEditable({
   };
   eett: {
     abrir: (doc: { id: string }) => void;
+    quitar: (docId: string) => void;
     docs: Array<{ file_name: string; id: string; status: string; title: string; metadata?: unknown; created_at?: string }>;
     subiendo: boolean;
     subir: (archivo: File, tipo: "eett" | "tdr") => void;
@@ -386,6 +387,7 @@ export function FichaEditable({
         obligatorio={campoEsObligatorio(field)}
         obsPendiente={obsPendientesPorCampo.get(field.api) ?? null}
         onAbrirEett={abrirEettEstable}
+        onQuitarEett={eett.quitar}
         onCambio={cambiarCampo}
         onError={marcarError}
         onRedactarIA={redactarConIA}
