@@ -46,13 +46,12 @@ export function TemarioCurso({ curso, completadas, sigue, claseActual }: { curso
                   <li key={clase.slug}>
                     <Link
                       href={`/cursos/${curso.slug}/${clase.slug}`}
-                      aria-current={esSiguiente ? "step" : undefined}
+                      aria-current={claseActual === clase.slug ? "page" : esSiguiente ? "step" : undefined}
                       className={cn(
                         "flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-ink no-underline transition-colors",
                         "outline-none hover:bg-surface focus-visible:shadow-[var(--shadow-focus)]",
                         (esSiguiente || claseActual === clase.slug) && "bg-brand-soft ring-1 ring-brand",
                       )}
-                      aria-current={claseActual === clase.slug ? "true" : undefined}
                     >
                       <span className="w-6 shrink-0 text-right text-sm tabular-nums text-muted">{numero.get(clase.slug)}</span>
                       <Icono size={18} aria-hidden className={cn("shrink-0", completada ? "text-success" : "text-placeholder")} />
