@@ -1,5 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { calcularExposicionMatriz, desdeMatrizRiesgos } from "@/lib/matriz-riesgos";
+import { actualizarSeguimientoMatriz, calcularExposicionMatriz, COLUMNAS_MATRIZ, desdeMatrizRiesgos, filasMatriz, revisarMatrizGenerada } from "@/lib/matriz-riesgos";
+
+it("comprueba la escala, la cita del TDR y las referencias normativas antes de insertar", () => {
+  const tdr = "Entrega física del terreno según el acta.";
+  const tabla = [
+    `| ${COLUMNAS_MATRIZ.join(" | ")} |`,
+    `|${COLUMNAS_MATRIZ.map(() => "---").join("|")}|`,
+    "| Técnico | Entrega tardía | P2 × I3 = 6 | Entidad | Recorrido | Por verificar | Terreno «Entrega física del terreno» | [F1] Asignación | Días | Acta | Verificar frentes | Área usuaria |",
+  ].join("\n");
+  expect(revisarMatrizGenerada(tabla, 1, tdr)).toEqual([]);
+  const penalidad = tabla.replace("Por verificar", "Supuesto: atraso · Obligación: «Entrega física del terreno» · Evidencia: acta");
+  expect(revisarMatrizGenerada(penalidad, 1, tdr)).toEqual([]);
+  expect(revisarMatrizGenerada(penalidad.replace("Obligación: «Entrega física del terreno»", "Obligación: «Plazo de pago inexistente»"), 1, tdr)[0]).toContain("penalidad");
+  expect(revisarMatrizGenerada(tabla.replace("P2", "P5").replace("[F1]", "[F2]"), 1, "Otro documento")).toHaveLength(1);
+  const actualizado = actualizarSeguimientoMatriz(tabla, 2, 9, "Acta 01 | firmada");
+  expect(filasMatriz(actualizado)[0].valores[9]).toBe("Acta 01   firmada");
+  expect(filasMatriz(actualizado)[0].valores[6]).toBe("Terreno «Entrega física del terreno»");
+});
 
 it("recalcula la exposición de cada fila según la escala de la matriz", () => {
   const matriz = [

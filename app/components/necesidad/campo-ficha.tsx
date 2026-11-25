@@ -3,7 +3,7 @@
 import { memo } from "react";
 import { MessageSquare, Sparkles } from "lucide-react";
 import { markdownAHtmlSeguro } from "@/lib/markdown-seguro";
-import { desdeMatrizRiesgos } from "@/lib/matriz-riesgos";
+import { adjuntoFuenteMatriz, actualizarSeguimientoMatriz, COLUMNAS_MATRIZ, desdeMatrizRiesgos, filasMatriz } from "@/lib/matriz-riesgos";
 import type { FichaField } from "@/lib/necesidad-ficha-secciones";
 import { etiquetaRecomendado } from "@/lib/necesidad-ficha-secciones";
 import type { ObservacionNecesidad } from "@/lib/necesidades";
@@ -183,6 +183,7 @@ export const CampoFicha = memo(function CampoFicha({
   valor,
 }: CampoFichaProps) {
   const val = valor;
+  const fuenteMatriz = field.api === "gestionRiesgos" ? adjuntoFuenteMatriz(val) : undefined;
   const hasError = Boolean(error);
   const limpiarError = () => {
     if (error) onError(field.api, null);
@@ -596,14 +597,41 @@ export const CampoFicha = memo(function CampoFicha({
         <>
           {botonRedactarIA}
           {field.api === "gestionRiesgos" ? (
-            // La matriz se genera con IA y es Markdown: no se edita a mano. Se
-            // oculta el textarea y se muestra directamente la vista previa —el
-            // dato que va al documento—, siempre visible.
             val.trim() ? (
+              <>
+              {fuenteMatriz && !eettDocs.some((doc) => doc.id === fuenteMatriz) && (
+                <p role="status" className="mt-1 text-sm text-warning">
+                  El adjunto que sustenta esta matriz ya no está disponible. Genera una nueva propuesta con el archivo vigente.
+                </p>
+              )}
               <div
                 className="mt-1.5 max-w-none rounded-[10px] border border-line bg-surface p-3 text-[13px] leading-relaxed text-ink [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-line [&_th]:border [&_th]:border-line [&_th]:bg-panel [&_th]:px-2.5 [&_th]:py-1.5 [&_th]:text-left [&_th]:text-[12px] [&_th]:font-semibold [&_td]:border [&_td]:border-line [&_td]:px-2.5 [&_td]:py-1.5 [&_td]:text-[12.5px] [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-2 [&_p:last-child]:mb-0 [&_h1]:text-[15px] [&_h1]:font-bold [&_h1]:mb-2 [&_h2]:text-[14px] [&_h2]:font-semibold [&_h2]:mb-1.5 [&_strong]:font-semibold [&_em]:italic"
                 dangerouslySetInnerHTML={{ __html: markdownAHtmlSeguro(desdeMatrizRiesgos(val)) }}
               />
+              {editable && puedeGestionar && filasMatriz(val).length > 0 && (
+                <details className="mt-2 rounded-lg border border-line p-3">
+                  <summary className="cursor-pointer text-sm font-medium">Actualizar seguimiento por riesgo</summary>
+                  {filasMatriz(val).map(({ indice, valores }) => (
+                    <div key={indice} className="mt-3 grid gap-2 border-t border-line pt-2 sm:grid-cols-2">
+                      <p className="text-sm sm:col-span-2">{valores[1]}</p>
+                      {COLUMNAS_MATRIZ.slice(8).map((etiqueta, posicion) => (
+                        <label key={etiqueta} className="grid gap-1 text-xs">
+                          {etiqueta}
+                          <input
+                            className={FICHA_CTRL}
+                            value={valores[posicion + 8] === "—" ? "" : valores[posicion + 8] ?? ""}
+                            onChange={(e) => {
+                              const siguiente = actualizarSeguimientoMatriz(val, indice, posicion + 8, e.target.value);
+                              if (siguiente.length <= LIMITES_TEXTO.gestionRiesgos) onCambio(field.api, siguiente);
+                            }}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  ))}
+                </details>
+              )}
+              </>
             ) : (
               <p className="mt-1 text-[12px] leading-[1.5] text-muted">
                 «Redactar con IA» usa el TDR o las especificaciones técnicas adjuntas para proponer la matriz de riesgos.

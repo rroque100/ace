@@ -8,6 +8,7 @@ import type { CopilotoFuente } from "@/lib/necesidad-copiloto";
 import { S } from "./necesidad-copiloto-estilos";
 import { C } from "@/app/components/estilos-comunes";
 import { cn } from "@/lib/utils";
+import { adjuntoFuenteMatriz } from "@/lib/matriz-riesgos";
 
 function MarkdownTexto({ content }: { content: string }) {
   if (!content?.trim()) return null;
@@ -76,6 +77,7 @@ export function NecesidadCopiloto({
   tipoProcesoSeleccion,
   tipoObjeto,
   necesidadId,
+  adjuntosMatriz,
   campos,
   faltantes = [],
   redactarSolicitud,
@@ -86,6 +88,7 @@ export function NecesidadCopiloto({
   tipoProcesoSeleccion: string;
   tipoObjeto: string;
   necesidadId: string;
+  adjuntosMatriz: readonly { id: string; file_name: string }[];
   /** Campos actualmente visibles del requerimiento (para contexto y redacción). */
   campos: CopilotoCampo[];
   /** Etiquetas de campos obligatorios aún vacíos (para priorizar en "revisar"). */
@@ -100,7 +103,14 @@ export function NecesidadCopiloto({
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pregunta, setPregunta] = useState("");
-  const [campoRedactar, setCampoRedactar] = useState("");
+  const [seleccionCampo, setSeleccionCampo] = useState<{ key: string; nonce?: number }>({ key: "" });
+  const campoRedactar = seleccionCampo.nonce === redactarSolicitud?.nonce
+    ? seleccionCampo.key
+    : redactarSolicitud?.key ?? "";
+  const [adjuntoElegido, setAdjuntoElegido] = useState("");
+  const adjuntoMatrizId = adjuntosMatriz.some((doc) => doc.id === adjuntoElegido)
+    ? adjuntoElegido
+    : adjuntosMatriz.length === 1 ? adjuntosMatriz[0].id : "";
   const [copiado, setCopiado] = useState<number | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
@@ -113,6 +123,7 @@ export function NecesidadCopiloto({
     // Botón ✨ de un campo: redacta ese campo. El nonce dispara cada pulsación.
     if (!redactarSolicitud) return;
     const campo = campos.find((c) => c.key === redactarSolicitud.key);
+    if (campo?.key === "gestionRiesgos" && !adjuntoMatrizId) return;
     if (campo) void enviar({ accion: "redactar", campoObjetivo: campo });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [redactarSolicitud?.nonce]);
@@ -123,6 +134,11 @@ export function NecesidadCopiloto({
 
   async function enviar(peticion: Accion) {
     if (cargando) return;
+    const esMatriz = peticion.accion === "redactar" && peticion.campoObjetivo.key === "gestionRiesgos";
+    if (esMatriz && !adjuntoMatrizId) {
+      setError("Selecciona el EETT o TDR que sustenta la matriz.");
+      return;
+    }
     setCargando(true);
     setError(null);
     setParcial("");
@@ -146,6 +162,7 @@ export function NecesidadCopiloto({
       tipoProcesoSeleccion,
       tipoObjeto,
       necesidadId,
+      ...(esMatriz ? { adjuntoMatrizId } : {}),
       camposLlenos: campos
         .filter((c) => c.valor.trim() !== "")
         .map((c) => ({ key: c.key, label: c.label, valor: c.valor })),
@@ -269,7 +286,7 @@ export function NecesidadCopiloto({
           <select
             aria-label="Campo a redactar"
             disabled={cargando}
-            onChange={(e) => setCampoRedactar(e.target.value)}
+            onChange={(e) => setSeleccionCampo({ key: e.target.value, nonce: redactarSolicitud?.nonce })}
             value={campoRedactar}
           >
             <option value="">Redactar un campo…</option>
@@ -279,9 +296,20 @@ export function NecesidadCopiloto({
               </option>
             ))}
           </select>
+          {campoRedactar === "gestionRiesgos" && (
+            <select
+              aria-label="Adjunto para la matriz de riesgos"
+              disabled={cargando}
+              onChange={(e) => setAdjuntoElegido(e.target.value)}
+              value={adjuntoMatrizId}
+            >
+              <option value="">{adjuntosMatriz.length ? "Selecciona el EETT o TDR" : "Adjunta un EETT o TDR en 3.4"}</option>
+              {adjuntosMatriz.map((doc) => <option key={doc.id} value={doc.id}>{doc.file_name}</option>)}
+            </select>
+          )}
           <button
             className={buttonClasses({ variant: "secondary", size: "sm" })}
-            disabled={cargando || campoRedactar === ""}
+            disabled={cargando || campoRedactar === "" || (campoRedactar === "gestionRiesgos" && !adjuntoMatrizId)}
             onClick={() => {
               const campo = campos.find((c) => c.key === campoRedactar);
               if (campo) enviar({ accion: "redactar", campoObjetivo: campo });
@@ -355,7 +383,14 @@ export function NecesidadCopiloto({
                 {m.campoKey ? (
                   <button
                     className={C.copilotoLink}
-                    onClick={() => onAplicarCampo(m.campoKey!, m.content)}
+                    onClick={() => {
+                      const fuente = adjuntoFuenteMatriz(m.content);
+                      if (m.campoKey === "gestionRiesgos" && !adjuntosMatriz.some((doc) => doc.id === fuente)) {
+                        setError("El adjunto de esta propuesta ya no está disponible. Genera una nueva matriz.");
+                        return;
+                      }
+                      onAplicarCampo(m.campoKey!, m.content);
+                    }}
                     type="button"
                   >
                     <WandSparkles size={12} /> Insertar en «{m.campoLabel}»

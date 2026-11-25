@@ -952,6 +952,7 @@ export function FichaEditable({
       {copilotoMontado ? (
         <NecesidadCopiloto
           abierto={copilotoAbierto}
+          adjuntosMatriz={eettDocs}
           campos={camposCopiloto}
           faltantes={faltantesCopiloto}
           necesidadId={necesidadId}

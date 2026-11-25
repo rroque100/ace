@@ -7,7 +7,7 @@ import { pdfsModeloDeProceso } from "./procesos-seleccion";
 import { GUIA_SECCION_NOMBRE, type GuiaItem, REQUERIMIENTO_GUIA } from "./requerimiento-guia";
 import { TIPOS_REQUISITO_ART72 } from "./requisitos-calificacion";
 import { filtroEettTdr } from "./eett-tdr-documento";
-import { calcularExposicionMatriz } from "./matriz-riesgos";
+import { COLUMNAS_MATRIZ, calcularExposicionMatriz, revisarMatrizGenerada } from "./matriz-riesgos";
 import { supabaseRest, supabaseUserRest } from "./supabase-server";
 import { tiposDelModeloComoLista } from "@/lib/requisitos-del-modelo";
 import type { TipoRequisitoArt72 } from "@/lib/requisitos-calificacion";
@@ -49,6 +49,7 @@ export const copilotoRequestSchema = z.object({
   tipoObjeto: z.string().max(80).default(""),
   // Necesidad asociada al requerimiento (para recuperar su TDR/EETT).
   necesidadId: z.string().max(40).optional(),
+  adjuntoMatrizId: z.string().uuid().optional(),
   // Campo concreto a redactar (acción "redactar").
   campoObjetivo: campoObjetivoSchema.optional(),
   // Pregunta libre (acción "chat").
@@ -267,7 +268,10 @@ export function construirMensajesCopiloto(
               "Para obras o consultorías de obra, añade una línea «Aplicación del artículo 156» antes de la tabla. Explica la categoría de segmentación según el artículo 153 y el adjunto. Si el adjunto identifica un saldo de obra sujeto a esas reglas, explica por qué corresponde la categoría avanzada. Indica si la matriz integra el expediente y si procede el comité, contrastando la cuantía documentada con el umbral del numeral 156.3. Si falta un dato, indica «Por verificar».",
               "",
               "Estructura de la tabla:",
-              "Categoría del Riesgo | Identificación del Riesgo | Análisis Cualitativo y Cuantitativo (Probabilidad / Impacto / Exposición) | Asignación del Riesgo (Responsable) | Estrategia de Respuesta / Mitigación | Relación con Penalidades",
+              `Usa estas columnas exactas y en este orden: | ${COLUMNAS_MATRIZ.join(" | ")} |`,
+              "Sustento TDR: página o apartado y una cita breve literal del adjunto entre «comillas», de al menos 12 caracteres, sin elipsis. Sustento normativo: [F#] de las fuentes entregadas y su relación con el riesgo. Una norma general solo fundamenta el tratamiento del riesgo, nunca demuestra por sí sola una penalidad contractual.",
+              "En Penalidad escribe exactamente «Por verificar» o «No aplica» si corresponde. Si el adjunto sustenta la obligación, escribe «Supuesto: … · Obligación: … · Evidencia: …». Incluye en Obligación una cita literal del adjunto entre «comillas» de al menos 12 caracteres. Distingue la prueba exigida de la evidencia ya obtenida.",
+              "Completa Indicador, Evidencia, Acción pendiente y Responsable de seguimiento en todas las filas. Si todavía no se dispone de evidencia, indica qué registro debe obtenerse.",
               "",
               "Categorías posibles. Incluye solo las pertinentes al alcance documentado:",
               "1. Técnico / Ejecución — ej: deficiencias técnicas, errores de expediente, calidad de materiales o ejecución.",
@@ -291,10 +295,7 @@ export function construirMensajesCopiloto(
               "- Diferencia un accidente del incumplimiento de protecciones y de la omisión de reportes. Para cada penalidad consignada, indica el supuesto exacto y la evidencia de verificación. La mora requiere verificar el atraso injustificado imputable al contratista con la fuente normativa recuperada.",
               "OBJETIVIDAD: los riesgos deben expresarse en función del desempeño y la finalidad pública.",
               "",
-              "Formato de la tabla Markdown (ejemplo):",
-              "",
-              "| Categoría del Riesgo | Identificación del Riesgo | Análisis Cualitativo y Cuantitativo | Asignación | Estrategia de Respuesta / Mitigación | Relación con Penalidades |",
-              "|---|---|---|---|---|---|",
+              "Entrega una sola tabla Markdown, con una fila por riesgo y sin barras verticales dentro de las celdas.",
               "",
               "Identifica los riesgos específicos que puedas sustentar según el objeto real de la contratación. Cada riesgo debe corresponder a una característica documentada en el adjunto.",
               "",
@@ -638,6 +639,7 @@ export async function* streamCopiloto(
 ): AsyncGenerator<CopilotoEvent> {
   const esMatrizRiesgos = input.accion === "redactar" && input.campoObjetivo?.key === "gestionRiesgos";
   let tdrChunks: string[] = [];
+  let fuenteMatriz = "";
   if (esMatrizRiesgos) {
     if (!input.necesidadId) throw new Error("Abre la necesidad para generar su matriz de riesgos.");
     if (!options?.accessToken) throw new Error("No se pudo verificar el acceso a la necesidad.");
@@ -647,11 +649,13 @@ export async function* streamCopiloto(
     );
     if (!necesidades.length) throw new Error("No tienes acceso a esta necesidad.");
     const [doc] = await supabaseRest<Array<{
-      id: string; file_name: string; metadata?: { textoExtraido?: string };
+      id: string; file_name: string; created_at: string; metadata?: { textoExtraido?: string };
     }>>(
-      `documents?${filtroEettTdr(input.necesidadId)}&select=id,file_name,metadata&order=created_at.desc,id.desc&limit=1`,
+      `documents?${filtroEettTdr(input.necesidadId)}&select=id,file_name,created_at,metadata&order=created_at.desc,id.desc&limit=1` +
+        (input.adjuntoMatrizId ? `&id=eq.${input.adjuntoMatrizId}` : ""),
     );
-    if (!doc) throw new Error("Adjunta el EETT/TDR antes de generar la matriz de riesgos.");
+    if (!doc) throw new Error("Selecciona un EETT/TDR adjunto a esta necesidad para generar la matriz.");
+    fuenteMatriz = `Adjunto de origen: ${doc.file_name.replace(/[\r\n|]/g, " ")}\n\nVersión adjuntada: ${doc.created_at}\n\nIdentificador del adjunto: ${doc.id}`;
     const chunks = await supabaseRest<Array<{ content: string; page_start: number | null; page_end: number | null }>>(
       `document_chunks?document_id=eq.${doc.id}&select=content,page_start,page_end&order=chunk_index.asc`,
     );
@@ -709,7 +713,20 @@ export async function* streamCopiloto(
   }
   if (esMatrizRiesgos) {
     if (!matriz.trim()) throw new Error("No se recibió la propuesta de matriz de riesgos.");
-    yield { type: "delta", text: calcularExposicionMatriz(matriz) };
+    const errores = revisarMatrizGenerada(matriz, fuentes.length, tdrChunks.join("\n"));
+    if (errores.length) throw new Error(`La propuesta requiere revisión. ${errores.slice(0, 4).join(" ")} Vuelve a generar la matriz.`);
+    const conFuentes = matriz.replace(/\[F(\d+)\]/g, (referencia, numero: string) => {
+      const fuente = fuentes[Number(numero) - 1];
+      return fuente ? `Art. ${fuente.article} ${fuente.documentType === "ley" ? "de la Ley 32069" : "del Reglamento"}` : referencia;
+    });
+    const encabezado = /^(.*MATRIZ DE GESTI[ÓO]N DE RIESGOS.*)$/im;
+    if (!encabezado.test(conFuentes)) throw new Error("La propuesta no contiene el encabezado de la matriz. Vuelve a generarla.");
+    const conAdjunto = conFuentes.replace(encabezado, (titulo) => `${titulo}\n${fuenteMatriz}\n`);
+    const contenido = calcularExposicionMatriz(conAdjunto);
+    if (contenido.length > LIMITES_TEXTO.gestionRiesgos) {
+      throw new Error("La propuesta supera el tamaño del campo. Vuelve a generar una matriz más concisa.");
+    }
+    yield { type: "delta", text: contenido };
   }
   yield { type: "done" };
 }
