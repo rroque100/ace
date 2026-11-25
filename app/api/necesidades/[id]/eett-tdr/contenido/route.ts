@@ -7,12 +7,17 @@ import { LIMITES_TEXTO } from "@/lib/necesidades";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+// El OCR puede devolver el texto completo y el HTML añade etiquetas por línea
+// y celda. El límite de la ficha se aplica al guardar, después de validar.
+const MAX_TEXTO_DOCUMENTO = 250_000;
+const MAX_HTML_DOCUMENTO = 1_000_000;
+
 const bodySchema = z.object({
   // Documento EETT/TDR cuyo contenido enriquecido (HTML) se conserva para reeditar.
   docId: z.string().trim().optional(),
-  html: z.string().max(200000).default(""),
+  html: z.string().max(MAX_HTML_DOCUMENTO, "El contenido con formato supera el tamaño permitido.").default(""),
   // Texto plano que va a la ficha (3.4 · descripcion_detallada).
-  texto: z.string().max(60000).default(""),
+  texto: z.string().max(MAX_TEXTO_DOCUMENTO, "El texto del documento supera el tamaño permitido.").default(""),
 });
 
 // PUT /api/necesidades/[id]/eett-tdr/contenido
@@ -23,9 +28,13 @@ export async function PUT(request: Request, context: { params: Promise<{ id: str
   if ("error" in auth) return auth.error;
   const { id } = await context.params;
 
-  const parsed = bodySchema.safeParse(await request.json().catch(() => ({})));
+  const parsed = bodySchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
-    return NextResponse.json({ error: "Solicitud inválida", details: parsed.error.flatten() }, { status: 400 });
+    const details = parsed.error.flatten();
+    return NextResponse.json(
+      { error: details.fieldErrors.html?.[0] ?? details.fieldErrors.texto?.[0] ?? "Solicitud inválida", details },
+      { status: 400 },
+    );
   }
   const { docId, html, texto } = parsed.data;
   const malos = idsDeRutaInvalidos(id, ...(docId ? [docId] : []));
